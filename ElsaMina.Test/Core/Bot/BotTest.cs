@@ -1,4 +1,5 @@
 ﻿using ElsaMina.Core.Client;
+using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
@@ -13,6 +14,7 @@ public class BotTest
     private IConfigurationService _configurationService;
     private IHttpService _httpService;
     private IClockService _clockService;
+    private IContextFactory _contextFactory;
 
     private ElsaMina.Core.Bot.Bot _bot;
     
@@ -23,8 +25,9 @@ public class BotTest
         _configurationService = Substitute.For<IConfigurationService>();
         _httpService = Substitute.For<IHttpService>();
         _clockService = Substitute.For<IClockService>();
+        _contextFactory = Substitute.For<IContextFactory>();
         
-        _bot = new ElsaMina.Core.Bot.Bot(_client, _configurationService, _httpService, _clockService);
+        _bot = new ElsaMina.Core.Bot.Bot(_client, _configurationService, _httpService, _clockService, _contextFactory);
     }
 
     [TearDown]
@@ -44,7 +47,7 @@ public class BotTest
     }
 
     [Test]
-    public async Task Test_OnMessage_ShouldInitializeRooms()
+    public async Task Test_HandleReceivedMessage_ShouldInitializeRooms()
     {
         // Arrange
         const string message = ">room\n|init|chat\n|title|Room Title\n|users|5,*Bot,@Mod, Regular,#Ro User,+Voiced\n";

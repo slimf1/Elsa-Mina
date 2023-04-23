@@ -4,6 +4,10 @@
   "Port": 80,
   "Name": "name",
   "Password": "pwd",
+  "Trigger": "-",
   "Rooms": ["room"],
-  "RoomBlacklist": ["lobby"]
+  "RoomBlacklist": ["lobby"],
+  "Whitelist": ["panur"],
+  "DefaultRoom": "default",
+  "DefaultLocaleCode": "en-US"
 }

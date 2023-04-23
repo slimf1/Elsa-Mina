@@ -1,8 +1,11 @@
 ﻿using ElsaMina.Core.Client;
+using ElsaMina.Core.Commands;
+using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
+using ElsaMina.Core.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -18,8 +21,10 @@ public class Bot : IBot
     private readonly IConfigurationService _configurationService;
     private readonly IHttpService _httpService;
     private readonly IClockService _clockService;
+    private readonly IContextFactory _contextFactory;
 
-    private List<string> _formats = new();
+    private readonly List<string> _formats = new();
+    private readonly IDictionary<string, ICommand> _commands = new Dictionary<string, ICommand>();
     private string? _currentRoom;
     private string? _lastMessage;
     private long? _lastMessageTime;
@@ -28,12 +33,14 @@ public class Bot : IBot
     public Bot(IClient client,
         IConfigurationService configurationService,
         IHttpService httpService,
-        IClockService clockService)
+        IClockService clockService,
+        IContextFactory contextFactory)
     {
         _client = client;
         _configurationService = configurationService;
         _httpService = httpService;
         _clockService = clockService;
+        _contextFactory = contextFactory;
     }
 
     public IDictionary<string, IRoom> Rooms { get; } = new Dictionary<string, IRoom>();
@@ -127,7 +134,53 @@ public class Bot : IBot
 
     private async Task HandleChatMessage(string message, string sender, string? roomId, long timestamp)
     {
-        var a = 1;
+        if (roomId == null || !Rooms.ContainsKey(roomId))
+        {
+            return;
+        }
+        
+        var senderId = sender.ToLowerAlphaNum();
+        if (_configurationService.Configuration?.RoomBlacklist?.Contains(roomId) == true)
+        {
+            return;
+        }
+
+        if (!Rooms.ContainsKey(roomId))
+        {
+            return;
+        }
+        
+        var (target, command) = ParseMessage(message);
+        if (target == null || command == null || !_commands.ContainsKey(command))
+        {
+            return;
+        }
+        
+        var room = Rooms[roomId];
+        var context = _contextFactory.GetContext(ContextType.Room, this, target, room.Users[senderId], command,
+            room, timestamp);
+        
+    }
+
+    private (string? target, string? command) ParseMessage(string message)
+    {
+        var trigger = _configurationService.Configuration?.Trigger ?? "-";
+        var triggerLength = trigger.Length;
+        if (message[..triggerLength] != trigger)
+        {
+            return (null, null);
+        }
+
+        var text = message[triggerLength..];
+        var spaceIndex = text.IndexOf(" ", StringComparison.Ordinal);
+        var command = spaceIndex > 0 ? text[..spaceIndex].ToLower() : text.Trim().ToLower();
+        var target = spaceIndex > 0 ? text[(spaceIndex + 1)..] : string.Empty;
+        if (string.IsNullOrEmpty(command))
+        {
+            return (null, null);
+        }
+
+        return (target, command);
     }
 
     private void ParseFormats(string line)
