@@ -1,0 +1,8 @@
+﻿{
+  "Env": "example",
+  "Host": "sim3.psim.us",
+  "Port": 80,
+  "Name": "name",
+  "Password": "pwd",
+  "Rooms": ["room"]
+}

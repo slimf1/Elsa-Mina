@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsaMina.Core", "ElsaMina.Core\ElsaMina.Core.csproj", "{C0D4D5DA-3CD0-494F-B43A-A410771A34CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsaMina.Console", "ElsaMina.Console\ElsaMina.Console.csproj", "{46985271-0C26-4B6F-94C2-146366157AD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsaMina.DataAccess", "ElsaMina.DataAccess\ElsaMina.DataAccess.csproj", "{DC474438-D11F-4B1A-BA09-4CCDFF33B30E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C0D4D5DA-3CD0-494F-B43A-A410771A34CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0D4D5DA-3CD0-494F-B43A-A410771A34CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0D4D5DA-3CD0-494F-B43A-A410771A34CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0D4D5DA-3CD0-494F-B43A-A410771A34CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46985271-0C26-4B6F-94C2-146366157AD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46985271-0C26-4B6F-94C2-146366157AD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46985271-0C26-4B6F-94C2-146366157AD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46985271-0C26-4B6F-94C2-146366157AD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC474438-D11F-4B1A-BA09-4CCDFF33B30E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC474438-D11F-4B1A-BA09-4CCDFF33B30E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC474438-D11F-4B1A-BA09-4CCDFF33B30E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC474438-D11F-4B1A-BA09-4CCDFF33B30E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
