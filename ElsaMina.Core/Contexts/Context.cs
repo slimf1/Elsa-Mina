@@ -30,11 +30,16 @@ public abstract class Context
         Command = command;
     }
 
-    public virtual void SendHtmlPage(string pageName, string html)
+    public bool IsSenderWhitelisted => _configurationService
+        .Configuration?
+        .Whitelist?
+        .Contains(Sender.UserId) == true;
+    
+    public void SendHtmlPage(string pageName, string html)
     {
         Bot.Say(DefaultRoom, $"/sendhtmlpage {Sender.UserId}, {pageName}, {html}");
     }
-    
+
     public abstract string RoomId { get; }
     public abstract ContextType Type { get; }
     public abstract bool IsPm { get; }

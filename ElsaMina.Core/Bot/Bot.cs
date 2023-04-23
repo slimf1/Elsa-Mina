@@ -24,7 +24,7 @@ public class Bot : IBot
     private readonly IContextFactory _contextFactory;
 
     private readonly List<string> _formats = new();
-    private readonly IDictionary<string, ICommand> _commands = new Dictionary<string, ICommand>();
+    private readonly IDictionary<string, Command> _commands = new Dictionary<string, Command>();
     private string? _currentRoom;
     private string? _lastMessage;
     private long? _lastMessageTime;
