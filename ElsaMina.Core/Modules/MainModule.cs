@@ -2,6 +2,7 @@
 using ElsaMina.Core.Bot;
 using ElsaMina.Core.Client;
 using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Services.Http;
 
 namespace ElsaMina.Core.Modules;
 
@@ -33,6 +34,7 @@ public class MainModule : Module
         base.Load(builder);
 
         builder.RegisterType<ConfigurationService>().As<IConfigurationService>().SingleInstance();
+        builder.RegisterType<HttpService>().As<IHttpService>().SingleInstance();
 
         builder.RegisterType<Client.Client>().As<IClient>();
         builder.RegisterType<Bot.Bot>().As<IBot>().AsSelf();

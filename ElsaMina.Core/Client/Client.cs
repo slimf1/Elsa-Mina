@@ -5,7 +5,7 @@ using Websocket.Client;
 
 namespace ElsaMina.Core.Client;
 
-public class Client : IClient, IDisposable
+public class Client : IClient
 {
     private readonly IConfigurationService _configurationService;
 

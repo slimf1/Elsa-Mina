@@ -8,4 +8,5 @@ public interface IConfiguration
     string? Name { get; }
     string? Password { get; }
     IEnumerable<string>? Rooms { get; }
+    IEnumerable<string>? RoomBlacklist { get; }
 }

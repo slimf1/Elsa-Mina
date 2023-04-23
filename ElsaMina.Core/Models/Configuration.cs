@@ -8,4 +8,5 @@ public class Configuration : IConfiguration
     public string? Name { get; set; }
     public string? Password { get; set; }
     public IEnumerable<string>? Rooms { get; set; }
+    public IEnumerable<string>? RoomBlacklist { get; }
 }

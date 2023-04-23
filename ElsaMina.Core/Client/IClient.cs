@@ -1,6 +1,6 @@
 ﻿namespace ElsaMina.Core.Client;
 
-public interface IClient
+public interface IClient : IDisposable
 {
     Task Connect();
     void Send(string message);
