@@ -11,7 +11,11 @@ var configurationFile = Environment.GetEnvironmentVariable("ELSA_MINA_ENV") swit
 
 MainModule.Initialize();
 var configurationService = MainModule.Resolve<IConfigurationService>();
-using var streamReader = new StreamReader(Path.Join("Config", configurationFile));
-await configurationService.LoadConfiguration(streamReader);
+using (var streamReader = new StreamReader(Path.Join("Config", configurationFile)))
+{
+    await configurationService.LoadConfiguration(streamReader);
+}
 var bot = MainModule.Resolve<IBot>();
-bot.Start();
+await bot.Start();
+var exitEvent = new ManualResetEvent(false);
+exitEvent.WaitOne();

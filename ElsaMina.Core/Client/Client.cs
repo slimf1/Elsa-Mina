@@ -1,25 +1,58 @@
-﻿using System.Net.WebSockets;
+﻿using System.Reactive.Linq;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
+using Websocket.Client;
 
 namespace ElsaMina.Core.Client;
 
-public class Client : IClient
+public class Client : IClient, IDisposable
 {
     private readonly IConfigurationService _configurationService;
+
+    private readonly WebsocketClient _websocketClient;
+    private bool _disposed;
     
-    private WebSocket? _webSocket;
+    private IConfiguration? Conf => _configurationService.Configuration;
 
     public Client(IConfigurationService configurationService)
     {
         _configurationService = configurationService;
+
+        _websocketClient = new WebsocketClient(new Uri($"ws://{Conf?.Host}:{Conf?.Port}/showdown/websocket"));
     }
 
-    public void Connect()
+    public async Task Connect()
     {
-        Console.Write(_configurationService.Configuration?.Password);
+        await _websocketClient.Start();
     }
+    
+    public IObservable<string> MessageReceived => _websocketClient
+        .MessageReceived
+        .Select(message => message.Text);
 
     public void Send(string message)
     {
+        _websocketClient.Send(message);
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        if (disposing)
+        {
+            _websocketClient.Dispose();
+        }
+
+        _disposed = true;
     }
 }

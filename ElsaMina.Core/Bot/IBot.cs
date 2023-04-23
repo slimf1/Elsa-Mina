@@ -2,5 +2,5 @@
 
 public interface IBot
 {
-    void Start();
+    Task Start();
 }

@@ -9,7 +9,7 @@
     <ItemGroup>
       <PackageReference Include="Autofac" Version="7.0.1" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-      <PackageReference Include="WebSocketSharp" Version="1.0.3-rc11" />
+      <PackageReference Include="Websocket.Client" Version="4.6.1" />
     </ItemGroup>
 
 </Project>

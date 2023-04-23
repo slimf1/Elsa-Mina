@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsaMina.Console", "ElsaMin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsaMina.DataAccess", "ElsaMina.DataAccess\ElsaMina.DataAccess.csproj", "{DC474438-D11F-4B1A-BA09-4CCDFF33B30E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsaMina.Test", "ElsaMina.Test\ElsaMina.Test.csproj", "{E552A533-0E1B-4AE8-A153-BD0DDEC64349}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{DC474438-D11F-4B1A-BA09-4CCDFF33B30E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC474438-D11F-4B1A-BA09-4CCDFF33B30E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC474438-D11F-4B1A-BA09-4CCDFF33B30E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E552A533-0E1B-4AE8-A153-BD0DDEC64349}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E552A533-0E1B-4AE8-A153-BD0DDEC64349}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E552A533-0E1B-4AE8-A153-BD0DDEC64349}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E552A533-0E1B-4AE8-A153-BD0DDEC64349}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

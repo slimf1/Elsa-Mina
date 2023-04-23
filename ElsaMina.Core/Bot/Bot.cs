@@ -11,8 +11,14 @@ public class Bot : IBot
         _client = client;
     }
 
-    public void Start()
+    public async Task Start()
     {
-        _client.Connect();
+        _client.MessageReceived?.Subscribe(HandleReceivedMessage);
+        await _client.Connect();
+    }
+
+    private void HandleReceivedMessage(string message)
+    {
+        Console.WriteLine(message);
     }
 }

@@ -2,6 +2,7 @@
 
 public interface IClient
 {
-    void Connect();
+    Task Connect();
     void Send(string message);
+    IObservable<string> MessageReceived { get; }
 }
