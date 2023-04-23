@@ -4,5 +4,6 @@
   "Port": 80,
   "Name": "name",
   "Password": "pwd",
-  "Rooms": ["room"]
+  "Rooms": ["room"],
+  "RoomBlacklist": ["lobby"]
 }

@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using ElsaMina.Core.Bot;
 using ElsaMina.Core.Client;
+using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 
@@ -35,9 +36,10 @@ public class MainModule : Module
 
         builder.RegisterType<ConfigurationService>().As<IConfigurationService>().SingleInstance();
         builder.RegisterType<HttpService>().As<IHttpService>().SingleInstance();
+        builder.RegisterType<ClockService>().As<IClockService>().SingleInstance();
 
-        builder.RegisterType<Client.Client>().As<IClient>();
-        builder.RegisterType<Bot.Bot>().As<IBot>().AsSelf();
+        builder.RegisterType<Client.Client>().As<IClient>().SingleInstance();
+        builder.RegisterType<Bot.Bot>().As<IBot>().AsSelf().SingleInstance();
         
     }
 }

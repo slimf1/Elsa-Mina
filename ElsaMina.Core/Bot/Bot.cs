@@ -1,5 +1,6 @@
 ﻿using ElsaMina.Core.Client;
 using ElsaMina.Core.Models;
+using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using Newtonsoft.Json;
@@ -10,29 +11,41 @@ namespace ElsaMina.Core.Bot;
 public class Bot : IBot
 {
     private const string LOGIN_URL = "http://play.pokemonshowdown.com/action.php";
-    
+    private const long SAME_MESSAGE_COOLDOWN = 3;
+    private const int MESSAGE_LENGTH_LIMIT = 125000;
+
     private readonly IClient _client;
     private readonly IConfigurationService _configurationService;
     private readonly IHttpService _httpService;
+    private readonly IClockService _clockService;
 
-    private readonly IDictionary<string, IRoom> _rooms = new Dictionary<string, IRoom>();
+    private List<string> _formats = new();
     private string? _currentRoom;
+    private string? _lastMessage;
+    private long? _lastMessageTime;
     private bool _disposed;
 
-    public Bot(IClient client, IConfigurationService configurationService, IHttpService httpService)
+    public Bot(IClient client,
+        IConfigurationService configurationService,
+        IHttpService httpService,
+        IClockService clockService)
     {
         _client = client;
         _configurationService = configurationService;
         _httpService = httpService;
+        _clockService = clockService;
     }
+
+    public IDictionary<string, IRoom> Rooms { get; } = new Dictionary<string, IRoom>();
+
+    public IEnumerable<string> Formats => _formats;
 
     public async Task Start()
     {
-        _client.MessageReceived.Subscribe(message => Task.Run(async () => await HandleReceivedMessage(message)));
         await _client.Connect();
     }
 
-    private async Task HandleReceivedMessage(string message)
+    public async Task HandleReceivedMessage(string message)
     {
         Console.WriteLine(message); // TODO: proper logger
 
@@ -47,7 +60,7 @@ public class Bot : IBot
         if (lines.Length > 2 && lines[1].StartsWith("|init|chat"))
         {
             LoadRoom(room, message);
-        } 
+        }
         else
         {
             foreach (var line in lines)
@@ -66,7 +79,7 @@ public class Bot : IBot
         }
 
         var roomId = room ?? _currentRoom;
-        
+
         Console.WriteLine($"[{room}] {line}"); // TODO: proper logger
 
         switch (parts[1])
@@ -80,45 +93,55 @@ public class Bot : IBot
                 CheckConnection(parts);
                 break;
             case "formats":
-                ParseFormats();
+                ParseFormats(line);
                 break;
             case "deinit":
-                if (roomId != null && _rooms.ContainsKey(roomId))
+                if (roomId != null && Rooms.ContainsKey(roomId))
                 {
-                    _rooms.Remove(roomId);
+                    Rooms.Remove(roomId);
                 }
                 break;
             case "J":
-                if (roomId != null && _rooms.ContainsKey(roomId))
+                if (roomId != null && Rooms.ContainsKey(roomId))
                 {
-                    _rooms[roomId].AddUser(parts[2]);
+                    Rooms[roomId].AddUser(parts[2]);
                 }
                 break;
             case "L":
-                if (roomId != null && _rooms.ContainsKey(roomId))
+                if (roomId != null && Rooms.ContainsKey(roomId))
                 {
-                    _rooms[roomId].RemoveUser(parts[2]);
+                    Rooms[roomId].RemoveUser(parts[2]);
                 }
                 break;
             case "N":
-                if (roomId != null && _rooms.ContainsKey(roomId))
+                if (roomId != null && Rooms.ContainsKey(roomId))
                 {
-                    _rooms[roomId].RenameUser(parts[3], parts[2]);
+                    Rooms[roomId].RenameUser(parts[3], parts[2]);
                 }
                 break;
             case "c:":
-                await HandleChatMessage(parts[4], parts[3], roomId, int.Parse(parts[2]));
+                await HandleChatMessage(parts[4], parts[3], roomId, long.Parse(parts[2]));
                 break;
-                
         }
     }
 
-    private async Task HandleChatMessage(string message, string sender, string? roomId, int timestamp)
+    private async Task HandleChatMessage(string message, string sender, string? roomId, long timestamp)
     {
+        var a = 1;
     }
 
-    private void ParseFormats()
+    private void ParseFormats(string line)
     {
+        var formats = line.Split("|")[5..];
+        foreach (var format in formats)
+        {
+            if (!format.StartsWith("[Gen"))
+            {
+                continue;
+            }
+            _formats.Add(format.Split(",")[0]);
+        }
+        
     }
 
     private void CheckConnection(string[] parts)
@@ -139,6 +162,7 @@ public class Bot : IBot
                 {
                     continue;
                 }
+
                 _client.Send($"|/join {roomId}");
                 Thread.Sleep(250);
             }
@@ -165,7 +189,7 @@ public class Bot : IBot
         var parts = message.Split("\n");
         var roomTitle = parts[2].Split("|")[2];
         var users = parts[3].Split("|")[2].Split(",")[1..];
-        
+
         Console.WriteLine($"Initializing {roomTitle}..."); // TODO : logger
 
         var room = new Room(roomTitle, roomId, "fr-FR"); // TODO: factory ?/ locale
@@ -173,9 +197,30 @@ public class Bot : IBot
         {
             room.AddUser(user);
         }
-        _rooms[room.RoomId] = room;
+
+        Rooms[room.RoomId] = room;
 
         Console.WriteLine($"Initializing {roomTitle} : DONE"); // TODO : logger
+    }
+
+    public void Send(string message)
+    {
+        if ((_lastMessage == message &&
+             _clockService.Now.ToUnixTimeSeconds() - _lastMessageTime < SAME_MESSAGE_COOLDOWN) ||
+            message.Length > MESSAGE_LENGTH_LIMIT)
+        {
+            return;
+        }
+
+        _client.Send(message);
+        _lastMessage = message;
+        _lastMessageTime = _clockService.Now.ToUnixTimeSeconds();
+        Thread.Sleep(250);
+    }
+
+    public void Say(string roomId, string message)
+    {
+        Send($"{roomId}|{message}");
     }
 
     public void Dispose()
