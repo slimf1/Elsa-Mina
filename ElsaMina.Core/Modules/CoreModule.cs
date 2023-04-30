@@ -4,6 +4,7 @@ using ElsaMina.Core.Client;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Clock;
+using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 
@@ -31,6 +32,15 @@ public class CoreModule : Module
         }
         return Container.ResolveNamed<ICommand>(commandName);
     }
+    
+    public static bool IsCommandRegistered(string commandName)
+    {
+        if (Container == null)
+        {
+            throw new Exception("Uninitialized DI container");
+        }
+        return Container.IsRegisteredWithName<ICommand>(commandName);
+    }
 
     protected override void Load(ContainerBuilder builder)
     {
@@ -40,6 +50,7 @@ public class CoreModule : Module
         builder.RegisterType<HttpService>().As<IHttpService>().SingleInstance();
         builder.RegisterType<ClockService>().As<IClockService>().SingleInstance();
         builder.RegisterType<ContextFactory>().As<IContextFactory>().SingleInstance();
+        builder.RegisterType<CommandExecutor>().As<ICommandExecutor>().SingleInstance();
 
         builder.RegisterType<Client.Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot.Bot>().As<IBot>().AsSelf().SingleInstance();

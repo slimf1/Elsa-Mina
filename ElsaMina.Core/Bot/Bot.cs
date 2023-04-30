@@ -3,6 +3,7 @@ using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Clock;
+using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Utils;
@@ -22,6 +23,7 @@ public class Bot : IBot
     private readonly IHttpService _httpService;
     private readonly IClockService _clockService;
     private readonly IContextFactory _contextFactory;
+    private readonly ICommandExecutor _commandExecutor;
 
     private readonly List<string> _formats = new();
     private readonly IDictionary<string, ICommand> _commands = new Dictionary<string, ICommand>();
@@ -34,13 +36,15 @@ public class Bot : IBot
         IConfigurationService configurationService,
         IHttpService httpService,
         IClockService clockService,
-        IContextFactory contextFactory)
+        IContextFactory contextFactory,
+        ICommandExecutor commandExecutor)
     {
         _client = client;
         _configurationService = configurationService;
         _httpService = httpService;
         _clockService = clockService;
         _contextFactory = contextFactory;
+        _commandExecutor = commandExecutor;
     }
 
     public IDictionary<string, IRoom> Rooms { get; } = new Dictionary<string, IRoom>();
@@ -151,7 +155,7 @@ public class Bot : IBot
         }
         
         var (target, command) = ParseMessage(message);
-        if (target == null || command == null || !_commands.ContainsKey(command))
+        if (target == null || command == null || !_commandExecutor.HasCommand(command))
         {
             return;
         }
@@ -159,6 +163,15 @@ public class Bot : IBot
         var room = Rooms[roomId];
         var context = _contextFactory.GetContext(ContextType.Room, this, target, room.Users[senderId], command,
             room, timestamp);
+
+        try
+        {
+            await _commandExecutor.TryExecuteCommand(command, context);
+        } 
+        catch (Exception exception)
+        {
+            Console.WriteLine("Command execution crashed: "+ exception);
+        }
         
     }
 

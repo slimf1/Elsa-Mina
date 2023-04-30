@@ -10,7 +10,7 @@ public class Ping : ICommand
 
     public Task Run(Context context)
     {
-        context.Reply("ping");
+        context.Reply("pong");
         return Task.CompletedTask;
     }
 }
