@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using ElsaMina.Core.Bot;
 using ElsaMina.Core.Client;
+using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
@@ -8,27 +9,27 @@ using ElsaMina.Core.Services.Http;
 
 namespace ElsaMina.Core.Modules;
 
-public class MainModule : Module
+public class CoreModule : Module
 {
-    private static IContainer? _container;
-    
-    public static void Initialize()
-    {
-        var builder = new ContainerBuilder();
+    // Virer les statics => services singleton
+    public static IContainer? Container { get; set; }
 
-        builder.RegisterModule<MainModule>();
-        builder.RegisterModule<CommandModule>();
-        
-        _container = builder.Build();
-    }
-    
     public static T Resolve<T>() where T : notnull
     {
-        if (_container == null)
+        if (Container == null)
         {
             throw new Exception("Uninitialized DI container");
         }
-        return _container.Resolve<T>();
+        return Container.Resolve<T>();
+    }
+
+    public static ICommand ResolveCommand(string commandName)
+    {
+        if (Container == null)
+        {
+            throw new Exception("Uninitialized DI container");
+        }
+        return Container.ResolveNamed<ICommand>(commandName);
     }
 
     protected override void Load(ContainerBuilder builder)

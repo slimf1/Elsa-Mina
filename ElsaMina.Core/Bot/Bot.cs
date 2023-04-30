@@ -24,7 +24,7 @@ public class Bot : IBot
     private readonly IContextFactory _contextFactory;
 
     private readonly List<string> _formats = new();
-    private readonly IDictionary<string, Command> _commands = new Dictionary<string, Command>();
+    private readonly IDictionary<string, ICommand> _commands = new Dictionary<string, ICommand>();
     private string? _currentRoom;
     private string? _lastMessage;
     private long? _lastMessageTime;
@@ -224,7 +224,7 @@ public class Bot : IBot
 
     private async Task Login(string challstr)
     {
-        var parameters = new Dictionary<string, string>
+        var parameters = new Dictionary<string, string> // Cas d'erreur, deserialisation auto
         {
             ["act"] = "login",
             ["name"] = _configurationService.Configuration?.Name ?? string.Empty,

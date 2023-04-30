@@ -2,10 +2,10 @@
 
 namespace ElsaMina.Core.Commands;
 
-public abstract class Command
+public interface ICommand
 {
-    public abstract string Name { get; }
-    public virtual IEnumerable<string> Aliases { get; protected set; } = Enumerable.Empty<string>();
+    public static virtual string Name => string.Empty;
+    public static virtual IEnumerable<string> Aliases => Enumerable.Empty<string>();
     protected virtual bool IsAllowedInPm => false;
     protected virtual bool IsWhitelistOnly => false;
     protected virtual bool IsPrivateMessageOnly => false;
@@ -38,5 +38,5 @@ public abstract class Command
         await Run(context);
     }
 
-    protected abstract Task Run(Context context);
+    protected Task Run(Context context);
 }

@@ -1,4 +1,6 @@
-﻿using ElsaMina.Core.Bot;
+﻿using Autofac;
+using ElsaMina.Commands;
+using ElsaMina.Core.Bot;
 using ElsaMina.Core.Client;
 using ElsaMina.Core.Modules;
 using ElsaMina.Core.Services.Config;
@@ -10,18 +12,22 @@ var configurationFile = Environment.GetEnvironmentVariable("ELSA_MINA_ENV") swit
     _ => throw new Exception("Unknown environment")
 };
 
-MainModule.Initialize();
+// DI 
+var builder = new ContainerBuilder();
+builder.RegisterModule<CoreModule>();
+builder.RegisterModule<CommandModule>();
+CoreModule.Container = builder.Build();
 
 // Load configuration
-var configurationService = MainModule.Resolve<IConfigurationService>();
+var configurationService = CoreModule.Resolve<IConfigurationService>();
 using (var streamReader = new StreamReader(Path.Join("Config", configurationFile)))
 {
     await configurationService.LoadConfiguration(streamReader);
 }
 
 // Subscribe to message event
-var bot = MainModule.Resolve<IBot>();
-var client = MainModule.Resolve<IClient>();
+var bot = CoreModule.Resolve<IBot>();
+var client = CoreModule.Resolve<IClient>();
 client.MessageReceived.Subscribe(message => Task.Run(async () => await bot.HandleReceivedMessage(message)));
 
 // Start

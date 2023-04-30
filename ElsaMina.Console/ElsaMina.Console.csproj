@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ElsaMina.Commands\ElsaMina.Commands.csproj" />
       <ProjectReference Include="..\ElsaMina.Core\ElsaMina.Core.csproj" />
       <Content Include="Config\**">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
