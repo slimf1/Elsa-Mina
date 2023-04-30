@@ -1,33 +1,40 @@
 ﻿using ElsaMina.Core.Client;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Clock;
+using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using FluentAssertions;
 using NSubstitute;
+using Serilog;
 
 namespace ElsaMina.Test.Core.Bot;
 
 public class BotTest
 {
+    private ILogger _logger;
     private IClient _client;
     private IConfigurationService _configurationService;
     private IHttpService _httpService;
     private IClockService _clockService;
     private IContextFactory _contextFactory;
+    private ICommandExecutor _commandExecutor;
 
     private ElsaMina.Core.Bot.Bot _bot;
     
     [SetUp]
     public void SetUp()
     {
+        _logger = Substitute.For<ILogger>();
         _client = Substitute.For<IClient>();
         _configurationService = Substitute.For<IConfigurationService>();
         _httpService = Substitute.For<IHttpService>();
         _clockService = Substitute.For<IClockService>();
         _contextFactory = Substitute.For<IContextFactory>();
+        _commandExecutor = Substitute.For<ICommandExecutor>();
         
-        _bot = new ElsaMina.Core.Bot.Bot(_client, _configurationService, _httpService, _clockService, _contextFactory);
+        _bot = new ElsaMina.Core.Bot.Bot(_logger, _client,_configurationService,
+            _httpService, _clockService, _contextFactory, _commandExecutor);
     }
 
     [TearDown]
