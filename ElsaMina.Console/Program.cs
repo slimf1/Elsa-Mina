@@ -31,7 +31,7 @@ using (var streamReader = new StreamReader(Path.Join("Config", configurationFile
 // Subscribe to message event
 var bot = dependencyContainerService.Resolve<IBot>();
 var client = dependencyContainerService.Resolve<IClient>();
-client!.MessageReceived.Subscribe(message => Task.Run(async () => await bot.HandleReceivedMessage(message)));
+client!.MessageReceived.Subscribe(message => Task.Run(async () => await bot!.HandleReceivedMessage(message)));
 
 // Start
 await bot!.Start();
