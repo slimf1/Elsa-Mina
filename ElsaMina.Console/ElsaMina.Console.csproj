@@ -14,9 +14,5 @@
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="NLog" Version="5.1.4" />
-    </ItemGroup>
     
 </Project>
