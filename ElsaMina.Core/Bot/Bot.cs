@@ -1,5 +1,4 @@
 ﻿using ElsaMina.Core.Client;
-using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Clock;
@@ -9,6 +8,7 @@ using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog;
 
 namespace ElsaMina.Core.Bot;
 
@@ -18,6 +18,7 @@ public class Bot : IBot
     private const long SAME_MESSAGE_COOLDOWN = 3;
     private const int MESSAGE_LENGTH_LIMIT = 125000;
 
+    private readonly ILogger _logger;
     private readonly IClient _client;
     private readonly IConfigurationService _configurationService;
     private readonly IHttpService _httpService;
@@ -26,19 +27,20 @@ public class Bot : IBot
     private readonly ICommandExecutor _commandExecutor;
 
     private readonly List<string> _formats = new();
-    private readonly IDictionary<string, ICommand> _commands = new Dictionary<string, ICommand>();
     private string? _currentRoom;
     private string? _lastMessage;
     private long? _lastMessageTime;
     private bool _disposed;
 
-    public Bot(IClient client,
+    public Bot(ILogger logger,
+        IClient client,
         IConfigurationService configurationService,
         IHttpService httpService,
         IClockService clockService,
         IContextFactory contextFactory,
         ICommandExecutor commandExecutor)
     {
+        _logger = logger;
         _client = client;
         _configurationService = configurationService;
         _httpService = httpService;
@@ -58,8 +60,6 @@ public class Bot : IBot
 
     public async Task HandleReceivedMessage(string message)
     {
-        Console.WriteLine(message); // TODO: proper logger
-
         var lines = message.Split("\n");
         string? room = null;
         if (lines[0].Length > 0 && lines[0][0] == '>')
@@ -91,7 +91,7 @@ public class Bot : IBot
 
         var roomId = room ?? _currentRoom;
 
-        Console.WriteLine($"[{room}] {line}"); // TODO: proper logger
+        _logger.Information($"[Received] ({room}) {line}");
 
         switch (parts[1])
         {
@@ -170,7 +170,7 @@ public class Bot : IBot
         } 
         catch (Exception exception)
         {
-            Console.WriteLine("Command execution crashed: "+ exception);
+            _logger.Error(exception, "Command execution crashed");
         }
         
     }
@@ -220,7 +220,7 @@ public class Bot : IBot
 
         if (name == _configurationService.Configuration?.Name)
         {
-            Console.WriteLine($"Connection successful, logged in as {name}");
+            _logger.Information($"Connection successful, logged in as {name}");
 
             foreach (var roomId in _configurationService.Configuration?.Rooms ?? Enumerable.Empty<string>())
             {
@@ -237,7 +237,8 @@ public class Bot : IBot
 
     private async Task Login(string challstr)
     {
-        var parameters = new Dictionary<string, string> // Cas d'erreur, deserialisation auto
+        _logger.Information("Logging in...");
+        var parameters = new Dictionary<string, string> // Cas d'erreur, deserialisation auto, retry après qq secondes
         {
             ["act"] = "login",
             ["name"] = _configurationService.Configuration?.Name ?? string.Empty,
@@ -256,7 +257,7 @@ public class Bot : IBot
         var roomTitle = parts[2].Split("|")[2];
         var users = parts[3].Split("|")[2].Split(",")[1..];
 
-        Console.WriteLine($"Initializing {roomTitle}..."); // TODO : logger
+        _logger.Information($"Initializing {roomTitle}...");
 
         var room = new Room(roomTitle, roomId, "fr-FR"); // TODO: factory ?/ locale
         foreach (var user in users)
@@ -266,7 +267,7 @@ public class Bot : IBot
 
         Rooms[room.RoomId] = room;
 
-        Console.WriteLine($"Initializing {roomTitle} : DONE"); // TODO : logger
+        _logger.Information($"Initializing {roomTitle} : DONE");
     }
 
     public void Send(string message)
@@ -277,6 +278,8 @@ public class Bot : IBot
         {
             return;
         }
+
+        _logger.Information($"[Sending] {message}");
 
         _client.Send(message);
         _lastMessage = message;
