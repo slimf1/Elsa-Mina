@@ -6,8 +6,8 @@ namespace ElsaMina.Core.Services.DependencyInjection;
 
 public interface IDependencyContainerService
 {
-    public IContainer? Container { get; set; }
-    public T? Resolve<T>() where T : notnull;
-    public T? ResolveCommand<T>(string commandName) where T : ICommand;
-    public bool IsCommandRegistered(string commandName);
+    IContainer? Container { get; set; }
+    T? Resolve<T>() where T : notnull;
+    T? ResolveCommand<T>(string commandName) where T : ICommand;
+    bool IsCommandRegistered(string commandName);
 }
