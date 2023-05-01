@@ -2,6 +2,11 @@
 dev.config.json
 prod.config.json
 
+# Database
+*.db
+*.db-shm
+*.db-wal
+
 # User specific
 **/.idea/**/workspace.xml
 **/.idea/**/tasks.xml

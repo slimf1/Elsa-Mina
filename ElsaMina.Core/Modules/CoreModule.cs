@@ -17,6 +17,8 @@ public class CoreModule : Module
     {
         base.Load(builder);
 
+        builder.RegisterModule<DataAccessModule>();
+
         var loggerConfig = new LoggerConfiguration()
             .MinimumLevel.Information()
             .Enrich.FromLogContext()
