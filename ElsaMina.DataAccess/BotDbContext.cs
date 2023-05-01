@@ -24,11 +24,6 @@ public class BotDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         
-        modelBuilder.Entity<AddedCommand>().ToTable("AddedCommands");
-        modelBuilder.Entity<Badge>().ToTable("Badges");
-        modelBuilder.Entity<RoomSpecificUserData>().ToTable("RoomSpecificUserData");
-        modelBuilder.Entity<User>().ToTable("Users");
-        
         modelBuilder.Entity<RoomSpecificUserData>()
             .HasMany(userData => userData.Badges)
             .WithMany(badge => badge.BadgeHolders)
@@ -41,7 +36,7 @@ public class BotDbContext : DbContext
         
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlite("Data Source=mytestdatabase.db");
+            optionsBuilder.UseSqlite("Data Source=ElsaMinaDatabase.db");
         }
     }
 }

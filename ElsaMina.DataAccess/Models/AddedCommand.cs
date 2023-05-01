@@ -1,5 +1,8 @@
-﻿namespace ElsaMina.DataAccess.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
+namespace ElsaMina.DataAccess.Models;
+
+[Table("AddedCommands")]
 public class AddedCommand
 {
     public string Id { get; set; }

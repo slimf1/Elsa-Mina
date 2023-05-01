@@ -1,5 +1,8 @@
-﻿namespace ElsaMina.DataAccess.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
+namespace ElsaMina.DataAccess.Models;
+
+[Table("Badges")]
 public class Badge
 {
     public string Id { get; set; }
