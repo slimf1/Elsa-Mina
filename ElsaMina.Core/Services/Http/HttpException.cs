@@ -4,14 +4,14 @@ namespace ElsaMina.Core.Services.Http;
 
 public class HttpException : Exception
 {
-    private readonly HttpStatusCode _statusCode;
-    private readonly string _responseContent;
-    
+    public HttpStatusCode StatusCode { get; }
+    public string ResponseContent { get; }
+
     public HttpException(HttpStatusCode statusCode, string content)
     {
-        _statusCode = statusCode;
-        _responseContent = content;
+        StatusCode = statusCode;
+        ResponseContent = content;
     }
 
-    public override string Message => $"{nameof(HttpException)}: {_responseContent} ({_statusCode})";
+    public override string Message => $"{nameof(HttpException)}: {ResponseContent} ({StatusCode})";
 }
