@@ -35,7 +35,8 @@ public class BotDbContext : DbContext
         
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlite("Data Source=ElsaMinaDB.db");
+            var dbPath = Path.Join(Environment.CurrentDirectory, "Database", "ElsaMinaDB.db");
+            optionsBuilder.UseSqlite($"Data Source={dbPath}");
         }
     }
 }

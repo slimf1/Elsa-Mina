@@ -9,4 +9,5 @@ public interface IAddedCommandRepository : IDisposable
     Task AddAsync(AddedCommand addedCommand);
     Task UpdateAsync(AddedCommand addedCommand);
     Task DeleteAsync(string id);
+    Task Save();
 }

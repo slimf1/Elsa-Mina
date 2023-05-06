@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using ElsaMina.Commands.CustomCommands;
 using ElsaMina.Commands.Development;
 using ElsaMina.Core.Commands;
 
@@ -10,6 +11,8 @@ public class CommandModule : Module
     {
         base.Load(builder);
         RegisterCommand<Ping>(builder);
+        RegisterCommand<AddCustomCommand>(builder);
+        RegisterCommand<CustomCommandList>(builder);
     }
 
     private static void RegisterCommand<T>(ContainerBuilder builder) where T : ICommand
