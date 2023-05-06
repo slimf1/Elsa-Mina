@@ -10,5 +10,5 @@ public interface IRoomsManager
     void RemoveRoom(string roomId);
     void AddUserToRoom(string roomId, string userId);
     void RemoveUserFromRoom(string roomId, string userId);
-    void RenameUserFromRoom(string roomId, string newName, string lastName);
+    void RenameUserInRoom(string roomId, string newName, string lastName);
 }

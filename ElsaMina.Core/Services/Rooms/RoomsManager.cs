@@ -61,7 +61,7 @@ public class RoomsManager : IRoomsManager
         GetRoom(roomId)?.RemoveUser(userId);
     }
 
-    public void RenameUserFromRoom(string roomId, string formerName, string newName)
+    public void RenameUserInRoom(string roomId, string formerName, string newName)
     {
         GetRoom(roomId)?.RenameUser(formerName, newName);
     }

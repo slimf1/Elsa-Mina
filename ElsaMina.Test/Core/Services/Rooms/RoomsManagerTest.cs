@@ -26,7 +26,7 @@ public class RoomsManagerTest
     {
         const string roomId1 = "my-room";
         const string roomTitle1 = "My Room";
-        var roomUsers1 = new List<string> { "&Test", "+James", " Dude" };
+        var roomUsers1 = new List<string> { "&Test", "+James@!", " Dude" };
         
         const string roomId2 = "franais";
         const string roomTitle2 = "Français";
@@ -55,8 +55,11 @@ public class RoomsManagerTest
         _roomsManager.GetRoom("my-room").Name.Should().Be("My Room");
         _roomsManager.GetRoom("my-room").Users.Count.Should().Be(3);
         _roomsManager.GetRoom("my-room").Users.ContainsKey("test").Should().BeTrue();
+        _roomsManager.GetRoom("my-room").Users["test"].IsIdle.Should().BeFalse();
         _roomsManager.GetRoom("my-room").Users.ContainsKey("james").Should().BeTrue();
+        _roomsManager.GetRoom("my-room").Users["james"].IsIdle.Should().BeTrue();
         _roomsManager.GetRoom("my-room").Users.ContainsKey("dude").Should().BeTrue();
+        _roomsManager.GetRoom("my-room").Users["dude"].IsIdle.Should().BeFalse();
 
         _roomsManager.GetRoom("franais").RoomId.Should().Be("franais");
         _roomsManager.GetRoom("franais").Name.Should().Be("Français");
@@ -137,4 +140,50 @@ public class RoomsManagerTest
         _roomsManager.GetRoom("franais").Users.ContainsKey("earth").Should().BeTrue();
     }
     
+    [Test]
+    public void Test_RenameUserInRoom_ShouldRenameUser()
+    {
+        // Arrange
+        InitializeFakeRooms();
+        
+        // Act
+        _roomsManager.RenameUserInRoom("franais", "mec", "&DieuSupreme");
+        
+        // Assert
+        _roomsManager.GetRoom("franais").Users.Count.Should().Be(4);
+        _roomsManager.GetRoom("franais").Users.ContainsKey("mec").Should().BeFalse();
+        _roomsManager.GetRoom("franais").Users.ContainsKey("dieusupreme").Should().BeTrue();
+        _roomsManager.GetRoom("franais").Users["dieusupreme"].Name.Should().Be("DieuSupreme");
+        _roomsManager.GetRoom("franais").Users["dieusupreme"].Rank.Should().Be('&');
+        _roomsManager.GetRoom("franais").Users["dieusupreme"].Rank.Should().Be('&');
+    }
+    
+    [Test]
+    public void Test_RenameUserInRoom_ShouldRenameUser_WhenUserIsAfk()
+    {
+        // Arrange
+        InitializeFakeRooms();
+        
+        // Act
+        _roomsManager.RenameUserInRoom("franais", "teclis", "&Teclis@!");
+        
+        // Assert
+        _roomsManager.GetRoom("franais").Users.Count.Should().Be(4);
+        _roomsManager.GetRoom("franais").Users["teclis"].IsIdle.Should().BeTrue();
+    }
+    
+    [Test]
+    public void Test_RenameUserInRoom_ShouldRenameUser_WhenUserIsNotAfkAnymore()
+    {
+        // Arrange
+        InitializeFakeRooms();
+        
+        // Act
+        _roomsManager.RenameUserInRoom("my-room", "james", "+James");
+        
+        // Assert
+        _roomsManager.GetRoom("my-room").Users.Count.Should().Be(3);
+        _roomsManager.GetRoom("my-room").Users["james"].IsIdle.Should().BeFalse();
+    }
+
 }

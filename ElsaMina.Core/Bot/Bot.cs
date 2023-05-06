@@ -118,7 +118,7 @@ public class Bot : IBot
                 _roomsManager.RemoveUserFromRoom(roomId, parts[2]);
                 break;
             case "N":
-                _roomsManager.RenameUserFromRoom(roomId, parts[3], parts[2]);
+                _roomsManager.RenameUserInRoom(roomId, parts[3], parts[2]);
                 break;
             case "c:":
                 await HandleChatMessage(parts[4], parts[3], roomId, long.Parse(parts[2]));
