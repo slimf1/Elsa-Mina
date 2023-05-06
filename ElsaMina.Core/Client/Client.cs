@@ -12,13 +12,13 @@ public class Client : IClient
     private readonly WebsocketClient _websocketClient;
     private bool _disposed;
     
-    private IConfiguration? Conf => _configurationService.Configuration;
+    private IConfiguration Conf => _configurationService.Configuration;
 
     public Client(IConfigurationService configurationService)
     {
         _configurationService = configurationService;
 
-        _websocketClient = new WebsocketClient(new Uri($"ws://{Conf?.Host}:{Conf?.Port}/showdown/websocket"));
+        _websocketClient = new WebsocketClient(new Uri($"ws://{Conf.Host}:{Conf.Port}/showdown/websocket"));
     }
 
     public async Task Connect()

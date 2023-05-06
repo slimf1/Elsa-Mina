@@ -9,7 +9,7 @@ public class Room : IRoom
     public IDictionary<string, IUser> Users { get; } = new Dictionary<string, IUser>();
     public string Locale { get; }
 
-    public Room(string roomTitle, string? roomId, string locale)
+    public Room(string roomTitle, string roomId, string locale)
     {
         RoomId = roomId ?? roomTitle.ToLowerAlphaNum();
         Name = roomTitle;

@@ -19,10 +19,10 @@ public class PmContext : Context
     {
         _configurationService = configurationService;
 
-        _currentLocale = new CultureInfo(_configurationService.Configuration?.DefaultLocaleCode ?? string.Empty);
+        _currentLocale = new CultureInfo(_configurationService.Configuration.DefaultLocaleCode);
     }
 
-    public override string RoomId => _configurationService.Configuration?.DefaultRoom ?? string.Empty;
+    public override string RoomId => _configurationService.Configuration.DefaultRoom;
     public override ContextType Type => ContextType.Pm;
     public override bool IsPm => true;
 

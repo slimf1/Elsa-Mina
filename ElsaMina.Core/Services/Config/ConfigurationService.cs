@@ -5,7 +5,7 @@ namespace ElsaMina.Core.Services.Config;
 
 public class ConfigurationService : IConfigurationService
 {
-    public IConfiguration? Configuration { get; private set; }
+    public IConfiguration Configuration { get; private set; }
 
     public async Task LoadConfiguration(TextReader textReader)
     {

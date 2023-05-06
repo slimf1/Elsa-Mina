@@ -18,14 +18,14 @@ public class ContextFactory : IContextFactory
         string target,
         IUser sender,
         string command,
-        IRoom? room = null,
-        long? timestamp = null)
+        IRoom room = null,
+        long timestamp = 0)
     {
         return type switch
         {
             ContextType.Pm => new PmContext(_configurationService, bot, target, sender, command),
             ContextType.Room => new RoomContext(_configurationService, bot, target, sender, command, room!,
-                timestamp ?? 0),
+                timestamp),
             _ => throw new ArgumentException("Invalid type")
         };
     }
