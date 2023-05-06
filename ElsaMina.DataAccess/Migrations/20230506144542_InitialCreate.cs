@@ -16,9 +16,9 @@ namespace ElsaMina.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Content = table.Column<string>(type: "TEXT", nullable: false),
-                    Author = table.Column<string>(type: "TEXT", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Content = table.Column<string>(type: "TEXT", nullable: true),
+                    Author = table.Column<string>(type: "TEXT", nullable: true),
+                    CreationDate = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -30,9 +30,9 @@ namespace ElsaMina.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Image = table.Column<string>(type: "TEXT", nullable: false),
-                    IsTrophy = table.Column<bool>(type: "INTEGER", nullable: false)
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Image = table.Column<string>(type: "TEXT", nullable: true),
+                    IsTrophy = table.Column<bool>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,17 +40,30 @@ namespace ElsaMina.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoomSpecificUserData",
+                name: "RoomParameters",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
-                    OnTime = table.Column<long>(type: "INTEGER", nullable: false),
-                    Avatar = table.Column<string>(type: "TEXT", nullable: false),
-                    Title = table.Column<string>(type: "TEXT", nullable: false)
+                    IsShowingErrorMessages = table.Column<bool>(type: "INTEGER", nullable: true),
+                    Locale = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoomSpecificUserData", x => x.Id);
+                    table.PrimaryKey("PK_RoomParameters", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserData",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    OnTime = table.Column<long>(type: "INTEGER", nullable: true),
+                    Avatar = table.Column<string>(type: "TEXT", nullable: true),
+                    Title = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserData", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -58,8 +71,8 @@ namespace ElsaMina.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    RegDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    RegDate = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -83,9 +96,9 @@ namespace ElsaMina.DataAccess.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BadgeHoldings_RoomSpecificUserData_BadgeHoldersId",
+                        name: "FK_BadgeHoldings_UserData_BadgeHoldersId",
                         column: x => x.BadgeHoldersId,
-                        principalTable: "RoomSpecificUserData",
+                        principalTable: "UserData",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -106,13 +119,16 @@ namespace ElsaMina.DataAccess.Migrations
                 name: "BadgeHoldings");
 
             migrationBuilder.DropTable(
+                name: "RoomParameters");
+
+            migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Badges");
 
             migrationBuilder.DropTable(
-                name: "RoomSpecificUserData");
+                name: "UserData");
         }
     }
 }

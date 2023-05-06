@@ -9,15 +9,14 @@ public class BotDbContext : DbContext
     public DbSet<RoomSpecificUserData> UserData { get; set; }
     public DbSet<Badge> Badges { get; set; }
     public DbSet<AddedCommand> AddedCommands { get; set; }
+    public DbSet<RoomParameters> RoomParameters { get; set; }
 
     public BotDbContext()
     {
-        Database.EnsureCreated();
     }
 
     public BotDbContext(DbContextOptions<BotDbContext> options) : base(options)
     {
-        Database.EnsureCreated();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,7 +35,7 @@ public class BotDbContext : DbContext
         
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlite("Data Source=ElsaMinaDatabase.db");
+            optionsBuilder.UseSqlite("Data Source=ElsaMinaDB.db");
         }
     }
 }
