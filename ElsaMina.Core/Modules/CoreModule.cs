@@ -7,6 +7,7 @@ using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Http;
+using ElsaMina.Core.Services.Rooms;
 using Serilog;
 
 namespace ElsaMina.Core.Modules;
@@ -32,6 +33,7 @@ public class CoreModule : Module
         builder.RegisterType<ClockService>().As<IClockService>().SingleInstance();
         builder.RegisterType<ContextFactory>().As<IContextFactory>().SingleInstance();
         builder.RegisterType<CommandExecutor>().As<ICommandExecutor>().SingleInstance();
+        builder.RegisterType<RoomsManager>().As<IRoomsManager>().SingleInstance();
 
         builder.RegisterType<Client.Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot.Bot>().As<IBot>().AsSelf().SingleInstance();

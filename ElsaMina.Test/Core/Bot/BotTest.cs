@@ -4,7 +4,7 @@ using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
-using FluentAssertions;
+using ElsaMina.Core.Services.Rooms;
 using NSubstitute;
 using Serilog;
 
@@ -19,6 +19,7 @@ public class BotTest
     private IClockService _clockService;
     private IContextFactory _contextFactory;
     private ICommandExecutor _commandExecutor;
+    private IRoomsManager _roomsManager;
 
     private ElsaMina.Core.Bot.Bot _bot;
     
@@ -32,9 +33,10 @@ public class BotTest
         _clockService = Substitute.For<IClockService>();
         _contextFactory = Substitute.For<IContextFactory>();
         _commandExecutor = Substitute.For<ICommandExecutor>();
+        _roomsManager = Substitute.For<IRoomsManager>();
         
         _bot = new ElsaMina.Core.Bot.Bot(_logger, _client,_configurationService,
-            _httpService, _clockService, _contextFactory, _commandExecutor);
+            _httpService, _clockService, _contextFactory, _commandExecutor, _roomsManager);
     }
 
     [TearDown]
@@ -63,20 +65,8 @@ public class BotTest
         await _bot.HandleReceivedMessage(message);
         
         // Assert
-        _bot.Rooms.Count.Should().Be(1);
-        _bot.Rooms.ContainsKey("room").Should().BeTrue();
-        _bot.Rooms["room"].Name.Should().Be("Room Title");
-        _bot.Rooms["room"].RoomId.Should().Be("room");
-        _bot.Rooms["room"].Users.Count.Should().Be(5);
-        _bot.Rooms["room"].Users["bot"].Rank.Should().Be('*');
-        _bot.Rooms["room"].Users["bot"].Name.Should().Be("Bot");
-        _bot.Rooms["room"].Users["mod"].Rank.Should().Be('@');
-        _bot.Rooms["room"].Users["mod"].Name.Should().Be("Mod");
-        _bot.Rooms["room"].Users["regular"].Rank.Should().Be(' ');
-        _bot.Rooms["room"].Users["regular"].Name.Should().Be("Regular");
-        _bot.Rooms["room"].Users["rouser"].Rank.Should().Be('#');
-        _bot.Rooms["room"].Users["rouser"].Name.Should().Be("Ro User");
-        _bot.Rooms["room"].Users["voiced"].Rank.Should().Be('+');
-        _bot.Rooms["room"].Users["voiced"].Name.Should().Be("Voiced");
+        var expectedUsers = new List<string> { "*Bot", "@Mod", " Regular", "#Ro User", "+Voiced" };
+        _roomsManager.Received(1).InitializeRoom("room", "Room Title",
+            Arg.Is<IEnumerable<string>>(users => users.SequenceEqual(expectedUsers)));
     }
 }

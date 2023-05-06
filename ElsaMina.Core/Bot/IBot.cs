@@ -1,10 +1,7 @@
-﻿using ElsaMina.Core.Models;
-
-namespace ElsaMina.Core.Bot;
+﻿namespace ElsaMina.Core.Bot;
 
 public interface IBot : IDisposable
 {
-    IDictionary<string, IRoom> Rooms { get; }
     IEnumerable<string> Formats { get; }
     Task HandleReceivedMessage(string message);
 

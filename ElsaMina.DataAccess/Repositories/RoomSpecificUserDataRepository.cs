@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.DataAccess.Repositories;
 
-public class RoomSpecificUserDataRepository
+public class RoomSpecificUserDataRepository : IRoomSpecificUserDataRepository
 {
     private readonly DbContext _dbContext;
 

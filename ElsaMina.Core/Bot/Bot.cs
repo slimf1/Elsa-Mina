@@ -1,10 +1,10 @@
 ﻿using ElsaMina.Core.Client;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
+using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -25,11 +25,12 @@ public class Bot : IBot
     private readonly IClockService _clockService;
     private readonly IContextFactory _contextFactory;
     private readonly ICommandExecutor _commandExecutor;
+    private readonly IRoomsManager _roomsManager;
 
     private readonly List<string> _formats = new();
-    private string? _currentRoom;
-    private string? _lastMessage;
-    private long? _lastMessageTime;
+    private string _currentRoom;
+    private string _lastMessage;
+    private long _lastMessageTime;
     private bool _disposed;
 
     public Bot(ILogger logger,
@@ -38,7 +39,8 @@ public class Bot : IBot
         IHttpService httpService,
         IClockService clockService,
         IContextFactory contextFactory,
-        ICommandExecutor commandExecutor)
+        ICommandExecutor commandExecutor,
+        IRoomsManager roomsManager)
     {
         _logger = logger;
         _client = client;
@@ -47,9 +49,8 @@ public class Bot : IBot
         _clockService = clockService;
         _contextFactory = contextFactory;
         _commandExecutor = commandExecutor;
+        _roomsManager = roomsManager;
     }
-
-    public IDictionary<string, IRoom> Rooms { get; } = new Dictionary<string, IRoom>();
 
     public IEnumerable<string> Formats => _formats;
 
@@ -81,7 +82,7 @@ public class Bot : IBot
         }
     }
 
-    private async Task ReadLine(string? room, string line)
+    private async Task ReadLine(string room, string line)
     {
         var parts = line.Split("|");
         if (parts.Length < 2)
@@ -107,28 +108,16 @@ public class Bot : IBot
                 ParseFormats(line);
                 break;
             case "deinit":
-                if (roomId != null && Rooms.ContainsKey(roomId))
-                {
-                    Rooms.Remove(roomId);
-                }
+                _roomsManager.RemoveRoom(roomId);
                 break;
             case "J":
-                if (roomId != null && Rooms.ContainsKey(roomId))
-                {
-                    Rooms[roomId].AddUser(parts[2]);
-                }
+                _roomsManager.AddUserToRoom(roomId, parts[2]);
                 break;
             case "L":
-                if (roomId != null && Rooms.ContainsKey(roomId))
-                {
-                    Rooms[roomId].RemoveUser(parts[2]);
-                }
+                _roomsManager.RemoveUserFromRoom(roomId, parts[2]);
                 break;
             case "N":
-                if (roomId != null && Rooms.ContainsKey(roomId))
-                {
-                    Rooms[roomId].RenameUser(parts[3], parts[2]);
-                }
+                _roomsManager.RenameUserFromRoom(roomId, parts[3], parts[2]);
                 break;
             case "c:":
                 await HandleChatMessage(parts[4], parts[3], roomId, long.Parse(parts[2]));
@@ -136,20 +125,15 @@ public class Bot : IBot
         }
     }
 
-    private async Task HandleChatMessage(string message, string sender, string? roomId, long timestamp)
+    private async Task HandleChatMessage(string message, string sender, string roomId, long timestamp)
     {
-        if (roomId == null || !Rooms.ContainsKey(roomId))
+        if (roomId == null || !_roomsManager.HasRoom(roomId))
         {
             return;
         }
         
         var senderId = sender.ToLowerAlphaNum();
-        if (_configurationService.Configuration?.RoomBlacklist?.Contains(roomId) == true)
-        {
-            return;
-        }
-
-        if (!Rooms.ContainsKey(roomId))
+        if (_configurationService.Configuration.RoomBlacklist.Contains(roomId))
         {
             return;
         }
@@ -160,7 +144,7 @@ public class Bot : IBot
             return;
         }
         
-        var room = Rooms[roomId];
+        var room = _roomsManager.GetRoom(roomId);
         var context = _contextFactory.GetContext(ContextType.Room, this, target, room.Users[senderId], command,
             room, timestamp);
 
@@ -175,9 +159,9 @@ public class Bot : IBot
         
     }
 
-    private (string? target, string? command) ParseMessage(string message)
+    private (string target, string command) ParseMessage(string message)
     {
-        var trigger = _configurationService.Configuration?.Trigger ?? "-";
+        var trigger = _configurationService.Configuration.Trigger;
         var triggerLength = trigger.Length;
         if (message[..triggerLength] != trigger)
         {
@@ -218,31 +202,33 @@ public class Bot : IBot
             name = name[^2..];
         }
 
-        if (name == _configurationService.Configuration?.Name)
+        if (name != _configurationService.Configuration.Name)
         {
-            _logger.Information($"Connection successful, logged in as {name}");
+            return;
+        }
+        _logger.Information($"Connection successful, logged in as {name}");
 
-            foreach (var roomId in _configurationService.Configuration?.Rooms ?? Enumerable.Empty<string>())
+        foreach (var roomId in _configurationService.Configuration.Rooms)
+        {
+            if (_configurationService.Configuration.RoomBlacklist.Contains(roomId))
             {
-                if (_configurationService.Configuration?.RoomBlacklist?.Contains(roomId) ?? false)
-                {
-                    continue;
-                }
-
-                _client.Send($"|/join {roomId}");
-                Thread.Sleep(250);
+                continue;
             }
+
+            _client.Send($"|/join {roomId}");
+            Thread.Sleep(250);
         }
     }
 
     private async Task Login(string challstr)
     {
+        // todo: service class for API calls
         _logger.Information("Logging in...");
         var parameters = new Dictionary<string, string> // Cas d'erreur, deserialisation auto, retry après qq secondes
         {
             ["act"] = "login",
-            ["name"] = _configurationService.Configuration?.Name ?? string.Empty,
-            ["pass"] = _configurationService.Configuration?.Password ?? string.Empty,
+            ["name"] = _configurationService.Configuration.Name,
+            ["pass"] = _configurationService.Configuration.Password,
             ["challstr"] = challstr
         };
         var textResponse = await _httpService.PostFormAsync(LOGIN_URL, parameters);
@@ -251,23 +237,13 @@ public class Bot : IBot
         _client.Send($"|/trn {_configurationService.Configuration?.Name},0,{nonce}");
     }
 
-    private void LoadRoom(string? roomId, string message)
+    private void LoadRoom(string roomId, string message)
     {
         var parts = message.Split("\n");
         var roomTitle = parts[2].Split("|")[2];
         var users = parts[3].Split("|")[2].Split(",")[1..];
 
-        _logger.Information($"Initializing {roomTitle}...");
-
-        var room = new Room(roomTitle, roomId, "fr-FR"); // TODO: factory ?/ locale
-        foreach (var user in users)
-        {
-            room.AddUser(user);
-        }
-
-        Rooms[room.RoomId] = room;
-
-        _logger.Information($"Initializing {roomTitle} : DONE");
+        _roomsManager.InitializeRoom(roomId, roomTitle, users);
     }
 
     public void Send(string message)

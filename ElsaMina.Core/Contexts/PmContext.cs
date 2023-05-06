@@ -42,7 +42,7 @@ public class PmContext : Context
         Bot.Send($"|/pm {Sender.UserId}, {message}");
     }
 
-    public override void SendHtml(string html, string? roomId = null)
+    public override void SendHtml(string html, string roomId = null)
     {
         Bot.Say(roomId ?? RoomId, $"/pminfobox {Sender.UserId}, {html}");
     }

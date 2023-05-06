@@ -56,7 +56,7 @@ public class RoomContext : Context
         Bot.Say(RoomId, message);
     }
 
-    public override void SendHtml(string html, string? roomId = null)
+    public override void SendHtml(string html, string roomId = null)
     {
         Bot.Say(RoomId, $"/addhtmlbox {html}");
     }
