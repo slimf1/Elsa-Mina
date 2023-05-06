@@ -23,7 +23,9 @@ public class BotDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
+
+        modelBuilder.Entity<AddedCommand>()
+            .HasKey(command => new { command.Id, command.RoomId });
         modelBuilder.Entity<RoomSpecificUserData>()
             .HasMany(userData => userData.Badges)
             .WithMany(badge => badge.BadgeHolders)
