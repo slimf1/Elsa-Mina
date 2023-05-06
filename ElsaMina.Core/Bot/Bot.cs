@@ -3,6 +3,7 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
@@ -26,8 +27,8 @@ public class Bot : IBot
     private readonly IContextFactory _contextFactory;
     private readonly ICommandExecutor _commandExecutor;
     private readonly IRoomsManager _roomsManager;
+    private readonly IFormatsManager _formatsManager;
 
-    private readonly List<string> _formats = new();
     private string _currentRoom;
     private string _lastMessage;
     private long _lastMessageTime;
@@ -40,7 +41,8 @@ public class Bot : IBot
         IClockService clockService,
         IContextFactory contextFactory,
         ICommandExecutor commandExecutor,
-        IRoomsManager roomsManager)
+        IRoomsManager roomsManager,
+        IFormatsManager formatsManager)
     {
         _logger = logger;
         _client = client;
@@ -50,9 +52,8 @@ public class Bot : IBot
         _contextFactory = contextFactory;
         _commandExecutor = commandExecutor;
         _roomsManager = roomsManager;
+        _formatsManager = formatsManager;
     }
-
-    public IEnumerable<string> Formats => _formats;
 
     public async Task Start()
     {
@@ -105,7 +106,7 @@ public class Bot : IBot
                 CheckConnection(parts);
                 break;
             case "formats":
-                ParseFormats(line);
+                _formatsManager.ParseFormatsFromReceivedLine(line);
                 break;
             case "deinit":
                 _roomsManager.RemoveRoom(roomId);
@@ -131,19 +132,19 @@ public class Bot : IBot
         {
             return;
         }
-        
+
         var senderId = sender.ToLowerAlphaNum();
         if (_configurationService.Configuration.RoomBlacklist.Contains(roomId))
         {
             return;
         }
-        
+
         var (target, command) = ParseMessage(message);
         if (target == null || command == null || !_commandExecutor.HasCommand(command))
         {
             return;
         }
-        
+
         var room = _roomsManager.GetRoom(roomId);
         var context = _contextFactory.GetContext(ContextType.Room, this, target, room.Users[senderId], command,
             room, timestamp);
@@ -151,12 +152,11 @@ public class Bot : IBot
         try
         {
             await _commandExecutor.TryExecuteCommand(command, context);
-        } 
+        }
         catch (Exception exception)
         {
             _logger.Error(exception, "Command execution crashed");
         }
-        
     }
 
     private (string target, string command) ParseMessage(string message)
@@ -180,20 +180,6 @@ public class Bot : IBot
         return (target, command);
     }
 
-    private void ParseFormats(string line)
-    {
-        var formats = line.Split("|")[5..];
-        foreach (var format in formats)
-        {
-            if (!format.StartsWith("[Gen"))
-            {
-                continue;
-            }
-            _formats.Add(format.Split(",")[0]);
-        }
-        
-    }
-
     private void CheckConnection(string[] parts)
     {
         var name = parts[2][1..];
@@ -206,6 +192,7 @@ public class Bot : IBot
         {
             return;
         }
+
         _logger.Information($"Connection successful, logged in as {name}");
 
         foreach (var roomId in _configurationService.Configuration.Rooms)

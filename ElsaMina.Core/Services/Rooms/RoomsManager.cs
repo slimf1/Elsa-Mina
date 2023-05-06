@@ -8,6 +8,7 @@ public class RoomsManager : IRoomsManager
 {
     private readonly ILogger _logger;
     private readonly IConfigurationService _configurationService;
+    
     private readonly IDictionary<string, IRoom> _rooms = new Dictionary<string, IRoom>();
 
     public RoomsManager(ILogger logger,
@@ -43,6 +44,7 @@ public class RoomsManager : IRoomsManager
 
     public void RemoveRoom(string roomId)
     {
+        _logger.Information($"Removing room : {roomId}");
         if (_rooms.ContainsKey(roomId))
         {
             _rooms.Remove(roomId);
