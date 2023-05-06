@@ -155,7 +155,6 @@ public class RoomsManagerTest
         _roomsManager.GetRoom("franais").Users.ContainsKey("dieusupreme").Should().BeTrue();
         _roomsManager.GetRoom("franais").Users["dieusupreme"].Name.Should().Be("DieuSupreme");
         _roomsManager.GetRoom("franais").Users["dieusupreme"].Rank.Should().Be('&');
-        _roomsManager.GetRoom("franais").Users["dieusupreme"].Rank.Should().Be('&');
     }
     
     [Test]

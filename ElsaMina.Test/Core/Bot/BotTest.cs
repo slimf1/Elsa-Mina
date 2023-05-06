@@ -5,6 +5,7 @@ using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Http;
+using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.Rooms;
 using NSubstitute;
 using Serilog;
@@ -16,12 +17,12 @@ public class BotTest
     private ILogger _logger;
     private IClient _client;
     private IConfigurationManager _configurationManager;
-    private IHttpService _httpService;
     private IClockService _clockService;
     private IContextFactory _contextFactory;
     private ICommandExecutor _commandExecutor;
     private IRoomsManager _roomsManager;
     private IFormatsManager _formatsManager;
+    private ILoginService _loginService;
 
     private ElsaMina.Core.Bot.Bot _bot;
     
@@ -31,16 +32,15 @@ public class BotTest
         _logger = Substitute.For<ILogger>();
         _client = Substitute.For<IClient>();
         _configurationManager = Substitute.For<IConfigurationManager>();
-        _httpService = Substitute.For<IHttpService>();
         _clockService = Substitute.For<IClockService>();
         _contextFactory = Substitute.For<IContextFactory>();
         _commandExecutor = Substitute.For<ICommandExecutor>();
         _roomsManager = Substitute.For<IRoomsManager>();
         _formatsManager = Substitute.For<IFormatsManager>();
+        _loginService = Substitute.For<ILoginService>();
         
         _bot = new ElsaMina.Core.Bot.Bot(_logger, _client, _configurationManager,
-            _httpService, _clockService, _contextFactory, _commandExecutor,
-            _roomsManager, _formatsManager);
+            _clockService, _contextFactory, _commandExecutor, _roomsManager, _formatsManager, _loginService);
     }
 
     [TearDown]
