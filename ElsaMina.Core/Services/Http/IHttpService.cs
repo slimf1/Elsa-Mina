@@ -2,5 +2,8 @@ namespace ElsaMina.Core.Services.Http;
 
 public interface IHttpService
 {
-    Task<string> PostFormAsync(string url, IDictionary<string, string> form);
+    public Task<TResponse> PostJson<TRequest, TResponse>(string uri, TRequest dto,
+        bool removeFirstCharacterFromResponse = false);
+    public Task<TResponse> PostUrlEncodedForm<TResponse>(string uri, IDictionary<string, string> form,
+        bool removeFirstCharacterFromResponse = false);
 }

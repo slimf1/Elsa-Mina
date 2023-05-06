@@ -8,6 +8,7 @@ using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Http;
+using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.Rooms;
 using Serilog;
 
@@ -36,6 +37,7 @@ public class CoreModule : Module
         builder.RegisterType<CommandExecutor>().As<ICommandExecutor>().SingleInstance();
         builder.RegisterType<RoomsManager>().As<IRoomsManager>().SingleInstance();
         builder.RegisterType<FormatsManager>().As<IFormatsManager>().SingleInstance();
+        builder.RegisterType<LoginService>().As<ILoginService>().SingleInstance();
 
         builder.RegisterType<Client.Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot.Bot>().As<IBot>().AsSelf().SingleInstance();

@@ -4,30 +4,27 @@ using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Formats;
-using ElsaMina.Core.Services.Http;
+using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Serilog;
 
 namespace ElsaMina.Core.Bot;
 
 public class Bot : IBot
 {
-    private const string LOGIN_URL = "http://play.pokemonshowdown.com/action.php";
     private const long SAME_MESSAGE_COOLDOWN = 3;
     private const int MESSAGE_LENGTH_LIMIT = 125000;
 
     private readonly ILogger _logger;
     private readonly IClient _client;
     private readonly IConfigurationManager _configurationManager;
-    private readonly IHttpService _httpService;
     private readonly IClockService _clockService;
     private readonly IContextFactory _contextFactory;
     private readonly ICommandExecutor _commandExecutor;
     private readonly IRoomsManager _roomsManager;
     private readonly IFormatsManager _formatsManager;
+    private readonly ILoginService _loginService;
 
     private string _currentRoom;
     private string _lastMessage;
@@ -37,22 +34,22 @@ public class Bot : IBot
     public Bot(ILogger logger,
         IClient client,
         IConfigurationManager configurationManager,
-        IHttpService httpService,
         IClockService clockService,
         IContextFactory contextFactory,
         ICommandExecutor commandExecutor,
         IRoomsManager roomsManager,
-        IFormatsManager formatsManager)
+        IFormatsManager formatsManager,
+        ILoginService loginService)
     {
         _logger = logger;
         _client = client;
         _configurationManager = configurationManager;
-        _httpService = httpService;
         _clockService = clockService;
         _contextFactory = contextFactory;
         _commandExecutor = commandExecutor;
         _roomsManager = roomsManager;
         _formatsManager = formatsManager;
+        _loginService = loginService;
     }
 
     public async Task Start()
@@ -209,19 +206,15 @@ public class Bot : IBot
 
     private async Task Login(string challstr)
     {
-        // todo: service class for API calls
-        _logger.Information("Logging in...");
-        var parameters = new Dictionary<string, string> // Cas d'erreur, deserialisation auto, retry après qq secondes
+        var response = await _loginService.Login(challstr);
+
+        if (_configurationManager.Configuration.Name.ToLowerAlphaNum() != response.CurrentUser.UserId)
         {
-            ["act"] = "login",
-            ["name"] = _configurationManager.Configuration.Name,
-            ["pass"] = _configurationManager.Configuration.Password,
-            ["challstr"] = challstr
-        };
-        var textResponse = await _httpService.PostFormAsync(LOGIN_URL, parameters);
-        var jsonResponse = (JObject)JsonConvert.DeserializeObject(textResponse[1..]);
-        var nonce = jsonResponse?.GetValue("assertion");
-        _client.Send($"|/trn {_configurationManager.Configuration?.Name},0,{nonce}");
+            _logger.Error("Login failed");
+            return;
+        }
+        
+        _client.Send($"|/trn {response.CurrentUser.Username},0,{response.Assertion}");
     }
 
     private void LoadRoom(string roomId, string message)
