@@ -10,5 +10,7 @@ public class DataAccessModule : Module
         base.Load(builder);
 
         builder.RegisterType<AddedCommandRepository>().As<IAddedCommandRepository>().SingleInstance();
+        builder.RegisterType<BadgeRepository>().As<IBadgeRepository>().SingleInstance();
+        builder.RegisterType<RoomSpecificUserDataRepository>().As<IRoomSpecificUserDataRepository>().SingleInstance();
     }
 }
