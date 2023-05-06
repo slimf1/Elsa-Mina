@@ -7,22 +7,20 @@ namespace ElsaMina.Core.Contexts;
 
 public abstract class Context
 {
-    private readonly IConfigurationService _configurationService;
+    private readonly IConfigurationManager _configurationManager;
     
     public IBot Bot { get; }
     public string Target { get; }
     public IUser Sender { get; }
     public string Command { get; }
 
-    private string DefaultRoom => _configurationService.Configuration?.DefaultRoom ?? string.Empty;
-
-    protected Context(IConfigurationService configurationService,
+    protected Context(IConfigurationManager configurationManager,
         IBot bot,
         string target,
         IUser sender,
         string command)
     {
-        _configurationService = configurationService;
+        _configurationManager = configurationManager;
         
         Bot = bot;
         Target = target;
@@ -30,14 +28,14 @@ public abstract class Context
         Command = command;
     }
 
-    public bool IsSenderWhitelisted => _configurationService
+    public bool IsSenderWhitelisted => _configurationManager
         .Configuration?
         .Whitelist?
         .Contains(Sender.UserId) == true;
     
     public void SendHtmlPage(string pageName, string html)
     {
-        Bot.Say(DefaultRoom, $"/sendhtmlpage {Sender.UserId}, {pageName}, {html}");
+        Bot.Say(RoomId, $"/sendhtmlpage {Sender.UserId}, {pageName}, {html}");
     }
 
     public abstract string RoomId { get; }

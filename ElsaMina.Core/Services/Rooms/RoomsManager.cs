@@ -7,15 +7,15 @@ namespace ElsaMina.Core.Services.Rooms;
 public class RoomsManager : IRoomsManager
 {
     private readonly ILogger _logger;
-    private readonly IConfigurationService _configurationService;
+    private readonly IConfigurationManager _configurationManager;
     
     private readonly IDictionary<string, IRoom> _rooms = new Dictionary<string, IRoom>();
 
     public RoomsManager(ILogger logger,
-        IConfigurationService configurationService)
+        IConfigurationManager configurationManager)
     {
         _logger = logger;
-        _configurationService = configurationService;
+        _configurationManager = configurationManager;
     }
 
     public IRoom GetRoom(string roomId)
@@ -31,7 +31,7 @@ public class RoomsManager : IRoomsManager
     public void InitializeRoom(string roomId, string roomTitle, IEnumerable<string> userIds)
     {
         _logger.Information($"Initializing {roomTitle}...");
-        var room = new Room(roomTitle, roomId, _configurationService.Configuration.DefaultLocaleCode);
+        var room = new Room(roomTitle, roomId, _configurationManager.Configuration.DefaultLocaleCode);
 
         foreach (var userId in userIds)
         {

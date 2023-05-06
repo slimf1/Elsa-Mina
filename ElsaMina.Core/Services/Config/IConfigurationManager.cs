@@ -2,7 +2,7 @@
 
 namespace ElsaMina.Core.Services.Config;
 
-public interface IConfigurationService
+public interface IConfigurationManager
 {
     IConfiguration Configuration { get; }
     

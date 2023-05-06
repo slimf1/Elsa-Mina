@@ -6,12 +6,12 @@ namespace ElsaMina.Test.Core.Services.Config;
 
 public class ConfigurationServiceTest
 {
-    private ConfigurationService _configurationService;
+    private ConfigurationManager _configurationManager;
 
     [SetUp]
     public void SetUp()
     {
-        _configurationService = new ConfigurationService();
+        _configurationManager = new ConfigurationManager();
     }
 
     [Test]
@@ -21,12 +21,12 @@ public class ConfigurationServiceTest
         var reader = new StringReader("{\"Env\": \"test\", \"Host\": \"test.server.com\"}");
 
         // Act
-        await _configurationService.LoadConfiguration(reader);
+        await _configurationManager.LoadConfiguration(reader);
 
         // Assert
-        _configurationService.Configuration.Should().NotBeNull();
-        _configurationService.Configuration!.Env.Should().Be("test");
-        _configurationService.Configuration!.Host.Should().Be("test.server.com");
+        _configurationManager.Configuration.Should().NotBeNull();
+        _configurationManager.Configuration.Env.Should().Be("test");
+        _configurationManager.Configuration.Host.Should().Be("test.server.com");
     }
 
     [Test]
@@ -36,7 +36,7 @@ public class ConfigurationServiceTest
         var reader = new StringReader("{\"Env\": \"test\", \"Host\": \"test.server.com\"");
 
         // Act
-        Func<Task> action = async () => await _configurationService.LoadConfiguration(reader);
+        Func<Task> action = async () => await _configurationManager.LoadConfiguration(reader);
 
         // Assert
         await action.Should().ThrowAsync<JsonSerializationException>();

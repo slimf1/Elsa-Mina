@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace ElsaMina.Core.Services.Config;
 
-public class ConfigurationService : IConfigurationService
+public class ConfigurationManager : IConfigurationManager
 {
     public IConfiguration Configuration { get; private set; }
 

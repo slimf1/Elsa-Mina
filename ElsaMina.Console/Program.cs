@@ -22,7 +22,7 @@ var dependencyContainerService = container.Resolve<IDependencyContainerService>(
 dependencyContainerService.Container = container;
 
 // Load configuration
-var configurationService = dependencyContainerService.Resolve<IConfigurationService>();
+var configurationService = dependencyContainerService.Resolve<IConfigurationManager>();
 using (var streamReader = new StreamReader(Path.Join("Config", configurationFile)))
 {
     await configurationService!.LoadConfiguration(streamReader);

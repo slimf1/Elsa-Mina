@@ -29,7 +29,7 @@ public class CoreModule : Module
         builder.RegisterInstance(loggerConfig.CreateLogger()).As<ILogger>().SingleInstance();
 
         builder.RegisterType<DependencyContainerService>().As<IDependencyContainerService>().SingleInstance();
-        builder.RegisterType<ConfigurationService>().As<IConfigurationService>().SingleInstance();
+        builder.RegisterType<ConfigurationManager>().As<IConfigurationManager>().SingleInstance();
         builder.RegisterType<HttpService>().As<IHttpService>().SingleInstance();
         builder.RegisterType<ClockService>().As<IClockService>().SingleInstance();
         builder.RegisterType<ContextFactory>().As<IContextFactory>().SingleInstance();

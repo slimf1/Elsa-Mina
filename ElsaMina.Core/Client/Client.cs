@@ -7,16 +7,16 @@ namespace ElsaMina.Core.Client;
 
 public class Client : IClient
 {
-    private readonly IConfigurationService _configurationService;
+    private readonly IConfigurationManager _configurationManager;
 
     private readonly WebsocketClient _websocketClient;
     private bool _disposed;
     
-    private IConfiguration Conf => _configurationService.Configuration;
+    private IConfiguration Conf => _configurationManager.Configuration;
 
-    public Client(IConfigurationService configurationService)
+    public Client(IConfigurationManager configurationManager)
     {
-        _configurationService = configurationService;
+        _configurationManager = configurationManager;
 
         _websocketClient = new WebsocketClient(new Uri($"ws://{Conf.Host}:{Conf.Port}/showdown/websocket"));
     }

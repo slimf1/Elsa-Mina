@@ -21,7 +21,7 @@ public class Bot : IBot
 
     private readonly ILogger _logger;
     private readonly IClient _client;
-    private readonly IConfigurationService _configurationService;
+    private readonly IConfigurationManager _configurationManager;
     private readonly IHttpService _httpService;
     private readonly IClockService _clockService;
     private readonly IContextFactory _contextFactory;
@@ -36,7 +36,7 @@ public class Bot : IBot
 
     public Bot(ILogger logger,
         IClient client,
-        IConfigurationService configurationService,
+        IConfigurationManager configurationManager,
         IHttpService httpService,
         IClockService clockService,
         IContextFactory contextFactory,
@@ -46,7 +46,7 @@ public class Bot : IBot
     {
         _logger = logger;
         _client = client;
-        _configurationService = configurationService;
+        _configurationManager = configurationManager;
         _httpService = httpService;
         _clockService = clockService;
         _contextFactory = contextFactory;
@@ -134,7 +134,7 @@ public class Bot : IBot
         }
 
         var senderId = sender.ToLowerAlphaNum();
-        if (_configurationService.Configuration.RoomBlacklist.Contains(roomId))
+        if (_configurationManager.Configuration.RoomBlacklist.Contains(roomId))
         {
             return;
         }
@@ -161,7 +161,7 @@ public class Bot : IBot
 
     private (string target, string command) ParseMessage(string message)
     {
-        var trigger = _configurationService.Configuration.Trigger;
+        var trigger = _configurationManager.Configuration.Trigger;
         var triggerLength = trigger.Length;
         if (message[..triggerLength] != trigger)
         {
@@ -188,16 +188,16 @@ public class Bot : IBot
             name = name[^2..];
         }
 
-        if (name != _configurationService.Configuration.Name)
+        if (name != _configurationManager.Configuration.Name)
         {
             return;
         }
 
         _logger.Information($"Connection successful, logged in as {name}");
 
-        foreach (var roomId in _configurationService.Configuration.Rooms)
+        foreach (var roomId in _configurationManager.Configuration.Rooms)
         {
-            if (_configurationService.Configuration.RoomBlacklist.Contains(roomId))
+            if (_configurationManager.Configuration.RoomBlacklist.Contains(roomId))
             {
                 continue;
             }
@@ -214,14 +214,14 @@ public class Bot : IBot
         var parameters = new Dictionary<string, string> // Cas d'erreur, deserialisation auto, retry après qq secondes
         {
             ["act"] = "login",
-            ["name"] = _configurationService.Configuration.Name,
-            ["pass"] = _configurationService.Configuration.Password,
+            ["name"] = _configurationManager.Configuration.Name,
+            ["pass"] = _configurationManager.Configuration.Password,
             ["challstr"] = challstr
         };
         var textResponse = await _httpService.PostFormAsync(LOGIN_URL, parameters);
         var jsonResponse = (JObject)JsonConvert.DeserializeObject(textResponse[1..]);
         var nonce = jsonResponse?.GetValue("assertion");
-        _client.Send($"|/trn {_configurationService.Configuration?.Name},0,{nonce}");
+        _client.Send($"|/trn {_configurationManager.Configuration?.Name},0,{nonce}");
     }
 
     private void LoadRoom(string roomId, string message)

@@ -9,7 +9,7 @@ namespace ElsaMina.Test.Core.Services.Rooms;
 public class RoomsManagerTest
 {
     private ILogger _logger;
-    private IConfigurationService _configurationService;
+    private IConfigurationManager _configurationManager;
 
     private RoomsManager _roomsManager;
 
@@ -17,9 +17,9 @@ public class RoomsManagerTest
     public void SetUp()
     {
         _logger = Substitute.For<ILogger>();
-        _configurationService = Substitute.For<IConfigurationService>();
+        _configurationManager = Substitute.For<IConfigurationManager>();
 
-        _roomsManager = new RoomsManager(_logger, _configurationService);
+        _roomsManager = new RoomsManager(_logger, _configurationManager);
     }
 
     private void InitializeFakeRooms()

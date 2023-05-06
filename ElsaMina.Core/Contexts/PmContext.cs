@@ -7,22 +7,22 @@ namespace ElsaMina.Core.Contexts;
 
 public class PmContext : Context
 {
-    private readonly IConfigurationService _configurationService;
+    private readonly IConfigurationManager _configurationManager;
 
     private CultureInfo _currentLocale;
 
-    public PmContext(IConfigurationService configurationService,
+    public PmContext(IConfigurationManager configurationManager,
         IBot bot,
         string target,
         IUser sender,
-        string command) : base(configurationService, bot, target, sender, command)
+        string command) : base(configurationManager, bot, target, sender, command)
     {
-        _configurationService = configurationService;
+        _configurationManager = configurationManager;
 
-        _currentLocale = new CultureInfo(_configurationService.Configuration.DefaultLocaleCode);
+        _currentLocale = new CultureInfo(_configurationManager.Configuration.DefaultLocaleCode);
     }
 
-    public override string RoomId => _configurationService.Configuration.DefaultRoom;
+    public override string RoomId => _configurationManager.Configuration.DefaultRoom;
     public override ContextType Type => ContextType.Pm;
     public override bool IsPm => true;
 

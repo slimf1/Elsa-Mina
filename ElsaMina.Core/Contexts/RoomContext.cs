@@ -12,21 +12,21 @@ public class RoomContext : Context
         ' ', '+', '%', '@', '*', '#', '&'
     };
 
-    private readonly IConfigurationService _configurationService;
+    private readonly IConfigurationManager _configurationManager;
 
     private IRoom _room;
     private long _timestamp;
     private CultureInfo _cultureInfo;
 
-    public RoomContext(IConfigurationService configurationService,
+    public RoomContext(IConfigurationManager configurationManager,
         IBot bot,
         string target,
         IUser sender,
         string command,
         IRoom room,
-        long timestamp) : base(configurationService, bot, target, sender, command)
+        long timestamp) : base(configurationManager, bot, target, sender, command)
     {
-        _configurationService = configurationService;
+        _configurationManager = configurationManager;
 
         _room = room;
         _timestamp = timestamp;
@@ -47,7 +47,7 @@ public class RoomContext : Context
 
     public override bool HasSufficientRank(char requiredRank)
     {
-        return _configurationService.Configuration?.Whitelist?.Contains(Sender.UserId) == true
+        return _configurationManager.Configuration?.Whitelist?.Contains(Sender.UserId) == true
                || RANKS.IndexOf(Sender.Rank) >= RANKS.IndexOf(requiredRank);
     }
 
