@@ -19,7 +19,7 @@ public class CustomCommandList : ICommand
 
     public async Task Run(Context context)
     {
-        var addedCommands = await _addedCommandRepository.GetAllAsync();
+        var addedCommands = await _addedCommandRepository.GetAllAsync(context.RoomId);
         context.Reply($"**Commands**: {string.Join(", ", addedCommands.Select(command => command.Id))}");
     }
 }

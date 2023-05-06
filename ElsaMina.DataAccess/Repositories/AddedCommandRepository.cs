@@ -18,14 +18,14 @@ public class AddedCommandRepository : IAddedCommandRepository
         _dbContext = context;
     }
     
-    public async Task<AddedCommand> GetByIdAsync(string id)
+    public async Task<AddedCommand> GetByIdAsync(string commandId, string roomId)
     {
-        return await _dbContext.Set<AddedCommand>().FirstOrDefaultAsync(x => x.Id == id);
+        return await _dbContext.Set<AddedCommand>().FirstOrDefaultAsync(x => x.Id == commandId && x.RoomId == roomId);
     }
 
-    public async Task<IEnumerable<AddedCommand>> GetAllAsync()
+    public async Task<IEnumerable<AddedCommand>> GetAllAsync(string roomId)
     {
-        return await _dbContext.Set<AddedCommand>().ToListAsync();
+        return await _dbContext.Set<AddedCommand>().Where(command => command.RoomId == roomId).ToListAsync();
     }
 
     public async Task AddAsync(AddedCommand addedCommand)
@@ -40,15 +40,10 @@ public class AddedCommandRepository : IAddedCommandRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(string id)
+    public async Task DeleteAsync(string commandId, string roomId)
     {
-        var addedCommand = await GetByIdAsync(id);
+        var addedCommand = await GetByIdAsync(commandId, roomId);
         _dbContext.Set<AddedCommand>().Remove(addedCommand);
-        await _dbContext.SaveChangesAsync();
-    }
-
-    public async Task Save()
-    {
         await _dbContext.SaveChangesAsync();
     }
 

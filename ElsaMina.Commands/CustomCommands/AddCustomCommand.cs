@@ -53,7 +53,7 @@ public class AddCustomCommand : ICommand
             return;
         }
 
-        var existingCommand = await _addedCommandRepository.GetByIdAsync(command);
+        var existingCommand = await _addedCommandRepository.GetByIdAsync(command, context.RoomId);
         if (existingCommand != null)
         {
             context.Reply("The command already exists.");
@@ -64,11 +64,11 @@ public class AddCustomCommand : ICommand
         {
             Author = context.Sender.Name,
             Content = content,
+            RoomId = context.RoomId,
             CreationDate = DateTime.Now,
             Id = command
         });
-        await _addedCommandRepository.Save();
         
-        context.Reply($"Added command '{command}'");
+        context.Reply($"Successfully added new command : '**{command}**'");
     }
 }
