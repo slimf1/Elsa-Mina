@@ -38,14 +38,12 @@ namespace ElsaMina.DataAccess.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Author")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CreationDate")
+                    b.Property<DateTime?>("CreationDate")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -59,19 +57,33 @@ namespace ElsaMina.DataAccess.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("IsTrophy")
+                    b.Property<bool?>("IsTrophy")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.ToTable("Badges");
+                });
+
+            modelBuilder.Entity("ElsaMina.DataAccess.Models.RoomParameters", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool?>("IsShowingErrorMessages")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Locale")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoomParameters");
                 });
 
             modelBuilder.Entity("ElsaMina.DataAccess.Models.RoomSpecificUserData", b =>
@@ -80,14 +92,12 @@ namespace ElsaMina.DataAccess.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Avatar")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<long>("OnTime")
+                    b.Property<long?>("OnTime")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -101,10 +111,9 @@ namespace ElsaMina.DataAccess.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("RegDate")
+                    b.Property<DateTime?>("RegDate")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
