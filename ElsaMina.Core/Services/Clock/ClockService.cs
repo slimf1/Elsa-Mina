@@ -2,5 +2,6 @@
 
 public class ClockService : IClockService
 {
-    public DateTimeOffset Now => DateTimeOffset.Now;
+    public DateTimeOffset CurrentDateTimeOffset => DateTimeOffset.Now;
+    public DateTime CurrentDateTime => DateTime.Now;
 }

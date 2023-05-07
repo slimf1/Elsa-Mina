@@ -1,7 +1,7 @@
 ﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
-using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 
@@ -15,12 +15,15 @@ public class AddCustomCommand : ICommand
 
     private readonly IAddedCommandRepository _addedCommandRepository;
     private readonly IConfigurationManager _configurationManager;
+    private readonly IClockService _clockService;
     
     public AddCustomCommand(IAddedCommandRepository addedCommandRepository,
-        IConfigurationManager configurationManager)
+        IConfigurationManager configurationManager,
+        IClockService clockService)
     {
         _addedCommandRepository = addedCommandRepository;
         _configurationManager = configurationManager;
+        _clockService = clockService;
     }
 
     public async Task Run(IContext context)
@@ -65,7 +68,7 @@ public class AddCustomCommand : ICommand
             Author = context.Sender.Name,
             Content = content,
             RoomId = context.RoomId,
-            CreationDate = DateTime.Now,
+            CreationDate = _clockService.CurrentDateTime,
             Id = command
         });
         

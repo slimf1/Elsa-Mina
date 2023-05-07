@@ -2,5 +2,6 @@ namespace ElsaMina.Core.Services.Clock;
 
 public interface IClockService
 {
-    DateTimeOffset Now { get; }
+    DateTimeOffset CurrentDateTimeOffset { get; }
+    DateTime CurrentDateTime { get; }
 }

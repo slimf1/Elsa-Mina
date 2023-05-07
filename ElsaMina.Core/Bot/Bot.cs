@@ -229,7 +229,7 @@ public class Bot : IBot
     public void Send(string message)
     {
         if ((_lastMessage == message &&
-             _clockService.Now.ToUnixTimeSeconds() - _lastMessageTime < SAME_MESSAGE_COOLDOWN) ||
+             _clockService.CurrentDateTimeOffset.ToUnixTimeSeconds() - _lastMessageTime < SAME_MESSAGE_COOLDOWN) ||
             message.Length > MESSAGE_LENGTH_LIMIT)
         {
             return;
@@ -239,7 +239,7 @@ public class Bot : IBot
 
         _client.Send(message);
         _lastMessage = message;
-        _lastMessageTime = _clockService.Now.ToUnixTimeSeconds();
+        _lastMessageTime = _clockService.CurrentDateTimeOffset.ToUnixTimeSeconds();
         Thread.Sleep(250);
     }
 

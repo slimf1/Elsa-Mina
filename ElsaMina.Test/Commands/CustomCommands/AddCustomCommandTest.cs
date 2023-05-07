@@ -1,6 +1,7 @@
 ﻿using ElsaMina.Commands.CustomCommands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
+using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
@@ -13,6 +14,7 @@ public class AddCustomCommandTest
 {
     private IAddedCommandRepository _addedCommandRepository;
     private IConfigurationManager _configurationManager;
+    private IClockService _clockService;
 
     private AddCustomCommand _addCustomCommand;
 
@@ -21,14 +23,17 @@ public class AddCustomCommandTest
     {
         _addedCommandRepository = Substitute.For<IAddedCommandRepository>();
         _configurationManager = Substitute.For<IConfigurationManager>();
+        _clockService = Substitute.For<IClockService>();
 
-        _addCustomCommand = new AddCustomCommand(_addedCommandRepository, _configurationManager);
+        _addCustomCommand = new AddCustomCommand(_addedCommandRepository, _configurationManager, _clockService);
     }
 
     [Test]
     public async Task Test_Run_ShouldAddCommandToDatabase_WhenHasValidArguments()
     {
         // Arrange
+        var date = new DateTime(2022, 2, 3);
+        _clockService.CurrentDateTime.Returns(date);
         var context = Substitute.For<IContext>();
         context.Target.Returns("test-command,Test command content");
         context.Sender.Returns(new User("John", '+'));
@@ -46,7 +51,8 @@ public class AddCustomCommandTest
                 c.Id == "test-command" &&
                 c.Content == "Test command content" &&
                 c.RoomId == "room-1" &&
-                c.Author == "John"));
+                c.Author == "John" &&
+                c.CreationDate == date));
         context.Received(1).Reply("Successfully added new command : '**test-command**'");
     }
 
