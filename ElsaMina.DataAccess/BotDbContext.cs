@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using ElsaMina.DataAccess.Models;
+﻿using ElsaMina.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.DataAccess;
@@ -26,10 +25,13 @@ public class BotDbContext : DbContext
 
         modelBuilder.Entity<AddedCommand>()
             .HasKey(command => new { command.Id, command.RoomId });
+        modelBuilder.Entity<Badge>()
+            .HasKey(badge => new { badge.Id, badge.RoomId });
         modelBuilder.Entity<RoomSpecificUserData>()
             .HasMany(userData => userData.Badges)
             .WithMany(badge => badge.BadgeHolders)
-            .UsingEntity(builder => builder.ToTable("BadgeHoldings"));
+            .UsingEntity(builder => builder.ToTable("BadgeHoldings"))
+            .HasKey(userData => new { userData.Id, userData.RoomId });
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

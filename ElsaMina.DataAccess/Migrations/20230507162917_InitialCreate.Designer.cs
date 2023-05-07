@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElsaMina.DataAccess.Migrations
 {
     [DbContext(typeof(BotDbContext))]
-    [Migration("20230506210929_AddRoomColumnToAddedCommand")]
-    partial class AddRoomColumnToAddedCommand
+    [Migration("20230507162917_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,12 +25,18 @@ namespace ElsaMina.DataAccess.Migrations
                     b.Property<string>("BadgeHoldersId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("BadgeHoldersRoomId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("BadgesId")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("BadgeHoldersId", "BadgesId");
+                    b.Property<string>("BadgesRoomId")
+                        .HasColumnType("TEXT");
 
-                    b.HasIndex("BadgesId");
+                    b.HasKey("BadgeHoldersId", "BadgeHoldersRoomId", "BadgesId", "BadgesRoomId");
+
+                    b.HasIndex("BadgesId", "BadgesRoomId");
 
                     b.ToTable("BadgeHoldings", (string)null);
                 });
@@ -62,6 +68,9 @@ namespace ElsaMina.DataAccess.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("RoomId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Image")
                         .HasColumnType("TEXT");
 
@@ -71,7 +80,7 @@ namespace ElsaMina.DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "RoomId");
 
                     b.ToTable("Badges");
                 });
@@ -97,6 +106,9 @@ namespace ElsaMina.DataAccess.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("RoomId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Avatar")
                         .HasColumnType("TEXT");
 
@@ -106,7 +118,7 @@ namespace ElsaMina.DataAccess.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "RoomId");
 
                     b.ToTable("UserData");
                 });
@@ -131,13 +143,13 @@ namespace ElsaMina.DataAccess.Migrations
                 {
                     b.HasOne("ElsaMina.DataAccess.Models.RoomSpecificUserData", null)
                         .WithMany()
-                        .HasForeignKey("BadgeHoldersId")
+                        .HasForeignKey("BadgeHoldersId", "BadgeHoldersRoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ElsaMina.DataAccess.Models.Badge", null)
                         .WithMany()
-                        .HasForeignKey("BadgesId")
+                        .HasForeignKey("BadgesId", "BadgesRoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

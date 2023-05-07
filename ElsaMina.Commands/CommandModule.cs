@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using ElsaMina.Commands.Badges;
 using ElsaMina.Commands.CustomCommands;
 using ElsaMina.Commands.Development;
 using ElsaMina.Core.Commands;
@@ -13,6 +14,7 @@ public class CommandModule : Module
         RegisterCommand<Ping>(builder);
         RegisterCommand<AddCustomCommand>(builder);
         RegisterCommand<CustomCommandList>(builder);
+        RegisterCommand<AddBadge>(builder);
     }
 
     private static void RegisterCommand<T>(ContainerBuilder builder) where T : ICommand

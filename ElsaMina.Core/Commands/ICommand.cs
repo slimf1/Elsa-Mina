@@ -13,7 +13,7 @@ public interface ICommand
     protected virtual string HelpMessage => "";
     protected virtual bool IsHidden => false;
 
-    public async Task Call(IContext context)
+    public sealed async Task Call(IContext context)
     {
         if (IsPrivateMessageOnly && !context.IsPm)
         {
