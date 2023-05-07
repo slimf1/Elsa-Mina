@@ -2,6 +2,7 @@
 using ElsaMina.Core.Bot;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Services.Resources;
 
 namespace ElsaMina.Core.Contexts;
 
@@ -12,10 +13,11 @@ public class PmContext : Context
     private CultureInfo _currentLocale;
 
     public PmContext(IConfigurationManager configurationManager,
+        IResourcesService resourcesService,
         IBot bot,
         string target,
         IUser sender,
-        string command) : base(configurationManager, bot, target, sender, command)
+        string command) : base(configurationManager, resourcesService, bot, target, sender, command)
     {
         _configurationManager = configurationManager;
 

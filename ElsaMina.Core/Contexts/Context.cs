@@ -2,12 +2,14 @@
 using ElsaMina.Core.Bot;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Services.Resources;
 
 namespace ElsaMina.Core.Contexts;
 
 public abstract class Context : IContext
 {
     private readonly IConfigurationManager _configurationManager;
+    private readonly IResourcesService _resourcesService;
     
     public IBot Bot { get; }
     public string Target { get; }
@@ -15,12 +17,14 @@ public abstract class Context : IContext
     public string Command { get; }
 
     protected Context(IConfigurationManager configurationManager,
+        IResourcesService resourcesService,
         IBot bot,
         string target,
         IUser sender,
         string command)
     {
         _configurationManager = configurationManager;
+        _resourcesService = resourcesService;
         
         Bot = bot;
         Target = target;
@@ -36,6 +40,11 @@ public abstract class Context : IContext
     public void SendHtmlPage(string pageName, string html)
     {
         Bot.Say(RoomId, $"/sendhtmlpage {Sender.UserId}, {pageName}, {html}");
+    }
+    
+    public string GetString(string key)
+    {
+        return _resourcesService.GetString(key, Locale);
     }
 
     public abstract string RoomId { get; }

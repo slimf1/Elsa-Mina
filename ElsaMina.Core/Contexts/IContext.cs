@@ -15,7 +15,8 @@ public interface IContext
     ContextType Type { get; }
     bool IsPm { get; }
     CultureInfo Locale { get; set; }
-    
+
+    string GetString(string key);
     void SendHtmlPage(string pageName, string html);
     bool HasSufficientRank(char requiredRank);
     void Reply(string message);

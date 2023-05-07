@@ -2,6 +2,8 @@
 using ElsaMina.Core.Bot;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Services.Resources;
+using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Core.Contexts;
 
@@ -16,15 +18,15 @@ public class RoomContext : Context
 
     private IRoom _room;
     private long _timestamp;
-    private CultureInfo _cultureInfo;
 
     public RoomContext(IConfigurationManager configurationManager,
+        IResourcesService resourcesService,
         IBot bot,
         string target,
         IUser sender,
         string command,
         IRoom room,
-        long timestamp) : base(configurationManager, bot, target, sender, command)
+        long timestamp) : base(configurationManager, resourcesService, bot, target, sender, command)
     {
         _configurationManager = configurationManager;
 
@@ -39,10 +41,7 @@ public class RoomContext : Context
     public override CultureInfo Locale
     {
         get => new(_room.Locale);
-        set
-        {
-            // TODO
-        }
+        set => _room.Locale = value.Name;
     }
 
     public override bool HasSufficientRank(char requiredRank)

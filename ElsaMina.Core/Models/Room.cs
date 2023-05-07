@@ -7,7 +7,7 @@ public class Room : IRoom
     public string RoomId { get; }
     public string Name { get; }
     public IDictionary<string, IUser> Users { get; } = new Dictionary<string, IUser>();
-    public string Locale { get; }
+    public string Locale { get; set; }
 
     public Room(string roomTitle, string roomId, string locale)
     {

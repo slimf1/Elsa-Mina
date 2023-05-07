@@ -7,6 +7,11 @@ public class RoomParametersRepository : IRoomParametersRepository
 {
     private readonly DbContext _dbContext;
 
+    public RoomParametersRepository() : this(new BotDbContext())
+    {
+        
+    }
+    
     public RoomParametersRepository(DbContext dbContext)
     {
         _dbContext = dbContext;

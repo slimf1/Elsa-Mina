@@ -69,7 +69,7 @@ public class Bot : IBot
 
         if (lines.Length > 2 && lines[1].StartsWith("|init|chat"))
         {
-            LoadRoom(room, message);
+            await LoadRoom(room, message);
         }
         else
         {
@@ -217,13 +217,13 @@ public class Bot : IBot
         _client.Send($"|/trn {response.CurrentUser.Username},0,{response.Assertion}");
     }
 
-    private void LoadRoom(string roomId, string message)
+    private async Task LoadRoom(string roomId, string message)
     {
         var parts = message.Split("\n");
         var roomTitle = parts[2].Split("|")[2];
         var users = parts[3].Split("|")[2].Split(",")[1..];
 
-        _roomsManager.InitializeRoom(roomId, roomTitle, users);
+        await _roomsManager.InitializeRoom(roomId, roomTitle, users);
     }
 
     public void Send(string message)

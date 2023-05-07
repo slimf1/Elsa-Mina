@@ -13,13 +13,13 @@ public class HttpService : IHttpService
         var content = new StringContent(serializedJson);
         var response = await HTTP_CLIENT.PostAsync(uri, content);
         var stringContent = await response.Content.ReadAsStringAsync();
-        if (removeFirstCharacterFromResponse)
-        {
-            stringContent = stringContent[1..];
-        }
         if (!response.IsSuccessStatusCode)
         {
             throw new HttpException(response.StatusCode, stringContent);
+        }
+        if (removeFirstCharacterFromResponse)
+        {
+            stringContent = stringContent[1..];
         }
         return JsonConvert.DeserializeObject<TResponse>(stringContent);
     }
@@ -30,13 +30,13 @@ public class HttpService : IHttpService
         var content = new FormUrlEncodedContent(form);
         var response = await HTTP_CLIENT.PostAsync(uri, content);
         var stringContent = await response.Content.ReadAsStringAsync();
-        if (removeFirstCharacterFromResponse)
-        {
-            stringContent = stringContent[1..];
-        }
         if (!response.IsSuccessStatusCode)
         {
             throw new HttpException(response.StatusCode, stringContent);
+        }
+        if (removeFirstCharacterFromResponse)
+        {
+            stringContent = stringContent[1..];
         }
         return JsonConvert.DeserializeObject<TResponse>(stringContent);
     }

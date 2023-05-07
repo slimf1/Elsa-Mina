@@ -1,5 +1,6 @@
 ﻿using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
+using ElsaMina.DataAccess.Repositories;
 using Serilog;
 
 namespace ElsaMina.Core.Services.Rooms;
@@ -8,14 +9,17 @@ public class RoomsManager : IRoomsManager
 {
     private readonly ILogger _logger;
     private readonly IConfigurationManager _configurationManager;
-    
-    private readonly IDictionary<string, IRoom> _rooms = new Dictionary<string, IRoom>();
+    private readonly IRoomParametersRepository _roomParametersRepository;
+
+    private readonly Dictionary<string, IRoom> _rooms = new();
 
     public RoomsManager(ILogger logger,
-        IConfigurationManager configurationManager)
+        IConfigurationManager configurationManager,
+        IRoomParametersRepository roomParametersRepository)
     {
         _logger = logger;
         _configurationManager = configurationManager;
+        _roomParametersRepository = roomParametersRepository;
     }
 
     public IRoom GetRoom(string roomId)
@@ -28,10 +32,12 @@ public class RoomsManager : IRoomsManager
         return _rooms.ContainsKey(roomId);
     }
 
-    public void InitializeRoom(string roomId, string roomTitle, IEnumerable<string> userIds)
+    public async Task InitializeRoom(string roomId, string roomTitle, IEnumerable<string> userIds)
     {
         _logger.Information($"Initializing {roomTitle}...");
-        var room = new Room(roomTitle, roomId, _configurationManager.Configuration.DefaultLocaleCode);
+        var roomParameters = await _roomParametersRepository.GetByIdAsync(roomId);
+        var defaultLocale = roomParameters?.Locale ?? _configurationManager.Configuration.DefaultLocaleCode;
+        var room = new Room(roomTitle, roomId, defaultLocale);
 
         foreach (var userId in userIds)
         {
