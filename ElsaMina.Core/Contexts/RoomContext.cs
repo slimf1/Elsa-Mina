@@ -47,7 +47,7 @@ public class RoomContext : Context
 
     public override bool HasSufficientRank(char requiredRank)
     {
-        return _configurationManager.Configuration?.Whitelist?.Contains(Sender.UserId) == true
+        return _configurationManager.Configuration.Whitelist.Contains(Sender.UserId)
                || RANKS.IndexOf(Sender.Rank) >= RANKS.IndexOf(requiredRank);
     }
 

@@ -5,6 +5,6 @@ namespace ElsaMina.Core.Contexts;
 
 public interface IContextFactory
 {
-    Context GetContext(ContextType type, IBot bot, string target, IUser sender, string command, IRoom room = null,
+    IContext GetContext(ContextType type, IBot bot, string target, IUser sender, string command, IRoom room = null,
         long timestamp = 0);
 }

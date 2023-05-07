@@ -5,5 +5,5 @@ namespace ElsaMina.Core.Services.Commands;
 public interface ICommandExecutor
 {
     bool HasCommand(string commandName);
-    Task TryExecuteCommand(string commandName, Context context);
+    Task TryExecuteCommand(string commandName, IContext context);
 }

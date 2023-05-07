@@ -5,7 +5,7 @@ using ElsaMina.Core.Services.Config;
 
 namespace ElsaMina.Core.Contexts;
 
-public abstract class Context
+public abstract class Context : IContext
 {
     private readonly IConfigurationManager _configurationManager;
     

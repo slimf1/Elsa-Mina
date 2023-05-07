@@ -23,7 +23,7 @@ public class AddCustomCommand : ICommand
         _configurationManager = configurationManager;
     }
 
-    public async Task Run(Context context)
+    public async Task Run(IContext context)
     {
         var arguments = context.Target.Split(",");
         if (arguments.Length < 2)
@@ -31,10 +31,10 @@ public class AddCustomCommand : ICommand
             return;
         }
 
-        var command = arguments[0].ToLowerAlphaNum();
+        var command = arguments[0].Trim().ToLower();
         var content = arguments[1].Trim();
 
-        if (command.Length > 15)
+        if (command.Length > 18)
         {
             context.Reply("Command name is too long.");
             return;
@@ -42,14 +42,14 @@ public class AddCustomCommand : ICommand
 
         if (content.Length > 300)
         {
-            context.Reply("Command content is too long");
+            context.Reply("Command content is too long.");
             return;
         }
 
         if (content.StartsWith(_configurationManager.Configuration.Trigger) || content.StartsWith("/") ||
             content.StartsWith("!"))
         {
-            context.Reply("The command's content cannot start with this character");
+            context.Reply("The command's content cannot start with this character.");
             return;
         }
 

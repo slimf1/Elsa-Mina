@@ -13,7 +13,7 @@ public class ContextFactory : IContextFactory
         _configurationManager = configurationManager;
     }
 
-    public Context GetContext(ContextType type,
+    public IContext GetContext(ContextType type,
         IBot bot,
         string target,
         IUser sender,

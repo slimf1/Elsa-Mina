@@ -19,6 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ElsaMina.Commands\ElsaMina.Commands.csproj" />
       <ProjectReference Include="..\ElsaMina.Core\ElsaMina.Core.csproj" />
     </ItemGroup>
 

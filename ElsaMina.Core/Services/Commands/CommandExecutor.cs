@@ -22,7 +22,7 @@ public class CommandExecutor : ICommandExecutor
         return _dependencyContainerService.IsCommandRegistered(commandName);
     }
     
-    public async Task TryExecuteCommand(string commandName, Context context)
+    public async Task TryExecuteCommand(string commandName, IContext context)
     {
         var commandInstance = _dependencyContainerService.ResolveCommand<ICommand>(commandName);
         if (commandInstance == null)

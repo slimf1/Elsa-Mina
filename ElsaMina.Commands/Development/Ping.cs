@@ -12,7 +12,7 @@ public class Ping : ICommand
     public static char RequiredRank => '+';
     public static string HelpMessage => "Returns pong.";
 
-    public Task Run(Context context)
+    public Task Run(IContext context)
     {
         context.Reply("pong");
         return Task.CompletedTask;
