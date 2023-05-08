@@ -45,4 +45,13 @@
     <data name="addcommand_success" xml:space="preserve">
         <value>Successfully added new command : **{0}**.</value>
     </data>
+    <data name="room_dashboard" xml:space="preserve">
+        <value>{0}'s dashboard</value>
+    </data>
+    <data name="submit" xml:space="preserve">
+        <value>Submit</value>
+    </data>
+    <data name="dashboard_room_doesnt_exist" xml:space="preserve">
+        <value>Room {0} not found.</value>
+    </data>
 </root>

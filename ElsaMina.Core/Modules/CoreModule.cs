@@ -9,6 +9,7 @@ using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Login;
+using ElsaMina.Core.Services.PrivateMessages;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using Serilog;
@@ -40,6 +41,7 @@ public class CoreModule : Module
         builder.RegisterType<FormatsManager>().As<IFormatsManager>().SingleInstance();
         builder.RegisterType<LoginService>().As<ILoginService>().SingleInstance();
         builder.RegisterType<ResourcesService>().As<IResourcesService>().SingleInstance();
+        builder.RegisterType<PmSendersManager>().As<IPmSendersManager>().SingleInstance();
 
         builder.RegisterType<Client.Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot.Bot>().As<IBot>().AsSelf().SingleInstance();

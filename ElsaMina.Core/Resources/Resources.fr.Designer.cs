@@ -132,11 +132,38 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Salle {0} introuvable..
+        /// </summary>
+        internal static string dashboard_room_doesnt_exist {
+            get {
+                return ResourceManager.GetString("dashboard_room_doesnt_exist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Elsa-Mina v7 : Bot en développement.
         /// </summary>
         internal static string help {
             get {
                 return ResourceManager.GetString("help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Panneau d&apos;administration de {0}.
+        /// </summary>
+        internal static string room_dashboard {
+            get {
+                return ResourceManager.GetString("room_dashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Valider.
+        /// </summary>
+        internal static string submit {
+            get {
+                return ResourceManager.GetString("submit", resourceCulture);
             }
         }
     }

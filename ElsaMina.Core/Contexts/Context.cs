@@ -44,7 +44,10 @@ public abstract class Context : IContext
     
     public string GetString(string key)
     {
-        return _resourcesService.GetString(key, Locale);
+        var localizedString = _resourcesService.GetString(key, Locale);
+        return string.IsNullOrEmpty(localizedString)
+            ? key
+            : localizedString;
     }
 
     public string GetString(string key, params object[] formatArguments)

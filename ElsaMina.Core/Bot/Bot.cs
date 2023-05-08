@@ -5,6 +5,7 @@ using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Login;
+using ElsaMina.Core.Services.PrivateMessages;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
 using Serilog;
@@ -25,6 +26,7 @@ public class Bot : IBot
     private readonly IRoomsManager _roomsManager;
     private readonly IFormatsManager _formatsManager;
     private readonly ILoginService _loginService;
+    private readonly IPmSendersManager _pmSendersManager;
 
     private readonly SemaphoreSlim _loadRoomSemaphore = new(1, 1);
     private string _currentRoom;
@@ -40,7 +42,8 @@ public class Bot : IBot
         ICommandExecutor commandExecutor,
         IRoomsManager roomsManager,
         IFormatsManager formatsManager,
-        ILoginService loginService)
+        ILoginService loginService,
+        IPmSendersManager pmSendersManager)
     {
         _logger = logger;
         _client = client;
@@ -51,6 +54,7 @@ public class Bot : IBot
         _roomsManager = roomsManager;
         _formatsManager = formatsManager;
         _loginService = loginService;
+        _pmSendersManager = pmSendersManager;
     }
 
     public async Task Start()
@@ -129,6 +133,29 @@ public class Bot : IBot
             case "c:":
                 await HandleChatMessage(parts[4], parts[3], roomId, long.Parse(parts[2]));
                 break;
+            case "pm":
+                await HandlePrivateMessage(parts[4], parts[2]);
+                break;
+        }
+    }
+
+    private async Task HandlePrivateMessage(string message, string sender)
+    {
+        var user = _pmSendersManager.GetUser(sender);
+        var (target, command) = ParseMessage(message);
+        if (target == null || command == null || !_commandExecutor.HasCommand(command))
+        {
+            return;
+        }
+
+        var context = _contextFactory.GetContext(ContextType.Pm, this, target, user, command);
+        try
+        {
+            await _commandExecutor.TryExecuteCommand(command, context);
+        }
+        catch (Exception exception)
+        {
+            _logger.Error(exception, "Pm Command execution crashed");
         }
     }
 
@@ -161,7 +188,7 @@ public class Bot : IBot
         }
         catch (Exception exception)
         {
-            _logger.Error(exception, "Command execution crashed");
+            _logger.Error(exception, "Room Command execution crashed");
         }
     }
 

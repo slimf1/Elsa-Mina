@@ -45,4 +45,13 @@
     <data name="addcommand_success" xml:space="preserve">
         <value>La commande **{0}** a été ajoutée avec succès.</value>
     </data>
+    <data name="room_dashboard" xml:space="preserve">
+        <value>Panneau d'administration de {0}</value>
+    </data>
+    <data name="submit" xml:space="preserve">
+        <value>Valider</value>
+    </data>
+    <data name="dashboard_room_doesnt_exist" xml:space="preserve">
+        <value>Salle {0} introuvable.</value>
+    </data>
 </root>
