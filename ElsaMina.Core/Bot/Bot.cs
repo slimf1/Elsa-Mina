@@ -26,6 +26,7 @@ public class Bot : IBot
     private readonly IFormatsManager _formatsManager;
     private readonly ILoginService _loginService;
 
+    private readonly SemaphoreSlim _loadRoomSemaphore = new(1, 1);
     private string _currentRoom;
     private string _lastMessage;
     private long _lastMessageTime;
@@ -69,7 +70,15 @@ public class Bot : IBot
 
         if (lines.Length > 2 && lines[1].StartsWith("|init|chat"))
         {
-            await LoadRoom(room, message);
+            try
+            {
+                await _loadRoomSemaphore.WaitAsync();
+                await LoadRoom(room, message);
+            }
+            finally
+            {
+                _loadRoomSemaphore.Release();
+            }
         }
         else
         {
