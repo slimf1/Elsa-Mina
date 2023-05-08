@@ -54,4 +54,22 @@
     <data name="dashboard_room_doesnt_exist" xml:space="preserve">
         <value>Room {0} not found.</value>
     </data>
+    <data name="dashboard_locale_name" xml:space="preserve">
+        <value>Locale</value>
+    </data>
+    <data name="dashboard_locale_description" xml:space="preserve">
+        <value>The locale used by the bot in this room.</value>
+    </data>
+    <data name="dashboard_errors_name" xml:space="preserve">
+        <value>Show commands errors</value>
+    </data>
+    <data name="dashboard_errors_description" xml:space="preserve">
+        <value>Shows the stacktrace of a command that crashed.</value>
+    </data>
+    <data name="dashboard_autocorrect_name" xml:space="preserve">
+        <value>Show command suggestions</value>
+    </data>
+    <data name="dashboard_autocorrect_description" xml:space="preserve">
+        <value>Shows suggested commands when someone tries to use a command that doesn't exist.</value>
+    </data>
 </root>

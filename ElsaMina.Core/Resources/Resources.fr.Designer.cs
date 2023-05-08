@@ -132,6 +132,60 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Affiche des commandes suggérées lorsque quelqu&apos;un essaye d&apos;utiliser une commande qui n&apos;existe pas..
+        /// </summary>
+        internal static string dashboard_autocorrect_description {
+            get {
+                return ResourceManager.GetString("dashboard_autocorrect_description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Affiche les commandes suggérées.
+        /// </summary>
+        internal static string dashboard_autocorrect_name {
+            get {
+                return ResourceManager.GetString("dashboard_autocorrect_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Affiche la stacktrace d&apos;une commande qui aurait crash..
+        /// </summary>
+        internal static string dashboard_errors_description {
+            get {
+                return ResourceManager.GetString("dashboard_errors_description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Afficher les erreurs des commandes.
+        /// </summary>
+        internal static string dashboard_errors_name {
+            get {
+                return ResourceManager.GetString("dashboard_errors_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La langue du bot dans la salle..
+        /// </summary>
+        internal static string dashboard_locale_description {
+            get {
+                return ResourceManager.GetString("dashboard_locale_description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Langue.
+        /// </summary>
+        internal static string dashboard_locale_name {
+            get {
+                return ResourceManager.GetString("dashboard_locale_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Salle {0} introuvable..
         /// </summary>
         internal static string dashboard_room_doesnt_exist {

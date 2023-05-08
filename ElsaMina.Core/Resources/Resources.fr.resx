@@ -54,4 +54,22 @@
     <data name="dashboard_room_doesnt_exist" xml:space="preserve">
         <value>Salle {0} introuvable.</value>
     </data>
+    <data name="dashboard_locale_name" xml:space="preserve">
+        <value>Langue</value>
+    </data>
+    <data name="dashboard_locale_description" xml:space="preserve">
+        <value>La langue du bot dans la salle.</value>
+    </data>
+    <data name="dashboard_errors_name" xml:space="preserve">
+        <value>Afficher les erreurs des commandes</value>
+    </data>
+    <data name="dashboard_errors_description" xml:space="preserve">
+        <value>Affiche la stacktrace d'une commande qui aurait crash.</value>
+    </data>
+    <data name="dashboard_autocorrect_name" xml:space="preserve">
+        <value>Affiche les commandes suggérées</value>
+    </data>
+    <data name="dashboard_autocorrect_description" xml:space="preserve">
+        <value>Affiche des commandes suggérées lorsque quelqu'un essaye d'utiliser une commande qui n'existe pas.</value>
+    </data>
 </root>
