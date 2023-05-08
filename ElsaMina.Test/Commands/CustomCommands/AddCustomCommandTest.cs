@@ -53,7 +53,7 @@ public class AddCustomCommandTest
                 c.RoomId == "room-1" &&
                 c.Author == "John" &&
                 c.CreationDate == date));
-        context.Received(1).Reply("Successfully added new command : '**test-command**'");
+        context.Received(1).Reply(context.GetString("addcommand_success", "test-command"));
     }
 
     [Test]
@@ -67,7 +67,7 @@ public class AddCustomCommandTest
         await _addCustomCommand.Run(context);
 
         // Assert
-        context.Received(1).Reply("Command name is too long.");
+        context.Received(1).Reply(context.GetString("addcommand_name_too_long"));
         await _addedCommandRepository.DidNotReceive().AddAsync(Arg.Any<AddedCommand>());
     }
 
@@ -82,7 +82,7 @@ public class AddCustomCommandTest
         await _addCustomCommand.Run(context);
 
         // Assert
-        context.Received(1).Reply("Command content is too long.");
+        context.Received(1).Reply(context.GetString("addcommand_content_too_long"));
         await _addedCommandRepository.DidNotReceive().AddAsync(Arg.Any<AddedCommand>());
     }
 
@@ -98,7 +98,7 @@ public class AddCustomCommandTest
         await _addCustomCommand.Run(context);
 
         // Assert
-        context.Received(1).Reply("The command's content cannot start with this character.");
+        context.Received(1).Reply(context.GetString("addcommand_bad_first_char"));
         await _addedCommandRepository.DidNotReceive().AddAsync(Arg.Any<AddedCommand>());
     }
 
@@ -116,7 +116,7 @@ public class AddCustomCommandTest
         await _addCustomCommand.Run(context);
 
         // Assert
-        context.Received(1).Reply("The command already exists.");
+        context.Received(1).Reply(context.GetString("addcommand_already_exist"));
         await _addedCommandRepository.DidNotReceive().AddAsync(Arg.Any<AddedCommand>());
     }
 }
