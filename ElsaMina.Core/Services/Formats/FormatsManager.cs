@@ -10,7 +10,7 @@ public class FormatsManager : IFormatsManager
 
     public void ParseFormatsFromReceivedLine(string message)
     {
-        var formats = message.Split("|")[5..];
+        var formats = message.Split("|")[4..];
         foreach (var format in formats)
         {
             if (!format.StartsWith("[Gen"))
@@ -23,6 +23,6 @@ public class FormatsManager : IFormatsManager
 
     public string GetFormattedTier(string tier)
     {
-        return _formats.FirstOrDefault(format => format.ToLowerAlphaNum() == tier);
+        return _formats.FirstOrDefault(format => format.ToLowerAlphaNum() == tier) ?? tier;
     }
 }
