@@ -47,6 +47,11 @@ public abstract class Context : IContext
         return _resourcesService.GetString(key, Locale);
     }
 
+    public string GetString(string key, params object[] formatArguments)
+    {
+        return string.Format(GetString(key), formatArguments);
+    }
+
     public abstract string RoomId { get; }
     public abstract ContextType Type { get; }
     public abstract bool IsPm { get; }

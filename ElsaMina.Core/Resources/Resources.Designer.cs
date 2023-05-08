@@ -60,6 +60,78 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The command already exist..
+        /// </summary>
+        internal static string addcommand_already_exist {
+            get {
+                return ResourceManager.GetString("addcommand_already_exist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The command&apos;s content cannot start with this character..
+        /// </summary>
+        internal static string addcommand_bad_first_char {
+            get {
+                return ResourceManager.GetString("addcommand_bad_first_char", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Command content is too long..
+        /// </summary>
+        internal static string addcommand_content_too_long {
+            get {
+                return ResourceManager.GetString("addcommand_content_too_long", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Command name is too long..
+        /// </summary>
+        internal static string addcommand_name_too_long {
+            get {
+                return ResourceManager.GetString("addcommand_name_too_long", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully added new command : **{0}**..
+        /// </summary>
+        internal static string addcommand_success {
+            get {
+                return ResourceManager.GetString("addcommand_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occured while adding the badge : {0}.
+        /// </summary>
+        internal static string badge_add_failure_message {
+            get {
+                return ResourceManager.GetString("badge_add_failure_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New badge added successfully..
+        /// </summary>
+        internal static string badge_add_success_message {
+            get {
+                return ResourceManager.GetString("badge_add_success_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adds a new badge. Syntax : -add-badge &lt;name&gt;, &lt;image&gt;. Use -add-trophy to add a trophy..
+        /// </summary>
+        internal static string badge_help_message {
+            get {
+                return ResourceManager.GetString("badge_help_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Elsa-Mina v7 : Bot in development.
         /// </summary>
         internal static string help {

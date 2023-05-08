@@ -39,27 +39,27 @@ public class AddCustomCommand : ICommand
 
         if (command.Length > 18)
         {
-            context.Reply("Command name is too long.");
+            context.Reply(context.GetString("addcommand_name_too_long"));
             return;
         }
 
         if (content.Length > 300)
         {
-            context.Reply("Command content is too long.");
+            context.Reply(context.GetString("addcommand_content_too_long"));
             return;
         }
 
         if (content.StartsWith(_configurationManager.Configuration.Trigger) || content.StartsWith("/") ||
             content.StartsWith("!"))
         {
-            context.Reply("The command's content cannot start with this character.");
+            context.Reply(context.GetString("addcommand_bad_first_char"));
             return;
         }
 
         var existingCommand = await _addedCommandRepository.GetByIdAsync(command, context.RoomId);
         if (existingCommand != null)
         {
-            context.Reply("The command already exists.");
+            context.Reply(context.GetString("addcommand_already_exist"));
             return;
         }
 
@@ -72,6 +72,6 @@ public class AddCustomCommand : ICommand
             Id = command
         });
         
-        context.Reply($"Successfully added new command : '**{command}**'");
+        context.Reply(context.GetString("addcommand_success", command));
     }
 }

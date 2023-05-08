@@ -27,8 +27,7 @@ public class AddBadge : ICommand
         var arguments = context.Target.Split(",");
         if (arguments.Length != 2)
         {
-            // TODO : help message (i18n)
-            context.Reply("Invalid syntax : -add-badge <name>, <image>");
+            context.Reply(context.GetString("badge_help_message"));
             return;
         }
 
@@ -45,11 +44,11 @@ public class AddBadge : ICommand
                 Id = name.ToLowerAlphaNum(),
                 IsTrophy = isTrophy
             });
-            context.Reply("Added new badge ");
+            context.Reply(context.GetString("badge_add_success_message"));
         }
         catch (Exception exception)
         {
-            context.Reply($"An error occured : {exception.Message}");
+            context.Reply( context.GetString("badge_add_failure_message", exception.Message));
         }
     }
 }

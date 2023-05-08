@@ -17,6 +17,7 @@ public interface IContext
     CultureInfo Locale { get; set; }
 
     string GetString(string key);
+    string GetString(string key, params object[] formatArguments);
     void SendHtmlPage(string pageName, string html);
     bool HasSufficientRank(char requiredRank);
     void Reply(string message);

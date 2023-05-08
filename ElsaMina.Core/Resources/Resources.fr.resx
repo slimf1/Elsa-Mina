@@ -21,4 +21,28 @@
     <data name="help" xml:space="preserve">
         <value>Elsa-Mina v7 : Bot en développement</value>
     </data>
+    <data name="badge_help_message" xml:space="preserve">
+        <value>Ajoute un nouveau badge. Syntaxe : -add-badge &lt;nom&gt;, &lt;image&gt;. Utiliser -add-trophy pour ajouter un trophée.</value>
+    </data>
+    <data name="badge_add_success_message" xml:space="preserve">
+        <value>Badge ajouté avec succès.</value>
+    </data>
+    <data name="badge_add_failure_message" xml:space="preserve">
+        <value>Une erreur est survenue en ajoutant le badge : {0}</value>
+    </data>
+    <data name="addcommand_name_too_long" xml:space="preserve">
+        <value>Le nom de la commande est trop long.</value>
+    </data>
+    <data name="addcommand_content_too_long" xml:space="preserve">
+        <value>Le contenu de la commande est trop long.</value>
+    </data>
+    <data name="addcommand_bad_first_char" xml:space="preserve">
+        <value>Le contenu de la commande ne peut pas débuter par ce caractère.</value>
+    </data>
+    <data name="addcommand_already_exist" xml:space="preserve">
+        <value>La commande existe déjà.</value>
+    </data>
+    <data name="addcommand_success" xml:space="preserve">
+        <value>La commande **{0}** a été ajoutée avec succès.</value>
+    </data>
 </root>
