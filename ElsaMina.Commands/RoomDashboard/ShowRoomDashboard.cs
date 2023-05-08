@@ -1,4 +1,5 @@
-﻿using ElsaMina.Core.Commands;
+﻿using System.Globalization;
+using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
@@ -11,14 +12,14 @@ namespace ElsaMina.Commands.RoomDashboard;
 public class ShowRoomDashboard : ICommand
 {
     private const string TABLE_STYLE = "border-collapse: collapse ; width: 100%";
-    
+
     private const string FIRST_ROW_STYLE =
         "border: 1px solid #68a ; text-align: center ; padding: 0px ; height: 1px ; text-align: center ; background-color: rgba(102 , 136 , 170 , 0.45)";
 
     private const string CELL_STYLE = "border: 1px solid #68a ; text-align: center ; padding: 4px";
 
     private const string ROW_STYLE = "border: 1px solid #68a ; text-align: center ; padding: 4px";
-    
+
     public static string Name => "room-dashboard";
     public bool IsPrivateMessageOnly => true;
     public bool IsWhitelistOnly => true; // todo : seul un mec authed sur la room peut
@@ -64,6 +65,12 @@ public class ShowRoomDashboard : ICommand
         {
             return "<p>Could not find room parameters somehow</p>";
         }
+
+        if (context.IsPm)
+        {
+            context.Locale =
+                new CultureInfo(roomParameters.Locale ?? _configurationManager.Configuration.DefaultLocaleCode);
+        }
         var botName = _configurationManager.Configuration.Name;
         var localesOptions = _resourcesService.SupportedLocales.Select(culture =>
         {
@@ -81,7 +88,7 @@ public class ShowRoomDashboard : ICommand
         """;
         });
 
-         return $$"""
+        return $$"""
             <form
                 style="padding: 2rem;"
                 id="locale"

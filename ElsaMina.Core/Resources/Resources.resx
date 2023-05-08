@@ -72,4 +72,10 @@
     <data name="dashboard_autocorrect_description" xml:space="preserve">
         <value>Shows suggested commands when someone tries to use a command that doesn't exist.</value>
     </data>
+    <data name="room_config_success" xml:space="preserve">
+        <value>Configuration of room {0} has been updated.</value>
+    </data>
+    <data name="room_config_failure" xml:space="preserve">
+        <value>An error occured while updating the configuration : {0}</value>
+    </data>
 </root>

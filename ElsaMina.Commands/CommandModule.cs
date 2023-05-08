@@ -19,6 +19,7 @@ public class CommandModule : Module
         RegisterCommand<SetLocale>(builder);
         RegisterCommand<Help>(builder);
         RegisterCommand<ShowRoomDashboard>(builder);
+        RegisterCommand<RoomConfig>(builder);
     }
 
     private static void RegisterCommand<T>(ContainerBuilder builder) where T : ICommand

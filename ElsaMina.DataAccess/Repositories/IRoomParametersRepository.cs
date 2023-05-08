@@ -2,7 +2,7 @@
 
 namespace ElsaMina.DataAccess.Repositories;
 
-public interface IRoomParametersRepository
+public interface IRoomParametersRepository : IDisposable
 {
     Task<RoomParameters> GetByIdAsync(string id);
     Task<IEnumerable<RoomParameters>> GetAllAsync();

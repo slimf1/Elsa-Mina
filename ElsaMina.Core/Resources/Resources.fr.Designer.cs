@@ -204,6 +204,24 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Une erreur est survenue lors de la mise à jour de la configuration : {0}.
+        /// </summary>
+        internal static string room_config_failure {
+            get {
+                return ResourceManager.GetString("room_config_failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La configuration de la salle {0} a été mise à jour..
+        /// </summary>
+        internal static string room_config_success {
+            get {
+                return ResourceManager.GetString("room_config_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Panneau d&apos;administration de {0}.
         /// </summary>
         internal static string room_dashboard {
