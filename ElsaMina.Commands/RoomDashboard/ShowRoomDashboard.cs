@@ -86,7 +86,6 @@ public class ShowRoomDashboard : ICommand
                 style="padding: 2rem;"
                 id="locale"
                 data-submitsend="/w {{botName}},-rc {{roomId}},{locale},{errors},{autocorrect}">
-
                 <table style="{{TABLE_STYLE}}">
                     <thead>
                         <tr style="{{FIRST_ROW_STYLE}}">
@@ -121,7 +120,7 @@ public class ShowRoomDashboard : ICommand
                                     type="checkbox"
                                     id="autocorrect"
                                     name="autocorrect"
-                                    {{(roomParameters.IsShowingErrorMessages ?? false ? "checked" : "")}} />
+                                    {{(roomParameters.IsCommandAutocorrectEnabled ?? false ? "checked" : "")}} />
                             </td>
                             <td style="{{CELL_STYLE}}">{{context.GetString("dashboard_autocorrect_description")}}</td>
                         </tr>

@@ -4,8 +4,8 @@ using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Formats;
-using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Login;
+using ElsaMina.Core.Services.PrivateMessages;
 using ElsaMina.Core.Services.Rooms;
 using NSubstitute;
 using Serilog;
@@ -23,6 +23,7 @@ public class BotTest
     private IRoomsManager _roomsManager;
     private IFormatsManager _formatsManager;
     private ILoginService _loginService;
+    private IPmSendersManager _pmSendersManager;
 
     private ElsaMina.Core.Bot.Bot _bot;
     
@@ -38,9 +39,10 @@ public class BotTest
         _roomsManager = Substitute.For<IRoomsManager>();
         _formatsManager = Substitute.For<IFormatsManager>();
         _loginService = Substitute.For<ILoginService>();
+        _pmSendersManager = Substitute.For<IPmSendersManager>();
         
-        _bot = new ElsaMina.Core.Bot.Bot(_logger, _client, _configurationManager,
-            _clockService, _contextFactory, _commandExecutor, _roomsManager, _formatsManager, _loginService);
+        _bot = new ElsaMina.Core.Bot.Bot(_logger, _client, _configurationManager, _clockService, _contextFactory,
+            _commandExecutor, _roomsManager, _formatsManager, _loginService, _pmSendersManager);
     }
 
     [TearDown]
@@ -70,7 +72,7 @@ public class BotTest
         
         // Assert
         var expectedUsers = new List<string> { "*Bot", "@Mod", " Regular", "#Ro User", "+Voiced" };
-        _roomsManager.Received(1).InitializeRoom("room", "Room Title",
+        await _roomsManager.Received(1).InitializeRoom("room", "Room Title",
             Arg.Is<IEnumerable<string>>(users => users.SequenceEqual(expectedUsers)));
     }
 
