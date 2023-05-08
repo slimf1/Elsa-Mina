@@ -17,6 +17,7 @@ public class CommandModule : Module
         RegisterCommand<CustomCommandList>(builder);
         RegisterCommand<AddBadge>(builder);
         RegisterCommand<SetLocale>(builder);
+        RegisterCommand<Help>(builder);
     }
 
     private static void RegisterCommand<T>(ContainerBuilder builder) where T : ICommand

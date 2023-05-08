@@ -1,5 +1,6 @@
 ﻿using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
+using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 using Serilog;
 
@@ -36,7 +37,18 @@ public class RoomsManager : IRoomsManager
     {
         _logger.Information($"Initializing {roomTitle}...");
         var roomParameters = await _roomParametersRepository.GetByIdAsync(roomId);
-        var defaultLocale = roomParameters?.Locale ?? _configurationManager.Configuration.DefaultLocaleCode;
+        if (roomParameters == null)
+        {
+            _logger.Information("Could not find room parameters, inserting in db...");
+            roomParameters = new RoomParameters
+            {
+                Id = roomId,
+                Locale = _configurationManager.Configuration.DefaultLocaleCode,
+                IsShowingErrorMessages = false
+            };
+            await _roomParametersRepository.AddAsync(roomParameters);
+        }
+        var defaultLocale = roomParameters.Locale ?? _configurationManager.Configuration.DefaultLocaleCode;
         var room = new Room(roomTitle, roomId, defaultLocale);
 
         foreach (var userId in userIds)
