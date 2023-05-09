@@ -2,6 +2,9 @@
 dev.config.json
 prod.config.json
 
+# IDE
+.idea
+
 # Database
 *.db
 *.db-shm
