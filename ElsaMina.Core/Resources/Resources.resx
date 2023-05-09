@@ -78,4 +78,10 @@
     <data name="room_config_failure" xml:space="preserve">
         <value>An error occured while updating the configuration : {0}</value>
     </data>
+    <data name="room_config_room_not_found" xml:space="preserve">
+        <value>Could not find room '{0}'</value>
+    </data>
+    <data name="room_config_locale_not_found" xml:space="preserve">
+        <value>Could not find locale '{0}'</value>
+    </data>
 </root>

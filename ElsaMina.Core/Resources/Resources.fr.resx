@@ -78,4 +78,10 @@
     <data name="room_config_failure" xml:space="preserve">
         <value>Une erreur est survenue lors de la mise à jour de la configuration : {0}</value>
     </data>
+    <data name="room_config_room_not_found" xml:space="preserve">
+        <value>Impossible de trouver la salle '{0}'</value>
+    </data>
+    <data name="room_config_locale_not_found" xml:space="preserve">
+        <value>Impossible de trouver la langue '{0}'</value>
+    </data>
 </root>

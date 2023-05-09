@@ -3,6 +3,7 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
+using Serilog;
 
 namespace ElsaMina.Commands.Badges;
 
@@ -15,10 +16,12 @@ public class AddBadge : ICommand
 
     public char RequiredRank => '%';
 
+    private readonly ILogger _logger;
     private readonly IBadgeRepository _badgeRepository;
 
-    public AddBadge(IBadgeRepository badgeRepository)
+    public AddBadge(ILogger logger, IBadgeRepository badgeRepository)
     {
+        _logger = logger;
         _badgeRepository = badgeRepository;
     }
 
@@ -48,6 +51,7 @@ public class AddBadge : ICommand
         }
         catch (Exception exception)
         {
+            _logger.Error(exception, "Could not add badge");
             context.Reply( context.GetString("badge_add_failure_message", exception.Message));
         }
     }

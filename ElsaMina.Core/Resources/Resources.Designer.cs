@@ -213,6 +213,24 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not find locale &apos;{0}&apos;.
+        /// </summary>
+        internal static string room_config_locale_not_found {
+            get {
+                return ResourceManager.GetString("room_config_locale_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not find room &apos;{0}&apos;.
+        /// </summary>
+        internal static string room_config_room_not_found {
+            get {
+                return ResourceManager.GetString("room_config_room_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Configuration of room {0} has been updated..
         /// </summary>
         internal static string room_config_success {
