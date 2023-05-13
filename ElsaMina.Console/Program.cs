@@ -35,22 +35,19 @@ var bot = dependencyContainerService.Resolve<IBot>();
 var client = dependencyContainerService.Resolve<IClient>();
 client.MessageReceived.Subscribe(message => Task.Run(async () => await bot.HandleReceivedMessage(message)));
 
-// Disconnect event
+// Disconnect event & reconnection logic
 client.DisconnectionHappened.Subscribe(error =>
 {
-    Task.Run(async () =>
+    logger.Error("Got disconnected : {Error}\nrestarting in 30 seconds...", error);
+    Thread.Sleep(30 * 1000);
+    if (client.IsConnected)
     {
-        logger.Error("Got disconnected : {Error}\nrestarting in 30 seconds...", error);
-        await Task.Delay(30 * 1000);
-        if (client.IsConnected)
-        {
-            logger.Error("Is still connected server : Exiting");
-            Environment.Exit(1);
-            return;
-        }
-        logger.Information("Reconnecting...");
-        await client.Connect();
-    });
+        logger.Error("Is still connected to server : Exiting");
+        Environment.Exit(1);
+        return;
+    }
+    logger.Information("Reconnecting...");
+    Task.Run(client.Connect);
 });
 
 // Start
