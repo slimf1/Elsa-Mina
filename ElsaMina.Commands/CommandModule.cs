@@ -22,6 +22,7 @@ public class CommandModule : Module
         RegisterCommand<RoomConfig>(builder);
         RegisterCommand<Kill>(builder);
         RegisterCommand<StopConnection>(builder);
+        RegisterCommand<Script>(builder);
     }
 
     private static void RegisterCommand<T>(ContainerBuilder builder) where T : ICommand
