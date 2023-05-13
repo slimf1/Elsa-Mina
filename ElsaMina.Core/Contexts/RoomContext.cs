@@ -64,4 +64,11 @@ public class RoomContext : Context
         var command = isChanging ? "changeuhtml" : "adduhtml";
         Bot.Say(RoomId, $"/{command} {htmlId}, {html}");
     }
+
+    public override string ToString()
+    {
+        return $"{nameof(RoomContext)}[{base.ToString()}," +
+               $"{nameof(_room)}: {_room}, " +
+               $"{nameof(_timestamp)}: {_timestamp}]";
+    }
 }

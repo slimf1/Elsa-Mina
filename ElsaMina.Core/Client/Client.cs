@@ -20,6 +20,7 @@ public class Client : IClient
         _configurationManager = configurationManager;
 
         _websocketClient = new WebsocketClient(new Uri($"ws://{Conf.Host}:{Conf.Port}/showdown/websocket"));
+        _websocketClient.IsReconnectionEnabled = false;
     }
 
     public async Task Connect()

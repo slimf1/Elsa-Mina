@@ -32,4 +32,12 @@ public class Room : IRoom
         RemoveUser(oldName);
         AddUser(newName);
     }
+
+    public override string ToString()
+    {
+        return $"{nameof(Room)}[{nameof(RoomId)}: {RoomId}, " +
+               $"{nameof(Name)}: {Name}, " +
+               $"{nameof(Users)}: {string.Join(", ", Users)}, " +
+               $"{nameof(Locale)}: {Locale}]";
+    }
 }

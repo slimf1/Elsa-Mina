@@ -54,4 +54,10 @@ public class PmContext : Context
         var command = isChanging ? "pmchangeuhtml" : "pmuhtml";
         Bot.Say(RoomId, $"/{command} {Sender.UserId}, {htmlId}, {html}");
     }
+
+    public override string ToString()
+    {
+        return $"{nameof(PmContext)}[{base.ToString()}, " +
+               $"{nameof(_currentLocale)}: {_currentLocale}]";
+    }
 }
