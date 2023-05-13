@@ -103,12 +103,14 @@ public class Bot : IBot
 
         var roomId = room ?? _currentRoom;
 
-        _logger.Information($"[Received] ({room}) {line}");
+        _logger.Information("[Received] ({Room}) {Line}", room, line);
 
         switch (parts[1])
         {
             case "nametaken":
-                throw new Exception("Connection failed");
+                _logger.Error("Login failed, check username or password validity. Exiting");
+                Environment.Exit(1);
+                break;
             case "challstr":
                 await Login(string.Join("|", parts[2..]));
                 break;
@@ -220,13 +222,8 @@ public class Bot : IBot
         {
             name = name[^2..];
         }
-
-        if (name != _configurationManager.Configuration.Name)
-        {
-            return;
-        }
-
-        _logger.Information($"Connection successful, logged in as {name}");
+        
+        _logger.Information("Connected as : {Name}", name);
 
         foreach (var roomId in _configurationManager.Configuration.Rooms)
         {
@@ -242,12 +239,14 @@ public class Bot : IBot
 
     private async Task Login(string challstr)
     {
+        _logger.Information("Logging in...");
         var response = await _loginService.Login(challstr);
 
-        if (_configurationManager.Configuration.Name.ToLowerAlphaNum() != response.CurrentUser.UserId)
+        if (response?.CurrentUser == null ||
+            _configurationManager.Configuration.Name.ToLowerAlphaNum() != response.CurrentUser.UserId)
         {
-            _logger.Error("Login failed");
-            return;
+            _logger.Error("Login failed. Check password validity. Exiting");
+            Environment.Exit(1);
         }
         
         _client.Send($"|/trn {response.CurrentUser.Username},0,{response.Assertion}");
@@ -271,7 +270,7 @@ public class Bot : IBot
             return;
         }
 
-        _logger.Information($"[Sending] {message}");
+        _logger.Information("[Sending] {Message}", message);
 
         _client.Send(message);
         _lastMessage = message;
@@ -282,6 +281,13 @@ public class Bot : IBot
     public void Say(string roomId, string message)
     {
         Send($"{roomId}|{message}");
+    }
+
+    public override string ToString()
+    {
+        return $"{nameof(Bot)}[{nameof(_currentRoom)}: {_currentRoom}, " +
+               $"{nameof(_lastMessage)}: {_lastMessage}," +
+               $"{nameof(_lastMessageTime)}: {_lastMessageTime}]";
     }
 
     public void Dispose()

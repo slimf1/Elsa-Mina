@@ -27,8 +27,8 @@ public class CommandExecutor : ICommandExecutor
         var commandInstance = _dependencyContainerService.ResolveCommand<ICommand>(commandName);
         if (commandInstance == null)
         {
-            _logger.Error($"Could not find command with name {commandName}");
-            throw new Exception("Could not find command"); // TODO: custom exc
+            _logger.Error("Could not find command with name {CommandName}", commandName);
+            throw new Exception("Could not find command"); // TODO: custom exc ?
         }
         await commandInstance.Call(context);
     }

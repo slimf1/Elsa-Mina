@@ -16,8 +16,8 @@ public class RoomContext : Context
 
     private readonly IConfigurationManager _configurationManager;
 
-    private IRoom _room;
-    private long _timestamp;
+    private readonly IRoom _room;
+    private readonly long _timestamp;
 
     public RoomContext(IConfigurationManager configurationManager,
         IResourcesService resourcesService,
@@ -46,8 +46,7 @@ public class RoomContext : Context
 
     public override bool HasSufficientRank(char requiredRank)
     {
-        return _configurationManager.Configuration.Whitelist.Contains(Sender.UserId)
-               || RANKS.IndexOf(Sender.Rank) >= RANKS.IndexOf(requiredRank);
+        return IsSenderWhitelisted || RANKS.IndexOf(Sender.Rank) >= RANKS.IndexOf(requiredRank);
     }
 
     public override void Reply(string message)

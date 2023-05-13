@@ -16,4 +16,12 @@ public class User : IUser
         Name = IsIdle ? name[..^2] : name;
         Rank = rank;
     }
+
+    public override string ToString()
+    {
+        return $"{nameof(User)}[{nameof(UserId)}: {UserId}, " +
+               $"{nameof(Name)}: {Name}, " +
+               $"{nameof(IsIdle)}: {IsIdle}, " +
+               $"{nameof(Rank)}: {Rank}]";
+    }
 }

@@ -55,6 +55,19 @@ public abstract class Context : IContext
         return string.Format(GetString(key), formatArguments);
     }
 
+    public override string ToString()
+    {
+        return $"{nameof(Context)}[{nameof(Bot)}: {Bot}, " +
+               $"{nameof(Target)}: {Target}, " +
+               $"{nameof(Sender)}: {Sender}, " +
+               $"{nameof(Command)}: {Command}, " +
+               $"{nameof(IsSenderWhitelisted)}: {IsSenderWhitelisted}, " +
+               $"{nameof(RoomId)}: {RoomId}, " +
+               $"{nameof(Type)}: {Type}, " +
+               $"{nameof(IsPm)}: {IsPm}, " +
+               $"{nameof(Locale)}: {Locale}]";
+    }
+
     public abstract string RoomId { get; }
     public abstract ContextType Type { get; }
     public abstract bool IsPm { get; }

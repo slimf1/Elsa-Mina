@@ -1,4 +1,5 @@
-﻿using System.Reactive.Linq;
+﻿using System.Net.WebSockets;
+using System.Reactive.Linq;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using Websocket.Client;
@@ -26,14 +27,34 @@ public class Client : IClient
         await _websocketClient.Start();
     }
     
-    public IObservable<string> MessageReceived => _websocketClient
-        .MessageReceived
-        .Select(message => message.Text);
-
+    public async Task Close()
+    {
+        await _websocketClient.Stop(WebSocketCloseStatus.Empty, string.Empty);
+    }
+    
     public void Send(string message)
     {
         _websocketClient.Send(message);
     }
+
+    public IObservable<string> MessageReceived => _websocketClient
+        .MessageReceived
+        .Select(message => message.Text);
+
+    public IObservable<string> DisconnectionHappened => _websocketClient
+        .DisconnectionHappened
+        .Select(disconnectionInfo =>
+        {
+            var exception = disconnectionInfo.Exception;
+            if (exception != null)
+            {
+                return $"{exception.Message}\n{exception.StackTrace}";
+            }
+
+            return disconnectionInfo.CloseStatus?.ToString() ?? disconnectionInfo.CloseStatusDescription;
+        });
+
+    public bool IsConnected => _websocketClient.IsRunning;
 
     public void Dispose()
     {
@@ -54,5 +75,10 @@ public class Client : IClient
         }
 
         _disposed = true;
+    }
+
+    ~Client()
+    {
+        Dispose(false);
     }
 }
