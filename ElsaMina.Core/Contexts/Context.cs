@@ -33,9 +33,9 @@ public abstract class Context : IContext
     }
 
     public bool IsSenderWhitelisted => _configurationManager
-        .Configuration?
-        .Whitelist?
-        .Contains(Sender.UserId) == true;
+        .Configuration
+        .Whitelist
+        .Contains(Sender.UserId);
     
     public void SendHtmlPage(string pageName, string html)
     {

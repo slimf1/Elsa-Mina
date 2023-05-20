@@ -5,6 +5,7 @@ using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Login;
+using ElsaMina.Core.Services.Parsers;
 using ElsaMina.Core.Services.PrivateMessages;
 using ElsaMina.Core.Services.Rooms;
 using NSubstitute;
@@ -24,6 +25,7 @@ public class BotTest
     private IFormatsManager _formatsManager;
     private ILoginService _loginService;
     private IPmSendersManager _pmSendersManager;
+    private IParsersManager _parsersManager;
 
     private ElsaMina.Core.Bot.Bot _bot;
     
@@ -40,9 +42,10 @@ public class BotTest
         _formatsManager = Substitute.For<IFormatsManager>();
         _loginService = Substitute.For<ILoginService>();
         _pmSendersManager = Substitute.For<IPmSendersManager>();
+        _parsersManager = Substitute.For<IParsersManager>();
         
         _bot = new ElsaMina.Core.Bot.Bot(_logger, _client, _configurationManager, _clockService, _contextFactory,
-            _commandExecutor, _roomsManager, _formatsManager, _loginService, _pmSendersManager);
+            _commandExecutor, _roomsManager, _formatsManager, _loginService, _pmSendersManager, _parsersManager);
     }
 
     [TearDown]
@@ -87,5 +90,37 @@ public class BotTest
         
         // Assert
         _formatsManager.Received(1).ParseFormatsFromReceivedLine(message);
+    }
+    
+    [Test]
+    public async Task Test_HandleReceivedMessage_ShouldInitializeParsers_WhenParsersAreNotIntialized()
+    {
+        // Arrange
+        const string message = "|c:|1|%Earth|test";
+        _parsersManager.IsInitialized.Returns(false);
+        
+        // Act
+        await _bot.HandleReceivedMessage(message);
+        
+        // Assert
+        _parsersManager.Received(1).Initialize();
+        var expectedParts = new[] { "", "c:", "1", "%Earth", "test" };
+        await _parsersManager.Received(1).Parse(Arg.Is<string[]>(parts => parts.SequenceEqual(expectedParts)));
+    }
+    
+    [Test]
+    public async Task Test_HandleReceivedMessage_ShouldCallParsers_WhenParsersAreInitialized()
+    {
+        // Arrange
+        const string message = "|c:|1|%Earth|test";
+        _parsersManager.IsInitialized.Returns(true);
+        
+        // Act
+        await _bot.HandleReceivedMessage(message);
+        
+        // Assert
+        _parsersManager.DidNotReceive().Initialize();
+        var expectedParts = new[] { "", "c:", "1", "%Earth", "test" };
+        await _parsersManager.Received(1).Parse(Arg.Is<string[]>(parts => parts.SequenceEqual(expectedParts)));
     }
 }

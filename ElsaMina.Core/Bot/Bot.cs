@@ -5,6 +5,7 @@ using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Login;
+using ElsaMina.Core.Services.Parsers;
 using ElsaMina.Core.Services.PrivateMessages;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
@@ -27,6 +28,7 @@ public class Bot : IBot
     private readonly IFormatsManager _formatsManager;
     private readonly ILoginService _loginService;
     private readonly IPmSendersManager _pmSendersManager;
+    private readonly IParsersManager _parsersManager;
 
     private readonly SemaphoreSlim _loadRoomSemaphore = new(1, 1);
     private string _currentRoom;
@@ -43,7 +45,8 @@ public class Bot : IBot
         IRoomsManager roomsManager,
         IFormatsManager formatsManager,
         ILoginService loginService,
-        IPmSendersManager pmSendersManager)
+        IPmSendersManager pmSendersManager,
+        IParsersManager parsersManager)
     {
         _logger = logger;
         _client = client;
@@ -55,6 +58,7 @@ public class Bot : IBot
         _formatsManager = formatsManager;
         _loginService = loginService;
         _pmSendersManager = pmSendersManager;
+        _parsersManager = parsersManager;
     }
 
     public async Task Start()
@@ -104,6 +108,13 @@ public class Bot : IBot
         var roomId = room ?? _currentRoom;
 
         _logger.Information("[Received] ({Room}) {Line}", room, line);
+
+        if (!_parsersManager.IsInitialized)
+        {
+            _parsersManager.Initialize();
+        }
+
+        await _parsersManager.Parse(parts);
 
         switch (parts[1])
         {
