@@ -4,6 +4,7 @@ using ElsaMina.Commands.CustomCommands;
 using ElsaMina.Commands.Development;
 using ElsaMina.Commands.RoomDashboard;
 using ElsaMina.Core.Commands;
+using ElsaMina.Core.Models;
 
 namespace ElsaMina.Commands;
 
@@ -23,6 +24,7 @@ public class CommandModule : Module
         RegisterCommand<Kill>(builder);
         RegisterCommand<StopConnection>(builder);
         RegisterCommand<Script>(builder);
+        RegisterParser<TestParser>(builder);
     }
 
     private static void RegisterCommand<T>(ContainerBuilder builder) where T : ICommand
@@ -38,5 +40,10 @@ public class CommandModule : Module
         {
             builder.RegisterType<T>().Named<ICommand>(alias);
         }
+    }
+
+    private static void RegisterParser<T>(ContainerBuilder builder) where T : IParser
+    {
+        builder.RegisterType<T>().As<IParser>().SingleInstance();
     }
 }
