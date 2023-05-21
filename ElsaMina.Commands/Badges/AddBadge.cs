@@ -52,7 +52,7 @@ public class AddBadge : ICommand
         catch (Exception exception)
         {
             _logger.Error(exception, "Could not add badge");
-            context.Reply( context.GetString("badge_add_failure_message", exception.Message));
+            context.Reply(context.GetString("badge_add_failure_message", exception.Message));
         }
     }
 }

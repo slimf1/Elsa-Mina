@@ -21,14 +21,14 @@ namespace ElsaMina.Core.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources_fr {
+    internal class Resources_fr_FR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources_fr() {
+        internal Resources_fr_FR() {
         }
         
         /// <summary>
@@ -38,7 +38,7 @@ namespace ElsaMina.Core.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ElsaMina.Core.Resources.Resources.fr", typeof(Resources_fr).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ElsaMina.Core.Resources.Resources.fr-FR", typeof(Resources_fr_FR).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

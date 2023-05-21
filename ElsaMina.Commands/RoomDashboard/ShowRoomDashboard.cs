@@ -72,21 +72,13 @@ public class ShowRoomDashboard : ICommand
                 new CultureInfo(roomParameters.Locale ?? _configurationManager.Configuration.DefaultLocaleCode);
         }
         var botName = _configurationManager.Configuration.Name;
-        var localesOptions = _resourcesService.SupportedLocales.Select(culture =>
-        {
-            var localeDisplayName = string.IsNullOrEmpty(culture.Name)
-                ? "Default (English)"
-                : culture.NativeName.Capitalize();
-            var localeName = string.IsNullOrEmpty(culture.Name) ? "en" : culture.Name;
-
-            return $"""
+        var localesOptions = _resourcesService.SupportedLocales.Select(culture => $"""
             <option
-                value="{localeName}"
-                {(context.Locale.Name == localeName ? "selected" : "")}>
-                {localeDisplayName}
+                value="{culture.Name}"
+                {(context.Locale.Name == culture.Name ? "selected" : "")}>
+                {culture.NativeName.Capitalize()}
             </option>
-        """;
-        });
+        """);
 
         return $$"""
             <form

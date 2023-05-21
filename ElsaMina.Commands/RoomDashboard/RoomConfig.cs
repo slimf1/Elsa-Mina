@@ -1,4 +1,5 @@
-﻿using ElsaMina.Core.Commands;
+﻿using System.Globalization;
+using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
@@ -46,8 +47,7 @@ public class RoomConfig : ICommand
                 return;
             }
 
-            if (!_resourcesService.SupportedLocales
-                    .Select(culture => string.IsNullOrEmpty(culture.Name) ? "en" : culture.Name).Contains(locale))
+            if (!_resourcesService.SupportedLocales.Select(culture => culture.Name.ToLower()).Contains(locale))
             {
                 context.Reply(context.GetString("room_config_locale_not_found", locale));
                 return;
@@ -64,6 +64,7 @@ public class RoomConfig : ICommand
             };
 
             await _roomParametersRepository.UpdateAsync(roomParameters);
+            context.Locale = new CultureInfo(locale);
             context.Reply(context.GetString("room_config_success", roomId));
         }
         catch (Exception exception)

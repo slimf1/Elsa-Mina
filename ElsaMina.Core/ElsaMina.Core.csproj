@@ -19,26 +19,26 @@
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Update="Resources\Resources.fr.resx">
+      <EmbeddedResource Update="Resources\Resources.fr-FR.resx">
         <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>Resources.fr.Designer.cs</LastGenOutput>
+        <LastGenOutput>Resources.fr-FR.Designer.cs</LastGenOutput>
       </EmbeddedResource>
-      <EmbeddedResource Update="Resources\Resources.resx">
+      <EmbeddedResource Update="Resources\Resources.en-US.resx">
         <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        <LastGenOutput>Resources.en-US.Designer.cs</LastGenOutput>
       </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Resources\Resources.fr.Designer.cs">
+      <Compile Update="Resources\Resources.fr-FR.Designer.cs">
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
-        <DependentUpon>Resources.fr.resx</DependentUpon>
+        <DependentUpon>Resources.fr-FR.resx</DependentUpon>
       </Compile>
-      <Compile Update="Resources\Resources.Designer.cs">
+      <Compile Update="Resources\Resources.en-US.Designer.cs">
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
-        <DependentUpon>Resources.resx</DependentUpon>
+        <DependentUpon>Resources.en-US.resx</DependentUpon>
       </Compile>
     </ItemGroup>
 
