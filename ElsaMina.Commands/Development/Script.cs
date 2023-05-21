@@ -2,6 +2,7 @@ using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.DependencyInjection;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
 using Serilog;
 
 namespace ElsaMina.Commands.Development;
@@ -33,8 +34,11 @@ public class Script : ICommand
     {
         try
         {
+            var options = ScriptOptions.Default.WithReferences(typeof(Core.Bot.Bot).Assembly)
+                .WithReferences(typeof(Script).Assembly)
+                .WithImports("ElsaMina.Core");
             var globals = new Globals { Context = context, Container = _dependencyContainerService };
-            var result = await CSharpScript.EvaluateAsync(context.Target, globals: globals);
+            var result = await CSharpScript.EvaluateAsync(context.Target, options, globals: globals);
             if (result != null)
             {
                 context.Reply(result.ToString());
