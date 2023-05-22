@@ -35,7 +35,7 @@ public class LoginService : ILoginService
         }
         catch (HttpException exception)
         {
-            _logger.Error("Login failed with status code {Code} : {Content}",
+            _logger.Error("Login failed with status code {0} : {1}",
                 exception.StatusCode, exception.ResponseContent);
         }
         catch (Exception exception)

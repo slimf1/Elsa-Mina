@@ -35,7 +35,7 @@ public class RoomsManager : IRoomsManager
 
     public async Task InitializeRoom(string roomId, string roomTitle, IEnumerable<string> userIds)
     {
-        _logger.Information("Initializing {RoomTitle}...", roomTitle);
+        _logger.Information("Initializing {0}...", roomTitle);
         var roomParameters = await _roomParametersRepository.GetByIdAsync(roomId);
         if (roomParameters == null)
         {
@@ -57,12 +57,12 @@ public class RoomsManager : IRoomsManager
         }
         
         _rooms[room.RoomId] = room;
-        _logger.Information("Initializing {RoomTitle} : DONE", roomTitle);
+        _logger.Information("Initializing {0} : DONE", roomTitle);
     }
 
     public void RemoveRoom(string roomId)
     {
-        _logger.Information("Removing room : {RoomId}", roomId);
+        _logger.Information("Removing room : {0}", roomId);
         if (_rooms.ContainsKey(roomId))
         {
             _rooms.Remove(roomId);

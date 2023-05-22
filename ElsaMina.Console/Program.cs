@@ -38,7 +38,7 @@ client.MessageReceived.Subscribe(message => Task.Run(async () => await bot.Handl
 // Disconnect event & reconnection logic
 client.DisconnectionHappened.Subscribe(error =>
 {
-    logger.Error("Got disconnected : {Error}\nrestarting in 30 seconds...", error);
+    logger.Error("Got disconnected : {0}\nrestarting in 30 seconds...", error);
     Thread.Sleep(30 * 1000);
     if (client.IsConnected)
     {

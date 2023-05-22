@@ -20,7 +20,7 @@ public class Kill : ICommand
 
     public Task Run(IContext context)
     {
-        _logger.Information("Killing bot : {Context}", context);
+        _logger.Information("Killing bot : {0}", context);
         Environment.Exit(1);
         return Task.CompletedTask;
     }

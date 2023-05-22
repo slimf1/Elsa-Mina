@@ -107,7 +107,7 @@ public class Bot : IBot
 
         var roomId = room ?? _currentRoom;
 
-        _logger.Information("[Received] ({Room}) {Line}", room, line);
+        _logger.Information("[Received] ({0}) {1}", room, line);
 
         if (!_parsersManager.IsInitialized)
         {
@@ -234,7 +234,7 @@ public class Bot : IBot
             name = name[^2..];
         }
         
-        _logger.Information("Connected as : {Name}", name);
+        _logger.Information("Connected as : {0}", name);
 
         foreach (var roomId in _configurationManager.Configuration.Rooms)
         {
@@ -281,7 +281,7 @@ public class Bot : IBot
             return;
         }
 
-        _logger.Information("[Sending] {Message}", message);
+        _logger.Information("[Sending] {0}", message);
 
         _client.Send(message);
         _lastMessage = message;

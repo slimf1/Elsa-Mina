@@ -24,7 +24,7 @@ public class StopConnection : ICommand
 
     public async Task Run(IContext context)
     {
-        _logger.Information("Stopping connection : {Context}", context);
+        _logger.Information("Stopping connection : {0}", context);
         await _client.Close();
     }
 }
