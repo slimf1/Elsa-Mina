@@ -44,9 +44,11 @@ public class RoomsManager : IRoomsManager
             {
                 Id = roomId,
                 Locale = _configurationManager.Configuration.DefaultLocaleCode,
-                IsShowingErrorMessages = false
+                IsShowingErrorMessages = false,
+                IsCommandAutocorrectEnabled = false
             };
             await _roomParametersRepository.AddAsync(roomParameters);
+            _logger.Information("Inserted room parameters for room {0} in db", roomId);
         }
         var defaultLocale = roomParameters.Locale ?? _configurationManager.Configuration.DefaultLocaleCode;
         var room = new Room(roomTitle, roomId, defaultLocale);

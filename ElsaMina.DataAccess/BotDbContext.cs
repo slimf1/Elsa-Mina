@@ -1,4 +1,5 @@
 ﻿using ElsaMina.DataAccess.Models;
+using ElsaMina.DataAccess.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.DataAccess;
@@ -40,8 +41,8 @@ public class BotDbContext : DbContext
         
         if (!optionsBuilder.IsConfigured)
         {
-            var dbPath = Environment.GetEnvironmentVariable("ELSA_MINA_DB_PATH");
-            optionsBuilder.UseSqlite($"Data Source={dbPath}");
+            var dbConfig = DbConfigProvider.GetDbConfig();
+            optionsBuilder.UseNpgsql(dbConfig.ConnectionString);
         }
     }
 }

@@ -15,11 +15,11 @@ namespace ElsaMina.DataAccess.Migrations
                 name: "AddedCommands",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    RoomId = table.Column<string>(type: "TEXT", nullable: false),
-                    Content = table.Column<string>(type: "TEXT", nullable: true),
-                    Author = table.Column<string>(type: "TEXT", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    RoomId = table.Column<string>(type: "text", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: true),
+                    Author = table.Column<string>(type: "text", nullable: true),
+                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -30,11 +30,11 @@ namespace ElsaMina.DataAccess.Migrations
                 name: "Badges",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    RoomId = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    Image = table.Column<string>(type: "TEXT", nullable: true),
-                    IsTrophy = table.Column<bool>(type: "INTEGER", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    RoomId = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Image = table.Column<string>(type: "text", nullable: true),
+                    IsTrophy = table.Column<bool>(type: "boolean", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -45,9 +45,10 @@ namespace ElsaMina.DataAccess.Migrations
                 name: "RoomParameters",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    IsShowingErrorMessages = table.Column<bool>(type: "INTEGER", nullable: true),
-                    Locale = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    IsShowingErrorMessages = table.Column<bool>(type: "boolean", nullable: true),
+                    IsCommandAutocorrectEnabled = table.Column<bool>(type: "boolean", nullable: true),
+                    Locale = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -58,11 +59,11 @@ namespace ElsaMina.DataAccess.Migrations
                 name: "UserData",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    RoomId = table.Column<string>(type: "TEXT", nullable: false),
-                    OnTime = table.Column<long>(type: "INTEGER", nullable: true),
-                    Avatar = table.Column<string>(type: "TEXT", nullable: true),
-                    Title = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    RoomId = table.Column<string>(type: "text", nullable: false),
+                    OnTime = table.Column<long>(type: "bigint", nullable: true),
+                    Avatar = table.Column<string>(type: "text", nullable: true),
+                    Title = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -73,9 +74,9 @@ namespace ElsaMina.DataAccess.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    RegDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    RegDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -86,10 +87,10 @@ namespace ElsaMina.DataAccess.Migrations
                 name: "BadgeHoldings",
                 columns: table => new
                 {
-                    BadgeHoldersId = table.Column<string>(type: "TEXT", nullable: false),
-                    BadgeHoldersRoomId = table.Column<string>(type: "TEXT", nullable: false),
-                    BadgesId = table.Column<string>(type: "TEXT", nullable: false),
-                    BadgesRoomId = table.Column<string>(type: "TEXT", nullable: false)
+                    BadgeHoldersId = table.Column<string>(type: "text", nullable: false),
+                    BadgeHoldersRoomId = table.Column<string>(type: "text", nullable: false),
+                    BadgesId = table.Column<string>(type: "text", nullable: false),
+                    BadgesRoomId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {

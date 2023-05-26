@@ -33,7 +33,7 @@ public class AddCustomCommandTest
     {
         // Arrange
         var date = new DateTime(2022, 2, 3);
-        _clockService.CurrentDateTime.Returns(date);
+        _clockService.CurrentUtcDateTime.Returns(date);
         var context = Substitute.For<IContext>();
         context.Target.Returns("test-command,Test command content");
         context.Sender.Returns(new User("John", '+'));

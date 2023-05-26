@@ -68,7 +68,7 @@ public class AddCustomCommand : ICommand
             Author = context.Sender.Name,
             Content = content,
             RoomId = context.RoomId,
-            CreationDate = _clockService.CurrentDateTime,
+            CreationDate = _clockService.CurrentUtcDateTime,
             Id = command
         });
         
