@@ -2,6 +2,7 @@
 using ElsaMina.Core.Bot;
 using ElsaMina.Core.Client;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
@@ -44,6 +45,7 @@ public class CoreModule : Module
         builder.RegisterType<ResourcesService>().As<IResourcesService>().SingleInstance();
         builder.RegisterType<PmSendersManager>().As<IPmSendersManager>().SingleInstance();
         builder.RegisterType<ParsersManager>().As<IParsersManager>().SingleInstance();
+        builder.RegisterType<AddedCommandsManager>().As<IAddedCommandsManager>().SingleInstance();
 
         builder.RegisterType<Client.Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot.Bot>().As<IBot>().AsSelf().SingleInstance();

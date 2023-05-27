@@ -186,7 +186,7 @@ public class Bot : IBot
         }
 
         var (target, command) = ParseMessage(message);
-        if (target == null || command == null || !_commandExecutor.HasCommand(command))
+        if (target == null || command == null)
         {
             return;
         }
