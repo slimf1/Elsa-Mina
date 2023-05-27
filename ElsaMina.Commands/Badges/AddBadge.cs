@@ -17,9 +17,9 @@ public class AddBadge : ICommand
     public char RequiredRank => '%';
 
     private readonly ILogger _logger;
-    private readonly IBadgeRepository _badgeRepository;
+    private readonly IRepository<Badge, Tuple<string, string>> _badgeRepository;
 
-    public AddBadge(ILogger logger, IBadgeRepository badgeRepository)
+    public AddBadge(ILogger logger, IRepository<Badge, Tuple<string, string>> badgeRepository)
     {
         _logger = logger;
         _badgeRepository = badgeRepository;

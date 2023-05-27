@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.RoomDashboard;
@@ -11,9 +12,9 @@ public class SetLocale : ICommand
     public static IEnumerable<string> Aliases => new[] { "setlocale" };
     public char RequiredRank => '#';
 
-    private readonly IRoomParametersRepository _roomParametersRepository;
+    private readonly IRepository<RoomParameters, string> _roomParametersRepository;
 
-    public SetLocale(IRoomParametersRepository roomParametersRepository)
+    public SetLocale(IRepository<RoomParameters, string> roomParametersRepository)
     {
         _roomParametersRepository = roomParametersRepository;
     }

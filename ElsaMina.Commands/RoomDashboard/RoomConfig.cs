@@ -17,12 +17,12 @@ public class RoomConfig : ICommand
     public bool IsPrivateMessageOnly => true;
 
     private readonly ILogger _logger;
-    private readonly IRoomParametersRepository _roomParametersRepository;
+    private readonly IRepository<RoomParameters, string> _roomParametersRepository;
     private readonly IRoomsManager _roomsManager;
     private readonly IResourcesService _resourcesService;
 
     public RoomConfig(ILogger logger,
-        IRoomParametersRepository roomParametersRepository,
+        IRepository<RoomParameters, string> roomParametersRepository,
         IRoomsManager roomsManager,
         IResourcesService resourcesService)
     {
