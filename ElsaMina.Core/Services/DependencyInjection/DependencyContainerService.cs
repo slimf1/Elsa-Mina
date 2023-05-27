@@ -1,5 +1,4 @@
-﻿
-using Autofac;
+﻿using Autofac;
 using ElsaMina.Core.Commands;
 
 namespace ElsaMina.Core.Services.DependencyInjection;

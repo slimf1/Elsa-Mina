@@ -22,7 +22,6 @@ public class Bot : IBot
     private readonly IClient _client;
     private readonly IConfigurationManager _configurationManager;
     private readonly IClockService _clockService;
-    private readonly IContextFactory _contextFactory;
     private readonly ICommandExecutor _commandExecutor;
     private readonly IRoomsManager _roomsManager;
     private readonly IFormatsManager _formatsManager;
@@ -40,7 +39,6 @@ public class Bot : IBot
         IClient client,
         IConfigurationManager configurationManager,
         IClockService clockService,
-        IContextFactory contextFactory,
         ICommandExecutor commandExecutor,
         IRoomsManager roomsManager,
         IFormatsManager formatsManager,
@@ -52,7 +50,6 @@ public class Bot : IBot
         _client = client;
         _configurationManager = configurationManager;
         _clockService = clockService;
-        _contextFactory = contextFactory;
         _commandExecutor = commandExecutor;
         _roomsManager = roomsManager;
         _formatsManager = formatsManager;
@@ -161,7 +158,13 @@ public class Bot : IBot
             return;
         }
 
-        var context = _contextFactory.GetContext(ContextType.Pm, this, target, user, command);
+        var context = new ContextBuilder()
+            .WithType(ContextType.Pm)
+            .WithBot(this)
+            .WithTarget(target)
+            .WithSender(user)
+            .WithCommand(command)
+            .Build();
         try
         {
             await _commandExecutor.TryExecuteCommand(command, context);

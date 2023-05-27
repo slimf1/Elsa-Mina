@@ -19,7 +19,6 @@ public class BotTest
     private IClient _client;
     private IConfigurationManager _configurationManager;
     private IClockService _clockService;
-    private IContextFactory _contextFactory;
     private ICommandExecutor _commandExecutor;
     private IRoomsManager _roomsManager;
     private IFormatsManager _formatsManager;
@@ -36,7 +35,6 @@ public class BotTest
         _client = Substitute.For<IClient>();
         _configurationManager = Substitute.For<IConfigurationManager>();
         _clockService = Substitute.For<IClockService>();
-        _contextFactory = Substitute.For<IContextFactory>();
         _commandExecutor = Substitute.For<ICommandExecutor>();
         _roomsManager = Substitute.For<IRoomsManager>();
         _formatsManager = Substitute.For<IFormatsManager>();
@@ -44,8 +42,8 @@ public class BotTest
         _pmSendersManager = Substitute.For<IPmSendersManager>();
         _parsersManager = Substitute.For<IParsersManager>();
         
-        _bot = new ElsaMina.Core.Bot.Bot(_logger, _client, _configurationManager, _clockService, _contextFactory,
-            _commandExecutor, _roomsManager, _formatsManager, _loginService, _pmSendersManager, _parsersManager);
+        _bot = new ElsaMina.Core.Bot.Bot(_logger, _client, _configurationManager, _clockService, _commandExecutor,
+            _roomsManager, _formatsManager, _loginService, _pmSendersManager, _parsersManager);
     }
 
     [TearDown]

@@ -37,7 +37,6 @@ public class CoreModule : Module
         builder.RegisterType<ConfigurationManager>().As<IConfigurationManager>().SingleInstance();
         builder.RegisterType<HttpService>().As<IHttpService>().SingleInstance();
         builder.RegisterType<ClockService>().As<IClockService>().SingleInstance();
-        builder.RegisterType<ContextFactory>().As<IContextFactory>().SingleInstance();
         builder.RegisterType<CommandExecutor>().As<ICommandExecutor>().SingleInstance();
         builder.RegisterType<RoomsManager>().As<IRoomsManager>().SingleInstance();
         builder.RegisterType<FormatsManager>().As<IFormatsManager>().SingleInstance();
