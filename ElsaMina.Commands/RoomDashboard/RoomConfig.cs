@@ -34,35 +34,34 @@ public class RoomConfig : ICommand
 
     public async Task Run(IContext context)
     {
-        try
+        var parts = context.Target.Split(",");
+        var roomId = parts[0].Trim().ToLower();
+        var locale = parts[1].Trim().ToLower();
+
+        var room = _roomsManager.GetRoom(roomId);
+        if (room == null)
         {
-            var parts = context.Target.Split(",");
-            var roomId = parts[0].Trim().ToLower();
-            var locale = parts[1].Trim().ToLower();
+            context.Reply(context.GetString("room_config_room_not_found", roomId));
+            return;
+        }
 
-            var room = _roomsManager.GetRoom(roomId);
-            if (room == null)
-            {
-                context.Reply(context.GetString("room_config_room_not_found", roomId));
-                return;
-            }
+        if (!_resourcesService.SupportedLocales.Select(culture => culture.Name.ToLower()).Contains(locale))
+        {
+            context.Reply(context.GetString("room_config_locale_not_found", locale));
+            return;
+        }
 
-            if (!_resourcesService.SupportedLocales.Select(culture => culture.Name.ToLower()).Contains(locale))
-            {
-                context.Reply(context.GetString("room_config_locale_not_found", locale));
-                return;
-            }
+        room.Locale = locale;
 
-            room.Locale = locale;
-
-            var roomParameters = new RoomParameters
-            {
-                Id = roomId,
-                Locale = locale,
-                IsShowingErrorMessages = parts[2] == "on",
-                IsCommandAutocorrectEnabled = parts[3] == "on"
-            };
-
+        var roomParameters = new RoomParameters
+        {
+            Id = roomId,
+            Locale = locale,
+            IsShowingErrorMessages = parts[2] == "on",
+            IsCommandAutocorrectEnabled = parts[3] == "on"
+        };
+        
+        try {
             await _roomParametersRepository.UpdateAsync(roomParameters);
             context.Locale = new CultureInfo(locale);
             context.Reply(context.GetString("room_config_success", roomId));
