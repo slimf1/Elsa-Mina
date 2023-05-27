@@ -5,6 +5,7 @@ using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
+using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.RoomDashboard;
@@ -27,12 +28,12 @@ public class ShowRoomDashboard : ICommand
     private readonly IConfigurationManager _configurationManager;
     private readonly IResourcesService _resourcesService;
     private readonly IRoomsManager _roomsManager;
-    private readonly IRoomParametersRepository _roomParametersRepository;
+    private readonly IRepository<RoomParameters, string> _roomParametersRepository;
 
     public ShowRoomDashboard(IConfigurationManager configurationManager,
         IResourcesService resourcesService,
         IRoomsManager roomsManager,
-        IRoomParametersRepository roomParametersRepository)
+        IRepository<RoomParameters, string> roomParametersRepository)
     {
         _configurationManager = configurationManager;
         _resourcesService = resourcesService;

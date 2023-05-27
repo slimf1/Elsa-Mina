@@ -6,13 +6,14 @@ using ElsaMina.Core.Services.Config;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 using User = ElsaMina.Core.Models.User;
 
 namespace ElsaMina.Test.Commands.CustomCommands;
 
 public class AddCustomCommandTest
 {
-    private IAddedCommandRepository _addedCommandRepository;
+    private IRepository<AddedCommand, Tuple<string, string>> _addedCommandRepository;
     private IConfigurationManager _configurationManager;
     private IClockService _clockService;
 
@@ -21,7 +22,7 @@ public class AddCustomCommandTest
     [SetUp]
     public void SetUp()
     {
-        _addedCommandRepository = Substitute.For<IAddedCommandRepository>();
+        _addedCommandRepository = Substitute.For<IRepository<AddedCommand, Tuple<string, string>>>();
         _configurationManager = Substitute.For<IConfigurationManager>();
         _clockService = Substitute.For<IClockService>();
 
@@ -39,8 +40,7 @@ public class AddCustomCommandTest
         context.Sender.Returns(new User("John", '+'));
         context.RoomId.Returns("room-1");
         _configurationManager.Configuration.Returns(new Configuration { Trigger = "+" });
-        _addedCommandRepository.GetByIdAsync(Arg.Any<string>(), Arg.Any<string>())
-            .Returns((AddedCommand)null);
+        _addedCommandRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).ReturnsNull();
 
         // Act
         await _addCustomCommand.Run(context);
@@ -108,7 +108,7 @@ public class AddCustomCommandTest
         // Arrange
         _configurationManager.Configuration.Trigger.Returns("@");
         var existingCommand = new AddedCommand { Id = "existing", RoomId = "room-1" };
-        _addedCommandRepository.GetByIdAsync(Arg.Any<string>(), Arg.Any<string>()).Returns(existingCommand);
+        _addedCommandRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(existingCommand);
         var context = Substitute.For<IContext>();
         context.Target.Returns("existing,Test command content");
 

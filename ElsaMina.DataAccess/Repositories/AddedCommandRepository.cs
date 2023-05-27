@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.DataAccess.Repositories;
 
-public class AddedCommandRepository : IAddedCommandRepository
+public class AddedCommandRepository : IRepository<AddedCommand, Tuple<string, string>>
 {
     private readonly BotDbContext _dbContext;
     private bool _disposed;
@@ -18,14 +18,15 @@ public class AddedCommandRepository : IAddedCommandRepository
         _dbContext = context;
     }
     
-    public async Task<AddedCommand> GetByIdAsync(string commandId, string roomId)
+    public async Task<AddedCommand> GetByIdAsync(Tuple<string, string> key)
     {
+        var (commandId, roomId) = key;
         return await _dbContext.Set<AddedCommand>().FirstOrDefaultAsync(x => x.Id == commandId && x.RoomId == roomId);
     }
 
-    public async Task<IEnumerable<AddedCommand>> GetAllAsync(string roomId)
+    public async Task<IEnumerable<AddedCommand>> GetAllAsync()
     {
-        return await _dbContext.Set<AddedCommand>().Where(command => command.RoomId == roomId).ToListAsync();
+        return await _dbContext.Set<AddedCommand>().ToListAsync();
     }
 
     public async Task AddAsync(AddedCommand addedCommand)
@@ -40,9 +41,9 @@ public class AddedCommandRepository : IAddedCommandRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(string commandId, string roomId)
+    public async Task DeleteAsync(Tuple<string, string> key)
     {
-        var addedCommand = await GetByIdAsync(commandId, roomId);
+        var addedCommand = await GetByIdAsync(key);
         _dbContext.Set<AddedCommand>().Remove(addedCommand);
         await _dbContext.SaveChangesAsync();
     }

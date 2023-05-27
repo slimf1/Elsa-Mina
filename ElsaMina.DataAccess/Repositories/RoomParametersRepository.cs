@@ -3,9 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.DataAccess.Repositories;
 
-public class RoomParametersRepository : IRoomParametersRepository
+public class RoomParametersRepository : IRepository<RoomParameters, string>
 {
     private readonly DbContext _dbContext;
+    private bool _disposed;
 
     public RoomParametersRepository() : this(new BotDbContext())
     {
@@ -17,10 +18,10 @@ public class RoomParametersRepository : IRoomParametersRepository
         _dbContext = dbContext;
     }
 
-    public async Task<RoomParameters> GetByIdAsync(string id)
+    public async Task<RoomParameters> GetByIdAsync(string key)
     {
         return await _dbContext.Set<RoomParameters>()
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == key);
     }
 
     public async Task<IEnumerable<RoomParameters>> GetAllAsync()
@@ -40,15 +41,31 @@ public class RoomParametersRepository : IRoomParametersRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(string id)
+    public async Task DeleteAsync(string key)
     {
-        var roomParameters = await GetByIdAsync(id);
+        var roomParameters = await GetByIdAsync(key);
         _dbContext.Set<RoomParameters>().Remove(roomParameters);
         await _dbContext.SaveChangesAsync();
     }
 
     public void Dispose()
     {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    private void Dispose(bool disposing)
+    {
+        if (!disposing || _disposed)
+        {
+            return;
+        }
         _dbContext?.Dispose();
+        _disposed = true;
+    }
+
+    ~RoomParametersRepository()
+    {
+        Dispose(false);
     }
 }

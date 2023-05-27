@@ -10,9 +10,9 @@ public class AddedCommandsManager : IAddedCommandsManager
     private readonly Dictionary<Tuple<string, string>, AddedCommand> _addedCommandsCache = new();
 
     private readonly ILogger _logger;
-    private readonly IAddedCommandRepository _addedCommandRepository;
+    private readonly IRepository<AddedCommand, Tuple<string, string>> _addedCommandRepository;
 
-    public AddedCommandsManager(ILogger logger, IAddedCommandRepository addedCommandRepository)
+    public AddedCommandsManager(ILogger logger, IRepository<AddedCommand, Tuple<string, string>> addedCommandRepository)
     {
         _logger = logger;
         _addedCommandRepository = addedCommandRepository;
@@ -44,7 +44,7 @@ public class AddedCommandsManager : IAddedCommandsManager
 
         try
         {
-            var command = await _addedCommandRepository.GetByIdAsync(commandId, roomId);
+            var command = await _addedCommandRepository.GetByIdAsync(new Tuple<string, string>(commandId, roomId));
             if (command != null)
             {
                 _addedCommandsCache[key] = command;

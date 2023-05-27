@@ -3,20 +3,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.DataAccess.Repositories;
 
-public class BadgeRepository : IBadgeRepository
+public class BadgeRepository : IRepository<Badge, Tuple<string, string>>
 {
     private readonly DbContext _dbContext;
+    private bool _disposed;
 
     public BadgeRepository(DbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
-    public async Task<Badge> GetByIdAsync(string id)
+    public async Task<Badge> GetByIdAsync(Tuple<string, string> key)
     {
+        var (badgeId, roomId) = key;
         return await _dbContext.Set<Badge>()
             .Include(x => x.BadgeHolders)
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == badgeId && x.RoomId == roomId);
     }
 
     public async Task<IEnumerable<Badge>> GetAllAsync()
@@ -38,10 +40,31 @@ public class BadgeRepository : IBadgeRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(string id)
+    public async Task DeleteAsync(Tuple<string, string> key)
     {
-        var badge = await GetByIdAsync(id);
+        var badge = await GetByIdAsync(key);
         _dbContext.Set<Badge>().Remove(badge);
         await _dbContext.SaveChangesAsync();
+    }
+
+    private void Dispose(bool disposing)
+    {
+        if (!disposing || _disposed)
+        {
+            return;
+        }
+        _dbContext?.Dispose();
+        _disposed = true;
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    ~BadgeRepository()
+    {
+        Dispose(false);
     }
 }

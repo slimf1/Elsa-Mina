@@ -13,11 +13,11 @@ public class AddCustomCommand : ICommand
     public static IEnumerable<string> Aliases => new[] { "add-custom", "add-command" };
     public char RequiredRank => '@';
 
-    private readonly IAddedCommandRepository _addedCommandRepository;
+    private readonly IRepository<AddedCommand, Tuple<string, string>> _addedCommandRepository;
     private readonly IConfigurationManager _configurationManager;
     private readonly IClockService _clockService;
     
-    public AddCustomCommand(IAddedCommandRepository addedCommandRepository,
+    public AddCustomCommand(IRepository<AddedCommand, Tuple<string, string>> addedCommandRepository,
         IConfigurationManager configurationManager,
         IClockService clockService)
     {
@@ -56,7 +56,8 @@ public class AddCustomCommand : ICommand
             return;
         }
 
-        var existingCommand = await _addedCommandRepository.GetByIdAsync(command, context.RoomId);
+        var existingCommand = await _addedCommandRepository.GetByIdAsync(new Tuple<string, string>(
+            command, context.RoomId));
         if (existingCommand != null)
         {
             context.Reply(context.GetString("addcommand_already_exist"));
