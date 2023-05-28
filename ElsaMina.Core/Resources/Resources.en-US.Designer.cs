@@ -195,6 +195,60 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not delete command : {0}.
+        /// </summary>
+        internal static string deletecommand_failure {
+            get {
+                return ResourceManager.GetString("deletecommand_failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deletes an added command. Syntax : -deletecommand &lt;command&gt;.
+        /// </summary>
+        internal static string deletecommand_help {
+            get {
+                return ResourceManager.GetString("deletecommand_help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The command {0} has been deleted.
+        /// </summary>
+        internal static string deletecommand_success {
+            get {
+                return ResourceManager.GetString("deletecommand_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not update command : {0}.
+        /// </summary>
+        internal static string editcommand_failure {
+            get {
+                return ResourceManager.GetString("editcommand_failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edits an added command. Syntax : -editcommand &lt;name&gt;, &lt;content&gt;.
+        /// </summary>
+        internal static string editcommand_help {
+            get {
+                return ResourceManager.GetString("editcommand_help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Command {0} has been updated.
+        /// </summary>
+        internal static string editcommand_success {
+            get {
+                return ResourceManager.GetString("editcommand_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Elsa-Mina v7 : Bot in development.
         /// </summary>
         internal static string help {

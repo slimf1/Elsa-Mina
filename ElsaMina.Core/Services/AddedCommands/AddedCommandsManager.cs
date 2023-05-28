@@ -1,20 +1,15 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
-using Serilog;
 
 namespace ElsaMina.Core.Services.AddedCommands;
 
 public class AddedCommandsManager : IAddedCommandsManager
 {
-    private readonly Dictionary<Tuple<string, string>, AddedCommand> _addedCommandsCache = new();
-
-    private readonly ILogger _logger;
     private readonly IRepository<AddedCommand, Tuple<string, string>> _addedCommandRepository;
 
-    public AddedCommandsManager(ILogger logger, IRepository<AddedCommand, Tuple<string, string>> addedCommandRepository)
+    public AddedCommandsManager(IRepository<AddedCommand, Tuple<string, string>> addedCommandRepository)
     {
-        _logger = logger;
         _addedCommandRepository = addedCommandRepository;
     }
 
@@ -25,7 +20,7 @@ public class AddedCommandsManager : IAddedCommandsManager
             return;
         }
 
-        var command = await GetCommand(commandName, context.RoomId);
+        var command = await _addedCommandRepository.GetByIdAsync(new(commandName, context.RoomId));
         if (command == null)
         {
             return;
@@ -34,31 +29,6 @@ public class AddedCommandsManager : IAddedCommandsManager
         context.Reply(GetMessageFromCommand(command));
     }
     
-    private async Task<AddedCommand> GetCommand(string commandId, string roomId)
-    {
-        var key = new Tuple<string, string>(commandId, roomId);
-        if (_addedCommandsCache.TryGetValue(key, out var cachedCommand))
-        {
-            return cachedCommand;
-        }
-
-        try
-        {
-            var command = await _addedCommandRepository.GetByIdAsync(new Tuple<string, string>(commandId, roomId));
-            if (command != null)
-            {
-                _addedCommandsCache[key] = command;
-            }
-
-            return command;
-        }
-        catch (Exception exception)
-        {
-            _logger.Error(exception, "An error occured while fetching a command");
-            return null;
-        }
-    }
-
     private string GetMessageFromCommand(AddedCommand command)
     {
         // TODO : parsing

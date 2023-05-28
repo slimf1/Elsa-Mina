@@ -24,6 +24,8 @@ public class CommandModule : Module
         RegisterCommand<Kill>(builder);
         RegisterCommand<StopConnection>(builder);
         RegisterCommand<Script>(builder);
+        RegisterCommand<DeleteCustomCommand>(builder);
+        RegisterCommand<EditCustomCommand>(builder);
     }
 
     private static void RegisterCommand<T>(ContainerBuilder builder) where T : ICommand

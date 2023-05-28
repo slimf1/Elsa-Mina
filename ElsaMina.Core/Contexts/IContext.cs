@@ -21,6 +21,7 @@ public interface IContext
     void SendHtmlPage(string pageName, string html);
     bool HasSufficientRank(char requiredRank);
     void Reply(string message);
+    void ReplyLocalizedMessage(string key, params object[] formatArguments);
     void SendHtml(string html, string roomId = null);
     void SendUpdatableHtml(string htmlId, string html, bool isChanging);
 }
