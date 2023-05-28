@@ -26,6 +26,8 @@ public class CommandModule : Module
         RegisterCommand<Script>(builder);
         RegisterCommand<DeleteCustomCommand>(builder);
         RegisterCommand<EditCustomCommand>(builder);
+        
+        RegisterParser<JoinRoomOnInviteParser>(builder);
     }
 
     private static void RegisterCommand<T>(ContainerBuilder builder) where T : ICommand

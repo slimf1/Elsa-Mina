@@ -1,14 +1,31 @@
+using ElsaMina.Core.Bot;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Services.PrivateMessages;
 
 namespace ElsaMina.Core.Commands.Parsers;
 
 public abstract class PrivateMessageParser : Parser
 {
-    public override async Task Execute(string[] parts)
+    private readonly IContextFactory _contextFactory;
+    private readonly IBot _bot;
+    private readonly IPmSendersManager _pmSendersManager;
+
+    protected PrivateMessageParser(IContextFactory contextFactory,
+        IBot bot,
+        IPmSendersManager pmSendersManager)
+    {
+        _contextFactory = contextFactory;
+        _bot = bot;
+        _pmSendersManager = pmSendersManager;
+    }
+
+    public sealed override async Task Execute(string[] parts)
     {
         if (parts.Length > 2 && parts[1] == "pm")
         {
-            // await HandlePrivateMessage(parts[2], parts[4]);
+            var context = _contextFactory.GetContext(ContextType.Pm, _bot, parts[4],
+                _pmSendersManager.GetUser(parts[2]), null);
+            await HandlePrivateMessage(context);
         }
     }
 
