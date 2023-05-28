@@ -84,4 +84,22 @@
     <data name="room_config_locale_not_found" xml:space="preserve">
         <value>Could not find locale '{0}'</value>
     </data>
+    <data name="editcommand_help" xml:space="preserve">
+        <value>Edits an added command. Syntax : -editcommand &lt;name&gt;, &lt;content&gt;</value>
+    </data>
+    <data name="editcommand_failure" xml:space="preserve">
+        <value>Could not update command : {0}</value>
+    </data>
+    <data name="editcommand_success" xml:space="preserve">
+        <value>Command {0} has been updated</value>
+    </data>
+    <data name="deletecommand_help" xml:space="preserve">
+        <value>Deletes an added command. Syntax : -deletecommand &lt;command&gt;</value>
+    </data>
+    <data name="deletecommand_failure" xml:space="preserve">
+        <value>Could not delete command : {0}</value>
+    </data>
+    <data name="deletecommand_success" xml:space="preserve">
+        <value>The command {0} has been deleted</value>
+    </data>
 </root>

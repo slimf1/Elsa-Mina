@@ -55,6 +55,11 @@ public abstract class Context : IContext
         return string.Format(GetString(key), formatArguments);
     }
 
+    public void ReplyLocalizedMessage(string key, params object[] formatArguments)
+    {
+        Reply(GetString(key, formatArguments));
+    }
+
     public override string ToString()
     {
         return $"{nameof(Context)}[{nameof(Bot)}: {Bot}, " +

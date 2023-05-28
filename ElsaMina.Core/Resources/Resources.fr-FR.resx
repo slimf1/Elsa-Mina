@@ -84,4 +84,22 @@
     <data name="room_config_locale_not_found" xml:space="preserve">
         <value>Impossible de trouver la langue '{0}'</value>
     </data>
+    <data name="editcommand_help" xml:space="preserve">
+        <value>Modifie une commande ajoutée. Syntaxe : -editcommand &lt;nom&gt;, &lt;contenu&gt;</value>
+    </data>
+    <data name="editcommand_success" xml:space="preserve">
+        <value>La commande {0} a été mise à jour</value>
+    </data>
+    <data name="editcommand_failure" xml:space="preserve">
+        <value>Impossible de mettre à jour la commande : {0}</value>
+    </data>
+    <data name="deletecommand_help" xml:space="preserve">
+        <value>Supprime une commande ajoutée. Syntaxe : -deletecommand &lt;commande&gt;</value>
+    </data>
+    <data name="deletecommand_failure" xml:space="preserve">
+        <value>Impossible de supprimer la commande : {0}</value>
+    </data>
+    <data name="deletecommand_success" xml:space="preserve">
+        <value>La commande {0} a été supprimée</value>
+    </data>
 </root>

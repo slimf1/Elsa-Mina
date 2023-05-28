@@ -10,8 +10,13 @@ public interface ICommand
     protected virtual bool IsWhitelistOnly => false;
     protected virtual bool IsPrivateMessageOnly => false;
     protected virtual char RequiredRank => '&';
-    protected virtual string HelpMessage => "";
+    protected virtual string HelpMessageKey => "";
     protected virtual bool IsHidden => false;
+
+    protected sealed void ReplyLocalizedHelpMessage(IContext context, params object[] formatArguments)
+    {
+        context.Reply(context.GetString(HelpMessageKey, formatArguments));
+    }
 
     public sealed async Task Call(IContext context)
     {

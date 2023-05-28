@@ -11,8 +11,9 @@ public class CachedRepository<TRepository, T, TKey> : IRepository<T, TKey>
     private readonly ILogger _logger;
 
     private readonly Dictionary<TKey, T> _cache = new();
+    private bool _fetchedAll;
     private bool _disposed;
-    
+
     public CachedRepository(ILogger logger, TRepository repository)
     {
         _logger = logger;
@@ -46,10 +47,17 @@ public class CachedRepository<TRepository, T, TKey> : IRepository<T, TKey>
     public async Task<IEnumerable<T>> GetAllAsync()
     {
         var entities = (await _repository.GetAllAsync()).ToList();
+        if (_fetchedAll)
+        {
+            return _cache.Values;
+        }
+
         foreach (var entity in entities)
         {
             _cache[entity.Key] = entity;
         }
+
+        _fetchedAll = true;
         return entities;
     }
 
@@ -83,7 +91,7 @@ public class CachedRepository<TRepository, T, TKey> : IRepository<T, TKey>
         {
             return;
         }
-        
+
         _repository.Dispose();
         _disposed = true;
     }
