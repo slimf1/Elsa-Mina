@@ -26,6 +26,7 @@ public class CommandModule : Module
         RegisterCommand<Script>(builder);
         RegisterCommand<DeleteCustomCommand>(builder);
         RegisterCommand<EditCustomCommand>(builder);
+        RegisterCommand<TemplatesDebug>(builder);
         
         RegisterParser<JoinRoomOnInviteParser>(builder);
     }

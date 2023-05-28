@@ -5,6 +5,8 @@ namespace ElsaMina.Core.Services.DependencyInjection;
 
 public class DependencyContainerService : IDependencyContainerService
 {
+    public static IDependencyContainerService s_ContainerService;
+
     public IContainer Container { get; set; }
 
     public T Resolve<T>() where T : notnull

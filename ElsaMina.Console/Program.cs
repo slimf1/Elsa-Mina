@@ -14,6 +14,7 @@ builder.RegisterModule<CommandModule>();
 var container = builder.Build();
 var dependencyContainerService = container.Resolve<IDependencyContainerService>();
 dependencyContainerService.Container = container;
+DependencyContainerService.s_ContainerService = dependencyContainerService;
 var logger = dependencyContainerService.Resolve<ILogger>();
 
 // Load configuration
