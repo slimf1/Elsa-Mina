@@ -3,7 +3,6 @@ using ElsaMina.Core.Bot;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
-using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Core.Contexts;
 
@@ -13,8 +12,6 @@ public class RoomContext : Context
     {
         ' ', '+', '%', '@', '*', '#', '&'
     };
-
-    private readonly IConfigurationManager _configurationManager;
 
     private readonly IRoom _room;
     private readonly long _timestamp;
@@ -28,14 +25,11 @@ public class RoomContext : Context
         IRoom room,
         long timestamp) : base(configurationManager, resourcesService, bot, target, sender, command)
     {
-        _configurationManager = configurationManager;
-
         _room = room;
         _timestamp = timestamp;
     }
 
     public override string RoomId => _room.RoomId;
-    public override ContextType Type => ContextType.Room;
     public override bool IsPm => false;
 
     public override CultureInfo Locale

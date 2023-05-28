@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Autofac;
+﻿using Autofac;
 using ElsaMina.Commands;
 using ElsaMina.Core.Bot;
 using ElsaMina.Core.Client;

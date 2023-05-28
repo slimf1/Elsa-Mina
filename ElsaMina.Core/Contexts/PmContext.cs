@@ -25,7 +25,6 @@ public class PmContext : Context
     }
 
     public override string RoomId => _configurationManager.Configuration.DefaultRoom;
-    public override ContextType Type => ContextType.Pm;
     public override bool IsPm => true;
 
     public override CultureInfo Locale

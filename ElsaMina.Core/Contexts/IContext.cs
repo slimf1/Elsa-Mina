@@ -1,18 +1,15 @@
 ﻿using System.Globalization;
-using ElsaMina.Core.Bot;
 using ElsaMina.Core.Models;
 
 namespace ElsaMina.Core.Contexts;
 
 public interface IContext
 {
-    IBot Bot { get; }
     string Target { get; }
     IUser Sender { get; }
     string Command { get; }
     bool IsSenderWhitelisted { get; }
     string RoomId { get; }
-    ContextType Type { get; }
     bool IsPm { get; }
     CultureInfo Locale { get; set; }
 
