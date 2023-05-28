@@ -10,7 +10,7 @@ public class TemplatesManager : ITemplatesManager
     
     static TemplatesManager()
     {
-        Template.FileSystem = new LocalFileSystem(TEMPLATES_DIRECTORY);
+        Template.FileSystem = new LocalFileSystem(Path.Join(Environment.CurrentDirectory, TEMPLATES_DIRECTORY));
         Template.RegisterFilter(typeof(LocalizationFilter));
     }
     
