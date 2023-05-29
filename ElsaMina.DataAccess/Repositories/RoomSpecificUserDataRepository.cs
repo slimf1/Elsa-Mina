@@ -8,6 +8,11 @@ public class RoomSpecificUserDataRepository : IRepository<RoomSpecificUserData, 
     private readonly DbContext _dbContext;
     private bool _disposed;
 
+    public RoomSpecificUserDataRepository() : this(new BotDbContext())
+    {
+        
+    }
+    
     public RoomSpecificUserDataRepository(DbContext dbContext)
     {
         _dbContext = dbContext;
@@ -44,6 +49,11 @@ public class RoomSpecificUserDataRepository : IRepository<RoomSpecificUserData, 
     {
         var roomSpecificUserData = await GetByIdAsync(key);
         _dbContext.Set<RoomSpecificUserData>().Remove(roomSpecificUserData);
+        await _dbContext.SaveChangesAsync();
+    }
+    
+    public async Task SaveAsync()
+    {
         await _dbContext.SaveChangesAsync();
     }
 

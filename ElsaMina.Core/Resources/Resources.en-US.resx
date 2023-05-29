@@ -105,4 +105,16 @@
     <data name="badge_add_already_exist" xml:space="preserve">
         <value>The badge {0} already exist.</value>
     </data>
+    <data name="badge_give_help_message" xml:space="preserve">
+        <value>Gives a badge to someone. Syntax : -givebadge &lt;user&gt;, &lt;badge&gt;</value>
+    </data>
+    <data name="badge_give_could_not_find_badge" xml:space="preserve">
+        <value>Could not find badge {0}.</value>
+    </data>
+    <data name="badge_give_error" xml:space="preserve">
+        <value>An error occured while giving the badge : {0}</value>
+    </data>
+    <data name="badge_give_success" xml:space="preserve">
+        <value>User "{0}" received the badge "{1}".</value>
+    </data>
 </root>

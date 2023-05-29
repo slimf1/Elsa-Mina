@@ -47,6 +47,11 @@ public class RoomParametersRepository : IRepository<RoomParameters, string>
         _dbContext.Set<RoomParameters>().Remove(roomParameters);
         await _dbContext.SaveChangesAsync();
     }
+    
+    public async Task SaveAsync()
+    {
+        await _dbContext.SaveChangesAsync();
+    }
 
     public void Dispose()
     {

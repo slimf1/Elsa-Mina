@@ -132,6 +132,42 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Impossible de trouver le badge {0}.
+        /// </summary>
+        internal static string badge_give_could_not_find_badge {
+            get {
+                return ResourceManager.GetString("badge_give_could_not_find_badge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Une erreur est survenue en ajoutant le badge : {0}.
+        /// </summary>
+        internal static string badge_give_error {
+            get {
+                return ResourceManager.GetString("badge_give_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Donne un badge à quelqu&apos;un. Syntaxe : -givebadge &lt;utilisateur&gt;, &lt;badge&gt;.
+        /// </summary>
+        internal static string badge_give_help_message {
+            get {
+                return ResourceManager.GetString("badge_give_help_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;{0}&quot; a reçu le badge &quot;{1}&quot;.
+        /// </summary>
+        internal static string badge_give_success {
+            get {
+                return ResourceManager.GetString("badge_give_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ajoute un nouveau badge. Syntaxe : -add-badge &lt;nom&gt;, &lt;image&gt;. Utiliser -add-trophy pour ajouter un trophée..
         /// </summary>
         internal static string badge_help_message {

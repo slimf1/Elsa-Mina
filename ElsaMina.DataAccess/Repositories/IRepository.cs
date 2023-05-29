@@ -9,4 +9,5 @@ public interface IRepository<T, in TKey> : IDisposable where T : IKeyed<TKey>
     Task AddAsync(T entity);
     Task UpdateAsync(T entity);
     Task DeleteAsync(TKey key);
+    Task SaveAsync();
 }

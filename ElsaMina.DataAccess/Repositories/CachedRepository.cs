@@ -78,6 +78,11 @@ public class CachedRepository<TRepository, T, TKey> : IRepository<T, TKey>
         _cache.Remove(id);
         await _repository.DeleteAsync(id);
     }
+    
+    public async Task SaveAsync()
+    {
+        await _repository.SaveAsync();
+    }
 
     public void Dispose()
     {

@@ -7,10 +7,15 @@ public class Badge : IKeyed<Tuple<string, string>>
 {
     public Tuple<string, string> Key => new(Id, RoomId);
 
+    public Badge()
+    {
+        BadgeHolders = new HashSet<RoomSpecificUserData>();
+    }
+
     public string Id { get; set; }
     public string RoomId { get; set; }
     public string? Name { get; set; }
     public string? Image { get; set; }
     public bool? IsTrophy { get; set; }
-    public ICollection<RoomSpecificUserData>? BadgeHolders { get; set; }
+    public ICollection<RoomSpecificUserData> BadgeHolders { get; set; }
 }

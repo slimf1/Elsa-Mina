@@ -47,6 +47,11 @@ public class AddedCommandRepository : IRepository<AddedCommand, Tuple<string, st
         _dbContext.Set<AddedCommand>().Remove(addedCommand);
         await _dbContext.SaveChangesAsync();
     }
+    
+    public async Task SaveAsync()
+    {
+        await _dbContext.SaveChangesAsync();
+    }
 
     private void Dispose(bool disposing)
     {

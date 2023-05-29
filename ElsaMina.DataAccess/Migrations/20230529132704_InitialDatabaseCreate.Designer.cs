@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ElsaMina.DataAccess.Migrations
 {
     [DbContext(typeof(BotDbContext))]
-    [Migration("20230526220130_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230529132704_InitialDatabaseCreate")]
+    partial class InitialDatabaseCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,16 +30,13 @@ namespace ElsaMina.DataAccess.Migrations
                     b.Property<string>("BadgeHoldersId")
                         .HasColumnType("text");
 
-                    b.Property<string>("BadgeHoldersRoomId")
-                        .HasColumnType("text");
-
                     b.Property<string>("BadgesId")
                         .HasColumnType("text");
 
                     b.Property<string>("BadgesRoomId")
                         .HasColumnType("text");
 
-                    b.HasKey("BadgeHoldersId", "BadgeHoldersRoomId", "BadgesId", "BadgesRoomId");
+                    b.HasKey("BadgeHoldersId", "BadgesId", "BadgesRoomId");
 
                     b.HasIndex("BadgesId", "BadgesRoomId");
 
@@ -114,19 +111,19 @@ namespace ElsaMina.DataAccess.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("RoomId")
-                        .HasColumnType("text");
-
                     b.Property<string>("Avatar")
                         .HasColumnType("text");
 
                     b.Property<long?>("OnTime")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("RoomId")
+                        .HasColumnType("text");
+
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
-                    b.HasKey("Id", "RoomId");
+                    b.HasKey("Id");
 
                     b.ToTable("UserData");
                 });
@@ -151,7 +148,7 @@ namespace ElsaMina.DataAccess.Migrations
                 {
                     b.HasOne("ElsaMina.DataAccess.Models.RoomSpecificUserData", null)
                         .WithMany()
-                        .HasForeignKey("BadgeHoldersId", "BadgeHoldersRoomId")
+                        .HasForeignKey("BadgeHoldersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -51,6 +51,11 @@ public class BadgeRepository : IRepository<Badge, Tuple<string, string>>
         _dbContext.Set<Badge>().Remove(badge);
         await _dbContext.SaveChangesAsync();
     }
+    
+    public async Task SaveAsync()
+    {
+        await _dbContext.SaveChangesAsync();
+    }
 
     private void Dispose(bool disposing)
     {
