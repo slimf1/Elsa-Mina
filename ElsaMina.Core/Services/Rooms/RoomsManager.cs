@@ -25,7 +25,7 @@ public class RoomsManager : IRoomsManager
 
     public IRoom GetRoom(string roomId)
     {
-        return _rooms.ContainsKey(roomId) ? _rooms[roomId] : null;
+        return _rooms.TryGetValue(roomId, out var value) ? value : null;
     }
 
     public bool HasRoom(string roomId)

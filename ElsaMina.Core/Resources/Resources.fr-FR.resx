@@ -102,4 +102,7 @@
     <data name="deletecommand_success" xml:space="preserve">
         <value>La commande {0} a été supprimée</value>
     </data>
+    <data name="badge_add_already_exist" xml:space="preserve">
+        <value>Le badge {0} existe déjà.</value>
+    </data>
 </root>

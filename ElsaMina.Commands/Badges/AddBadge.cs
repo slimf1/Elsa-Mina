@@ -30,13 +30,21 @@ public class AddBadge : ICommand
         var arguments = context.Target.Split(",");
         if (arguments.Length != 2)
         {
-            context.Reply(context.GetString("badge_help_message"));
+            context.ReplyLocalizedMessage("badge_help_message");
             return;
         }
 
         var name = arguments[0].Trim();
         var image = arguments[1].Trim();
         var isTrophy = context.Command is "add-trophy" or "newtrophy" or "new-trophy";
+        var badgeId = name.ToLowerAlphaNum();
+
+        var existingBadge = await _badgeRepository.GetByIdAsync(new (badgeId, context.RoomId));
+        if (existingBadge != null)
+        {
+            context.ReplyLocalizedMessage("badge_add_already_exist", name);
+            return;
+        }
 
         try
         {
@@ -44,15 +52,16 @@ public class AddBadge : ICommand
             {
                 Name = name,
                 Image = image,
-                Id = name.ToLowerAlphaNum(),
-                IsTrophy = isTrophy
+                Id = badgeId,
+                IsTrophy = isTrophy,
+                RoomId = context.RoomId
             });
-            context.Reply(context.GetString("badge_add_success_message"));
+            context.ReplyLocalizedMessage("badge_add_success_message");
         }
         catch (Exception exception)
         {
             _logger.Error(exception, "Could not add badge");
-            context.Reply(context.GetString("badge_add_failure_message", exception.Message));
+            context.ReplyLocalizedMessage("badge_add_failure_message", exception.Message);
         }
     }
 }

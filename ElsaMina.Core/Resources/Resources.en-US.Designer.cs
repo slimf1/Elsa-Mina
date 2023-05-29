@@ -105,6 +105,15 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The badge {0} already exist..
+        /// </summary>
+        internal static string badge_add_already_exist {
+            get {
+                return ResourceManager.GetString("badge_add_already_exist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occured while adding the badge : {0}.
         /// </summary>
         internal static string badge_add_failure_message {

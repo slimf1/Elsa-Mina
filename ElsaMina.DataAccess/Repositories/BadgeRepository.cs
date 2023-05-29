@@ -8,6 +8,11 @@ public class BadgeRepository : IRepository<Badge, Tuple<string, string>>
     private readonly DbContext _dbContext;
     private bool _disposed;
 
+    public BadgeRepository() : this(new BotDbContext())
+    {
+        
+    }
+    
     public BadgeRepository(DbContext dbContext)
     {
         _dbContext = dbContext;
