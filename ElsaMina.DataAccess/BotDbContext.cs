@@ -11,6 +11,7 @@ public class BotDbContext : DbContext
     public DbSet<Badge> Badges { get; set; }
     public DbSet<AddedCommand> AddedCommands { get; set; }
     public DbSet<RoomParameters> RoomParameters { get; set; }
+    public DbSet<BadgeHolding> BadgeHoldings { get; set; }
 
     public BotDbContext()
     {
@@ -28,10 +29,21 @@ public class BotDbContext : DbContext
             .HasKey(command => new { command.Id, command.RoomId });
         modelBuilder.Entity<Badge>()
             .HasKey(badge => new { badge.Id, badge.RoomId });
-        modelBuilder.Entity<RoomSpecificUserData>()
-            .HasMany(userData => userData.Badges)
+
+        modelBuilder.Entity<BadgeHolding>()
+            .HasKey(badgeHolding => new { badgeHolding.BadgeId, badgeHolding.UserId, badgeHolding.RoomId });
+        
+        modelBuilder.Entity<BadgeHolding>()
+            .HasOne(badgeHolding => badgeHolding.Badge)
             .WithMany(badge => badge.BadgeHolders)
-            .UsingEntity(builder => builder.ToTable("BadgeHoldings"))
+            .HasForeignKey(badgeHolding => new { badgeHolding.BadgeId, badgeHolding.RoomId });
+
+        modelBuilder.Entity<BadgeHolding>()
+            .HasOne(badgeHolding => badgeHolding.RoomSpecificUserData)
+            .WithMany(userData => userData.Badges)
+            .HasForeignKey(badgeHolding => new { badgeHolding.UserId, badgeHolding.RoomId });
+        
+        modelBuilder.Entity<RoomSpecificUserData>()
             .HasKey(userData => new { userData.Id, userData.RoomId });
     }
 

@@ -9,7 +9,7 @@ public class Badge : IKeyed<Tuple<string, string>>
 
     public Badge()
     {
-        BadgeHolders = new HashSet<RoomSpecificUserData>();
+        BadgeHolders = new HashSet<BadgeHolding>();
     }
 
     public string Id { get; set; }
@@ -17,5 +17,5 @@ public class Badge : IKeyed<Tuple<string, string>>
     public string? Name { get; set; }
     public string? Image { get; set; }
     public bool? IsTrophy { get; set; }
-    public ICollection<RoomSpecificUserData> BadgeHolders { get; set; }
+    public ICollection<BadgeHolding> BadgeHolders { get; set; }
 }

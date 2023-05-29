@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ElsaMina.DataAccess.Migrations
 {
     [DbContext(typeof(BotDbContext))]
-    [Migration("20230529144209_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230529193706_InitialDbCreate")]
+    partial class InitialDbCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,27 +24,6 @@ namespace ElsaMina.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("BadgeRoomSpecificUserData", b =>
-                {
-                    b.Property<string>("BadgeHoldersId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("BadgeHoldersRoomId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("BadgesId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("BadgesRoomId")
-                        .HasColumnType("text");
-
-                    b.HasKey("BadgeHoldersId", "BadgeHoldersRoomId", "BadgesId", "BadgesRoomId");
-
-                    b.HasIndex("BadgesId", "BadgesRoomId");
-
-                    b.ToTable("BadgeHoldings", (string)null);
-                });
 
             modelBuilder.Entity("ElsaMina.DataAccess.Models.AddedCommand", b =>
                 {
@@ -88,6 +67,26 @@ namespace ElsaMina.DataAccess.Migrations
                     b.HasKey("Id", "RoomId");
 
                     b.ToTable("Badges");
+                });
+
+            modelBuilder.Entity("ElsaMina.DataAccess.Models.BadgeHolding", b =>
+                {
+                    b.Property<string>("BadgeId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RoomId")
+                        .HasColumnType("text");
+
+                    b.HasKey("BadgeId", "UserId", "RoomId");
+
+                    b.HasIndex("BadgeId", "RoomId");
+
+                    b.HasIndex("UserId", "RoomId");
+
+                    b.ToTable("BadgeHoldings");
                 });
 
             modelBuilder.Entity("ElsaMina.DataAccess.Models.RoomParameters", b =>
@@ -147,19 +146,33 @@ namespace ElsaMina.DataAccess.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("BadgeRoomSpecificUserData", b =>
+            modelBuilder.Entity("ElsaMina.DataAccess.Models.BadgeHolding", b =>
                 {
-                    b.HasOne("ElsaMina.DataAccess.Models.RoomSpecificUserData", null)
-                        .WithMany()
-                        .HasForeignKey("BadgeHoldersId", "BadgeHoldersRoomId")
+                    b.HasOne("ElsaMina.DataAccess.Models.Badge", "Badge")
+                        .WithMany("BadgeHolders")
+                        .HasForeignKey("BadgeId", "RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ElsaMina.DataAccess.Models.Badge", null)
-                        .WithMany()
-                        .HasForeignKey("BadgesId", "BadgesRoomId")
+                    b.HasOne("ElsaMina.DataAccess.Models.RoomSpecificUserData", "RoomSpecificUserData")
+                        .WithMany("Badges")
+                        .HasForeignKey("UserId", "RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Badge");
+
+                    b.Navigation("RoomSpecificUserData");
+                });
+
+            modelBuilder.Entity("ElsaMina.DataAccess.Models.Badge", b =>
+                {
+                    b.Navigation("BadgeHolders");
+                });
+
+            modelBuilder.Entity("ElsaMina.DataAccess.Models.RoomSpecificUserData", b =>
+                {
+                    b.Navigation("Badges");
                 });
 #pragma warning restore 612, 618
         }

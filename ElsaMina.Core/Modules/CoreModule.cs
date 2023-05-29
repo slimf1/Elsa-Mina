@@ -51,7 +51,7 @@ public class CoreModule : Module
         builder.RegisterType<AddedCommandsManager>().As<IAddedCommandsManager>().SingleInstance();
         builder.RegisterType<FilesService>().As<IFilesService>().SingleInstance();
         builder.RegisterType<TemplatesManager>().As<ITemplatesManager>().SingleInstance();
-        builder.RegisterType<RoomUserDataService>().As<IRoomUserDataService>().SingleInstance();
+        builder.RegisterType<RoomUserDataService>().As<IRoomUserDataService>();
 
         builder.RegisterType<Client.Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot.Bot>().As<IBot>().AsSelf().SingleInstance();

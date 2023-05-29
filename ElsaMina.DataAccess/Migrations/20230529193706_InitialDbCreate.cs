@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ElsaMina.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialDbCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -87,32 +87,36 @@ namespace ElsaMina.DataAccess.Migrations
                 name: "BadgeHoldings",
                 columns: table => new
                 {
-                    BadgeHoldersId = table.Column<string>(type: "text", nullable: false),
-                    BadgeHoldersRoomId = table.Column<string>(type: "text", nullable: false),
-                    BadgesId = table.Column<string>(type: "text", nullable: false),
-                    BadgesRoomId = table.Column<string>(type: "text", nullable: false)
+                    BadgeId = table.Column<string>(type: "text", nullable: false),
+                    RoomId = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BadgeHoldings", x => new { x.BadgeHoldersId, x.BadgeHoldersRoomId, x.BadgesId, x.BadgesRoomId });
+                    table.PrimaryKey("PK_BadgeHoldings", x => new { x.BadgeId, x.UserId, x.RoomId });
                     table.ForeignKey(
-                        name: "FK_BadgeHoldings_Badges_BadgesId_BadgesRoomId",
-                        columns: x => new { x.BadgesId, x.BadgesRoomId },
+                        name: "FK_BadgeHoldings_Badges_BadgeId_RoomId",
+                        columns: x => new { x.BadgeId, x.RoomId },
                         principalTable: "Badges",
                         principalColumns: new[] { "Id", "RoomId" },
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BadgeHoldings_UserData_BadgeHoldersId_BadgeHoldersRoomId",
-                        columns: x => new { x.BadgeHoldersId, x.BadgeHoldersRoomId },
+                        name: "FK_BadgeHoldings_UserData_UserId_RoomId",
+                        columns: x => new { x.UserId, x.RoomId },
                         principalTable: "UserData",
                         principalColumns: new[] { "Id", "RoomId" },
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BadgeHoldings_BadgesId_BadgesRoomId",
+                name: "IX_BadgeHoldings_BadgeId_RoomId",
                 table: "BadgeHoldings",
-                columns: new[] { "BadgesId", "BadgesRoomId" });
+                columns: new[] { "BadgeId", "RoomId" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BadgeHoldings_UserId_RoomId",
+                table: "BadgeHoldings",
+                columns: new[] { "UserId", "RoomId" });
         }
 
         /// <inheritdoc />

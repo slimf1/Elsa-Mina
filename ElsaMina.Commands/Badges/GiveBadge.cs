@@ -57,7 +57,7 @@ public class GiveBadge : ICommand
 
         try
         {
-            await _roomUserDataService.GiveBadgeToUser(context.RoomId, userId, badge);
+            await _roomUserDataService.GiveBadgeToUser(context.RoomId, userId, badgeId);
             context.ReplyLocalizedMessage("badge_give_success", userId, badge.Name);
         }
         catch (Exception exception)

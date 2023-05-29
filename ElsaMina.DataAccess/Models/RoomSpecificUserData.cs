@@ -6,7 +6,7 @@ public class RoomSpecificUserData : IKeyed<Tuple<string, string>>
 
     public RoomSpecificUserData()
     {
-        Badges = new HashSet<Badge>();
+        Badges = new HashSet<BadgeHolding>();
     }
 
     public string Id { get; set; }
@@ -14,5 +14,5 @@ public class RoomSpecificUserData : IKeyed<Tuple<string, string>>
     public long? OnTime { get; set; }
     public string? Avatar { get; set; }
     public string? Title { get; set; }
-    public ICollection<Badge> Badges { get; set; }
+    public ICollection<BadgeHolding> Badges { get; set; }
 }
