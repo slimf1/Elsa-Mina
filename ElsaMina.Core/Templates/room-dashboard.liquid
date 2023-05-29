@@ -1,4 +1,78 @@
-<h1>
-    test~
-    {{ "room_dashboard" | localize: culture, room }} ======> {{ room }}
-</h1>
+<form
+    style="padding: 2rem;"
+    id="locale"
+    data-submitsend="/w {{ bot_name }},{{ trigger }}rc {{ room_parameters.id }},{locale},{errors},{autocorrect}">
+    <table>
+        <thead>
+            <tr>
+                <th colspan="3">
+                    <h1>
+                        {{ "room_dashboard" | localize: culture, room_name }}
+                    </h1>
+                </th>
+            </tr>
+        </thead>
+        
+        <!-- Locale selection -->
+        <tbody>
+            <tr>
+                <td>
+                    <label for="locale">
+                        {{ "dashboard_locale_name" | localize: culture }}
+                    </label>
+                </td>
+                <td>
+                    {% include 'languageselect' %}
+                </td>
+                <td>
+                    {{ "dashboard_locale_description" | localize: culture }}
+                </td>
+            </tr>
+
+            <!-- Errors checkbox -->
+            <tr>
+                <td>
+                    <label for="errors">
+                        {{ "dashboard_errors_name" | localize: culture }}
+                    </label>
+                </td>
+                <td>
+                    <input
+                        {% if room_parameters.is_showing_error_messages %} checked{% endif %}
+                        type="checkbox"
+                        id="errors"
+                        name="errors" />
+                </td>
+                <td>
+                    {{ "dashboard_errors_description" | localize: culture }}
+                </td>
+            </tr>
+        </tbody>
+
+        <!-- Autocorrect checkbox -->
+        <tr>
+            <td>
+                <label for="autocorrect">
+                    {{ "dashboard_autocorrect_name" | localize: culture }}
+                </label>
+            </td>
+            <td>
+                <input
+                    {% if room_parameters.is_command_autocorrect_enabled %} checked{% endif %}
+                    type="checkbox"
+                    id="autocorrect"
+                    name="autocorrect" />
+            </td>
+            <td>
+                {{ "dashboard_autocorrect_description" | localize: culture }}
+            </td>
+        </tr>
+    </table>
+    
+    <br /><br />
+    <button
+        class="button"
+        type="submit">
+        {{ "submit" | localize: culture }}
+    </button>
+</form>

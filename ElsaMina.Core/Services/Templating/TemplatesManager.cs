@@ -1,19 +1,23 @@
+using System.Globalization;
 using DotLiquid;
 using DotLiquid.FileSystems;
 using ElsaMina.Core.Services.Files;
+using ElsaMina.DataAccess.Models;
 
 namespace ElsaMina.Core.Services.Templating;
 
 public class TemplatesManager : ITemplatesManager
 {
     private const string TEMPLATES_DIRECTORY = "Templates";
-    
+
     static TemplatesManager()
     {
         Template.FileSystem = new LocalFileSystem(Path.Join(Environment.CurrentDirectory, TEMPLATES_DIRECTORY));
         Template.RegisterFilter(typeof(LocalizationFilter));
+        Template.RegisterSafeType(typeof(CultureInfo), new[] { "*" });
+        Template.RegisterSafeType(typeof(RoomParameters), new[] { "*" });
     }
-    
+
     private static readonly Template CouldNotFoundFileTemplate = Template.Parse("""
         <h1 style="color: red;">Error</h1>
         Could not find template. Path = {{ path }}
@@ -33,6 +37,7 @@ public class TemplatesManager : ITemplatesManager
         {
             templateName += ".liquid";
         }
+
         var templateFilePath = Path.Join(TEMPLATES_DIRECTORY, templateName);
         if (_templatesCache.TryGetValue(templateFilePath, out var value))
         {
@@ -46,7 +51,7 @@ public class TemplatesManager : ITemplatesManager
                 ["path"] = templateFilePath
             });
         }
-        
+
         var templateContent = await _filesService.ReadTextAsync(templateFilePath);
         var template = Template.Parse(templateContent);
         _templatesCache[templateFilePath] = template;

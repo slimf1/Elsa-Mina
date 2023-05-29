@@ -4,6 +4,7 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.Templating;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
@@ -29,16 +30,19 @@ public class ShowRoomDashboard : ICommand
     private readonly IResourcesService _resourcesService;
     private readonly IRoomsManager _roomsManager;
     private readonly IRepository<RoomParameters, string> _roomParametersRepository;
+    private readonly ITemplatesManager _templatesManager;
 
     public ShowRoomDashboard(IConfigurationManager configurationManager,
         IResourcesService resourcesService,
         IRoomsManager roomsManager,
-        IRepository<RoomParameters, string> roomParametersRepository)
+        IRepository<RoomParameters, string> roomParametersRepository,
+        ITemplatesManager templatesManager)
     {
         _configurationManager = configurationManager;
         _resourcesService = resourcesService;
         _roomsManager = roomsManager;
         _roomParametersRepository = roomParametersRepository;
+        _templatesManager = templatesManager;
     }
 
     public async Task Run(IContext context)
@@ -49,14 +53,40 @@ public class ShowRoomDashboard : ICommand
             roomId = context.RoomId;
         }
 
-        if (!_roomsManager.HasRoom(roomId))
+        var room = _roomsManager.GetRoom(roomId);
+
+        if (room == null)
         {
             context.Reply(context.GetString("dashboard_room_doesnt_exist", roomId));
             return;
         }
 
-        var panel = await GetPanel(context, roomId);
-        context.SendHtmlPage($"{roomId}dashboard", panel.RemoveNewlines());
+        var roomParameters = await _roomParametersRepository.GetByIdAsync(roomId);
+        if (roomParameters == null)
+        {
+            context.SendHtmlPage("dashboard-error", "<p>Could not find room parameters somehow</p>");
+            return;
+        }
+        if (context.IsPm)
+        {
+            context.Locale = new CultureInfo(roomParameters.Locale
+                                             ?? _configurationManager.Configuration.DefaultLocaleCode);
+        }
+        //var languages = _resourcesService.SupportedLocales.Select(culture => 
+        //    new CultureInfoDrop(culture, culture.Name == context.Locale.Name));
+        var languages = _resourcesService.SupportedLocales;
+        
+        var template = await _templatesManager.GetTemplate("room-dashboard", new Dictionary<string, object>
+        {
+            ["room_name"] = room.Name,
+            ["culture"] = context.Locale.Name,
+            ["room_parameters"] = roomParameters,
+            ["bot_name"] = _configurationManager.Configuration.Name,
+            ["trigger"] = _configurationManager.Configuration.Trigger,
+            ["languages"] = languages,
+            ["selected_language"] = context.Locale.Name
+        });
+        context.SendHtmlPage($"{roomId}dashboard", template.RemoveNewlines());
     }
 
     private async Task<string> GetPanel(IContext context, string roomId)

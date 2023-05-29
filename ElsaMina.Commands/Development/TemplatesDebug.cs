@@ -26,6 +26,6 @@ public class TemplatesDebug : ICommand
         var arguments = parts[1].Trim().ParseArguments();
         var template = await _templatesManager.GetTemplate(templateName, arguments);
 
-        context.SendHtmlPage("test", template.RemoveNewlines());
+        context.SendHtmlPage($"debug-template-{templateName}", template.RemoveNewlines());
     }
 }
