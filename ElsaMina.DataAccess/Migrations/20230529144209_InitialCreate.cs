@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ElsaMina.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDatabaseCreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -60,14 +60,14 @@ namespace ElsaMina.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    RoomId = table.Column<string>(type: "text", nullable: true),
+                    RoomId = table.Column<string>(type: "text", nullable: false),
                     OnTime = table.Column<long>(type: "bigint", nullable: true),
                     Avatar = table.Column<string>(type: "text", nullable: true),
                     Title = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserData", x => x.Id);
+                    table.PrimaryKey("PK_UserData", x => new { x.Id, x.RoomId });
                 });
 
             migrationBuilder.CreateTable(
@@ -88,12 +88,13 @@ namespace ElsaMina.DataAccess.Migrations
                 columns: table => new
                 {
                     BadgeHoldersId = table.Column<string>(type: "text", nullable: false),
+                    BadgeHoldersRoomId = table.Column<string>(type: "text", nullable: false),
                     BadgesId = table.Column<string>(type: "text", nullable: false),
                     BadgesRoomId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BadgeHoldings", x => new { x.BadgeHoldersId, x.BadgesId, x.BadgesRoomId });
+                    table.PrimaryKey("PK_BadgeHoldings", x => new { x.BadgeHoldersId, x.BadgeHoldersRoomId, x.BadgesId, x.BadgesRoomId });
                     table.ForeignKey(
                         name: "FK_BadgeHoldings_Badges_BadgesId_BadgesRoomId",
                         columns: x => new { x.BadgesId, x.BadgesRoomId },
@@ -101,10 +102,10 @@ namespace ElsaMina.DataAccess.Migrations
                         principalColumns: new[] { "Id", "RoomId" },
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BadgeHoldings_UserData_BadgeHoldersId",
-                        column: x => x.BadgeHoldersId,
+                        name: "FK_BadgeHoldings_UserData_BadgeHoldersId_BadgeHoldersRoomId",
+                        columns: x => new { x.BadgeHoldersId, x.BadgeHoldersRoomId },
                         principalTable: "UserData",
-                        principalColumn: "Id",
+                        principalColumns: new[] { "Id", "RoomId" },
                         onDelete: ReferentialAction.Cascade);
                 });
 

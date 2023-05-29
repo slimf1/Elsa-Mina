@@ -36,7 +36,8 @@ public class RoomUserDataService : IRoomUserDataService
     public async Task GiveBadgeToUser(string roomId, string userId, Badge badge)
     {
         var userData = await GetUserData(roomId, userId);
-        userData.Badges.Add(badge);
-        await _roomSpecificUserDataRepository.UpdateAsync(userData);
+        badge.BadgeHolders.Add(userData);
+        //userData.Badges.Add(badge);
+        await _badgeRepository.UpdateAsync(badge);
     }
 }
