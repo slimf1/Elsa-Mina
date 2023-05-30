@@ -8,6 +8,7 @@ using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.Parsers;
 using ElsaMina.Core.Services.PrivateMessages;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.UserData;
 using NSubstitute;
 using Serilog;
 
@@ -26,6 +27,7 @@ public class BotTest
     private ILoginService _loginService;
     private IPmSendersManager _pmSendersManager;
     private IParsersManager _parsersManager;
+    private IUserDataManager _userDataManager;
 
     private ElsaMina.Core.Bot.Bot _bot;
     
@@ -43,9 +45,11 @@ public class BotTest
         _loginService = Substitute.For<ILoginService>();
         _pmSendersManager = Substitute.For<IPmSendersManager>();
         _parsersManager = Substitute.For<IParsersManager>();
+        _userDataManager = Substitute.For<IUserDataManager>();
         
         _bot = new ElsaMina.Core.Bot.Bot(_logger, _client, _configurationManager, _clockService, _contextFactory,
-            _commandExecutor, _roomsManager, _formatsManager, _loginService, _pmSendersManager, _parsersManager);
+            _commandExecutor, _roomsManager, _formatsManager, _loginService, _pmSendersManager,
+            _parsersManager, _userDataManager);
     }
 
     [TearDown]
