@@ -15,6 +15,7 @@ public class UserDataManager : IUserDataManager
     {
         _logger = logger;
         _client = client;
+        // todo dict + timeout -> resolve error
     }
 
     public Task<UserDataDto> GetUserData(string userId)
