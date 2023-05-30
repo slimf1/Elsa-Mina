@@ -8,6 +8,7 @@ using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.Parsers;
 using ElsaMina.Core.Services.PrivateMessages;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.UserData;
 using ElsaMina.Core.Utils;
 using Serilog;
 
@@ -29,6 +30,7 @@ public class Bot : IBot
     private readonly ILoginService _loginService;
     private readonly IPmSendersManager _pmSendersManager;
     private readonly IParsersManager _parsersManager;
+    private readonly IUserDataManager _userDataManager;
 
     private readonly SemaphoreSlim _loadRoomSemaphore = new(1, 1);
     private string _currentRoom;
@@ -46,7 +48,8 @@ public class Bot : IBot
         IFormatsManager formatsManager,
         ILoginService loginService,
         IPmSendersManager pmSendersManager,
-        IParsersManager parsersManager)
+        IParsersManager parsersManager,
+        IUserDataManager userDataManager)
     {
         _logger = logger;
         _client = client;
@@ -59,6 +62,7 @@ public class Bot : IBot
         _loginService = loginService;
         _pmSendersManager = pmSendersManager;
         _parsersManager = parsersManager;
+        _userDataManager = userDataManager;
     }
 
     public async Task Start()
@@ -148,6 +152,12 @@ public class Bot : IBot
                 break;
             case "pm":
                 await HandlePrivateMessage(parts[4], parts[2]);
+                break;
+            case "queryresponse":
+                if (parts[2] == "userdetails")
+                {
+                    _userDataManager.HandleReceivedUserData(parts[3]);
+                }
                 break;
         }
     }
