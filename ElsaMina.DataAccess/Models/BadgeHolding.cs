@@ -6,8 +6,8 @@ public class BadgeHolding : IKeyed<Tuple<string, string, string>>
 
     public string BadgeId { get; set; }
     public string RoomId { get; set; }
-    public Badge Badge { get; set; }
+    public virtual Badge Badge { get; set; }
     
     public string UserId { get; set; }
-    public RoomSpecificUserData RoomSpecificUserData { get; set; }
+    public virtual RoomSpecificUserData RoomSpecificUserData { get; set; }
 }

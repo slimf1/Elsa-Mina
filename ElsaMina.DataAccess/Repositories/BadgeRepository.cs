@@ -23,6 +23,7 @@ public class BadgeRepository : IRepository<Badge, Tuple<string, string>>
         var (badgeId, roomId) = key;
         return await _dbContext.Set<Badge>()
             .Include(x => x.BadgeHolders)
+            .ThenInclude(x => x.RoomSpecificUserData)
             .FirstOrDefaultAsync(x => x.Id == badgeId && x.RoomId == roomId);
     }
 
@@ -30,6 +31,7 @@ public class BadgeRepository : IRepository<Badge, Tuple<string, string>>
     {
         return await _dbContext.Set<Badge>()
             .Include(x => x.BadgeHolders)
+            .ThenInclude(x => x.RoomSpecificUserData)
             .ToListAsync();
     }
 

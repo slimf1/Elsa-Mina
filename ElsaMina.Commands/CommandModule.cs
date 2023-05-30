@@ -2,6 +2,7 @@
 using ElsaMina.Commands.Badges;
 using ElsaMina.Commands.CustomCommands;
 using ElsaMina.Commands.Development;
+using ElsaMina.Commands.Profile;
 using ElsaMina.Commands.RoomDashboard;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Models;
@@ -28,6 +29,7 @@ public class CommandModule : Module
         RegisterCommand<EditCustomCommand>(builder);
         RegisterCommand<TemplatesDebug>(builder);
         RegisterCommand<GiveBadge>(builder);
+        RegisterCommand<ProfileCommand>(builder);
         
         RegisterParser<JoinRoomOnInviteParser>(builder);
     }

@@ -1,5 +1,6 @@
 ﻿using ElsaMina.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace ElsaMina.DataAccess.Repositories;
 
@@ -23,6 +24,7 @@ public class RoomSpecificUserDataRepository : IRepository<RoomSpecificUserData, 
         var (userId, roomId) = key;
         return await _dbContext.Set<RoomSpecificUserData>()
             .Include(x => x.Badges)
+            .ThenInclude(x => x.Badge)
             .FirstOrDefaultAsync(x => x.Id == userId && x.RoomId == roomId);
     }
 
@@ -30,6 +32,7 @@ public class RoomSpecificUserDataRepository : IRepository<RoomSpecificUserData, 
     {
         return await _dbContext.Set<RoomSpecificUserData>()
             .Include(x => x.Badges)
+            .ThenInclude(x => x.Badge)
             .ToListAsync();
     }
 
