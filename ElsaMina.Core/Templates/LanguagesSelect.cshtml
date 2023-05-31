@@ -1,0 +1,9 @@
+<select name="locale" id="locale">
+    @foreach (var culture in Model.Cultures)
+    {
+        <option
+            value="@culture.Name">
+            @culture.DisplayName
+        </option>
+    }
+</select>
