@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace ElsaMina.Core.Services.UserData;
 
-public class UserDataDto
+public class UserDetailsDto
 {
     [JsonProperty("isPrivate")]
     public string Id { get; set; }
@@ -18,7 +18,7 @@ public class UserDataDto
     public bool Friended { get; set; }
     [JsonProperty("autoconfirmed")]
     public bool AutoConfirmed { get; set; }
-    // when user has no rooms => false / otherwise it's a dictionary 🤡
-    //[JsonProperty("rooms")]
-    //public IDictionary<string, UserDataRoomDto> Rooms { get; set; }
+    //  when user has no rooms => false / otherwise it's a dictionary 🤡
+    // [JsonProperty("rooms")]
+    // public IDictionary<string, UserDetailsRoomDto> Rooms { get; set; }
 }

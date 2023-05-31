@@ -11,7 +11,7 @@ public class UserDetailsManager : IUserDetailsManager
     private readonly ILogger _logger;
     private readonly IClient _client;
 
-    private readonly Dictionary<string, TaskCompletionSource<UserDataDto>> _taskCompletionSources = new();
+    private readonly Dictionary<string, TaskCompletionSource<UserDetailsDto>> _taskCompletionSources = new();
 
     public UserDetailsManager(ILogger logger, IClient client)
     {
@@ -19,7 +19,7 @@ public class UserDetailsManager : IUserDetailsManager
         _client = client;
     }
 
-    public Task<UserDataDto> GetUserDetails(string userId)
+    public Task<UserDetailsDto> GetUserDetails(string userId)
     {
         _client.Send($"|/cmd userdetails {userId}");
         if (_taskCompletionSources.TryGetValue(userId, out var taskCompletionSource))
@@ -28,7 +28,7 @@ public class UserDetailsManager : IUserDetailsManager
             _taskCompletionSources[userId] = null;
             _taskCompletionSources.Remove(userId);
         }
-        _taskCompletionSources[userId] = new TaskCompletionSource<UserDataDto>();
+        _taskCompletionSources[userId] = new TaskCompletionSource<UserDetailsDto>();
         Task.Run(async () =>
         {
             await Task.Delay(CANCEL_DELAY);
@@ -45,28 +45,28 @@ public class UserDetailsManager : IUserDetailsManager
 
     public void HandleReceivedUserDetails(string message)
     {
-        UserDataDto userDataDto = null;
+        UserDetailsDto userDetailsDto = null;
         try
         {
-            userDataDto = JsonConvert.DeserializeObject<UserDataDto>(message);
+            userDetailsDto = JsonConvert.DeserializeObject<UserDetailsDto>(message);
         }
         catch (JsonSerializationException exception)
         {
             _logger.Error(exception, "Error while deserializing userdata json");
         }
 
-        if (userDataDto == null)
+        if (userDetailsDto == null)
         {
             return;
         }
 
-        if (!_taskCompletionSources.TryGetValue(userDataDto.UserId, out var taskCompletionSource))
+        if (!_taskCompletionSources.TryGetValue(userDetailsDto.UserId, out var taskCompletionSource))
         {
             return;
         }
         
-        taskCompletionSource.TrySetResult(userDataDto);
-        _taskCompletionSources[userDataDto.UserId] = null;
-        _taskCompletionSources.Remove(userDataDto.UserId);
+        taskCompletionSource.TrySetResult(userDetailsDto);
+        _taskCompletionSources[userDetailsDto.UserId] = null;
+        _taskCompletionSources.Remove(userDetailsDto.UserId);
     }
 }
