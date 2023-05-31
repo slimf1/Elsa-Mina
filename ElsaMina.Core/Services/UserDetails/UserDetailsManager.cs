@@ -6,7 +6,7 @@ namespace ElsaMina.Core.Services.UserDetails;
 
 public class UserDetailsManager : IUserDetailsManager
 {
-    private const int CANCEL_DELAY = 3000;
+    private const int CANCEL_DELAY = 5000;
 
     private readonly ILogger _logger;
     private readonly IClient _client;
