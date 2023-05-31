@@ -39,6 +39,7 @@ public class UserDetailsManager : IUserDetailsManager
             }
 
             _taskCompletionSources[userId].TrySetResult(null);
+            _taskCompletionSources[userId] = null;
             _taskCompletionSources.Remove(userId);
         });
         return _taskCompletionSources[userId].Task;
