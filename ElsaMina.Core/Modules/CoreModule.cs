@@ -53,7 +53,7 @@ public class CoreModule : Module
         builder.RegisterType<FilesService>().As<IFilesService>().SingleInstance();
         builder.RegisterType<TemplatesManager>().As<ITemplatesManager>().SingleInstance();
         builder.RegisterType<RoomUserDataService>().As<IRoomUserDataService>();
-        builder.RegisterType<UserDataManager>().As<IUserDataManager>().SingleInstance();
+        builder.RegisterType<UserDetailsManager>().As<IUserDetailsManager>().SingleInstance();
 
         builder.RegisterType<Client.Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot.Bot>().As<IBot>().AsSelf().SingleInstance();

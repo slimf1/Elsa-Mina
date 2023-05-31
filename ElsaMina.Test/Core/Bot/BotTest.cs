@@ -27,7 +27,7 @@ public class BotTest
     private ILoginService _loginService;
     private IPmSendersManager _pmSendersManager;
     private IParsersManager _parsersManager;
-    private IUserDataManager _userDataManager;
+    private IUserDetailsManager _userDetailsManager;
 
     private ElsaMina.Core.Bot.Bot _bot;
     
@@ -45,11 +45,11 @@ public class BotTest
         _loginService = Substitute.For<ILoginService>();
         _pmSendersManager = Substitute.For<IPmSendersManager>();
         _parsersManager = Substitute.For<IParsersManager>();
-        _userDataManager = Substitute.For<IUserDataManager>();
+        _userDetailsManager = Substitute.For<IUserDetailsManager>();
         
         _bot = new ElsaMina.Core.Bot.Bot(_logger, _client, _configurationManager, _clockService, _contextFactory,
             _commandExecutor, _roomsManager, _formatsManager, _loginService, _pmSendersManager,
-            _parsersManager, _userDataManager);
+            _parsersManager, _userDetailsManager);
     }
 
     [TearDown]

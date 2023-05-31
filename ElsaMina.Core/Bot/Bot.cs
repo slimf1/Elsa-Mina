@@ -30,7 +30,7 @@ public class Bot : IBot
     private readonly ILoginService _loginService;
     private readonly IPmSendersManager _pmSendersManager;
     private readonly IParsersManager _parsersManager;
-    private readonly IUserDataManager _userDataManager;
+    private readonly IUserDetailsManager _userDetailsManager;
 
     private readonly SemaphoreSlim _loadRoomSemaphore = new(1, 1);
     private string _currentRoom;
@@ -49,7 +49,7 @@ public class Bot : IBot
         ILoginService loginService,
         IPmSendersManager pmSendersManager,
         IParsersManager parsersManager,
-        IUserDataManager userDataManager)
+        IUserDetailsManager userDetailsManager)
     {
         _logger = logger;
         _client = client;
@@ -62,7 +62,7 @@ public class Bot : IBot
         _loginService = loginService;
         _pmSendersManager = pmSendersManager;
         _parsersManager = parsersManager;
-        _userDataManager = userDataManager;
+        _userDetailsManager = userDetailsManager;
     }
 
     public async Task Start()
@@ -156,7 +156,7 @@ public class Bot : IBot
             case "queryresponse":
                 if (parts[2] == "userdetails")
                 {
-                    _userDataManager.HandleReceivedUserData(parts[3]);
+                    _userDetailsManager.HandleReceivedUserDetails(parts[3]);
                 }
                 break;
         }

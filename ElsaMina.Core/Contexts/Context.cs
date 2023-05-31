@@ -39,7 +39,8 @@ public abstract class Context : IContext
     
     public void SendHtmlPage(string pageName, string html)
     {
-        Bot.Say(RoomId, $"/sendhtmlpage {Sender.UserId}, {pageName}, {html}");
+        Bot.Say(_configurationManager.Configuration.DefaultRoom,
+            $"/sendhtmlpage {Sender.UserId}, {pageName}, {html}");
     }
     
     public string GetString(string key)

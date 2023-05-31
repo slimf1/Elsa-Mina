@@ -1,5 +1,6 @@
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Services.Templating;
 using ElsaMina.Core.Services.UserData;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
@@ -15,22 +16,41 @@ public class ProfileCommand : ICommand
     public char RequiredRank => '+';
 
     private readonly IRepository<RoomSpecificUserData, Tuple<string, string>> _userDataRepository;
-    private readonly IUserDataManager _userDataManager;
+    private readonly IUserDetailsManager _userDetailsManager;
+    private readonly ITemplatesManager _templatesManager;
 
     public ProfileCommand(IRepository<RoomSpecificUserData, Tuple<string, string>> userDataRepository,
-        IUserDataManager userDataManager)
+        IUserDetailsManager userDetailsManager,
+        ITemplatesManager templatesManager)
     {
         _userDataRepository = userDataRepository;
-        _userDataManager = userDataManager;
+        _userDetailsManager = userDetailsManager;
+        _templatesManager = templatesManager;
     }
 
     public async Task Run(IContext context)
     {
         var userId = string.IsNullOrEmpty(context.Target)
             ? context.Sender.UserId : context.Target.ToLowerAlphaNum();
-        var storedUserData = await _userDataRepository.GetByIdAsync(new(userId, context.RoomId));
-        var showdownUserData = await _userDataManager.GetUserData(userId);
-        
-        
+
+        if (userId == null)
+        {
+            return;
+        }
+
+        var t1 = _userDataRepository.GetByIdAsync(new(userId, context.RoomId));
+        var t2 = _userDetailsManager.GetUserDetails(userId);
+        await Task.WhenAll(t1, t2);
+
+        var storedUserData = t1.Result;
+        var showdownUserDetails = t2.Result;
+
+        var template = await _templatesManager.GetTemplate("profile", new Dictionary<string, object>
+        {
+            ["user_id"] = userId,
+            ["user_name"] = showdownUserDetails?.Name ?? userId,
+            ["avatar"] = showdownUserDetails?.Avatar
+        });
+        context.SendHtmlPage($"profile-{userId}", template.RemoveNewlines());
     }
 }
