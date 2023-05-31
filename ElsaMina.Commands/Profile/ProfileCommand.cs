@@ -1,7 +1,7 @@
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Templating;
-using ElsaMina.Core.Services.UserData;
+using ElsaMina.Core.Services.UserDetails;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace ElsaMina.Core.Services.UserData;
+namespace ElsaMina.Core.Services.UserDetails;
 
 public class UserDetailsDto
 {

@@ -17,7 +17,7 @@ using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.Core.Services.Templating;
-using ElsaMina.Core.Services.UserData;
+using ElsaMina.Core.Services.UserDetails;
 using Serilog;
 
 namespace ElsaMina.Core.Modules;

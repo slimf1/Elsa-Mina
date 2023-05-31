@@ -2,12 +2,12 @@ using ElsaMina.Core.Client;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace ElsaMina.Core.Services.UserData;
+namespace ElsaMina.Core.Services.UserDetails;
 
 public class UserDetailsManager : IUserDetailsManager
 {
     private const int CANCEL_DELAY = 3000;
-    
+
     private readonly ILogger _logger;
     private readonly IClient _client;
 
@@ -28,6 +28,7 @@ public class UserDetailsManager : IUserDetailsManager
             _taskCompletionSources[userId] = null;
             _taskCompletionSources.Remove(userId);
         }
+
         _taskCompletionSources[userId] = new TaskCompletionSource<UserDetailsDto>();
         Task.Run(async () =>
         {
@@ -64,7 +65,7 @@ public class UserDetailsManager : IUserDetailsManager
         {
             return;
         }
-        
+
         taskCompletionSource.TrySetResult(userDetailsDto);
         _taskCompletionSources[userDetailsDto.UserId] = null;
         _taskCompletionSources.Remove(userDetailsDto.UserId);
