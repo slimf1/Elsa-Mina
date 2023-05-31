@@ -18,7 +18,6 @@ public class UserDetailsDto
     public bool Friended { get; set; }
     [JsonProperty("autoconfirmed")]
     public bool AutoConfirmed { get; set; }
-    //  when user has no rooms => false / otherwise it's a dictionary 🤡
-    // [JsonProperty("rooms")]
-    // public IDictionary<string, UserDetailsRoomDto> Rooms { get; set; }
+    [JsonProperty("rooms")]
+    public IDictionary<string, UserDetailsRoomDto> Rooms { get; set; }
 }

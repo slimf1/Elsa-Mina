@@ -49,6 +49,10 @@ public class UserDetailsManager : IUserDetailsManager
         UserDetailsDto userDetailsDto = null;
         try
         {
+            // Ugly workaround for the userdetails json respsonse
+            // When user has no rooms => rooms is false, otherwise it's a dictionary 🤡
+            message = message.Replace("\"rooms\":false", "\"rooms\":{}");
+            message = message.Replace("\"rooms\": false", "\"rooms\":{}");
             userDetailsDto = JsonConvert.DeserializeObject<UserDetailsDto>(message);
         }
         catch (JsonSerializationException exception)
