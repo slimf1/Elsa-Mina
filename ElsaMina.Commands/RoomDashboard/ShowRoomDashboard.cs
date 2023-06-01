@@ -48,7 +48,7 @@ public class ShowRoomDashboard : ICommand
 
         if (room == null)
         {
-            context.Reply(context.GetString("dashboard_room_doesnt_exist", roomId));
+            context.ReplyLocalizedMessage("dashboard_room_doesnt_exist", roomId);
             return;
         }
 

@@ -39,20 +39,20 @@ public class AddCustomCommand : ICommand
 
         if (command.Length > 18)
         {
-            context.Reply(context.GetString("addcommand_name_too_long"));
+            context.ReplyLocalizedMessage("addcommand_name_too_long");
             return;
         }
 
         if (content.Length > 300)
         {
-            context.Reply(context.GetString("addcommand_content_too_long"));
+            context.ReplyLocalizedMessage("addcommand_content_too_long");
             return;
         }
 
         if (content.StartsWith(_configurationManager.Configuration.Trigger) || content.StartsWith("/") ||
             content.StartsWith("!"))
         {
-            context.Reply(context.GetString("addcommand_bad_first_char"));
+            context.ReplyLocalizedMessage("addcommand_bad_first_char");
             return;
         }
 
@@ -60,7 +60,7 @@ public class AddCustomCommand : ICommand
             command, context.RoomId));
         if (existingCommand != null)
         {
-            context.Reply(context.GetString("addcommand_already_exist"));
+            context.ReplyLocalizedMessage("addcommand_already_exist");
             return;
         }
 
@@ -73,6 +73,6 @@ public class AddCustomCommand : ICommand
             Id = command
         });
         
-        context.Reply(context.GetString("addcommand_success", command));
+        context.ReplyLocalizedMessage("addcommand_success", command);
     }
 }

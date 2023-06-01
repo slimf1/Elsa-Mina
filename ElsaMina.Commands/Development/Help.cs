@@ -12,7 +12,7 @@ public class Help : ICommand
 
     public Task Run(IContext context)
     {
-        context.Reply(context.GetString("help"));
+        context.ReplyLocalizedMessage("help");
         return Task.CompletedTask;
     }
 }

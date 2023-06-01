@@ -28,11 +28,11 @@ public class DeleteCustomCommand : ICommand
         try
         {
             await _addedCommandRepository.DeleteAsync(new(commandId, context.RoomId));
-            context.Reply(context.GetString("deletecommand_success", commandId));
+            context.ReplyLocalizedMessage("deletecommand_success", commandId);
         }
         catch (Exception exception)
         {
-            context.Reply(context.GetString("deletecommand_failure", exception.Message));
+            context.ReplyLocalizedMessage("deletecommand_failure", exception.Message);
         }
     }
 }
