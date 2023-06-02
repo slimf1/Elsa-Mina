@@ -13,11 +13,6 @@ public class TemplatesManager : ITemplatesManager
 
     public async Task<string> GetTemplate(string templateName, object model)
     {
-        if (!templateName.EndsWith(".cshtml"))
-        {
-            templateName += ".cshtml";
-        }
-        
         return await _razorLightEngine.Value.CompileRenderAsync(templateName, model);
     }
 }
