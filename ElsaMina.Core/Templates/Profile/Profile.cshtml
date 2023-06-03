@@ -52,6 +52,7 @@
                     '^' => "rank_prizewinner",
                     '%' => "rank_driver",
                     '+' => "rank_voice",
+                    '★' => "rank_host",
                     _ => null
                 };
             }
@@ -69,11 +70,12 @@
             
         </td>
         <td style="@badgesCellStyle">
-            <img
-                src="https://www.smogon.com/media/community/awards/spl.png"
-                width="16"
-                height="16"
-                alt="Trophy" />
+            @foreach (var badge in Model.Badges)
+            {
+                <span>
+                    @{ await IncludeAsync("Badge/Badge", badge); }
+                </span>
+            }
         </td>
     </tr>
     <tr>

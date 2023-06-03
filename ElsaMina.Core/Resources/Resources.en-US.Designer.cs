@@ -330,6 +330,15 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Host.
+        /// </summary>
+        internal static string rank_host {
+            get {
+                return ResourceManager.GetString("rank_host", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Moderator.
         /// </summary>
         internal static string rank_mod {

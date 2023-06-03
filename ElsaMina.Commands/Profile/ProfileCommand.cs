@@ -84,7 +84,8 @@ public class ProfileCommand : ICommand
             UserId = userId,
             UserName = showdownUserDetails?.Name ?? userId,
             UserRoomRank = userRoom != null ? userRoom[0] : ' ',
-            Status = status
+            Status = status,
+            Badges = storedUserData?.Badges.Select(holding => holding.Badge) ?? Array.Empty<Badge>()
         };
         var template = await _templatesManager.GetTemplate("Profile/Profile", viewModel);
         context.SendHtmlPage($"profile-{userId}", template.RemoveNewlines());

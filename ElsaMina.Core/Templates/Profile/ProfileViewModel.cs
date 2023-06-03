@@ -1,3 +1,5 @@
+using ElsaMina.DataAccess.Models;
+
 namespace ElsaMina.Core.Templates.Profile;
 
 public class ProfileViewModel : BaseViewModel
@@ -7,4 +9,5 @@ public class ProfileViewModel : BaseViewModel
     public string Avatar { get; set; }
     public char UserRoomRank { get; set; }
     public string Status { get; set; }
+    public IEnumerable<Badge> Badges { get; set; }
 }

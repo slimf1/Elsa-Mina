@@ -138,4 +138,7 @@
     <data name="profile_status" xml:space="preserve">
         <value>Status</value>
     </data>
+    <data name="rank_host" xml:space="preserve">
+        <value>Host</value>
+    </data>
 </root>
