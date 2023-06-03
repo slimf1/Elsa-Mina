@@ -1,0 +1,47 @@
+@inherits RazorLight.TemplatePage<ElsaMina.Core.Templates.Profile.ProfileViewModel>
+<table>
+    <thead>
+        <tr>
+            <th>
+                Avatar
+            </th>
+            <th>
+                Infos
+            </th>
+            <th>
+                Badges
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <img
+                    width="80"
+                    height="80"
+                    src="https://play.pokemonshowdown.com/sprites/trainers/sightseerf.png"
+                    alt="Avatar" />
+            </td>
+            <td>
+                <span
+                    class="username"
+                    data-name="@Model.UserId">
+                    @Model.UserName <br />
+                    @Model.Avatar
+                </span>
+            </td>
+            <td>
+                <img
+                    src="https://www.smogon.com/media/community/awards/spl.png"
+                    width="16"
+                    height="16"
+                    alt="Trophy" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                this is my bio
+            </td>
+        </tr>
+    </tbody>
+</table>

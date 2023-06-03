@@ -54,11 +54,11 @@ public class EditCustomCommand : ICommand
         try
         {
             await _addedCommandsRepository.UpdateAsync(command);
-            context.Reply(context.GetString("editcommand_success", commandId));
+            context.ReplyLocalizedMessage("editcommand_success", commandId);
         }
         catch (Exception exception)
         {
-            context.Reply(context.GetString("editcommand_failure", exception.Message));
+            context.ReplyLocalizedMessage("editcommand_failure", exception.Message);
         }
     }
 }

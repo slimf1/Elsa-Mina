@@ -53,7 +53,7 @@ public class AddCustomCommandTest
                 c.RoomId == "room-1" &&
                 c.Author == "John" &&
                 c.CreationDate == date));
-        context.Received(1).Reply(context.GetString("addcommand_success", "test-command"));
+        context.Received(1).ReplyLocalizedMessage("addcommand_success", "test-command");
     }
 
     [Test]
@@ -67,7 +67,7 @@ public class AddCustomCommandTest
         await _addCustomCommand.Run(context);
 
         // Assert
-        context.Received(1).Reply(context.GetString("addcommand_name_too_long"));
+        context.Received(1).ReplyLocalizedMessage("addcommand_name_too_long");
         await _addedCommandRepository.DidNotReceive().AddAsync(Arg.Any<AddedCommand>());
     }
 
@@ -82,7 +82,7 @@ public class AddCustomCommandTest
         await _addCustomCommand.Run(context);
 
         // Assert
-        context.Received(1).Reply(context.GetString("addcommand_content_too_long"));
+        context.Received(1).ReplyLocalizedMessage("addcommand_content_too_long");
         await _addedCommandRepository.DidNotReceive().AddAsync(Arg.Any<AddedCommand>());
     }
 
@@ -98,7 +98,7 @@ public class AddCustomCommandTest
         await _addCustomCommand.Run(context);
 
         // Assert
-        context.Received(1).Reply(context.GetString("addcommand_bad_first_char"));
+        context.Received(1).ReplyLocalizedMessage("addcommand_bad_first_char");
         await _addedCommandRepository.DidNotReceive().AddAsync(Arg.Any<AddedCommand>());
     }
 
@@ -116,7 +116,7 @@ public class AddCustomCommandTest
         await _addCustomCommand.Run(context);
 
         // Assert
-        context.Received(1).Reply(context.GetString("addcommand_already_exist"));
+        context.Received(1).ReplyLocalizedMessage("addcommand_already_exist");
         await _addedCommandRepository.DidNotReceive().AddAsync(Arg.Any<AddedCommand>());
     }
 }

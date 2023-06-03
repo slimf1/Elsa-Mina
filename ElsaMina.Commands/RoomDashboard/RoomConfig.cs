@@ -41,13 +41,13 @@ public class RoomConfig : ICommand
         var room = _roomsManager.GetRoom(roomId);
         if (room == null)
         {
-            context.Reply(context.GetString("room_config_room_not_found", roomId));
+            context.ReplyLocalizedMessage("room_config_room_not_found", roomId);
             return;
         }
 
         if (!_resourcesService.SupportedLocales.Select(culture => culture.Name.ToLower()).Contains(locale))
         {
-            context.Reply(context.GetString("room_config_locale_not_found", locale));
+            context.ReplyLocalizedMessage("room_config_locale_not_found", locale);
             return;
         }
 
@@ -64,12 +64,12 @@ public class RoomConfig : ICommand
         try {
             await _roomParametersRepository.UpdateAsync(roomParameters);
             context.Locale = new CultureInfo(locale);
-            context.Reply(context.GetString("room_config_success", roomId));
+            context.ReplyLocalizedMessage("room_config_success", roomId);
         }
         catch (Exception exception)
         {
             _logger.Error(exception, "An error occured while updating room configuration");
-            context.Reply(context.GetString("room_config_failure", exception.Message));
+            context.ReplyLocalizedMessage("room_config_failure", exception.Message);
         }
     }
 }

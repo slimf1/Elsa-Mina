@@ -1,9 +1,0 @@
-<select name="locale" id="locale">
-    {% for language in languages %}
-        <option
-            value="{{ language.name }}"
-            {% if culture == language.name %} selected{% endif %}>
-            {{ language.native_name | capitalize }}
-        </option>
-    {%  endfor %}
-</select>
