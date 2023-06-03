@@ -150,4 +150,16 @@
     <data name="badge_delete_failure" xml:space="preserve">
         <value>Une erreur est survenue pendant la suppression du badge : {0}</value>
     </data>
+    <data name="takebadge_help_message" xml:space="preserve">
+        <value>Retire le badge d'un utilisateur. Syntaxe : -takebadge &lt;utilisateur&gt;, &lt;badge&gt;</value>
+    </data>
+    <data name="takebadge_success" xml:space="preserve">
+        <value>Le badge "{1}" a été retiré de l'utilisateur "{0}"</value>
+    </data>
+    <data name="takebadge_failure" xml:space="preserve">
+        <value>Une erreur est survenue en retirant le badge : {0}</value>
+    </data>
+    <data name="takebadge_badge_doesnt_exist" xml:space="preserve">
+        <value>L'utilisateur "{0}" n'a pas le badge "{1}"</value>
+    </data>
 </root>

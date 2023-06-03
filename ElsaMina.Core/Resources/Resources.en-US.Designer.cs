@@ -141,7 +141,7 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occured while deleting badge : {0}.
+        ///   Looks up a localized string similar to An error occurred while deleting badge : {0}.
         /// </summary>
         internal static string badge_delete_failure {
             get {
@@ -452,6 +452,42 @@ namespace ElsaMina.Core.Resources {
         internal static string submit {
             get {
                 return ResourceManager.GetString("submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User &quot;{0}&quot; doesn&apos;t have badge &quot;{1}&quot; .
+        /// </summary>
+        internal static string takebadge_badge_doesnt_exist {
+            get {
+                return ResourceManager.GetString("takebadge_badge_doesnt_exist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while taking the badge : {0}.
+        /// </summary>
+        internal static string takebadge_failure {
+            get {
+                return ResourceManager.GetString("takebadge_failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove a user&apos;s badge. Syntax : -takebadge &lt;user&gt;, &lt;badge&gt;.
+        /// </summary>
+        internal static string takebadge_help_message {
+            get {
+                return ResourceManager.GetString("takebadge_help_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user &quot;{0}&quot; no longer has the badge &quot;{1}&quot;..
+        /// </summary>
+        internal static string takebadge_success {
+            get {
+                return ResourceManager.GetString("takebadge_success", resourceCulture);
             }
         }
     }

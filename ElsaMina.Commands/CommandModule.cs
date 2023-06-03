@@ -31,6 +31,7 @@ public class CommandModule : Module
         RegisterCommand<GiveBadge>(builder);
         RegisterCommand<ProfileCommand>(builder);
         RegisterCommand<DeleteBadge>(builder);
+        RegisterCommand<TakeBadge>(builder);
         
         RegisterParser<JoinRoomOnInviteParser>(builder);
     }

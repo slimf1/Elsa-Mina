@@ -145,9 +145,21 @@
         <value>The "{0}" badge doesn't exist.</value>
     </data>
     <data name="badge_delete_failure" xml:space="preserve">
-        <value>An error occured while deleting badge : {0}</value>
+        <value>An error occurred while deleting badge : {0}</value>
     </data>
     <data name="badge_delete_success" xml:space="preserve">
         <value>The badge "{0}" has been removed.</value>
+    </data>
+    <data name="takebadge_badge_doesnt_exist" xml:space="preserve">
+        <value>User "{0}" doesn't have badge "{1}" </value>
+    </data>
+    <data name="takebadge_failure" xml:space="preserve">
+        <value>An error occurred while taking the badge : {0}</value>
+    </data>
+    <data name="takebadge_help_message" xml:space="preserve">
+        <value>Remove a user's badge. Syntax : -takebadge &lt;user&gt;, &lt;badge&gt;</value>
+    </data>
+    <data name="takebadge_success" xml:space="preserve">
+        <value>The user "{0}" no longer has the badge "{1}".</value>
     </data>
 </root>

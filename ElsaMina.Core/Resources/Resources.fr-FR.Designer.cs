@@ -454,5 +454,41 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("submit", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to L&apos;utilisateur &quot;{0}&quot; n&apos;a pas le badge &quot;{1}&quot;.
+        /// </summary>
+        internal static string takebadge_badge_doesnt_exist {
+            get {
+                return ResourceManager.GetString("takebadge_badge_doesnt_exist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Une erreur est survenue en retirant le badge : {0}.
+        /// </summary>
+        internal static string takebadge_failure {
+            get {
+                return ResourceManager.GetString("takebadge_failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retire le badge d&apos;un utilisateur. Syntaxe : -takebadge &lt;utilisateur&gt;, &lt;badge&gt;.
+        /// </summary>
+        internal static string takebadge_help_message {
+            get {
+                return ResourceManager.GetString("takebadge_help_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Le badge &quot;{1}&quot; a été retiré de l&apos;utilisateur &quot;{0}&quot;.
+        /// </summary>
+        internal static string takebadge_success {
+            get {
+                return ResourceManager.GetString("takebadge_success", resourceCulture);
+            }
+        }
     }
 }
