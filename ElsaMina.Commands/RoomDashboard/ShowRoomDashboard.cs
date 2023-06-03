@@ -5,6 +5,8 @@ using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templating;
+using ElsaMina.Core.Templates.LanguageSelect;
+using ElsaMina.Core.Templates.RoomDashboard;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
@@ -65,15 +67,22 @@ public class ShowRoomDashboard : ICommand
                                              ?? _configurationManager.Configuration.DefaultLocaleCode);
         }
 
-        var template = await _templatesManager.GetTemplate("room-dashboard", new Dictionary<string, object>
+        var viewModel = new RoomDashboardViewModel
         {
-            ["room_name"] = room.Name,
-            ["culture"] = context.Locale.Name,
-            ["room_parameters"] = roomParameters,
-            ["bot_name"] = _configurationManager.Configuration.Name,
-            ["trigger"] = _configurationManager.Configuration.Trigger,
-            ["languages"] = _resourcesService.SupportedLocales
-        });
+            BotName = _configurationManager.Configuration.Name,
+            Trigger = _configurationManager.Configuration.Trigger,
+            RoomParameters = roomParameters,
+            RoomName = room.Name,
+            Culture = context.Locale.Name,
+            LanguageSelectModel = new LanguagesSelectViewModel
+            {
+                Name = "locale",
+                Id = "locale",
+                Cultures = _resourcesService.SupportedLocales,
+                Culture = context.Locale.Name
+            }
+        };
+        var template = await _templatesManager.GetTemplate("RoomDashboard/RoomDashboard", viewModel);
         
         context.SendHtmlPage($"{roomId}dashboard", template.RemoveNewlines());
     }

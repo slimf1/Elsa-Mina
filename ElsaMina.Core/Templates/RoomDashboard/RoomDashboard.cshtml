@@ -2,6 +2,7 @@
 @inherits RazorLight.TemplatePage<ElsaMina.Core.Templates.RoomDashboard.RoomDashboardViewModel>
 
 <form
+    style="padding: 2rem;"
     data-submitsend="/w @Model.BotName,@(Model.Trigger)rc @Model.RoomParameters.Id,{locale},{errors},{autocorrect}">
     <table>
         <thead>
@@ -12,7 +13,65 @@
         </tr>
         </thead>
         
+        <tbody>
         <!-- locale -->
-        @{ await IncludeAsync("LanguageSelect/LanguagesSelect", Model.LanguageSelectModel); }
+        <tr>
+            <td>
+                <label for="locale">
+                    @I18N.S(Model.Culture, "dashboard_locale_name")
+                </label>
+            </td>
+            <td>
+                @{ await IncludeAsync("LanguageSelect/LanguagesSelect", Model.LanguageSelectModel); }
+            </td>
+            <td>
+                @I18N.S(Model.Culture, "dashboard_locale_description")
+            </td>
+        </tr>
+        
+        <!-- errors -->
+        <tr>
+            <td>
+                <label for="errors">
+                    @I18N.S(Model.Culture, "dashboard_errors_name")
+                </label>
+            </td>
+            <td>
+                <input
+                    type="checkbox"
+                    id="errors"
+                    name="errors"
+                    @(Model.RoomParameters.IsShowingErrorMessages ?? false ? "checked" : "")/>
+            </td>
+            <td>
+                @I18N.S(Model.Culture, "dashboard_errors_description")
+            </td>
+        </tr>
+        
+        <tr>
+            <td>
+                <label for="autocorrect">
+                    @I18N.S(Model.Culture, "dashboard_autocorrect_name")
+                </label>
+            </td>
+            <td>
+                <input
+                    type="checkbox"
+                    id="autocorrect"
+                    name="autocorrect"
+                    @(Model.RoomParameters.IsCommandAutocorrectEnabled ?? false  ? "checked" : "")/>
+            </td>
+            <td>
+                @I18N.S(Model.Culture, "dashboard_autocorrect_description")
+            </td>
+        </tr>
+        </tbody>
     </table>
+    
+    <br /><br />
+    <button
+        class="button"
+        type="submit">
+        @I18N.S(Model.Culture, "submit")
+    </button>
 </form>
