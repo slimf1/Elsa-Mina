@@ -1,0 +1,12 @@
+@using ElsaMina.Core.Utils
+@model ElsaMina.Core.Templates.LanguageSelect.LanguagesSelectViewModel
+<select name="@Model.Name" id="@Model.Id">
+    @foreach (var culture in Model.Cultures)
+    {
+        <option
+            value="@culture.Name"
+            @(culture.Name.ToLowerAlphaNum() == Model.Culture.ToLowerAlphaNum() ? "selected" : "")>
+            @culture.NativeName.Capitalize()
+        </option>
+    }
+</select>

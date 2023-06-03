@@ -45,7 +45,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="Templates\**">
+        <Content Include="Templates\**\*.cshtml">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>

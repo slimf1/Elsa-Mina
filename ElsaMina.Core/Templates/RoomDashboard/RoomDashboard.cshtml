@@ -1,0 +1,18 @@
+@using ElsaMina.Core.Services.Templating
+@model ElsaMina.Core.Templates.RoomDashboard.RoomDashboardViewModel
+
+<form
+    data-submitsend="/w @Model.BotName,@(Model.Trigger)rc @Model.RoomParameters.Id,{locale},{errors},{autocorrect}">
+    <table>
+        <thead>
+        <tr>
+            <th colspan="3">
+                <h1>@I18N.S(Model.Culture, "room_dashboard", Model.RoomName)</h1>
+            </th>
+        </tr>
+        </thead>
+        
+        <!-- locale -->
+        @{ await IncludeAsync("LanguageSelect/LanguagesSelect", Model.LanguageSelectModel); }
+    </table>
+</form>
