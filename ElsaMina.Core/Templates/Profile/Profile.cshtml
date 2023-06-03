@@ -1,71 +1,87 @@
 @using ElsaMina.Core.Services.Templating
+@using ElsaMina.Core.Templates.Styling
 @using ElsaMina.Core.Utils
 @inherits RazorLight.TemplatePage<ElsaMina.Core.Templates.Profile.ProfileViewModel>
-<table>
+
+@{
+    const string border = "border: 1px solid #68A;"; 
+    
+    const string headerStyle = $"{border} padding: 4px; text-align: center; font-style: italic; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
+    const string avatarCellStyle = $"{border} padding: 0px; width: 80px; text-align: center;";
+    const string contentCellStyle = $"{border} padding: 4px 12px; text-align: left; vertical-align: top;";
+    const string badgesCellStyle = $"{border} padding: 0px; width: 56px; text-align: center;";
+    const string bioCellStyle = $"{border} padding: 4px; text-align: start; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
+}
+
+<table style="border-collapse: collapse; width: 100%;">
     <thead>
-        <tr>
-            <th>
-                Avatar
-            </th>
-            <th>
-                Infos
-            </th>
-            <th>
-                Badges
-            </th>
-        </tr>
+    <tr>
+        <th style="@headerStyle">
+            Avatar
+        </th>
+        <th style="@headerStyle">
+            Infos
+        </th>
+        <th style="@headerStyle">
+            Badges
+        </th>
+    </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>
-                <img
-                    width="80"
-                    height="80"
-                    src="@Model.Avatar"
-                    alt="Avatar" />
-            </td>
-            <td>
-                <span
-                    class="username"
-                    data-name="@Model.UserId"
-                    style="font-weight: bold; font-style: italic; padding: 15px 2px; color: @Model.UserId.ToHexColor();">
-                    @Model.UserName
-                </span>
-                @{
-                    var rankNameKey = Model.UserRoomRank switch {
-                        '#' => "rank_owner",
-                        '*' => "rank_bot",
-                        '@' => "rank_mod",
-                        '^' => "rank_prizewinner",
-                        '%' => "rank_driver",
-                        '+' => "rank_voice",
-                        _ => string.Empty
-                    };
-                }
-                @if (!string.IsNullOrEmpty(rankNameKey))
-                {
-                    <p>(@I18N.S(Model.Culture, rankNameKey))</p>
-                }
-                <br />
-                @if (!string.IsNullOrEmpty(Model.Status))
-                {
-                    <b>Status:</b> @Model.Status
-                }
-                <br />
-                
-            </td>
-            <td>
-                <img
-                    src="https://www.smogon.com/media/community/awards/spl.png"
-                    width="16"
-                    height="16"
-                    alt="Trophy" />
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                this is my bio
-            </td>
-        </tr>
+    <tr>
+        <td style="@avatarCellStyle">
+            <img
+                width="80"
+                height="80"
+                src="@Model.Avatar"
+                alt="@Model.UserName Avatar" />
+        </td>
+        <td style="@contentCellStyle">
+            &bullet;
+            <span
+                class="username"
+                data-name="@Model.UserId"
+                style="font-weight: bold; font-style: italic; padding: 2px; color: @Model.UserId.ToHexColor()">
+                @Model.UserName
+            </span>
+            @{
+                var rankNameKey = Model.UserRoomRank switch {
+                    '#' => "rank_owner",
+                    '*' => "rank_bot",
+                    '@' => "rank_mod",
+                    '^' => "rank_prizewinner",
+                    '%' => "rank_driver",
+                    '+' => "rank_voice",
+                    _ => null
+                };
+            }
+            @if (!string.IsNullOrEmpty(rankNameKey))
+            {
+                <span>(@I18N.S(Model.Culture, rankNameKey))</span>
+            }
+            <br />
+            @if (!string.IsNullOrEmpty(Model.Status))
+            {
+                <span style="text-decoration: underline">@I18N.S(Model.Culture, "profile_status")</span>
+                <span>: @Model.Status</span>
+            }
+            <br />
+            
+        </td>
+        <td style="@badgesCellStyle">
+            <img
+                src="https://www.smogon.com/media/community/awards/spl.png"
+                width="16"
+                height="16"
+                alt="Trophy" />
+        </td>
+    </tr>
+    <tr>
+        <td
+            style="@bioCellStyle"
+            colspan="3">
+            this is my bio
+        </td>
+    </tr>
     </tbody>
 </table>

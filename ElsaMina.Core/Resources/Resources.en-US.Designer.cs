@@ -303,6 +303,15 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        internal static string profile_status {
+            get {
+                return ResourceManager.GetString("profile_status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bot.
         /// </summary>
         internal static string rank_bot {

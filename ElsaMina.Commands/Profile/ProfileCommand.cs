@@ -59,6 +59,11 @@ public class ProfileCommand : ICommand
         var showdownUserDetails = t2.Result;
 
         var room = _roomsManager.GetRoom(context.RoomId);
+        var status = showdownUserDetails?.Status;
+        if (status?.StartsWith("!") == true)
+        {
+            status = status[1..];
+        }
         var avatarId = showdownUserDetails?.Avatar ?? DEFAULT_AVATAR_ID;
         var avatarBaseUrl = AVATAR_URL;
         if (avatarId.StartsWith("#"))
@@ -79,7 +84,7 @@ public class ProfileCommand : ICommand
             UserId = userId,
             UserName = showdownUserDetails?.Name ?? userId,
             UserRoomRank = userRoom != null ? userRoom[0] : ' ',
-            Status = showdownUserDetails?.Status
+            Status = status
         };
         var template = await _templatesManager.GetTemplate("Profile/Profile", viewModel);
         context.SendHtmlPage($"profile-{userId}", template.RemoveNewlines());

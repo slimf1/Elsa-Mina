@@ -135,4 +135,7 @@
     <data name="rank_voice" xml:space="preserve">
         <value>Voice</value>
     </data>
+    <data name="profile_status" xml:space="preserve">
+        <value>Status</value>
+    </data>
 </root>
