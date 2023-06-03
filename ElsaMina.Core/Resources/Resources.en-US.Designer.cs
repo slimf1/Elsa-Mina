@@ -132,6 +132,33 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The &quot;{0}&quot; badge doesn&apos;t exist..
+        /// </summary>
+        internal static string badge_delete_doesnt_exist {
+            get {
+                return ResourceManager.GetString("badge_delete_doesnt_exist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occured while deleting badge : {0}.
+        /// </summary>
+        internal static string badge_delete_failure {
+            get {
+                return ResourceManager.GetString("badge_delete_failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The badge &quot;{0}&quot; has been removed..
+        /// </summary>
+        internal static string badge_delete_success {
+            get {
+                return ResourceManager.GetString("badge_delete_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not find badge {0}..
         /// </summary>
         internal static string badge_give_could_not_find_badge {

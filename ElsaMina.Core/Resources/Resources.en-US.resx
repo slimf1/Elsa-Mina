@@ -141,4 +141,13 @@
     <data name="rank_host" xml:space="preserve">
         <value>Host</value>
     </data>
+    <data name="badge_delete_doesnt_exist" xml:space="preserve">
+        <value>The "{0}" badge doesn't exist.</value>
+    </data>
+    <data name="badge_delete_failure" xml:space="preserve">
+        <value>An error occured while deleting badge : {0}</value>
+    </data>
+    <data name="badge_delete_success" xml:space="preserve">
+        <value>The badge "{0}" has been removed.</value>
+    </data>
 </root>

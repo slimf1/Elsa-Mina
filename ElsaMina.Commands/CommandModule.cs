@@ -30,6 +30,7 @@ public class CommandModule : Module
         RegisterCommand<TemplatesDebug>(builder);
         RegisterCommand<GiveBadge>(builder);
         RegisterCommand<ProfileCommand>(builder);
+        RegisterCommand<DeleteBadge>(builder);
         
         RegisterParser<JoinRoomOnInviteParser>(builder);
     }
