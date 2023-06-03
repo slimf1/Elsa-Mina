@@ -303,6 +303,60 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bot.
+        /// </summary>
+        internal static string rank_bot {
+            get {
+                return ResourceManager.GetString("rank_bot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Driver.
+        /// </summary>
+        internal static string rank_driver {
+            get {
+                return ResourceManager.GetString("rank_driver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modérateur.
+        /// </summary>
+        internal static string rank_mod {
+            get {
+                return ResourceManager.GetString("rank_mod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Administrateur.
+        /// </summary>
+        internal static string rank_owner {
+            get {
+                return ResourceManager.GetString("rank_owner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vainqueur de tournoi.
+        /// </summary>
+        internal static string rank_prizewinner {
+            get {
+                return ResourceManager.GetString("rank_prizewinner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Voice.
+        /// </summary>
+        internal static string rank_voice {
+            get {
+                return ResourceManager.GetString("rank_voice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Une erreur est survenue lors de la mise à jour de la configuration : {0}.
         /// </summary>
         internal static string room_config_failure {

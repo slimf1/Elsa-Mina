@@ -18,6 +18,8 @@ public class UserDetailsDto
     public bool Friended { get; set; }
     [JsonProperty("autoconfirmed")]
     public bool AutoConfirmed { get; set; }
+    [JsonProperty("status")]
+    public string Status { get; set; }
     [JsonProperty("rooms")]
     public IDictionary<string, UserDetailsRoomDto> Rooms { get; set; }
 }

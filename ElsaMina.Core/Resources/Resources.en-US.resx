@@ -117,4 +117,22 @@
     <data name="badge_give_success" xml:space="preserve">
         <value>User "{0}" received the badge "{1}".</value>
     </data>
+    <data name="rank_bot" xml:space="preserve">
+        <value>Bot</value>
+    </data>
+    <data name="rank_driver" xml:space="preserve">
+        <value>Driver</value>
+    </data>
+    <data name="rank_mod" xml:space="preserve">
+        <value>Moderator</value>
+    </data>
+    <data name="rank_owner" xml:space="preserve">
+        <value>Room Owner</value>
+    </data>
+    <data name="rank_prizewinner" xml:space="preserve">
+        <value>Prize Winner</value>
+    </data>
+    <data name="rank_voice" xml:space="preserve">
+        <value>Voice</value>
+    </data>
 </root>

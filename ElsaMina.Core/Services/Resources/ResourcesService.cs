@@ -22,6 +22,10 @@ public class ResourcesService : IResourcesService
 
     public string GetString(string key, CultureInfo cultureInfo = null)
     {
+        if (string.IsNullOrEmpty(key))
+        {
+            return string.Empty;
+        }
         return _resourceManager.Value.GetString(key, cultureInfo ?? _defaultLocale);
     }
     
