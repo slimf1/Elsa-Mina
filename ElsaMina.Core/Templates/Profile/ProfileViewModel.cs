@@ -11,4 +11,5 @@ public class ProfileViewModel : BaseViewModel
     public string Status { get; set; }
     public string Title { get; set; }
     public IEnumerable<Badge> Badges { get; set; }
+    public DateTimeOffset RegisterDate { get; set; }
 }

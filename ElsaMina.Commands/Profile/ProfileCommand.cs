@@ -3,6 +3,7 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templating;
+using ElsaMina.Core.Services.UserData;
 using ElsaMina.Core.Services.UserDetails;
 using ElsaMina.Core.Templates.Profile;
 using ElsaMina.Core.Utils;
@@ -27,18 +28,21 @@ public class ProfileCommand : ICommand
     private readonly ITemplatesManager _templatesManager;
     private readonly IRoomsManager _roomsManager;
     private readonly IConfigurationManager _configurationManager;
+    private readonly IUserDataService _userDataService;
 
     public ProfileCommand(IRepository<RoomSpecificUserData, Tuple<string, string>> userDataRepository,
         IUserDetailsManager userDetailsManager,
         ITemplatesManager templatesManager,
         IRoomsManager roomsManager,
-        IConfigurationManager configurationManager)
+        IConfigurationManager configurationManager,
+        IUserDataService userDataService)
     {
         _userDataRepository = userDataRepository;
         _userDetailsManager = userDetailsManager;
         _templatesManager = templatesManager;
         _roomsManager = roomsManager;
         _configurationManager = configurationManager;
+        _userDataService = userDataService;
     }
 
     public async Task Run(IContext context)
@@ -53,10 +57,12 @@ public class ProfileCommand : ICommand
 
         var t1 = _userDataRepository.GetByIdAsync(new(userId, context.RoomId));
         var t2 = _userDetailsManager.GetUserDetails(userId);
-        await Task.WhenAll(t1, t2);
+        var t3 = _userDataService.GetRegisterDate(userId);
+        await Task.WhenAll(t1, t2, t3);
 
         var storedUserData = t1.Result;
         var showdownUserDetails = t2.Result;
+        var registerDate = t3.Result;
 
         var room = _roomsManager.GetRoom(context.RoomId);
         
@@ -100,7 +106,8 @@ public class ProfileCommand : ICommand
             UserRoomRank = userRoom != null ? userRoom[0] : ' ',
             Status = status,
             Badges = storedUserData?.Badges.Select(holding => holding.Badge),
-            Title = storedUserData?.Title
+            Title = storedUserData?.Title,
+            RegisterDate = registerDate
         };
         var template = await _templatesManager.GetTemplate("Profile/Profile", viewModel);
         context.SendHtmlPage($"profile-{userId}", template.RemoveNewlines());

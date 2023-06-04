@@ -16,6 +16,7 @@ using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.Core.Services.Templating;
+using ElsaMina.Core.Services.UserData;
 using ElsaMina.Core.Services.UserDetails;
 using Serilog;
 
@@ -52,6 +53,7 @@ public class CoreModule : Module
         builder.RegisterType<TemplatesManager>().As<ITemplatesManager>().SingleInstance();
         builder.RegisterType<RoomUserDataService>().As<IRoomUserDataService>();
         builder.RegisterType<UserDetailsManager>().As<IUserDetailsManager>().SingleInstance();
+        builder.RegisterType<UserDataService>().As<IUserDataService>().SingleInstance();
 
         builder.RegisterType<Client.Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot.Bot>().As<IBot>().AsSelf().SingleInstance();

@@ -420,11 +420,29 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Registered.
+        /// </summary>
+        internal static string profile_register_date {
+            get {
+                return ResourceManager.GetString("profile_register_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
         internal static string profile_status {
             get {
                 return ResourceManager.GetString("profile_status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        internal static string profile_title {
+            get {
+                return ResourceManager.GetString("profile_title", resourceCulture);
             }
         }
         

@@ -6,4 +6,5 @@ public interface IHttpService
         bool removeFirstCharacterFromResponse = false);
     public Task<TResponse> PostUrlEncodedForm<TResponse>(string uri, IDictionary<string, string> form,
         bool removeFirstCharacterFromResponse = false);
+    public Task<TResponse> Get<TResponse>(string uri);
 }

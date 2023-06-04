@@ -17,13 +17,15 @@ public class HttpService : IHttpService
         {
             throw new HttpException(response.StatusCode, stringContent);
         }
+
         if (removeFirstCharacterFromResponse)
         {
             stringContent = stringContent[1..];
         }
+
         return JsonConvert.DeserializeObject<TResponse>(stringContent);
     }
-    
+
     public async Task<TResponse> PostUrlEncodedForm<TResponse>(string uri, IDictionary<string, string> form,
         bool removeFirstCharacterFromResponse = false)
     {
@@ -34,10 +36,24 @@ public class HttpService : IHttpService
         {
             throw new HttpException(response.StatusCode, stringContent);
         }
+
         if (removeFirstCharacterFromResponse)
         {
             stringContent = stringContent[1..];
         }
+
+        return JsonConvert.DeserializeObject<TResponse>(stringContent);
+    }
+
+    public async Task<TResponse> Get<TResponse>(string uri)
+    {
+        var response = await HTTP_CLIENT.GetAsync(uri);
+        var stringContent = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new HttpException(response.StatusCode, stringContent);
+        }
+
         return JsonConvert.DeserializeObject<TResponse>(stringContent);
     }
 }

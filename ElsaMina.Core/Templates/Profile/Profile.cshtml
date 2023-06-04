@@ -1,3 +1,4 @@
+@using System.Globalization
 @using ElsaMina.Core.Services.Templating
 @using ElsaMina.Core.Templates.Styling
 @using ElsaMina.Core.Utils
@@ -6,10 +7,10 @@
 @{
     const string border = "border: 1px solid #68A;"; 
     
-    const string headerStyle = $"{border} padding: 4px; text-align: center; font-style: italic; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
+    const string headerStyle = $"{border} padding: 4x; text-align: center; font-style: italic; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
     const string avatarCellStyle = $"{border} padding: 0px; width: 80px; text-align: center;";
     const string contentCellStyle = $"{border} padding: 4px 12px; text-align: left; vertical-align: top;";
-    const string badgesCellStyle = $"{border} padding: 0px; width: 56px; text-align: center;";
+    const string badgesCellStyle = $"{border} padding: 4px; width: 56px; text-align: center;";
     const string bioCellStyle = $"{border} padding: 4px; text-align: start; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
 }
 
@@ -65,8 +66,14 @@
             {
                 <span style="text-decoration: underline">@I18N.S(Model.Culture, "profile_status")</span>
                 <span>: @Model.Status</span>
+                <br />
             }
-            <br />
+            @if (Model.RegisterDate > DateTimeOffset.MinValue)
+            {
+                <span style="text-decoration: underline">@I18N.S(Model.Culture, "profile_register_date")</span>
+                <span>: @Model.RegisterDate.ToString("MM/dd/yyyy", new CultureInfo(Model.Culture))</span>
+                <br />
+            }
             
         </td>
         <td style="@badgesCellStyle">
@@ -91,8 +98,8 @@
             colspan="3">
             @if (!string.IsNullOrEmpty(Model.Title)) 
             {
-                <span style="text-decoration: underline">Bio:</span>
-                <span>@Model.Title</span>
+                <span style="text-decoration: underline">@I18N.S(Model.Culture, "profile_title")</span>
+                <span>: @Model.Title</span>
             }
             else
             {

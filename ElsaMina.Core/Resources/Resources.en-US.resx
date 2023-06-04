@@ -201,4 +201,10 @@
     <data name="allcommands_required_rank" xml:space="preserve">
         <value>Required rank</value>
     </data>
+    <data name="profile_register_date" xml:space="preserve">
+        <value>Registered</value>
+    </data>
+    <data name="profile_title" xml:space="preserve">
+        <value>Title</value>
+    </data>
 </root>
