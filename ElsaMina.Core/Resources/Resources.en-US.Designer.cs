@@ -105,6 +105,33 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while updating an avatar : {0}.
+        /// </summary>
+        internal static string avatar_failure {
+            get {
+                return ResourceManager.GetString("avatar_failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updates a user&apos;s avatar.  Syntax : -avarar &lt;user&gt;, &lt;avatar URL&gt;.
+        /// </summary>
+        internal static string avatar_help_message {
+            get {
+                return ResourceManager.GetString("avatar_help_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user&apos;s avatar has been updated..
+        /// </summary>
+        internal static string avatar_success {
+            get {
+                return ResourceManager.GetString("avatar_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The badge {0} already exist..
         /// </summary>
         internal static string badge_add_already_exist {
@@ -330,6 +357,15 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No title.
+        /// </summary>
+        internal static string profile_no_title {
+            get {
+                return ResourceManager.GetString("profile_no_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
         internal static string profile_status {
@@ -488,6 +524,33 @@ namespace ElsaMina.Core.Resources {
         internal static string takebadge_success {
             get {
                 return ResourceManager.GetString("takebadge_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while updating the title : {0}.
+        /// </summary>
+        internal static string title_failure {
+            get {
+                return ResourceManager.GetString("title_failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updates a user&apos;s title. Syntax : -title &lt;user&gt;, &lt;title&gt;.
+        /// </summary>
+        internal static string title_help_message {
+            get {
+                return ResourceManager.GetString("title_help_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user&apos;s title has been updated..
+        /// </summary>
+        internal static string title_success {
+            get {
+                return ResourceManager.GetString("title_success", resourceCulture);
             }
         }
     }

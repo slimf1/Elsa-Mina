@@ -9,5 +9,6 @@ public class ProfileViewModel : BaseViewModel
     public string Avatar { get; set; }
     public char UserRoomRank { get; set; }
     public string Status { get; set; }
+    public string Title { get; set; }
     public IEnumerable<Badge> Badges { get; set; }
 }

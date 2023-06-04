@@ -162,4 +162,25 @@
     <data name="takebadge_success" xml:space="preserve">
         <value>The user "{0}" no longer has the badge "{1}".</value>
     </data>
+    <data name="avatar_help_message" xml:space="preserve">
+        <value>Updates a user's avatar.  Syntax : -avarar &lt;user&gt;, &lt;avatar URL&gt;</value>
+    </data>
+    <data name="avatar_success" xml:space="preserve">
+        <value>The user's avatar has been updated.</value>
+    </data>
+    <data name="avatar_failure" xml:space="preserve">
+        <value>An error occurred while updating an avatar : {0}</value>
+    </data>
+    <data name="title_failure" xml:space="preserve">
+        <value>An error occurred while updating the title : {0}</value>
+    </data>
+    <data name="title_help_message" xml:space="preserve">
+        <value>Updates a user's title. Syntax : -title &lt;user&gt;, &lt;title&gt;</value>
+    </data>
+    <data name="title_success" xml:space="preserve">
+        <value>The user's title has been updated.</value>
+    </data>
+    <data name="profile_no_title" xml:space="preserve">
+        <value>No title</value>
+    </data>
 </root>

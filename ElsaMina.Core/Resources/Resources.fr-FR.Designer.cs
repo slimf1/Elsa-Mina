@@ -105,6 +105,33 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Une erreur est survenue lors de la mise à jour d&apos;un avatar : {0}.
+        /// </summary>
+        internal static string avatar_failure {
+            get {
+                return ResourceManager.GetString("avatar_failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Met à jour l&apos;avatar d&apos;un utilisateur. Syntaxe : -avatar &lt;nom&gt;, &lt;URL de l&apos;avatar&gt;.
+        /// </summary>
+        internal static string avatar_help_message {
+            get {
+                return ResourceManager.GetString("avatar_help_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to L&apos;avatar a été mis à jour..
+        /// </summary>
+        internal static string avatar_success {
+            get {
+                return ResourceManager.GetString("avatar_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Le badge {0} existe déjà..
         /// </summary>
         internal static string badge_add_already_exist {
@@ -330,6 +357,15 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pas de bio.
+        /// </summary>
+        internal static string profile_no_title {
+            get {
+                return ResourceManager.GetString("profile_no_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Statut.
         /// </summary>
         internal static string profile_status {
@@ -488,6 +524,33 @@ namespace ElsaMina.Core.Resources {
         internal static string takebadge_success {
             get {
                 return ResourceManager.GetString("takebadge_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Une erreur est survenue lors de la mise à jour de la bio : {0}.
+        /// </summary>
+        internal static string title_failure {
+            get {
+                return ResourceManager.GetString("title_failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Met à jour la bio d&apos;un utilisateur. Syntaxe : -title &lt;utilisateur&gt;, &lt;bio&gt;.
+        /// </summary>
+        internal static string title_help_message {
+            get {
+                return ResourceManager.GetString("title_help_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La bio a été mise à jour..
+        /// </summary>
+        internal static string title_success {
+            get {
+                return ResourceManager.GetString("title_success", resourceCulture);
             }
         }
     }

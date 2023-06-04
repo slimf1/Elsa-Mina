@@ -82,7 +82,15 @@
         <td
             style="@bioCellStyle"
             colspan="3">
-            this is my bio
+            @if (!string.IsNullOrEmpty(Model.Title)) 
+            {
+                <span style="text-decoration: underline">Bio:</span>
+                <span>&nbsp;@Model.Title</span>
+            }
+            else
+            {
+                <span style="font-style: italic">@I18N.S(Model.Culture, "profile_no_title")</span>
+            }
         </td>
     </tr>
     </tbody>

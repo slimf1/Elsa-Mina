@@ -162,4 +162,25 @@
     <data name="takebadge_badge_doesnt_exist" xml:space="preserve">
         <value>L'utilisateur "{0}" n'a pas le badge "{1}"</value>
     </data>
+    <data name="avatar_help_message" xml:space="preserve">
+        <value>Met à jour l'avatar d'un utilisateur. Syntaxe : -avatar &lt;nom&gt;, &lt;URL de l'avatar&gt;</value>
+    </data>
+    <data name="avatar_success" xml:space="preserve">
+        <value>L'avatar a été mis à jour.</value>
+    </data>
+    <data name="avatar_failure" xml:space="preserve">
+        <value>Une erreur est survenue lors de la mise à jour d'un avatar : {0}</value>
+    </data>
+    <data name="title_help_message" xml:space="preserve">
+        <value>Met à jour la bio d'un utilisateur. Syntaxe : -title &lt;utilisateur&gt;, &lt;bio&gt;</value>
+    </data>
+    <data name="title_success" xml:space="preserve">
+        <value>La bio a été mise à jour.</value>
+    </data>
+    <data name="title_failure" xml:space="preserve">
+        <value>Une erreur est survenue lors de la mise à jour de la bio : {0}</value>
+    </data>
+    <data name="profile_no_title" xml:space="preserve">
+        <value>Pas de bio</value>
+    </data>
 </root>

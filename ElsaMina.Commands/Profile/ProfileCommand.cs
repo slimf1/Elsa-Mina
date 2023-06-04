@@ -59,19 +59,33 @@ public class ProfileCommand : ICommand
         var showdownUserDetails = t2.Result;
 
         var room = _roomsManager.GetRoom(context.RoomId);
+        
+        // Status
         var status = showdownUserDetails?.Status;
         if (status?.StartsWith("!") == true)
         {
             status = status[1..];
         }
-        var avatarId = showdownUserDetails?.Avatar ?? DEFAULT_AVATAR_ID;
-        var avatarBaseUrl = AVATAR_URL;
-        if (avatarId.StartsWith("#"))
+        
+        // Avatar
+        string avatarUrl;
+        if (!string.IsNullOrEmpty(storedUserData?.Avatar))
         {
-            avatarId = avatarId[1..];
-            avatarBaseUrl = AVATAR_CUSTOM_URL;
+            avatarUrl = storedUserData.Avatar;
         }
-        var avatarUrl = string.Format(avatarBaseUrl, avatarId);
+        else
+        {
+            var avatarId = showdownUserDetails?.Avatar ?? DEFAULT_AVATAR_ID;
+            var avatarBaseUrl = AVATAR_URL;
+            if (avatarId.StartsWith("#"))
+            {
+                avatarId = avatarId[1..];
+                avatarBaseUrl = AVATAR_CUSTOM_URL;
+            }
+            avatarUrl = string.Format(avatarBaseUrl, avatarId);
+        }
+        
+        // Rank
         var userRoom = showdownUserDetails?
             .Rooms?
             .Keys
@@ -85,7 +99,8 @@ public class ProfileCommand : ICommand
             UserName = showdownUserDetails?.Name ?? userId,
             UserRoomRank = userRoom != null ? userRoom[0] : ' ',
             Status = status,
-            Badges = storedUserData?.Badges.Select(holding => holding.Badge) ?? Array.Empty<Badge>()
+            Badges = storedUserData?.Badges.Select(holding => holding.Badge) ?? Array.Empty<Badge>(),
+            Title = storedUserData?.Title
         };
         var template = await _templatesManager.GetTemplate("Profile/Profile", viewModel);
         context.SendHtmlPage($"profile-{userId}", template.RemoveNewlines());
