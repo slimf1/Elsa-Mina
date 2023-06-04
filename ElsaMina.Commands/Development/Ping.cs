@@ -10,7 +10,7 @@ public class Ping : ICommand
 
     public static bool IsAllowedInPm => true;
     public static char RequiredRank => '+';
-    public static string HelpMessage => "Returns pong.";
+    public static string HelpMessageKey => "Returns pong.";
 
     public Task Run(IContext context)
     {

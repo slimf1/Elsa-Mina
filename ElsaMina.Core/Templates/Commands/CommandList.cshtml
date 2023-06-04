@@ -1,0 +1,39 @@
+﻿@using ElsaMina.Core.Services.Templating
+@model ElsaMina.Core.Templates.Commands.CommandListViewModel
+
+<div style="padding: 1rem;">
+    @foreach (var command in Model.Commands)
+    {
+        <span style="font-weight: bold">
+            @command.CommandName
+        </span>
+        @if (command.CommandAliases.Any())
+        {
+            <span>
+                &mdash; Aliases : @string.Join(", ", command.CommandAliases)
+            </span>
+        }
+        @if (command.IsAllowedInPm)
+        {
+            <span>(Allowed in PM)</span>
+        }
+        @if (command.IsWhitelistOnly)
+        {
+            <span>(WL Only)</span>
+        }
+        @if (command.IsPrivateMessageOnly)
+        {
+            <span>(PM Only)</span>
+        }
+        <div>
+            Required Rank : @command.RequiredRank
+        </div>
+        @if (!string.IsNullOrEmpty(command.HelpMessageKey))
+        {
+            <div>
+                @I18N.S(Model.Culture, command.HelpMessageKey)
+            </div>
+        }
+        <br />
+    }
+</div>

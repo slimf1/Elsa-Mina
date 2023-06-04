@@ -10,4 +10,5 @@ public interface IDependencyContainerService
     T Resolve<T>() where T : notnull;
     T ResolveCommand<T>(string commandName) where T : ICommand;
     bool IsCommandRegistered(string commandName);
+    IEnumerable<ICommand> GetAllCommands();
 }

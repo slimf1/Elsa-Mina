@@ -23,4 +23,13 @@ public class DependencyContainerService : IDependencyContainerService
     {
         return Container?.IsRegisteredWithName<ICommand>(commandName) ?? false;
     }
+
+    public IEnumerable<ICommand> GetAllCommands()
+    {
+        return Container.ComponentRegistry.Registrations
+            .Where(r => typeof(ICommand).IsAssignableFrom(r.Activator.LimitType))
+            .Select(r => r.Activator.LimitType)
+            .Select(type => Container.Resolve(type) as ICommand)
+            .DistinctBy(type => type?.CommandName);
+    }
 }

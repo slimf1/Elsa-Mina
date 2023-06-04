@@ -25,7 +25,12 @@ public class CommandExecutor : ICommandExecutor
     {
         return _dependencyContainerService.IsCommandRegistered(commandName);
     }
-    
+
+    public IEnumerable<ICommand> GetAllCommands()
+    {
+        return _dependencyContainerService.GetAllCommands();
+    }
+
     public async Task TryExecuteCommand(string commandName, IContext context)
     {
         if (HasCommand(commandName))

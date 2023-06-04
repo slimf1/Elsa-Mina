@@ -34,6 +34,7 @@ public class CommandModule : Module
         RegisterCommand<TakeBadge>(builder);
         RegisterCommand<SetAvatar>(builder);
         RegisterCommand<SetTitle>(builder);
+        RegisterCommand<AllCommands>(builder);
         
         RegisterParser<JoinRoomOnInviteParser>(builder);
     }
@@ -46,10 +47,10 @@ public class CommandModule : Module
             Console.WriteLine("[WARN] Command "+ typeof(T).Name + " has no name, and could not be registered");
             return;
         }
-        builder.RegisterType<T>().Named<ICommand>(commandName);
+        builder.RegisterType<T>().AsSelf().Named<ICommand>(commandName);
         foreach (var alias in T.Aliases)
         {
-            builder.RegisterType<T>().Named<ICommand>(alias);
+            builder.RegisterType<T>().AsSelf().Named<ICommand>(alias);
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using ElsaMina.Core.Contexts;
+﻿using System.Reflection;
+using ElsaMina.Core.Contexts;
 
 namespace ElsaMina.Core.Commands;
 
@@ -6,12 +7,50 @@ public interface ICommand
 {
     public static virtual string Name => string.Empty;
     public static virtual IEnumerable<string> Aliases => Enumerable.Empty<string>();
-    protected virtual bool IsAllowedInPm => false;
-    protected virtual bool IsWhitelistOnly => false;
-    protected virtual bool IsPrivateMessageOnly => false;
-    protected virtual char RequiredRank => '&';
-    protected virtual string HelpMessageKey => "";
-    protected virtual bool IsHidden => false;
+    public bool IsAllowedInPm => false;
+    public bool IsWhitelistOnly => false;
+    public bool IsPrivateMessageOnly => false;
+    public char RequiredRank => '&';
+    public string HelpMessageKey => "";
+    public bool IsHidden => false;
+
+    public string CommandName
+    {
+        get
+        {
+            try
+            {
+                return (string)((PropertyInfo)GetType()
+                    .GetMember("Name")
+                    .GetValue(0))?
+                    .GetMethod?
+                    .Invoke(null, null);
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+    }
+    
+    public IEnumerable<string> CommandAliases
+    {
+        get
+        {
+            try
+            {
+                return (IEnumerable<string>)((PropertyInfo)GetType()
+                        .GetMember("Aliases")
+                        .GetValue(0))?
+                    .GetMethod?
+                    .Invoke(null, null);
+            }
+            catch (Exception)
+            {
+                return Enumerable.Empty<string>();
+            }
+        }
+    }
 
     protected sealed void ReplyLocalizedHelpMessage(IContext context, params object[] formatArguments)
     {
