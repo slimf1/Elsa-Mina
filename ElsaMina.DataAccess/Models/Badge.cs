@@ -17,5 +17,6 @@ public class Badge : IKeyed<Tuple<string, string>>
     public string? Name { get; set; }
     public string? Image { get; set; }
     public bool? IsTrophy { get; set; }
+    public bool? IsTeamTournament { get; set; }
     public ICollection<BadgeHolding> BadgeHolders { get; set; }
 }
