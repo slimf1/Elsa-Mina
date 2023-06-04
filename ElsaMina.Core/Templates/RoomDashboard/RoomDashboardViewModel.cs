@@ -3,7 +3,7 @@ using ElsaMina.DataAccess.Models;
 
 namespace ElsaMina.Core.Templates.RoomDashboard;
 
-public class RoomDashboardViewModel : BaseViewModel
+public class RoomDashboardViewModel : LocalizableViewModel
 {
     public string BotName { get; set; }
     public string Trigger { get; set; }

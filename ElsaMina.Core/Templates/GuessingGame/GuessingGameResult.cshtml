@@ -1,0 +1,19 @@
+﻿@using ElsaMina.Core.Services.Templating
+@model ElsaMina.Core.Templates.GuessingGame.GuessingGameResultViewModel
+
+<div>
+    <h4>@I18N.S(Model.Culture, "guessing_game_game_ended")</h4>
+    <span style="text-decoration: underline">@I18N.S(Model.Culture, "guessing_game_final_scores"):</span>
+    <br />
+    
+    @{
+        var i = 1;
+    }
+    @foreach (var score in Model.Scores)
+    {
+        <span>
+            @(i++). @score.Key (@score.Value @I18N.S(Model.Culture, "guessing_game_point")@(score.Value == 1 ? string.Empty : "s"))
+        </span>
+        <br />
+    }
+</div>

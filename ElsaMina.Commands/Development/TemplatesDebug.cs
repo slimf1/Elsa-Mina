@@ -5,6 +5,7 @@ using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templating;
 using ElsaMina.Core.Templates;
+using ElsaMina.Core.Templates.GuessingGame;
 using ElsaMina.Core.Templates.LanguageSelect;
 using ElsaMina.Core.Templates.Profile;
 using ElsaMina.Core.Templates.RoomDashboard;
@@ -40,7 +41,7 @@ public class TemplatesDebug : ICommand
     {
         var parts = context.Target.Split(",");
         var templateName = parts[0].Trim();
-        BaseViewModel model = templateName switch
+        LocalizableViewModel model = templateName switch
         {
             "Profile/Profile" => new ProfileViewModel
             {
@@ -69,6 +70,17 @@ public class TemplatesDebug : ICommand
                 RoomParameters = new RoomParameters
                 {
                     Id = "deez"
+                }
+            },
+            "GuessingGame/GuessingGameResult" => new GuessingGameResultViewModel
+            {
+                Culture = context.Locale.Name,
+                Scores = new Dictionary<string, int>
+                {
+                    ["speks"] = 14,
+                    ["morsay"] = 12,
+                    ["thylane"] = 7,
+                    ["lionyx"] = 1,
                 }
             },
             _ => throw new ArgumentOutOfRangeException()

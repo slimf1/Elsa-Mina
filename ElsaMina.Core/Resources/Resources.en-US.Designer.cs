@@ -393,6 +393,33 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Final scores.
+        /// </summary>
+        internal static string guessing_game_final_scores {
+            get {
+                return ResourceManager.GetString("guessing_game_final_scores", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The game is over!.
+        /// </summary>
+        internal static string guessing_game_game_ended {
+            get {
+                return ResourceManager.GetString("guessing_game_game_ended", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Point.
+        /// </summary>
+        internal static string guessing_game_point {
+            get {
+                return ResourceManager.GetString("guessing_game_point", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Elsa-Mina v7 : Bot in development.
         /// </summary>
         internal static string help {

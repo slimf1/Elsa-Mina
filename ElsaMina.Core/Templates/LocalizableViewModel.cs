@@ -1,6 +1,6 @@
 namespace ElsaMina.Core.Templates;
 
-public abstract class BaseViewModel
+public abstract class LocalizableViewModel
 {
     public string Culture { get; set; }
 }

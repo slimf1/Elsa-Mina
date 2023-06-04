@@ -2,7 +2,7 @@ using ElsaMina.DataAccess.Models;
 
 namespace ElsaMina.Core.Templates.Profile;
 
-public class ProfileViewModel : BaseViewModel
+public class ProfileViewModel : LocalizableViewModel
 {
     public string UserId { get; set; }
     public string UserName { get; set; }

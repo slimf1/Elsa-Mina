@@ -207,4 +207,13 @@
     <data name="profile_title" xml:space="preserve">
         <value>Bio</value>
     </data>
+    <data name="guessing_game_game_ended" xml:space="preserve">
+        <value>La partie est terminée!</value>
+    </data>
+    <data name="guessing_game_point" xml:space="preserve">
+        <value>Point</value>
+    </data>
+    <data name="guessing_game_final_scores" xml:space="preserve">
+        <value>Scores finaux</value>
+    </data>
 </root>

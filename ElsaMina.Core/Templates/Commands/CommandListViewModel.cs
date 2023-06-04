@@ -2,7 +2,7 @@
 
 namespace ElsaMina.Core.Templates.Commands;
 
-public class CommandListViewModel : BaseViewModel
+public class CommandListViewModel : LocalizableViewModel
 {
     public IEnumerable<ICommand> Commands { get; set; }
 }
