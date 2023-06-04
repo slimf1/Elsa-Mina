@@ -105,6 +105,51 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aliases.
+        /// </summary>
+        internal static string allcommands_alias {
+            get {
+                return ResourceManager.GetString("allcommands_alias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allowed in PM.
+        /// </summary>
+        internal static string allcommands_allowed_in_pm {
+            get {
+                return ResourceManager.GetString("allcommands_allowed_in_pm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PM Only.
+        /// </summary>
+        internal static string allcommands_pm_only {
+            get {
+                return ResourceManager.GetString("allcommands_pm_only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Required rank.
+        /// </summary>
+        internal static string allcommands_required_rank {
+            get {
+                return ResourceManager.GetString("allcommands_required_rank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Whitelist Only.
+        /// </summary>
+        internal static string allcommands_wl_only {
+            get {
+                return ResourceManager.GetString("allcommands_wl_only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while updating an avatar : {0}.
         /// </summary>
         internal static string avatar_failure {

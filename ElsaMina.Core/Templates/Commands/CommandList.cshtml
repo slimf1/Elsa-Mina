@@ -10,23 +10,23 @@
         @if (command.CommandAliases.Any())
         {
             <span>
-                &mdash; Aliases : @string.Join(", ", command.CommandAliases)
+                &mdash; @I18N.S(Model.Culture, "allcommands_alias") : @string.Join(", ", command.CommandAliases)
             </span>
         }
         @if (command.IsAllowedInPm)
         {
-            <span>(Allowed in PM)</span>
+            <span>(@I18N.S(Model.Culture, "allcommands_allowed_in_pm"))</span>
         }
         @if (command.IsWhitelistOnly)
         {
-            <span>(WL Only)</span>
+            <span>(@I18N.S(Model.Culture, "allcommands_wl_only"))</span>
         }
         @if (command.IsPrivateMessageOnly)
         {
-            <span>(PM Only)</span>
+            <span>(@I18N.S(Model.Culture, "allcommands_pm_only"))</span>
         }
         <div>
-            Required Rank : @command.RequiredRank
+            @I18N.S(Model.Culture, "allcommands_required_rank") : @command.RequiredRank
         </div>
         @if (!string.IsNullOrEmpty(command.HelpMessageKey))
         {

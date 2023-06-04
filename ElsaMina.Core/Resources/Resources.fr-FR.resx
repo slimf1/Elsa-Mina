@@ -186,4 +186,19 @@
     <data name="profile_no_badge" xml:space="preserve">
         <value>Pas de badge</value>
     </data>
+    <data name="allcommands_alias" xml:space="preserve">
+        <value>Autres noms</value>
+    </data>
+    <data name="allcommands_allowed_in_pm" xml:space="preserve">
+        <value>Autorisé en message privé</value>
+    </data>
+    <data name="allcommands_wl_only" xml:space="preserve">
+        <value>Reservé whitelist</value>
+    </data>
+    <data name="allcommands_pm_only" xml:space="preserve">
+        <value>Uniquement en message privé</value>
+    </data>
+    <data name="allcommands_required_rank" xml:space="preserve">
+        <value>Rang requis</value>
+    </data>
 </root>

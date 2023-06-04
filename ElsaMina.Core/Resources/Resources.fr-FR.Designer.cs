@@ -105,6 +105,51 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Autres noms.
+        /// </summary>
+        internal static string allcommands_alias {
+            get {
+                return ResourceManager.GetString("allcommands_alias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Autorisé en message privé.
+        /// </summary>
+        internal static string allcommands_allowed_in_pm {
+            get {
+                return ResourceManager.GetString("allcommands_allowed_in_pm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uniquement en message privé.
+        /// </summary>
+        internal static string allcommands_pm_only {
+            get {
+                return ResourceManager.GetString("allcommands_pm_only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rang requis.
+        /// </summary>
+        internal static string allcommands_required_rank {
+            get {
+                return ResourceManager.GetString("allcommands_required_rank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reservé whitelist.
+        /// </summary>
+        internal static string allcommands_wl_only {
+            get {
+                return ResourceManager.GetString("allcommands_wl_only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Une erreur est survenue lors de la mise à jour d&apos;un avatar : {0}.
         /// </summary>
         internal static string avatar_failure {
