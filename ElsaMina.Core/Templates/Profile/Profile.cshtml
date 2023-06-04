@@ -70,11 +70,18 @@
             
         </td>
         <td style="@badgesCellStyle">
-            @foreach (var badge in Model.Badges)
+            @if (Model.Badges != null && Model.Badges.Any())
             {
-                <span>
-                    @{ await IncludeAsync("Badge/Badge", badge); }
-                </span>
+                @foreach (var badge in Model.Badges)
+                {
+                    <span>
+                        @{ await IncludeAsync("Badge/Badge", badge); }
+                    </span>
+                }
+            }
+            else
+            {
+                <span style="font-style: italic">@I18N.S(Model.Culture, "profile_no_badge")</span>
             }
         </td>
     </tr>
@@ -85,7 +92,7 @@
             @if (!string.IsNullOrEmpty(Model.Title)) 
             {
                 <span style="text-decoration: underline">Bio:</span>
-                <span>&nbsp;@Model.Title</span>
+                <span>@Model.Title</span>
             }
             else
             {

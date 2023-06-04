@@ -99,7 +99,7 @@ public class ProfileCommand : ICommand
             UserName = showdownUserDetails?.Name ?? userId,
             UserRoomRank = userRoom != null ? userRoom[0] : ' ',
             Status = status,
-            Badges = storedUserData?.Badges.Select(holding => holding.Badge) ?? Array.Empty<Badge>(),
+            Badges = storedUserData?.Badges.Select(holding => holding.Badge),
             Title = storedUserData?.Title
         };
         var template = await _templatesManager.GetTemplate("Profile/Profile", viewModel);

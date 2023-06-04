@@ -183,4 +183,7 @@
     <data name="profile_no_title" xml:space="preserve">
         <value>No title</value>
     </data>
+    <data name="profile_no_badge" xml:space="preserve">
+        <value>No badge</value>
+    </data>
 </root>

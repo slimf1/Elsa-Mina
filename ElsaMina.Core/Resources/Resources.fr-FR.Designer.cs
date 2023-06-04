@@ -357,6 +357,15 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pas de badge.
+        /// </summary>
+        internal static string profile_no_badge {
+            get {
+                return ResourceManager.GetString("profile_no_badge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pas de bio.
         /// </summary>
         internal static string profile_no_title {

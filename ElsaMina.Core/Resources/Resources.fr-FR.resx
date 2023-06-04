@@ -183,4 +183,7 @@
     <data name="profile_no_title" xml:space="preserve">
         <value>Pas de bio</value>
     </data>
+    <data name="profile_no_badge" xml:space="preserve">
+        <value>Pas de badge</value>
+    </data>
 </root>
