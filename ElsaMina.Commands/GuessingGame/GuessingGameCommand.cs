@@ -38,17 +38,17 @@ public class GuessingGameCommand : ICommand
         if (!int.TryParse(context.Target, out count))
         {
             context.Reply("lol errror XDDDDDDDDDDDDDDD");
-            return;
+            return Task.CompletedTask;
         }
 
         if (count < 0 || count > 20)
         {
             context.Reply("eeeeeeeeeeeeee");
-            return;
+            return Task.CompletedTask;
         }
 
         var room = _roomsManager.GetRoom(context.RoomId);
         var a = new CountriesGame(context, _templatesManager, _randomService, count);
-        
+        return Task.CompletedTask;
     }
 }
