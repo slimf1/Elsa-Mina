@@ -1,8 +1,7 @@
 @using System.Globalization
-@using ElsaMina.Core.Services.Templating
 @using ElsaMina.Core.Templates.Styling
 @using ElsaMina.Core.Utils
-@inherits RazorLight.TemplatePage<ElsaMina.Core.Templates.Profile.ProfileViewModel>
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Core.Templates.Profile.ProfileViewModel>
 
 @{
     const string border = "border: 1px solid #68A;"; 
@@ -59,18 +58,18 @@
             }
             @if (!string.IsNullOrEmpty(rankNameKey))
             {
-                <span>(@I18N.S(Model.Culture, rankNameKey))</span>
+                <span>(@GetString(rankNameKey))</span>
             }
             <br />
             @if (!string.IsNullOrEmpty(Model.Status))
             {
-                <span style="text-decoration: underline">@I18N.S(Model.Culture, "profile_status")</span>
+                <span style="text-decoration: underline">@GetString("profile_status")</span>
                 <span>: @Model.Status</span>
                 <br />
             }
             @if (Model.RegisterDate > DateTimeOffset.MinValue)
             {
-                <span style="text-decoration: underline">@I18N.S(Model.Culture, "profile_register_date")</span>
+                <span style="text-decoration: underline">@GetString("profile_register_date")</span>
                 <span>: @Model.RegisterDate.ToString("MM/dd/yyyy", new CultureInfo(Model.Culture))</span>
                 <br />
             }
@@ -88,7 +87,7 @@
             }
             else
             {
-                <span style="font-style: italic">@I18N.S(Model.Culture, "profile_no_badge")</span>
+                <span style="font-style: italic">@GetString("profile_no_badge")</span>
             }
         </td>
     </tr>
@@ -98,12 +97,12 @@
             colspan="3">
             @if (!string.IsNullOrEmpty(Model.Title)) 
             {
-                <span style="text-decoration: underline">@I18N.S(Model.Culture, "profile_title")</span>
+                <span style="text-decoration: underline">@GetString("profile_title")</span>
                 <span>: @Model.Title</span>
             }
             else
             {
-                <span style="font-style: italic">@I18N.S(Model.Culture, "profile_no_title")</span>
+                <span style="font-style: italic">@GetString("profile_no_title")</span>
             }
         </td>
     </tr>

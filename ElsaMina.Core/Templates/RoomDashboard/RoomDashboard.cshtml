@@ -1,6 +1,5 @@
-@using ElsaMina.Core.Services.Templating
 @using ElsaMina.Core.Templates.Styling
-@inherits RazorLight.TemplatePage<ElsaMina.Core.Templates.RoomDashboard.RoomDashboardViewModel>
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Core.Templates.RoomDashboard.RoomDashboardViewModel>
 
 @{
     const string tableStyle = "border-collapse: collapse; width: 100%;";
@@ -20,7 +19,7 @@
         <thead>
         <tr style="@headerStyle">
             <th colspan="3">
-                <h1>@I18N.S(Model.Culture, "room_dashboard", Model.RoomName)</h1>
+                <h1>@GetString("room_dashboard", Model.RoomName)</h1>
             </th>
         </tr>
         </thead>
@@ -30,14 +29,14 @@
         <tr>
             <td style="@cellStyle">
                 <label for="locale">
-                    @I18N.S(Model.Culture, "dashboard_locale_name")
+                    @GetString("dashboard_locale_name")
                 </label>
             </td>
             <td style="@cellStyle">
                 @{ await IncludeAsync("LanguageSelect/LanguagesSelect", Model.LanguageSelectModel); }
             </td>
             <td style="@cellStyle">
-                @I18N.S(Model.Culture, "dashboard_locale_description")
+                @GetString("dashboard_locale_description")
             </td>
         </tr>
         
@@ -45,7 +44,7 @@
         <tr>
             <td style="@cellStyle">
                 <label for="errors">
-                    @I18N.S(Model.Culture, "dashboard_errors_name")
+                    @GetString("dashboard_errors_name")
                 </label>
             </td>
             <td style="@cellStyle">
@@ -56,14 +55,14 @@
                     @(Model.RoomParameters.IsShowingErrorMessages ?? false ? "checked" : "")/>
             </td>
             <td style="@cellStyle">
-                @I18N.S(Model.Culture, "dashboard_errors_description")
+                @GetString("dashboard_errors_description")
             </td>
         </tr>
         
         <tr>
             <td style="@cellStyle">
                 <label for="autocorrect">
-                    @I18N.S(Model.Culture, "dashboard_autocorrect_name")
+                    @GetString("dashboard_autocorrect_name")
                 </label>
             </td>
             <td style="@cellStyle">
@@ -74,7 +73,7 @@
                     @(Model.RoomParameters.IsCommandAutocorrectEnabled ?? false ? "checked" : "")/>
             </td>
             <td style="@cellStyle">
-                @I18N.S(Model.Culture, "dashboard_autocorrect_description")
+                @GetString("dashboard_autocorrect_description")
             </td>
         </tr>
         </tbody>
@@ -84,6 +83,6 @@
     <button
         class="button"
         type="submit">
-        @I18N.S(Model.Culture, "submit")
+        @GetString("submit")
     </button>
 </form>

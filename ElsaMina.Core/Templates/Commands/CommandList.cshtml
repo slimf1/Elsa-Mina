@@ -1,5 +1,4 @@
-﻿@using ElsaMina.Core.Services.Templating
-@model ElsaMina.Core.Templates.Commands.CommandListViewModel
+﻿@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Core.Templates.Commands.CommandListViewModel>
 
 <div style="padding: 1rem;">
     @foreach (var command in Model.Commands)
@@ -10,28 +9,28 @@
         @if (command.CommandAliases.Any())
         {
             <span>
-                &mdash; @I18N.S(Model.Culture, "allcommands_alias") : @string.Join(", ", command.CommandAliases)
+                &mdash; @GetString("allcommands_alias") : @string.Join(", ", command.CommandAliases)
             </span>
         }
         @if (command.IsAllowedInPm)
         {
-            <span>(@I18N.S(Model.Culture, "allcommands_allowed_in_pm"))</span>
+            <span>(@GetString("allcommands_allowed_in_pm"))</span>
         }
         @if (command.IsWhitelistOnly)
         {
-            <span>(@I18N.S(Model.Culture, "allcommands_wl_only"))</span>
+            <span>(@GetString("allcommands_wl_only"))</span>
         }
         @if (command.IsPrivateMessageOnly)
         {
-            <span>(@I18N.S(Model.Culture, "allcommands_pm_only"))</span>
+            <span>(@GetString("allcommands_pm_only"))</span>
         }
         <div>
-            @I18N.S(Model.Culture, "allcommands_required_rank") : @command.RequiredRank
+            @GetString("allcommands_required_rank") : @command.RequiredRank
         </div>
         @if (!string.IsNullOrEmpty(command.HelpMessageKey))
         {
             <div>
-                @I18N.S(Model.Culture, command.HelpMessageKey)
+                @GetString(command.HelpMessageKey)
             </div>
         }
         <br />
