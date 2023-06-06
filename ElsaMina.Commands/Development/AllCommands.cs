@@ -28,7 +28,7 @@ public class AllCommands : ICommand
         var template = await _templatesManager.GetTemplate("Commands/CommandList", new CommandListViewModel
         {
             Commands = _commandExecutor.GetAllCommands().Where(command => !command.IsHidden),
-            Culture = context.Locale.Name
+            Culture = context.Locale
         });
 
         context.SendHtmlPage("all-commands", template.RemoveNewlines());

@@ -1,3 +1,4 @@
+using System.Globalization;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
@@ -99,7 +100,7 @@ public class ProfileCommand : ICommand
 
         var viewModel = new ProfileViewModel
         {
-            Culture = room?.Locale ?? _configurationManager.Configuration.DefaultLocaleCode,
+            Culture = new CultureInfo(room?.Locale ?? _configurationManager.Configuration.DefaultLocaleCode),
             Avatar = avatarUrl,
             UserId = userId,
             UserName = showdownUserDetails?.Name ?? userId,

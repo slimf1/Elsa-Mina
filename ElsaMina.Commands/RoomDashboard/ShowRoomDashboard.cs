@@ -73,13 +73,13 @@ public class ShowRoomDashboard : ICommand
             Trigger = _configurationManager.Configuration.Trigger,
             RoomParameters = roomParameters,
             RoomName = room.Name,
-            Culture = context.Locale.Name,
+            Culture = context.Locale,
             LanguageSelectModel = new LanguagesSelectViewModel
             {
                 Name = "locale",
                 Id = "locale",
                 Cultures = _resourcesService.SupportedLocales,
-                Culture = context.Locale.Name
+                Culture = context.Locale
             }
         };
         var template = await _templatesManager.GetTemplate("RoomDashboard/RoomDashboard", viewModel);

@@ -6,7 +6,7 @@
     {
         <option
             value="@culture.Name"
-            @(culture.Name.ToLowerAlphaNum() == Model.Culture.ToLowerAlphaNum() ? "selected" : "")>
+            @(Equals(culture, Model.Culture) ? "selected" : "")>
             @culture.NativeName.Capitalize()
         </option>
     }

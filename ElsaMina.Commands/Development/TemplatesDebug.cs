@@ -65,7 +65,7 @@ public class TemplatesDebug : ICommand
                     Name = "locale",
                     Id = "locale",
                     Cultures = _resourcesService.SupportedLocales,
-                    Culture = context.Locale.Name
+                    Culture = context.Locale
                 },
                 RoomParameters = new RoomParameters
                 {
@@ -74,7 +74,7 @@ public class TemplatesDebug : ICommand
             },
             "GuessingGame/GuessingGameResult" => new GuessingGameResultViewModel
             {
-                Culture = context.Locale.Name,
+                Culture = context.Locale,
                 Scores = new Dictionary<string, int>
                 {
                     ["speks"] = 14,
@@ -85,7 +85,7 @@ public class TemplatesDebug : ICommand
             },
             _ => throw new ArgumentOutOfRangeException()
         };
-        model.Culture = context.Locale.Name;
+        model.Culture = context.Locale;
         
         var template = await _templatesManager.GetTemplate(templateName, model);
         context.SendHtmlPage($"debug-template-{templateName}", template.RemoveNewlines());

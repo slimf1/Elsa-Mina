@@ -72,7 +72,7 @@ public abstract class GuessingGame : Game
         _cancellationTokenSource?.Cancel();
         var resultViewModel = new GuessingGameResultViewModel
         {
-            Culture = Context.Locale.Name,
+            Culture = Context.Locale,
             Scores = _scores
         };
         var template = await _templatesManager.GetTemplate("GuessingGame/GuessingGameResult", resultViewModel);

@@ -70,7 +70,7 @@
             @if (Model.RegisterDate > DateTimeOffset.MinValue)
             {
                 <span style="text-decoration: underline">@GetString("profile_register_date")</span>
-                <span>: @Model.RegisterDate.ToString("MM/dd/yyyy", new CultureInfo(Model.Culture))</span>
+                <span>: @Model.RegisterDate.ToString("MM/dd/yyyy", Model.Culture)</span>
                 <br />
             }
             

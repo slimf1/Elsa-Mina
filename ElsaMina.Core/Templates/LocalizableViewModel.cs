@@ -1,6 +1,8 @@
+using System.Globalization;
+
 namespace ElsaMina.Core.Templates;
 
 public abstract class LocalizableViewModel
 {
-    public string Culture { get; set; }
+    public CultureInfo Culture { get; set; }
 }
