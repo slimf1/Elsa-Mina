@@ -14,7 +14,7 @@ public interface ICommand
     public string HelpMessageKey => "";
     public bool IsHidden => false;
 
-    public string CommandName
+    public sealed string CommandName
     {
         get
         {
@@ -33,7 +33,7 @@ public interface ICommand
         }
     }
     
-    public IEnumerable<string> CommandAliases
+    public sealed IEnumerable<string> CommandAliases
     {
         get
         {

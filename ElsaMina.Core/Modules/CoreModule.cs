@@ -12,6 +12,7 @@ using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.Parsers;
 using ElsaMina.Core.Services.PrivateMessages;
+using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.RoomUserData;
@@ -54,6 +55,7 @@ public class CoreModule : Module
         builder.RegisterType<RoomUserDataService>().As<IRoomUserDataService>();
         builder.RegisterType<UserDetailsManager>().As<IUserDetailsManager>().SingleInstance();
         builder.RegisterType<UserDataService>().As<IUserDataService>().SingleInstance();
+        builder.RegisterType<RandomService>().As<IRandomService>().SingleInstance();
 
         builder.RegisterType<Client.Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot.Bot>().As<IBot>().AsSelf().SingleInstance();

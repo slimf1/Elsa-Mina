@@ -393,6 +393,15 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Personne n&apos;a trouvé la réponse a temps!.
+        /// </summary>
+        internal static string guessing_game_answer_not_found {
+            get {
+                return ResourceManager.GetString("guessing_game_answer_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scores finaux.
         /// </summary>
         internal static string guessing_game_final_scores {
@@ -402,7 +411,7 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to La partie est terminée!.
+        ///   Looks up a localized string similar to La partie est terminée! La réponse était : {0}.
         /// </summary>
         internal static string guessing_game_game_ended {
             get {
@@ -416,6 +425,24 @@ namespace ElsaMina.Core.Resources {
         internal static string guessing_game_point {
             get {
                 return ResourceManager.GetString("guessing_game_point", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} gagne ce round ! Ils ont maintenant {1} point{2}.
+        /// </summary>
+        internal static string guessing_game_round_won {
+            get {
+                return ResourceManager.GetString("guessing_game_round_won", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tour {0}.
+        /// </summary>
+        internal static string guessing_game_turn_count {
+            get {
+                return ResourceManager.GetString("guessing_game_turn_count", resourceCulture);
             }
         }
         

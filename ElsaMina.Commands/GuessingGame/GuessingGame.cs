@@ -12,64 +12,64 @@ public abstract class GuessingGame : Game
 
     private readonly ITemplatesManager _templatesManager;
     private readonly int _turnsCount;
-    private readonly int _maxScore;
+    private CancellationTokenSource _cancellationTokenSource;
 
     private readonly Dictionary<string, int> _scores = new();
-    private int _currentTurn;
-    private IEnumerable<string> _currentAnswer = Enumerable.Empty<string>();
-    private bool _roundWon;
-    private bool _ended = false;
+    private int CurrentTurn { get; set; }
+    protected IEnumerable<string> CurrentValidAnswers { get; set; } = Enumerable.Empty<string>();
+    private bool HasRoundBeenWon { get; set; }
+    public bool Ended { get; set; }
 
     public GuessingGame(IContext context,
         ITemplatesManager templatesManager,
-        int turnsCount,
-        int maxScore) : base(context)
+        int turnsCount) : base(context)
     {
         _templatesManager = templatesManager;
         _turnsCount = turnsCount;
-        _maxScore = maxScore;
     }
 
-    async Task Start()
+    public void Start()
     {
         SendInitMessage();
-        await InitializeNextTurn();
+        InitializeNextTurn();
     }
-
-    protected virtual void SendInitMessage()
+    
+    private void InitializeNextTurn()
     {
-        Context.ReplyLocalizedMessage("guessing_game_default_init_message");
-    }
-
-    private async Task InitializeNextTurn()
-    {
-        _currentTurn++;
-        Context.ReplyLocalizedMessage("guessing_game_turn_count", _currentTurn);
-        await SetupTurn();
-        await Task.Run(async () =>
+        CurrentTurn++;
+        Context.ReplyLocalizedMessage("guessing_game_turn_count", CurrentTurn);
+        SetupTurn();
+        _cancellationTokenSource?.Cancel();
+        _cancellationTokenSource = new CancellationTokenSource();
+        Task.Run(async () =>
         {
             await Task.Delay(SECONDS_BETWEEN_TURNS * 1000);
             await OnTurnEnd();
-        });
+        }, _cancellationTokenSource.Token);
     }
 
     private async Task OnTurnEnd()
     {
-        if (!_roundWon)
+        if (!HasRoundBeenWon)
         {
             Context.ReplyLocalizedMessage("guessing_game_answer_not_found",
-                string.Join(", ", _currentAnswer));
+                string.Join(", ", CurrentValidAnswers));
         }
 
-        _roundWon = false;
-        if (_currentTurn >= _turnsCount || _ended)
+        HasRoundBeenWon = false;
+        if (CurrentTurn >= _turnsCount || Ended)
         {
             await EndGame();
+        }
+        else
+        {
+            InitializeNextTurn();
         }
     }
 
     private async Task EndGame()
     {
+        _cancellationTokenSource?.Cancel();
         var resultViewModel = new GuessingGameResultViewModel
         {
             Culture = Context.Locale.Name,
@@ -78,25 +78,33 @@ public abstract class GuessingGame : Game
         var template = await _templatesManager.GetTemplate("GuessingGame/GuessingGameResult", resultViewModel);
     }
 
-    private void OnAnswer(string userName, string answer)
+    public void OnAnswer(string userName, string answer)
     {
-        if (_roundWon)
+        if (HasRoundBeenWon)
         {
             return;
         }
 
         var userId = userName.ToLowerAlphaNum();
 
-        foreach (var validAnswer in _currentAnswer)
+        foreach (var validAnswer in CurrentValidAnswers)
         {
             // TODO : string distance
             if (validAnswer.ToLower().Trim() == answer.ToLower().Trim())
             {
-                _roundWon = true;
-                // TODO: value => object with name and id
+                HasRoundBeenWon = true;
+                if (!_scores.ContainsKey(userId))
+                {
+                    _scores[userId] = 0;
+                }
+                _scores[userId] += 1;
+                Context.ReplyLocalizedMessage("guessing_game_round_won",
+                    userName[1..], _scores[userId], _scores[userId] == 1 ? string.Empty : "s");
             }
         }
     }
+    
+    protected abstract void SendInitMessage();
 
-    protected abstract Task SetupTurn();
+    protected abstract void SetupTurn();
 }

@@ -10,12 +10,6 @@ public class DataAccessModule : Module
     {
         base.Load(builder);
         
-        /*
-        builder.RegisterType<AddedCommandRepository>().As<IRepository<AddedCommand, Tuple<string, string>>>();
-        builder.RegisterType<BadgeRepository>().As<IRepository<Badge, Tuple<string, string>>>();
-        builder.RegisterType<RoomSpecificUserDataRepository>().As<IRepository<RoomSpecificUserData, Tuple<string, string>>>();
-        builder.RegisterType<RoomParametersRepository>().As<IRepository<RoomParameters, string>>();*/
-        
         builder.RegisterType<AddedCommandRepository>().AsSelf();
         builder.RegisterType<BadgeRepository>().AsSelf();
         builder.RegisterType<RoomSpecificUserDataRepository>().AsSelf();

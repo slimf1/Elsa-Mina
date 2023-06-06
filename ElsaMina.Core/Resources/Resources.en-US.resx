@@ -211,9 +211,18 @@
         <value>Final scores</value>
     </data>
     <data name="guessing_game_game_ended" xml:space="preserve">
-        <value>The game is over!</value>
+        <value>The game is over! The answer was : {0}</value>
     </data>
     <data name="guessing_game_point" xml:space="preserve">
         <value>Point</value>
+    </data>
+    <data name="guessing_game_turn_count" xml:space="preserve">
+        <value>Turn #{0}</value>
+    </data>
+    <data name="guessing_game_answer_not_found" xml:space="preserve">
+        <value>No one found the answer in time!</value>
+    </data>
+    <data name="guessing_game_round_won" xml:space="preserve">
+        <value>{0} wins this round ! They now have {1} point{2}</value>
     </data>
 </root>
