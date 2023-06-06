@@ -411,7 +411,7 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The game is over! The answer was : {0}.
+        ///   Looks up a localized string similar to Time is up! The answer was : {0}.
         /// </summary>
         internal static string guessing_game_game_ended {
             get {
@@ -425,6 +425,15 @@ namespace ElsaMina.Core.Resources {
         internal static string guessing_game_point {
             get {
                 return ResourceManager.GetString("guessing_game_point", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The game is over!.
+        /// </summary>
+        internal static string guessing_game_result_ended {
+            get {
+                return ResourceManager.GetString("guessing_game_result_ended", resourceCulture);
             }
         }
         

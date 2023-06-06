@@ -208,7 +208,7 @@
         <value>Bio</value>
     </data>
     <data name="guessing_game_game_ended" xml:space="preserve">
-        <value>La partie est terminée! La réponse était : {0}</value>
+        <value>Fin du temps imparti! La réponse était : {0}</value>
     </data>
     <data name="guessing_game_point" xml:space="preserve">
         <value>Point</value>
@@ -224,5 +224,8 @@
     </data>
     <data name="guessing_game_round_won" xml:space="preserve">
         <value>{0} gagne ce round ! Ils ont maintenant {1} point{2}</value>
+    </data>
+    <data name="guessing_game_result_ended" xml:space="preserve">
+        <value>La partie est terminée!</value>
     </data>
 </root>
