@@ -1,6 +1,4 @@
-﻿using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Models;
-using ElsaMina.Core.Services.Config;
+﻿using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Templating;
 using Newtonsoft.Json;
@@ -12,7 +10,7 @@ public class CountriesGame : GuessingGame
     private static readonly string GAME_FILE_PATH = Path.Join("Data", "countries_game.json");
 
     private readonly IRandomService _randomService;
-    
+
     private readonly Lazy<CountriesGameData> _gameData = new(() =>
     {
         using var streamReader = new StreamReader(GAME_FILE_PATH);
@@ -25,7 +23,7 @@ public class CountriesGame : GuessingGame
     {
         _randomService = randomService;
     }
-    
+
     protected override void SendInitMessage()
     {
         Context.ReplyLocalizedMessage("countries_game_start");
