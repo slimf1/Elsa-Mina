@@ -1,5 +1,6 @@
 ﻿using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
+using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Templating;
 using ElsaMina.Core.Templates.GuessingGame;
 using ElsaMina.Core.Utils;
@@ -8,23 +9,29 @@ namespace ElsaMina.Commands.GuessingGame;
 
 public abstract class GuessingGame : Game
 {
-    private const int SECONDS_BETWEEN_TURNS = 16;
+    private const int SECONDS_BETWEEN_TURNS = 15;
 
     private readonly ITemplatesManager _templatesManager;
     private readonly int _turnsCount;
+    private readonly IRoom _room;
+    private readonly IConfigurationManager _configurationManager;
     private CancellationTokenSource _cancellationTokenSource;
 
     private readonly Dictionary<string, int> _scores = new();
-    private int CurrentTurn { get; set; }
+    private int _currentTurn;
+    private bool _hasRoundBeenWon;
+    private bool _ended;
     protected IEnumerable<string> CurrentValidAnswers { get; set; } = Enumerable.Empty<string>();
-    private bool HasRoundBeenWon { get; set; }
-    public bool Ended { get; set; }
 
-    public GuessingGame(IContext context,
+    protected GuessingGame(IContext context,
         ITemplatesManager templatesManager,
+        IRoom room,
+        IConfigurationManager configurationManager,
         int turnsCount) : base(context)
     {
         _templatesManager = templatesManager;
+        _configurationManager = configurationManager;
+        _room = room;
         _turnsCount = turnsCount;
     }
 
@@ -36,8 +43,8 @@ public abstract class GuessingGame : Game
     
     private void InitializeNextTurn()
     {
-        CurrentTurn++;
-        Context.ReplyLocalizedMessage("guessing_game_turn_count", CurrentTurn);
+        _currentTurn++;
+        Context.ReplyLocalizedMessage("guessing_game_turn_count", _currentTurn);
         SetupTurn();
         _cancellationTokenSource?.Cancel();
         _cancellationTokenSource = new CancellationTokenSource();
@@ -50,14 +57,14 @@ public abstract class GuessingGame : Game
 
     private async Task OnTurnEnd()
     {
-        if (!HasRoundBeenWon)
+        if (!_hasRoundBeenWon)
         {
             Context.ReplyLocalizedMessage("guessing_game_answer_not_found",
-                string.Join(", ", CurrentValidAnswers));
+                string.Join(", ", CurrentValidAnswers.Distinct()));
         }
 
-        HasRoundBeenWon = false;
-        if (CurrentTurn >= _turnsCount || Ended)
+        _hasRoundBeenWon = false;
+        if (_currentTurn >= _turnsCount || _ended)
         {
             await EndGame();
         }
@@ -65,6 +72,34 @@ public abstract class GuessingGame : Game
         {
             InitializeNextTurn();
         }
+    }
+    
+    public void OnAnswer(string userName, string answer)
+    {
+        if (_hasRoundBeenWon ||
+            userName.ToLowerAlphaNum() == _configurationManager.Configuration.Name.ToLowerAlphaNum())
+        {
+            return;
+        }
+
+        var userId = userName.ToLowerAlphaNum();
+        var maxLevenshteinDistance = answer.Length > 8 ? 1 : 0;
+        if (!CurrentValidAnswers.Any(validAnswer =>
+                Text.LevenshteinDistance(validAnswer.ToLower(), answer.ToLower()) <= maxLevenshteinDistance))
+        {
+            return;
+        }
+        
+        _hasRoundBeenWon = true;
+        if (!_scores.ContainsKey(userId))
+        {
+            _scores[userId] = 0;
+        }
+        _scores[userId] += 1;
+        Context.ReplyLocalizedMessage("guessing_game_round_won",
+            userName,
+            _scores[userId],
+            _scores[userId] == 1 ? string.Empty : "s");
     }
 
     private async Task EndGame()
@@ -76,34 +111,17 @@ public abstract class GuessingGame : Game
             Scores = _scores
         };
         var template = await _templatesManager.GetTemplate("GuessingGame/GuessingGameResult", resultViewModel);
+        Context.Reply(template.RemoveNewlines());
+        _room?.OnGameEnd();
     }
 
-    public void OnAnswer(string userName, string answer)
+    public override void Cancel()
     {
-        if (HasRoundBeenWon)
-        {
-            return;
-        }
-
-        var userId = userName.ToLowerAlphaNum();
-
-        foreach (var validAnswer in CurrentValidAnswers)
-        {
-            // TODO : string distance
-            if (validAnswer.ToLower().Trim() == answer.ToLower().Trim())
-            {
-                HasRoundBeenWon = true;
-                if (!_scores.ContainsKey(userId))
-                {
-                    _scores[userId] = 0;
-                }
-                _scores[userId] += 1;
-                Context.ReplyLocalizedMessage("guessing_game_round_won",
-                    userName[1..], _scores[userId], _scores[userId] == 1 ? string.Empty : "s");
-            }
-        }
+        base.Cancel();
+        _ended = true;
+        _cancellationTokenSource?.Cancel();
     }
-    
+
     protected abstract void SendInitMessage();
 
     protected abstract void SetupTurn();

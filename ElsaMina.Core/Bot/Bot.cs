@@ -118,7 +118,7 @@ public class Bot : IBot
             _parsersManager.Initialize();
         }
 
-        await _parsersManager.Parse(parts);
+        await _parsersManager.Parse(parts, roomId);
 
         switch (parts[1])
         {

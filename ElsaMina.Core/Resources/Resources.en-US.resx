@@ -220,12 +220,15 @@
         <value>Turn #{0}</value>
     </data>
     <data name="guessing_game_answer_not_found" xml:space="preserve">
-        <value>No one found the answer in time!</value>
+        <value>No one found the answer in time! The answer was: {0}</value>
     </data>
     <data name="guessing_game_round_won" xml:space="preserve">
         <value>{0} wins this round ! They now have {1} point{2}</value>
     </data>
     <data name="guessing_game_result_ended" xml:space="preserve">
         <value>The game is over!</value>
+    </data>
+    <data name="countries_game_start" xml:space="preserve">
+        <value>A countriesgame started! Reply with the name of the country directly in the chat.</value>
     </data>
 </root>

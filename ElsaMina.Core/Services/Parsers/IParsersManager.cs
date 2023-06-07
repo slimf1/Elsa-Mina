@@ -4,5 +4,5 @@ public interface IParsersManager
 {
     bool IsInitialized { get; }
     void Initialize();
-    Task Parse(string[] parts);
+    Task Parse(string[] parts, string roomId = null);
 }

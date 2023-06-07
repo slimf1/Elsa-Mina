@@ -2,10 +2,10 @@
 using ElsaMina.Commands.Badges;
 using ElsaMina.Commands.CustomCommands;
 using ElsaMina.Commands.Development;
+using ElsaMina.Commands.GuessingGame;
 using ElsaMina.Commands.Profile;
 using ElsaMina.Commands.RoomDashboard;
 using ElsaMina.Core.Commands;
-using ElsaMina.Core.Models;
 
 namespace ElsaMina.Commands;
 
@@ -35,8 +35,10 @@ public class CommandModule : Module
         RegisterCommand<SetAvatar>(builder);
         RegisterCommand<SetTitle>(builder);
         RegisterCommand<AllCommands>(builder);
+        RegisterCommand<GuessingGameCommand>(builder);
         
         RegisterParser<JoinRoomOnInviteParser>(builder);
+        RegisterParser<GuessingGameParser>(builder);
     }
 
     private static void RegisterCommand<T>(ContainerBuilder builder) where T : ICommand

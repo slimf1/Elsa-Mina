@@ -8,6 +8,7 @@ public class Room : IRoom
     public string Name { get; }
     public IDictionary<string, IUser> Users { get; } = new Dictionary<string, IUser>();
     public string Locale { get; set; }
+    public Game Game { get; set; }
 
     public Room(string roomTitle, string roomId, string locale)
     {
@@ -31,6 +32,12 @@ public class Room : IRoom
     {
         RemoveUser(oldName);
         AddUser(newName);
+    }
+
+    public void OnGameEnd()
+    {
+        Game?.Cancel();
+        Game = null;
     }
 
     public override string ToString()

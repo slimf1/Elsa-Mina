@@ -19,7 +19,7 @@ public abstract class PrivateMessageParser : Parser
         _pmSendersManager = pmSendersManager;
     }
 
-    public sealed override async Task Execute(string[] parts)
+    public sealed override async Task Execute(string[] parts, string roomId = null)
     {
         if (parts.Length > 2 && parts[1] == "pm")
         {

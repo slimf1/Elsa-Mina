@@ -1,4 +1,6 @@
 ﻿using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
+using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Templating;
 using Newtonsoft.Json;
@@ -11,7 +13,7 @@ public class CountriesGame : GuessingGame
 
     private readonly IRandomService _randomService;
     
-    private readonly Lazy<CountriesGameData> GameData = new(() =>
+    private readonly Lazy<CountriesGameData> _gameData = new(() =>
     {
         using var streamReader = new StreamReader(GAME_FILE_PATH);
         return JsonConvert.DeserializeObject<CountriesGameData>(streamReader.ReadToEnd());
@@ -20,7 +22,9 @@ public class CountriesGame : GuessingGame
     public CountriesGame(IContext context,
         ITemplatesManager templatesManager,
         IRandomService randomService,
-        int turnsCount) : base(context, templatesManager, turnsCount)
+        IRoom room,
+        IConfigurationManager configurationManager,
+        int turnsCount) : base(context, templatesManager, room, configurationManager, turnsCount)
     {
         _randomService = randomService;
     }
@@ -32,11 +36,11 @@ public class CountriesGame : GuessingGame
 
     protected override void SetupTurn()
     {
-        var nextCountry = _randomService.RandomElement(GameData.Value.Countries);
+        var nextCountry = _randomService.RandomElement(_gameData.Value.Countries);
         var image = _randomService.NextDouble() < 0.5
             ? nextCountry.Flag
             : nextCountry.Location;
         CurrentValidAnswers = new[] { nextCountry.EnglishName, nextCountry.FrenchName };
-        Context.Reply($"!show {image}");
+        Context.Reply($"show {image}");
     }
 }

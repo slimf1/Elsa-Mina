@@ -276,6 +276,15 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Un countriesgame a été lancé! Écrivez directement le nom du pays dans le chat..
+        /// </summary>
+        internal static string countries_game_start {
+            get {
+                return ResourceManager.GetString("countries_game_start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Affiche des commandes suggérées lorsque quelqu&apos;un essaye d&apos;utiliser une commande qui n&apos;existe pas..
         /// </summary>
         internal static string dashboard_autocorrect_description {
@@ -393,7 +402,7 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Personne n&apos;a trouvé la réponse a temps!.
+        ///   Looks up a localized string similar to Personne n&apos;a trouvé la réponse a temps! La réponse était: {0}.
         /// </summary>
         internal static string guessing_game_answer_not_found {
             get {

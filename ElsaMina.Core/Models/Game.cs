@@ -10,4 +10,8 @@ public abstract class Game : IGame
     }
 
     public IContext Context { get; init; }
+
+    public virtual void Cancel()
+    {
+    }
 }

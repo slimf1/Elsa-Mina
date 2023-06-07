@@ -1,4 +1,4 @@
-using ElsaMina.Core.Models;
+using ElsaMina.Core.Commands;
 using ElsaMina.Core.Services.DependencyInjection;
 
 namespace ElsaMina.Core.Services.Parsers;
@@ -22,12 +22,12 @@ public class ParsersManager : IParsersManager
         IsInitialized = true;
     }
 
-    public async Task Parse(string[] parts)
+    public async Task Parse(string[] parts, string roomId = null)
     {
         await Task.WhenAll(
             _parsers
                 .Where(parser => parser.IsEnabled)
-                .Select(parser => parser.Execute(parts))
+                .Select(parser => parser.Execute(parts, roomId))
         );
     }
 }
