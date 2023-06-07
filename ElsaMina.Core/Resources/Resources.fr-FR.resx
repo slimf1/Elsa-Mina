@@ -231,4 +231,10 @@
     <data name="countries_game_start" xml:space="preserve">
         <value>Un countriesgame a été lancé! Écrivez directement le nom du pays dans le chat.</value>
     </data>
+    <data name="end_guessing_game_no_game" xml:space="preserve">
+        <value>Il n'y a pas de partie en cours dans cette salle.</value>
+    </data>
+    <data name="end_guessing_game_success" xml:space="preserve">
+        <value>La partie a été terminée prématurément.</value>
+    </data>
 </root>

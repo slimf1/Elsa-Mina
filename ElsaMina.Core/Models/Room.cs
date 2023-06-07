@@ -34,7 +34,7 @@ public class Room : IRoom
         AddUser(newName);
     }
 
-    public void OnGameEnd()
+    public void EndGame()
     {
         Game?.Cancel();
         Game = null;

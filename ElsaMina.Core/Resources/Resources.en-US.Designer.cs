@@ -402,6 +402,24 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There&apos;s no game currently running in this room..
+        /// </summary>
+        internal static string end_guessing_game_no_game {
+            get {
+                return ResourceManager.GetString("end_guessing_game_no_game", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game ended..
+        /// </summary>
+        internal static string end_guessing_game_success {
+            get {
+                return ResourceManager.GetString("end_guessing_game_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No one found the answer in time! The answer was: {0}.
         /// </summary>
         internal static string guessing_game_answer_not_found {

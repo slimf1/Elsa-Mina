@@ -37,6 +37,7 @@ public class CommandModule : Module
         RegisterCommand<SetTitle>(builder);
         RegisterCommand<AllCommands>(builder);
         RegisterCommand<GuessingGameCommand>(builder);
+        RegisterCommand<EndGuessingGame>(builder);
         
         RegisterParser<JoinRoomOnInviteParser>(builder);
         RegisterParser<GuessingGameParser>(builder);

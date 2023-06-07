@@ -48,6 +48,7 @@ public abstract class GuessingGame : Game
         Task.Run(async () =>
         {
             await Task.Delay(SECONDS_BETWEEN_TURNS * 1000);
+            _cancellationTokenSource?.Token.ThrowIfCancellationRequested();
             await OnTurnEnd();
         }, _cancellationTokenSource.Token);
     }
@@ -110,7 +111,7 @@ public abstract class GuessingGame : Game
         };
         var template = await _templatesManager.GetTemplate("GuessingGame/GuessingGameResult", resultViewModel);
         Context.Reply(template.RemoveNewlines());
-        Room?.OnGameEnd();
+        Room?.EndGame();
     }
 
     public override void Cancel()
