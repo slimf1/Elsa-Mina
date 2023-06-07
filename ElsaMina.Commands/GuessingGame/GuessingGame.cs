@@ -9,11 +9,10 @@ namespace ElsaMina.Commands.GuessingGame;
 
 public abstract class GuessingGame : Game
 {
+    private const int DEFAULT_TURNS_COUNT = 10;
     private const int SECONDS_BETWEEN_TURNS = 15;
 
     private readonly ITemplatesManager _templatesManager;
-    private readonly int _turnsCount;
-    private readonly IRoom _room;
     private readonly IConfigurationManager _configurationManager;
     private CancellationTokenSource _cancellationTokenSource;
 
@@ -21,18 +20,17 @@ public abstract class GuessingGame : Game
     private int _currentTurn;
     private bool _hasRoundBeenWon;
     private bool _ended;
+
+    public int TurnsCount { get; set; } = DEFAULT_TURNS_COUNT;
+    public IRoom Room { get; set; }
+
     protected IEnumerable<string> CurrentValidAnswers { get; set; } = Enumerable.Empty<string>();
 
-    protected GuessingGame(IContext context,
-        ITemplatesManager templatesManager,
-        IRoom room,
-        IConfigurationManager configurationManager,
-        int turnsCount) : base(context)
+    protected GuessingGame(ITemplatesManager templatesManager,
+        IConfigurationManager configurationManager)
     {
         _templatesManager = templatesManager;
         _configurationManager = configurationManager;
-        _room = room;
-        _turnsCount = turnsCount;
     }
 
     public void Start()
@@ -40,7 +38,7 @@ public abstract class GuessingGame : Game
         SendInitMessage();
         InitializeNextTurn();
     }
-    
+
     private void InitializeNextTurn()
     {
         _currentTurn++;
@@ -64,7 +62,7 @@ public abstract class GuessingGame : Game
         }
 
         _hasRoundBeenWon = false;
-        if (_currentTurn >= _turnsCount || _ended)
+        if (_currentTurn >= TurnsCount || _ended)
         {
             await EndGame();
         }
@@ -73,7 +71,7 @@ public abstract class GuessingGame : Game
             InitializeNextTurn();
         }
     }
-    
+
     public void OnAnswer(string userName, string answer)
     {
         if (_hasRoundBeenWon ||
@@ -89,12 +87,13 @@ public abstract class GuessingGame : Game
         {
             return;
         }
-        
+
         _hasRoundBeenWon = true;
         if (!_scores.ContainsKey(userId))
         {
             _scores[userId] = 0;
         }
+
         _scores[userId] += 1;
         Context.ReplyLocalizedMessage("guessing_game_round_won",
             userName,
@@ -112,7 +111,7 @@ public abstract class GuessingGame : Game
         };
         var template = await _templatesManager.GetTemplate("GuessingGame/GuessingGameResult", resultViewModel);
         Context.Reply(template.RemoveNewlines());
-        _room?.OnGameEnd();
+        Room?.OnGameEnd();
     }
 
     public override void Cancel()

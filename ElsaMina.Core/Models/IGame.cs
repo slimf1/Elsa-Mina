@@ -4,5 +4,6 @@ namespace ElsaMina.Core.Models;
 
 public interface IGame
 {
-    protected IContext Context { get; init; }
+    IContext Context { get; set; }
+    void Cancel();
 }

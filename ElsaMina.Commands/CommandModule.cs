@@ -3,6 +3,7 @@ using ElsaMina.Commands.Badges;
 using ElsaMina.Commands.CustomCommands;
 using ElsaMina.Commands.Development;
 using ElsaMina.Commands.GuessingGame;
+using ElsaMina.Commands.GuessingGame.Countries;
 using ElsaMina.Commands.Profile;
 using ElsaMina.Commands.RoomDashboard;
 using ElsaMina.Core.Commands;
@@ -39,6 +40,8 @@ public class CommandModule : Module
         
         RegisterParser<JoinRoomOnInviteParser>(builder);
         RegisterParser<GuessingGameParser>(builder);
+        
+        builder.RegisterType<CountriesGame>().AsSelf();
     }
 
     private static void RegisterCommand<T>(ContainerBuilder builder) where T : ICommand

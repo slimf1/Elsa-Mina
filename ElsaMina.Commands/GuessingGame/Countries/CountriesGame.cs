@@ -19,12 +19,9 @@ public class CountriesGame : GuessingGame
         return JsonConvert.DeserializeObject<CountriesGameData>(streamReader.ReadToEnd());
     });
 
-    public CountriesGame(IContext context,
-        ITemplatesManager templatesManager,
+    public CountriesGame(ITemplatesManager templatesManager,
         IRandomService randomService,
-        IRoom room,
-        IConfigurationManager configurationManager,
-        int turnsCount) : base(context, templatesManager, room, configurationManager, turnsCount)
+        IConfigurationManager configurationManager) : base(templatesManager, configurationManager)
     {
         _randomService = randomService;
     }
