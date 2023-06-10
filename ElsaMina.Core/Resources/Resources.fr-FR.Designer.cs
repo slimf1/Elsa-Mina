@@ -690,6 +690,33 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (Créée par {0}).
+        /// </summary>
+        internal static string team_preview_author {
+            get {
+                return ResourceManager.GetString("team_preview_author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cliquez sur les icônes pour l&apos;import de l&apos;équipe.
+        /// </summary>
+        internal static string team_preview_click_icons {
+            get {
+                return ResourceManager.GetString("team_preview_click_icons", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to L&apos;équipe de {0}.
+        /// </summary>
+        internal static string team_preview_title {
+            get {
+                return ResourceManager.GetString("team_preview_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Une erreur est survenue lors de la mise à jour de la bio : {0}.
         /// </summary>
         internal static string title_failure {

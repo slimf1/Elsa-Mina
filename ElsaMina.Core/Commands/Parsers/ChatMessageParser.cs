@@ -1,5 +1,6 @@
 using ElsaMina.Core.Bot;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
 
@@ -11,13 +12,11 @@ public abstract class ChatMessageParser : Parser
     private readonly IBot _bot;
     private readonly IRoomsManager _roomsManager;
 
-    protected ChatMessageParser(IContextFactory contextFactory,
-        IBot bot,
-        IRoomsManager roomsManager)
+    protected ChatMessageParser(IDependencyContainerService dependencyContainerService)
     {
-        _contextFactory = contextFactory;
-        _bot = bot;
-        _roomsManager = roomsManager;
+        _contextFactory = dependencyContainerService.Resolve<IContextFactory>();
+        _bot = dependencyContainerService.Resolve<IBot>();
+        _roomsManager = dependencyContainerService.Resolve<IRoomsManager>();
     }
 
     public sealed override async Task Execute(string[] parts, string roomId = null)

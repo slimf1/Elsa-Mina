@@ -1,0 +1,23 @@
+﻿@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Core.Templates.TeamPreview.TeamPreviewViewModel>
+
+<span>
+    @GetString("team_preview_title", Model.Sender)
+</span>
+@if (!string.IsNullOrEmpty(Model.Author))
+{
+    <span>
+        @GetString("team_preview_author", Model.Author)
+    </span>
+}
+<span>
+    &mdash; <small>@GetString("team_preview_click_icons")</small>
+</span>
+
+<details>
+    <summary>
+        @foreach (var set in Model.Team)
+        {
+            set.
+        }
+    </summary>
+</details>

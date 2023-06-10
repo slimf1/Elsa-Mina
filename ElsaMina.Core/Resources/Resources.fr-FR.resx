@@ -237,4 +237,13 @@
     <data name="end_guessing_game_success" xml:space="preserve">
         <value>La partie a été terminée prématurément.</value>
     </data>
+    <data name="team_preview_author" xml:space="preserve">
+        <value>(Créée par {0})</value>
+    </data>
+    <data name="team_preview_title" xml:space="preserve">
+        <value>L'équipe de {0}</value>
+    </data>
+    <data name="team_preview_click_icons" xml:space="preserve">
+        <value>Cliquez sur les icônes pour l'import de l'équipe</value>
+    </data>
 </root>

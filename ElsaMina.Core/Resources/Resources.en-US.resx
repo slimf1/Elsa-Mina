@@ -237,4 +237,13 @@
     <data name="end_guessing_game_success" xml:space="preserve">
         <value>Game ended.</value>
     </data>
+    <data name="team_preview_title" xml:space="preserve">
+        <value>{0}'s team</value>
+    </data>
+    <data name="team_preview_author" xml:space="preserve">
+        <value>(Created by {0})</value>
+    </data>
+    <data name="team_preview_click_icons" xml:space="preserve">
+        <value>Click the icons to display the importable version</value>
+    </data>
 </root>

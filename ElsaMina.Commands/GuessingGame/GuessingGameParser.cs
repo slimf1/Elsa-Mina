@@ -2,6 +2,7 @@
 using ElsaMina.Core.Bot;
 using ElsaMina.Core.Commands.Parsers;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.GuessingGame;
@@ -10,9 +11,9 @@ public class GuessingGameParser : ChatMessageParser
 {
     private readonly IRoomsManager _roomsManager;
     
-    public GuessingGameParser(IContextFactory contextFactory,
-        IBot bot,
-        IRoomsManager roomsManager) : base(contextFactory, bot, roomsManager)
+    public GuessingGameParser(IDependencyContainerService dependencyContainerService,
+        IRoomsManager roomsManager)
+        : base(dependencyContainerService)
     {
         _roomsManager = roomsManager;
     }

@@ -690,6 +690,33 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (Created by {0}).
+        /// </summary>
+        internal static string team_preview_author {
+            get {
+                return ResourceManager.GetString("team_preview_author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click the icons to display the importable version.
+        /// </summary>
+        internal static string team_preview_click_icons {
+            get {
+                return ResourceManager.GetString("team_preview_click_icons", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}&apos;s team.
+        /// </summary>
+        internal static string team_preview_title {
+            get {
+                return ResourceManager.GetString("team_preview_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while updating the title : {0}.
         /// </summary>
         internal static string title_failure {

@@ -6,6 +6,8 @@ using ElsaMina.Commands.GuessingGame;
 using ElsaMina.Commands.GuessingGame.Countries;
 using ElsaMina.Commands.Profile;
 using ElsaMina.Commands.RoomDashboard;
+using ElsaMina.Commands.Teams;
+using ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
 using ElsaMina.Core.Commands;
 
 namespace ElsaMina.Commands;
@@ -41,8 +43,12 @@ public class CommandModule : Module
         
         RegisterParser<JoinRoomOnInviteParser>(builder);
         RegisterParser<GuessingGameParser>(builder);
+        RegisterParser<DisplayTeamOnLinkParser>(builder);
         
         builder.RegisterType<CountriesGame>().AsSelf();
+        
+        builder.RegisterType<PokepasteProvider>().AsSelf();
+        builder.RegisterType<TeamProviderFactory>().As<ITeamProviderFactory>().SingleInstance();
     }
 
     private static void RegisterCommand<T>(ContainerBuilder builder) where T : ICommand

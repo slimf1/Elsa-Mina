@@ -14,8 +14,4 @@
       <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.6.0-1.final" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Teams" />
-    </ItemGroup>
-
 </Project>
