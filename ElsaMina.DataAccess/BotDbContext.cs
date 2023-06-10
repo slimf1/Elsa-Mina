@@ -12,6 +12,8 @@ public class BotDbContext : DbContext
     public DbSet<AddedCommand> AddedCommands { get; set; }
     public DbSet<RoomParameters> RoomParameters { get; set; }
     public DbSet<BadgeHolding> BadgeHoldings { get; set; }
+    public DbSet<Team> Teams { get; set; }
+    public DbSet<RoomTeam> RoomTeams { get; set; }
 
     public BotDbContext()
     {
@@ -45,6 +47,19 @@ public class BotDbContext : DbContext
         
         modelBuilder.Entity<RoomSpecificUserData>()
             .HasKey(userData => new { userData.Id, userData.RoomId });
+
+        modelBuilder.Entity<RoomTeam>()
+            .HasKey(roomTeam => new { Id = roomTeam.TeamId, roomTeam.RoomId });
+
+        modelBuilder.Entity<RoomTeam>()
+            .HasOne(roomTeam => roomTeam.RoomParameters)
+            .WithMany(roomParameters => roomParameters.Teams)
+            .HasForeignKey(roomTeam => roomTeam.RoomId);
+
+        modelBuilder.Entity<RoomTeam>()
+            .HasOne(roomTeam => roomTeam.Team)
+            .WithMany(team => team.Rooms)
+            .HasForeignKey(roomTeam => roomTeam.TeamId);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
