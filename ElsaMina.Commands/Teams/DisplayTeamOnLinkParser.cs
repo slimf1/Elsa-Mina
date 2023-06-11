@@ -12,7 +12,6 @@ namespace ElsaMina.Commands.Teams;
 
 public class DisplayTeamOnLinkParser : ChatMessageParser
 {
-    private static readonly Regex TEAM_LINK_REGEX = new(@"(https:\/\/pokepast\.es\/[0-9A-Fa-f]{16})|(https:\/\/www\.coupcritique\.fr\/entity\/teams\/\d+\/?)");
     private const int USER_DELAY = 30;
     
     private readonly Dictionary<string, DateTimeOffset> _lastTeamTimes = new();
@@ -37,7 +36,7 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
 
     protected override async Task HandleChatMessage(IContext context)
     {
-        if (!context.Target.Contains("pokepast.es/") && !context.Target.Contains("coupcritique.fr/entity/teams/"))
+        if (!_teamProviderFactory.SupportedProviderLinks.Any(providerLink => context.Target.Contains(providerLink)))
         {
             return;
         }
@@ -51,7 +50,7 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
 
         _lastTeamTimes[context.Sender.UserId] = now;
 
-        var match = TEAM_LINK_REGEX.Match(context.Target);
+        var match = TeamProviderFactory.TEAM_LINK_REGEX.Match(context.Target);
         if (!match.Success)
         {
             return;
@@ -66,14 +65,13 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
                 link, provider);
             return;
         }
-        var sets = ShowdownTeams.DeserializeTeamExport(sharedTeam.TeamExport);
 
         var template = await _templatesManager.GetTemplate("TeamPreview/TeamPreview", new TeamPreviewViewModel
         {
             Author = sharedTeam.Author,
             Culture = context.Locale,
             Sender = context.Sender.Name,
-            Team = sets
+            Team = ShowdownTeams.DeserializeTeamExport(sharedTeam.TeamExport)
         });
         
         context.SendHtml(template.RemoveNewlines());
