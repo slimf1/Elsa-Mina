@@ -246,4 +246,10 @@
     <data name="team_preview_click_icons" xml:space="preserve">
         <value>Cliquez sur les icônes pour l'import de l'équipe</value>
     </data>
+    <data name="dashboard_team_previews_name" xml:space="preserve">
+        <value>Preview d'équipe</value>
+    </data>
+    <data name="dashboard_team_previews_description" xml:space="preserve">
+        <value>Affiche l'équipe d'un lien Pokepaste ou CoupCritique</value>
+    </data>
 </root>

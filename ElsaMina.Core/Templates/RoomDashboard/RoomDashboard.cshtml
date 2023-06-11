@@ -14,7 +14,7 @@
 
 <form
     style="padding: 2rem;"
-    data-submitsend="/w @Model.BotName,@(Model.Trigger)rc @Model.RoomParameters.Id,{locale},{errors},{autocorrect}">
+    data-submitsend="/w @Model.BotName,@(Model.Trigger)rc @Model.RoomParameters.Id,{locale},{errors},{autocorrect},{preview}">
     <table style="@tableStyle">
         <thead>
         <tr style="@headerStyle">
@@ -59,6 +59,7 @@
             </td>
         </tr>
         
+        <!-- auto correct -->
         <tr>
             <td style="@cellStyle">
                 <label for="autocorrect">
@@ -76,6 +77,26 @@
                 @GetString("dashboard_autocorrect_description")
             </td>
         </tr>
+        
+        <!-- Team previews -->
+        <tr>
+            <td style="@cellStyle">
+                <label for="preview">
+                    @GetString("dashboard_team_previews_name")
+                </label>
+            </td>
+            <td style="@cellStyle">
+                <input
+                    type="checkbox"
+                    id="preview"
+                    name="preview"
+                    @(Model.RoomParameters.IsShowingTeamLinksPreviews ?? false ? "checked" : "")/>
+            </td>
+            <td style="@cellStyle">
+                @GetString("dashboard_team_previews_description")
+            </td>
+        </tr>
+        
         </tbody>
     </table>
     

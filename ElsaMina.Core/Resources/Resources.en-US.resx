@@ -246,4 +246,10 @@
     <data name="team_preview_click_icons" xml:space="preserve">
         <value>Click the icons to display the importable version</value>
     </data>
+    <data name="dashboard_team_previews_name" xml:space="preserve">
+        <value>Team previews</value>
+    </data>
+    <data name="dashboard_team_previews_description" xml:space="preserve">
+        <value>Displays the team of a Pokepaste or CoupCritique link</value>
+    </data>
 </root>

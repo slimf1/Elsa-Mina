@@ -348,6 +348,24 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Displays the team of a Pokepaste or CoupCritique link.
+        /// </summary>
+        internal static string dashboard_team_previews_description {
+            get {
+                return ResourceManager.GetString("dashboard_team_previews_description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Team previews.
+        /// </summary>
+        internal static string dashboard_team_previews_name {
+            get {
+                return ResourceManager.GetString("dashboard_team_previews_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not delete command : {0}.
         /// </summary>
         internal static string deletecommand_failure {

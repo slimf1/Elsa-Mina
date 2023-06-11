@@ -1,4 +1,5 @@
 ﻿using ElsaMina.Core.Utils;
+using ElsaMina.DataAccess.Models;
 
 namespace ElsaMina.Core.Models;
 
@@ -9,6 +10,7 @@ public class Room : IRoom
     public IDictionary<string, IUser> Users { get; } = new Dictionary<string, IUser>();
     public string Locale { get; set; }
     public IGame Game { get; set; }
+    public RoomParameters RoomParameters { get; set; }
 
     public Room(string roomTitle, string roomId, string locale)
     {

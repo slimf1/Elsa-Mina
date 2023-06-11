@@ -12,7 +12,6 @@ public class AddCustomCommand : ICommand
     public static string Name => "add-custom-command";
     public static IEnumerable<string> Aliases => new[] { "add-custom", "add-command" };
     public char RequiredRank => '@';
-    public string CommandName => Name;
 
     private readonly IRepository<AddedCommand, Tuple<string, string>> _addedCommandRepository;
     private readonly IConfigurationManager _configurationManager;

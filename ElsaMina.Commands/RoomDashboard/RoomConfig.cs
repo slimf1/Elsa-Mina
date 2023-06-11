@@ -58,13 +58,15 @@ public class RoomConfig : ICommand
             Id = roomId,
             Locale = locale,
             IsShowingErrorMessages = parts[2] == "on",
-            IsCommandAutocorrectEnabled = parts[3] == "on"
+            IsCommandAutocorrectEnabled = parts[3] == "on",
+            IsShowingTeamLinksPreviews = parts[4] == "on"
         };
         
         try {
             await _roomParametersRepository.UpdateAsync(roomParameters);
             context.Locale = new CultureInfo(locale);
             context.ReplyLocalizedMessage("room_config_success", roomId);
+            room.RoomParameters = roomParameters;
         }
         catch (Exception exception)
         {
