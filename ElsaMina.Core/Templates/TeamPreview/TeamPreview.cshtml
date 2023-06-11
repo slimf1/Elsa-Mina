@@ -12,12 +12,37 @@
 <span>
     &mdash; <small>@GetString("team_preview_click_icons")</small>
 </span>
-
+@{
+    var teamMembersCount = Math.Min(Model.Team.Count(), 6);
+}
 <details>
     <summary>
-        @foreach (var set in Model.Team)
+        @for(var i = 0; i < teamMembersCount; i++)
         {
-            set.
+            var set = Model.Team.ElementAt(i);
+            <psicon pokemon="@set.Species" />
         }
     </summary>
+    
+    <table>
+        @for (var i = 0; i < teamMembersCount; i += 2)
+        {
+            var set1 = Model.Team.ElementAtOrDefault(i);
+            var set2 = Model.Team.ElementAtOrDefault(i + 1);
+            <tr>
+                @if (set1 != null)
+                {
+                    <td style="padding: 0 4px;">
+                        set de @set1.Species
+                    </td>
+                }
+                @if (set2 != null)
+                {
+                    <td style="padding: 0 4px;">
+                        set de @set2.Species
+                    </td>
+                }
+            </tr>
+        }
+    </table>
 </details>
