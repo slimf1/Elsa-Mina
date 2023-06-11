@@ -12,7 +12,7 @@ namespace ElsaMina.Commands.Teams;
 
 public class DisplayTeamOnLinkParser : ChatMessageParser
 {
-    private static readonly Regex TEAM_LINK_REGEX = new(@"(https:\/\/pokepast\.es\/[0-9A-Fa-f]{16})|(https:\/\/www\.coupcritique\.fr\/entity\/teams\/\d+)");
+    private static readonly Regex TEAM_LINK_REGEX = new(@"(https:\/\/pokepast\.es\/[0-9A-Fa-f]{16})|(https:\/\/www\.coupcritique\.fr\/entity\/teams\/\d+\/?)");
     private const int USER_DELAY = 30;
     
     private readonly Dictionary<string, DateTimeOffset> _lastTeamTimes = new();

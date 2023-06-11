@@ -1,4 +1,6 @@
-﻿@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Core.Templates.TeamPreview.TeamPreviewViewModel>
+﻿@using ElsaMina.Core.Models
+@using ElsaMina.Core.Utils
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Core.Templates.TeamPreview.TeamPreviewViewModel>
 
 <span>
     @GetString("team_preview_title", Model.Sender)
@@ -32,14 +34,20 @@
             <tr>
                 @if (set1 != null)
                 {
+                    set1.Name = null;
                     <td style="padding: 0 4px;">
-                        set de @set1.Species
+                        <span style="white-space: pre-line;">
+                           @ShowdownTeams.GetSetExport(set1).Trim()
+                        </span>
                     </td>
                 }
                 @if (set2 != null)
                 {
+                    set2.Name = null;
                     <td style="padding: 0 4px;">
-                        set de @set2.Species
+                        <span style="white-space: pre-line;">
+                            @ShowdownTeams.GetSetExport(set2).Trim()
+                        </span>
                     </td>
                 }
             </tr>

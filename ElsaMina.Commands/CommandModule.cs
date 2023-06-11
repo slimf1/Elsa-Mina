@@ -7,6 +7,7 @@ using ElsaMina.Commands.GuessingGame.Countries;
 using ElsaMina.Commands.Profile;
 using ElsaMina.Commands.RoomDashboard;
 using ElsaMina.Commands.Teams;
+using ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
 using ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
 using ElsaMina.Core.Commands;
 
@@ -48,6 +49,7 @@ public class CommandModule : Module
         builder.RegisterType<CountriesGame>().AsSelf();
         
         builder.RegisterType<PokepasteProvider>().AsSelf();
+        builder.RegisterType<CoupCritiqueProvider>().AsSelf();
         builder.RegisterType<TeamProviderFactory>().As<ITeamProviderFactory>().SingleInstance();
     }
 

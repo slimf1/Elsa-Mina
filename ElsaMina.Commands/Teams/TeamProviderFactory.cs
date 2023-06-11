@@ -1,4 +1,5 @@
 ﻿using ElsaMina.Commands.Teams.TeamProviders;
+using ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
 using ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
 using ElsaMina.Core.Services.DependencyInjection;
 
@@ -22,7 +23,7 @@ public class TeamProviderFactory : ITeamProviderFactory
 
         if (link.Contains("coupcritique.fr/entity/teams/"))
         {
-            return _dependencyContainerService.Resolve<PokepasteProvider>(); // TODO ATM
+            return _dependencyContainerService.Resolve<CoupCritiqueProvider>();
         }
 
         throw new ArgumentException();

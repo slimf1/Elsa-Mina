@@ -1,5 +1,7 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
 using ElsaMina.Core.Models;
+using Microsoft.Extensions.Primitives;
 
 namespace ElsaMina.Core.Utils;
 
@@ -227,6 +229,8 @@ public static class ShowdownTeams
                 {
                     currentSet.Moves = new List<string>();
                 }
+                
+                // TODO: hidden power
 
                 currentSet.Moves.Add(line);
             }
@@ -235,8 +239,156 @@ public static class ShowdownTeams
         return team;
     }
 
-    public static string GetTeamExport(IEnumerable<PokemonSet> team)
+    public static string GetSetExport(PokemonSet curSet)
     {
-        return string.Empty;
+        var builder = new StringBuilder();
+        if (curSet.Name != null && curSet.Name != curSet.Species)
+        {
+            builder.Append($"{curSet.Name} ({curSet.Species})");
+        }
+        else
+        {
+            builder.Append(curSet.Species);
+        }
+
+        if (curSet.Gender == "M")
+        {
+            builder.Append(" (M)");
+        }
+
+        if (curSet.Gender == "F")
+        {
+            builder.Append(" (F)");
+        }
+
+        if (curSet.Item != null)
+        {
+            builder.Append($" @ {curSet.Item}");
+        }
+
+        builder.AppendLine();
+
+        if (curSet.Ability != null)
+        {
+            builder.AppendLine($"Ability: {curSet.Ability} ");
+        }
+
+        if (curSet.Level != 0 && curSet.Level != 100)
+        {
+            builder.AppendLine($"Level: {curSet.Level} ");
+        }
+
+        if (curSet.IsShiny)
+        {
+            builder.Append("Shiny: Yes ");
+        }
+
+        if (curSet.Happiness != 255)
+        {
+            builder.AppendLine($"Happiness: {curSet.Happiness} ");
+        }
+
+        if (curSet.Pokeball != null)
+        {
+            builder.AppendLine($"Pokeball: {curSet.Pokeball} ");
+        }
+
+        if (curSet.HiddenPowerType != null)
+        {
+            builder.AppendLine($"Hidden Power: {curSet.HiddenPowerType} ");
+        }
+
+        if (curSet.DynamaxLevel != 10)
+        {
+            builder.AppendLine($"Dynamax Level: {curSet.Level} ");
+        }
+
+        if (curSet.IsGigantamax)
+        {
+            builder.AppendLine("Gigantamax: Yes ");
+        }
+
+        var firstEv = true;
+        if (curSet.EffortValues != null)
+        {
+            foreach (var (key, value) in BATTLE_STAT_NAMES)
+            {
+                if (curSet.EffortValues[key] == 0)
+                {
+                    continue;
+                }
+
+                if (firstEv)
+                {
+                    builder.Append("EVs: ");
+                    firstEv = false;
+                }
+                else
+                {
+                    builder.Append(" / ");
+                }
+
+                builder.Append($"{curSet.EffortValues[key]} {value}");
+            }
+        }
+
+        if (!firstEv)
+        {
+            builder.AppendLine();
+        }
+
+        if (curSet.Nature != null)
+        {
+            builder.AppendLine($"{curSet.Nature} Nature ");
+        }
+
+        var firstIv = true;
+        if (curSet.IndividualValues != null)
+        {
+            foreach (var (key, value) in BATTLE_STAT_NAMES)
+            {
+                if (curSet.IndividualValues[key] == 31)
+                {
+                    continue;
+                }
+
+                if (firstIv)
+                {
+                    builder.Append("IVs: ");
+                    firstIv = false;
+                }
+                else
+                {
+                    builder.Append(" / ");
+                }
+
+                builder.Append($"{curSet.IndividualValues[key]} {value}");
+            }
+        }
+        if (!firstIv)
+        {
+            builder.AppendLine();
+        }
+
+        if (curSet.Moves != null)
+        {
+            foreach (var setMove in curSet.Moves)
+            {
+                var move = setMove;
+                if (move.Length > 13 && move.Substring(0, 13) == "Hidden Power ")
+                {
+                    move = $"{move.Substring(0, 13)} [{move.Substring(13)}]";
+                }
+
+                if (!string.IsNullOrEmpty(move))
+                {
+                    builder.AppendLine($"- {move}");
+                }
+            }
+
+            builder.AppendLine();
+        }
+
+        return builder.ToString();
     }
 }
