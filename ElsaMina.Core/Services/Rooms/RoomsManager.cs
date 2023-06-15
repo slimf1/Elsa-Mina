@@ -51,11 +51,7 @@ public class RoomsManager : IRoomsManager
             _logger.Information("Inserted room parameters for room {0} in db", roomId);
         }
         var defaultLocale = roomParameters.Locale ?? _configurationManager.Configuration.DefaultLocaleCode;
-        var room = new Room(roomTitle, roomId, defaultLocale)
-        {
-            RoomParameters = roomParameters
-        };
-        // TODO : update room parameters when updating locales
+        var room = new Room(roomTitle, roomId, defaultLocale);
 
         foreach (var userId in userIds)
         {

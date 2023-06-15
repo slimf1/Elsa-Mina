@@ -66,7 +66,6 @@ public class RoomConfig : ICommand
             await _roomParametersRepository.UpdateAsync(roomParameters);
             context.Locale = new CultureInfo(locale);
             context.ReplyLocalizedMessage("room_config_success", roomId);
-            room.RoomParameters = roomParameters;
         }
         catch (Exception exception)
         {

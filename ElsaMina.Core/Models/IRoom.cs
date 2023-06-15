@@ -1,5 +1,3 @@
-using ElsaMina.DataAccess.Models;
-
 namespace ElsaMina.Core.Models;
 
 public interface IRoom
@@ -9,7 +7,6 @@ public interface IRoom
     IDictionary<string, IUser> Users { get; }
     string Locale { get; set; }
     IGame Game { get; set; }
-    RoomParameters RoomParameters { get; set; }
 
     void AddUser(string user);
     void RemoveUser(string part);

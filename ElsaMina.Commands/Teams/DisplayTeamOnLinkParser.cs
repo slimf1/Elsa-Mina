@@ -6,6 +6,8 @@ using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templating;
 using ElsaMina.Core.Templates.TeamPreview;
 using ElsaMina.Core.Utils;
+using ElsaMina.DataAccess.Models;
+using ElsaMina.DataAccess.Repositories;
 using Serilog;
 
 namespace ElsaMina.Commands.Teams;
@@ -21,19 +23,22 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
     private readonly ITeamProviderFactory _teamProviderFactory;
     private readonly ITemplatesManager _templatesManager;
     private readonly IRoomsManager _roomsManager;
+    private readonly IRepository<RoomParameters, string> _roomParametersRepository;
     
     public DisplayTeamOnLinkParser(ILogger logger,
         IDependencyContainerService dependencyContainerService,
         IClockService clockService,
         ITeamProviderFactory teamProviderFactory,
         ITemplatesManager templatesManager,
-        IRoomsManager roomsManager)
+        IRoomsManager roomsManager,
+        IRepository<RoomParameters, string> roomParametersRepository)
         : base(dependencyContainerService)
     {
         _clockService = clockService;
         _teamProviderFactory = teamProviderFactory;
         _templatesManager = templatesManager;
         _roomsManager = roomsManager;
+        _roomParametersRepository = roomParametersRepository;
         _logger = logger;
     }
 
@@ -44,8 +49,9 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
             return;
         }
 
-        var room = _roomsManager.GetRoom(context.RoomId);
-        if ((room.RoomParameters?.IsShowingTeamLinksPreviews ?? false) == false)
+        // Not costly since because the entity gets cached
+        var roomParameters = await _roomParametersRepository.GetByIdAsync(context.RoomId);
+        if ((roomParameters?.IsShowingTeamLinksPreviews ?? false) == false)
         {
             return;
         }
