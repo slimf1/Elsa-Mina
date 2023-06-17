@@ -19,6 +19,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\src\ElsaMina.Commands\ElsaMina.Commands.csproj" />
+      <ProjectReference Include="..\..\src\ElsaMina.Core\ElsaMina.Core.csproj" />
       <ProjectReference Include="..\ElsaMina.Commands\ElsaMina.Commands.csproj" />
       <ProjectReference Include="..\ElsaMina.Core\ElsaMina.Core.csproj" />
     </ItemGroup>

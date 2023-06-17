@@ -1,14 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsaMina.Core", "ElsaMina.Core\ElsaMina.Core.csproj", "{C0D4D5DA-3CD0-494F-B43A-A410771A34CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsaMina.Core", "src\ElsaMina.Core\ElsaMina.Core.csproj", "{C0D4D5DA-3CD0-494F-B43A-A410771A34CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsaMina.Console", "ElsaMina.Console\ElsaMina.Console.csproj", "{46985271-0C26-4B6F-94C2-146366157AD0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsaMina.Console", "src\ElsaMina.Console\ElsaMina.Console.csproj", "{46985271-0C26-4B6F-94C2-146366157AD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsaMina.DataAccess", "ElsaMina.DataAccess\ElsaMina.DataAccess.csproj", "{DC474438-D11F-4B1A-BA09-4CCDFF33B30E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsaMina.DataAccess", "src\ElsaMina.DataAccess\ElsaMina.DataAccess.csproj", "{DC474438-D11F-4B1A-BA09-4CCDFF33B30E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsaMina.Test", "ElsaMina.Test\ElsaMina.Test.csproj", "{E552A533-0E1B-4AE8-A153-BD0DDEC64349}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsaMina.Test", "test\ElsaMina.Test\ElsaMina.Test.csproj", "{E552A533-0E1B-4AE8-A153-BD0DDEC64349}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsaMina.Commands", "ElsaMina.Commands\ElsaMina.Commands.csproj", "{A372616F-E5ED-4BF1-9B4F-90848322C33D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsaMina.Commands", "src\ElsaMina.Commands\ElsaMina.Commands.csproj", "{A372616F-E5ED-4BF1-9B4F-90848322C33D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
