@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace ElsaMina.Core.Models;
 
@@ -20,7 +19,7 @@ public class PokemonSet
     [JsonProperty("level")]
     public int Level { get; set; }
     [JsonProperty("happiness")]
-    public int Happiness { get; set; }
+    public int Happiness { get; set; } = -1;
     [JsonProperty("pokeball")]
     public string Pokeball { get; set; }
     [JsonProperty("hpType")]
@@ -28,7 +27,7 @@ public class PokemonSet
     [JsonProperty("teraType")]
     public string TeraType { get; set; }
     [JsonProperty("dynamaxLevel")]
-    public int DynamaxLevel { get; set; }
+    public int DynamaxLevel { get; set; } = -1;
     [JsonProperty("gigantamax")]
     public bool IsGigantamax { get; set; }
     [JsonProperty("nature")]

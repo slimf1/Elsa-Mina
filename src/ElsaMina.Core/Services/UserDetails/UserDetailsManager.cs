@@ -25,7 +25,6 @@ public class UserDetailsManager : IUserDetailsManager
         if (_taskCompletionSources.TryGetValue(userId, out var taskCompletionSource))
         {
             taskCompletionSource.TrySetResult(null);
-            _taskCompletionSources[userId] = null;
             _taskCompletionSources.Remove(userId);
         }
 
@@ -39,7 +38,6 @@ public class UserDetailsManager : IUserDetailsManager
             }
 
             _taskCompletionSources[userId].TrySetResult(null);
-            _taskCompletionSources[userId] = null;
             _taskCompletionSources.Remove(userId);
         });
         return _taskCompletionSources[userId].Task;
@@ -72,7 +70,6 @@ public class UserDetailsManager : IUserDetailsManager
         }
 
         taskCompletionSource.TrySetResult(userDetailsDto);
-        _taskCompletionSources[userDetailsDto.UserId] = null;
         _taskCompletionSources.Remove(userDetailsDto.UserId);
     }
 }

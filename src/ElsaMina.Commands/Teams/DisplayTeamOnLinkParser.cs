@@ -22,7 +22,6 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
     private readonly IClockService _clockService;
     private readonly ITeamProviderFactory _teamProviderFactory;
     private readonly ITemplatesManager _templatesManager;
-    private readonly IRoomsManager _roomsManager;
     private readonly IRepository<RoomParameters, string> _roomParametersRepository;
     
     public DisplayTeamOnLinkParser(ILogger logger,
@@ -30,14 +29,12 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
         IClockService clockService,
         ITeamProviderFactory teamProviderFactory,
         ITemplatesManager templatesManager,
-        IRoomsManager roomsManager,
         IRepository<RoomParameters, string> roomParametersRepository)
         : base(dependencyContainerService)
     {
         _clockService = clockService;
         _teamProviderFactory = teamProviderFactory;
         _templatesManager = templatesManager;
-        _roomsManager = roomsManager;
         _roomParametersRepository = roomParametersRepository;
         _logger = logger;
     }

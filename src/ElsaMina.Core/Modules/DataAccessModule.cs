@@ -27,6 +27,6 @@ public class DataAccessModule : Module
         where T : IKeyed<TKey>
         where TRepository : IRepository<T, TKey>
     {
-        builder.RegisterType<CachedRepository<TRepository, T, TKey>>().As<IRepository<T, TKey>>();
+        builder.RegisterType<CachedRepository<TRepository, T, TKey>>().As<IRepository<T, TKey>>().SingleInstance();
     }
 }

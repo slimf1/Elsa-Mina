@@ -168,7 +168,7 @@ public static class ShowdownTeams
 
                     currentSet.EffortValues[statId] = statVal;
                 }
-            } else if (line.Substring(0, 5) == "IVs: ")
+            } else if (line.Length > 5 && line.Substring(0, 5) == "IVs: ")
             {
                 line = line.Substring(5);
                 var ivLines = line.Split(" / ");
@@ -217,7 +217,7 @@ public static class ShowdownTeams
                 {
                     currentSet.Nature = line;
                 }
-            } else if (line.Substring(0, 1) == "-" || line.Substring(0, 1) == "~")
+            } else if (line.Length > 0 && line.Substring(0, 1) == "-" || line.Substring(0, 1) == "~")
             {
                 line = line.Substring(1);
                 if (line.Substring(0, 1) == " ")
@@ -280,10 +280,10 @@ public static class ShowdownTeams
 
         if (curSet.IsShiny)
         {
-            builder.Append("Shiny: Yes ");
+            builder.AppendLine("Shiny: Yes ");
         }
 
-        if (curSet.Happiness != 255)
+        if (curSet.Happiness >= 0 && curSet.Happiness != 255)
         {
             builder.AppendLine($"Happiness: {curSet.Happiness} ");
         }
@@ -298,9 +298,9 @@ public static class ShowdownTeams
             builder.AppendLine($"Hidden Power: {curSet.HiddenPowerType} ");
         }
 
-        if (curSet.DynamaxLevel != 10)
+        if (curSet.DynamaxLevel >= 0)
         {
-            builder.AppendLine($"Dynamax Level: {curSet.Level} ");
+            builder.AppendLine($"Dynamax Level: {curSet.DynamaxLevel} ");
         }
 
         if (curSet.IsGigantamax)
