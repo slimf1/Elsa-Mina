@@ -65,10 +65,7 @@ public class RoomsManager : IRoomsManager
     public void RemoveRoom(string roomId)
     {
         _logger.Information("Removing room : {0}", roomId);
-        if (_rooms.ContainsKey(roomId))
-        {
-            _rooms.Remove(roomId);
-        }
+        _rooms.Remove(roomId);
     }
 
     public void AddUserToRoom(string roomId, string userId)

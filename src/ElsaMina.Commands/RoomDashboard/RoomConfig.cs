@@ -9,13 +9,8 @@ using Serilog;
 
 namespace ElsaMina.Commands.RoomDashboard;
 
-public class RoomConfig : ICommand
+public class RoomConfig : BaseCommand<RoomConfig>
 {
-    public static string Name => "room-config";
-    public static IEnumerable<string> Aliases => new[] { "roomconfig", "rc" };
-    public bool IsWhitelistOnly => true; // todo : only authed used from room
-    public bool IsPrivateMessageOnly => true;
-
     private readonly ILogger _logger;
     private readonly IRepository<RoomParameters, string> _roomParametersRepository;
     private readonly IRoomsManager _roomsManager;
@@ -26,13 +21,19 @@ public class RoomConfig : ICommand
         IRoomsManager roomsManager,
         IResourcesService resourcesService)
     {
+        Name = "room-config";
+        Aliases = new[] { "roomconfig", "rc" };
+        
         _logger = logger;
         _roomParametersRepository = roomParametersRepository;
         _roomsManager = roomsManager;
         _resourcesService = resourcesService;
     }
+    
+    public override bool IsWhitelistOnly => true; // todo : only authed used from room
+    public override bool IsPrivateMessageOnly => true;
 
-    public async Task Run(IContext context)
+    public override async Task Run(IContext context)
     {
         var parts = context.Target.Split(",");
         var roomId = parts[0].Trim().ToLower();

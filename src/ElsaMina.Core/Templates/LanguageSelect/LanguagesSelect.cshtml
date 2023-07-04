@@ -1,5 +1,5 @@
 @using ElsaMina.Core.Utils
-@inherits RazorLight.TemplatePage<ElsaMina.Core.Templates.LanguageSelect.LanguagesSelectViewModel>
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Core.Templates.LanguageSelect.LanguagesSelectViewModel>
 
 <select name="@Model.Name" id="@Model.Id">
     @foreach (var culture in Model.Cultures)

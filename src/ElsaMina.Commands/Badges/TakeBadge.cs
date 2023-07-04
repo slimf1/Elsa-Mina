@@ -6,16 +6,13 @@ using Serilog;
 
 namespace ElsaMina.Commands.Badges;
 
-public class TakeBadge : ICommand
+public class TakeBadge : BaseCommand<TakeBadge>, ICommand
 {
     public static string Name => "takebadge";
     public static IEnumerable<string> Aliases => new[] { "take-badge", "take-trophy", "taketrophy" };
-    public char RequiredRank => '%';
-    public string HelpMessageKey => "takebadge_help_message";
 
     private readonly ILogger _logger;
     private readonly IRoomUserDataService _roomUserDataService;
-
 
     public TakeBadge(ILogger logger,
         IRoomUserDataService roomUserDataService)
@@ -24,7 +21,10 @@ public class TakeBadge : ICommand
         _roomUserDataService = roomUserDataService;
     }
 
-    public async Task Run(IContext context)
+    public override char RequiredRank => '%';
+    public override string HelpMessageKey => "takebadge_help_message";
+    
+    public override async Task Run(IContext context)
     {
         var parts = context.Target.Split(",");
         if (parts.Length != 2)

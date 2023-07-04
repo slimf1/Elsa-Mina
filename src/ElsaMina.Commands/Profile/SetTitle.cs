@@ -6,7 +6,7 @@ using Serilog;
 
 namespace ElsaMina.Commands.Profile;
 
-public class SetTitle : ICommand
+public class SetTitle : BaseCommand<SetTitle>
 {
     public static string Name => "title";
     public static IEnumerable<string> Aliases => new[] { "settitle", "set-title", "set-bio", "setbio" };
@@ -23,7 +23,7 @@ public class SetTitle : ICommand
         _logger = logger;
     }
 
-    public async Task Run(IContext context)
+    public override async Task Run(IContext context)
     {
         var parts = context.Target.Split(",");
         if (parts.Length != 2)

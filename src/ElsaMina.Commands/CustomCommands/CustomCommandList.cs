@@ -5,21 +5,22 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.CustomCommands;
 
-public class CustomCommandList : ICommand
+public class CustomCommandList : BaseCommand<CustomCommandList>
 {
-    public static string Name => "custom-command-list";
-    public static IEnumerable<string> Aliases => new[] { "added-command-list", "added-commands", "custom-commands",
-        "addedcommands", "customcommands", "commandslist", "commandlist", "customcommandlist", "customs-list" };
-    public char RequiredRank => '+';
-
     private readonly IRepository<AddedCommand, Tuple<string, string>> _addedCommandRepository;
 
     public CustomCommandList(IRepository<AddedCommand, Tuple<string, string>> addedCommandRepository)
     {
+        Name = "custom-command-list";
+        Aliases = new[] { "added-command-list", "added-commands", "custom-commands",
+            "addedcommands", "customcommands", "commandslist", "commandlist", "customcommandlist", "customs-list" };
+        
         _addedCommandRepository = addedCommandRepository;
     }
+    
+    public override char RequiredRank => '+';
 
-    public async Task Run(IContext context)
+    public override async Task Run(IContext context)
     {
         var addedCommands = (await _addedCommandRepository.GetAllAsync())
             .Where(command => command.RoomId == context.RoomId)

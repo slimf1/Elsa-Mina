@@ -5,7 +5,7 @@ using Serilog;
 
 namespace ElsaMina.Commands.Development;
 
-public class StopConnection : ICommand
+public class StopConnection : BaseCommand<StopConnection>
 {
     public static string Name => "stop-connection";
     public bool IsAllowedInPm => true;
@@ -22,7 +22,7 @@ public class StopConnection : ICommand
         _logger = logger;
     }
 
-    public async Task Run(IContext context)
+    public override async Task Run(IContext context)
     {
         _logger.Information("Stopping connection : {0}", context);
         await _client.Close();

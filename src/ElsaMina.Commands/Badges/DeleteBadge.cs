@@ -7,8 +7,11 @@ using Serilog;
 
 namespace ElsaMina.Commands.Badges;
 
-public class DeleteBadge : ICommand
+public class DeleteBadge : BaseCommand<DeleteBadge>, ICommand
 {
+    public new static string Name => "deletebadge";
+    public new static IEnumerable<string> Aliases => new[] { "deletetrophy", "delete-badge", "delete-trophy" };
+
     private readonly IRepository<Badge, Tuple<string, string>> _badgeRepository;
     private readonly ILogger _logger;
 
@@ -17,12 +20,10 @@ public class DeleteBadge : ICommand
         _badgeRepository = badgeRepository;
         _logger = logger;
     }
+    
+    public override char RequiredRank => '%';
 
-    public static string Name => "deletebadge";
-    public static IEnumerable<string> Aliases => new[] { "deletetrophy", "delete-badge", "delete-trophy" };
-    public char RequiredRank => '%';
-
-    public async Task Run(IContext context)
+    public override async Task Run(IContext context)
     {
         var badgeId = context.Target.ToLowerAlphaNum();
         var key = new Tuple<string, string>(badgeId, context.RoomId);

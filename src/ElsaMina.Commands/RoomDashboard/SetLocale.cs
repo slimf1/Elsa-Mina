@@ -6,7 +6,7 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.RoomDashboard;
 
-public class SetLocale : ICommand
+public class SetLocale : BaseCommand<SetLocale>
 {
     public static string Name => "set-locale";
     public static IEnumerable<string> Aliases => new[] { "setlocale" };
@@ -19,7 +19,7 @@ public class SetLocale : ICommand
         _roomParametersRepository = roomParametersRepository;
     }
 
-    public async Task Run(IContext context)
+    public override async Task Run(IContext context)
     {
         var arguments = context.Target.Split(",");
         var roomId = arguments[0].Trim();

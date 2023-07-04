@@ -14,7 +14,7 @@ using ElsaMina.DataAccess.Models;
 
 namespace ElsaMina.Commands.Development;
 
-public class TemplatesDebug : ICommand
+public class TemplatesDebug : BaseCommand<TemplatesDebug>
 {
     public static string Name => "templates";
     public static IEnumerable<string> Aliases => new[] { "templates-debug", "templatedebug" };
@@ -37,7 +37,7 @@ public class TemplatesDebug : ICommand
         _roomsManager = roomsManager;
     }
 
-    public async Task Run(IContext context)
+    public override async Task Run(IContext context)
     {
         var parts = context.Target.Split(",");
         var templateName = parts[0].Trim();

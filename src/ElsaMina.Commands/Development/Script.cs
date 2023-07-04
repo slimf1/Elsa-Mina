@@ -7,7 +7,7 @@ using Serilog;
 
 namespace ElsaMina.Commands.Development;
 
-public class Script : ICommand
+public class Script : BaseCommand<Script>
 {
     public static string Name => "script";
     public bool IsAllowedInPm => true;
@@ -30,7 +30,7 @@ public class Script : ICommand
         public IDependencyContainerService Container;
     }
     
-    public async Task Run(IContext context)
+    public override async Task Run(IContext context)
     {
         try
         {

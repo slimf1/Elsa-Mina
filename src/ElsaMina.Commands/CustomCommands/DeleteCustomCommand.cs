@@ -5,24 +5,22 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.CustomCommands;
 
-public class DeleteCustomCommand : ICommand
+public class DeleteCustomCommand : BaseCommand<DeleteCustomCommand>
 {
-    public static string Name => "delete-custom-command";
-
-    public static IEnumerable<string> Aliases =>
-        new[] { "deletecustom", "deletecommand", "delete-custom", "delete-command" };
-
-    public char RequiredRank => '%';
-    public string HelpMessageKey => "deletecommand_help";
-
     private readonly IRepository<AddedCommand, Tuple<string, string>> _addedCommandRepository;
 
     public DeleteCustomCommand(IRepository<AddedCommand, Tuple<string, string>> addedCommandRepository)
     {
+        Name = "delete-custom-command";
+        Aliases = new[] { "deletecustom", "deletecommand", "delete-custom", "delete-command" };;
+        
         _addedCommandRepository = addedCommandRepository;
     }
 
-    public async Task Run(IContext context)
+    public override char RequiredRank => '%';
+    public override string HelpMessageKey => "deletecommand_help";
+    
+    public override async Task Run(IContext context)
     {
         var commandId = context.Target.Trim().ToLower();
         try

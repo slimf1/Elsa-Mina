@@ -13,7 +13,7 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.Profile;
 
-public class ProfileCommand : ICommand
+public class ProfileCommand : BaseCommand<ProfileCommand>
 {
     private const string DEFAULT_AVATAR_ID = "unknown";
     private const string AVATAR_URL = "https://play.pokemonshowdown.com/sprites/trainers/{0}.png";
@@ -46,7 +46,7 @@ public class ProfileCommand : ICommand
         _userDataService = userDataService;
     }
 
-    public async Task Run(IContext context)
+    public override async Task Run(IContext context)
     {
         var userId = string.IsNullOrEmpty(context.Target)
             ? context.Sender.UserId : context.Target.ToLowerAlphaNum();

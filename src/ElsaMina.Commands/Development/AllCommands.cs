@@ -7,11 +7,10 @@ using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.Development;
 
-public class AllCommands : ICommand
+public class AllCommands : BaseCommand<AllCommands>, ICommand
 {
-    public static string Name => "allcommands";
-    public static IEnumerable<string> Aliases => new[] { "all-commands", "commands" };
-    public bool IsAllowedInPm => true;
+    public new static string Name => "allcommands";
+    public new static IEnumerable<string> Aliases => new[] { "all-commands", "commands" };
 
     private readonly ICommandExecutor _commandExecutor;
     private readonly ITemplatesManager _templatesManager;
@@ -22,8 +21,10 @@ public class AllCommands : ICommand
         _commandExecutor = commandExecutor;
         _templatesManager = templatesManager;
     }
+    
+    public override bool IsAllowedInPm => true;
 
-    public async Task Run(IContext context)
+    public override async Task Run(IContext context)
     {
         var template = await _templatesManager.GetTemplate("Commands/CommandList", new CommandListViewModel
         {

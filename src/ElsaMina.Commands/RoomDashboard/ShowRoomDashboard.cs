@@ -13,7 +13,7 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.RoomDashboard;
 
-public class ShowRoomDashboard : ICommand
+public class ShowRoomDashboard : BaseCommand<ShowRoomDashboard>
 {
     public static string Name => "room-dashboard";
     public bool IsPrivateMessageOnly => true;
@@ -38,7 +38,7 @@ public class ShowRoomDashboard : ICommand
         _templatesManager = templatesManager;
     }
 
-    public async Task Run(IContext context)
+    public override async Task Run(IContext context)
     {
         var roomId = context.Target.Trim().ToLower();
         if (string.IsNullOrEmpty(roomId))
