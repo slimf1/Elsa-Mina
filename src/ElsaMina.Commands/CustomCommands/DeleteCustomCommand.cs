@@ -5,15 +5,16 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.CustomCommands;
 
-public class DeleteCustomCommand : BaseCommand<DeleteCustomCommand>
+public class DeleteCustomCommand : BaseCommand<DeleteCustomCommand>, ICommand
 {
+    public static string Name => "delete-custom-command";
+    public static IEnumerable<string> Aliases => new[] { "deletecustom", "deletecommand", "delete-custom",
+        "delete-command" };
+
     private readonly IRepository<AddedCommand, Tuple<string, string>> _addedCommandRepository;
 
     public DeleteCustomCommand(IRepository<AddedCommand, Tuple<string, string>> addedCommandRepository)
     {
-        Name = "delete-custom-command";
-        Aliases = new[] { "deletecustom", "deletecommand", "delete-custom", "delete-command" };;
-        
         _addedCommandRepository = addedCommandRepository;
     }
 

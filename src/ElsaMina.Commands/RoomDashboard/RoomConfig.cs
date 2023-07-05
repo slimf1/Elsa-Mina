@@ -9,8 +9,11 @@ using Serilog;
 
 namespace ElsaMina.Commands.RoomDashboard;
 
-public class RoomConfig : BaseCommand<RoomConfig>
+public class RoomConfig : BaseCommand<RoomConfig>, ICommand
 {
+    public static string Name => "room-config";
+    public static IEnumerable<string> Aliases => new[] { "roomconfig", "rc" };
+
     private readonly ILogger _logger;
     private readonly IRepository<RoomParameters, string> _roomParametersRepository;
     private readonly IRoomsManager _roomsManager;
@@ -21,9 +24,6 @@ public class RoomConfig : BaseCommand<RoomConfig>
         IRoomsManager roomsManager,
         IResourcesService resourcesService)
     {
-        Name = "room-config";
-        Aliases = new[] { "roomconfig", "rc" };
-        
         _logger = logger;
         _roomParametersRepository = roomParametersRepository;
         _roomsManager = roomsManager;

@@ -6,20 +6,20 @@ using Serilog;
 
 namespace ElsaMina.Commands.CustomCommands;
 
-public class EditCustomCommand : BaseCommand<EditCustomCommand>
+public class EditCustomCommand : BaseCommand<EditCustomCommand>, ICommand
 {
+    public static string Name => "edit-command";
+    public static IEnumerable<string> Aliases => new[]
+    {
+        "edit-added-command", "edit-custom-command", "editcommand",
+        "editcustom"
+    };
+
     private readonly ILogger _logger;
     private readonly IRepository<AddedCommand, Tuple<string, string>> _addedCommandsRepository;
 
     public EditCustomCommand(ILogger logger, IRepository<AddedCommand, Tuple<string, string>> addedCommandsRepository)
     {
-        Name = "edit-command";
-        Aliases = new[]
-        {
-            "edit-added-command", "edit-custom-command", "editcommand",
-            "editcustom"
-        };
-        
         _logger = logger;
         _addedCommandsRepository = addedCommandsRepository;
     }

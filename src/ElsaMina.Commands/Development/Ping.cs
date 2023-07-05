@@ -3,18 +3,14 @@ using ElsaMina.Core.Contexts;
 
 namespace ElsaMina.Commands.Development;
 
-public class Ping : BaseCommand<Ping>
+public class Ping : BaseCommand<Ping>, ICommand
 {
-    public static bool IsAllowedInPm => true;
-    public static char RequiredRank => '+';
-    public static string HelpMessageKey => "Returns pong.";
+    public static string Name => "ping";
+    public static IEnumerable<string> Aliases => new[] { "tdt" };
 
-    public Ping()
-    {
-        Name = "ping";
-        Aliases = new[] { "tdt" };
-    }
-    
+    public override bool IsAllowedInPm => true;
+    public override char RequiredRank => '+';
+
     public override Task Run(IContext context)
     {
         context.Reply("pong");

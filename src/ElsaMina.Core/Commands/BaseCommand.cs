@@ -4,10 +4,6 @@ namespace ElsaMina.Core.Commands;
 
 public abstract class BaseCommand<T> : ICommand where T : ICommand
 {
-    // TODO : delete since useless
-    public static string Name { get; protected set; } = string.Empty;
-    public static IEnumerable<string> Aliases { get; protected set; } = Enumerable.Empty<string>();
-    
     public virtual string CommandName => T.Name;
     public virtual IEnumerable<string> CommandAliases => T.Aliases;
     public virtual bool IsAllowedInPm => false;

@@ -7,8 +7,11 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.CustomCommands;
 
-public class AddCustomCommand : BaseCommand<AddCustomCommand>
+public class AddCustomCommand : BaseCommand<AddCustomCommand>, ICommand
 {
+    public static string Name => "add-custom-command";
+    public static IEnumerable<string> Aliases => new[] { "add-custom", "add-command" };
+
     private readonly IRepository<AddedCommand, Tuple<string, string>> _addedCommandRepository;
     private readonly IConfigurationManager _configurationManager;
     private readonly IClockService _clockService;
@@ -17,9 +20,6 @@ public class AddCustomCommand : BaseCommand<AddCustomCommand>
         IConfigurationManager configurationManager,
         IClockService clockService)
     {
-        Name = "add-custom-command";
-        Aliases = new[] { "add-custom", "add-command" };
-        
         _addedCommandRepository = addedCommandRepository;
         _configurationManager = configurationManager;
         _clockService = clockService;
