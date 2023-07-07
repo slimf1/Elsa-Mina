@@ -13,7 +13,7 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.Profile;
 
-public class ProfileCommand : ICommand
+public class ProfileCommand : BaseCommand<ProfileCommand>, INamed
 {
     private const string DEFAULT_AVATAR_ID = "unknown";
     private const string AVATAR_URL = "https://play.pokemonshowdown.com/sprites/trainers/{0}.png";
@@ -21,8 +21,6 @@ public class ProfileCommand : ICommand
     
     public static string Name => "profile";
     public static IEnumerable<string> Aliases => new[] { "profil" };
-    public bool IsAllowedInPm => true;
-    public char RequiredRank => '+';
 
     private readonly IRepository<RoomSpecificUserData, Tuple<string, string>> _userDataRepository;
     private readonly IUserDetailsManager _userDetailsManager;
@@ -45,8 +43,11 @@ public class ProfileCommand : ICommand
         _configurationManager = configurationManager;
         _userDataService = userDataService;
     }
+    
+    public override bool IsAllowedInPm => true;
+    public override char RequiredRank => '+';
 
-    public async Task Run(IContext context)
+    public override async Task Run(IContext context)
     {
         var userId = string.IsNullOrEmpty(context.Target)
             ? context.Sender.UserId : context.Target.ToLowerAlphaNum();

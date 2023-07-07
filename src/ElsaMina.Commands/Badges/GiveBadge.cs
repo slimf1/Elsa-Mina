@@ -8,12 +8,10 @@ using Serilog;
 
 namespace ElsaMina.Commands.Badges;
 
-public class GiveBadge : ICommand
+public class GiveBadge : BaseCommand<GiveBadge>, INamed
 {
-    public static string Name => "givebadge";
-    public static IEnumerable<string> Aliases => new[] { "give-badge" };
-    public char RequiredRank => '%';
-    public string HelpMessageKey => "badge_give_help_message";
+    public new static string Name => "givebadge";
+    public new static IEnumerable<string> Aliases => new[] { "give-badge" };
 
     private readonly ILogger _logger;
     private readonly IRepository<Badge, Tuple<string, string>> _badgeRepository;
@@ -27,8 +25,11 @@ public class GiveBadge : ICommand
         _badgeRepository = badgeRepository;
         _roomUserDataService = roomUserDataService;
     }
+    
+    public override char RequiredRank => '%';
+    public override string HelpMessageKey => "badge_give_help_message";
 
-    public async Task Run(IContext context)
+    public override async Task Run(IContext context)
     {
         var parts = context.Target.Split(",");
         if (parts.Length != 2)

@@ -7,11 +7,10 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.CustomCommands;
 
-public class AddCustomCommand : ICommand
+public class AddCustomCommand : BaseCommand<AddCustomCommand>, INamed
 {
     public static string Name => "add-custom-command";
     public static IEnumerable<string> Aliases => new[] { "add-custom", "add-command" };
-    public char RequiredRank => '@';
 
     private readonly IRepository<AddedCommand, Tuple<string, string>> _addedCommandRepository;
     private readonly IConfigurationManager _configurationManager;
@@ -25,8 +24,10 @@ public class AddCustomCommand : ICommand
         _configurationManager = configurationManager;
         _clockService = clockService;
     }
+    
+    public override char RequiredRank => '@';
 
-    public async Task Run(IContext context)
+    public override async Task Run(IContext context)
     {
         var arguments = context.Target.Split(",");
         if (arguments.Length < 2)

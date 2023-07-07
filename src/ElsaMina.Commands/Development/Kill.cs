@@ -4,12 +4,12 @@ using Serilog;
 
 namespace ElsaMina.Commands.Development;
 
-public class Kill : ICommand
+public class Kill : BaseCommand<Help>, INamed
 {
     public static string Name => "kill";
-    public bool IsWhitelistOnly => true;
-    public bool IsHidden => true;
-    public bool IsAllowedInPm => true;
+    public override bool IsWhitelistOnly => true;
+    public override bool IsHidden => true;
+    public override bool IsAllowedInPm => true;
 
     private readonly ILogger _logger;
 
@@ -18,7 +18,7 @@ public class Kill : ICommand
         _logger = logger;
     }
 
-    public Task Run(IContext context)
+    public override Task Run(IContext context)
     {
         _logger.Information("Killing bot : {0}", context);
         Environment.Exit(1);

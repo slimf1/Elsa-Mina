@@ -7,14 +7,12 @@ using Serilog;
 
 namespace ElsaMina.Commands.Badges;
 
-public class AddBadge : ICommand
+public class AddBadge : BaseCommand<AddBadge>, INamed
 {
     public static string Name => "add-badge";
 
     public static IEnumerable<string> Aliases => new[]
         { "addbadge", "new-badge", "newbadge", "add-trophy", "newtrophy", "new-trophy" };
-
-    public char RequiredRank => '%';
 
     private readonly ILogger _logger;
     private readonly IRepository<Badge, Tuple<string, string>> _badgeRepository;
@@ -24,8 +22,10 @@ public class AddBadge : ICommand
         _logger = logger;
         _badgeRepository = badgeRepository;
     }
+    
+    public override char RequiredRank => '%';
 
-    public async Task Run(IContext context)
+    public override async Task Run(IContext context)
     {
         var arguments = context.Target.Split(",");
         if (arguments.Length != 2)

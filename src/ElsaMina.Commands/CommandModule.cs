@@ -53,7 +53,7 @@ public class CommandModule : Module
         builder.RegisterType<TeamProviderFactory>().As<ITeamProviderFactory>().SingleInstance();
     }
 
-    private static void RegisterCommand<T>(ContainerBuilder builder) where T : ICommand
+    private static void RegisterCommand<T>(ContainerBuilder builder) where T : INamed, ICommand
     {
         var commandName = T.Name;
         if (string.IsNullOrEmpty(commandName))
@@ -61,6 +61,7 @@ public class CommandModule : Module
             Console.WriteLine("[WARN] Command "+ typeof(T).Name + " has no name, and could not be registered");
             return;
         }
+        Console.WriteLine("Command "+ typeof(T).Name + " was registered");
         builder.RegisterType<T>().AsSelf().Named<ICommand>(commandName);
         foreach (var alias in T.Aliases)
         {

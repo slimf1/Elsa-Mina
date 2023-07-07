@@ -6,18 +6,14 @@ using Serilog;
 
 namespace ElsaMina.Commands.CustomCommands;
 
-public class EditCustomCommand : ICommand
+public class EditCustomCommand : BaseCommand<EditCustomCommand>, INamed
 {
     public static string Name => "edit-command";
-
     public static IEnumerable<string> Aliases => new[]
     {
         "edit-added-command", "edit-custom-command", "editcommand",
         "editcustom"
     };
-
-    public char RequiredRank => '%';
-    public string HelpMessageKey => "editcommand_help";
 
     private readonly ILogger _logger;
     private readonly IRepository<AddedCommand, Tuple<string, string>> _addedCommandsRepository;
@@ -27,8 +23,11 @@ public class EditCustomCommand : ICommand
         _logger = logger;
         _addedCommandsRepository = addedCommandsRepository;
     }
+    
+    public override char RequiredRank => '%';
+    public override string HelpMessageKey => "editcommand_help";
 
-    public async Task Run(IContext context)
+    public override async Task Run(IContext context)
     {
         var parts = context.Target.Split(",");
         var commandId = parts[0].Trim().ToLower();

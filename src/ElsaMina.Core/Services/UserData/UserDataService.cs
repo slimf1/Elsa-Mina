@@ -7,7 +7,9 @@ namespace ElsaMina.Core.Services.UserData;
 public class UserDataService : IUserDataService
 {
     private const string USER_DATA_URL = "https://pokemonshowdown.com/users/{0}.json";
-    
+
+    private readonly Dictionary<string, UserDataDto> _userDataCache = new();
+
     private readonly ILogger _logger;
     private readonly IHttpService _httpService;
 
@@ -19,10 +21,17 @@ public class UserDataService : IUserDataService
 
     public async Task<UserDataDto> GetUserData(string userName)
     {
-        var uri = string.Format(USER_DATA_URL, userName.ToLowerAlphaNum());
+        var userId = userName.ToLowerAlphaNum();
+        if (_userDataCache.TryGetValue(userId, out var cachedUserData))
+        {
+            return cachedUserData;
+        }
+        var uri = string.Format(USER_DATA_URL, userId);
         try
         {
-            return await _httpService.Get<UserDataDto>(uri);
+            var userData = await _httpService.Get<UserDataDto>(uri);
+            _userDataCache[userId] = userData;
+            return userData;
         }
         catch (Exception exception)
         {

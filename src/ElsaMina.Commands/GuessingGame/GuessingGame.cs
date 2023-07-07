@@ -47,8 +47,8 @@ public abstract class GuessingGame : Game
         _cancellationTokenSource = new CancellationTokenSource();
         Task.Run(async () =>
         {
-            await Task.Delay(SECONDS_BETWEEN_TURNS * 1000);
-            _cancellationTokenSource?.Token.ThrowIfCancellationRequested();
+            await Task.Delay(SECONDS_BETWEEN_TURNS * 1000, _cancellationTokenSource.Token);
+            _cancellationTokenSource.Token.ThrowIfCancellationRequested();
             await OnTurnEnd();
         }, _cancellationTokenSource.Token);
     }

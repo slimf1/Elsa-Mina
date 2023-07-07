@@ -14,12 +14,10 @@ using ElsaMina.DataAccess.Models;
 
 namespace ElsaMina.Commands.Development;
 
-public class TemplatesDebug : ICommand
+public class TemplatesDebug : BaseCommand<TemplatesDebug>, INamed
 {
     public static string Name => "templates";
     public static IEnumerable<string> Aliases => new[] { "templates-debug", "templatedebug" };
-    public bool IsAllowedInPm => true;
-    public bool IsWhitelistOnly => true;
 
     private readonly ITemplatesManager _templatesManager;
     private readonly IResourcesService _resourcesService;
@@ -36,8 +34,11 @@ public class TemplatesDebug : ICommand
         _configurationManager = configurationManager;
         _roomsManager = roomsManager;
     }
+    
+    public override bool IsAllowedInPm => true;
+    public override bool IsWhitelistOnly => true;
 
-    public async Task Run(IContext context)
+    public override async Task Run(IContext context)
     {
         var parts = context.Target.Split(",");
         var templateName = parts[0].Trim();
