@@ -3,7 +3,7 @@ using ElsaMina.Core.Contexts;
 
 namespace ElsaMina.Commands.Development;
 
-public class Ping : BaseCommand<Ping>, ICommand
+public class Ping : BaseCommand<Ping>, INamed
 {
     public static string Name => "ping";
     public static IEnumerable<string> Aliases => new[] { "tdt" };

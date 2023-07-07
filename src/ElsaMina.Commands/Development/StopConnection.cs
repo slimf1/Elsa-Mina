@@ -5,12 +5,9 @@ using Serilog;
 
 namespace ElsaMina.Commands.Development;
 
-public class StopConnection : BaseCommand<StopConnection>
+public class StopConnection : BaseCommand<StopConnection>, INamed
 {
     public static string Name => "stop-connection";
-    public bool IsAllowedInPm => true;
-    public bool IsWhitelistOnly => true;
-    public bool IsHidden => true;
 
     private readonly IClient _client;
     private readonly ILogger _logger;
@@ -21,6 +18,10 @@ public class StopConnection : BaseCommand<StopConnection>
         _client = client;
         _logger = logger;
     }
+    
+    public override bool IsAllowedInPm => true;
+    public override bool IsWhitelistOnly => true;
+    public override bool IsHidden => true;
 
     public override async Task Run(IContext context)
     {

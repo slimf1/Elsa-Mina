@@ -13,11 +13,9 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.RoomDashboard;
 
-public class ShowRoomDashboard : BaseCommand<ShowRoomDashboard>
+public class ShowRoomDashboard : BaseCommand<ShowRoomDashboard>, INamed
 {
     public static string Name => "room-dashboard";
-    public bool IsPrivateMessageOnly => true;
-    public bool IsWhitelistOnly => true; // todo : seul un mec authed sur la room peut
 
     private readonly IConfigurationManager _configurationManager;
     private readonly IResourcesService _resourcesService;
@@ -37,6 +35,9 @@ public class ShowRoomDashboard : BaseCommand<ShowRoomDashboard>
         _roomParametersRepository = roomParametersRepository;
         _templatesManager = templatesManager;
     }
+    
+    public override bool IsPrivateMessageOnly => true;
+    public override bool IsWhitelistOnly => true; // todo : seul un mec authed sur la room peut
 
     public override async Task Run(IContext context)
     {

@@ -7,10 +7,10 @@ using Serilog;
 
 namespace ElsaMina.Commands.Badges;
 
-public class DeleteBadge : BaseCommand<DeleteBadge>, ICommand
+public class DeleteBadge : BaseCommand<DeleteBadge>, INamed
 {
-    public new static string Name => "deletebadge";
-    public new static IEnumerable<string> Aliases => new[] { "deletetrophy", "delete-badge", "delete-trophy" };
+    public static string Name => "deletebadge";
+    public static IEnumerable<string> Aliases => new[] { "deletetrophy", "delete-badge", "delete-trophy" };
 
     private readonly IRepository<Badge, Tuple<string, string>> _badgeRepository;
     private readonly ILogger _logger;

@@ -7,7 +7,7 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.CustomCommands;
 
-public class AddCustomCommand : BaseCommand<AddCustomCommand>, ICommand
+public class AddCustomCommand : BaseCommand<AddCustomCommand>, INamed
 {
     public static string Name => "add-custom-command";
     public static IEnumerable<string> Aliases => new[] { "add-custom", "add-command" };

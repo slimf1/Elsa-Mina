@@ -6,7 +6,7 @@ using Serilog;
 
 namespace ElsaMina.Commands.CustomCommands;
 
-public class EditCustomCommand : BaseCommand<EditCustomCommand>, ICommand
+public class EditCustomCommand : BaseCommand<EditCustomCommand>, INamed
 {
     public static string Name => "edit-command";
     public static IEnumerable<string> Aliases => new[]

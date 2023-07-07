@@ -6,7 +6,7 @@ using Serilog;
 
 namespace ElsaMina.Commands.Badges;
 
-public class TakeBadge : BaseCommand<TakeBadge>, ICommand
+public class TakeBadge : BaseCommand<TakeBadge>, INamed
 {
     public static string Name => "takebadge";
     public static IEnumerable<string> Aliases => new[] { "take-badge", "take-trophy", "taketrophy" };

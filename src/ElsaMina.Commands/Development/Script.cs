@@ -7,12 +7,12 @@ using Serilog;
 
 namespace ElsaMina.Commands.Development;
 
-public class Script : BaseCommand<Script>
+public class Script : BaseCommand<Script>, INamed
 {
     public static string Name => "script";
-    public bool IsAllowedInPm => true;
-    public bool IsWhitelistOnly => true;
-    public bool IsHidden => true;
+    public override bool IsAllowedInPm => true;
+    public override bool IsWhitelistOnly => true;
+    public override bool IsHidden => true;
 
     private readonly ILogger _logger;
     private readonly IDependencyContainerService _dependencyContainerService;

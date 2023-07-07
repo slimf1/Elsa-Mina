@@ -2,7 +2,7 @@
 
 namespace ElsaMina.Core.Commands;
 
-public abstract class BaseCommand<T> : ICommand where T : ICommand
+public abstract class BaseCommand<T> : ICommand where T : INamed
 {
     public virtual string CommandName => T.Name;
     public virtual IEnumerable<string> CommandAliases => T.Aliases;

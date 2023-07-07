@@ -4,11 +4,11 @@ using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.GuessingGame;
 
-public class EndGuessingGame : BaseCommand<EndGuessingGame>
+public class EndGuessingGame : BaseCommand<EndGuessingGame>, INamed
 {
     public static string Name => "endguessinggame";
     public static IEnumerable<string> Aliases => new[] { "endcountriesgame" };
-    public char RequiredRank => '+';
+    public override char RequiredRank => '+';
 
     private readonly IRoomsManager _roomsManager;
 

@@ -53,7 +53,7 @@ public class CommandModule : Module
         builder.RegisterType<TeamProviderFactory>().As<ITeamProviderFactory>().SingleInstance();
     }
 
-    private static void RegisterCommand<T>(ContainerBuilder builder) where T : ICommand
+    private static void RegisterCommand<T>(ContainerBuilder builder) where T : INamed, ICommand
     {
         var commandName = T.Name;
         if (string.IsNullOrEmpty(commandName))

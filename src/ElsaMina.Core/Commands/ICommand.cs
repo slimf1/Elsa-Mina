@@ -4,9 +4,6 @@ namespace ElsaMina.Core.Commands;
 
 public interface ICommand
 {
-    public static virtual string Name => string.Empty;
-    public static virtual IEnumerable<string> Aliases => Enumerable.Empty<string>();
-    
     public string CommandName { get; }
     public IEnumerable<string> CommandAliases { get; }
     public bool IsAllowedInPm { get; }

@@ -6,7 +6,7 @@ using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.GuessingGame;
 
-public class GuessingGameCommand : BaseCommand<GuessingGameCommand>
+public class GuessingGameCommand : BaseCommand<GuessingGameCommand>, INamed
 {
     public static string Name => "guessinggame";
 
@@ -15,7 +15,7 @@ public class GuessingGameCommand : BaseCommand<GuessingGameCommand>
         "countriesgame"
     };
 
-    public char RequiredRank => '+';
+    public override char RequiredRank => '+';
 
     private readonly IRoomsManager _roomsManager;
     private readonly IDependencyContainerService _dependencyContainerService;

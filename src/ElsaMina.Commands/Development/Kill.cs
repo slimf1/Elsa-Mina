@@ -4,12 +4,12 @@ using Serilog;
 
 namespace ElsaMina.Commands.Development;
 
-public class Kill : BaseCommand<Help>
+public class Kill : BaseCommand<Help>, INamed
 {
     public static string Name => "kill";
-    public bool IsWhitelistOnly => true;
-    public bool IsHidden => true;
-    public bool IsAllowedInPm => true;
+    public override bool IsWhitelistOnly => true;
+    public override bool IsHidden => true;
+    public override bool IsAllowedInPm => true;
 
     private readonly ILogger _logger;
 

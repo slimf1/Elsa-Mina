@@ -6,12 +6,10 @@ using Serilog;
 
 namespace ElsaMina.Commands.Profile;
 
-public class SetAvatar : BaseCommand<SetAvatar>
+public class SetAvatar : BaseCommand<SetAvatar>, INamed
 {
     public static string Name => "avatar";
     public static IEnumerable<string> Aliases => new[] { "set-avatar", "setavatar" };
-    public char RequiredRank => '%';
-    public string HelpMessageKey => "avatar_help_message";
 
     private readonly IRoomUserDataService _roomUserDataService;
     private readonly ILogger _logger;
@@ -22,6 +20,9 @@ public class SetAvatar : BaseCommand<SetAvatar>
         _roomUserDataService = roomUserDataService;
         _logger = logger;
     }
+    
+    public override char RequiredRank => '%';
+    public override string HelpMessageKey => "avatar_help_message";
 
     public override async Task Run(IContext context)
     {

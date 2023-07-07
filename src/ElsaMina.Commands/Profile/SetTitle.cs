@@ -6,12 +6,10 @@ using Serilog;
 
 namespace ElsaMina.Commands.Profile;
 
-public class SetTitle : BaseCommand<SetTitle>
+public class SetTitle : BaseCommand<SetTitle>, INamed
 {
     public static string Name => "title";
     public static IEnumerable<string> Aliases => new[] { "settitle", "set-title", "set-bio", "setbio" };
-    public char RequiredRank => '+';
-    public string HelpMessageKey => "title_help_message";
 
     private readonly IRoomUserDataService _roomUserDataService;
     private readonly ILogger _logger;
@@ -22,6 +20,9 @@ public class SetTitle : BaseCommand<SetTitle>
         _roomUserDataService = roomUserDataService;
         _logger = logger;
     }
+    
+    public override char RequiredRank => '+';
+    public override string HelpMessageKey => "title_help_message";
 
     public override async Task Run(IContext context)
     {

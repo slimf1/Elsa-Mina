@@ -9,7 +9,7 @@ using Serilog;
 
 namespace ElsaMina.Commands.RoomDashboard;
 
-public class RoomConfig : BaseCommand<RoomConfig>, ICommand
+public class RoomConfig : BaseCommand<RoomConfig>, INamed
 {
     public static string Name => "room-config";
     public static IEnumerable<string> Aliases => new[] { "roomconfig", "rc" };
