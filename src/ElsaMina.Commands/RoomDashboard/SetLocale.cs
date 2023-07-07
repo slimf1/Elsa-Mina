@@ -10,7 +10,6 @@ public class SetLocale : BaseCommand<SetLocale>, INamed
 {
     public static string Name => "set-locale";
     public static IEnumerable<string> Aliases => new[] { "setlocale" };
-    public override char RequiredRank => '#';
 
     private readonly IRepository<RoomParameters, string> _roomParametersRepository;
 
@@ -18,6 +17,8 @@ public class SetLocale : BaseCommand<SetLocale>, INamed
     {
         _roomParametersRepository = roomParametersRepository;
     }
+
+    public override char RequiredRank => '#';
 
     public override async Task Run(IContext context)
     {

@@ -9,9 +9,9 @@ namespace ElsaMina.Commands.Badges;
 
 public class AddBadge : BaseCommand<AddBadge>, INamed
 {
-    public new static string Name => "add-badge";
+    public static string Name => "add-badge";
 
-    public new static IEnumerable<string> Aliases => new[]
+    public static IEnumerable<string> Aliases => new[]
         { "addbadge", "new-badge", "newbadge", "add-trophy", "newtrophy", "new-trophy" };
 
     private readonly ILogger _logger;

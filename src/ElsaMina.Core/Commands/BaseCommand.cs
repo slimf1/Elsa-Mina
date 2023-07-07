@@ -4,8 +4,8 @@ namespace ElsaMina.Core.Commands;
 
 public abstract class BaseCommand<T> : ICommand where T : INamed
 {
-    public virtual string CommandName => T.Name;
-    public virtual IEnumerable<string> CommandAliases => T.Aliases;
+    public string CommandName => T.Name;
+    public IEnumerable<string> CommandAliases => T.Aliases;
     public virtual bool IsAllowedInPm => false;
     public virtual bool IsWhitelistOnly => false;
     public virtual bool IsPrivateMessageOnly => false;
