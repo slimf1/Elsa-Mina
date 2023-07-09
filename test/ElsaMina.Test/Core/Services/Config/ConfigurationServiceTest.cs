@@ -1,17 +1,22 @@
 ﻿using ElsaMina.Core.Services.Config;
 using FluentAssertions;
 using Newtonsoft.Json;
+using NSubstitute;
+using Serilog;
 
 namespace ElsaMina.Test.Core.Services.Config;
 
 public class ConfigurationServiceTest
 {
+    private ILogger _logger;
     private ConfigurationManager _configurationManager;
 
     [SetUp]
     public void SetUp()
     {
-        _configurationManager = new ConfigurationManager();
+        _logger = Substitute.For<ILogger>();
+        
+        _configurationManager = new ConfigurationManager(_logger);
     }
 
     [Test]

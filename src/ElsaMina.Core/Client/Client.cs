@@ -2,12 +2,14 @@
 using System.Reactive.Linq;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
+using Serilog;
 using Websocket.Client;
 
 namespace ElsaMina.Core.Client;
 
 public class Client : IClient
 {
+    private readonly ILogger _logger;
     private readonly IConfigurationManager _configurationManager;
 
     private readonly WebsocketClient _websocketClient;
@@ -15,8 +17,9 @@ public class Client : IClient
     
     private IConfiguration Conf => _configurationManager.Configuration;
 
-    public Client(IConfigurationManager configurationManager)
+    public Client(ILogger logger, IConfigurationManager configurationManager)
     {
+        _logger = logger;
         _configurationManager = configurationManager;
 
         _websocketClient = new WebsocketClient(new Uri($"ws://{Conf.Host}:{Conf.Port}/showdown/websocket"));
@@ -25,11 +28,13 @@ public class Client : IClient
 
     public async Task Connect()
     {
+        _logger.Information("Connecting to : {0}", _websocketClient.Url);
         await _websocketClient.Start();
     }
     
     public async Task Close()
     {
+        _logger.Information("Closing connection");
         await _websocketClient.Stop(WebSocketCloseStatus.Empty, string.Empty);
     }
     
