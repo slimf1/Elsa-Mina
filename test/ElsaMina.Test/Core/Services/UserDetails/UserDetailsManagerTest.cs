@@ -23,7 +23,7 @@ public class UserDetailsManagerTest
     }
 
     [Test]
-    public async Task Test_GetUserDetails_ShouldReturnTaskResolvedWhenUserDetailsAreReceived()
+    public async Task Test_GetUserDetails_ShouldReturnTaskResolved_WhenUserDetailsAreReceived()
     {
         // Act
         var task = _userDetailsManager.GetUserDetails("panur");
@@ -35,5 +35,15 @@ public class UserDetailsManagerTest
         result.Avatar.Should().Be("sightseerf");
         result.Group.Should().Be("+");
         result.AutoConfirmed.Should().BeTrue();
+    }
+    
+    [Test]
+    public async Task Test_GetUserDetails_ShouldReturnNull_WhenUserDetailsAreNotReceived()
+    {
+        // Act
+        var result = await _userDetailsManager.GetUserDetails("speks");
+        
+        // Assert
+        result.Should().BeNull();
     }
 }

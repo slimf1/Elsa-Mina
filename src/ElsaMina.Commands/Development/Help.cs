@@ -7,8 +7,8 @@ public class Help : BaseCommand<Help>, INamed
 {
     public static string Name => "help";
     public static IEnumerable<string> Aliases => new[] { "about" };
-    public bool IsAllowedInPm => true;
-    public char RequiredRank => '+';
+    public override bool IsAllowedInPm => true;
+    public override char RequiredRank => '+';
 
     public override Task Run(IContext context)
     {
