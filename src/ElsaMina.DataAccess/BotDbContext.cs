@@ -68,8 +68,7 @@ public class BotDbContext : DbContext
         
         if (!optionsBuilder.IsConfigured)
         {
-            var dbConfig = DbConfigProvider.GetDbConfig();
-            optionsBuilder.UseNpgsql(dbConfig.ConnectionString);
+            optionsBuilder.UseNpgsql(DbConfigProvider.GetConnectionString());
         }
     }
 }
