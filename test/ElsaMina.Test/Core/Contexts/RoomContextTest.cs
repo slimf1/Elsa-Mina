@@ -18,7 +18,7 @@ public class RoomContextTest
 
     private RoomContext _roomContext;
     
-    private void CreateRoomContext(string target, string command, long timestamp)
+    private void CreateRoomContext(string message, string target, string command, long timestamp)
     {
         _configurationManager = Substitute.For<IConfigurationManager>();
         _resourcesService = Substitute.For<IResourcesService>();
@@ -30,6 +30,7 @@ public class RoomContextTest
             _configurationManager,
             _resourcesService,
             _bot,
+            message,
             target,
             _sender,
             command,
@@ -49,7 +50,7 @@ public class RoomContextTest
     public bool Test_HasSufficientRank_ShouldReturnTrue_WhenSenderRankIsSufficient(char userRank)
     {
         // Arrange
-        CreateRoomContext("", "test-command", 1);
+        CreateRoomContext("", "", "test-command", 1);
         _sender.Rank.Returns(userRank);
 
         // Act & Assert
@@ -62,7 +63,7 @@ public class RoomContextTest
         [Values(' ', '+', '%', '@', '*', '#', '&')] char userRank)
     {
         // Arrange
-        CreateRoomContext("", "test-command", 1);
+        CreateRoomContext("", "", "test-command", 1);
         _sender.UserId.Returns("wl-dude");
         _sender.Rank.Returns(userRank);
         _configurationManager.Configuration.Returns(new Configuration { Whitelist = new[] { "wl-dude" } });

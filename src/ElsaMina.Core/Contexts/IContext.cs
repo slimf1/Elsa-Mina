@@ -5,6 +5,7 @@ namespace ElsaMina.Core.Contexts;
 
 public interface IContext
 {
+    string Message { get; }
     string Target { get; }
     IUser Sender { get; }
     string Command { get; }

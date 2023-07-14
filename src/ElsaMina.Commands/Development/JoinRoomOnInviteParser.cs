@@ -15,13 +15,12 @@ public class JoinRoomOnInviteParser : PrivateMessageParser
 
     protected override Task HandlePrivateMessage(IContext context)
     {
-        var message = context.Target;
-        if (!message.StartsWith("/invite ") || !context.IsSenderWhitelisted)
+        if (!context.Message.StartsWith("/invite ") || !context.IsSenderWhitelisted)
         {
             return Task.CompletedTask;
         }
 
-        var roomToJoin = message[8..];
+        var roomToJoin = context.Message[8..];
         context.Reply($"/join {roomToJoin}");
         return Task.CompletedTask;
     }

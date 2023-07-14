@@ -171,7 +171,7 @@ public class Bot : IBot
             return;
         }
 
-        var context = _contextFactory.GetContext(ContextType.Pm, this, target, user, command);
+        var context = _contextFactory.GetContext(ContextType.Pm, this, message, target, user, command);
         try
         {
             await _commandExecutor.TryExecuteCommand(command, context);
@@ -202,8 +202,8 @@ public class Bot : IBot
         }
 
         var room = _roomsManager.GetRoom(roomId);
-        var context = _contextFactory.GetContext(ContextType.Room, this, target, room.Users[senderId], command,
-            room, timestamp);
+        var context = _contextFactory.GetContext(ContextType.Room, this, message, target, room.Users[senderId],
+            command, room, timestamp);
 
         try
         {

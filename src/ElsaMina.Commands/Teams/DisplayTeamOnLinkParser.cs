@@ -2,7 +2,6 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.DependencyInjection;
-using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templating;
 using ElsaMina.Core.Templates.TeamPreview;
 using ElsaMina.Core.Utils;
@@ -15,7 +14,7 @@ namespace ElsaMina.Commands.Teams;
 public class DisplayTeamOnLinkParser : ChatMessageParser
 {
     private const int USER_DELAY = 30;
-    
+
     private readonly Dictionary<string, DateTimeOffset> _lastTeamTimes = new();
 
     private readonly ILogger _logger;
@@ -23,7 +22,7 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
     private readonly ITeamProviderFactory _teamProviderFactory;
     private readonly ITemplatesManager _templatesManager;
     private readonly IRepository<RoomParameters, string> _roomParametersRepository;
-    
+
     public DisplayTeamOnLinkParser(ILogger logger,
         IDependencyContainerService dependencyContainerService,
         IClockService clockService,
@@ -41,7 +40,7 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
 
     protected override async Task HandleChatMessage(IContext context)
     {
-        if (!_teamProviderFactory.SupportedProviderLinks.Any(providerLink => context.Target.Contains(providerLink)))
+        if (!_teamProviderFactory.SupportedProviderLinks.Any(providerLink => context.Message.Contains(providerLink)))
         {
             return;
         }
@@ -62,7 +61,7 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
 
         _lastTeamTimes[context.Sender.UserId] = now;
 
-        var match = TeamProviderFactory.TEAM_LINK_REGEX.Match(context.Target);
+        var match = TeamProviderFactory.TEAM_LINK_REGEX.Match(context.Message);
         if (!match.Success)
         {
             return;
@@ -85,7 +84,7 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
             Sender = context.Sender.Name,
             Team = ShowdownTeams.DeserializeTeamExport(sharedTeam.TeamExport)
         });
-        
+
         context.SendHtml(template.RemoveNewlines());
     }
 }

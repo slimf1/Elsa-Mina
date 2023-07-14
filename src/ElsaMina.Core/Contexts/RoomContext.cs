@@ -19,11 +19,12 @@ public class RoomContext : Context
     public RoomContext(IConfigurationManager configurationManager,
         IResourcesService resourcesService,
         IBot bot,
+        string message,
         string target,
         IUser sender,
         string command,
         IRoom room,
-        long timestamp) : base(configurationManager, resourcesService, bot, target, sender, command)
+        long timestamp) : base(configurationManager, resourcesService, bot, message, target, sender, command)
     {
         _room = room;
         _timestamp = timestamp;

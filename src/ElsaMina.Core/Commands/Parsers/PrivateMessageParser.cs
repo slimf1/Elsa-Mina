@@ -24,7 +24,7 @@ public abstract class PrivateMessageParser : Parser
         if (parts.Length > 2 && parts[1] == "pm")
         {
             var context = _contextFactory.GetContext(ContextType.Pm, _bot, parts[4],
-                _pmSendersManager.GetUser(parts[2]), null);
+                null, _pmSendersManager.GetUser(parts[2]), null);
             await HandlePrivateMessage(context);
         }
     }

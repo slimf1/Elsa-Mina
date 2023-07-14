@@ -26,8 +26,8 @@ public abstract class ChatMessageParser : Parser
             var timestamp = long.Parse(parts[2]);
             var room = _roomsManager.GetRoom(roomId);
             var userId = parts[3].ToLowerAlphaNum();
-            var context = _contextFactory.GetContext(ContextType.Room, _bot, parts[4], room.Users[userId],
-                null, room, timestamp);
+            var context = _contextFactory.GetContext(ContextType.Room, _bot, parts[4], null,
+                room.Users[userId], null, room, timestamp);
             await HandleChatMessage(context);
         }
     }

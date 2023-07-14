@@ -19,6 +19,7 @@ public class ContextFactory : IContextFactory
 
     public IContext GetContext(ContextType type,
         IBot bot,
+        string message,
         string target,
         IUser sender,
         string command,
@@ -27,8 +28,9 @@ public class ContextFactory : IContextFactory
     {
         return type switch
         {
-            ContextType.Pm => new PmContext(_configurationManager, _resourcesService, bot, target, sender, command),
-            ContextType.Room => new RoomContext(_configurationManager, _resourcesService, bot, target, sender,
+            ContextType.Pm => new PmContext(_configurationManager, _resourcesService, bot, message, target, sender,
+                command),
+            ContextType.Room => new RoomContext(_configurationManager, _resourcesService, bot, message ,target, sender,
                 command, room, timestamp),
             _ => throw new ArgumentException("Invalid type")
         };

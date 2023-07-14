@@ -23,7 +23,7 @@ public class GuessingGameParser : ChatMessageParser
         var room = _roomsManager.GetRoom(context.RoomId);
         if (room?.Game is CountriesGame countriesGame)
         {
-            countriesGame.OnAnswer(context.Sender.Name, context.Target);
+            countriesGame.OnAnswer(context.Sender.Name, context.Message);
         }
 
         return Task.CompletedTask;

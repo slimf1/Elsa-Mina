@@ -12,6 +12,7 @@ public abstract class Context : IContext
     private readonly IResourcesService _resourcesService;
     
     public IBot Bot { get; }
+    public string Message { get; }
     public string Target { get; }
     public IUser Sender { get; }
     public string Command { get; }
@@ -19,6 +20,7 @@ public abstract class Context : IContext
     protected Context(IConfigurationManager configurationManager,
         IResourcesService resourcesService,
         IBot bot,
+        string message,
         string target,
         IUser sender,
         string command)
@@ -27,6 +29,7 @@ public abstract class Context : IContext
         _resourcesService = resourcesService;
         
         Bot = bot;
+        Message = message;
         Target = target;
         Sender = sender;
         Command = command;

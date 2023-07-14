@@ -15,9 +15,10 @@ public class PmContext : Context
     public PmContext(IConfigurationManager configurationManager,
         IResourcesService resourcesService,
         IBot bot,
+        string message,
         string target,
         IUser sender,
-        string command) : base(configurationManager, resourcesService, bot, target, sender, command)
+        string command) : base(configurationManager, resourcesService, bot, message, target, sender, command)
     {
         _configurationManager = configurationManager;
 
