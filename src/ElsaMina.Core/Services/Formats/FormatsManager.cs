@@ -4,7 +4,7 @@ namespace ElsaMina.Core.Services.Formats;
 
 public class FormatsManager : IFormatsManager
 {
-    private readonly List<string> _formats = new();
+    private readonly HashSet<string> _formats = new();
 
     public IEnumerable<string> Formats => _formats;
 

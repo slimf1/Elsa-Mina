@@ -35,7 +35,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS aspnet
 COPY --from=build /app/publish .
 
 # Set the environmnent variable
-ENV ELSA_MINA_ENV=dev
+ENV ELSA_MINA_ENV=prod
 
 # Set the entry point for the application
 ENTRYPOINT ["dotnet", "ElsaMina.Console.dll"]
