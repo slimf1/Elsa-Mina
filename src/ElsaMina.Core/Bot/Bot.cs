@@ -1,12 +1,9 @@
 ﻿using ElsaMina.Core.Client;
-using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Clock;
-using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.Parsers;
-using ElsaMina.Core.Services.PrivateMessages;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.UserDetails;
 using ElsaMina.Core.Utils;
@@ -23,12 +20,9 @@ public class Bot : IBot
     private readonly IClient _client;
     private readonly IConfigurationManager _configurationManager;
     private readonly IClockService _clockService;
-    private readonly IContextFactory _contextFactory;
-    private readonly ICommandExecutor _commandExecutor;
     private readonly IRoomsManager _roomsManager;
     private readonly IFormatsManager _formatsManager;
     private readonly ILoginService _loginService;
-    private readonly IPmSendersManager _pmSendersManager;
     private readonly IParsersManager _parsersManager;
     private readonly IUserDetailsManager _userDetailsManager;
 
@@ -42,12 +36,9 @@ public class Bot : IBot
         IClient client,
         IConfigurationManager configurationManager,
         IClockService clockService,
-        IContextFactory contextFactory,
-        ICommandExecutor commandExecutor,
         IRoomsManager roomsManager,
         IFormatsManager formatsManager,
         ILoginService loginService,
-        IPmSendersManager pmSendersManager,
         IParsersManager parsersManager,
         IUserDetailsManager userDetailsManager)
     {
@@ -55,12 +46,9 @@ public class Bot : IBot
         _client = client;
         _configurationManager = configurationManager;
         _clockService = clockService;
-        _contextFactory = contextFactory;
-        _commandExecutor = commandExecutor;
         _roomsManager = roomsManager;
         _formatsManager = formatsManager;
         _loginService = loginService;
-        _pmSendersManager = pmSendersManager;
         _parsersManager = parsersManager;
         _userDetailsManager = userDetailsManager;
     }
@@ -147,12 +135,6 @@ public class Bot : IBot
             case "N":
                 _roomsManager.RenameUserInRoom(roomId, parts[3], parts[2]);
                 break;
-            case "c:":
-                await HandleChatMessage(parts[4], parts[3], roomId, long.Parse(parts[2]));
-                break;
-            case "pm":
-                await HandlePrivateMessage(parts[4], parts[2]);
-                break;
             case "queryresponse":
                 if (parts[2] == "userdetails")
                 {
@@ -160,80 +142,6 @@ public class Bot : IBot
                 }
                 break;
         }
-    }
-
-    private async Task HandlePrivateMessage(string message, string sender)
-    {
-        var user = _pmSendersManager.GetUser(sender);
-        var (target, command) = ParseMessage(message);
-        if (target == null || command == null || !_commandExecutor.HasCommand(command))
-        {
-            return;
-        }
-
-        var context = _contextFactory.GetContext(ContextType.Pm, this, message, target, user, command);
-        try
-        {
-            await _commandExecutor.TryExecuteCommand(command, context);
-        }
-        catch (Exception exception)
-        {
-            _logger.Error(exception, "Pm Command execution crashed");
-        }
-    }
-
-    private async Task HandleChatMessage(string message, string sender, string roomId, long timestamp)
-    {
-        if (roomId == null || !_roomsManager.HasRoom(roomId))
-        {
-            return;
-        }
-
-        var senderId = sender.ToLowerAlphaNum();
-        if (_configurationManager.Configuration.RoomBlacklist.Contains(roomId))
-        {
-            return;
-        }
-
-        var (target, command) = ParseMessage(message);
-        if (target == null || command == null)
-        {
-            return;
-        }
-
-        var room = _roomsManager.GetRoom(roomId);
-        var context = _contextFactory.GetContext(ContextType.Room, this, message, target, room.Users[senderId],
-            command, room, timestamp);
-
-        try
-        {
-            await _commandExecutor.TryExecuteCommand(command, context);
-        }
-        catch (Exception exception)
-        {
-            _logger.Error(exception, "Room Command execution crashed");
-        }
-    }
-
-    private (string target, string command) ParseMessage(string message)
-    {
-        var trigger = _configurationManager.Configuration.Trigger;
-        var triggerLength = trigger.Length;
-        if (message[..triggerLength] != trigger)
-        {
-            return (null, null);
-        }
-
-        var text = message[triggerLength..];
-        var spaceIndex = text.IndexOf(" ", StringComparison.Ordinal);
-        var command = spaceIndex > 0 ? text[..spaceIndex].ToLower() : text.Trim().ToLower();
-        var target = spaceIndex > 0 ? text[(spaceIndex + 1)..] : string.Empty;
-        if (string.IsNullOrEmpty(command))
-        {
-            return (null, null);
-        }
-
-        return (target, command);
     }
 
     private void CheckConnection(string[] parts)

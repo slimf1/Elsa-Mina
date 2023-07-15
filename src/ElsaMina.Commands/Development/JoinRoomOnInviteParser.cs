@@ -1,15 +1,14 @@
-using ElsaMina.Core.Bot;
 using ElsaMina.Core.Commands.Parsers;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Services.PrivateMessages;
+using ElsaMina.Core.Services.DependencyInjection;
 
 namespace ElsaMina.Commands.Development;
 
 public class JoinRoomOnInviteParser : PrivateMessageParser
 
 {
-    public JoinRoomOnInviteParser(IContextFactory contextFactory, IBot bot, IPmSendersManager pmSendersManager)
-        : base(contextFactory, bot, pmSendersManager)
+    public JoinRoomOnInviteParser(IDependencyContainerService dependencyContainerService)
+        : base(dependencyContainerService)
     {
     }
 

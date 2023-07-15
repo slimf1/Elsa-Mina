@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using ElsaMina.Core.Bot;
 using ElsaMina.Core.Client;
+using ElsaMina.Core.Commands;
+using ElsaMina.Core.Commands.Parsers;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.Clock;
@@ -59,5 +61,8 @@ public class CoreModule : Module
 
         builder.RegisterType<Client.Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot.Bot>().As<IBot>().AsSelf().SingleInstance();
+        
+        builder.RegisterType<ChatMessageCommandParser>().As<IParser>().SingleInstance();
+        builder.RegisterType<PrivateMessageCommandParser>().As<IParser>().SingleInstance();
     }
 }

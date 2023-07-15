@@ -1,12 +1,9 @@
 ﻿using ElsaMina.Core.Client;
-using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Clock;
-using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.Parsers;
-using ElsaMina.Core.Services.PrivateMessages;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.UserDetails;
 using NSubstitute;
@@ -20,12 +17,9 @@ public class BotTest
     private IClient _client;
     private IConfigurationManager _configurationManager;
     private IClockService _clockService;
-    private IContextFactory _contextFactory;
-    private ICommandExecutor _commandExecutor;
     private IRoomsManager _roomsManager;
     private IFormatsManager _formatsManager;
     private ILoginService _loginService;
-    private IPmSendersManager _pmSendersManager;
     private IParsersManager _parsersManager;
     private IUserDetailsManager _userDetailsManager;
 
@@ -38,18 +32,14 @@ public class BotTest
         _client = Substitute.For<IClient>();
         _configurationManager = Substitute.For<IConfigurationManager>();
         _clockService = Substitute.For<IClockService>();
-        _contextFactory = Substitute.For<IContextFactory>();
-        _commandExecutor = Substitute.For<ICommandExecutor>();
         _roomsManager = Substitute.For<IRoomsManager>();
         _formatsManager = Substitute.For<IFormatsManager>();
         _loginService = Substitute.For<ILoginService>();
-        _pmSendersManager = Substitute.For<IPmSendersManager>();
         _parsersManager = Substitute.For<IParsersManager>();
         _userDetailsManager = Substitute.For<IUserDetailsManager>();
         
-        _bot = new ElsaMina.Core.Bot.Bot(_logger, _client, _configurationManager, _clockService, _contextFactory,
-            _commandExecutor, _roomsManager, _formatsManager, _loginService, _pmSendersManager,
-            _parsersManager, _userDetailsManager);
+        _bot = new ElsaMina.Core.Bot.Bot(_logger, _client, _configurationManager, _clockService, _roomsManager,
+            _formatsManager, _loginService, _parsersManager, _userDetailsManager);
     }
 
     [TearDown]
