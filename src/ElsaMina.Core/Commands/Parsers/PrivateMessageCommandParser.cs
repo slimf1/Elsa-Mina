@@ -39,16 +39,14 @@ public class PrivateMessageCommandParser : PrivateMessageParser
             return;
         }
 
-        var (target, command) = Parsing.ParseMessage(context.Message,
-            _configurationManager.Configuration.Trigger);
-        if (target == null || command == null)
+        if (context.Command == null)
         {
             return;
         }
 
         try
         {
-            await _commandExecutor.TryExecuteCommand(command, context);
+            await _commandExecutor.TryExecuteCommand(context.Command, context);
         }
         catch (Exception exception)
         {
