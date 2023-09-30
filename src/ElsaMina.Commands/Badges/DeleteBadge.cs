@@ -12,10 +12,10 @@ public class DeleteBadge : BaseCommand<DeleteBadge>, INamed
     public static string Name => "deletebadge";
     public static IEnumerable<string> Aliases => new[] { "deletetrophy", "delete-badge", "delete-trophy" };
 
-    private readonly IRepository<Badge, Tuple<string, string>> _badgeRepository;
+    private readonly IBadgeRepository _badgeRepository;
     private readonly ILogger _logger;
 
-    public DeleteBadge(IRepository<Badge, Tuple<string, string>> badgeRepository, ILogger logger)
+    public DeleteBadge(IBadgeRepository badgeRepository, ILogger logger)
     {
         _badgeRepository = badgeRepository;
         _logger = logger;

@@ -10,13 +10,13 @@ public class RoomsManager : IRoomsManager
 {
     private readonly ILogger _logger;
     private readonly IConfigurationManager _configurationManager;
-    private readonly IRepository<RoomParameters, string> _roomParametersRepository;
+    private readonly IRoomParametersRepository _roomParametersRepository;
 
     private readonly Dictionary<string, IRoom> _rooms = new();
 
     public RoomsManager(ILogger logger,
         IConfigurationManager configurationManager,
-        IRepository<RoomParameters, string> roomParametersRepository)
+        IRoomParametersRepository roomParametersRepository)
     {
         _logger = logger;
         _configurationManager = configurationManager;

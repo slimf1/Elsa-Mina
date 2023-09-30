@@ -6,9 +6,9 @@ namespace ElsaMina.Core.Services.AddedCommands;
 
 public class AddedCommandsManager : IAddedCommandsManager
 {
-    private readonly IRepository<AddedCommand, Tuple<string, string>> _addedCommandRepository;
+    private readonly IAddedCommandRepository _addedCommandRepository;
 
-    public AddedCommandsManager(IRepository<AddedCommand, Tuple<string, string>> addedCommandRepository)
+    public AddedCommandsManager(IAddedCommandRepository addedCommandRepository)
     {
         _addedCommandRepository = addedCommandRepository;
     }

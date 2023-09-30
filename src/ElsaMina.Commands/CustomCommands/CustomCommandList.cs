@@ -11,9 +11,9 @@ public class CustomCommandList : BaseCommand<CustomCommandList>, INamed
     public static IEnumerable<string> Aliases => new[] { "added-command-list", "added-commands", "custom-commands",
         "addedcommands", "customcommands", "commandslist", "commandlist", "customcommandlist", "customs-list" };
 
-    private readonly IRepository<AddedCommand, Tuple<string, string>> _addedCommandRepository;
+    private readonly IAddedCommandRepository _addedCommandRepository;
 
-    public CustomCommandList(IRepository<AddedCommand, Tuple<string, string>> addedCommandRepository)
+    public CustomCommandList(IAddedCommandRepository addedCommandRepository)
     {
         _addedCommandRepository = addedCommandRepository;
     }

@@ -15,12 +15,12 @@ public class RoomConfig : BaseCommand<RoomConfig>, INamed
     public static IEnumerable<string> Aliases => new[] { "roomconfig", "rc" };
 
     private readonly ILogger _logger;
-    private readonly IRepository<RoomParameters, string> _roomParametersRepository;
+    private readonly IRoomParametersRepository _roomParametersRepository;
     private readonly IRoomsManager _roomsManager;
     private readonly IResourcesService _resourcesService;
 
     public RoomConfig(ILogger logger,
-        IRepository<RoomParameters, string> roomParametersRepository,
+        IRoomParametersRepository roomParametersRepository,
         IRoomsManager roomsManager,
         IResourcesService resourcesService)
     {

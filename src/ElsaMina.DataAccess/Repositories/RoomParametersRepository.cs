@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.DataAccess.Repositories;
 
-public class RoomParametersRepository : IRepository<RoomParameters, string>
+public class RoomParametersRepository : IRoomParametersRepository
 {
     private readonly DbContext _dbContext;
     private bool _disposed;

@@ -1,5 +1,4 @@
 ﻿using ElsaMina.Commands.GuessingGame.Countries;
-using ElsaMina.Core.Bot;
 using ElsaMina.Core.Commands.Parsers;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.DependencyInjection;

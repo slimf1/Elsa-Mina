@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.DataAccess.Repositories;
 
-public class BadgeHoldingRepository : IRepository<BadgeHolding, Tuple<string, string, string>>
+public class BadgeHoldingRepository : IBadgeHoldingRepository
 {
     private readonly DbContext _dbContext;
     private bool _disposed;

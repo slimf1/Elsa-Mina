@@ -4,5 +4,5 @@ namespace ElsaMina.Core.Templates;
 
 public abstract class LocalizableViewModel
 {
-    public CultureInfo Culture { get; set; }
+    public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.DataAccess.Repositories;
 
-public class AddedCommandRepository : IRepository<AddedCommand, Tuple<string, string>>
+public class AddedCommandRepository : IAddedCommandRepository
 {
     private readonly BotDbContext _dbContext;
     private bool _disposed;

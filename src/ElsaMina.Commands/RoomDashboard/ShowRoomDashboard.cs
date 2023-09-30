@@ -20,13 +20,13 @@ public class ShowRoomDashboard : BaseCommand<ShowRoomDashboard>, INamed
     private readonly IConfigurationManager _configurationManager;
     private readonly IResourcesService _resourcesService;
     private readonly IRoomsManager _roomsManager;
-    private readonly IRepository<RoomParameters, string> _roomParametersRepository;
+    private readonly IRoomParametersRepository _roomParametersRepository;
     private readonly ITemplatesManager _templatesManager;
 
     public ShowRoomDashboard(IConfigurationManager configurationManager,
         IResourcesService resourcesService,
         IRoomsManager roomsManager,
-        IRepository<RoomParameters, string> roomParametersRepository,
+        IRoomParametersRepository roomParametersRepository,
         ITemplatesManager templatesManager)
     {
         _configurationManager = configurationManager;

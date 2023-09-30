@@ -11,9 +11,9 @@ public class DeleteCustomCommand : BaseCommand<DeleteCustomCommand>, INamed
     public static IEnumerable<string> Aliases => new[] { "deletecustom", "deletecommand", "delete-custom",
         "delete-command" };
 
-    private readonly IRepository<AddedCommand, Tuple<string, string>> _addedCommandRepository;
+    private readonly IAddedCommandRepository _addedCommandRepository;
 
-    public DeleteCustomCommand(IRepository<AddedCommand, Tuple<string, string>> addedCommandRepository)
+    public DeleteCustomCommand(IAddedCommandRepository addedCommandRepository)
     {
         _addedCommandRepository = addedCommandRepository;
     }

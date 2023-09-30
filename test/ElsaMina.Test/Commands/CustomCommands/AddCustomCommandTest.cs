@@ -13,7 +13,7 @@ namespace ElsaMina.Test.Commands.CustomCommands;
 
 public class AddCustomCommandTest
 {
-    private IRepository<AddedCommand, Tuple<string, string>> _addedCommandRepository;
+    private IAddedCommandRepository _addedCommandRepository;
     private IConfigurationManager _configurationManager;
     private IClockService _clockService;
 
@@ -22,7 +22,7 @@ public class AddCustomCommandTest
     [SetUp]
     public void SetUp()
     {
-        _addedCommandRepository = Substitute.For<IRepository<AddedCommand, Tuple<string, string>>>();
+        _addedCommandRepository = Substitute.For<IAddedCommandRepository>();
         _configurationManager = Substitute.For<IConfigurationManager>();
         _clockService = Substitute.For<IClockService>();
 

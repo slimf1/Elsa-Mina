@@ -14,11 +14,11 @@ public class GiveBadge : BaseCommand<GiveBadge>, INamed
     public new static IEnumerable<string> Aliases => new[] { "give-badge" };
 
     private readonly ILogger _logger;
-    private readonly IRepository<Badge, Tuple<string, string>> _badgeRepository;
+    private readonly IBadgeRepository _badgeRepository;
     private readonly IRoomUserDataService _roomUserDataService;
 
     public GiveBadge(ILogger logger,
-        IRepository<Badge, Tuple<string, string>> badgeRepository,
+        IBadgeRepository badgeRepository,
         IRoomUserDataService roomUserDataService)
     {
         _logger = logger;

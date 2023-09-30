@@ -22,14 +22,14 @@ public class ProfileCommand : BaseCommand<ProfileCommand>, INamed
     public static string Name => "profile";
     public static IEnumerable<string> Aliases => new[] { "profil" };
 
-    private readonly IRepository<RoomSpecificUserData, Tuple<string, string>> _userDataRepository;
+    private readonly IRoomSpecificUserDataRepository _userDataRepository;
     private readonly IUserDetailsManager _userDetailsManager;
     private readonly ITemplatesManager _templatesManager;
     private readonly IRoomsManager _roomsManager;
     private readonly IConfigurationManager _configurationManager;
     private readonly IUserDataService _userDataService;
 
-    public ProfileCommand(IRepository<RoomSpecificUserData, Tuple<string, string>> userDataRepository,
+    public ProfileCommand(IRoomSpecificUserDataRepository userDataRepository,
         IUserDetailsManager userDetailsManager,
         ITemplatesManager templatesManager,
         IRoomsManager roomsManager,

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 
 namespace ElsaMina.DataAccess.Repositories;
 
-public class RoomSpecificUserDataRepository : IRepository<RoomSpecificUserData, Tuple<string, string>>
+public class RoomSpecificUserDataRepository : IRoomSpecificUserDataRepository
 {
     private readonly DbContext _dbContext;
     private bool _disposed;

@@ -16,9 +16,9 @@ public class EditCustomCommand : BaseCommand<EditCustomCommand>, INamed
     };
 
     private readonly ILogger _logger;
-    private readonly IRepository<AddedCommand, Tuple<string, string>> _addedCommandsRepository;
+    private readonly IAddedCommandRepository _addedCommandsRepository;
 
-    public EditCustomCommand(ILogger logger, IRepository<AddedCommand, Tuple<string, string>> addedCommandsRepository)
+    public EditCustomCommand(ILogger logger, IAddedCommandRepository addedCommandsRepository)
     {
         _logger = logger;
         _addedCommandsRepository = addedCommandsRepository;

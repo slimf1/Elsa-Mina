@@ -9,11 +9,11 @@ public class RoomUserDataService : IRoomUserDataService
     private static readonly Regex IMAGES_REGEX = new("(http)?s?:(//[^\"']*.(?:png|jpg|jpeg|gif|png|svg))");
     private const int TITLE_MAX_LENGTH = 450;
 
-    private readonly IRepository<RoomSpecificUserData, Tuple<string, string>> _roomSpecificUserDataRepository;
-    private readonly IRepository<BadgeHolding, Tuple<string, string, string>> _badgeHoldingRepository;
+    private readonly IRoomSpecificUserDataRepository _roomSpecificUserDataRepository;
+    private readonly IBadgeHoldingRepository _badgeHoldingRepository;
 
-    public RoomUserDataService(IRepository<RoomSpecificUserData, Tuple<string, string>> roomSpecificUserDataRepository,
-        IRepository<BadgeHolding, Tuple<string, string, string>> badgeHoldingRepository)
+    public RoomUserDataService(IRoomSpecificUserDataRepository roomSpecificUserDataRepository,
+        IBadgeHoldingRepository badgeHoldingRepository)
     {
         _roomSpecificUserDataRepository = roomSpecificUserDataRepository;
         _badgeHoldingRepository = badgeHoldingRepository;

@@ -12,11 +12,11 @@ public class AddCustomCommand : BaseCommand<AddCustomCommand>, INamed
     public static string Name => "add-custom-command";
     public static IEnumerable<string> Aliases => new[] { "add-custom", "add-command" };
 
-    private readonly IRepository<AddedCommand, Tuple<string, string>> _addedCommandRepository;
+    private readonly IAddedCommandRepository _addedCommandRepository;
     private readonly IConfigurationManager _configurationManager;
     private readonly IClockService _clockService;
     
-    public AddCustomCommand(IRepository<AddedCommand, Tuple<string, string>> addedCommandRepository,
+    public AddCustomCommand(IAddedCommandRepository addedCommandRepository,
         IConfigurationManager configurationManager,
         IClockService clockService)
     {

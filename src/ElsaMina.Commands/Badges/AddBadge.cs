@@ -15,9 +15,9 @@ public class AddBadge : BaseCommand<AddBadge>, INamed
         { "addbadge", "new-badge", "newbadge", "add-trophy", "newtrophy", "new-trophy" };
 
     private readonly ILogger _logger;
-    private readonly IRepository<Badge, Tuple<string, string>> _badgeRepository;
+    private readonly IBadgeRepository _badgeRepository;
 
-    public AddBadge(ILogger logger, IRepository<Badge, Tuple<string, string>> badgeRepository)
+    public AddBadge(ILogger logger, IBadgeRepository badgeRepository)
     {
         _logger = logger;
         _badgeRepository = badgeRepository;

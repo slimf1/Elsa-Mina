@@ -11,9 +11,9 @@ public class SetLocale : BaseCommand<SetLocale>, INamed
     public static string Name => "set-locale";
     public static IEnumerable<string> Aliases => new[] { "setlocale" };
 
-    private readonly IRepository<RoomParameters, string> _roomParametersRepository;
+    private readonly IRoomParametersRepository _roomParametersRepository;
 
-    public SetLocale(IRepository<RoomParameters, string> roomParametersRepository)
+    public SetLocale(IRoomParametersRepository roomParametersRepository)
     {
         _roomParametersRepository = roomParametersRepository;
     }
