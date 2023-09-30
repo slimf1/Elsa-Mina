@@ -14,7 +14,7 @@ public class RoomsManagerTest
 {
     private ILogger _logger;
     private IConfigurationManager _configurationManager;
-    private IRepository<RoomParameters, string> _roomParametersRepository;
+    private IRoomParametersRepository _roomParametersRepository;
 
     private RoomsManager _roomsManager;
 
@@ -23,7 +23,7 @@ public class RoomsManagerTest
     {
         _logger = Substitute.For<ILogger>();
         _configurationManager = Substitute.For<IConfigurationManager>();
-        _roomParametersRepository = Substitute.For<IRepository<RoomParameters, string>>();
+        _roomParametersRepository = Substitute.For<IRoomParametersRepository>();
 
         _roomsManager = new RoomsManager(_logger, _configurationManager, _roomParametersRepository);
     }
