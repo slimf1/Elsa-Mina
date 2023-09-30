@@ -56,11 +56,6 @@ public class BadgeHoldingRepository : IBadgeHoldingRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task SaveAsync()
-    {
-        await _dbContext.SaveChangesAsync();
-    }
-
     private void Dispose(bool disposing)
     {
         if (!disposing || _disposed)

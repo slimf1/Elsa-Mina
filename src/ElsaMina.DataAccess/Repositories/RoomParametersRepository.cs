@@ -48,11 +48,6 @@ public class RoomParametersRepository : IRoomParametersRepository
         await _dbContext.SaveChangesAsync();
     }
     
-    public async Task SaveAsync()
-    {
-        await _dbContext.SaveChangesAsync();
-    }
-
     public void Dispose()
     {
         Dispose(true);

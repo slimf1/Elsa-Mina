@@ -21,14 +21,14 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
     private readonly IClockService _clockService;
     private readonly ITeamProviderFactory _teamProviderFactory;
     private readonly ITemplatesManager _templatesManager;
-    private readonly IRepository<RoomParameters, string> _roomParametersRepository;
+    private readonly IRoomParametersRepository _roomParametersRepository;
 
     public DisplayTeamOnLinkParser(ILogger logger,
         IDependencyContainerService dependencyContainerService,
         IClockService clockService,
         ITeamProviderFactory teamProviderFactory,
         ITemplatesManager templatesManager,
-        IRepository<RoomParameters, string> roomParametersRepository)
+        IRoomParametersRepository roomParametersRepository)
         : base(dependencyContainerService)
     {
         _clockService = clockService;
