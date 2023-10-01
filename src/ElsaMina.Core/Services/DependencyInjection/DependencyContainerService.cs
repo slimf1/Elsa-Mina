@@ -1,14 +1,35 @@
-﻿
-using Autofac;
+﻿using Autofac;
 using ElsaMina.Core.Commands;
 
 namespace ElsaMina.Core.Services.DependencyInjection;
 
-public interface IDependencyContainerService
+public class DependencyContainerService : IDependencyContainerService
 {
-    IContainer Container { get; set; }
-    T Resolve<T>() where T : notnull;
-    T ResolveCommand<T>(string commandName) where T : ICommand;
-    bool IsCommandRegistered(string commandName);
-    IEnumerable<ICommand> GetAllCommands();
+    public static IDependencyContainerService s_ContainerService;
+
+    public IContainer Container { get; set; }
+
+    public T Resolve<T>() where T : notnull
+    {
+        return Container == null ? default : Container.Resolve<T>();
+    }
+
+    public T ResolveCommand<T>(string commandName) where T : ICommand
+    {
+        return Container == null ? default : Container.ResolveNamed<T>(commandName);
+    }
+
+    public bool IsCommandRegistered(string commandName)
+    {
+        return Container?.IsRegisteredWithName<ICommand>(commandName) ?? false;
+    }
+
+    public IEnumerable<ICommand> GetAllCommands()
+    {
+        return Container.ComponentRegistry.Registrations
+            .Where(r => typeof(ICommand).IsAssignableFrom(r.Activator.LimitType))
+            .Select(r => r.Activator.LimitType)
+            .Select(type => Container.Resolve(type) as ICommand)
+            .DistinctBy(type => type?.CommandName);
+    }
 }
