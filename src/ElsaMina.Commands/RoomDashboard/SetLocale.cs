@@ -6,7 +6,7 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.RoomDashboard;
 
-public class SetLocale : BaseCommand<SetLocale>, INamed
+public class SetLocale : Command<SetLocale>, INamed
 {
     public static string Name => "set-locale";
     public static IEnumerable<string> Aliases => new[] { "setlocale" };

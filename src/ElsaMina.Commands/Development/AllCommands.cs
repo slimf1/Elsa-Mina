@@ -7,7 +7,7 @@ using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.Development;
 
-public class AllCommands : BaseCommand<AllCommands>, INamed
+public class AllCommands : Command<AllCommands>, INamed
 {
     public static string Name => "allcommands";
     public static IEnumerable<string> Aliases => new[] { "all-commands", "commands" };

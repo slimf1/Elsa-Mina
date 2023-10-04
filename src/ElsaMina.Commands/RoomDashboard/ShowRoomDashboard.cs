@@ -13,7 +13,7 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.RoomDashboard;
 
-public class ShowRoomDashboard : BaseCommand<ShowRoomDashboard>, INamed
+public class ShowRoomDashboard : Command<ShowRoomDashboard>, INamed
 {
     public static string Name => "room-dashboard";
 

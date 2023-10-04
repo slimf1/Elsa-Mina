@@ -4,7 +4,7 @@ using Serilog;
 
 namespace ElsaMina.Commands.Development;
 
-public class Kill : BaseCommand<Help>, INamed
+public class Kill : Command<Help>, INamed
 {
     public static string Name => "kill";
     public override bool IsWhitelistOnly => true;

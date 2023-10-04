@@ -13,7 +13,7 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.Profile;
 
-public class ProfileCommand : BaseCommand<ProfileCommand>, INamed
+public class ProfileCommand : Command<ProfileCommand>, INamed
 {
     private const string DEFAULT_AVATAR_ID = "unknown";
     private const string AVATAR_URL = "https://play.pokemonshowdown.com/sprites/trainers/{0}.png";

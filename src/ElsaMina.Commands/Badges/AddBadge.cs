@@ -7,7 +7,7 @@ using Serilog;
 
 namespace ElsaMina.Commands.Badges;
 
-public class AddBadge : BaseCommand<AddBadge>, INamed
+public class AddBadge : Command<AddBadge>, INamed
 {
     public static string Name => "add-badge";
 

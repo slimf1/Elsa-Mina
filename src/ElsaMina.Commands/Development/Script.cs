@@ -7,7 +7,7 @@ using Serilog;
 
 namespace ElsaMina.Commands.Development;
 
-public class Script : BaseCommand<Script>, INamed
+public class Script : Command<Script>, INamed
 {
     public static string Name => "script";
     public override bool IsAllowedInPm => true;

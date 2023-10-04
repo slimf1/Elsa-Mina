@@ -3,7 +3,7 @@ using ElsaMina.Core.Contexts;
 
 namespace ElsaMina.Commands.Development;
 
-public class Help : BaseCommand<Help>, INamed
+public class Help : Command<Help>, INamed
 {
     public static string Name => "help";
     public static IEnumerable<string> Aliases => new[] { "about" };

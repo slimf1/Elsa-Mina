@@ -14,7 +14,7 @@ using ElsaMina.DataAccess.Models;
 
 namespace ElsaMina.Commands.Development;
 
-public class TemplatesDebug : BaseCommand<TemplatesDebug>, INamed
+public class TemplatesDebug : Command<TemplatesDebug>, INamed
 {
     public static string Name => "templates";
     public static IEnumerable<string> Aliases => new[] { "templates-debug", "templatedebug" };

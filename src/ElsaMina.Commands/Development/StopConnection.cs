@@ -5,7 +5,7 @@ using Serilog;
 
 namespace ElsaMina.Commands.Development;
 
-public class StopConnection : BaseCommand<StopConnection>, INamed
+public class StopConnection : Command<StopConnection>, INamed
 {
     public static string Name => "stop-connection";
 

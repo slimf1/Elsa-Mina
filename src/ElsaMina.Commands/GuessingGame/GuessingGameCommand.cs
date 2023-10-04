@@ -6,7 +6,7 @@ using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.GuessingGame;
 
-public class GuessingGameCommand : BaseCommand<GuessingGameCommand>, INamed
+public class GuessingGameCommand : Command<GuessingGameCommand>, INamed
 {
     public static string Name => "guessinggame";
 

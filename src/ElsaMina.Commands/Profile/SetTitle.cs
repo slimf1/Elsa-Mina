@@ -6,7 +6,7 @@ using Serilog;
 
 namespace ElsaMina.Commands.Profile;
 
-public class SetTitle : BaseCommand<SetTitle>, INamed
+public class SetTitle : Command<SetTitle>, INamed
 {
     public static string Name => "title";
     public static IEnumerable<string> Aliases => new[] { "settitle", "set-title", "set-bio", "setbio" };
