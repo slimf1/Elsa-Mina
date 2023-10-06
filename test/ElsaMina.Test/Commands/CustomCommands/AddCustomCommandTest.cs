@@ -5,9 +5,9 @@ using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
+using ElsaMina.Test.Fixtures;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
-using User = ElsaMina.Core.Models.User;
 
 namespace ElsaMina.Test.Commands.CustomCommands;
 
@@ -37,7 +37,7 @@ public class AddCustomCommandTest
         _clockService.CurrentUtcDateTime.Returns(date);
         var context = Substitute.For<IContext>();
         context.Target.Returns("test-command,Test command content");
-        context.Sender.Returns(new User("John", '+'));
+        context.Sender.Returns(UserFixtures.VoicedUser("John"));
         context.RoomId.Returns("room-1");
         _configurationManager.Configuration.Returns(new Configuration { Trigger = "+" });
         _addedCommandRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).ReturnsNull();

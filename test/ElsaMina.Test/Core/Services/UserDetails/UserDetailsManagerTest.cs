@@ -25,9 +25,11 @@ public class UserDetailsManagerTest
     [Test]
     public async Task Test_GetUserDetails_ShouldReturnTaskResolved_WhenUserDetailsAreReceived()
     {
-        // Act
+        // Arrange
         var task = _userDetailsManager.GetUserDetails("panur");
         _userDetailsManager.HandleReceivedUserDetails("""{"id":"panur","userid":"panur","name":"Panur","avatar":"sightseerf","group":"+","autoconfirmed":true}""");
+        
+        // Act
         var result = await task;
         
         // Assert
