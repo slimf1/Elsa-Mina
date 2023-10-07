@@ -9,6 +9,5 @@
   "RoomBlacklist": ["lobby"],
   "Whitelist": ["panur"],
   "DefaultRoom": "default",
-  "DefaultLocaleCode": "en-US",
-  "ConnectionString": ""
+  "DefaultLocaleCode": "en-US"
 }
