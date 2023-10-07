@@ -40,13 +40,13 @@ public class AddTeam : Command<AddTeam>, INamed
     {
         string link;
         string name;
-        string tier;
+        string format;
         try
         {
             var parts = context.Target.Split(',');
             link = parts[0].Trim();
             name = TEAM_NAME_FILTER.Replace(parts[1].Trim(), string.Empty);
-            tier = parts[2].Trim();
+            format = parts[2].Trim();
         }
         catch (Exception)
         {
@@ -83,7 +83,8 @@ public class AddTeam : Command<AddTeam>, INamed
             Author = context.Sender.Name,
             Link = link,
             CreationDate = _clockService.CurrentUtcDateTime,
-            TeamJson = sharedTeam.TeamExport,
+            TeamJson = ShowdownTeams.TeamExportToJson(sharedTeam.TeamExport),
+            Format = format,
             Rooms = new List<RoomTeam>
             {
                 new()

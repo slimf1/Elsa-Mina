@@ -114,6 +114,51 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while adding a room to a team : {0}.
+        /// </summary>
+        internal static string add_team_to_room_failure {
+            get {
+                return ResourceManager.GetString("add_team_to_room_failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please specify the team id..
+        /// </summary>
+        internal static string add_team_to_room_no_arg {
+            get {
+                return ResourceManager.GetString("add_team_to_room_no_arg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not find this team..
+        /// </summary>
+        internal static string add_team_to_room_no_team {
+            get {
+                return ResourceManager.GetString("add_team_to_room_no_team", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Team added to room..
+        /// </summary>
+        internal static string add_team_to_room_success {
+            get {
+                return ResourceManager.GetString("add_team_to_room_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This team is already in this room..
+        /// </summary>
+        internal static string add_team_to_room_team_already_in_room {
+            get {
+                return ResourceManager.GetString("add_team_to_room_team_already_in_room", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The command already exist..
         /// </summary>
         internal static string addcommand_already_exist {

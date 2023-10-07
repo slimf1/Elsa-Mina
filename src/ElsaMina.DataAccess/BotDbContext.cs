@@ -65,10 +65,13 @@ public class BotDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
-        
-        if (!optionsBuilder.IsConfigured)
+
+        if (optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseNpgsql(DbConfigProvider.GetConnectionString());
+            return;
         }
+        
+        var dbConfig = DbConfigProvider.GetDbConfig();
+        optionsBuilder.UseNpgsql(dbConfig.ConnectionString);
     }
 }

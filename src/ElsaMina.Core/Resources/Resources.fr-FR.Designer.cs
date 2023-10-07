@@ -114,6 +114,51 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Une erreur est survenue en ajoutant cette salle à l&apos;équipe : {0}.
+        /// </summary>
+        internal static string add_team_to_room_failure {
+            get {
+                return ResourceManager.GetString("add_team_to_room_failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Veuillez spécifier l&apos;identifiant de l&apos;équipe.
+        /// </summary>
+        internal static string add_team_to_room_no_arg {
+            get {
+                return ResourceManager.GetString("add_team_to_room_no_arg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Impossible de trouver cette équipe.
+        /// </summary>
+        internal static string add_team_to_room_no_team {
+            get {
+                return ResourceManager.GetString("add_team_to_room_no_team", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La salle a été ajoutée à l&apos;équipe..
+        /// </summary>
+        internal static string add_team_to_room_success {
+            get {
+                return ResourceManager.GetString("add_team_to_room_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cette équipe est déjà dans cette salle.
+        /// </summary>
+        internal static string add_team_to_room_team_already_in_room {
+            get {
+                return ResourceManager.GetString("add_team_to_room_team_already_in_room", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to La commande existe déjà..
         /// </summary>
         internal static string addcommand_already_exist {

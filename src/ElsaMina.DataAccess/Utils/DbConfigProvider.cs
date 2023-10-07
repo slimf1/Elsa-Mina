@@ -1,30 +1,29 @@
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace ElsaMina.DataAccess.Utils;
 
 public static class DbConfigProvider
 {
-    private static string _cachedConnectionString;
+    private static DbConfig _cachedDbConfig;
     
-    public static string GetConnectionString()
+    public static DbConfig GetDbConfig()
     {
-        if (_cachedConnectionString != null)
+        if (_cachedDbConfig != null)
         {
-            return _cachedConnectionString;
+            return _cachedDbConfig;
         }
         
         var configurationFile = Environment.GetEnvironmentVariable("ELSA_MINA_ENV") switch
         {
-            "prod" => "prod.config.json",
-            _ => "dev.config.json"
+            "prod" => "prod.dbconfig.json",
+            _ => "dev.dbconfig.json"
         };
         
         using (var reader = new StreamReader(Path.Join("Config", configurationFile)))
         {
-            _cachedConnectionString = JObject.Parse(reader.ReadToEnd()).GetValue("ConnectionString")?.Value<string>()
-                                      ?? string.Empty;
+            _cachedDbConfig = JsonConvert.DeserializeObject<DbConfig>(reader.ReadToEnd());
         }
 
-        return _cachedConnectionString;
+        return _cachedDbConfig;
     }
 }

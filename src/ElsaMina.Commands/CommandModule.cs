@@ -6,6 +6,7 @@ using ElsaMina.Commands.GuessingGame;
 using ElsaMina.Commands.GuessingGame.Countries;
 using ElsaMina.Commands.Profile;
 using ElsaMina.Commands.RoomDashboard;
+using ElsaMina.Commands.Teams.Samples;
 using ElsaMina.Commands.Teams.TeamPreviewOnLink;
 using ElsaMina.Commands.Teams.TeamPreviewOnLink.TeamProviders.CoupCritique;
 using ElsaMina.Commands.Teams.TeamPreviewOnLink.TeamProviders.Pokepaste;
@@ -41,6 +42,8 @@ public class CommandModule : Module
         RegisterCommand<AllCommands>(builder);
         RegisterCommand<GuessingGameCommand>(builder);
         RegisterCommand<EndGuessingGame>(builder);
+        RegisterCommand<AddTeam>(builder);
+        RegisterCommand<AddTeamToRoom>(builder);
         
         RegisterParser<JoinRoomOnInviteParser>(builder);
         RegisterParser<GuessingGameParser>(builder);

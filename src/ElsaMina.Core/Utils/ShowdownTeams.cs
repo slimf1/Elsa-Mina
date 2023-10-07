@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using ElsaMina.Core.Models;
 using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
 
 namespace ElsaMina.Core.Utils;
 
@@ -390,5 +391,10 @@ public static class ShowdownTeams
         }
 
         return builder.ToString();
+    }
+
+    public static string TeamExportToJson(string export)
+    {
+        return JsonConvert.SerializeObject(DeserializeTeamExport(export));
     }
 }

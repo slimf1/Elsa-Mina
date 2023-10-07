@@ -270,4 +270,19 @@
     <data name="add_team_failure" xml:space="preserve">
         <value>Une erreur est survenue lors de l'ajout de l'équipe : {0}</value>
     </data>
+    <data name="add_team_to_room_no_arg" xml:space="preserve">
+        <value>Veuillez spécifier l'identifiant de l'équipe</value>
+    </data>
+    <data name="add_team_to_room_no_team" xml:space="preserve">
+        <value>Impossible de trouver cette équipe</value>
+    </data>
+    <data name="add_team_to_room_team_already_in_room" xml:space="preserve">
+        <value>Cette équipe est déjà dans cette salle</value>
+    </data>
+    <data name="add_team_to_room_success" xml:space="preserve">
+        <value>La salle a été ajoutée à l'équipe.</value>
+    </data>
+    <data name="add_team_to_room_failure" xml:space="preserve">
+        <value>Une erreur est survenue en ajoutant cette salle à l'équipe : {0}</value>
+    </data>
 </root>
