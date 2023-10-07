@@ -1,6 +1,9 @@
 # Configuration
 dev.config.json
+dev.dbconfig.json
+
 prod.config.json
+prod.dbconfig.json
 
 # IDE
 .idea
