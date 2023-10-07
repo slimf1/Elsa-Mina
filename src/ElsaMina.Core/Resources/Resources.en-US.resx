@@ -252,4 +252,22 @@
     <data name="dashboard_team_previews_description" xml:space="preserve">
         <value>Displays the team of a Pokepaste or CoupCritique link</value>
     </data>
+    <data name="add_team_help_message" xml:space="preserve">
+        <value>Add a team to samples. Syntax: -add-team &lt;link&gt;, &lt;name&gt;, &lt;tier&gt;</value>
+    </data>
+    <data name="add_team_name_too_long" xml:space="preserve">
+        <value>Team name is too long.</value>
+    </data>
+    <data name="add_team_no_provider" xml:space="preserve">
+        <value>Impossible to find the team from the link. Please provide either a Pokepaste or a CoupCritique link.</value>
+    </data>
+    <data name="add_team_no_export_error" xml:space="preserve">
+        <value>No team export found.</value>
+    </data>
+    <data name="add_team_success" xml:space="preserve">
+        <value>Added team with id "{0}"</value>
+    </data>
+    <data name="add_team_failure" xml:space="preserve">
+        <value>An error occured when adding team: {0}</value>
+    </data>
 </root>

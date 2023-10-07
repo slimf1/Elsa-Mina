@@ -5,11 +5,10 @@ using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Templating;
 using ElsaMina.Core.Templates.TeamPreview;
 using ElsaMina.Core.Utils;
-using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 using Serilog;
 
-namespace ElsaMina.Commands.Teams;
+namespace ElsaMina.Commands.Teams.TeamPreviewOnLink;
 
 public class DisplayTeamOnLinkParser : ChatMessageParser
 {

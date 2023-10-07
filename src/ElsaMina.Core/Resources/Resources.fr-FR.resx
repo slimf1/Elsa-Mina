@@ -252,4 +252,22 @@
     <data name="dashboard_team_previews_description" xml:space="preserve">
         <value>Affiche l'équipe d'un lien Pokepaste ou CoupCritique</value>
     </data>
+    <data name="add_team_help_message" xml:space="preserve">
+        <value>Ajoute une team aux samples. Syntaxe: -add-team &lt;lien&gt;, &lt;nom&gt;, &lt;tier&gt;</value>
+    </data>
+    <data name="add_team_name_too_long" xml:space="preserve">
+        <value>Le nom de l'équipe est trop long.</value>
+    </data>
+    <data name="add_team_no_provider" xml:space="preserve">
+        <value>Impossible de trouver l'équipe depuis le lien. Veuillez fournir un lien Pokepaste ou CoupCritique.</value>
+    </data>
+    <data name="add_team_no_export_error" xml:space="preserve">
+        <value>Pas d'export trouvé.</value>
+    </data>
+    <data name="add_team_success" xml:space="preserve">
+        <value>L'équipe a été ajoutée avec l'identifiant "{0}"</value>
+    </data>
+    <data name="add_team_failure" xml:space="preserve">
+        <value>Une erreur est survenue lors de l'ajout de l'équipe : {0}</value>
+    </data>
 </root>

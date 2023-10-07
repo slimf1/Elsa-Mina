@@ -1,7 +1,7 @@
 ﻿using ElsaMina.Core.Services.Http;
 using Serilog;
 
-namespace ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
+namespace ElsaMina.Commands.Teams.TeamPreviewOnLink.TeamProviders.Pokepaste;
 
 public class PokepasteProvider : ITeamProvider
 {

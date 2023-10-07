@@ -21,6 +21,7 @@ public class RoomParametersRepository : IRoomParametersRepository
     public async Task<RoomParameters> GetByIdAsync(string key)
     {
         return await _dbContext.Set<RoomParameters>()
+            .Include(x => x.Teams)
             .FirstOrDefaultAsync(x => x.Id == key);
     }
 

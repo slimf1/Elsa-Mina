@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
-using ElsaMina.Commands.Teams.TeamProviders;
-using ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
-using ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
+using ElsaMina.Commands.Teams.TeamPreviewOnLink.TeamProviders;
+using ElsaMina.Commands.Teams.TeamPreviewOnLink.TeamProviders.CoupCritique;
+using ElsaMina.Commands.Teams.TeamPreviewOnLink.TeamProviders.Pokepaste;
 using ElsaMina.Core.Services.DependencyInjection;
 
-namespace ElsaMina.Commands.Teams;
+namespace ElsaMina.Commands.Teams.TeamPreviewOnLink;
 
 public class TeamProviderFactory : ITeamProviderFactory
 {

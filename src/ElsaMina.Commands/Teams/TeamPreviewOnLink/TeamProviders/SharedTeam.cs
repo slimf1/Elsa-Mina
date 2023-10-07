@@ -1,4 +1,4 @@
-﻿namespace ElsaMina.Commands.Teams.TeamProviders;
+﻿namespace ElsaMina.Commands.Teams.TeamPreviewOnLink.TeamProviders;
 
 public class SharedTeam
 {

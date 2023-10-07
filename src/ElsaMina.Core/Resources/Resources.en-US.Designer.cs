@@ -60,6 +60,60 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occured when adding team: {0}.
+        /// </summary>
+        internal static string add_team_failure {
+            get {
+                return ResourceManager.GetString("add_team_failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add a team to samples. Syntax: -add-team &lt;link&gt;, &lt;name&gt;, &lt;tier&gt;.
+        /// </summary>
+        internal static string add_team_help_message {
+            get {
+                return ResourceManager.GetString("add_team_help_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Team name is too long..
+        /// </summary>
+        internal static string add_team_name_too_long {
+            get {
+                return ResourceManager.GetString("add_team_name_too_long", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No team export found..
+        /// </summary>
+        internal static string add_team_no_export_error {
+            get {
+                return ResourceManager.GetString("add_team_no_export_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Impossible to find the team from the link. Please provide either a Pokepaste or a CoupCritique link..
+        /// </summary>
+        internal static string add_team_no_provider {
+            get {
+                return ResourceManager.GetString("add_team_no_provider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Added team with id &quot;{0}&quot;.
+        /// </summary>
+        internal static string add_team_success {
+            get {
+                return ResourceManager.GetString("add_team_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The command already exist..
         /// </summary>
         internal static string addcommand_already_exist {

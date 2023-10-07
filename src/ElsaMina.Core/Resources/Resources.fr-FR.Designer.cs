@@ -60,6 +60,60 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Une erreur est survenue lors de l&apos;ajout de l&apos;équipe : {0}.
+        /// </summary>
+        internal static string add_team_failure {
+            get {
+                return ResourceManager.GetString("add_team_failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ajoute une team aux samples. Syntaxe: -add-team &lt;lien&gt;, &lt;nom&gt;, &lt;tier&gt;.
+        /// </summary>
+        internal static string add_team_help_message {
+            get {
+                return ResourceManager.GetString("add_team_help_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Le nom de l&apos;équipe est trop long..
+        /// </summary>
+        internal static string add_team_name_too_long {
+            get {
+                return ResourceManager.GetString("add_team_name_too_long", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pas d&apos;export trouvé..
+        /// </summary>
+        internal static string add_team_no_export_error {
+            get {
+                return ResourceManager.GetString("add_team_no_export_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Impossible de trouver l&apos;équipe depuis le lien. Veuillez fournir un lien Pokepaste ou CoupCritique..
+        /// </summary>
+        internal static string add_team_no_provider {
+            get {
+                return ResourceManager.GetString("add_team_no_provider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to L&apos;équipe a été ajoutée avec l&apos;identifiant &quot;{0}&quot;.
+        /// </summary>
+        internal static string add_team_success {
+            get {
+                return ResourceManager.GetString("add_team_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to La commande existe déjà..
         /// </summary>
         internal static string addcommand_already_exist {

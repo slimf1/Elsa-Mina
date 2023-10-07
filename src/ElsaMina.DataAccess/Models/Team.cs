@@ -16,6 +16,7 @@ public class Team : IKeyed<string>
     public string Name { get; set; }
     public string Author { get; set; }
     public string Link { get; set; }
+    public string Format { get; set; }
     public DateTime CreationDate { get; set; }
     public string TeamJson { get; set; }
     public ICollection<RoomTeam> Rooms { get; set; }

@@ -1,7 +1,7 @@
 ﻿using ElsaMina.Core.Services.Http;
 using Serilog;
 
-namespace ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
+namespace ElsaMina.Commands.Teams.TeamPreviewOnLink.TeamProviders.CoupCritique;
 
 public class CoupCritiqueProvider : ITeamProvider
 {
