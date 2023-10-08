@@ -1,6 +1,6 @@
 ﻿using ElsaMina.DataAccess.Models;
 
-namespace ElsaMina.Core.Templates.TeamList;
+namespace ElsaMina.Core.Templates.SampleTeam;
 
 public class SampleTeamViewModel : LocalizableViewModel
 {

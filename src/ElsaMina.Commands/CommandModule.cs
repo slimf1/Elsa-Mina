@@ -45,6 +45,7 @@ public class CommandModule : Module
         RegisterCommand<AddTeam>(builder);
         RegisterCommand<AddTeamToRoom>(builder);
         RegisterCommand<TeamShowcase>(builder);
+        RegisterCommand<TeamList>(builder);
         
         RegisterParser<JoinRoomOnInviteParser>(builder);
         RegisterParser<GuessingGameParser>(builder);

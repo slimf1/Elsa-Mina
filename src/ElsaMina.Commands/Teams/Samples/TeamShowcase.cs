@@ -1,7 +1,7 @@
 ﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Templating;
-using ElsaMina.Core.Templates.TeamList;
+using ElsaMina.Core.Templates.SampleTeam;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Repositories;
 
@@ -31,12 +31,13 @@ public class TeamShowcase : Command<TeamShowcase>, INamed
             return;
         }
         
-        var template = await _templatesManager.GetTemplate("TeamList/SampleTeam", new SampleTeamViewModel
+        var template = await _templatesManager.GetTemplate("SampleTeam/SampleTeam", new SampleTeamViewModel
         {
             Culture = context.Locale,
             Team = team
         });
 
+        // TODO : if sur le rank (page if < voiced)
         context.SendHtml(template.RemoveNewlines());
     }
 }
