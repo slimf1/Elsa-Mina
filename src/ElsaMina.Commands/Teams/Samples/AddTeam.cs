@@ -75,7 +75,25 @@ public class AddTeam : Command<AddTeam>, INamed
         }
 
         var teamId = name.ToLowerAlphaNum();
-
+        var roomTeams = new List<RoomTeam>
+        {
+            new()
+            {
+                RoomId = context.RoomId,
+                TeamId = teamId
+            }
+        };
+        
+        // Special case for the french room
+        if (context.RoomId is "franais" or "arcade")
+        {
+            roomTeams.Add(new RoomTeam
+            {
+                RoomId = context.RoomId == "arcade" ? "franais" : "arcade",
+                TeamId = teamId
+            });
+        }
+        
         var team = new Team
         {
             Id = teamId,
@@ -85,14 +103,7 @@ public class AddTeam : Command<AddTeam>, INamed
             CreationDate = _clockService.CurrentUtcDateTime,
             TeamJson = ShowdownTeams.TeamExportToJson(sharedTeam.TeamExport),
             Format = format,
-            Rooms = new List<RoomTeam>
-            {
-                new()
-                {
-                    RoomId = context.RoomId,
-                    TeamId = teamId
-                }
-            }
+            Rooms = roomTeams
         };
 
         try

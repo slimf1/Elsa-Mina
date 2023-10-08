@@ -3,7 +3,7 @@
 @inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Core.Templates.Profile.ProfileViewModel>
 
 @{
-    const string border = "border: 1px solid #68A;"; 
+    const string border = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};"; 
     
     const string headerStyle = $"{border} padding: 4x; text-align: center; font-style: italic; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
     const string avatarCellStyle = $"{border} padding: 0px; width: 80px; text-align: center;";
@@ -69,7 +69,7 @@
             @if (Model.RegisterDate > DateTimeOffset.MinValue)
             {
                 <span style="text-decoration: underline">@GetString("profile_register_date")</span>
-                <span>: @Model.RegisterDate.ToString("MM/dd/yyyy", Model.Culture)</span>
+                <span>: @Model.RegisterDate.ToString("d", Model.Culture)</span>
                 <br />
             }
             

@@ -762,6 +762,24 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ajoutée par {0} le {1}.
+        /// </summary>
+        internal static string sample_team_description {
+            get {
+                return ResourceManager.GetString("sample_team_description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Salles: {0}, Format: {1}.
+        /// </summary>
+        internal static string sample_team_info {
+            get {
+                return ResourceManager.GetString("sample_team_info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Valider.
         /// </summary>
         internal static string submit {

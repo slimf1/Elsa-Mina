@@ -1,0 +1,47 @@
+﻿@using ElsaMina.Core.Models
+@using ElsaMina.Core.Templates.Styling
+@using Newtonsoft.Json
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Core.Templates.TeamList.SampleTeamViewModel>
+
+@{
+    const string cellStyle = "text-align: center;" +
+                             $"background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};" +
+                             "margin: 5px;" +
+                             "padding: 2px;" +
+                             $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};" +
+                             "border-radius: 4px;";
+    var i = 0;
+    var sets = JsonConvert.DeserializeObject<IEnumerable<PokemonSet>>(Model.Team.TeamJson);
+}
+
+<a
+    style="text-decoration: inherit; color: inherit;"
+    href="@Model.Team.Link">
+    <div
+        style="@cellStyle">
+        @foreach (var set in sets)
+        {
+            <psicon pokemon="@set.Species" />
+            @if (++i >= 6)
+            {
+                break;
+            }
+        }
+        <br />
+        <b>
+            @Model.Team.Name
+        </b>
+        <br />
+        <small style="font-style: italic;">
+            @GetString("sample_team_description",
+                Model.Team.Author,
+                Model.Team.CreationDate.ToString("d", Model.Culture))
+        </small>
+        <br />
+        <small style="font-style: italic;">
+            @GetString("sample_team_info",
+                string.Join(',', Model.Team.Rooms.Select(roomTeam => roomTeam.RoomId)),
+                Model.Team.Format)
+        </small>
+    </div>
+</a>

@@ -285,4 +285,10 @@
     <data name="add_team_to_room_failure" xml:space="preserve">
         <value>An error occurred while adding a room to a team : {0}</value>
     </data>
+    <data name="sample_team_description" xml:space="preserve">
+        <value>Added by {0} on {1}</value>
+    </data>
+    <data name="sample_team_info" xml:space="preserve">
+        <value>Rooms: {0}, Format: {1}</value>
+    </data>
 </root>
