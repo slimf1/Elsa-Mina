@@ -492,6 +492,33 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to L&apos;équipe a été supprimée..
+        /// </summary>
+        internal static string deleteteam_team_deleted_successfully {
+            get {
+                return ResourceManager.GetString("deleteteam_team_deleted_successfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Une erreur est survenue lors de la suppression de l&apos;équipe : {0}.
+        /// </summary>
+        internal static string deleteteam_team_deletion_error {
+            get {
+                return ResourceManager.GetString("deleteteam_team_deletion_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to L&apos;équipe n&apos;a pas été trouvée..
+        /// </summary>
+        internal static string deleteteam_team_not_found {
+            get {
+                return ResourceManager.GetString("deleteteam_team_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Impossible de mettre à jour la commande : {0}.
         /// </summary>
         internal static string editcommand_failure {
@@ -848,6 +875,15 @@ namespace ElsaMina.Core.Resources {
         internal static string team_preview_title {
             get {
                 return ResourceManager.GetString("team_preview_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to L&apos;équipe est introuvable..
+        /// </summary>
+        internal static string team_showcase_not_found {
+            get {
+                return ResourceManager.GetString("team_showcase_not_found", resourceCulture);
             }
         }
         

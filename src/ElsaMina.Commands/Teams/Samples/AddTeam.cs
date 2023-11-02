@@ -36,6 +36,8 @@ public class AddTeam : Command<AddTeam>, INamed
 
     public override string HelpMessageKey => "add_team_help_message";
 
+    public override char RequiredRank => '+';
+
     public override async Task Run(IContext context)
     {
         string link;

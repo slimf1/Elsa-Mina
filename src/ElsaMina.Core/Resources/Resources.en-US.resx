@@ -291,4 +291,16 @@
     <data name="sample_team_info" xml:space="preserve">
         <value>Rooms: {0}, Format: {1}</value>
     </data>
+    <data name="deleteteam_team_not_found" xml:space="preserve">
+        <value>Could not find team.</value>
+    </data>
+    <data name="deleteteam_team_deleted_successfully" xml:space="preserve">
+        <value>This team has been deleted.</value>
+    </data>
+    <data name="deleteteam_team_deletion_error" xml:space="preserve">
+        <value>An error occurred while deleting team  : {0}</value>
+    </data>
+    <data name="team_showcase_not_found" xml:space="preserve">
+        <value>Could not find this team.</value>
+    </data>
 </root>

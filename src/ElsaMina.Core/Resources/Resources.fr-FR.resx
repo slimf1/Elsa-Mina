@@ -291,4 +291,16 @@
     <data name="sample_team_info" xml:space="preserve">
         <value>Salles: {0}, Format: {1}</value>
     </data>
+    <data name="deleteteam_team_not_found" xml:space="preserve">
+        <value>L'équipe n'a pas été trouvée.</value>
+    </data>
+    <data name="deleteteam_team_deleted_successfully" xml:space="preserve">
+        <value>L'équipe a été supprimée.</value>
+    </data>
+    <data name="deleteteam_team_deletion_error" xml:space="preserve">
+        <value>Une erreur est survenue lors de la suppression de l'équipe : {0}</value>
+    </data>
+    <data name="team_showcase_not_found" xml:space="preserve">
+        <value>L'équipe est introuvable.</value>
+    </data>
 </root>

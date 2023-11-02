@@ -6,9 +6,12 @@ namespace ElsaMina.Core.Services.Templating;
 
 public static class I18N
 {
+    private static Lazy<IResourcesService> ResourcesService => new(
+        () => DependencyContainerService.s_ContainerService.Resolve<IResourcesService>()
+    );
+
     public static string GetString(CultureInfo culture, string key, params object[] formatArguments)
     {
-        return string.Format(DependencyContainerService.s_ContainerService.Resolve<IResourcesService>()
-            .GetString(key, culture), formatArguments);
+        return string.Format(ResourcesService.Value.GetString(key, culture), formatArguments);
     }
 }
