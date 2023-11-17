@@ -4,6 +4,7 @@ using ElsaMina.Commands.CustomCommands;
 using ElsaMina.Commands.Development;
 using ElsaMina.Commands.GuessingGame;
 using ElsaMina.Commands.GuessingGame.Countries;
+using ElsaMina.Commands.Misc.Repeats;
 using ElsaMina.Commands.Profile;
 using ElsaMina.Commands.RoomDashboard;
 using ElsaMina.Commands.Teams.Samples;
@@ -47,6 +48,8 @@ public class CommandModule : Module
         RegisterCommand<TeamShowcase>(builder);
         RegisterCommand<TeamList>(builder);
         RegisterCommand<DeleteTeam>(builder);
+        RegisterCommand<AboutRepeat>(builder);
+        RegisterCommand<CreateRepeat>(builder);
         
         RegisterParser<JoinRoomOnInviteParser>(builder);
         RegisterParser<GuessingGameParser>(builder);

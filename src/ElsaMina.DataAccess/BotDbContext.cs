@@ -14,6 +14,7 @@ public class BotDbContext : DbContext
     public DbSet<BadgeHolding> BadgeHoldings { get; set; }
     public DbSet<Team> Teams { get; set; }
     public DbSet<RoomTeam> RoomTeams { get; set; }
+    public DbSet<Repeat> Repeats { get; set; }
 
     public BotDbContext()
     {
@@ -60,6 +61,9 @@ public class BotDbContext : DbContext
             .HasOne(roomTeam => roomTeam.Team)
             .WithMany(team => team.Rooms)
             .HasForeignKey(roomTeam => roomTeam.TeamId);
+
+        modelBuilder.Entity<Repeat>()
+            .HasKey(repeat => new { repeat.RoomId, repeat.Name });
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
