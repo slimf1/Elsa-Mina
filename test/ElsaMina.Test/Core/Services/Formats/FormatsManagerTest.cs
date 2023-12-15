@@ -1,5 +1,4 @@
 ﻿using ElsaMina.Core.Services.Formats;
-using FluentAssertions;
 
 namespace ElsaMina.Test.Core.Services.Formats;
 
@@ -23,8 +22,8 @@ public class FormatsManagerTest
         _formatsManager.ParseFormatsFromReceivedLine(message);
         
         // Assert
-        _formatsManager.Formats.Should().NotBeNullOrEmpty();
-        _formatsManager.Formats.Count().Should().Be(2);
+        Assert.That(_formatsManager.Formats, Is.Not.Empty);
+        Assert.That(_formatsManager.Formats.Count(), Is.EqualTo(2));
     }
 
     [Test]
@@ -38,7 +37,7 @@ public class FormatsManagerTest
         var tier = _formatsManager.GetFormattedTier("gen9randombattle");
         
         // Assert
-        tier.Should().Be("[Gen 9] Random Battle");
+        Assert.That(tier, Is.EqualTo("[Gen 9] Random Battle"));
     }
     
     [Test]
@@ -52,6 +51,6 @@ public class FormatsManagerTest
         var tier = _formatsManager.GetFormattedTier("gen7littlecup");
         
         // Assert
-        tier.Should().Be("gen7littlecup");
+        Assert.That(tier, Is.EqualTo("gen7littlecup"));
     }
 }

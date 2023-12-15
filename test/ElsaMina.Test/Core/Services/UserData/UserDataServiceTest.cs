@@ -1,6 +1,5 @@
 ﻿using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.UserData;
-using FluentAssertions;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using NSubstitute.ReturnsExtensions;
@@ -33,7 +32,7 @@ public class UserDataServiceTest
         var result = await _userDataService.GetUserData(userName);
 
         // Assert
-        result.Should().BeNull();
+        Assert.That(result, Is.Null);
     }
 
     [Test]
@@ -47,7 +46,7 @@ public class UserDataServiceTest
         var result = await _userDataService.GetRegisterDate(userName);
 
         // Assert
-        result.Should().Be(DateTimeOffset.MinValue);
+        Assert.That(result, Is.EqualTo(DateTimeOffset.MinValue));
     }
 
     [Test]
@@ -62,6 +61,6 @@ public class UserDataServiceTest
         var result = await _userDataService.GetRegisterDate(userName);
 
         // Assert
-        result.Should().Be(DateTimeOffset.Parse("07/08/2021 16:00:00Z"));
+        Assert.That(result, Is.EqualTo(DateTimeOffset.Parse("07/08/2021 16:00:00Z")));
     }
 }

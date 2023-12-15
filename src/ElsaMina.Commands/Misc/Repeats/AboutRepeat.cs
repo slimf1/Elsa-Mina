@@ -23,10 +23,11 @@ public class AboutRepeat : Command<AboutRepeat>, INamed
         if (repeat == null)
         {
             // TODO : strings
+            context.Reply("Impossible de trouver le repeat.");
             return Task.CompletedTask;
         }
         
-        context.Reply($"Un repeat a été lancé avec l'ID \"{repeat.RepeatId}\" ");
+        context.SendHtml($"[Repeat] ID = \"{repeat.RepeatId}\", Message = {repeat.Message}, Interval = {repeat.Interval}");
         return Task.CompletedTask;
     }
 }

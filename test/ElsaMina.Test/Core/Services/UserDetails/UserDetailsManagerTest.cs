@@ -1,6 +1,5 @@
 using ElsaMina.Core.Client;
 using ElsaMina.Core.Services.UserDetails;
-using FluentAssertions;
 using NSubstitute;
 using Serilog;
 
@@ -33,10 +32,10 @@ public class UserDetailsManagerTest
         var result = await task;
         
         // Assert
-        result.Name.Should().Be("Panur");
-        result.Avatar.Should().Be("sightseerf");
-        result.Group.Should().Be("+");
-        result.AutoConfirmed.Should().BeTrue();
+        Assert.That(result.Name, Is.EqualTo("Panur"));
+        Assert.That(result.Avatar, Is.EqualTo("sightseerf"));
+        Assert.That(result.Group, Is.EqualTo("+"));
+        Assert.That(result.AutoConfirmed, Is.True);
     }
     
     [Test]
@@ -46,6 +45,6 @@ public class UserDetailsManagerTest
         var result = await _userDetailsManager.GetUserDetails("speks");
         
         // Assert
-        result.Should().BeNull();
+        Assert.That(result, Is.Null);
     }
 }

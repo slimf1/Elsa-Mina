@@ -10,6 +10,7 @@ public abstract class GuessingGame : Game
 {
     private const int DEFAULT_TURNS_COUNT = 10;
     private const int SECONDS_BETWEEN_TURNS = 15;
+    private const int MIN_LENGTH_FOR_AUTOCORRECT = 8;
 
     private readonly ITemplatesManager _templatesManager;
     private readonly IConfigurationManager _configurationManager;
@@ -81,7 +82,7 @@ public abstract class GuessingGame : Game
         }
 
         var userId = userName.ToLowerAlphaNum();
-        var maxLevenshteinDistance = answer.Length > 8 ? 1 : 0;
+        var maxLevenshteinDistance = answer.Length > MIN_LENGTH_FOR_AUTOCORRECT ? 1 : 0;
         if (!CurrentValidAnswers.Any(validAnswer =>
                 Text.LevenshteinDistance(validAnswer.ToLower(), answer.ToLower()) <= maxLevenshteinDistance))
         {

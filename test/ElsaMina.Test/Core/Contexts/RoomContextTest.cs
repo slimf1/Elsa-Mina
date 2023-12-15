@@ -3,7 +3,6 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
-using FluentAssertions;
 using NSubstitute;
 
 namespace ElsaMina.Test.Core.Contexts;
@@ -72,6 +71,6 @@ public class RoomContextTest
         var value = _roomContext.HasSufficientRank(requiredRank);
         
         // Assert
-        value.Should().BeTrue();
+        Assert.That(value, Is.True);
     }
 }

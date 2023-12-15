@@ -4,6 +4,7 @@ public class Repeat : IEquatable<Repeat>
 {
     public string RoomId { get; init; }
     public string RepeatId { get; init; }
+    public string Message { get; init; }
     public uint Interval { get; init; }
     public Timer Timer { get; set; }
 

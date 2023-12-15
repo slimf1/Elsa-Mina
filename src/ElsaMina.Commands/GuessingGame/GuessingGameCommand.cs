@@ -35,7 +35,7 @@ public class GuessingGameCommand : Command<GuessingGameCommand>, INamed
             return Task.CompletedTask;
         }
 
-        if (turnsCount < 0 || turnsCount > 20)
+        if (turnsCount is < 0 or > 20)
         {
             context.Reply("Invalid number of turns (should be between 1 and 20)");
             return Task.CompletedTask;

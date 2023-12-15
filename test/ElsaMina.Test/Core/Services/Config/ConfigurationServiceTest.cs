@@ -1,5 +1,4 @@
 ﻿using ElsaMina.Core.Services.Config;
-using FluentAssertions;
 using Newtonsoft.Json;
 using NSubstitute;
 using Serilog;
@@ -29,9 +28,9 @@ public class ConfigurationServiceTest
         await _configurationManager.LoadConfiguration(reader);
 
         // Assert
-        _configurationManager.Configuration.Should().NotBeNull();
-        _configurationManager.Configuration.Env.Should().Be("test");
-        _configurationManager.Configuration.Host.Should().Be("test.server.com");
+        Assert.That(_configurationManager.Configuration, Is.Not.Null);
+        Assert.That(_configurationManager.Configuration.Env, Is.EqualTo("test"));
+        Assert.That(_configurationManager.Configuration.Host, Is.EqualTo("test.server.com"));
     }
 
     [Test]
@@ -40,10 +39,7 @@ public class ConfigurationServiceTest
         // Arrange
         var reader = new StringReader("{\"Env\": \"test\", \"Host\": \"test.server.com\"");
 
-        // Act
-        Func<Task> action = async () => await _configurationManager.LoadConfiguration(reader);
-
-        // Assert
-        await action.Should().ThrowAsync<JsonSerializationException>();
+        // Act & Assert
+        Assert.ThrowsAsync<JsonSerializationException>(async () => await _configurationManager.LoadConfiguration(reader));
     }
 }

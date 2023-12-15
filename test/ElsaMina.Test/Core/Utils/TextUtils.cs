@@ -1,5 +1,4 @@
 ﻿using ElsaMina.Core.Utils;
-using FluentAssertions;
 
 namespace ElsaMina.Test.Core.Utils;
 
@@ -12,10 +11,10 @@ public class TextUtilsTest
     public string Test_ToLowerAlphaNum_ShouldReformatString(string input)
     {
         // Act
-        string result = input.ToLowerAlphaNum();
+        var result = input.ToLowerAlphaNum();
 
         // Assert
-        result.Should().NotBeNull();
+        Assert.That(result, Is.Not.Null);
         return result;
     }
 }
