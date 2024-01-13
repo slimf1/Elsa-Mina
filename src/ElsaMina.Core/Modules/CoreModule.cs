@@ -19,6 +19,7 @@ using ElsaMina.Core.Services.Repeats;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.RoomUserData;
+using ElsaMina.Core.Services.System;
 using ElsaMina.Core.Services.Templating;
 using ElsaMina.Core.Services.UserData;
 using ElsaMina.Core.Services.UserDetails;
@@ -60,6 +61,7 @@ public class CoreModule : Module
         builder.RegisterType<UserDataService>().As<IUserDataService>().SingleInstance();
         builder.RegisterType<RandomService>().As<IRandomService>().SingleInstance();
         builder.RegisterType<RepeatsManager>().As<IRepeatsManager>().SingleInstance();
+        builder.RegisterType<SystemService>().As<ISystemService>().SingleInstance();
 
         builder.RegisterType<Client.Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot.Bot>().As<IBot>().AsSelf().SingleInstance();

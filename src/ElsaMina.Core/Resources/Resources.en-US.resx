@@ -303,4 +303,10 @@
     <data name="team_showcase_not_found" xml:space="preserve">
         <value>Could not find this team.</value>
     </data>
+    <data name="aboutrepeat_not_found" xml:space="preserve">
+        <value>Could not find the specific repeat.</value>
+    </data>
+    <data name="aboutrepeat_helpmessage" xml:space="preserve">
+        <value>Syntax: -repeat &lt;id&gt;, &lt;message&gt;, &lt;duration in minutes&gt;</value>
+    </data>
 </root>

@@ -303,4 +303,10 @@
     <data name="team_showcase_not_found" xml:space="preserve">
         <value>L'équipe est introuvable.</value>
     </data>
+    <data name="aboutrepeat_not_found" xml:space="preserve">
+        <value>Impossible de trouver le repeat.</value>
+    </data>
+    <data name="aboutrepeat_helpmessage" xml:space="preserve">
+        <value>Syntaxe: -repeat &lt;id&gt;, &lt;message&gt;, &lt;durée en minutes&gt;</value>
+    </data>
 </root>

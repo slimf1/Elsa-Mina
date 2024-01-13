@@ -17,13 +17,14 @@ public class AboutRepeat : Command<AboutRepeat>, INamed
         _repeatsManager = repeatsManager;
     }
 
+    public override char RequiredRank => '%';
+
     public override Task Run(IContext context)
     {
         var repeat = _repeatsManager.GetRepeat(context.RoomId, context.Target.ToLowerAlphaNum());
         if (repeat == null)
         {
-            // TODO : strings
-            context.Reply("Impossible de trouver le repeat.");
+            context.ReplyLocalizedMessage("aboutrepeat_not_found");
             return Task.CompletedTask;
         }
         

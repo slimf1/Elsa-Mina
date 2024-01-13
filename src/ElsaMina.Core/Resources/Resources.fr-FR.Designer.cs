@@ -60,6 +60,24 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Syntaxe: -repeat &lt;id&gt;, &lt;message&gt;, &lt;durée en minutes&gt;.
+        /// </summary>
+        internal static string aboutrepeat_helpmessage {
+            get {
+                return ResourceManager.GetString("aboutrepeat_helpmessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Impossible de trouver le repeat..
+        /// </summary>
+        internal static string aboutrepeat_not_found {
+            get {
+                return ResourceManager.GetString("aboutrepeat_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Une erreur est survenue lors de l&apos;ajout de l&apos;équipe : {0}.
         /// </summary>
         internal static string add_team_failure {

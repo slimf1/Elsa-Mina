@@ -28,7 +28,7 @@ public class StopRepeat : Command<StopRepeat>, INamed
             return Task.CompletedTask;
         }
         
-        context.Reply("Le repeat est terminé.");
+        context.Reply("Le repeat a été terminé.");
         return Task.CompletedTask;
     }
 }

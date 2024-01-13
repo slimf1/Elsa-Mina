@@ -18,6 +18,8 @@ public class CreateRepeat : Command<CreateRepeat>, INamed
 
     public override char RequiredRank => '+';
 
+    public override string HelpMessageKey => "aboutrepeat_helpmessage";
+
     public override Task Run(IContext context)
     {
         string repeatId;
@@ -32,7 +34,7 @@ public class CreateRepeat : Command<CreateRepeat>, INamed
         }
         catch (Exception)
         {
-            context.Reply("Syntaxe: -repeat <id>, <message>, <durée en minutes>");
+            ReplyLocalizedHelpMessage(context);
             return Task.CompletedTask;
         }
         

@@ -5,6 +5,7 @@ using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.Parsers;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.System;
 using ElsaMina.Core.Services.UserDetails;
 using ElsaMina.Core.Utils;
 using Serilog;
@@ -25,6 +26,7 @@ public class Bot : IBot
     private readonly ILoginService _loginService;
     private readonly IParsersManager _parsersManager;
     private readonly IUserDetailsManager _userDetailsManager;
+    private readonly ISystemService _systemService;
 
     private readonly SemaphoreSlim _loadRoomSemaphore = new(1, 1);
     private string _currentRoom;
@@ -40,7 +42,8 @@ public class Bot : IBot
         IFormatsManager formatsManager,
         ILoginService loginService,
         IParsersManager parsersManager,
-        IUserDetailsManager userDetailsManager)
+        IUserDetailsManager userDetailsManager,
+        ISystemService systemService)
     {
         _logger = logger;
         _client = client;
@@ -51,6 +54,7 @@ public class Bot : IBot
         _loginService = loginService;
         _parsersManager = parsersManager;
         _userDetailsManager = userDetailsManager;
+        _systemService = systemService;
     }
 
     public async Task Start()
@@ -162,7 +166,7 @@ public class Bot : IBot
             }
 
             _client.Send($"|/join {roomId}");
-            Thread.Sleep(250);
+            _systemService.Sleep(250);
         }
     }
 
@@ -175,7 +179,7 @@ public class Bot : IBot
             _configurationManager.Configuration.Name.ToLowerAlphaNum() != response.CurrentUser.UserId)
         {
             _logger.Error("Login failed. Check password validity. Exiting");
-            Environment.Exit(1);
+            _systemService.Kill();
         }
         
         _client.Send($"|/trn {response.CurrentUser.Username},0,{response.Assertion}");
@@ -204,7 +208,7 @@ public class Bot : IBot
         _client.Send(message);
         _lastMessage = message;
         _lastMessageTime = _clockService.CurrentDateTimeOffset.ToUnixTimeSeconds();
-        Thread.Sleep(250);
+        _systemService.Sleep(250);
     }
 
     public void Say(string roomId, string message)
