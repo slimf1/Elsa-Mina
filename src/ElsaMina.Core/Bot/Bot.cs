@@ -116,7 +116,7 @@ public class Bot : IBot
         {
             case "nametaken":
                 _logger.Error("Login failed, check username or password validity. Exiting");
-                Environment.Exit(1);
+                _systemService.Kill();
                 break;
             case "challstr":
                 await Login(string.Join("|", parts[2..]));

@@ -3,5 +3,5 @@
 public interface ISystemService
 {
     void Sleep(int millis);
-    void Kill(int code = 0);
+    void Kill(int code = 1);
 }
