@@ -104,7 +104,10 @@ public abstract class GuessingGame : Game
 
     private async Task EndGame()
     {
-        _cancellationTokenSource?.Cancel();
+        if (_cancellationTokenSource != null)
+        {
+            await _cancellationTokenSource.CancelAsync();
+        }
         var resultViewModel = new GuessingGameResultViewModel
         {
             Culture = Context.Locale,

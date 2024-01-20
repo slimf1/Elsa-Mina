@@ -1,4 +1,5 @@
 using ElsaMina.Core.Client;
+using ElsaMina.Core.Services.System;
 using ElsaMina.Core.Services.UserDetails;
 using NSubstitute;
 using Serilog;
@@ -9,6 +10,7 @@ public class UserDetailsManagerTest
 {
     private ILogger _logger;
     private IClient _client;
+    private ISystemService _systemService;
 
     private UserDetailsManager _userDetailsManager;
 
@@ -17,14 +19,17 @@ public class UserDetailsManagerTest
     {
         _logger = Substitute.For<ILogger>();
         _client = Substitute.For<IClient>();
+        _systemService = Substitute.For<ISystemService>();
 
-        _userDetailsManager = new UserDetailsManager(_logger, _client);
+        _userDetailsManager = new UserDetailsManager(_logger, _client, _systemService);
     }
 
     [Test]
     public async Task Test_GetUserDetails_ShouldReturnTaskResolved_WhenUserDetailsAreReceived()
     {
         // Arrange
+        var tcs = new TaskCompletionSource();
+        _systemService.SleepAsync(Arg.Any<int>()).Returns(tcs.Task);
         var task = _userDetailsManager.GetUserDetails("panur");
         _userDetailsManager.HandleReceivedUserDetails("""{"id":"panur","userid":"panur","name":"Panur","avatar":"sightseerf","group":"+","autoconfirmed":true}""");
         

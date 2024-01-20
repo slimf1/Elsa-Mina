@@ -1,4 +1,6 @@
+using System.Collections.Concurrent;
 using ElsaMina.Core.Client;
+using ElsaMina.Core.Services.System;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -10,13 +12,17 @@ public class UserDetailsManager : IUserDetailsManager
 
     private readonly ILogger _logger;
     private readonly IClient _client;
+    private readonly ISystemService _systemService;
 
-    private readonly Dictionary<string, TaskCompletionSource<UserDetailsDto>> _taskCompletionSources = new();
+    private readonly ConcurrentDictionary<string, TaskCompletionSource<UserDetailsDto>> _taskCompletionSources = new();
 
-    public UserDetailsManager(ILogger logger, IClient client)
+    public UserDetailsManager(ILogger logger,
+        IClient client,
+        ISystemService systemService)
     {
         _logger = logger;
         _client = client;
+        _systemService = systemService;
     }
 
     public Task<UserDetailsDto> GetUserDetails(string userId)
@@ -25,20 +31,20 @@ public class UserDetailsManager : IUserDetailsManager
         if (_taskCompletionSources.TryGetValue(userId, out var taskCompletionSource))
         {
             taskCompletionSource.TrySetResult(null);
-            _taskCompletionSources.Remove(userId);
+            _taskCompletionSources.Remove(userId, out _);
         }
 
         _taskCompletionSources[userId] = new TaskCompletionSource<UserDetailsDto>();
         Task.Run(async () =>
         {
-            await Task.Delay(CANCEL_DELAY);
-            if (!_taskCompletionSources.ContainsKey(userId))
+            await _systemService.SleepAsync(CANCEL_DELAY);
+            if (!_taskCompletionSources.TryGetValue(userId, out var tcs))
             {
                 return;
             }
 
-            _taskCompletionSources[userId].TrySetResult(null);
-            _taskCompletionSources.Remove(userId);
+            tcs.TrySetResult(null);
+            _taskCompletionSources.Remove(userId, out _);
         });
         return _taskCompletionSources[userId].Task;
     }
@@ -70,6 +76,6 @@ public class UserDetailsManager : IUserDetailsManager
         }
 
         taskCompletionSource.TrySetResult(userDetailsDto);
-        _taskCompletionSources.Remove(userDetailsDto.UserId);
+        _taskCompletionSources.Remove(userDetailsDto.UserId, out _);
     }
 }
