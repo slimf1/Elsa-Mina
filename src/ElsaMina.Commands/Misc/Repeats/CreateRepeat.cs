@@ -1,6 +1,7 @@
 ﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Repeats;
+using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.Misc.Repeats;
 
@@ -28,8 +29,8 @@ public class CreateRepeat : Command<CreateRepeat>, INamed
         try
         {
             var parts = context.Target.Split(",");
-            repeatId = parts[0];
-            message = parts[1];
+            repeatId = parts[0].ToLowerAlphaNum();
+            message = parts[1].Trim();
             intervalInMinutes = uint.Parse(parts[2]);
         }
         catch (Exception)
@@ -41,11 +42,11 @@ public class CreateRepeat : Command<CreateRepeat>, INamed
         var repeat = _repeatsManager.StartRepeat(context, repeatId, message, intervalInMinutes);
         if (repeat == null)
         {
-            context.Reply("Impossible de démarrer le repeat.");
+            context.Reply("Impossible de démarrer le repeat. Vérifiez qu'un repeat avec la même id n'existe pas déjà.");
             return Task.CompletedTask;
         }
         
-        context.Reply("Un repeat a été démarré. Le message va être répété toutes les "); 
+        context.Reply($"Un repeat a été démarré. Le message va être répété toutes les {intervalInMinutes} minute(s)."); 
         return Task.CompletedTask;
     }
 }

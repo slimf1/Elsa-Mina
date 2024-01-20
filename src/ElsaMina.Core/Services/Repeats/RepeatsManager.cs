@@ -21,11 +21,11 @@ public class RepeatsManager : IRepeatsManager
             return null;
         }
 
-        var prefix = message.StartsWith("/wall") ? string.Empty : "[[]]";
+        var prefix = message.StartsWith("/wall") || message.StartsWith("/announce") ? string.Empty : "[[]]";
         var timer = new Timer(_ =>
         {
             // Prevent command injection
-            context.Reply($"${prefix}{message}");
+            context.Reply($"{prefix}{message}");
         }, null, TimeSpan.Zero, TimeSpan.FromMinutes(intervalInMinutes));
         repeat.Timer = timer;
 

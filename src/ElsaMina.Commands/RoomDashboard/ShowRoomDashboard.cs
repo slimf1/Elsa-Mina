@@ -8,7 +8,6 @@ using ElsaMina.Core.Services.Templating;
 using ElsaMina.Core.Templates.LanguageSelect;
 using ElsaMina.Core.Templates.RoomDashboard;
 using ElsaMina.Core.Utils;
-using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.RoomDashboard;

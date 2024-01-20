@@ -51,6 +51,7 @@ public class CommandModule : Module
         RegisterCommand<DeleteTeam>(builder);
         RegisterCommand<AboutRepeat>(builder);
         RegisterCommand<CreateRepeat>(builder);
+        RegisterCommand<StopRepeat>(builder);
         
         RegisterParser<JoinRoomOnInviteParser>(builder);
         RegisterParser<GuessingGameParser>(builder);

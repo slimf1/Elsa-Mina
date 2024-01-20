@@ -26,7 +26,7 @@ public class TeamList : Command<TeamList>, INamed
     {
         var teams = await _teamRepository.GetTeamsFromRoom(context.RoomId);
         var teamList = teams?.ToList();
-        if (teamList == null || !teamList.Any())
+        if (teamList == null || teamList.Count == 0)
         {
             // TODO
             return;

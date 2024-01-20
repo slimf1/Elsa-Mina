@@ -7,8 +7,8 @@ namespace ElsaMina.Commands.Misc.Repeats;
 
 public class AboutRepeat : Command<AboutRepeat>, INamed
 {
-    public static string Name => "repeat";
-    public static IEnumerable<string> Aliases => new[] { "about-repeat" };
+    public static string Name => "show-repeat";
+    public static IEnumerable<string> Aliases => new[] { "about-repeat", "show-repeat" };
 
     private readonly IRepeatsManager _repeatsManager;
 
@@ -28,7 +28,7 @@ public class AboutRepeat : Command<AboutRepeat>, INamed
             return Task.CompletedTask;
         }
         
-        context.SendHtml($"[Repeat] ID = \"{repeat.RepeatId}\", Message = {repeat.Message}, Interval = {repeat.Interval}");
+        context.SendHtml($"[Repeat] ID = \"{repeat.RepeatId}\", Message = \"{repeat.Message}\", Interval = {repeat.Interval}");
         return Task.CompletedTask;
     }
 }
