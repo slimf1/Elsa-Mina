@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ElsaMina.Commands.Teams.TeamPreviewOnLink.TeamProviders.CoupCritique;
+namespace ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
 
 public class CoupCritiqueTeam
 {

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ElsaMina.Commands.Teams.TeamPreviewOnLink.TeamProviders.Pokepaste;
+namespace ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
 
 public class PokepasteTeam
 {

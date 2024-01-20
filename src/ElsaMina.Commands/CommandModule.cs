@@ -9,8 +9,9 @@ using ElsaMina.Commands.Profile;
 using ElsaMina.Commands.RoomDashboard;
 using ElsaMina.Commands.Teams.Samples;
 using ElsaMina.Commands.Teams.TeamPreviewOnLink;
-using ElsaMina.Commands.Teams.TeamPreviewOnLink.TeamProviders.CoupCritique;
-using ElsaMina.Commands.Teams.TeamPreviewOnLink.TeamProviders.Pokepaste;
+using ElsaMina.Commands.Teams.TeamProviders;
+using ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
+using ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
 using ElsaMina.Core.Commands;
 
 namespace ElsaMina.Commands;

@@ -1,6 +1,4 @@
-﻿using ElsaMina.Commands.Teams.TeamPreviewOnLink.TeamProviders;
-
-namespace ElsaMina.Commands.Teams.TeamPreviewOnLink;
+﻿namespace ElsaMina.Commands.Teams.TeamProviders;
 
 public interface ITeamProviderFactory
 {
