@@ -80,7 +80,7 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
         var template = await _templatesManager.GetTemplate("TeamPreview/TeamPreview", new TeamPreviewViewModel
         {
             Author = sharedTeam.Author,
-            Culture = context.Locale,
+            Culture = context.Culture,
             Sender = context.Sender.Name,
             Team = ShowdownTeams.DeserializeTeamExport(sharedTeam.TeamExport)
         });

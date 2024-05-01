@@ -30,7 +30,7 @@ public class UserDetailsManager : IUserDetailsManager
         _client.Send($"|/cmd userdetails {userId}");
         if (_taskCompletionSources.TryGetValue(userId, out var taskCompletionSource))
         {
-            taskCompletionSource.TrySetResult(null);
+            taskCompletionSource.SetResult(null);
             _taskCompletionSources.Remove(userId, out _);
         }
 
@@ -43,7 +43,7 @@ public class UserDetailsManager : IUserDetailsManager
                 return;
             }
 
-            tcs.TrySetResult(null);
+            tcs.SetResult(null);
             _taskCompletionSources.Remove(userId, out _);
         });
         return _taskCompletionSources[userId].Task;
@@ -75,7 +75,7 @@ public class UserDetailsManager : IUserDetailsManager
             return;
         }
 
-        taskCompletionSource.TrySetResult(userDetailsDto);
+        taskCompletionSource.SetResult(userDetailsDto);
         _taskCompletionSources.Remove(userDetailsDto.UserId, out _);
     }
 }

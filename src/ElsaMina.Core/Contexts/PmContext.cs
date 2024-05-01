@@ -28,13 +28,13 @@ public class PmContext : Context
     public override string RoomId => _configurationManager.Configuration.DefaultRoom;
     public override bool IsPm => true;
 
-    public override CultureInfo Locale
+    public override CultureInfo Culture
     {
         get => _currentLocale;
         set => _currentLocale = value;
     }
     
-    public override bool HasSufficientRank(char requiredRank)
+    public override bool HasSufficientRank(char requiredRank, string roomId = "")
     {
         return true;
     }

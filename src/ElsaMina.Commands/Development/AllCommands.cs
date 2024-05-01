@@ -29,7 +29,7 @@ public class AllCommands : Command<AllCommands>, INamed
         var template = await _templatesManager.GetTemplate("Commands/CommandList", new CommandListViewModel
         {
             Commands = _commandExecutor.GetAllCommands().Where(command => !command.IsHidden),
-            Culture = context.Locale
+            Culture = context.Culture
         });
 
         context.SendHtmlPage("all-commands", template.RemoveNewlines());

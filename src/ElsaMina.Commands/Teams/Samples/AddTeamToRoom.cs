@@ -21,6 +21,8 @@ public class AddTeamToRoom : Command<AddTeamToRoom>, INamed
         _logger = logger;
     }
 
+    public override char RequiredRank => '+';
+
     public override async Task Run(IContext context)
     {
         var teamId = context.Target.ToLowerAlphaNum();

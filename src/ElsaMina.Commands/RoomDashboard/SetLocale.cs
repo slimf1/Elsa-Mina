@@ -44,7 +44,7 @@ public class SetLocale : Command<SetLocale>, INamed
         }
         roomParameters.Locale = locale;
         await _roomParametersRepository.UpdateAsync(roomParameters);
-        context.Locale = cultureInfo;
+        context.Culture = cultureInfo;
         context.Reply($"Updated locale of room {roomId} to : {locale}");
     }
 }

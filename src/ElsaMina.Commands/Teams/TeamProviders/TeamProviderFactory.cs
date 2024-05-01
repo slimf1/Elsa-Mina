@@ -5,9 +5,9 @@ using ElsaMina.Core.Services.DependencyInjection;
 
 namespace ElsaMina.Commands.Teams.TeamProviders;
 
-public class TeamProviderFactory : ITeamProviderFactory
+public partial class TeamProviderFactory : ITeamProviderFactory
 {
-    public static readonly Regex TEAM_LINK_REGEX = new(@"https:\/\/((pokepast\.es\/[0-9A-Fa-f]{16}\/?)|(www\.coupcritique\.fr\/entity\/teams\/\d+\/?))");
+    public static readonly Regex TEAM_LINK_REGEX = TeamLinkRegex();
     
     private const string POKEPASTE_BASE_LINK = "pokepast.es/";
     private const string COUP_CRITIQUE_BASE_LINK = "coupcritique.fr/entity/teams/";
@@ -39,4 +39,7 @@ public class TeamProviderFactory : ITeamProviderFactory
 
         throw new ArgumentException();
     }
+
+    [GeneratedRegex(@"https:\/\/((pokepast\.es\/[0-9A-Fa-f]{16}\/?)|(www\.coupcritique\.fr\/entity\/teams\/\d+\/?))")]
+    private static partial Regex TeamLinkRegex();
 }

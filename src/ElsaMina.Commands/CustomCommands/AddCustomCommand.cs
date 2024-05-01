@@ -50,8 +50,8 @@ public class AddCustomCommand : Command<AddCustomCommand>, INamed
             return;
         }
 
-        if (content.StartsWith(_configurationManager.Configuration.Trigger) || content.StartsWith("/") ||
-            content.StartsWith("!"))
+        if (content.StartsWith(_configurationManager.Configuration.Trigger) || content.StartsWith('/') ||
+            content.StartsWith('!'))
         {
             context.ReplyLocalizedMessage("addcommand_bad_first_char");
             return;

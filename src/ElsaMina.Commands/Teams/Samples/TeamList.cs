@@ -34,7 +34,7 @@ public class TeamList : Command<TeamList>, INamed
 
         var template = await _templatesManager.GetTemplate("TeamList/TeamList", new TeamListViewModel
         {
-            Culture = context.Locale,
+            Culture = context.Culture,
             Teams = teamList
         });
         

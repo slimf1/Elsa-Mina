@@ -65,7 +65,7 @@ public class RoomConfig : Command<RoomConfig>, INamed
         
         try {
             await _roomParametersRepository.UpdateAsync(roomParameters);
-            context.Locale = new CultureInfo(locale);
+            context.Culture = new CultureInfo(locale);
             context.ReplyLocalizedMessage("room_config_success", roomId);
         }
         catch (Exception exception)

@@ -63,7 +63,7 @@ public class ShowRoomDashboard : Command<ShowRoomDashboard>, INamed
         
         if (context.IsPm)
         {
-            context.Locale = new CultureInfo(roomParameters.Locale
+            context.Culture = new CultureInfo(roomParameters.Locale
                                              ?? _configurationManager.Configuration.DefaultLocaleCode);
         }
 
@@ -73,13 +73,13 @@ public class ShowRoomDashboard : Command<ShowRoomDashboard>, INamed
             Trigger = _configurationManager.Configuration.Trigger,
             RoomParameters = roomParameters,
             RoomName = room.Name,
-            Culture = context.Locale,
+            Culture = context.Culture,
             LanguageSelectModel = new LanguagesSelectViewModel
             {
                 Name = "locale",
                 Id = "locale",
                 Cultures = _resourcesService.SupportedLocales,
-                Culture = context.Locale
+                Culture = context.Culture
             }
         };
         var template = await _templatesManager.GetTemplate("RoomDashboard/RoomDashboard", viewModel);

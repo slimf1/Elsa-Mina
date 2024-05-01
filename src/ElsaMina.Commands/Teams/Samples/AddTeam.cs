@@ -11,9 +11,9 @@ using Serilog;
 
 namespace ElsaMina.Commands.Teams.Samples;
 
-public class AddTeam : Command<AddTeam>, INamed
+public partial class AddTeam : Command<AddTeam>, INamed
 {
-    private static readonly Regex TEAM_NAME_FILTER = new("[^\\w\\d\\s+\\-[\\]]");
+    private static readonly Regex TEAM_NAME_FILTER = TeamNameFilterRegex();
     private const int MAX_NAME_LENGTH = 70;
     
     public static string Name => "add-team";
@@ -120,4 +120,7 @@ public class AddTeam : Command<AddTeam>, INamed
             context.ReplyLocalizedMessage("add_team_failure", exception.Message);
         }
     }
+
+    [GeneratedRegex(@"[^\w\d\s+\-[\]]")]
+    private static partial Regex TeamNameFilterRegex();
 }

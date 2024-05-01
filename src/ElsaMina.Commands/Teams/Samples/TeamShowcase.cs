@@ -33,7 +33,7 @@ public class TeamShowcase : Command<TeamShowcase>, INamed
         
         var template = await _templatesManager.GetTemplate("SampleTeam/SampleTeam", new SampleTeamViewModel
         {
-            Culture = context.Locale,
+            Culture = context.Culture,
             Team = team
         });
 

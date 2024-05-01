@@ -57,7 +57,7 @@ public class ProfileCommand : Command<ProfileCommand>, INamed
             return;
         }
 
-        var t1 = _userDataRepository.GetByIdAsync(new(userId, context.RoomId));
+        var t1 = _userDataRepository.GetByIdAsync(new Tuple<string, string>(userId, context.RoomId));
         var t2 = _userDetailsManager.GetUserDetails(userId);
         var t3 = _userDataService.GetRegisterDate(userId);
         await Task.WhenAll(t1, t2, t3);

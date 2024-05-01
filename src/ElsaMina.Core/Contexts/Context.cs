@@ -48,7 +48,7 @@ public abstract class Context : IContext
     
     public string GetString(string key)
     {
-        var localizedString = _resourcesService.GetString(key, Locale);
+        var localizedString = _resourcesService.GetString(key, Culture);
         return string.IsNullOrEmpty(localizedString)
             ? key
             : localizedString;
@@ -73,14 +73,14 @@ public abstract class Context : IContext
                $"{nameof(IsSenderWhitelisted)}: {IsSenderWhitelisted}, " +
                $"{nameof(RoomId)}: {RoomId}, " +
                $"{nameof(IsPm)}: {IsPm}, " +
-               $"{nameof(Locale)}: {Locale}]";
+               $"{nameof(Culture)}: {Culture}]";
     }
 
     public abstract string RoomId { get; }
     public abstract bool IsPm { get; }
-    public abstract CultureInfo Locale { get; set; }
+    public abstract CultureInfo Culture { get; set; }
     
-    public abstract bool HasSufficientRank(char requiredRank);
+    public abstract bool HasSufficientRank(char requiredRank, string roomId = "");
     public abstract void Reply(string message);
     public abstract void SendHtml(string html, string roomId = null);
     public abstract void SendUpdatableHtml(string htmlId, string html, bool isChanging);

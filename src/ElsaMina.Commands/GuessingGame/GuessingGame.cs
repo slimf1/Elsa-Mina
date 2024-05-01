@@ -110,7 +110,7 @@ public abstract class GuessingGame : Game
         }
         var resultViewModel = new GuessingGameResultViewModel
         {
-            Culture = Context.Locale,
+            Culture = Context.Culture,
             Scores = _scores
         };
         var template = await _templatesManager.GetTemplate("GuessingGame/GuessingGameResult", resultViewModel);

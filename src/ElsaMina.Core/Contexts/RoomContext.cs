@@ -8,10 +8,7 @@ namespace ElsaMina.Core.Contexts;
 
 public class RoomContext : Context
 {
-    private readonly IList<char> RANKS = new List<char>
-    {
-        ' ', '+', '%', '@', '*', '#', '&'
-    };
+    private static readonly List<char> RANKS = [' ', '+', '%', '@', '*', '#', '&'];
 
     private readonly IRoom _room;
     private readonly long _timestamp;
@@ -33,13 +30,13 @@ public class RoomContext : Context
     public override string RoomId => _room.RoomId;
     public override bool IsPm => false;
 
-    public override CultureInfo Locale
+    public override CultureInfo Culture
     {
         get => new(_room.Locale);
         set => _room.Locale = value.Name;
     }
 
-    public override bool HasSufficientRank(char requiredRank)
+    public override bool HasSufficientRank(char requiredRank, string roomId = "")
     {
         return IsSenderWhitelisted || RANKS.IndexOf(Sender.Rank) >= RANKS.IndexOf(requiredRank);
     }
