@@ -1,3 +1,6 @@
+using ElsaMina.Commands.GuessingGame;
+using ElsaMina.Commands.Profile;
+using ElsaMina.Commands.RoomDashboard;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
@@ -5,10 +8,6 @@ using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templating;
 using ElsaMina.Core.Templates;
-using ElsaMina.Core.Templates.GuessingGame;
-using ElsaMina.Core.Templates.LanguageSelect;
-using ElsaMina.Core.Templates.Profile;
-using ElsaMina.Core.Templates.RoomDashboard;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 

@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using ElsaMina.Commands;
-using ElsaMina.Core.Bot;
-using ElsaMina.Core.Client;
+using ElsaMina.Core;
 using ElsaMina.Core.Modules;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.DependencyInjection;

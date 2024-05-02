@@ -1,4 +1,3 @@
-using ElsaMina.Core.Bot;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.DependencyInjection;

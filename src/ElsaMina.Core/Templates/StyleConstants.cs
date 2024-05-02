@@ -1,4 +1,4 @@
-﻿namespace ElsaMina.Core.Templates.Styling;
+﻿namespace ElsaMina.Core.Templates;
 
 public static class StyleConstants
 {

@@ -4,7 +4,6 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Templating;
-using ElsaMina.Core.Templates.TeamPreview;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Repositories;
 using Serilog;
@@ -77,7 +76,7 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
             return;
         }
 
-        var template = await _templatesManager.GetTemplate("TeamPreview/TeamPreview", new TeamPreviewViewModel
+        var template = await _templatesManager.GetTemplate("Teams/TeamPreview", new TeamPreviewViewModel
         {
             Author = sharedTeam.Author,
             Culture = context.Culture,

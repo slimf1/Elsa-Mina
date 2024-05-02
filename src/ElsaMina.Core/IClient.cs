@@ -1,4 +1,4 @@
-﻿namespace ElsaMina.Core.Client;
+﻿namespace ElsaMina.Core;
 
 public interface IClient : IDisposable
 {

@@ -1,6 +1,7 @@
 ﻿using ElsaMina.Core.Commands;
+using ElsaMina.Core.Templates;
 
-namespace ElsaMina.Core.Templates.Commands;
+namespace ElsaMina.Commands.Development.Commands;
 
 public class CommandListViewModel : LocalizableViewModel
 {

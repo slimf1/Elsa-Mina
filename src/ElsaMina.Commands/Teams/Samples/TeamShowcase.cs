@@ -1,7 +1,6 @@
 ﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Templating;
-using ElsaMina.Core.Templates.SampleTeam;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Repositories;
 
@@ -31,7 +30,7 @@ public class TeamShowcase : Command<TeamShowcase>, INamed
             return;
         }
         
-        var template = await _templatesManager.GetTemplate("SampleTeam/SampleTeam", new SampleTeamViewModel
+        var template = await _templatesManager.GetTemplate("Teams/SampleTeam", new SampleTeamViewModel
         {
             Culture = context.Culture,
             Team = team

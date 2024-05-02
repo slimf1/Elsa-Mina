@@ -1,6 +1,7 @@
+using ElsaMina.Core.Templates;
 using ElsaMina.DataAccess.Models;
 
-namespace ElsaMina.Core.Templates.Profile;
+namespace ElsaMina.Commands.Profile;
 
 public class ProfileViewModel : LocalizableViewModel
 {

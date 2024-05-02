@@ -1,6 +1,8 @@
 using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Templates;
+using ElsaMina.Core.Utils;
 using RazorLight;
+using Serilog;
 
 namespace ElsaMina.Core.Services.Templating;
 
@@ -8,21 +10,34 @@ public class TemplatesManager : ITemplatesManager
 {
     private const string TEMPLATES_DIRECTORY = "Templates";
 
-    private readonly Lazy<RazorLightEngine> _razorLightEngine = new(() => new RazorLightEngineBuilder()
-        .UseFileSystemProject(Path.Join(Environment.CurrentDirectory, TEMPLATES_DIRECTORY))
+    private static readonly string TEMPLATES_DIRECTORY_PATH =
+        Path.Join(Environment.CurrentDirectory, TEMPLATES_DIRECTORY);
+
+    private static readonly RazorLightEngine RAZOR_ENGINE = new RazorLightEngineBuilder()
+        .UseFileSystemProject(TEMPLATES_DIRECTORY_PATH)
         .UseMemoryCachingProvider()
-        .Build());
+        .Build();
 
     private readonly IDependencyContainerService _dependencyContainerService;
+    private readonly ILogger _logger;
 
-    public TemplatesManager(IDependencyContainerService dependencyContainerService)
+    public TemplatesManager(IDependencyContainerService dependencyContainerService, ILogger logger)
     {
         _dependencyContainerService = dependencyContainerService;
+        _logger = logger;
     }
 
     public async Task<string> GetTemplate(string templateName, object model)
     {
-        return await _razorLightEngine.Value.CompileRenderAsync(templateName, model);
+        return await RAZOR_ENGINE.CompileRenderAsync(templateName, model);
+    }
+
+    public async Task PreCompileTemplates()
+    {
+        var compilationTasks = FileSystem
+            .GetFilesFromDirectoryRecursively(TEMPLATES_DIRECTORY_PATH)
+            .Select(PreCompileTemplate);
+        await Task.WhenAll(compilationTasks);
     }
 
     public async Task<string> GetTemplate<TPage, TViewModel>()
@@ -31,6 +46,13 @@ public class TemplatesManager : ITemplatesManager
     {
         var template = _dependencyContainerService.Resolve<TPage>();
         var viewModel = _dependencyContainerService.Resolve<TViewModel>();
-        return await _razorLightEngine.Value.RenderTemplateAsync(template, viewModel);
+        return await RAZOR_ENGINE.RenderTemplateAsync(template, viewModel);
+    }
+
+    private async Task PreCompileTemplate(string templateKey)
+    {
+        _logger.Information("Pre-compiling template {0}", templateKey);
+        await RAZOR_ENGINE.CompileTemplateAsync(templateKey);
+        _logger.Information("Pre-compiling template {0}: DONE", templateKey);
     }
 }

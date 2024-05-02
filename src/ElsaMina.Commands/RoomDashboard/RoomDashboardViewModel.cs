@@ -1,7 +1,7 @@
-using ElsaMina.Core.Templates.LanguageSelect;
+using ElsaMina.Core.Templates;
 using ElsaMina.DataAccess.Models;
 
-namespace ElsaMina.Core.Templates.RoomDashboard;
+namespace ElsaMina.Commands.RoomDashboard;
 
 public class RoomDashboardViewModel : LocalizableViewModel
 {

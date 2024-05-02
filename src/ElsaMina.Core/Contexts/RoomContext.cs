@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using ElsaMina.Core.Bot;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
@@ -36,7 +35,7 @@ public class RoomContext : Context
         set => _room.Locale = value.Name;
     }
 
-    public override bool HasSufficientRank(char requiredRank, string roomId = "")
+    public override bool HasSufficientRank(char requiredRank)
     {
         return IsSenderWhitelisted || RANKS.IndexOf(Sender.Rank) >= RANKS.IndexOf(requiredRank);
     }

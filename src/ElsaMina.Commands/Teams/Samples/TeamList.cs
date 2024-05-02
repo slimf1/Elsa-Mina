@@ -1,7 +1,6 @@
 ﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Templating;
-using ElsaMina.Core.Templates.TeamList;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Repositories;
 
@@ -32,7 +31,7 @@ public class TeamList : Command<TeamList>, INamed
             return;
         }
 
-        var template = await _templatesManager.GetTemplate("TeamList/TeamList", new TeamListViewModel
+        var template = await _templatesManager.GetTemplate("Teams/TeamList", new TeamListViewModel
         {
             Culture = context.Culture,
             Teams = teamList

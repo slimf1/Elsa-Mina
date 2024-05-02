@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using ElsaMina.Core.Bot;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
@@ -34,7 +33,7 @@ public class PmContext : Context
         set => _currentLocale = value;
     }
     
-    public override bool HasSufficientRank(char requiredRank, string roomId = "")
+    public override bool HasSufficientRank(char requiredRank)
     {
         return true;
     }

@@ -1,4 +1,4 @@
-﻿using ElsaMina.Core.Client;
+﻿using ElsaMina.Core;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Formats;
@@ -6,6 +6,7 @@ using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.Parsers;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.System;
+using ElsaMina.Core.Services.Templating;
 using ElsaMina.Core.Services.UserDetails;
 using NSubstitute;
 using Serilog;
@@ -24,8 +25,9 @@ public class BotTest
     private IParsersManager _parsersManager;
     private IUserDetailsManager _userDetailsManager;
     private ISystemService _systemService;
+    private ITemplatesManager _templatesManager;
 
-    private ElsaMina.Core.Bot.Bot _bot;
+    private ElsaMina.Core.Bot _bot;
     
     [SetUp]
     public void SetUp()
@@ -40,9 +42,10 @@ public class BotTest
         _parsersManager = Substitute.For<IParsersManager>();
         _userDetailsManager = Substitute.For<IUserDetailsManager>();
         _systemService = Substitute.For<ISystemService>();
+        _templatesManager = Substitute.For<ITemplatesManager>();
         
-        _bot = new ElsaMina.Core.Bot.Bot(_logger, _client, _configurationManager, _clockService, _roomsManager,
-            _formatsManager, _loginService, _parsersManager, _userDetailsManager, _systemService);
+        _bot = new ElsaMina.Core.Bot(_logger, _client, _configurationManager, _clockService, _roomsManager,
+            _formatsManager, _loginService, _parsersManager, _userDetailsManager, _systemService, _templatesManager);
     }
 
     [TearDown]

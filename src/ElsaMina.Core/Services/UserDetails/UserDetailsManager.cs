@@ -1,5 +1,4 @@
 using System.Collections.Concurrent;
-using ElsaMina.Core.Client;
 using ElsaMina.Core.Services.System;
 using Newtonsoft.Json;
 using Serilog;

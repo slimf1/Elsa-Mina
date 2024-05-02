@@ -2,6 +2,7 @@
 using ElsaMina.Commands.Badges;
 using ElsaMina.Commands.CustomCommands;
 using ElsaMina.Commands.Development;
+using ElsaMina.Commands.Development.Commands;
 using ElsaMina.Commands.GuessingGame;
 using ElsaMina.Commands.GuessingGame.Countries;
 using ElsaMina.Commands.Misc.Repeats;

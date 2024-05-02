@@ -1,6 +1,7 @@
 using System.Globalization;
+using ElsaMina.Core.Templates;
 
-namespace ElsaMina.Core.Templates.LanguageSelect;
+namespace ElsaMina.Commands.RoomDashboard;
 
 public class LanguagesSelectViewModel : LocalizableViewModel
 {

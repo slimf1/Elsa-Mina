@@ -1,6 +1,6 @@
-@using ElsaMina.Core.Templates.Styling
+@using ElsaMina.Core.Templates
 @using ElsaMina.Core.Utils
-@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Core.Templates.Profile.ProfileViewModel>
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Profile.ProfileViewModel>
 
 @{
     const string border = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};"; 
@@ -80,7 +80,7 @@
                 @foreach (var badge in Model.Badges)
                 {
                     <span>
-                        @{ await IncludeAsync("Badge/Badge", badge); }
+                        @{ await IncludeAsync("Badges/Badge", badge); }
                     </span>
                 }
             }

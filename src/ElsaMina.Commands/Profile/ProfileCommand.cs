@@ -6,7 +6,6 @@ using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templating;
 using ElsaMina.Core.Services.UserData;
 using ElsaMina.Core.Services.UserDetails;
-using ElsaMina.Core.Templates.Profile;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
@@ -68,14 +67,37 @@ public class ProfileCommand : Command<ProfileCommand>, INamed
 
         var room = _roomsManager.GetRoom(context.RoomId);
         
-        // Status
-        var status = showdownUserDetails?.Status;
-        if (status?.StartsWith("!") == true)
+        var status = GetStatus(showdownUserDetails);
+        var avatarUrl = GetAvatar(storedUserData, showdownUserDetails);
+        var userRoomRank = GetUserRoomRank(context, showdownUserDetails);
+
+        var viewModel = new ProfileViewModel
         {
-            status = status[1..];
-        }
-        
-        // Avatar
+            Culture = new CultureInfo(room?.Locale ?? _configurationManager.Configuration.DefaultLocaleCode),
+            Avatar = avatarUrl,
+            UserId = userId,
+            UserName = showdownUserDetails?.Name ?? userId,
+            UserRoomRank = userRoomRank,
+            Status = status,
+            Badges = storedUserData?.Badges.Select(holding => holding.Badge),
+            Title = storedUserData?.Title,
+            RegisterDate = registerDate
+        };
+        var template = await _templatesManager.GetTemplate("Profile/Profile", viewModel);
+        context.SendHtmlPage($"profile-{userId}", template.RemoveNewlines());
+    }
+
+    private static char GetUserRoomRank(IContext context, UserDetailsDto showdownUserDetails)
+    {
+        var userRoom = showdownUserDetails?
+            .Rooms?
+            .Keys
+            .FirstOrDefault(roomName => roomName.ToLowerAlphaNum() == context.RoomId);
+        return userRoom != null ? userRoom[0] : ' ';
+    }
+
+    private static string GetAvatar(RoomSpecificUserData storedUserData, UserDetailsDto showdownUserDetails)
+    {
         string avatarUrl;
         if (!string.IsNullOrEmpty(storedUserData?.Avatar))
         {
@@ -92,26 +114,18 @@ public class ProfileCommand : Command<ProfileCommand>, INamed
             }
             avatarUrl = string.Format(avatarBaseUrl, avatarId);
         }
-        
-        // Rank
-        var userRoom = showdownUserDetails?
-            .Rooms?
-            .Keys
-            .FirstOrDefault(roomName => roomName.ToLowerAlphaNum() == context.RoomId);
 
-        var viewModel = new ProfileViewModel
+        return avatarUrl;
+    }
+
+    private static string GetStatus(UserDetailsDto showdownUserDetails)
+    {
+        var status = showdownUserDetails?.Status;
+        if (status?.StartsWith("!") == true)
         {
-            Culture = new CultureInfo(room?.Locale ?? _configurationManager.Configuration.DefaultLocaleCode),
-            Avatar = avatarUrl,
-            UserId = userId,
-            UserName = showdownUserDetails?.Name ?? userId,
-            UserRoomRank = userRoom != null ? userRoom[0] : ' ',
-            Status = status,
-            Badges = storedUserData?.Badges.Select(holding => holding.Badge),
-            Title = storedUserData?.Title,
-            RegisterDate = registerDate
-        };
-        var template = await _templatesManager.GetTemplate("Profile/Profile", viewModel);
-        context.SendHtmlPage($"profile-{userId}", template.RemoveNewlines());
+            status = status[1..];
+        }
+
+        return status;
     }
 }

@@ -1,4 +1,4 @@
-using ElsaMina.Core.Bot;
+using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;

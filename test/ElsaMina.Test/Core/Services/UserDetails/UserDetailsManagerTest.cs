@@ -1,4 +1,4 @@
-using ElsaMina.Core.Client;
+using ElsaMina.Core;
 using ElsaMina.Core.Services.System;
 using ElsaMina.Core.Services.UserDetails;
 using NSubstitute;

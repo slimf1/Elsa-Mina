@@ -1,4 +1,4 @@
-﻿namespace ElsaMina.Core.Bot;
+﻿namespace ElsaMina.Core;
 
 public interface IBot : IDisposable
 {

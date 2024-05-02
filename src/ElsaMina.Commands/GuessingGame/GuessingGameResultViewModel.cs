@@ -1,4 +1,6 @@
-﻿namespace ElsaMina.Core.Templates.GuessingGame;
+﻿using ElsaMina.Core.Templates;
+
+namespace ElsaMina.Commands.GuessingGame;
 
 public class GuessingGameResultViewModel : LocalizableViewModel
 {

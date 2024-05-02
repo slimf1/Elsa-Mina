@@ -4,6 +4,7 @@ namespace ElsaMina.Core.Services.Templating;
 
 public interface ITemplatesManager
 {
+    Task PreCompileTemplates();
     Task<string> GetTemplate(string templateName, object model);
     Task<string> GetTemplate<TPage, TViewModel>()
         where TPage : LocalizableTemplatePage<LocalizableViewModel>

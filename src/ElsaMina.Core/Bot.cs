@@ -1,16 +1,16 @@
-﻿using ElsaMina.Core.Client;
-using ElsaMina.Core.Services.Clock;
+﻿using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.Parsers;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.System;
+using ElsaMina.Core.Services.Templating;
 using ElsaMina.Core.Services.UserDetails;
 using ElsaMina.Core.Utils;
 using Serilog;
 
-namespace ElsaMina.Core.Bot;
+namespace ElsaMina.Core;
 
 public class Bot : IBot
 {
@@ -27,6 +27,7 @@ public class Bot : IBot
     private readonly IParsersManager _parsersManager;
     private readonly IUserDetailsManager _userDetailsManager;
     private readonly ISystemService _systemService;
+    private readonly ITemplatesManager _templatesManager;
 
     private readonly SemaphoreSlim _loadRoomSemaphore = new(1, 1);
     private string _currentRoom;
@@ -43,7 +44,7 @@ public class Bot : IBot
         ILoginService loginService,
         IParsersManager parsersManager,
         IUserDetailsManager userDetailsManager,
-        ISystemService systemService)
+        ISystemService systemService, ITemplatesManager templatesManager)
     {
         _logger = logger;
         _client = client;
@@ -55,10 +56,12 @@ public class Bot : IBot
         _parsersManager = parsersManager;
         _userDetailsManager = userDetailsManager;
         _systemService = systemService;
+        _templatesManager = templatesManager;
     }
 
     public async Task Start()
     {
+        await _templatesManager.PreCompileTemplates();
         await _client.Connect();
     }
 

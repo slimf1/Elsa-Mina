@@ -1,12 +1,12 @@
-﻿@using ElsaMina.Core.Templates.SampleTeam
-@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Core.Templates.TeamList.TeamListViewModel>
+﻿@using ElsaMina.Commands.Teams
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Teams.TeamListViewModel>
 
 <div
     style="max-height: 210px; overflow-y: auto;">
     @foreach (var team in Model.Teams)
     {
         <div>
-            @{ await IncludeAsync("SampleTeam/SampleTeam", new SampleTeamViewModel
+            @{ await IncludeAsync("Teams/SampleTeam", new SampleTeamViewModel
                {
                    Culture = Model.Culture,
                    Team = team

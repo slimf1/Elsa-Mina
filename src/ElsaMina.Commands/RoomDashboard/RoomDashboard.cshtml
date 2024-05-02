@@ -1,5 +1,5 @@
-@using ElsaMina.Core.Templates.Styling
-@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Core.Templates.RoomDashboard.RoomDashboardViewModel>
+@using ElsaMina.Core.Templates
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.RoomDashboard.RoomDashboardViewModel>
 
 @{
     const string tableStyle = "border-collapse: collapse; width: 100%;";
@@ -33,7 +33,7 @@
                 </label>
             </td>
             <td style="@cellStyle">
-                @{ await IncludeAsync("LanguageSelect/LanguagesSelect", Model.LanguageSelectModel); }
+                @{ await IncludeAsync("RoomDashboard/LanguagesSelect", Model.LanguageSelectModel); }
             </td>
             <td style="@cellStyle">
                 @GetString("dashboard_locale_description")

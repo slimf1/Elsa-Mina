@@ -1,4 +1,4 @@
-using ElsaMina.Core.Client;
+using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using Serilog;

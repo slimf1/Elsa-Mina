@@ -1,6 +1,7 @@
-﻿using ElsaMina.DataAccess.Models;
+﻿using ElsaMina.Core.Templates;
+using ElsaMina.DataAccess.Models;
 
-namespace ElsaMina.Core.Templates.TeamList;
+namespace ElsaMina.Commands.Teams;
 
 public class TeamListViewModel : LocalizableViewModel
 {

@@ -2,10 +2,9 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Templating;
-using ElsaMina.Core.Templates.Commands;
 using ElsaMina.Core.Utils;
 
-namespace ElsaMina.Commands.Development;
+namespace ElsaMina.Commands.Development.Commands;
 
 public class AllCommands : Command<AllCommands>, INamed
 {
@@ -26,7 +25,7 @@ public class AllCommands : Command<AllCommands>, INamed
 
     public override async Task Run(IContext context)
     {
-        var template = await _templatesManager.GetTemplate("Commands/CommandList", new CommandListViewModel
+        var template = await _templatesManager.GetTemplate("Development/Commands/CommandList", new CommandListViewModel
         {
             Commands = _commandExecutor.GetAllCommands().Where(command => !command.IsHidden),
             Culture = context.Culture

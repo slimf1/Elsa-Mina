@@ -1,6 +1,7 @@
 ﻿using ElsaMina.Core.Models;
+using ElsaMina.Core.Templates;
 
-namespace ElsaMina.Core.Templates.TeamPreview;
+namespace ElsaMina.Commands.Teams;
 
 public class TeamPreviewViewModel : LocalizableViewModel
 {

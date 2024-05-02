@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using ElsaMina.Core.Bot;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
@@ -80,7 +79,7 @@ public abstract class Context : IContext
     public abstract bool IsPm { get; }
     public abstract CultureInfo Culture { get; set; }
     
-    public abstract bool HasSufficientRank(char requiredRank, string roomId = "");
+    public abstract bool HasSufficientRank(char requiredRank);
     public abstract void Reply(string message);
     public abstract void SendHtml(string html, string roomId = null);
     public abstract void SendUpdatableHtml(string htmlId, string html, bool isChanging);

@@ -1,7 +1,6 @@
 ﻿using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Templating;
-using ElsaMina.Core.Templates.GuessingGame;
 using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.GuessingGame;
@@ -90,10 +89,7 @@ public abstract class GuessingGame : Game
         }
 
         _hasRoundBeenWon = true;
-        if (!_scores.ContainsKey(userId))
-        {
-            _scores[userId] = 0;
-        }
+        _scores.TryAdd(userId, 0);
 
         _scores[userId] += 1;
         Context.ReplyLocalizedMessage("guessing_game_round_won",

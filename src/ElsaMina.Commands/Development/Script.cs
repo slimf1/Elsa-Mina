@@ -1,3 +1,4 @@
+using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.DependencyInjection;
@@ -34,7 +35,7 @@ public class Script : Command<Script>, INamed
     {
         try
         {
-            var options = ScriptOptions.Default.WithReferences(typeof(Core.Bot.Bot).Assembly)
+            var options = ScriptOptions.Default.WithReferences(typeof(Bot).Assembly)
                 .WithReferences(typeof(Script).Assembly)
                 .WithImports("ElsaMina.Core");
             var globals = new Globals { Context = context, Container = _dependencyContainerService };

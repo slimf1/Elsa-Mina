@@ -5,7 +5,7 @@ using ElsaMina.Core.Services.Config;
 using Serilog;
 using Websocket.Client;
 
-namespace ElsaMina.Core.Client;
+namespace ElsaMina.Core;
 
 public class Client : IClient
 {

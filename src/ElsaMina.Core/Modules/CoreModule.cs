@@ -1,6 +1,4 @@
 ﻿using Autofac;
-using ElsaMina.Core.Bot;
-using ElsaMina.Core.Client;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Commands.Parsers;
 using ElsaMina.Core.Contexts;
@@ -63,8 +61,8 @@ public class CoreModule : Module
         builder.RegisterType<RepeatsManager>().As<IRepeatsManager>().SingleInstance();
         builder.RegisterType<SystemService>().As<ISystemService>().SingleInstance();
 
-        builder.RegisterType<Client.Client>().As<IClient>().SingleInstance();
-        builder.RegisterType<Bot.Bot>().As<IBot>().AsSelf().SingleInstance();
+        builder.RegisterType<Client>().As<IClient>().SingleInstance();
+        builder.RegisterType<Bot>().As<IBot>().AsSelf().SingleInstance();
         
         builder.RegisterType<ChatMessageCommandParser>().As<IParser>().SingleInstance();
         builder.RegisterType<PrivateMessageCommandParser>().As<IParser>().SingleInstance();
