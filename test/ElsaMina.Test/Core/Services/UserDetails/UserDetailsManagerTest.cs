@@ -2,13 +2,11 @@ using ElsaMina.Core;
 using ElsaMina.Core.Services.System;
 using ElsaMina.Core.Services.UserDetails;
 using NSubstitute;
-using Serilog;
 
 namespace ElsaMina.Test.Core.Services.UserDetails;
 
 public class UserDetailsManagerTest
 {
-    private ILogger _logger;
     private IClient _client;
     private ISystemService _systemService;
 
@@ -17,7 +15,6 @@ public class UserDetailsManagerTest
     [SetUp]
     public void SetUp()
     {
-        _logger = Substitute.For<ILogger>();
         _client = Substitute.For<IClient>();
         _systemService = Substitute.For<ISystemService>();
 

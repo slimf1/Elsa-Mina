@@ -6,7 +6,6 @@ using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
-using Serilog;
 
 namespace ElsaMina.Commands.RoomDashboard;
 

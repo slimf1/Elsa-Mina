@@ -17,19 +17,19 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
     private readonly Dictionary<string, DateTimeOffset> _lastTeamTimes = new();
 
     private readonly IClockService _clockService;
-    private readonly ITeamProviderFactory _teamProviderFactory;
+    private readonly ITeamLinkMatchFactory _teamLinkMatchFactory;
     private readonly ITemplatesManager _templatesManager;
     private readonly IRoomParametersRepository _roomParametersRepository;
 
     public DisplayTeamOnLinkParser(IDependencyContainerService dependencyContainerService,
         IClockService clockService,
-        ITeamProviderFactory teamProviderFactory,
+        ITeamLinkMatchFactory teamLinkMatchFactory,
         ITemplatesManager templatesManager,
         IRoomParametersRepository roomParametersRepository)
         : base(dependencyContainerService)
     {
         _clockService = clockService;
-        _teamProviderFactory = teamProviderFactory;
+        _teamLinkMatchFactory = teamLinkMatchFactory;
         _templatesManager = templatesManager;
         _roomParametersRepository = roomParametersRepository;
     }
@@ -38,12 +38,8 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
 
     protected override async Task HandleChatMessage(IContext context)
     {
-        if (!_teamProviderFactory.SupportedProviderLinks.Any(providerLink => context.Message.Contains(providerLink)))
-        {
-            return;
-        }
-
         // Not costly since because the entity gets cached
+        // TODO : revoir pour le charger directement dans la room
         var roomParameters = await _roomParametersRepository.GetByIdAsync(context.RoomId);
         if ((roomParameters?.IsShowingTeamLinksPreviews ?? false) == false)
         {
@@ -59,19 +55,16 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
 
         _lastTeamTimes[context.Sender.UserId] = now;
 
-        var match = TeamProviderFactory.TEAM_LINK_REGEX.Match(context.Message);
-        if (!match.Success)
+        var teamLinkMatch = _teamLinkMatchFactory.FindTeamLinkMatch(context.Message);
+        if (teamLinkMatch == null)
         {
             return;
         }
-
-        var link = match.Value;
-        var provider = _teamProviderFactory.GetTeamProvider(link);
-        var sharedTeam = await provider.GetTeamExport(link);
+        var sharedTeam = await teamLinkMatch.GetTeamExport();
         if (sharedTeam == null)
         {
             Logger.Current.Error("An error occurred while fetching team from link {0} with provider {1}",
-                link, provider);
+                context.Message, teamLinkMatch.Provider);
             return;
         }
 

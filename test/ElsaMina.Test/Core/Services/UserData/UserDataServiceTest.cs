@@ -3,20 +3,17 @@ using ElsaMina.Core.Services.UserData;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using NSubstitute.ReturnsExtensions;
-using Serilog;
 
 namespace ElsaMina.Test.Core.Services.UserData;
 
 public class UserDataServiceTest
 {
-    private ILogger _logger;
     private IHttpService _httpService;
     private UserDataService _userDataService;
 
     [SetUp]
     public void Setup()
     {
-        _logger = Substitute.For<ILogger>();
         _httpService = Substitute.For<IHttpService>();
         _userDataService = new UserDataService(_httpService);
     }

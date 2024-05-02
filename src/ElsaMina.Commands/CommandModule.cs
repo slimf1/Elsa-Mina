@@ -61,9 +61,9 @@ public class CommandModule : Module
         
         builder.RegisterType<CountriesGame>().AsSelf();
         
-        builder.RegisterType<PokepasteProvider>().AsSelf();
-        builder.RegisterType<CoupCritiqueProvider>().AsSelf();
-        builder.RegisterType<TeamProviderFactory>().As<ITeamProviderFactory>().SingleInstance();
+        builder.RegisterType<PokepasteProvider>().As<ITeamProvider>();
+        builder.RegisterType<CoupCritiqueProvider>().As<ITeamProvider>();
+        builder.RegisterType<TeamLinkMatchFactory>().As<ITeamLinkMatchFactory>().SingleInstance();
     }
 
     private static void RegisterCommand<T>(ContainerBuilder builder) where T : INamed, ICommand

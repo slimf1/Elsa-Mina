@@ -2,7 +2,6 @@
 using ElsaMina.Core.Services.Config;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
-using Serilog;
 
 namespace ElsaMina.Core.Services.Rooms;
 

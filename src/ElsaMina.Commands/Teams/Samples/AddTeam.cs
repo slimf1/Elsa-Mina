@@ -18,15 +18,15 @@ public partial class AddTeam : Command<AddTeam>, INamed
     public static string Name => "add-team";
     public static IEnumerable<string> Aliases => new[] { "addteam" };
 
-    private readonly ITeamProviderFactory _teamProviderFactory;
+    private readonly ITeamLinkMatchFactory _teamLinkMatchFactory;
     private readonly ITeamRepository _teamRepository;
     private readonly IClockService _clockService;
 
-    public AddTeam(ITeamProviderFactory teamProviderFactory,
+    public AddTeam(ITeamLinkMatchFactory teamLinkMatchFactory,
         ITeamRepository teamRepository,
         IClockService clockService)
     {
-        _teamProviderFactory = teamProviderFactory;
+        _teamLinkMatchFactory = teamLinkMatchFactory;
         _teamRepository = teamRepository;
         _clockService = clockService;
     }
@@ -59,14 +59,14 @@ public partial class AddTeam : Command<AddTeam>, INamed
             return;
         }
 
-        var teamProvider = _teamProviderFactory.GetTeamProvider(link);
-        if (teamProvider == null)
+        var teamLinkMatch = _teamLinkMatchFactory.FindTeamLinkMatch(link);
+        if (teamLinkMatch == null)
         {
             context.ReplyLocalizedMessage("add_team_no_provider");
             return;
         }
 
-        var sharedTeam = await teamProvider.GetTeamExport(link);
+        var sharedTeam = await teamLinkMatch.GetTeamExport();
         if (sharedTeam?.TeamExport == null)
         {
             context.ReplyLocalizedMessage("add_team_no_export_error");
