@@ -7,30 +7,30 @@ using ElsaMina.Core.Services.DependencyInjection;
 using Serilog;
 
 // Logging
-var configuration = Environment.GetEnvironmentVariable("ELSA_MINA_ENV");
+var environment = Environment.GetEnvironmentVariable("ELSA_MINA_ENV");
 var loggerConfig = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .MinimumLevel.Debug()
     .WriteTo.Console();
 
-if (configuration == "prod") {
+if (environment == "prod") {
     loggerConfig.MinimumLevel.Information();
     loggerConfig.WriteTo.File("log.txt", rollingInterval: RollingInterval.Day);
 }
+var logger = loggerConfig.CreateLogger();
+Logger.Current = logger;
 
 // DI 
 var builder = new ContainerBuilder();
 builder.RegisterModule<CoreModule>();
 builder.RegisterModule<CommandModule>();
-var logger = loggerConfig.CreateLogger();
-Logger.Current = logger;
 var container = builder.Build();
 var dependencyContainerService = container.Resolve<IDependencyContainerService>();
 dependencyContainerService.Container = container;
 DependencyContainerService.Current = dependencyContainerService;
 
 // Load configuration file
-var configurationFile = configuration switch
+var configurationFile = environment switch
 {
     "prod" => "prod.config.json",
     "dev" => "dev.config.json",
@@ -47,7 +47,7 @@ var bot = dependencyContainerService.Resolve<IBot>();
 var client = dependencyContainerService.Resolve<IClient>();
 client.MessageReceived.Subscribe(message => Task.Run(async () => await bot.HandleReceivedMessage(message)));
 
-// Disconnect event & reconnection logic
+// Disconnect event & reconnection logic (à revoir~)
 client.DisconnectionHappened.Subscribe(error =>
 {
     logger.Error("Got disconnected : {0}\nrestarting in 30 seconds...", error);

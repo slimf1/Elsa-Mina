@@ -6,5 +6,12 @@ namespace ElsaMina.Core.Templates;
 
 public class LocalizableViewModel
 {
-    public CultureInfo Culture { get; set; } = new(DependencyContainerService.Current.Resolve<ConfigurationManager>().Configuration.DefaultLocaleCode);
+    protected LocalizableViewModel()
+    {
+        Culture = new CultureInfo(
+            DependencyContainerService.Current.Resolve<IConfigurationManager>().Configuration.DefaultLocaleCode
+        );
+    }
+    
+    public CultureInfo Culture { get; set; }
 }

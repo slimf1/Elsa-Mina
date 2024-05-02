@@ -5,12 +5,9 @@ using ElsaMina.Core.Services.System;
 
 namespace ElsaMina.Commands.Development;
 
-public class Kill : Command<Help>, INamed
+public class Kill : Command<Kill>, INamed
 {
     public static string Name => "kill";
-    public override bool IsWhitelistOnly => true;
-    public override bool IsHidden => true;
-    public override bool IsAllowedInPm => true;
 
     private readonly ISystemService _systemService;
 
@@ -18,6 +15,10 @@ public class Kill : Command<Help>, INamed
     {
         _systemService = systemService;
     }
+    
+    public override bool IsWhitelistOnly => true;
+    public override bool IsHidden => true;
+    public override bool IsAllowedInPm => true;
 
     public override Task Run(IContext context)
     {

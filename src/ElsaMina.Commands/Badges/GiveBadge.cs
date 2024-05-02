@@ -31,7 +31,7 @@ public class GiveBadge : Command<GiveBadge>, INamed
         var parts = context.Target.Split(",");
         if (parts.Length != 2)
         {
-            context.ReplyLocalizedMessage(HelpMessageKey);
+            ReplyLocalizedHelpMessage(context);
             return;
         }
         var userId = parts[0].ToLowerAlphaNum();

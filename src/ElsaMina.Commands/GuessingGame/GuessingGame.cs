@@ -20,9 +20,6 @@ public abstract class GuessingGame : Game
     private bool _hasRoundBeenWon;
     private bool _ended;
 
-    public int TurnsCount { get; set; } = DEFAULT_TURNS_COUNT;
-    public IRoom Room { get; set; }
-
     protected IEnumerable<string> CurrentValidAnswers { get; set; } = Enumerable.Empty<string>();
 
     protected GuessingGame(ITemplatesManager templatesManager,
@@ -31,6 +28,9 @@ public abstract class GuessingGame : Game
         _templatesManager = templatesManager;
         _configurationManager = configurationManager;
     }
+    
+    public int TurnsCount { get; set; } = DEFAULT_TURNS_COUNT;
+    public IRoom Room { get; set; }
 
     public void Start()
     {
