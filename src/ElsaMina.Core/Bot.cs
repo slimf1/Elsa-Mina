@@ -102,7 +102,7 @@ public class Bot : IBot
 
         var roomId = room ?? _currentRoom;
 
-        Logger.Current.Debug("[Received] ({0}) {1}", room, line);
+        Logger.Current.Information("[Received] ({0}) {1}", room, line);
 
         if (!_parsersManager.IsInitialized)
         {
@@ -202,7 +202,7 @@ public class Bot : IBot
             return;
         }
 
-        Logger.Current.Debug("[Sending] {0}", message);
+        Logger.Current.Information("[Sending] {0}", message);
 
         _client.Send(message);
         _lastMessage = message;

@@ -10,9 +10,6 @@ namespace ElsaMina.Commands.Development;
 public class Script : Command<Script>, INamed
 {
     public static string Name => "script";
-    public override bool IsAllowedInPm => true;
-    public override bool IsWhitelistOnly => true;
-    public override bool IsHidden => true;
 
     private readonly IDependencyContainerService _dependencyContainerService;
 
@@ -21,13 +18,17 @@ public class Script : Command<Script>, INamed
         _dependencyContainerService = dependencyContainerService;
     }
 
+    public override bool IsAllowedInPm => true;
+    public override bool IsWhitelistOnly => true;
+    public override bool IsHidden => true;
+
     // ReSharper disable once MemberCanBePrivate.Global
     public class Globals
     {
         public IContext Context;
         public IDependencyContainerService Container;
     }
-    
+
     public override async Task Run(IContext context)
     {
         try
