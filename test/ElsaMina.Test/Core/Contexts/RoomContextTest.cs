@@ -9,8 +9,7 @@ namespace ElsaMina.Test.Core.Contexts;
 
 public class RoomContextTest
 {
-    private IConfigurationManager _configurationManager;
-    private IResourcesService _resourcesService;
+    private IContextProvider _contextProvider;
     private IBot _bot;
     private IUser _sender;
     private IRoom _room;
@@ -19,15 +18,13 @@ public class RoomContextTest
     
     private void CreateRoomContext(string message, string target, string command, long timestamp)
     {
-        _configurationManager = Substitute.For<IConfigurationManager>();
-        _resourcesService = Substitute.For<IResourcesService>();
+        _contextProvider = Substitute.For<IContextProvider>();
         _bot = Substitute.For<IBot>();
         _sender = Substitute.For<IUser>();
         _room = Substitute.For<IRoom>();
         
         _roomContext = new RoomContext(
-            _configurationManager,
-            _resourcesService,
+            _contextProvider,
             _bot,
             message,
             target,
@@ -65,7 +62,7 @@ public class RoomContextTest
         CreateRoomContext("", "", "test-command", 1);
         _sender.UserId.Returns("wl-dude");
         _sender.Rank.Returns(userRank);
-        _configurationManager.Configuration.Returns(new Configuration { Whitelist = new[] { "wl-dude" } });
+        _contextProvider.CurrentWhitelist.Returns(["wl-dude"]);
         
         // Act
         var value = _roomContext.HasSufficientRank(requiredRank);
