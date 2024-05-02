@@ -24,7 +24,6 @@ builder.RegisterModule<CoreModule>();
 builder.RegisterModule<CommandModule>();
 var logger = loggerConfig.CreateLogger();
 Logger.Current = logger;
-builder.RegisterInstance(logger).As<ILogger>().SingleInstance();
 var container = builder.Build();
 var dependencyContainerService = container.Resolve<IDependencyContainerService>();
 dependencyContainerService.Container = container;
