@@ -21,7 +21,7 @@ public abstract class ChatMessageParser : Parser
         _configurationManager = dependencyContainerService.Resolve<IConfigurationManager>();
     }
 
-    public sealed override async Task Execute(string[] parts, string roomId = null)
+    protected sealed override async Task Execute(string[] parts, string roomId = null)
     {
         if (parts.Length > 1 && parts[1] == "c:")
         {

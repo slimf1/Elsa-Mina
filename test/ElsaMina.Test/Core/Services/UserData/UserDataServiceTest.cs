@@ -18,7 +18,7 @@ public class UserDataServiceTest
     {
         _logger = Substitute.For<ILogger>();
         _httpService = Substitute.For<IHttpService>();
-        _userDataService = new UserDataService(_logger, _httpService);
+        _userDataService = new UserDataService(_httpService);
     }
 
     [Test]

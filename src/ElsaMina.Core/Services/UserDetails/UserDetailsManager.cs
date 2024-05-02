@@ -1,7 +1,6 @@
 using System.Collections.Concurrent;
 using ElsaMina.Core.Services.System;
 using Newtonsoft.Json;
-using Serilog;
 
 namespace ElsaMina.Core.Services.UserDetails;
 
@@ -9,17 +8,14 @@ public class UserDetailsManager : IUserDetailsManager
 {
     private const int CANCEL_DELAY = 5000;
 
-    private readonly ILogger _logger;
     private readonly IClient _client;
     private readonly ISystemService _systemService;
 
     private readonly ConcurrentDictionary<string, TaskCompletionSource<UserDetailsDto>> _taskCompletionSources = new();
 
-    public UserDetailsManager(ILogger logger,
-        IClient client,
+    public UserDetailsManager(IClient client,
         ISystemService systemService)
     {
-        _logger = logger;
         _client = client;
         _systemService = systemService;
     }
@@ -61,7 +57,7 @@ public class UserDetailsManager : IUserDetailsManager
         }
         catch (JsonSerializationException exception)
         {
-            _logger.Error(exception, "Error while deserializing userdata json");
+            Logger.Current.Error(exception, "Error while deserializing userdata json");
         }
 
         if (userDetailsDto == null)

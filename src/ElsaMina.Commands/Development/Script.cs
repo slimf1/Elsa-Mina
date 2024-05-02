@@ -4,7 +4,6 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.DependencyInjection;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
-using Serilog;
 
 namespace ElsaMina.Commands.Development;
 
@@ -15,12 +14,10 @@ public class Script : Command<Script>, INamed
     public override bool IsWhitelistOnly => true;
     public override bool IsHidden => true;
 
-    private readonly ILogger _logger;
     private readonly IDependencyContainerService _dependencyContainerService;
 
-    public Script(ILogger logger, IDependencyContainerService dependencyContainerService)
+    public Script(IDependencyContainerService dependencyContainerService)
     {
-        _logger = logger;
         _dependencyContainerService = dependencyContainerService;
     }
 
@@ -47,7 +44,7 @@ public class Script : Command<Script>, INamed
         }
         catch (Exception exception)
         {
-            _logger.Error(exception, "An error occured while using script command.");
+            Logger.Current.Error(exception, "An error occured while using script command.");
             context.Reply($"An error occured: {exception.Message}");
         }
     }

@@ -1,9 +1,8 @@
-﻿using ElsaMina.Core.Commands;
+﻿using ElsaMina.Core;
+using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Utils;
-using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
-using Serilog;
 
 namespace ElsaMina.Commands.Badges;
 
@@ -13,12 +12,10 @@ public class DeleteBadge : Command<DeleteBadge>, INamed
     public static IEnumerable<string> Aliases => new[] { "deletetrophy", "delete-badge", "delete-trophy" };
 
     private readonly IBadgeRepository _badgeRepository;
-    private readonly ILogger _logger;
 
-    public DeleteBadge(IBadgeRepository badgeRepository, ILogger logger)
+    public DeleteBadge(IBadgeRepository badgeRepository)
     {
         _badgeRepository = badgeRepository;
-        _logger = logger;
     }
     
     public override char RequiredRank => '%';
@@ -40,7 +37,7 @@ public class DeleteBadge : Command<DeleteBadge>, INamed
         }
         catch (Exception exception)
         {
-            _logger.Error(exception, "Error while deleting badge");
+            Logger.Current.Error(exception, "Error while deleting badge");
             context.ReplyLocalizedMessage("badge_delete_failure", exception.Message);
         }
     }

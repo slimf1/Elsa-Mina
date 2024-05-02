@@ -1,9 +1,9 @@
-﻿using ElsaMina.Core.Commands;
+﻿using ElsaMina.Core;
+using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
-using Serilog;
 
 namespace ElsaMina.Commands.Teams.Samples;
 
@@ -13,12 +13,10 @@ public class AddTeamToRoom : Command<AddTeamToRoom>, INamed
     public static IEnumerable<string> Aliases => new[] { "addteamtoroom", "add-to-room", "add-to-room" };
 
     private readonly ITeamRepository _teamRepository;
-    private readonly ILogger _logger;
 
-    public AddTeamToRoom(ITeamRepository teamRepository, ILogger logger)
+    public AddTeamToRoom(ITeamRepository teamRepository)
     {
         _teamRepository = teamRepository;
-        _logger = logger;
     }
 
     public override char RequiredRank => '+';
@@ -59,7 +57,7 @@ public class AddTeamToRoom : Command<AddTeamToRoom>, INamed
         }
         catch (Exception exception)
         {
-            _logger.Error(exception, "An error occurred while adding room to team");
+            Logger.Current.Error(exception, "An error occurred while adding room to team");
             context.ReplyLocalizedMessage("add_team_to_room_failure", exception.Message);
         }
     }

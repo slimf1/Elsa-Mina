@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Resources;
@@ -14,17 +15,14 @@ public class RoomConfig : Command<RoomConfig>, INamed
     public static string Name => "room-config";
     public static IEnumerable<string> Aliases => new[] { "roomconfig", "rc" };
 
-    private readonly ILogger _logger;
     private readonly IRoomParametersRepository _roomParametersRepository;
     private readonly IRoomsManager _roomsManager;
     private readonly IResourcesService _resourcesService;
 
-    public RoomConfig(ILogger logger,
-        IRoomParametersRepository roomParametersRepository,
+    public RoomConfig(IRoomParametersRepository roomParametersRepository,
         IRoomsManager roomsManager,
         IResourcesService resourcesService)
     {
-        _logger = logger;
         _roomParametersRepository = roomParametersRepository;
         _roomsManager = roomsManager;
         _resourcesService = resourcesService;
@@ -70,7 +68,7 @@ public class RoomConfig : Command<RoomConfig>, INamed
         }
         catch (Exception exception)
         {
-            _logger.Error(exception, "An error occured while updating room configuration");
+            Logger.Current.Error(exception, "An error occured while updating room configuration");
             context.ReplyLocalizedMessage("room_config_failure", exception.Message);
         }
     }

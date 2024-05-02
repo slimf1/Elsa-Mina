@@ -2,6 +2,8 @@
 
 public interface IParser
 {
+    string Identifier { get; }
     bool IsEnabled { get; set; }
-    Task Execute(string[] parts, string roomId = null);
+
+    Task Invoke(string[] parts, string roomId = null);
 }

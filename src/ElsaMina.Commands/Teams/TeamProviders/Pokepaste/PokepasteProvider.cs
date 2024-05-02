@@ -1,16 +1,14 @@
-﻿using ElsaMina.Core.Services.Http;
-using Serilog;
+﻿using ElsaMina.Core;
+using ElsaMina.Core.Services.Http;
 
 namespace ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
 
 public class PokepasteProvider : ITeamProvider
 {
-    private readonly ILogger _logger;
     private readonly IHttpService _httpService;
 
-    public PokepasteProvider(ILogger logger, IHttpService httpService)
+    public PokepasteProvider(IHttpService httpService)
     {
-        _logger = logger;
         _httpService = httpService;
     }
 
@@ -29,7 +27,7 @@ public class PokepasteProvider : ITeamProvider
         }
         catch (Exception exception)
         {
-            _logger.Error(exception, "An error occurred while fetching a postepaste team");
+            Logger.Current.Error(exception, "An error occurred while fetching a postepaste team");
             return null;
         }
     }

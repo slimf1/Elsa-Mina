@@ -1,21 +1,16 @@
 ﻿using ElsaMina.Core.Services.Config;
 using Newtonsoft.Json;
-using NSubstitute;
-using Serilog;
 
 namespace ElsaMina.Test.Core.Services.Config;
 
 public class ConfigurationServiceTest
 {
-    private ILogger _logger;
     private ConfigurationManager _configurationManager;
 
     [SetUp]
     public void SetUp()
     {
-        _logger = Substitute.For<ILogger>();
-        
-        _configurationManager = new ConfigurationManager(_logger);
+        _configurationManager = new ConfigurationManager();
     }
 
     [Test]
@@ -34,7 +29,7 @@ public class ConfigurationServiceTest
     }
 
     [Test]
-    public async Task Test_LoadConfiguration_ShouldThrowException_WhenJsonIsInvalid()
+    public void Test_LoadConfiguration_ShouldThrowException_WhenJsonIsInvalid()
     {
         // Arrange
         var reader = new StringReader("{\"Env\": \"test\", \"Host\": \"test.server.com\"");

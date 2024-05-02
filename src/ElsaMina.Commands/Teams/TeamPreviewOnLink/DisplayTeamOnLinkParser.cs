@@ -1,4 +1,5 @@
 ﻿using ElsaMina.Commands.Teams.TeamProviders;
+using ElsaMina.Core;
 using ElsaMina.Core.Commands.Parsers;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Clock;
@@ -6,7 +7,6 @@ using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Templating;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Repositories;
-using Serilog;
 
 namespace ElsaMina.Commands.Teams.TeamPreviewOnLink;
 
@@ -16,14 +16,12 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
 
     private readonly Dictionary<string, DateTimeOffset> _lastTeamTimes = new();
 
-    private readonly ILogger _logger;
     private readonly IClockService _clockService;
     private readonly ITeamProviderFactory _teamProviderFactory;
     private readonly ITemplatesManager _templatesManager;
     private readonly IRoomParametersRepository _roomParametersRepository;
 
-    public DisplayTeamOnLinkParser(ILogger logger,
-        IDependencyContainerService dependencyContainerService,
+    public DisplayTeamOnLinkParser(IDependencyContainerService dependencyContainerService,
         IClockService clockService,
         ITeamProviderFactory teamProviderFactory,
         ITemplatesManager templatesManager,
@@ -34,8 +32,9 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
         _teamProviderFactory = teamProviderFactory;
         _templatesManager = templatesManager;
         _roomParametersRepository = roomParametersRepository;
-        _logger = logger;
     }
+    
+    public override string Identifier => nameof(DisplayTeamOnLinkParser);
 
     protected override async Task HandleChatMessage(IContext context)
     {
@@ -71,7 +70,7 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
         var sharedTeam = await provider.GetTeamExport(link);
         if (sharedTeam == null)
         {
-            _logger.Error("An error occurred while fetching team from link {0} with provider {1}",
+            Logger.Current.Error("An error occurred while fetching team from link {0} with provider {1}",
                 link, provider);
             return;
         }

@@ -5,13 +5,11 @@ using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
-using Serilog;
 
 namespace ElsaMina.Test.Core.Services.Rooms;
 
 public class RoomsManagerTest
 {
-    private ILogger _logger;
     private IConfigurationManager _configurationManager;
     private IRoomParametersRepository _roomParametersRepository;
 
@@ -20,11 +18,10 @@ public class RoomsManagerTest
     [SetUp]
     public void SetUp()
     {
-        _logger = Substitute.For<ILogger>();
         _configurationManager = Substitute.For<IConfigurationManager>();
         _roomParametersRepository = Substitute.For<IRoomParametersRepository>();
 
-        _roomsManager = new RoomsManager(_logger, _configurationManager, _roomParametersRepository);
+        _roomsManager = new RoomsManager(_configurationManager, _roomParametersRepository);
     }
 
     private async Task InitializeFakeRooms()

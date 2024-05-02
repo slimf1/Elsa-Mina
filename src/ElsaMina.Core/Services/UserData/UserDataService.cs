@@ -1,6 +1,5 @@
 ﻿using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Utils;
-using Serilog;
 
 namespace ElsaMina.Core.Services.UserData;
 
@@ -10,12 +9,10 @@ public class UserDataService : IUserDataService
 
     private readonly Dictionary<string, UserDataDto> _userDataCache = new();
 
-    private readonly ILogger _logger;
     private readonly IHttpService _httpService;
 
-    public UserDataService(ILogger logger, IHttpService httpService)
+    public UserDataService(IHttpService httpService)
     {
-        _logger = logger;
         _httpService = httpService;
     }
 
@@ -35,7 +32,7 @@ public class UserDataService : IUserDataService
         }
         catch (Exception exception)
         {
-            _logger.Error(exception, "Error while getting user data");
+            Logger.Current.Error(exception, "Error while getting user data");
             return null;
         }
     }

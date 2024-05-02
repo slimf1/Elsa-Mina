@@ -1,8 +1,8 @@
-﻿using ElsaMina.Core.Commands;
+﻿using ElsaMina.Core;
+using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.Core.Utils;
-using Serilog;
 
 namespace ElsaMina.Commands.Badges;
 
@@ -11,13 +11,10 @@ public class TakeBadge : Command<TakeBadge>, INamed
     public static string Name => "takebadge";
     public static IEnumerable<string> Aliases => new[] { "take-badge", "take-trophy", "taketrophy" };
 
-    private readonly ILogger _logger;
     private readonly IRoomUserDataService _roomUserDataService;
 
-    public TakeBadge(ILogger logger,
-        IRoomUserDataService roomUserDataService)
+    public TakeBadge(IRoomUserDataService roomUserDataService)
     {
-        _logger = logger;
         _roomUserDataService = roomUserDataService;
     }
 
@@ -47,7 +44,7 @@ public class TakeBadge : Command<TakeBadge>, INamed
         }
         catch (Exception exception)
         {
-            _logger.Error(exception, "An error occcurred while taking badge");
+            Logger.Current.Error(exception, "An error occurred while taking badge");
             context.ReplyLocalizedMessage("takebadge_failure", exception.Message);
         }
     }

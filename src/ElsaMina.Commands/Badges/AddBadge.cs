@@ -1,9 +1,9 @@
-﻿using ElsaMina.Core.Commands;
+﻿using ElsaMina.Core;
+using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
-using Serilog;
 
 namespace ElsaMina.Commands.Badges;
 
@@ -14,12 +14,10 @@ public class AddBadge : Command<AddBadge>, INamed
     public static IEnumerable<string> Aliases => new[]
         { "addbadge", "new-badge", "newbadge", "add-trophy", "newtrophy", "new-trophy" };
 
-    private readonly ILogger _logger;
     private readonly IBadgeRepository _badgeRepository;
 
-    public AddBadge(ILogger logger, IBadgeRepository badgeRepository)
+    public AddBadge(IBadgeRepository badgeRepository)
     {
-        _logger = logger;
         _badgeRepository = badgeRepository;
     }
     
@@ -60,7 +58,7 @@ public class AddBadge : Command<AddBadge>, INamed
         }
         catch (Exception exception)
         {
-            _logger.Error(exception, "Could not add badge");
+            Logger.Current.Error(exception, "Could not add badge");
             context.ReplyLocalizedMessage("badge_add_failure_message", exception.Message);
         }
     }

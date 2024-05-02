@@ -27,7 +27,7 @@ public class ParsersManager : IParsersManager
         await Task.WhenAll(
             _parsers
                 .Where(parser => parser.IsEnabled)
-                .Select(parser => parser.Execute(parts, roomId))
+                .Select(parser => parser.Invoke(parts, roomId))
         );
     }
 }

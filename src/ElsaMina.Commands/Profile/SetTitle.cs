@@ -1,8 +1,8 @@
-﻿using ElsaMina.Core.Commands;
+﻿using ElsaMina.Core;
+using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.Core.Utils;
-using Serilog;
 
 namespace ElsaMina.Commands.Profile;
 
@@ -12,13 +12,10 @@ public class SetTitle : Command<SetTitle>, INamed
     public static IEnumerable<string> Aliases => new[] { "settitle", "set-title", "set-bio", "setbio" };
 
     private readonly IRoomUserDataService _roomUserDataService;
-    private readonly ILogger _logger;
 
-    public SetTitle(IRoomUserDataService roomUserDataService,
-        ILogger logger)
+    public SetTitle(IRoomUserDataService roomUserDataService)
     {
         _roomUserDataService = roomUserDataService;
-        _logger = logger;
     }
     
     public override char RequiredRank => '+';
@@ -42,7 +39,7 @@ public class SetTitle : Command<SetTitle>, INamed
         }
         catch (Exception exception)
         {
-            _logger.Error(exception, "Error while updating avatar");
+            Logger.Current.Error(exception, "Error while updating avatar");
             context.ReplyLocalizedMessage("title_failure", exception.Message);
         }
     }

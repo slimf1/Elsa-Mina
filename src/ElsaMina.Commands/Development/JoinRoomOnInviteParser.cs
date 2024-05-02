@@ -12,6 +12,8 @@ public class JoinRoomOnInviteParser : PrivateMessageParser
     {
     }
 
+    public override string Identifier => nameof(PrivateMessageParser);
+
     protected override Task HandlePrivateMessage(IContext context)
     {
         if (!context.Message.StartsWith("/invite ") || !context.IsSenderWhitelisted)

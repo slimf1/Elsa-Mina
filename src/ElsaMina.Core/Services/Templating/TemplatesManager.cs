@@ -3,7 +3,6 @@ using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Templates;
 using ElsaMina.Core.Utils;
 using RazorLight;
-using Serilog;
 
 namespace ElsaMina.Core.Services.Templating;
 
@@ -20,14 +19,12 @@ public class TemplatesManager : ITemplatesManager
         .Build();
 
     private readonly IDependencyContainerService _dependencyContainerService;
-    private readonly ILogger _logger;
 
     private readonly ConcurrentDictionary<string, ITemplatePage> _preCompilationResults = new();
 
-    public TemplatesManager(IDependencyContainerService dependencyContainerService, ILogger logger)
+    public TemplatesManager(IDependencyContainerService dependencyContainerService)
     {
         _dependencyContainerService = dependencyContainerService;
-        _logger = logger;
     }
 
     /// <summary>
@@ -64,7 +61,7 @@ public class TemplatesManager : ITemplatesManager
 
     private async Task PreCompileTemplate(string templatePath)
     {
-        _logger.Information("Pre-compiling template {0}...", templatePath);
+        Logger.Current.Information("Pre-compiling template {0}...", templatePath);
         var templateKey = GetTemplateKeyFromPath(templatePath);
         _preCompilationResults[templateKey] = await RAZOR_ENGINE.CompileTemplateAsync(templatePath);
     }

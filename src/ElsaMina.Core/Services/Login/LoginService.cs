@@ -1,6 +1,5 @@
 ﻿using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
-using Serilog;
 
 namespace ElsaMina.Core.Services.Login;
 
@@ -8,13 +7,11 @@ public class LoginService : ILoginService
 {
     private const string LOGIN_URL = "http://play.pokemonshowdown.com/action.php";
 
-    private readonly ILogger _logger;
     private readonly IHttpService _httpService;
     private readonly IConfigurationManager _configurationManager;
 
-    public LoginService(ILogger logger, IHttpService httpService, IConfigurationManager configurationManager)
+    public LoginService(IHttpService httpService, IConfigurationManager configurationManager)
     {
-        _logger = logger;
         _httpService = httpService;
         _configurationManager = configurationManager;
     }
@@ -35,12 +32,12 @@ public class LoginService : ILoginService
         }
         catch (HttpException exception)
         {
-            _logger.Error("Login failed with status code {0} : {1}",
+            Logger.Current.Error("Login failed with status code {0} : {1}",
                 exception.StatusCode, exception.ResponseContent);
         }
         catch (Exception exception)
         {
-            _logger.Error(exception, "Login failed");
+            Logger.Current.Error(exception, "Login failed");
         }
 
         return null;

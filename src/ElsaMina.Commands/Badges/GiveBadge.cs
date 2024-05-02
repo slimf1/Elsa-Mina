@@ -1,27 +1,24 @@
+using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
-using Serilog;
 
 namespace ElsaMina.Commands.Badges;
 
 public class GiveBadge : Command<GiveBadge>, INamed
 {
-    public new static string Name => "givebadge";
-    public new static IEnumerable<string> Aliases => new[] { "give-badge" };
+    public static string Name => "givebadge";
+    public static IEnumerable<string> Aliases => new[] { "give-badge" };
 
-    private readonly ILogger _logger;
     private readonly IBadgeRepository _badgeRepository;
     private readonly IRoomUserDataService _roomUserDataService;
 
-    public GiveBadge(ILogger logger,
-        IBadgeRepository badgeRepository,
+    public GiveBadge(IBadgeRepository badgeRepository,
         IRoomUserDataService roomUserDataService)
     {
-        _logger = logger;
         _badgeRepository = badgeRepository;
         _roomUserDataService = roomUserDataService;
     }
@@ -47,7 +44,7 @@ public class GiveBadge : Command<GiveBadge>, INamed
         }
         catch (Exception exception)
         {
-            _logger.Error(exception, "An error occured while fetching a badge");
+            Logger.Current.Error(exception, "An error occured while fetching a badge");
         }
 
         if (badge == null)
@@ -63,7 +60,7 @@ public class GiveBadge : Command<GiveBadge>, INamed
         }
         catch (Exception exception)
         {
-            _logger.Error(exception, "An error occured while giving a badge");
+            Logger.Current.Error(exception, "An error occured while giving a badge");
             context.ReplyLocalizedMessage("badge_give_error", exception.Message);
         }
     }

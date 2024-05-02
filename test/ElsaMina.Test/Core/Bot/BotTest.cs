@@ -9,13 +9,11 @@ using ElsaMina.Core.Services.System;
 using ElsaMina.Core.Services.Templating;
 using ElsaMina.Core.Services.UserDetails;
 using NSubstitute;
-using Serilog;
 
 namespace ElsaMina.Test.Core.Bot;
 
 public class BotTest
 {
-    private ILogger _logger;
     private IClient _client;
     private IConfigurationManager _configurationManager;
     private IClockService _clockService;
@@ -32,7 +30,6 @@ public class BotTest
     [SetUp]
     public void SetUp()
     {
-        _logger = Substitute.For<ILogger>();
         _client = Substitute.For<IClient>();
         _configurationManager = Substitute.For<IConfigurationManager>();
         _clockService = Substitute.For<IClockService>();
@@ -44,7 +41,7 @@ public class BotTest
         _systemService = Substitute.For<ISystemService>();
         _templatesManager = Substitute.For<ITemplatesManager>();
         
-        _bot = new ElsaMina.Core.Bot(_logger, _client, _configurationManager, _clockService, _roomsManager,
+        _bot = new ElsaMina.Core.Bot(_client, _configurationManager, _clockService, _roomsManager,
             _formatsManager, _loginService, _parsersManager, _userDetailsManager, _systemService, _templatesManager);
     }
 

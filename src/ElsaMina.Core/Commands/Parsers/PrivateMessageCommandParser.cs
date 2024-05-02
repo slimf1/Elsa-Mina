@@ -3,29 +3,26 @@ using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Rooms;
-using ElsaMina.Core.Utils;
-using Serilog;
 
 namespace ElsaMina.Core.Commands.Parsers;
 
 public class PrivateMessageCommandParser : PrivateMessageParser
 {
-    private readonly ILogger _logger;
     private readonly IRoomsManager _roomsManager;
     private readonly IConfigurationManager _configurationManager;
     private readonly ICommandExecutor _commandExecutor;
 
     public PrivateMessageCommandParser(IDependencyContainerService dependencyContainerService,
-        ILogger logger,
         IRoomsManager roomsManager,
         IConfigurationManager configurationManager,
         ICommandExecutor commandExecutor) : base(dependencyContainerService)
     {
-        _logger = logger;
         _roomsManager = roomsManager;
         _configurationManager = configurationManager;
         _commandExecutor = commandExecutor;
     }
+
+    public override string Identifier => nameof(PrivateMessageCommandParser);
 
     protected override async Task HandlePrivateMessage(IContext context)
     {
@@ -50,7 +47,7 @@ public class PrivateMessageCommandParser : PrivateMessageParser
         }
         catch (Exception exception)
         {
-            _logger.Error(exception, "Room Command execution crashed");
+            Logger.Current.Error(exception, "Room Command execution crashed");
         }
     }
 }

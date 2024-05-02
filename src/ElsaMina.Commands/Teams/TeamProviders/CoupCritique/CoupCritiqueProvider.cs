@@ -1,5 +1,5 @@
-﻿using ElsaMina.Core.Services.Http;
-using Serilog;
+﻿using ElsaMina.Core;
+using ElsaMina.Core.Services.Http;
 
 namespace ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
 
@@ -7,12 +7,10 @@ public class CoupCritiqueProvider : ITeamProvider
 {
     private const string COUP_CRITIQUE_API_URL = "https://www.coupcritique.fr/api/teams/{0}";
     
-    private readonly ILogger _logger;
     private readonly IHttpService _httpService;
 
-    public CoupCritiqueProvider(ILogger logger, IHttpService httpService)
+    public CoupCritiqueProvider(IHttpService httpService)
     {
-        _logger = logger;
         _httpService = httpService;
     }
 
@@ -37,7 +35,7 @@ public class CoupCritiqueProvider : ITeamProvider
         }
         catch (Exception exception)
         {
-            _logger.Error(exception, "An error occurred while fetching team from Coup Critique");
+            Logger.Current.Error(exception, "An error occurred while fetching team from Coup Critique");
             return null;
         }
     }

@@ -13,6 +13,7 @@ using ElsaMina.Commands.Teams.TeamPreviewOnLink;
 using ElsaMina.Commands.Teams.TeamProviders;
 using ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
 using ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
+using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 
 namespace ElsaMina.Commands;
@@ -70,10 +71,10 @@ public class CommandModule : Module
         var commandName = T.Name;
         if (string.IsNullOrEmpty(commandName))
         {
-            Console.WriteLine("[WARN] Command "+ typeof(T).Name + " has no name, and could not be registered");
+            Logger.Current.Warning("Command "+ typeof(T).Name + " has no name, and could not be registered");
             return;
         }
-        Console.WriteLine("Command "+ typeof(T).Name + " was registered");
+        Logger.Current.Information("Command "+ typeof(T).Name + " was registered");
         builder.RegisterType<T>().AsSelf().Named<ICommand>(commandName);
         foreach (var alias in T.Aliases)
         {

@@ -1,13 +1,12 @@
 ﻿using System.Text.RegularExpressions;
-using ElsaMina.Commands.Teams.TeamPreviewOnLink;
 using ElsaMina.Commands.Teams.TeamProviders;
+using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
-using Serilog;
 
 namespace ElsaMina.Commands.Teams.Samples;
 
@@ -22,17 +21,14 @@ public partial class AddTeam : Command<AddTeam>, INamed
     private readonly ITeamProviderFactory _teamProviderFactory;
     private readonly ITeamRepository _teamRepository;
     private readonly IClockService _clockService;
-    private readonly ILogger _logger;
 
     public AddTeam(ITeamProviderFactory teamProviderFactory,
         ITeamRepository teamRepository,
-        IClockService clockService,
-        ILogger logger)
+        IClockService clockService)
     {
         _teamProviderFactory = teamProviderFactory;
         _teamRepository = teamRepository;
         _clockService = clockService;
-        _logger = logger;
     }
 
     public override string HelpMessageKey => "add_team_help_message";
@@ -116,7 +112,7 @@ public partial class AddTeam : Command<AddTeam>, INamed
         }
         catch (Exception exception)
         {
-            _logger.Error(exception, "Could not insert team with id {0}", teamId);
+            Logger.Current.Error(exception, "Could not insert team with id {0}", teamId);
             context.ReplyLocalizedMessage("add_team_failure", exception.Message);
         }
     }

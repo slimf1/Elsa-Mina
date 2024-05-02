@@ -1,8 +1,8 @@
+using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
-using Serilog;
 
 namespace ElsaMina.Commands.CustomCommands;
 
@@ -15,12 +15,10 @@ public class EditCustomCommand : Command<EditCustomCommand>, INamed
         "editcustom"
     };
 
-    private readonly ILogger _logger;
     private readonly IAddedCommandRepository _addedCommandsRepository;
 
-    public EditCustomCommand(ILogger logger, IAddedCommandRepository addedCommandsRepository)
+    public EditCustomCommand(IAddedCommandRepository addedCommandsRepository)
     {
-        _logger = logger;
         _addedCommandsRepository = addedCommandsRepository;
     }
     
@@ -39,7 +37,7 @@ public class EditCustomCommand : Command<EditCustomCommand>, INamed
         }
         catch (Exception exception)
         {
-            _logger.Error(exception, "Error executing command");
+            Logger.Current.Error(exception, "Error executing command");
         }
 
         if (command == null)

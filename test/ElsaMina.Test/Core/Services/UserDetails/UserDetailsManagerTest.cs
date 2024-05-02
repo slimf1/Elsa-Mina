@@ -21,7 +21,7 @@ public class UserDetailsManagerTest
         _client = Substitute.For<IClient>();
         _systemService = Substitute.For<ISystemService>();
 
-        _userDetailsManager = new UserDetailsManager(_logger, _client, _systemService);
+        _userDetailsManager = new UserDetailsManager(_client, _systemService);
     }
 
     [Test]

@@ -8,17 +8,14 @@ namespace ElsaMina.Core.Services.Rooms;
 
 public class RoomsManager : IRoomsManager
 {
-    private readonly ILogger _logger;
     private readonly IConfigurationManager _configurationManager;
     private readonly IRoomParametersRepository _roomParametersRepository;
 
     private readonly Dictionary<string, IRoom> _rooms = new();
 
-    public RoomsManager(ILogger logger,
-        IConfigurationManager configurationManager,
+    public RoomsManager(IConfigurationManager configurationManager,
         IRoomParametersRepository roomParametersRepository)
     {
-        _logger = logger;
         _configurationManager = configurationManager;
         _roomParametersRepository = roomParametersRepository;
     }
@@ -35,11 +32,11 @@ public class RoomsManager : IRoomsManager
 
     public async Task InitializeRoom(string roomId, string roomTitle, IEnumerable<string> userIds)
     {
-        _logger.Information("Initializing {0}...", roomTitle);
+        Logger.Current.Information("Initializing {0}...", roomTitle);
         var roomParameters = await _roomParametersRepository.GetByIdAsync(roomId);
         if (roomParameters == null)
         {
-            _logger.Information("Could not find room parameters, inserting in db...");
+            Logger.Current.Information("Could not find room parameters, inserting in db...");
             roomParameters = new RoomParameters
             {
                 Id = roomId,
@@ -48,7 +45,7 @@ public class RoomsManager : IRoomsManager
                 IsCommandAutocorrectEnabled = false
             };
             await _roomParametersRepository.AddAsync(roomParameters);
-            _logger.Information("Inserted room parameters for room {0} in db", roomId);
+            Logger.Current.Information("Inserted room parameters for room {0} in db", roomId);
         }
         var defaultLocale = roomParameters.Locale ?? _configurationManager.Configuration.DefaultLocaleCode;
         var room = new Room(roomTitle, roomId, defaultLocale);
@@ -59,12 +56,12 @@ public class RoomsManager : IRoomsManager
         }
         
         _rooms[room.RoomId] = room;
-        _logger.Information("Initializing {0} : DONE", roomTitle);
+        Logger.Current.Information("Initializing {0} : DONE", roomTitle);
     }
 
     public void RemoveRoom(string roomId)
     {
-        _logger.Information("Removing room : {0}", roomId);
+        Logger.Current.Information("Removing room : {0}", roomId);
         _rooms.Remove(roomId);
     }
 

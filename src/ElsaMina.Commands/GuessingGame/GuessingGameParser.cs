@@ -16,7 +16,9 @@ public class GuessingGameParser : ChatMessageParser
     {
         _roomsManager = roomsManager;
     }
-    
+
+    public override string Identifier => nameof(ChatMessageParser);
+
     protected override Task HandleChatMessage(IContext context)
     {
         var room = _roomsManager.GetRoom(context.RoomId);

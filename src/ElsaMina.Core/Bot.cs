@@ -8,7 +8,6 @@ using ElsaMina.Core.Services.System;
 using ElsaMina.Core.Services.Templating;
 using ElsaMina.Core.Services.UserDetails;
 using ElsaMina.Core.Utils;
-using Serilog;
 
 namespace ElsaMina.Core;
 
@@ -17,7 +16,6 @@ public class Bot : IBot
     private const long SAME_MESSAGE_COOLDOWN = 3;
     private const int MESSAGE_LENGTH_LIMIT = 125000;
 
-    private readonly ILogger _logger;
     private readonly IClient _client;
     private readonly IConfigurationManager _configurationManager;
     private readonly IClockService _clockService;
@@ -35,8 +33,7 @@ public class Bot : IBot
     private long _lastMessageTime;
     private bool _disposed;
 
-    public Bot(ILogger logger,
-        IClient client,
+    public Bot(IClient client,
         IConfigurationManager configurationManager,
         IClockService clockService,
         IRoomsManager roomsManager,
@@ -46,7 +43,6 @@ public class Bot : IBot
         IUserDetailsManager userDetailsManager,
         ISystemService systemService, ITemplatesManager templatesManager)
     {
-        _logger = logger;
         _client = client;
         _configurationManager = configurationManager;
         _clockService = clockService;
@@ -106,7 +102,7 @@ public class Bot : IBot
 
         var roomId = room ?? _currentRoom;
 
-        _logger.Information("[Received] ({0}) {1}", room, line);
+        Logger.Current.Debug("[Received] ({0}) {1}", room, line);
 
         if (!_parsersManager.IsInitialized)
         {
@@ -118,7 +114,7 @@ public class Bot : IBot
         switch (parts[1])
         {
             case "nametaken":
-                _logger.Error("Login failed, check username or password validity. Exiting");
+                Logger.Current.Error("Login failed, check username or password validity. Exiting");
                 _systemService.Kill();
                 break;
             case "challstr":
@@ -159,7 +155,7 @@ public class Bot : IBot
             name = name[^2..];
         }
         
-        _logger.Information("Connected as : {0}", name);
+        Logger.Current.Information("Connected as : {0}", name);
 
         foreach (var roomId in _configurationManager.Configuration.Rooms)
         {
@@ -175,13 +171,13 @@ public class Bot : IBot
 
     private async Task Login(string challstr)
     {
-        _logger.Information("Logging in...");
+        Logger.Current.Information("Logging in...");
         var response = await _loginService.Login(challstr);
 
         if (response?.CurrentUser == null ||
             _configurationManager.Configuration.Name.ToLowerAlphaNum() != response.CurrentUser.UserId)
         {
-            _logger.Error("Login failed. Check password validity. Exiting");
+            Logger.Current.Error("Login failed. Check password validity. Exiting");
             _systemService.Kill();
         }
         
@@ -206,7 +202,7 @@ public class Bot : IBot
             return;
         }
 
-        _logger.Information("[Sending] {0}", message);
+        Logger.Current.Debug("[Sending] {0}", message);
 
         _client.Send(message);
         _lastMessage = message;

@@ -1,8 +1,8 @@
-﻿using ElsaMina.Core.Commands;
+﻿using ElsaMina.Core;
+using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Repositories;
-using Serilog;
 
 namespace ElsaMina.Commands.Teams.Samples;
 
@@ -12,13 +12,10 @@ public class DeleteTeam : Command<DeleteTeam>, INamed
     public static IEnumerable<string> Aliases => new[] { "deleteteam" };
     
     private readonly ITeamRepository _teamRepository;
-    private readonly ILogger _logger;
 
-    public DeleteTeam(ITeamRepository teamRepository,
-        ILogger logger)
+    public DeleteTeam(ITeamRepository teamRepository)
     {
         _teamRepository = teamRepository;
-        _logger = logger;
     }
 
     public override char RequiredRank => '+';
@@ -39,7 +36,7 @@ public class DeleteTeam : Command<DeleteTeam>, INamed
         }
         catch (Exception exception)
         {
-            _logger.Error(exception, "An error occurred while deleting team");
+            Logger.Current.Error(exception, "An error occurred while deleting team");
             context.ReplyLocalizedMessage("deleteteam_team_deletion_error", exception.Message);
         }
     }
