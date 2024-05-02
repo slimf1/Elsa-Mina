@@ -1,19 +1,14 @@
 ﻿using ElsaMina.Core.Models;
-using ElsaMina.Core.Services.Config;
-using ElsaMina.Core.Services.Resources;
 
 namespace ElsaMina.Core.Contexts;
 
 public class ContextFactory : IContextFactory
 {
-    private readonly IConfigurationManager _configurationManager;
-    private readonly IResourcesService _resourcesService;
+    private readonly IContextProvider _contextProvider;
 
-    public ContextFactory(IConfigurationManager configurationManager,
-        IResourcesService resourcesService)
+    public ContextFactory(IContextProvider contextProvider)
     {
-        _configurationManager = configurationManager;
-        _resourcesService = resourcesService;
+        _contextProvider = contextProvider;
     }
 
     public IContext GetContext(ContextType type,
@@ -27,10 +22,9 @@ public class ContextFactory : IContextFactory
     {
         return type switch
         {
-            ContextType.Pm => new PmContext(_configurationManager, _resourcesService, bot, message, target, sender,
-                command),
-            ContextType.Room => new RoomContext(_configurationManager, _resourcesService, bot, message ,target, sender,
-                command, room, timestamp),
+            ContextType.Pm => new PmContext(_contextProvider, bot, message, target, sender, command),
+            ContextType.Room => new RoomContext(_contextProvider, bot, message ,target, sender, command, room,
+                timestamp),
             _ => throw new ArgumentException("Invalid type")
         };
     }

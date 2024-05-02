@@ -1,52 +1,38 @@
 ﻿using System.Globalization;
 using ElsaMina.Core.Models;
-using ElsaMina.Core.Services.Config;
-using ElsaMina.Core.Services.Resources;
 
 namespace ElsaMina.Core.Contexts;
 
 public class PmContext : Context
 {
-    private readonly IConfigurationManager _configurationManager;
+    private CultureInfo _currentCulture;
 
-    private CultureInfo _currentLocale;
-
-    public PmContext(IConfigurationManager configurationManager,
-        IResourcesService resourcesService,
+    public PmContext(IContextProvider contextProvider,
         IBot bot,
         string message,
         string target,
         IUser sender,
-        string command) : base(configurationManager, resourcesService, bot, message, target, sender, command)
+        string command) : base(contextProvider, bot, message, target, sender, command)
     {
-        _configurationManager = configurationManager;
-
-        _currentLocale = new CultureInfo(_configurationManager.Configuration.DefaultLocaleCode);
+        _currentCulture = contextProvider.DefaultCulture;
+        RoomId = contextProvider.DefaultRoom;
     }
 
-    public override string RoomId => _configurationManager.Configuration.DefaultRoom;
+    public override string RoomId { get; }
     public override bool IsPm => true;
 
     public override CultureInfo Culture
     {
-        get => _currentLocale;
-        set => _currentLocale = value;
+        get => _currentCulture;
+        set => _currentCulture = value;
     }
     
-    public override bool HasSufficientRank(char requiredRank)
-    {
-        return true;
-    }
+    public override bool HasSufficientRank(char requiredRank) => true;
 
-    public override void Reply(string message)
-    {
-        Bot.Send($"|/pm {Sender.UserId}, {message}");
-    }
+    public override void Reply(string message) => Bot.Send($"|/pm {Sender.UserId}, {message}");
 
     public override void SendHtml(string html, string roomId = null)
-    {
-        Bot.Say(roomId ?? RoomId, $"/pminfobox {Sender.UserId}, {html}");
-    }
+        => Bot.Say(roomId ?? RoomId, $"/pminfobox {Sender.UserId}, {html}");
 
     public override void SendUpdatableHtml(string htmlId, string html, bool isChanging)
     {
@@ -57,6 +43,6 @@ public class PmContext : Context
     public override string ToString()
     {
         return $"{nameof(PmContext)}[{base.ToString()}, " +
-               $"{nameof(_currentLocale)}: {_currentLocale}]";
+               $"{nameof(_currentCulture)}: {_currentCulture}]";
     }
 }

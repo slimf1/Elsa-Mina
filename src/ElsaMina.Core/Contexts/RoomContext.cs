@@ -1,7 +1,5 @@
 ﻿using System.Globalization;
 using ElsaMina.Core.Models;
-using ElsaMina.Core.Services.Config;
-using ElsaMina.Core.Services.Resources;
 
 namespace ElsaMina.Core.Contexts;
 
@@ -12,15 +10,14 @@ public class RoomContext : Context
     private readonly IRoom _room;
     private readonly long _timestamp;
 
-    public RoomContext(IConfigurationManager configurationManager,
-        IResourcesService resourcesService,
+    public RoomContext(IContextProvider contextProvider,
         IBot bot,
         string message,
         string target,
         IUser sender,
         string command,
         IRoom room,
-        long timestamp) : base(configurationManager, resourcesService, bot, message, target, sender, command)
+        long timestamp) : base(contextProvider, bot, message, target, sender, command)
     {
         _room = room;
         _timestamp = timestamp;

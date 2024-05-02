@@ -144,6 +144,18 @@ public class Bot : IBot
                     _userDetailsManager.HandleReceivedUserDetails(parts[3]);
                 }
                 break;
+            case "noinit":
+                // Petit switch dans un switch 🙈
+                switch (parts[2])
+                {
+                    case "joinfailed":
+                        Logger.Current.Error("Could not join room '{0}', probably due to a lack of permissions", roomId);
+                        break;
+                    case "nonexistent":
+                        Logger.Current.Error("Room '{0}' doesn't exist, please check configuration", roomId);
+                        break;
+                }
+                break;
         }
     }
 

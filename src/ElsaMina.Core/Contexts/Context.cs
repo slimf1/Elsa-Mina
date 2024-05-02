@@ -1,32 +1,21 @@
 ﻿using System.Globalization;
 using ElsaMina.Core.Models;
-using ElsaMina.Core.Services.Config;
-using ElsaMina.Core.Services.Resources;
 
 namespace ElsaMina.Core.Contexts;
 
 public abstract class Context : IContext
 {
-    private readonly IConfigurationManager _configurationManager;
-    private readonly IResourcesService _resourcesService;
-    
-    public IBot Bot { get; }
-    public string Message { get; }
-    public string Target { get; }
-    public IUser Sender { get; }
-    public string Command { get; }
+    private readonly IContextProvider _contextProvider;
 
-    protected Context(IConfigurationManager configurationManager,
-        IResourcesService resourcesService,
+    protected Context(IContextProvider contextProvider,
         IBot bot,
         string message,
         string target,
         IUser sender,
         string command)
     {
-        _configurationManager = configurationManager;
-        _resourcesService = resourcesService;
-        
+        _contextProvider = contextProvider;
+
         Bot = bot;
         Message = message;
         Target = target;
@@ -34,29 +23,25 @@ public abstract class Context : IContext
         Command = command;
     }
 
-    public bool IsSenderWhitelisted => _configurationManager
-        .Configuration
-        .Whitelist
+    public IBot Bot { get; }
+    public string Message { get; }
+    public string Target { get; }
+    public IUser Sender { get; }
+    public string Command { get; }
+
+    public bool IsSenderWhitelisted => _contextProvider.CurrentWhitelist
         .Contains(Sender.UserId);
-    
+
     public void SendHtmlPage(string pageName, string html)
     {
-        Bot.Say(_configurationManager.Configuration.DefaultRoom,
+        Bot.Say(_contextProvider.DefaultRoom,
             $"/sendhtmlpage {Sender.UserId}, {pageName}, {html}");
     }
-    
-    public string GetString(string key)
-    {
-        var localizedString = _resourcesService.GetString(key, Culture);
-        return string.IsNullOrEmpty(localizedString)
-            ? key
-            : localizedString;
-    }
 
-    public string GetString(string key, params object[] formatArguments)
-    {
-        return string.Format(GetString(key), formatArguments);
-    }
+    public string GetString(string key) => _contextProvider.GetString(key, Culture);
+
+    public string GetString(string key, params object[] formatArguments) =>
+        string.Format(GetString(key), formatArguments);
 
     public void ReplyLocalizedMessage(string key, params object[] formatArguments)
     {
@@ -78,7 +63,7 @@ public abstract class Context : IContext
     public abstract string RoomId { get; }
     public abstract bool IsPm { get; }
     public abstract CultureInfo Culture { get; set; }
-    
+
     public abstract bool HasSufficientRank(char requiredRank);
     public abstract void Reply(string message);
     public abstract void SendHtml(string html, string roomId = null);
