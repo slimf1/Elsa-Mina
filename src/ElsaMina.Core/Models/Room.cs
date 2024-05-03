@@ -1,5 +1,4 @@
 ﻿using ElsaMina.Core.Utils;
-using ElsaMina.DataAccess.Models;
 
 namespace ElsaMina.Core.Models;
 

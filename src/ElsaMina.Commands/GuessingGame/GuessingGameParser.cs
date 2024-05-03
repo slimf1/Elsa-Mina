@@ -10,16 +10,16 @@ public class GuessingGameParser : ChatMessageParser
 {
     private readonly IRoomsManager _roomsManager;
     
-    public GuessingGameParser(IDependencyContainerService dependencyContainerService,
+    public GuessingGameParser(IContextFactory contextFactory,
         IRoomsManager roomsManager)
-        : base(dependencyContainerService)
+        : base(contextFactory)
     {
         _roomsManager = roomsManager;
     }
 
     public override string Identifier => nameof(ChatMessageParser);
 
-    protected override Task HandleChatMessage(IContext context)
+    protected override Task HandleMessage(IContext context)
     {
         var room = _roomsManager.GetRoom(context.RoomId);
         if (room?.Game is CountriesGame countriesGame)

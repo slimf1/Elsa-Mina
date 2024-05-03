@@ -21,12 +21,12 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
     private readonly ITemplatesManager _templatesManager;
     private readonly IRoomParametersRepository _roomParametersRepository;
 
-    public DisplayTeamOnLinkParser(IDependencyContainerService dependencyContainerService,
+    public DisplayTeamOnLinkParser(IContextFactory contextFactory,
         IClockService clockService,
         ITeamLinkMatchFactory teamLinkMatchFactory,
         ITemplatesManager templatesManager,
         IRoomParametersRepository roomParametersRepository)
-        : base(dependencyContainerService)
+        : base(contextFactory)
     {
         _clockService = clockService;
         _teamLinkMatchFactory = teamLinkMatchFactory;
@@ -36,7 +36,7 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
     
     public override string Identifier => nameof(DisplayTeamOnLinkParser);
 
-    protected override async Task HandleChatMessage(IContext context)
+    protected override async Task HandleMessage(IContext context)
     {
         // Not costly since because the entity gets cached
         // TODO : revoir pour le charger directement dans la room

@@ -19,6 +19,7 @@ public class PmContext : Context
     }
 
     public override string RoomId { get; }
+
     public override bool IsPm => true;
 
     public override CultureInfo Culture
@@ -26,7 +27,9 @@ public class PmContext : Context
         get => _currentCulture;
         set => _currentCulture = value;
     }
-    
+
+    public override ContextType Type => ContextType.Pm;
+
     public override bool HasSufficientRank(char requiredRank) => true;
 
     public override void Reply(string message) => Bot.Send($"|/pm {Sender.UserId}, {message}");

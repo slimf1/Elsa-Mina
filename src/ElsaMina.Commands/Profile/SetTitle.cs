@@ -9,7 +9,7 @@ namespace ElsaMina.Commands.Profile;
 public class SetTitle : Command<SetTitle>, INamed
 {
     public static string Name => "title";
-    public static IEnumerable<string> Aliases => new[] { "settitle", "set-title", "set-bio", "setbio" };
+    public static List<string> Aliases => ["settitle", "set-title", "set-bio", "setbio"];
 
     private readonly IRoomUserDataService _roomUserDataService;
 

@@ -13,6 +13,7 @@ public interface IContext
     string RoomId { get; }
     bool IsPm { get; }
     CultureInfo Culture { get; set; }
+    ContextType Type { get; }
 
     string GetString(string key);
     string GetString(string key, params object[] formatArguments);

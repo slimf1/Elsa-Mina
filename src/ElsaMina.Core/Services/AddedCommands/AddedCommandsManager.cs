@@ -15,21 +15,23 @@ public class AddedCommandsManager : IAddedCommandsManager
 
     public async Task TryExecuteAddedCommand(string commandName, IContext context)
     {
-        if (!context.HasSufficientRank('+') && !context.IsSenderWhitelisted) // TODO : Parameterize via room parameters ?
+        if (!context.HasSufficientRank('+') &&
+            !context.IsSenderWhitelisted) // TODO : Parameterize via room parameters ?
         {
             return;
         }
 
-        var command = await _addedCommandRepository.GetByIdAsync(new(commandName, context.RoomId));
+        var command =
+            await _addedCommandRepository.GetByIdAsync(new Tuple<string, string>(commandName, context.RoomId));
         if (command == null)
         {
             return;
         }
-        
+
         context.Reply(GetMessageFromCommand(command));
     }
-    
-    private string GetMessageFromCommand(AddedCommand command)
+
+    private static string GetMessageFromCommand(AddedCommand command)
     {
         // TODO : parsing
         return command.Content;

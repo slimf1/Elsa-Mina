@@ -24,6 +24,7 @@ public class RoomContext : Context
     }
 
     public override string RoomId => _room.RoomId;
+
     public override bool IsPm => false;
 
     public override CultureInfo Culture
@@ -31,6 +32,8 @@ public class RoomContext : Context
         get => new(_room.Locale);
         set => _room.Locale = value.Name;
     }
+
+    public override ContextType Type => ContextType.Room;
 
     public override bool HasSufficientRank(char requiredRank)
     {

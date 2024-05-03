@@ -1,20 +1,19 @@
 using ElsaMina.Core.Commands.Parsers;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Services.DependencyInjection;
 
 namespace ElsaMina.Commands.Development;
 
 public class JoinRoomOnInviteParser : PrivateMessageParser
 
 {
-    public JoinRoomOnInviteParser(IDependencyContainerService dependencyContainerService)
-        : base(dependencyContainerService)
+    public JoinRoomOnInviteParser(IContextFactory contextFactory)
+        : base(contextFactory)
     {
     }
 
     public override string Identifier => nameof(PrivateMessageParser);
 
-    protected override Task HandlePrivateMessage(IContext context)
+    protected override Task HandleMessage(IContext context)
     {
         if (!context.Message.StartsWith("/invite ") || !context.IsSenderWhitelisted)
         {

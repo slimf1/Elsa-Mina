@@ -107,7 +107,7 @@ public class ProfileCommand : Command<ProfileCommand>, INamed
         {
             var avatarId = showdownUserDetails?.Avatar ?? DEFAULT_AVATAR_ID;
             var avatarBaseUrl = AVATAR_URL;
-            if (avatarId.StartsWith("#"))
+            if (avatarId.StartsWith('#'))
             {
                 avatarId = avatarId[1..];
                 avatarBaseUrl = AVATAR_CUSTOM_URL;
@@ -121,7 +121,7 @@ public class ProfileCommand : Command<ProfileCommand>, INamed
     private static string GetStatus(UserDetailsDto showdownUserDetails)
     {
         var status = showdownUserDetails?.Status;
-        if (status?.StartsWith("!") == true)
+        if (status?.StartsWith('!') == true)
         {
             status = status[1..];
         }

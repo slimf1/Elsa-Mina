@@ -12,11 +12,11 @@ public sealed class ChatMessageCommandParser : ChatMessageParser
     private readonly IConfigurationManager _configurationManager;
     private readonly ICommandExecutor _commandExecutor;
     
-    public ChatMessageCommandParser(IDependencyContainerService dependencyContainerService,
+    public ChatMessageCommandParser(IContextFactory contextFactory,
         IRoomsManager roomsManager,
         IConfigurationManager configurationManager,
         ICommandExecutor commandExecutor)
-        : base(dependencyContainerService)
+        : base(contextFactory)
     {
         _roomsManager = roomsManager;
         _configurationManager = configurationManager;
@@ -25,7 +25,7 @@ public sealed class ChatMessageCommandParser : ChatMessageParser
 
     public override string Identifier => nameof(ChatMessageCommandParser);
 
-    protected override async Task HandleChatMessage(IContext context)
+    protected override async Task HandleMessage(IContext context)
     {
         if (context.RoomId == null || !_roomsManager.HasRoom(context.RoomId))
         {

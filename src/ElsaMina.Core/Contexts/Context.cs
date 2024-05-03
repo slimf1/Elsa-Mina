@@ -63,6 +63,7 @@ public abstract class Context : IContext
     public abstract string RoomId { get; }
     public abstract bool IsPm { get; }
     public abstract CultureInfo Culture { get; set; }
+    public abstract ContextType Type { get; }
 
     public abstract bool HasSufficientRank(char requiredRank);
     public abstract void Reply(string message);

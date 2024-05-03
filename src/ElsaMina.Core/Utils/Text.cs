@@ -2,11 +2,11 @@
 
 namespace ElsaMina.Core.Utils;
 
-public static class Text
+public static partial class Text
 {
     public static string ToLowerAlphaNum(this string text)
     {
-        return Regex.Replace(text.ToLower(), @"[^A-Za-z0-9]", "");
+        return ToLowerAlphaNumFilterRegex().Replace(text.ToLower(), "");
     }
 
     public static string RemoveNewlines(this string text)
@@ -46,7 +46,7 @@ public static class Text
         {
             for (var j = 1; j <= source2Length; j++)
             {
-                var cost = (source2[j - 1] == source1[i - 1]) ? 0 : 1;
+                var cost = source2[j - 1] == source1[i - 1] ? 0 : 1;
 
                 matrix[i, j] = Math.Min(
                     Math.Min(matrix[i - 1, j] + 1, matrix[i, j - 1] + 1),
@@ -56,4 +56,7 @@ public static class Text
 
         return matrix[source1Length, source2Length];
     }
+
+    [GeneratedRegex("[^A-Za-z0-9]")]
+    private static partial Regex ToLowerAlphaNumFilterRegex();
 }

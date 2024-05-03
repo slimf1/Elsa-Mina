@@ -17,7 +17,7 @@ public class EditCustomCommand : Command<EditCustomCommand>, INamed
     {
         _addedCommandsRepository = addedCommandsRepository;
     }
-    
+
     public override char RequiredRank => '%';
     public override string HelpMessageKey => "editcommand_help";
 
@@ -29,7 +29,7 @@ public class EditCustomCommand : Command<EditCustomCommand>, INamed
         AddedCommand command = null;
         try
         {
-            command = await _addedCommandsRepository.GetByIdAsync(new(commandId, context.RoomId));
+            command = await _addedCommandsRepository.GetByIdAsync(new Tuple<string, string>(commandId, context.RoomId));
         }
         catch (Exception exception)
         {
