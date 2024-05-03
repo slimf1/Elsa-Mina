@@ -1,5 +1,5 @@
 ﻿# Use the official .NET SDK as the base image
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
 # Set the working directory
 WORKDIR /app
@@ -21,21 +21,18 @@ COPY . .
 # Build the application
 RUN dotnet build --configuration Release
 
-# Set the working directory
-WORKDIR /app/src/ElsaMina.Console
-
 # Publish the application
-RUN dotnet publish --no-restore --configuration Release --output /app/publish
+RUN dotnet publish --no-restore --no-build --configuration Release --output /app/dist /app/src/ElsaMina.Console/ElsaMina.Console.csproj
 
 # Set runtime base image
-FROM mcr.microsoft.com/dotnet/runtime:7.0 AS runtime
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS aspnet
+FROM mcr.microsoft.com/dotnet/runtime:8.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS aspnet
 
 # Copy the published output from the build stage
-COPY --from=build /app/publish .
+COPY --from=build /app/dist .
 
 # Set the environmnent variable
-ENV ELSA_MINA_ENV=prod
+ENV ELSA_MINA_ENV="prod"
 
 # Set the entry point for the application
 ENTRYPOINT ["dotnet", "ElsaMina.Console.dll"]

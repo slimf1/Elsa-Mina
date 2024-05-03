@@ -19,14 +19,14 @@ public class Client : IClient
     {
         _configurationManager = configurationManager;
 
-        _websocketClient = new WebsocketClient(new Uri($"ws://{Conf.Host}:{Conf.Port}/showdown/websocket"));
+        _websocketClient = new WebsocketClient(new Uri($"wss://{Conf.Host}:{Conf.Port}/showdown/websocket"));
         _websocketClient.IsReconnectionEnabled = false;
     }
 
     public async Task Connect()
     {
         Logger.Current.Information("Connecting to : {0}", _websocketClient.Url);
-        await _websocketClient.Start();
+        await _websocketClient.StartOrFail();
     }
     
     public async Task Close()
