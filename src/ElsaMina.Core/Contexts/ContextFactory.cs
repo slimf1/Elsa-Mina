@@ -42,7 +42,6 @@ public class ContextFactory : IContextFactory
             }
             case > 2 when parts[1] == "pm":
             {
-                var room = _roomsManager.GetRoom(roomId);
                 var message = parts[4];
                 var (target, command) = GetTargetAndCommand(message);
                 return new PmContext(_contextProvider, _bot, message, target, _pmSendersManager.GetUser(parts[2]), command);
