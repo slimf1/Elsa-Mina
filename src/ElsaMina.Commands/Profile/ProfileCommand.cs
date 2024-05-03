@@ -19,7 +19,7 @@ public class ProfileCommand : Command<ProfileCommand>, INamed
     private const string AVATAR_CUSTOM_URL = "https://play.pokemonshowdown.com/sprites/trainers-custom/{0}.png";
     
     public static string Name => "profile";
-    public static IEnumerable<string> Aliases => new[] { "profil" };
+    public static List<string> Aliases => ["profil"];
 
     private readonly IRoomSpecificUserDataRepository _userDataRepository;
     private readonly IUserDetailsManager _userDetailsManager;

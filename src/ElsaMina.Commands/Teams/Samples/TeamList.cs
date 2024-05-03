@@ -9,7 +9,7 @@ namespace ElsaMina.Commands.Teams.Samples;
 public class TeamList : Command<TeamList>, INamed
 {
     public static string Name => "team-list";
-    public static IEnumerable<string> Aliases => new[] { "teams" };
+    public static List<string> Aliases => ["teams"];
 
     private readonly ITeamRepository _teamRepository;
     private readonly ITemplatesManager _templatesManager;

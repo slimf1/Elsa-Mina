@@ -6,7 +6,7 @@ namespace ElsaMina.Commands.Development;
 public class Help : Command<Help>, INamed
 {
     public static string Name => "help";
-    public static IEnumerable<string> Aliases => new[] { "about" };
+    public static List<string> Aliases => ["about"];
     public override bool IsAllowedInPm => true;
     public override char RequiredRank => '+';
 

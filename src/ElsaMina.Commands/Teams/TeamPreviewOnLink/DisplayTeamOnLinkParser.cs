@@ -63,8 +63,8 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
         var sharedTeam = await teamLinkMatch.GetTeamExport();
         if (sharedTeam == null)
         {
-            Logger.Current.Error("An error occurred while fetching team from link {0} with provider {1}",
-                context.Message, teamLinkMatch.Provider);
+            Logger.Current.Error("An error occurred while fetching team from link {0}",
+                context.Message);
             return;
         }
 

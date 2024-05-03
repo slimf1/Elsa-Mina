@@ -9,7 +9,7 @@ namespace ElsaMina.Commands.Badges;
 public class DeleteBadge : Command<DeleteBadge>, INamed
 {
     public static string Name => "deletebadge";
-    public static IEnumerable<string> Aliases => new[] { "deletetrophy", "delete-badge", "delete-trophy" };
+    public static List<string> Aliases => ["deletetrophy", "delete-badge", "delete-trophy"];
 
     private readonly IBadgeRepository _badgeRepository;
 

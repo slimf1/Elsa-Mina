@@ -16,7 +16,7 @@ public partial class AddTeam : Command<AddTeam>, INamed
     private const int MAX_NAME_LENGTH = 70;
     
     public static string Name => "add-team";
-    public static IEnumerable<string> Aliases => new[] { "addteam" };
+    public static List<string> Aliases => ["addteam"];
 
     private readonly ITeamLinkMatchFactory _teamLinkMatchFactory;
     private readonly ITeamRepository _teamRepository;

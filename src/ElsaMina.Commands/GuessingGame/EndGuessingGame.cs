@@ -7,7 +7,7 @@ namespace ElsaMina.Commands.GuessingGame;
 public class EndGuessingGame : Command<EndGuessingGame>, INamed
 {
     public static string Name => "endguessinggame";
-    public static IEnumerable<string> Aliases => new[] { "endcountriesgame" };
+    public static List<string> Aliases => ["endcountriesgame"];
     public override char RequiredRank => '+';
 
     private readonly IRoomsManager _roomsManager;

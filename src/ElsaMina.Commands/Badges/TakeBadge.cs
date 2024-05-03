@@ -9,7 +9,7 @@ namespace ElsaMina.Commands.Badges;
 public class TakeBadge : Command<TakeBadge>, INamed
 {
     public static string Name => "takebadge";
-    public static IEnumerable<string> Aliases => new[] { "take-badge", "take-trophy", "taketrophy" };
+    public static List<string> Aliases => ["take-badge", "take-trophy", "taketrophy"];
 
     private readonly IRoomUserDataService _roomUserDataService;
 

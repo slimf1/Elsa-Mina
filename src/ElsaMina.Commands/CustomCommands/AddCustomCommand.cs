@@ -10,7 +10,7 @@ namespace ElsaMina.Commands.CustomCommands;
 public class AddCustomCommand : Command<AddCustomCommand>, INamed
 {
     public static string Name => "add-custom-command";
-    public static IEnumerable<string> Aliases => new[] { "add-custom", "add-command" };
+    public static List<string> Aliases => ["add-custom", "add-command"];
 
     private readonly IAddedCommandRepository _addedCommandRepository;
     private readonly IConfigurationManager _configurationManager;

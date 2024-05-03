@@ -2,8 +2,8 @@
 
 public class TeamLinkMatch : ITeamLinkMatch
 {
-    public ITeamProvider Provider { get; set; }
-    public string TeamLink { get; set; }
+    public ITeamProvider Provider { get; init; }
+    public string TeamLink { get; init; }
 
     public async Task<SharedTeam> GetTeamExport()
     {

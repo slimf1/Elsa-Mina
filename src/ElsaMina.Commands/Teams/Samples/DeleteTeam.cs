@@ -9,7 +9,7 @@ namespace ElsaMina.Commands.Teams.Samples;
 public class DeleteTeam : Command<DeleteTeam>, INamed
 {
     public static string Name => "delete-team";
-    public static IEnumerable<string> Aliases => new[] { "deleteteam" };
+    public static List<string> Aliases => ["deleteteam"];
     
     private readonly ITeamRepository _teamRepository;
 

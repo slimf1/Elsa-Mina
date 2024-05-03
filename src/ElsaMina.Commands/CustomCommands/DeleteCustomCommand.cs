@@ -1,6 +1,5 @@
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
-using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.CustomCommands;
@@ -8,8 +7,7 @@ namespace ElsaMina.Commands.CustomCommands;
 public class DeleteCustomCommand : Command<DeleteCustomCommand>, INamed
 {
     public static string Name => "delete-custom-command";
-    public static IEnumerable<string> Aliases => new[] { "deletecustom", "deletecommand", "delete-custom",
-        "delete-command" };
+    public static List<string> Aliases => ["deletecustom", "deletecommand", "delete-custom", "delete-command"];
 
     private readonly IAddedCommandRepository _addedCommandRepository;
 

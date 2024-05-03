@@ -8,7 +8,7 @@ namespace ElsaMina.Commands.Misc.Repeats;
 public class CreateRepeat : Command<CreateRepeat>, INamed
 {
     public static string Name => "repeat";
-    public static IEnumerable<string> Aliases => new[] { "create-repeat" };
+    public static List<string> Aliases => ["create-repeat"];
 
     private readonly IRepeatsManager _repeatsManager;
 

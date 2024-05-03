@@ -8,7 +8,7 @@ namespace ElsaMina.Commands.Misc.Repeats;
 public class StopRepeat : Command<StopRepeat>, INamed
 {
     public static string Name => "stop-repeat";
-    public static IEnumerable<string> Aliases => new[] { "end-repeat", "cancel-repeat", "stoprepeat", "endrepeat" };
+    public static List<string> Aliases => ["end-repeat", "cancel-repeat", "stoprepeat", "endrepeat"];
 
     private readonly IRepeatsManager _repeatsManager;
 

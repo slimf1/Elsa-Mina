@@ -9,7 +9,7 @@ namespace ElsaMina.Commands.Profile;
 public class SetAvatar : Command<SetAvatar>, INamed
 {
     public static string Name => "avatar";
-    public static IEnumerable<string> Aliases => new[] { "set-avatar", "setavatar" };
+    public static List<string> Aliases => ["set-avatar", "setavatar"];
 
     private readonly IRoomUserDataService _roomUserDataService;
 

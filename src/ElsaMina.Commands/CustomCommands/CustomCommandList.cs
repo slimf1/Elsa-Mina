@@ -1,6 +1,5 @@
 ﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
-using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.CustomCommands;
@@ -8,8 +7,11 @@ namespace ElsaMina.Commands.CustomCommands;
 public class CustomCommandList : Command<CustomCommandList>, INamed
 {
     public static string Name => "custom-command-list";
-    public static IEnumerable<string> Aliases => new[] { "added-command-list", "added-commands", "custom-commands",
-        "addedcommands", "customcommands", "commandslist", "commandlist", "customcommandlist", "customs-list" };
+    public static List<string> Aliases =>
+    [
+        "added-command-list", "added-commands", "custom-commands", "addedcommands", "customcommands", "commandslist",
+        "commandlist", "customcommandlist", "customs-list"
+    ];
 
     private readonly IAddedCommandRepository _addedCommandRepository;
 

@@ -16,7 +16,7 @@ namespace ElsaMina.Commands.Development;
 public class TemplatesDebug : Command<TemplatesDebug>, INamed
 {
     public static string Name => "templates";
-    public static IEnumerable<string> Aliases => new[] { "templates-debug", "templatedebug" };
+    public static List<string> Aliases => ["templates-debug", "templatedebug"];
 
     private readonly ITemplatesManager _templatesManager;
     private readonly IResourcesService _resourcesService;

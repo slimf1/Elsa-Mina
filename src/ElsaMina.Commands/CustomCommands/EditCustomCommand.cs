@@ -9,11 +9,7 @@ namespace ElsaMina.Commands.CustomCommands;
 public class EditCustomCommand : Command<EditCustomCommand>, INamed
 {
     public static string Name => "edit-command";
-    public static IEnumerable<string> Aliases => new[]
-    {
-        "edit-added-command", "edit-custom-command", "editcommand",
-        "editcustom"
-    };
+    public static List<string> Aliases => ["edit-added-command", "edit-custom-command", "editcommand", "editcustom"];
 
     private readonly IAddedCommandRepository _addedCommandsRepository;
 

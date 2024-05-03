@@ -11,7 +11,7 @@ namespace ElsaMina.Commands.Badges;
 public class GiveBadge : Command<GiveBadge>, INamed
 {
     public static string Name => "givebadge";
-    public static IEnumerable<string> Aliases => new[] { "give-badge" };
+    public static List<string> Aliases => ["give-badge"];
 
     private readonly IBadgeRepository _badgeRepository;
     private readonly IRoomUserDataService _roomUserDataService;

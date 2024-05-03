@@ -11,8 +11,8 @@ public class AddBadge : Command<AddBadge>, INamed
 {
     public static string Name => "add-badge";
 
-    public static IEnumerable<string> Aliases => new[]
-        { "addbadge", "new-badge", "newbadge", "add-trophy", "newtrophy", "new-trophy" };
+    public static List<string> Aliases =>
+        ["addbadge", "new-badge", "newbadge", "add-trophy", "newtrophy", "new-trophy"];
 
     private readonly IBadgeRepository _badgeRepository;
 
@@ -20,7 +20,7 @@ public class AddBadge : Command<AddBadge>, INamed
     {
         _badgeRepository = badgeRepository;
     }
-    
+
     public override char RequiredRank => '%';
 
     public override async Task Run(IContext context)

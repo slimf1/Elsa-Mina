@@ -8,7 +8,7 @@ namespace ElsaMina.Commands.Misc.Repeats;
 public class AboutRepeat : Command<AboutRepeat>, INamed
 {
     public static string Name => "show-repeat";
-    public static IEnumerable<string> Aliases => new[] { "about-repeat", "show-repeat" };
+    public static List<string> Aliases => ["about-repeat", "show-repeat"];
 
     private readonly IRepeatsManager _repeatsManager;
 

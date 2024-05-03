@@ -10,7 +10,7 @@ namespace ElsaMina.Commands.Teams.Samples;
 public class AddTeamToRoom : Command<AddTeamToRoom>, INamed
 {
     public static string Name => "add-team-to-room";
-    public static IEnumerable<string> Aliases => new[] { "addteamtoroom", "add-to-room", "add-to-room" };
+    public static List<string> Aliases => ["addteamtoroom", "add-to-room", "add-to-room"];
 
     private readonly ITeamRepository _teamRepository;
 

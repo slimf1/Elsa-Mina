@@ -54,13 +54,13 @@ public class CommandModule : Module
         RegisterCommand<AboutRepeat>(builder);
         RegisterCommand<CreateRepeat>(builder);
         RegisterCommand<StopRepeat>(builder);
-        
+
         RegisterParser<JoinRoomOnInviteParser>(builder);
         RegisterParser<GuessingGameParser>(builder);
         RegisterParser<DisplayTeamOnLinkParser>(builder);
-        
+
         builder.RegisterType<CountriesGame>().AsSelf();
-        
+
         builder.RegisterType<PokepasteProvider>().As<ITeamProvider>();
         builder.RegisterType<CoupCritiqueProvider>().As<ITeamProvider>();
         builder.RegisterType<TeamLinkMatchFactory>().As<ITeamLinkMatchFactory>().SingleInstance();
@@ -71,14 +71,16 @@ public class CommandModule : Module
         var commandName = T.Name;
         if (string.IsNullOrEmpty(commandName))
         {
-            Logger.Current.Warning("Command "+ typeof(T).Name + " has no name, and could not be registered");
+            Logger.Current.Warning("Command '{0}' has no name, and could not be registered", typeof(T).Name);
             return;
         }
-        Logger.Current.Information("Command "+ typeof(T).Name + " was registered");
+
+        Logger.Current.Information("Command '{0}' was registered", commandName);
         builder.RegisterType<T>().AsSelf().Named<ICommand>(commandName);
-        foreach (var alias in T.Aliases)
+        foreach (var commandAlias in T.Aliases)
         {
-            builder.RegisterType<T>().AsSelf().Named<ICommand>(alias);
+            Logger.Current.Information("Alias '{0}' of command '{1}' was registered", commandAlias, commandName);
+            builder.RegisterType<T>().AsSelf().Named<ICommand>(commandAlias);
         }
     }
 

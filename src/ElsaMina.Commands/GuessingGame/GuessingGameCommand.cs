@@ -10,10 +10,7 @@ public class GuessingGameCommand : Command<GuessingGameCommand>, INamed
 {
     public static string Name => "guessinggame";
 
-    public static IEnumerable<string> Aliases => new[]
-    {
-        "countriesgame"
-    };
+    public static List<string> Aliases => ["countriesgame"];
 
     public override char RequiredRank => '+';
 
