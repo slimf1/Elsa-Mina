@@ -4,7 +4,7 @@ using ElsaMina.Core.Contexts;
 
 namespace ElsaMina.Commands.Development;
 
-public class StopConnection : Command<StopConnection>, INamed
+public class StopConnection : DevelopmentCommand<StopConnection>, INamed
 {
     public static string Name => "stop-connection";
 
@@ -14,10 +14,6 @@ public class StopConnection : Command<StopConnection>, INamed
     {
         _client = client;
     }
-    
-    public override bool IsAllowedInPm => true;
-    public override bool IsWhitelistOnly => true;
-    public override bool IsHidden => true;
 
     public override async Task Run(IContext context)
     {

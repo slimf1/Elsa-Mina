@@ -5,7 +5,6 @@ using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
-using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templating;
 using ElsaMina.Core.Templates;
 using ElsaMina.Core.Utils;
@@ -13,7 +12,7 @@ using ElsaMina.DataAccess.Models;
 
 namespace ElsaMina.Commands.Development;
 
-public class TemplatesDebug : Command<TemplatesDebug>, INamed
+public class TemplatesDebug : DevelopmentCommand<TemplatesDebug>, INamed
 {
     public static string Name => "templates";
     public static List<string> Aliases => ["templates-debug", "templatedebug"];
@@ -21,22 +20,16 @@ public class TemplatesDebug : Command<TemplatesDebug>, INamed
     private readonly ITemplatesManager _templatesManager;
     private readonly IResourcesService _resourcesService;
     private readonly IConfigurationManager _configurationManager;
-    private readonly IRoomsManager _roomsManager;
 
     public TemplatesDebug(ITemplatesManager templatesManager,
         IResourcesService resourcesService,
-        IConfigurationManager configurationManager,
-        IRoomsManager roomsManager)
+        IConfigurationManager configurationManager)
     {
         _templatesManager = templatesManager;
         _resourcesService = resourcesService;
         _configurationManager = configurationManager;
-        _roomsManager = roomsManager;
     }
     
-    public override bool IsAllowedInPm => true;
-    public override bool IsWhitelistOnly => true;
-
     public override async Task Run(IContext context)
     {
         var parts = context.Target.Split(",");

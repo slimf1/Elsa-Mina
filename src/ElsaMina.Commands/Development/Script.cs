@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.Scripting;
 
 namespace ElsaMina.Commands.Development;
 
-public class Script : Command<Script>, INamed
+public class Script : DevelopmentCommand<Script>, INamed
 {
     public static string Name => "script";
 
@@ -17,10 +17,6 @@ public class Script : Command<Script>, INamed
     {
         _dependencyContainerService = dependencyContainerService;
     }
-
-    public override bool IsAllowedInPm => true;
-    public override bool IsWhitelistOnly => true;
-    public override bool IsHidden => true;
 
     // ReSharper disable once MemberCanBePrivate.Global
     public class Globals
