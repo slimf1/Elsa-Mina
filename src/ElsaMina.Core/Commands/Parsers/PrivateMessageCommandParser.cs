@@ -5,48 +5,16 @@ using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Core.Commands.Parsers;
 
-public class PrivateMessageCommandParser : PrivateMessageParser
+public class PrivateMessageCommandParser : CommandMessageParser
 {
-    private readonly IRoomsManager _roomsManager;
-    private readonly IConfigurationManager _configurationManager;
-    private readonly ICommandExecutor _commandExecutor;
-
     public PrivateMessageCommandParser(IContextFactory contextFactory,
         IRoomsManager roomsManager,
         IConfigurationManager configurationManager,
-        ICommandExecutor commandExecutor) : base(contextFactory)
+        ICommandExecutor commandExecutor) : base(contextFactory, roomsManager, configurationManager, commandExecutor)
     {
-        _roomsManager = roomsManager;
-        _configurationManager = configurationManager;
-        _commandExecutor = commandExecutor;
     }
 
     public override string Identifier => nameof(PrivateMessageCommandParser);
 
-    protected override async Task HandleMessage(IContext context)
-    {
-        if (context.RoomId == null || !_roomsManager.HasRoom(context.RoomId))
-        {
-            return;
-        }
-
-        if (_configurationManager.Configuration.RoomBlacklist.Contains(context.RoomId))
-        {
-            return;
-        }
-
-        if (context.Command == null)
-        {
-            return;
-        }
-
-        try
-        {
-            await _commandExecutor.TryExecuteCommand(context.Command, context);
-        }
-        catch (Exception exception)
-        {
-            Logger.Current.Error(exception, "Private message command execution crashed");
-        }
-    }
+    protected override ContextType HandledContextType => ContextType.Pm;
 }

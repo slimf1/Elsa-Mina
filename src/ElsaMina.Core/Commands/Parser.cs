@@ -14,6 +14,7 @@ public abstract class Parser : IParser
         catch (Exception exception)
         {
             Logger.Current.Error(exception, "An error occured while executing parser '{0}'", Identifier);
+            throw;
         }
     }
 
