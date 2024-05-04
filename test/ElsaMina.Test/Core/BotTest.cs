@@ -90,7 +90,7 @@ public class BotTest
     }
     
     [Test]
-    public async Task Test_HandleReceivedMessage_ShouldInitializeParsers_WhenParsersAreNotIntialized()
+    public async Task Test_HandleReceivedMessage_ShouldInitializeParsers_WhenParsersAreNotInitialized()
     {
         // Arrange
         const string message = "|c:|1|%Earth|test";
