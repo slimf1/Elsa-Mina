@@ -1,19 +1,20 @@
 ﻿using Autofac;
 using ElsaMina.Commands;
 using ElsaMina.Core;
+using ElsaMina.Core.Constants;
 using ElsaMina.Core.Modules;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.DependencyInjection;
 using Serilog;
 
 // Logging
-var environment = Environment.GetEnvironmentVariable("ELSA_MINA_ENV");
+var environment = Environment.GetEnvironmentVariable(EnvironmentConstants.ENVIRONMENT_VARIABLE_NAME);
 var loggerConfig = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .MinimumLevel.Debug()
     .WriteTo.Console();
 
-if (environment == "prod") {
+if (environment == EnvironmentConstants.PROD) {
     loggerConfig.MinimumLevel.Information();
     loggerConfig.WriteTo.File("log.txt", rollingInterval: RollingInterval.Day);
 }
@@ -32,8 +33,8 @@ DependencyContainerService.Current = dependencyContainerService;
 // Load configuration file
 var configurationFile = environment switch
 {
-    "prod" => "prod.config.json",
-    "dev" => "dev.config.json",
+    EnvironmentConstants.PROD => "prod.config.json",
+    EnvironmentConstants.DEV => "dev.config.json",
     _ => throw new Exception("Unknown environment")
 };
 var configurationService = dependencyContainerService.Resolve<IConfigurationManager>();

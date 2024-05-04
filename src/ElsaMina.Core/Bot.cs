@@ -154,6 +154,9 @@ public class Bot : IBot
                     case "nonexistent":
                         Logger.Current.Error("Room '{0}' doesn't exist, please check configuration", roomId);
                         break;
+                    case "namerequired":
+                        Logger.Current.Error("Could not join room '{0}' because the bot is not logged in.");
+                        break;
                 }
                 break;
         }
