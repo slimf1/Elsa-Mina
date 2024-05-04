@@ -7,10 +7,9 @@ using Microsoft.CodeAnalysis.Scripting;
 
 namespace ElsaMina.Commands.Development;
 
-public class Script : DevelopmentCommand<Script>, INamed
+[NamedCommand("script")]
+public class Script : DevelopmentCommand
 {
-    public static string Name => "script";
-
     private readonly IDependencyContainerService _dependencyContainerService;
 
     public Script(IDependencyContainerService dependencyContainerService)

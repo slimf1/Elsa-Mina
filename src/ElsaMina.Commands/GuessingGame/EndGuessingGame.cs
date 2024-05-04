@@ -4,18 +4,17 @@ using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.GuessingGame;
 
-public class EndGuessingGame : Command<EndGuessingGame>, INamed
+[NamedCommand("endguessinggame", Aliases = ["endcountriesgame"])]
+public class EndGuessingGame : Command
 {
-    public static string Name => "endguessinggame";
-    public static List<string> Aliases => ["endcountriesgame"];
-    public override char RequiredRank => '+';
-
     private readonly IRoomsManager _roomsManager;
 
     public EndGuessingGame(IRoomsManager roomsManager)
     {
         _roomsManager = roomsManager;
     }
+
+    public override char RequiredRank => '+';
 
     public override Task Run(IContext context)
     {
@@ -26,7 +25,7 @@ public class EndGuessingGame : Command<EndGuessingGame>, INamed
             context.ReplyLocalizedMessage("end_guessing_game_success");
             return Task.CompletedTask;
         }
-        
+
         context.ReplyLocalizedMessage("end_guessing_game_no_game");
         return Task.CompletedTask;
     }

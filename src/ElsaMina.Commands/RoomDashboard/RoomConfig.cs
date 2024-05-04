@@ -9,11 +9,9 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.RoomDashboard;
 
-public class RoomConfig : Command<RoomConfig>, INamed
+[NamedCommand("room-config", Aliases = ["roomconfig", "rc"])]
+public class RoomConfig : Command
 {
-    public static string Name => "room-config";
-    public static IEnumerable<string> Aliases => new[] { "roomconfig", "rc" };
-
     private readonly IRoomParametersRepository _roomParametersRepository;
     private readonly IRoomsManager _roomsManager;
     private readonly IResourcesService _resourcesService;

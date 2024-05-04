@@ -6,11 +6,9 @@ using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.Badges;
 
-public class TakeBadge : Command<TakeBadge>, INamed
+[NamedCommand("takebadge", Aliases = ["take-badge", "take-trophy", "taketrophy"])]
+public class TakeBadge : Command
 {
-    public static string Name => "takebadge";
-    public static List<string> Aliases => ["take-badge", "take-trophy", "taketrophy"];
-
     private readonly IRoomUserDataService _roomUserDataService;
 
     public TakeBadge(IRoomUserDataService roomUserDataService)
@@ -20,7 +18,7 @@ public class TakeBadge : Command<TakeBadge>, INamed
 
     public override char RequiredRank => '%';
     public override string HelpMessageKey => "takebadge_help_message";
-    
+
     public override async Task Run(IContext context)
     {
         var parts = context.Target.Split(",");

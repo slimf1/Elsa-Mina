@@ -6,11 +6,9 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.Teams.Samples;
 
-public class TeamShowcase : Command<TeamShowcase>, INamed
+[NamedCommand("team-showcase", Aliases = ["team"])]
+public class TeamShowcase : Command
 {
-    public static string Name => "team-showcase";
-    public static List<string> Aliases => ["team"];
-
     private readonly ITeamRepository _teamRepository;
     private readonly ITemplatesManager _templatesManager;
 

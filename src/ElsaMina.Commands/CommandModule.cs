@@ -66,9 +66,18 @@ public class CommandModule : Module
         builder.RegisterType<TeamLinkMatchFactory>().As<ITeamLinkMatchFactory>().SingleInstance();
     }
 
-    private static void RegisterCommand<T>(ContainerBuilder builder) where T : INamed, ICommand
+    private static void RegisterCommand<T>(ContainerBuilder builder) where T : ICommand
     {
-        var commandName = T.Name;
+        if (typeof(T).GetCustomAttributes(typeof(NamedCommandAttribute), false).FirstOrDefault()
+            is not NamedCommandAttribute commandAttribute)
+        {
+            Logger.Current.Warning(
+                "Command '{0}' does not have the named command attribute, and could not be registered",
+                typeof(T).Name);
+            return;
+        }
+        
+        var commandName = commandAttribute.Name;
         if (string.IsNullOrEmpty(commandName))
         {
             Logger.Current.Warning("Command '{0}' has no name, and could not be registered", typeof(T).Name);
@@ -77,7 +86,7 @@ public class CommandModule : Module
 
         Logger.Current.Information("Command '{0}' was registered", commandName);
         builder.RegisterType<T>().AsSelf().Named<ICommand>(commandName);
-        foreach (var commandAlias in T.Aliases)
+        foreach (var commandAlias in commandAttribute.Aliases ?? Enumerable.Empty<string>())
         {
             Logger.Current.Information("Alias '{0}' of command '{1}' was registered", commandAlias, commandName);
             builder.RegisterType<T>().AsSelf().Named<ICommand>(commandAlias);

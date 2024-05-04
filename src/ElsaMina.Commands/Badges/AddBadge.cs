@@ -7,13 +7,9 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.Badges;
 
-public class AddBadge : Command<AddBadge>, INamed
+[NamedCommand("add-badge", Aliases = ["addbadge", "new-badge", "newbadge", "add-trophy", "newtrophy", "new-trophy"])]
+public class AddBadge : Command
 {
-    public static string Name => "add-badge";
-
-    public static List<string> Aliases =>
-        ["addbadge", "new-badge", "newbadge", "add-trophy", "newtrophy", "new-trophy"];
-
     private readonly IBadgeRepository _badgeRepository;
 
     public AddBadge(IBadgeRepository badgeRepository)

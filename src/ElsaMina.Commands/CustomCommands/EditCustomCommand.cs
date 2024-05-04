@@ -6,11 +6,9 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.CustomCommands;
 
-public class EditCustomCommand : Command<EditCustomCommand>, INamed
+[NamedCommand("edit-command", Aliases = ["edit-added-command", "edit-custom-command", "editcommand", "editcustom"])]
+public class EditCustomCommand : Command
 {
-    public static string Name => "edit-command";
-    public static List<string> Aliases => ["edit-added-command", "edit-custom-command", "editcommand", "editcustom"];
-
     private readonly IAddedCommandRepository _addedCommandsRepository;
 
     public EditCustomCommand(IAddedCommandRepository addedCommandsRepository)

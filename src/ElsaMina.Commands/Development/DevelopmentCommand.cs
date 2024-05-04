@@ -2,7 +2,7 @@
 
 namespace ElsaMina.Commands.Development;
 
-public abstract class DevelopmentCommand<T> : Command<T> where T : INamed
+public abstract class DevelopmentCommand : Command
 {
     public override bool IsAllowedInPm => true;
     public override bool IsWhitelistOnly => true;

@@ -6,18 +6,16 @@ using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.Profile;
 
-public class SetTitle : Command<SetTitle>, INamed
+[NamedCommand("title", Aliases = ["settitle", "set-title", "set-bio", "setbio"])]
+public class SetTitle : Command
 {
-    public static string Name => "title";
-    public static List<string> Aliases => ["settitle", "set-title", "set-bio", "setbio"];
-
     private readonly IRoomUserDataService _roomUserDataService;
 
     public SetTitle(IRoomUserDataService roomUserDataService)
     {
         _roomUserDataService = roomUserDataService;
     }
-    
+
     public override char RequiredRank => '+';
     public override string HelpMessageKey => "title_help_message";
 
@@ -29,7 +27,7 @@ public class SetTitle : Command<SetTitle>, INamed
             context.ReplyLocalizedMessage(HelpMessageKey);
             return;
         }
-        
+
         var userId = parts[0].ToLowerAlphaNum();
         var title = parts[1].Trim();
         try

@@ -2,10 +2,15 @@
 
 namespace ElsaMina.Core.Commands;
 
-public abstract class Command<T> : ICommand where T : INamed
+public abstract class Command : ICommand
 {
-    public string CommandName => T.Name;
-    public IEnumerable<string> CommandAliases => T.Aliases;
+    protected Command()
+    {
+        InitializeNameAndAliases();
+    }
+
+    public string CommandName { get; private set; } = string.Empty;
+    public IEnumerable<string> CommandAliases { get; private set; } = Enumerable.Empty<string>();
     public virtual bool IsAllowedInPm => false;
     public virtual bool IsWhitelistOnly => false;
     public virtual bool IsPrivateMessageOnly => false;
@@ -44,4 +49,16 @@ public abstract class Command<T> : ICommand where T : INamed
     }
 
     public abstract Task Run(IContext context);
+
+    private void InitializeNameAndAliases()
+    {
+        if (GetType().GetCustomAttributes(typeof(NamedCommandAttribute), false).FirstOrDefault()
+            is not NamedCommandAttribute commandAttribute)
+        {
+            return;
+        }
+
+        CommandName = commandAttribute.Name;
+        CommandAliases = commandAttribute.Aliases;
+    }
 }

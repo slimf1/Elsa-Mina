@@ -10,13 +10,11 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.Teams.Samples;
 
-public partial class AddTeam : Command<AddTeam>, INamed
+[NamedCommand("add-team", Aliases = ["addteam"])]
+public partial class AddTeam : Command
 {
     private static readonly Regex TEAM_NAME_FILTER = TeamNameFilterRegex();
     private const int MAX_NAME_LENGTH = 70;
-    
-    public static string Name => "add-team";
-    public static List<string> Aliases => ["addteam"];
 
     private readonly ITeamLinkMatchFactory _teamLinkMatchFactory;
     private readonly ITeamRepository _teamRepository;

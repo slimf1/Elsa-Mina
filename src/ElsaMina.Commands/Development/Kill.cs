@@ -5,17 +5,16 @@ using ElsaMina.Core.Services.System;
 
 namespace ElsaMina.Commands.Development;
 
-public class Kill : DevelopmentCommand<Kill>, INamed
+[NamedCommand("kill")]
+public class Kill : DevelopmentCommand
 {
-    public static string Name => "kill";
-
     private readonly ISystemService _systemService;
 
     public Kill(ISystemService systemService)
     {
         _systemService = systemService;
     }
-    
+
     public override Task Run(IContext context)
     {
         Logger.Current.Information("Killing bot : {0}", context);

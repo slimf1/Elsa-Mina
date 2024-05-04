@@ -3,10 +3,9 @@ using ElsaMina.Core.Contexts;
 
 namespace ElsaMina.Commands.Development;
 
-public class Help : Command<Help>, INamed
+[NamedCommand("help", Aliases = ["about"])]
+public class Help : Command
 {
-    public static string Name => "help";
-    public static List<string> Aliases => ["about"];
     public override bool IsAllowedInPm => true;
     public override char RequiredRank => '+';
 

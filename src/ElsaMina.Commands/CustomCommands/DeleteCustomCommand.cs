@@ -4,11 +4,9 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.CustomCommands;
 
-public class DeleteCustomCommand : Command<DeleteCustomCommand>, INamed
+[NamedCommand("delete-custom-command", Aliases = ["deletecustom", "deletecommand", "delete-custom", "delete-command"])]
+public class DeleteCustomCommand : Command
 {
-    public static string Name => "delete-custom-command";
-    public static List<string> Aliases => ["deletecustom", "deletecommand", "delete-custom", "delete-command"];
-
     private readonly IAddedCommandRepository _addedCommandRepository;
 
     public DeleteCustomCommand(IAddedCommandRepository addedCommandRepository)
@@ -18,7 +16,7 @@ public class DeleteCustomCommand : Command<DeleteCustomCommand>, INamed
 
     public override char RequiredRank => '%';
     public override string HelpMessageKey => "deletecommand_help";
-    
+
     public override async Task Run(IContext context)
     {
         var commandId = context.Target.Trim().ToLower();

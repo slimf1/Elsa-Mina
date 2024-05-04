@@ -4,10 +4,9 @@ using ElsaMina.Core.Contexts;
 
 namespace ElsaMina.Commands.Development;
 
-public class StopConnection : DevelopmentCommand<StopConnection>, INamed
+[NamedCommand("stop-connection")]
+public class StopConnection : DevelopmentCommand
 {
-    public static string Name => "stop-connection";
-
     private readonly IClient _client;
 
     public StopConnection(IClient client)

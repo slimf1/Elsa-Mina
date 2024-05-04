@@ -6,14 +6,9 @@ using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.GuessingGame;
 
-public class GuessingGameCommand : Command<GuessingGameCommand>, INamed
+[NamedCommand("guessinggame", Aliases = ["countriesgame"])]
+public class GuessingGameCommand : Command
 {
-    public static string Name => "guessinggame";
-
-    public static List<string> Aliases => ["countriesgame"];
-
-    public override char RequiredRank => '+';
-
     private readonly IRoomsManager _roomsManager;
     private readonly IDependencyContainerService _dependencyContainerService;
 
@@ -24,6 +19,8 @@ public class GuessingGameCommand : Command<GuessingGameCommand>, INamed
         _dependencyContainerService = dependencyContainerService;
     }
 
+    public override char RequiredRank => '+';
+    
     public override Task Run(IContext context)
     {
         if (!int.TryParse(context.Target, out var turnsCount))

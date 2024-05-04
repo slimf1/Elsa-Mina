@@ -12,14 +12,12 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.Profile;
 
-public class ProfileCommand : Command<ProfileCommand>, INamed
+[NamedCommand("profile", Aliases = ["profil"])]
+public class ProfileCommand : Command
 {
     private const string DEFAULT_AVATAR_ID = "unknown";
     private const string AVATAR_URL = "https://play.pokemonshowdown.com/sprites/trainers/{0}.png";
     private const string AVATAR_CUSTOM_URL = "https://play.pokemonshowdown.com/sprites/trainers-custom/{0}.png";
-    
-    public static string Name => "profile";
-    public static List<string> Aliases => ["profil"];
 
     private readonly IRoomSpecificUserDataRepository _userDataRepository;
     private readonly IUserDetailsManager _userDetailsManager;

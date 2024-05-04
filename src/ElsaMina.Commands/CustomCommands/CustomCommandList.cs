@@ -4,22 +4,20 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.CustomCommands;
 
-public class CustomCommandList : Command<CustomCommandList>, INamed
+[NamedCommand("custom-command-list", Aliases =
+[
+    "added-command-list", "added-commands", "custom-commands",
+    "addedcommands", "customcommands", "commandslist", "commandlist", "customcommandlist", "customs-list"
+])]
+public class CustomCommandList : Command
 {
-    public static string Name => "custom-command-list";
-    public static List<string> Aliases =>
-    [
-        "added-command-list", "added-commands", "custom-commands", "addedcommands", "customcommands", "commandslist",
-        "commandlist", "customcommandlist", "customs-list"
-    ];
-
     private readonly IAddedCommandRepository _addedCommandRepository;
 
     public CustomCommandList(IAddedCommandRepository addedCommandRepository)
     {
         _addedCommandRepository = addedCommandRepository;
     }
-    
+
     public override char RequiredRank => '+';
 
     public override async Task Run(IContext context)

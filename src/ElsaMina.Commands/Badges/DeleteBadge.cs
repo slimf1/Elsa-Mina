@@ -6,18 +6,16 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.Badges;
 
-public class DeleteBadge : Command<DeleteBadge>, INamed
+[NamedCommand("deletebadge", Aliases = ["deletetrophy", "delete-badge", "delete-trophy"])]
+public class DeleteBadge : Command
 {
-    public static string Name => "deletebadge";
-    public static List<string> Aliases => ["deletetrophy", "delete-badge", "delete-trophy"];
-
     private readonly IBadgeRepository _badgeRepository;
 
     public DeleteBadge(IBadgeRepository badgeRepository)
     {
         _badgeRepository = badgeRepository;
     }
-    
+
     public override char RequiredRank => '%';
 
     public override async Task Run(IContext context)

@@ -7,11 +7,9 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.Teams.Samples;
 
-public class AddTeamToRoom : Command<AddTeamToRoom>, INamed
+[NamedCommand("add-team-to-room", Aliases = ["addteamtoroom", "add-to-room", "add-to-room"])]
+public class AddTeamToRoom : Command
 {
-    public static string Name => "add-team-to-room";
-    public static List<string> Aliases => ["addteamtoroom", "add-to-room", "add-to-room"];
-
     private readonly ITeamRepository _teamRepository;
 
     public AddTeamToRoom(ITeamRepository teamRepository)

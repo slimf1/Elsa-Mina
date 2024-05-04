@@ -5,11 +5,9 @@ using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.Misc.Repeats;
 
-public class AboutRepeat : Command<AboutRepeat>, INamed
+[NamedCommand("show-repeat", Aliases = ["about-repeat", "show-repeat"])]
+public class AboutRepeat : Command
 {
-    public static string Name => "show-repeat";
-    public static List<string> Aliases => ["about-repeat", "show-repeat"];
-
     private readonly IRepeatsManager _repeatsManager;
 
     public AboutRepeat(IRepeatsManager repeatsManager)

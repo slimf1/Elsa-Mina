@@ -6,11 +6,9 @@ using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.Development.Commands;
 
-public class AllCommands : Command<AllCommands>, INamed
+[NamedCommand("allcommands", Aliases = ["all-commands", "commands"])]
+public class AllCommands : Command
 {
-    public static string Name => "allcommands";
-    public static List<string> Aliases => ["all-commands", "commands"];
-
     private readonly ICommandExecutor _commandExecutor;
     private readonly ITemplatesManager _templatesManager;
 
@@ -20,7 +18,7 @@ public class AllCommands : Command<AllCommands>, INamed
         _commandExecutor = commandExecutor;
         _templatesManager = templatesManager;
     }
-    
+
     public override bool IsAllowedInPm => true;
 
     public override async Task Run(IContext context)

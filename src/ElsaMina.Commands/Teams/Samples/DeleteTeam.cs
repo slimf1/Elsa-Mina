@@ -6,11 +6,9 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.Teams.Samples;
 
-public class DeleteTeam : Command<DeleteTeam>, INamed
+[NamedCommand("delete-team", Aliases = ["deleteteam"])]
+public class DeleteTeam : Command
 {
-    public static string Name => "delete-team";
-    public static List<string> Aliases => ["deleteteam"];
-    
     private readonly ITeamRepository _teamRepository;
 
     public DeleteTeam(ITeamRepository teamRepository)

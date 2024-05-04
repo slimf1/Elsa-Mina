@@ -8,11 +8,9 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.Badges;
 
-public class GiveBadge : Command<GiveBadge>, INamed
+[NamedCommand("givebadge", Aliases = ["give-badge"])]
+public class GiveBadge : Command
 {
-    public static string Name => "givebadge";
-    public static List<string> Aliases => ["give-badge"];
-
     private readonly IBadgeRepository _badgeRepository;
     private readonly IRoomUserDataService _roomUserDataService;
 

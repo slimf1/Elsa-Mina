@@ -6,18 +6,16 @@ using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.Profile;
 
-public class SetAvatar : Command<SetAvatar>, INamed
+[NamedCommand("avatar", Aliases = ["set-avatar", "setavatar"])]
+public class SetAvatar : Command
 {
-    public static string Name => "avatar";
-    public static List<string> Aliases => ["set-avatar", "setavatar"];
-
     private readonly IRoomUserDataService _roomUserDataService;
 
     public SetAvatar(IRoomUserDataService roomUserDataService)
     {
         _roomUserDataService = roomUserDataService;
     }
-    
+
     public override char RequiredRank => '%';
     public override string HelpMessageKey => "avatar_help_message";
 

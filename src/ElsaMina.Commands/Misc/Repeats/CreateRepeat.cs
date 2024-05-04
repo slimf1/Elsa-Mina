@@ -5,11 +5,9 @@ using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.Misc.Repeats;
 
-public class CreateRepeat : Command<CreateRepeat>, INamed
+[NamedCommand("repeat", Aliases = ["create-repeat"])]
+public class CreateRepeat : Command
 {
-    public static string Name => "repeat";
-    public static List<string> Aliases => ["create-repeat"];
-
     private readonly IRepeatsManager _repeatsManager;
 
     public CreateRepeat(IRepeatsManager repeatsManager)
@@ -38,15 +36,15 @@ public class CreateRepeat : Command<CreateRepeat>, INamed
             ReplyLocalizedHelpMessage(context);
             return Task.CompletedTask;
         }
-        
+
         var repeat = _repeatsManager.StartRepeat(context, repeatId, message, intervalInMinutes);
         if (repeat == null)
         {
             context.Reply("Impossible de démarrer le repeat. Vérifiez qu'un repeat avec la même id n'existe pas déjà.");
             return Task.CompletedTask;
         }
-        
-        context.Reply($"Un repeat a été démarré. Le message va être répété toutes les {intervalInMinutes} minute(s)."); 
+
+        context.Reply($"Un repeat a été démarré. Le message va être répété toutes les {intervalInMinutes} minute(s).");
         return Task.CompletedTask;
     }
 }

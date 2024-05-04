@@ -5,11 +5,9 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.RoomDashboard;
 
-public class SetLocale : Command<SetLocale>, INamed
+[NamedCommand("set-locale", Aliases = ["setlocale"])]
+public class SetLocale : Command
 {
-    public static string Name => "set-locale";
-    public static List<string> Aliases => ["setlocale"];
-
     private readonly IRoomParametersRepository _roomParametersRepository;
 
     public SetLocale(IRoomParametersRepository roomParametersRepository)
@@ -41,6 +39,7 @@ public class SetLocale : Command<SetLocale>, INamed
             context.Reply($"Room '{roomId}' not found.");
             return;
         }
+
         roomParameters.Locale = locale;
         await _roomParametersRepository.UpdateAsync(roomParameters);
         context.Culture = cultureInfo;

@@ -12,11 +12,9 @@ using ElsaMina.DataAccess.Models;
 
 namespace ElsaMina.Commands.Development;
 
-public class TemplatesDebug : DevelopmentCommand<TemplatesDebug>, INamed
+[NamedCommand("templates", Aliases = ["templates-debug", "templatedebug"])]
+public class TemplatesDebug : DevelopmentCommand
 {
-    public static string Name => "templates";
-    public static List<string> Aliases => ["templates-debug", "templatedebug"];
-
     private readonly ITemplatesManager _templatesManager;
     private readonly IResourcesService _resourcesService;
     private readonly IConfigurationManager _configurationManager;

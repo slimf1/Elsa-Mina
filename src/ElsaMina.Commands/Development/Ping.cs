@@ -3,11 +3,9 @@ using ElsaMina.Core.Contexts;
 
 namespace ElsaMina.Commands.Development;
 
-public class Ping : Command<Ping>, INamed
+[NamedCommand("ping", Aliases = ["tdt"])]
+public class Ping : Command
 {
-    public static string Name => "ping";
-    public static List<string> Aliases => ["tdt"];
-
     public override bool IsAllowedInPm => true;
     public override char RequiredRank => '+';
 

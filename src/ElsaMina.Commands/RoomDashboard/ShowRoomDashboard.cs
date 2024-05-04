@@ -10,10 +10,9 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.RoomDashboard;
 
-public class ShowRoomDashboard : Command<ShowRoomDashboard>, INamed
+[NamedCommand("room-dashboard")]
+public class ShowRoomDashboard : Command
 {
-    public static string Name => "room-dashboard";
-
     private readonly IConfigurationManager _configurationManager;
     private readonly IResourcesService _resourcesService;
     private readonly IRoomsManager _roomsManager;

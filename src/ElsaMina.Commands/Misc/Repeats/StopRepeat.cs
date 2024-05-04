@@ -5,11 +5,9 @@ using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.Misc.Repeats;
 
-public class StopRepeat : Command<StopRepeat>, INamed
+[NamedCommand("stop-repeat", Aliases = ["end-repeat", "cancel-repeat", "stoprepeat", "endrepeat"])]
+public class StopRepeat : Command
 {
-    public static string Name => "stop-repeat";
-    public static List<string> Aliases => ["end-repeat", "cancel-repeat", "stoprepeat", "endrepeat"];
-
     private readonly IRepeatsManager _repeatsManager;
 
     public StopRepeat(IRepeatsManager repeatsManager)
@@ -18,7 +16,7 @@ public class StopRepeat : Command<StopRepeat>, INamed
     }
 
     public override char RequiredRank => '%';
-    
+
     public override Task Run(IContext context)
     {
         var ended = _repeatsManager.StopRepeat(context.RoomId, context.Target.ToLowerAlphaNum());
@@ -27,7 +25,7 @@ public class StopRepeat : Command<StopRepeat>, INamed
             context.Reply("Le repeat n'a pas pu être terminé.");
             return Task.CompletedTask;
         }
-        
+
         context.Reply("Le repeat a été terminé.");
         return Task.CompletedTask;
     }

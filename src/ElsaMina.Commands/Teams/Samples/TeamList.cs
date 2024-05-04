@@ -6,11 +6,9 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.Teams.Samples;
 
-public class TeamList : Command<TeamList>, INamed
+[NamedCommand("team-list", Aliases = ["teams"])]
+public class TeamList : Command
 {
-    public static string Name => "team-list";
-    public static List<string> Aliases => ["teams"];
-
     private readonly ITeamRepository _teamRepository;
     private readonly ITemplatesManager _templatesManager;
 
@@ -36,7 +34,7 @@ public class TeamList : Command<TeamList>, INamed
             Culture = context.Culture,
             Teams = teamList
         });
-        
+
         context.SendHtmlPage($"teams-{context.RoomId}", template.RemoveNewlines());
     }
 }
