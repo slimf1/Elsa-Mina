@@ -27,11 +27,6 @@ public class TemplatesManager : ITemplatesManager
         _dependencyContainerService = dependencyContainerService;
     }
 
-    /// <summary>
-    /// Render html from a Razor template
-    /// </summary>
-    /// <param name="templateKey">The path of a template, returns null if the template is not found</param>
-    /// <param name="model">The model object used to parameterize the rendered html code</param>
     public async Task<string> GetTemplate(string templateKey, object model)
     {
         if (!_preCompilationResults.TryGetValue(templateKey, out var precompiledTemplatePage))
