@@ -10,6 +10,9 @@ namespace ElsaMina.Commands.CustomCommands;
 [NamedCommand("add-custom-command", Aliases = ["add-custom", "add-command"])]
 public class AddCustomCommand : Command
 {
+    private const int MAX_COMMAND_NAME_LENGTH = 18;
+    private const int MAX_CONTENT_LENGTH = 300;
+    
     private readonly IAddedCommandRepository _addedCommandRepository;
     private readonly IConfigurationManager _configurationManager;
     private readonly IClockService _clockService;
@@ -36,13 +39,13 @@ public class AddCustomCommand : Command
         var command = arguments[0].Trim().ToLower();
         var content = arguments[1].Trim();
 
-        if (command.Length > 18)
+        if (command.Length > MAX_COMMAND_NAME_LENGTH)
         {
             context.ReplyLocalizedMessage("addcommand_name_too_long");
             return;
         }
 
-        if (content.Length > 300)
+        if (content.Length > MAX_CONTENT_LENGTH)
         {
             context.ReplyLocalizedMessage("addcommand_content_too_long");
             return;

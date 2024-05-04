@@ -10,7 +10,7 @@ using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Services.UserDetails;
 using NSubstitute;
 
-namespace ElsaMina.Test.Core.Bot;
+namespace ElsaMina.Test.Core;
 
 public class BotTest
 {
@@ -25,7 +25,7 @@ public class BotTest
     private ISystemService _systemService;
     private ITemplatesManager _templatesManager;
 
-    private ElsaMina.Core.Bot _bot;
+    private Bot _bot;
     
     [SetUp]
     public void SetUp()
@@ -41,7 +41,7 @@ public class BotTest
         _systemService = Substitute.For<ISystemService>();
         _templatesManager = Substitute.For<ITemplatesManager>();
         
-        _bot = new ElsaMina.Core.Bot(_client, _configurationManager, _clockService, _roomsManager,
+        _bot = new Bot(_client, _configurationManager, _clockService, _roomsManager,
             _formatsManager, _loginService, _parsersManager, _userDetailsManager, _systemService, _templatesManager);
     }
 

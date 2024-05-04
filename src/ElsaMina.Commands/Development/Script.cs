@@ -20,7 +20,9 @@ public class Script : DevelopmentCommand
     // ReSharper disable once MemberCanBePrivate.Global
     public class Globals
     {
+        // ReSharper disable once NotAccessedField.Global
         public IContext Context;
+        // ReSharper disable once NotAccessedField.Global
         public IDependencyContainerService Container;
     }
 
