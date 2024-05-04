@@ -9,7 +9,7 @@ namespace ElsaMina.Commands.Development.Commands;
 public class AllCommands : Command<AllCommands>, INamed
 {
     public static string Name => "allcommands";
-    public static IEnumerable<string> Aliases => new[] { "all-commands", "commands" };
+    public static List<string> Aliases => ["all-commands", "commands"];
 
     private readonly ICommandExecutor _commandExecutor;
     private readonly ITemplatesManager _templatesManager;

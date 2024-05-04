@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 using ElsaMina.Core.Models;
-using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 
 namespace ElsaMina.Core.Utils;
@@ -240,81 +239,81 @@ public static class ShowdownTeams
         return team;
     }
 
-    public static string GetSetExport(PokemonSet curSet)
+    public static string GetSetExport(PokemonSet set)
     {
         var builder = new StringBuilder();
-        if (curSet.Name != null && curSet.Name != curSet.Species)
+        if (set.Name != null && set.Name != set.Species)
         {
-            builder.Append($"{curSet.Name} ({curSet.Species})");
+            builder.Append($"{set.Name} ({set.Species})");
         }
         else
         {
-            builder.Append(curSet.Species);
+            builder.Append(set.Species);
         }
 
-        if (curSet.Gender == "M")
+        if (set.Gender == "M")
         {
             builder.Append(" (M)");
         }
 
-        if (curSet.Gender == "F")
+        if (set.Gender == "F")
         {
             builder.Append(" (F)");
         }
 
-        if (curSet.Item != null)
+        if (set.Item != null)
         {
-            builder.Append($" @ {curSet.Item}");
+            builder.Append($" @ {set.Item}");
         }
 
         builder.AppendLine();
 
-        if (curSet.Ability != null)
+        if (set.Ability != null)
         {
-            builder.AppendLine($"Ability: {curSet.Ability} ");
+            builder.AppendLine($"Ability: {set.Ability} ");
         }
 
-        if (curSet.Level != 0 && curSet.Level != 100)
+        if (set.Level != 0 && set.Level != 100)
         {
-            builder.AppendLine($"Level: {curSet.Level} ");
+            builder.AppendLine($"Level: {set.Level} ");
         }
 
-        if (curSet.IsShiny)
+        if (set.IsShiny)
         {
             builder.AppendLine("Shiny: Yes ");
         }
 
-        if (curSet.Happiness >= 0 && curSet.Happiness != 255)
+        if (set.Happiness >= 0 && set.Happiness != 255)
         {
-            builder.AppendLine($"Happiness: {curSet.Happiness} ");
+            builder.AppendLine($"Happiness: {set.Happiness} ");
         }
 
-        if (curSet.Pokeball != null)
+        if (set.Pokeball != null)
         {
-            builder.AppendLine($"Pokeball: {curSet.Pokeball} ");
+            builder.AppendLine($"Pokeball: {set.Pokeball} ");
         }
 
-        if (curSet.HiddenPowerType != null)
+        if (set.HiddenPowerType != null)
         {
-            builder.AppendLine($"Hidden Power: {curSet.HiddenPowerType} ");
+            builder.AppendLine($"Hidden Power: {set.HiddenPowerType} ");
         }
 
-        if (curSet.DynamaxLevel >= 0)
+        if (set.DynamaxLevel >= 0)
         {
-            builder.AppendLine($"Dynamax Level: {curSet.DynamaxLevel} ");
+            builder.AppendLine($"Dynamax Level: {set.DynamaxLevel} ");
         }
 
-        if (curSet.IsGigantamax)
+        if (set.IsGigantamax)
         {
             builder.AppendLine("Gigantamax: Yes ");
         }
 
         var firstEv = true;
-        if (curSet.EffortValues != null)
+        if (set.EffortValues != null)
         {
             foreach (var (key, value) in BATTLE_STAT_NAMES)
             {
-                if (curSet.EffortValues[key] == 0)
+                if (set.EffortValues[key] == 0)
                 {
                     continue;
                 }
@@ -329,7 +328,7 @@ public static class ShowdownTeams
                     builder.Append(" / ");
                 }
 
-                builder.Append($"{curSet.EffortValues[key]} {value}");
+                builder.Append($"{set.EffortValues[key]} {value}");
             }
         }
 
@@ -338,17 +337,17 @@ public static class ShowdownTeams
             builder.AppendLine();
         }
 
-        if (curSet.Nature != null)
+        if (set.Nature != null)
         {
-            builder.AppendLine($"{curSet.Nature} Nature ");
+            builder.AppendLine($"{set.Nature} Nature ");
         }
 
         var firstIv = true;
-        if (curSet.IndividualValues != null)
+        if (set.IndividualValues != null)
         {
             foreach (var (key, value) in BATTLE_STAT_NAMES)
             {
-                if (curSet.IndividualValues[key] == 31)
+                if (set.IndividualValues[key] == 31)
                 {
                     continue;
                 }
@@ -363,7 +362,7 @@ public static class ShowdownTeams
                     builder.Append(" / ");
                 }
 
-                builder.Append($"{curSet.IndividualValues[key]} {value}");
+                builder.Append($"{set.IndividualValues[key]} {value}");
             }
         }
         if (!firstIv)
@@ -371,9 +370,9 @@ public static class ShowdownTeams
             builder.AppendLine();
         }
 
-        if (curSet.Moves != null)
+        if (set.Moves != null)
         {
-            foreach (var setMove in curSet.Moves)
+            foreach (var setMove in set.Moves)
             {
                 var move = setMove;
                 if (move.Length > 13 && move.Substring(0, 13) == "Hidden Power ")

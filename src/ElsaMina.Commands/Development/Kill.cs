@@ -5,7 +5,7 @@ using ElsaMina.Core.Services.System;
 
 namespace ElsaMina.Commands.Development;
 
-public class Kill : Command<Kill>, INamed
+public class Kill : DevelopmentCommand<Kill>, INamed
 {
     public static string Name => "kill";
 
@@ -16,10 +16,6 @@ public class Kill : Command<Kill>, INamed
         _systemService = systemService;
     }
     
-    public override bool IsWhitelistOnly => true;
-    public override bool IsHidden => true;
-    public override bool IsAllowedInPm => true;
-
     public override Task Run(IContext context)
     {
         Logger.Current.Information("Killing bot : {0}", context);
