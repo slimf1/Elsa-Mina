@@ -1,4 +1,5 @@
 ﻿using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Core.Commands;
 
@@ -6,11 +7,11 @@ public abstract class Command : ICommand
 {
     protected Command()
     {
-        InitializeNameAndAliases();
+        InitializeNameAndAliasesFromAttribute();
     }
 
-    public string CommandName { get; private set; } = string.Empty;
-    public IEnumerable<string> CommandAliases { get; private set; } = Enumerable.Empty<string>();
+    public string CommandName { get; private set; }
+    public IEnumerable<string> CommandAliases { get; private set; }
     public virtual bool IsAllowedInPm => false;
     public virtual bool IsWhitelistOnly => false;
     public virtual bool IsPrivateMessageOnly => false;
@@ -50,15 +51,10 @@ public abstract class Command : ICommand
 
     public abstract Task Run(IContext context);
 
-    private void InitializeNameAndAliases()
+    private void InitializeNameAndAliasesFromAttribute()
     {
-        if (GetType().GetCustomAttributes(typeof(NamedCommandAttribute), false).FirstOrDefault()
-            is not NamedCommandAttribute commandAttribute)
-        {
-            return;
-        }
-
-        CommandName = commandAttribute.Name;
-        CommandAliases = commandAttribute.Aliases;
+        var commandAttribute = GetType().GetCommandAttribute();
+        CommandName = commandAttribute?.Name ?? string.Empty;
+        CommandAliases = commandAttribute?.Aliases ?? Enumerable.Empty<string>();
     }
 }

@@ -15,6 +15,7 @@ using ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
 using ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
 using ElsaMina.Core;
 using ElsaMina.Core.Commands;
+using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands;
 
@@ -68,8 +69,8 @@ public class CommandModule : Module
 
     private static void RegisterCommand<T>(ContainerBuilder builder) where T : ICommand
     {
-        if (typeof(T).GetCustomAttributes(typeof(NamedCommandAttribute), false).FirstOrDefault()
-            is not NamedCommandAttribute commandAttribute)
+        var commandAttribute = typeof(T).GetCommandAttribute();
+        if (commandAttribute == null)
         {
             Logger.Current.Warning(
                 "Command '{0}' does not have the named command attribute, and could not be registered",
