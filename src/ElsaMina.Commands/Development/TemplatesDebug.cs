@@ -5,7 +5,7 @@ using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
-using ElsaMina.Core.Services.Templating;
+using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Templates;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;

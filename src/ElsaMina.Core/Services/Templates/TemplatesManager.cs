@@ -4,7 +4,7 @@ using ElsaMina.Core.Templates;
 using ElsaMina.Core.Utils;
 using RazorLight;
 
-namespace ElsaMina.Core.Services.Templating;
+namespace ElsaMina.Core.Services.Templates;
 
 public class TemplatesManager : ITemplatesManager
 {

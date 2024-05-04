@@ -1,6 +1,6 @@
 ﻿using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
-using ElsaMina.Core.Services.Templating;
+using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.GuessingGame;

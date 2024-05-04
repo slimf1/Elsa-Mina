@@ -1,6 +1,6 @@
 using ElsaMina.Core.Templates;
 
-namespace ElsaMina.Core.Services.Templating;
+namespace ElsaMina.Core.Services.Templates;
 
 public interface ITemplatesManager
 {

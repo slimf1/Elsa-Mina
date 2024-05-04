@@ -1,6 +1,6 @@
 ﻿using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Probabilities;
-using ElsaMina.Core.Services.Templating;
+using ElsaMina.Core.Services.Templates;
 using Newtonsoft.Json;
 
 namespace ElsaMina.Commands.GuessingGame.Countries;

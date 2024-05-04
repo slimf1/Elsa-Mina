@@ -6,7 +6,7 @@ using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.Parsers;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.System;
-using ElsaMina.Core.Services.Templating;
+using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Services.UserDetails;
 using NSubstitute;
 

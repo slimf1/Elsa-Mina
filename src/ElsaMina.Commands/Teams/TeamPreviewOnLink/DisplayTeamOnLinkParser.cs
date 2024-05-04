@@ -4,7 +4,7 @@ using ElsaMina.Core.Commands.Parsers;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.DependencyInjection;
-using ElsaMina.Core.Services.Templating;
+using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Repositories;
 
