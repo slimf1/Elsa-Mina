@@ -1,4 +1,4 @@
-﻿namespace ElsaMina.Core.Commands;
+﻿namespace ElsaMina.Core.Parsers;
 
 public interface IParser
 {

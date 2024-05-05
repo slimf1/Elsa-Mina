@@ -1,7 +1,6 @@
 ﻿using Autofac;
-using ElsaMina.Core.Commands;
-using ElsaMina.Core.Commands.Parsers;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Parsers;
 using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Commands;

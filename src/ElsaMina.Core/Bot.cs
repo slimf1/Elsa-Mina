@@ -41,7 +41,8 @@ public class Bot : IBot
         ILoginService loginService,
         IParsersManager parsersManager,
         IUserDetailsManager userDetailsManager,
-        ISystemService systemService, ITemplatesManager templatesManager)
+        ISystemService systemService,
+        ITemplatesManager templatesManager)
     {
         _client = client;
         _configurationManager = configurationManager;
@@ -194,6 +195,7 @@ public class Bot : IBot
         {
             Logger.Current.Error("Login failed. Check password validity. Exiting");
             _systemService.Kill();
+            return;
         }
         
         _client.Send($"|/trn {response.CurrentUser.Username},0,{response.Assertion}");

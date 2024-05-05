@@ -1,7 +1,6 @@
 ﻿using ElsaMina.Commands.GuessingGame.Countries;
-using ElsaMina.Core.Commands.Parsers;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Services.DependencyInjection;
+using ElsaMina.Core.Parsers;
 using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.GuessingGame;
