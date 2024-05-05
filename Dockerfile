@@ -19,7 +19,7 @@ RUN dotnet restore
 COPY . .
 
 # Build the application
-RUN dotnet build --configuration Release
+RUN dotnet build --no-restore --configuration Release
 
 # Publish the application
 RUN dotnet publish --no-restore --no-build --configuration Release --output /app/dist /app/src/ElsaMina.Console/ElsaMina.Console.csproj
