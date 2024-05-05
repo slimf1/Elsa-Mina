@@ -34,7 +34,7 @@ public abstract class GuessingGame : Game
 
     public void Start()
     {
-        SendInitMessage();
+        OnGameStart();
         InitializeNextTurn();
     }
 
@@ -42,7 +42,7 @@ public abstract class GuessingGame : Game
     {
         _currentTurn++;
         Context.ReplyLocalizedMessage("guessing_game_turn_count", _currentTurn);
-        SetupTurn();
+        OnTurnStart();
         _cancellationTokenSource?.Cancel();
         _cancellationTokenSource = new CancellationTokenSource();
         Task.Run(async () =>
@@ -121,7 +121,10 @@ public abstract class GuessingGame : Game
         _cancellationTokenSource?.Cancel();
     }
 
-    protected abstract void SendInitMessage();
+    protected virtual void OnGameStart()
+    {
+        
+    }
 
-    protected abstract void SetupTurn();
+    protected abstract void OnTurnStart();
 }

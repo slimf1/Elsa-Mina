@@ -24,12 +24,12 @@ public class CountriesGame : GuessingGame
         _randomService = randomService;
     }
 
-    protected override void SendInitMessage()
+    protected override void OnGameStart()
     {
         Context.ReplyLocalizedMessage("countries_game_start");
     }
 
-    protected override void SetupTurn()
+    protected override void OnTurnStart()
     {
         var nextCountry = _randomService.RandomElement(_gameData.Value.Countries);
         var image = _randomService.NextDouble() < 0.5
