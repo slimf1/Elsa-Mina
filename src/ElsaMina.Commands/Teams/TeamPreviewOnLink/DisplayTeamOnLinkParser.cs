@@ -1,7 +1,7 @@
 ﻿using ElsaMina.Commands.Teams.TeamProviders;
 using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Parsers;
+using ElsaMina.Core.Parsers.DefaultParsers;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;

@@ -1,6 +1,6 @@
 ﻿using ElsaMina.Commands.GuessingGame.Countries;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Parsers;
+using ElsaMina.Core.Parsers.DefaultParsers;
 using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.GuessingGame;

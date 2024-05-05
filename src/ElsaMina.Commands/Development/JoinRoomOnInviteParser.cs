@@ -1,10 +1,9 @@
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Parsers;
+using ElsaMina.Core.Parsers.DefaultParsers;
 
 namespace ElsaMina.Commands.Development;
 
 public class JoinRoomOnInviteParser : PrivateMessageParser
-
 {
     public JoinRoomOnInviteParser(IContextFactory contextFactory)
         : base(contextFactory)

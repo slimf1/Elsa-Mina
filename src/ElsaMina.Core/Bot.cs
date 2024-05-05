@@ -6,7 +6,6 @@ using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.System;
 using ElsaMina.Core.Services.Templates;
-using ElsaMina.Core.Services.UserDetails;
 using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Core;
@@ -23,7 +22,6 @@ public class Bot : IBot
     private readonly IFormatsManager _formatsManager;
     private readonly ILoginService _loginService;
     private readonly IParsersManager _parsersManager;
-    private readonly IUserDetailsManager _userDetailsManager;
     private readonly ISystemService _systemService;
     private readonly ITemplatesManager _templatesManager;
 
@@ -40,7 +38,6 @@ public class Bot : IBot
         IFormatsManager formatsManager,
         ILoginService loginService,
         IParsersManager parsersManager,
-        IUserDetailsManager userDetailsManager,
         ISystemService systemService,
         ITemplatesManager templatesManager)
     {
@@ -51,7 +48,6 @@ public class Bot : IBot
         _formatsManager = formatsManager;
         _loginService = loginService;
         _parsersManager = parsersManager;
-        _userDetailsManager = userDetailsManager;
         _systemService = systemService;
         _templatesManager = templatesManager;
     }
@@ -114,10 +110,6 @@ public class Bot : IBot
 
         switch (parts[1])
         {
-            case "nametaken":
-                Logger.Current.Error("Login failed, check username or password validity. Exiting");
-                _systemService.Kill();
-                break;
             case "challstr":
                 await Login(string.Join("|", parts[2..]));
                 break;
@@ -126,39 +118,6 @@ public class Bot : IBot
                 break;
             case "formats":
                 _formatsManager.ParseFormatsFromReceivedLine(line);
-                break;
-            case "deinit":
-                _roomsManager.RemoveRoom(roomId);
-                break;
-            case "J":
-                _roomsManager.AddUserToRoom(roomId, parts[2]);
-                break;
-            case "L":
-                _roomsManager.RemoveUserFromRoom(roomId, parts[2]);
-                break;
-            case "N":
-                _roomsManager.RenameUserInRoom(roomId, parts[3], parts[2]);
-                break;
-            case "queryresponse":
-                if (parts[2] == "userdetails")
-                {
-                    _userDetailsManager.HandleReceivedUserDetails(parts[3]);
-                }
-                break;
-            case "noinit":
-                // Petit switch dans un switch 🙈
-                switch (parts[2])
-                {
-                    case "joinfailed":
-                        Logger.Current.Error("Could not join room '{0}', probably due to a lack of permissions", roomId);
-                        break;
-                    case "nonexistent":
-                        Logger.Current.Error("Room '{0}' doesn't exist, please check configuration", roomId);
-                        break;
-                    case "namerequired":
-                        Logger.Current.Error("Could not join room '{0}' because the bot is not logged in.", roomId);
-                        break;
-                }
                 break;
         }
     }

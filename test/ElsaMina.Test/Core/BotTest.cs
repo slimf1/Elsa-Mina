@@ -7,7 +7,6 @@ using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.System;
 using ElsaMina.Core.Services.Templates;
-using ElsaMina.Core.Services.UserDetails;
 using NSubstitute;
 
 namespace ElsaMina.Test.Core;
@@ -21,7 +20,6 @@ public class BotTest
     private IFormatsManager _formatsManager;
     private ILoginService _loginService;
     private IParsersManager _parsersManager;
-    private IUserDetailsManager _userDetailsManager;
     private ISystemService _systemService;
     private ITemplatesManager _templatesManager;
 
@@ -37,18 +35,11 @@ public class BotTest
         _formatsManager = Substitute.For<IFormatsManager>();
         _loginService = Substitute.For<ILoginService>();
         _parsersManager = Substitute.For<IParsersManager>();
-        _userDetailsManager = Substitute.For<IUserDetailsManager>();
         _systemService = Substitute.For<ISystemService>();
         _templatesManager = Substitute.For<ITemplatesManager>();
         
         _bot = new Bot(_client, _configurationManager, _clockService, _roomsManager,
-            _formatsManager, _loginService, _parsersManager, _userDetailsManager, _systemService, _templatesManager);
-    }
-
-    [TearDown]
-    public void TearDown()
-    {
-        _bot.Dispose();
+            _formatsManager, _loginService, _parsersManager, _systemService, _templatesManager);
     }
 
     [Test]

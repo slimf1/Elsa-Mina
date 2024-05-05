@@ -75,16 +75,15 @@ public class AddBadgeTest
     public async Task Test_Run_ShouldReplyWithFailureMessage_WhenExceptionThrownByRepository()
     {
         // Arrange
-        var context = Substitute.For<IContext>();
-        context.Target.Returns("newBadge, image");
-        context.RoomId.Returns("roomId");
+        _context.Target.Returns("newBadge, image");
+        _context.RoomId.Returns("roomId");
         _badgeRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).ReturnsNull();
         _badgeRepository.AddAsync(Arg.Any<Badge>()).Throws(new Exception("Some error"));
 
         // Act
-        await _command.Run(context);
+        await _command.Run(_context);
 
         // Assert
-        context.Received().ReplyLocalizedMessage("badge_add_failure_message", "Some error");
+        _context.Received().ReplyLocalizedMessage("badge_add_failure_message", "Some error");
     }
 }
