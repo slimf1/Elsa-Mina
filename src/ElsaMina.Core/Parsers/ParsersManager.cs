@@ -1,7 +1,6 @@
-using ElsaMina.Core.Parsers;
 using ElsaMina.Core.Services.DependencyInjection;
 
-namespace ElsaMina.Core.Services.Parsers;
+namespace ElsaMina.Core.Parsers;
 
 public class ParsersManager : IParsersManager
 {

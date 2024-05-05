@@ -9,7 +9,6 @@ using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Login;
-using ElsaMina.Core.Services.Parsers;
 using ElsaMina.Core.Services.PrivateMessages;
 using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Repeats;
