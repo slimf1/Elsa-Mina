@@ -1,7 +1,7 @@
 ﻿using Autofac;
-using ElsaMina.Core.Commands;
-using ElsaMina.Core.Commands.Parsers;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Parsers;
+using ElsaMina.Core.Parsers.DefaultParsers;
 using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Commands;
@@ -10,7 +10,6 @@ using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Login;
-using ElsaMina.Core.Services.Parsers;
 using ElsaMina.Core.Services.PrivateMessages;
 using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Repeats;
@@ -59,5 +58,8 @@ public class CoreModule : Module
         
         builder.RegisterType<ChatMessageCommandParser>().As<IParser>().SingleInstance();
         builder.RegisterType<PrivateMessageCommandParser>().As<IParser>().SingleInstance();
+        builder.RegisterType<NameTakenParser>().As<IParser>().SingleInstance();
+        builder.RegisterType<QueryResponseParser>().As<IParser>().SingleInstance();
+        builder.RegisterType<RoomsParser>().As<IParser>().SingleInstance();
     }
 }

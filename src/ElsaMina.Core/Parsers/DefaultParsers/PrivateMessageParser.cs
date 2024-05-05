@@ -1,6 +1,6 @@
 using ElsaMina.Core.Contexts;
 
-namespace ElsaMina.Core.Commands.Parsers;
+namespace ElsaMina.Core.Parsers.DefaultParsers;
 
 public abstract class PrivateMessageParser : MessageParser
 {

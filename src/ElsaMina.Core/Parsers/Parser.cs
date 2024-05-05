@@ -1,4 +1,4 @@
-namespace ElsaMina.Core.Commands;
+namespace ElsaMina.Core.Parsers;
 
 public abstract class Parser : IParser
 {
@@ -13,7 +13,7 @@ public abstract class Parser : IParser
         }
         catch (Exception exception)
         {
-            Logger.Current.Error(exception, "An error occured while executing parser '{0}'", Identifier);
+            Logger.Current.Error(exception, "An error occurred while executing parser '{0}'", Identifier);
             throw;
         }
     }

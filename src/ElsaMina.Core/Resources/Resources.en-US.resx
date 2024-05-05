@@ -28,7 +28,7 @@
         <value>New badge added successfully.</value>
     </data>
     <data name="badge_add_failure_message" xml:space="preserve">
-        <value>An error occured while adding the badge : {0}</value>
+        <value>An error occurred while adding the badge : {0}</value>
     </data>
     <data name="addcommand_name_too_long" xml:space="preserve">
         <value>Command name is too long.</value>
@@ -76,7 +76,7 @@
         <value>Configuration of room {0} has been updated.</value>
     </data>
     <data name="room_config_failure" xml:space="preserve">
-        <value>An error occured while updating the configuration : {0}</value>
+        <value>An error occurred while updating the configuration : {0}</value>
     </data>
     <data name="room_config_room_not_found" xml:space="preserve">
         <value>Could not find room '{0}'</value>
@@ -112,7 +112,7 @@
         <value>Could not find badge {0}.</value>
     </data>
     <data name="badge_give_error" xml:space="preserve">
-        <value>An error occured while giving the badge : {0}</value>
+        <value>An error occurred while giving the badge : {0}</value>
     </data>
     <data name="badge_give_success" xml:space="preserve">
         <value>User "{0}" received the badge "{1}".</value>
@@ -268,7 +268,7 @@
         <value>Added team with id "{0}"</value>
     </data>
     <data name="add_team_failure" xml:space="preserve">
-        <value>An error occured when adding team: {0}</value>
+        <value>An error occurred when adding team: {0}</value>
     </data>
     <data name="add_team_to_room_no_arg" xml:space="preserve">
         <value>Please specify the team id.</value>

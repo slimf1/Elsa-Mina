@@ -78,7 +78,7 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occured when adding team: {0}.
+        ///   Looks up a localized string similar to An error occurred when adding team: {0}.
         /// </summary>
         internal static string add_team_failure {
             get {
@@ -303,7 +303,7 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occured while adding the badge : {0}.
+        ///   Looks up a localized string similar to An error occurred while adding the badge : {0}.
         /// </summary>
         internal static string badge_add_failure_message {
             get {
@@ -357,7 +357,7 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occured while giving the badge : {0}.
+        ///   Looks up a localized string similar to An error occurred while giving the badge : {0}.
         /// </summary>
         internal static string badge_give_error {
             get {
@@ -762,7 +762,7 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occured while updating the configuration : {0}.
+        ///   Looks up a localized string similar to An error occurred while updating the configuration : {0}.
         /// </summary>
         internal static string room_config_failure {
             get {

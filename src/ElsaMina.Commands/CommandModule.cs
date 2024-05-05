@@ -15,6 +15,7 @@ using ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
 using ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
 using ElsaMina.Core;
 using ElsaMina.Core.Commands;
+using ElsaMina.Core.Parsers;
 using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands;
