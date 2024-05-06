@@ -1,6 +1,7 @@
 ﻿using ElsaMina.Core;
 using ElsaMina.Core.Parsers;
 using ElsaMina.Core.Services.Clock;
+using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Login;
@@ -22,6 +23,7 @@ public class BotTest
     private IParsersManager _parsersManager;
     private ISystemService _systemService;
     private ITemplatesManager _templatesManager;
+    private ICommandExecutor _commandExecutor;
 
     private Bot _bot;
     
@@ -37,9 +39,10 @@ public class BotTest
         _parsersManager = Substitute.For<IParsersManager>();
         _systemService = Substitute.For<ISystemService>();
         _templatesManager = Substitute.For<ITemplatesManager>();
+        _commandExecutor = Substitute.For<ICommandExecutor>();
         
         _bot = new Bot(_client, _configurationManager, _clockService, _roomsManager,
-            _formatsManager, _loginService, _parsersManager, _systemService, _templatesManager);
+            _formatsManager, _loginService, _parsersManager, _systemService, _templatesManager, _commandExecutor);
     }
 
     [Test]
@@ -50,6 +53,7 @@ public class BotTest
         
         // Assert
         await _templatesManager.Received(1).PreCompileTemplates();
+        await _commandExecutor.Received(1).OnBotStartUp();
         await _client.Received(1).Connect();
     }
 
@@ -92,7 +96,7 @@ public class BotTest
         await _bot.HandleReceivedMessage(message);
         
         // Assert
-        _parsersManager.Received(1).Initialize();
+        await _parsersManager.Received(1).Initialize();
         var expectedParts = new[] { "", "c:", "1", "%Earth", "test" };
         await _parsersManager.Received(1).Parse(Arg.Is<string[]>(parts => parts.SequenceEqual(expectedParts)));
     }
@@ -108,7 +112,7 @@ public class BotTest
         await _bot.HandleReceivedMessage(message);
         
         // Assert
-        _parsersManager.DidNotReceive().Initialize();
+        await _parsersManager.DidNotReceive().Initialize();
         var expectedParts = new[] { "", "c:", "1", "%Earth", "test" };
         await _parsersManager.Received(1).Parse(Arg.Is<string[]>(parts => parts.SequenceEqual(expectedParts)));
     }
