@@ -20,7 +20,13 @@ public class GuessingGameCommand : Command
     }
 
     public override char RequiredRank => '+';
-    
+
+    public override async Task OnBotStartUp()
+    {
+        await base.OnBotStartUp();
+        await CountriesGame.LoadCountriesGameData();
+    }
+
     public override Task Run(IContext context)
     {
         if (!int.TryParse(context.Target, out var turnsCount))

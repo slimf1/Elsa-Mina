@@ -24,6 +24,11 @@ public abstract class Command : ICommand
         context.Reply(context.GetString(HelpMessageKey, formatArguments));
     }
 
+    public virtual Task OnBotStartUp()
+    {
+        return Task.CompletedTask;
+    }
+
     public async Task Call(IContext context)
     {
         if (IsPrivateMessageOnly && !context.IsPm)

@@ -15,9 +15,12 @@ public class ParsersManager : IParsersManager
     
     public bool IsInitialized { get; private set; }
 
-    public void Initialize()
+    public async Task Initialize()
     {
         _parsers = _containerService.Resolve<IEnumerable<IParser>>();
+        await Task.WhenAll(
+            _parsers.Select(parser => parser.OnInitialize())
+        );
         IsInitialized = true;
     }
 

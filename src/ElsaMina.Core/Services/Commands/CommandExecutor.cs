@@ -27,6 +27,11 @@ public class CommandExecutor : ICommandExecutor
         return _dependencyContainerService.GetAllCommands();
     }
 
+    public Task OnBotStartUp()
+    {
+        return Task.WhenAll(GetAllCommands().Select(command => command.OnBotStartUp()));
+    }
+
     public async Task TryExecuteCommand(string commandName, IContext context)
     {
         if (HasCommand(commandName))

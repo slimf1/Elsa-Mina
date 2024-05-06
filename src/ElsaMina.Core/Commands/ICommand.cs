@@ -14,6 +14,6 @@ public interface ICommand
     public bool IsHidden { get; }
 
     void ReplyLocalizedHelpMessage(IContext context, params object[] formatArguments);
-
+    Task OnBotStartUp();
     Task Call(IContext context);
 }

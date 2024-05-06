@@ -5,6 +5,11 @@ public abstract class Parser : IParser
     public abstract string Identifier { get; }
     public bool IsEnabled { get; set; } = true;
 
+    public virtual Task OnInitialize()
+    {
+        return Task.CompletedTask;
+    }
+
     public async Task Invoke(string[] parts, string roomId = null)
     {
         try

@@ -1,4 +1,5 @@
-﻿using ElsaMina.Core.Services.Config;
+﻿using ElsaMina.Core;
+using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Templates;
 using Newtonsoft.Json;
@@ -8,14 +9,17 @@ namespace ElsaMina.Commands.GuessingGame.Countries;
 public class CountriesGame : GuessingGame
 {
     private static readonly string GAME_FILE_PATH = Path.Join("Data", "countries_game.json");
+    private static CountriesGameData CountriesGameData { get; set; }
 
     private readonly IRandomService _randomService;
 
-    private readonly Lazy<CountriesGameData> _gameData = new(() =>
+    public static async Task LoadCountriesGameData()
     {
         using var streamReader = new StreamReader(GAME_FILE_PATH);
-        return JsonConvert.DeserializeObject<CountriesGameData>(streamReader.ReadToEnd());
-    });
+        var fileContent = await streamReader.ReadToEndAsync();
+        CountriesGameData = JsonConvert.DeserializeObject<CountriesGameData>(fileContent);
+        Logger.Current.Debug("Loaded countries game data with {0} entries", CountriesGameData.Countries.Count());
+    }
 
     public CountriesGame(ITemplatesManager templatesManager,
         IRandomService randomService,
@@ -31,7 +35,7 @@ public class CountriesGame : GuessingGame
 
     protected override void OnTurnStart()
     {
-        var nextCountry = _randomService.RandomElement(_gameData.Value.Countries);
+        var nextCountry = _randomService.RandomElement(CountriesGameData.Countries);
         var image = _randomService.NextDouble() < 0.5
             ? nextCountry.Flag
             : nextCountry.Location;

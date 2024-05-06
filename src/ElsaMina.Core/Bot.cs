@@ -1,5 +1,6 @@
 ﻿using ElsaMina.Core.Parsers;
 using ElsaMina.Core.Services.Clock;
+using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Login;
@@ -24,6 +25,7 @@ public class Bot : IBot
     private readonly IParsersManager _parsersManager;
     private readonly ISystemService _systemService;
     private readonly ITemplatesManager _templatesManager;
+    private readonly ICommandExecutor _commandExecutor;
 
     private readonly SemaphoreSlim _loadRoomSemaphore = new(1, 1);
     private string _currentRoom;
@@ -39,7 +41,8 @@ public class Bot : IBot
         ILoginService loginService,
         IParsersManager parsersManager,
         ISystemService systemService,
-        ITemplatesManager templatesManager)
+        ITemplatesManager templatesManager,
+        ICommandExecutor commandExecutor)
     {
         _client = client;
         _configurationManager = configurationManager;
@@ -50,11 +53,13 @@ public class Bot : IBot
         _parsersManager = parsersManager;
         _systemService = systemService;
         _templatesManager = templatesManager;
+        _commandExecutor = commandExecutor;
     }
 
     public async Task Start()
     {
         await _templatesManager.PreCompileTemplates();
+        await _commandExecutor.OnBotStartUp();
         await _client.Connect();
     }
 
@@ -103,7 +108,7 @@ public class Bot : IBot
 
         if (!_parsersManager.IsInitialized)
         {
-            _parsersManager.Initialize();
+            await _parsersManager.Initialize();
         }
 
         await _parsersManager.Parse(parts, roomId);
