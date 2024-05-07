@@ -1,7 +1,7 @@
 ﻿using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
-using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
+using RoomParameters = ElsaMina.DataAccess.Models.RoomParameters;
 
 namespace ElsaMina.Core.Services.Rooms;
 

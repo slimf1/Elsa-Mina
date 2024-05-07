@@ -1,4 +1,6 @@
-﻿namespace ElsaMina.DataAccess.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ElsaMina.DataAccess.Models;
 
 public class RoomParameters : IKeyed<string>
 {
@@ -13,6 +15,7 @@ public class RoomParameters : IKeyed<string>
     public bool? IsShowingErrorMessages { get; set; }
     public bool? IsCommandAutocorrectEnabled { get; set; }
     public bool? IsShowingTeamLinksPreviews { get; set; }
+    [StringLength(10)]
     public string? Locale { get; set; }
     public ICollection<RoomTeam> Teams { get; set; }
 }

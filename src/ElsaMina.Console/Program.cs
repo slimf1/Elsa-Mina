@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
+using Autofac;
 using ElsaMina.Commands;
 using ElsaMina.Core;
 using ElsaMina.Core.Constants;
@@ -46,9 +48,10 @@ using (var streamReader = new StreamReader(Path.Join("Config", configurationFile
 // Subscribe to message event
 var bot = dependencyContainerService.Resolve<IBot>();
 var client = dependencyContainerService.Resolve<IClient>();
-client.MessageReceived.Subscribe(message => Task.Run(async () => await bot.HandleReceivedMessage(message)));
+// TODO
+client.MessageReceived.Select(message => bot.HandleReceivedMessage(message).ToObservable()).Subscribe();
 
-// Disconnect event & reconnection logic (à revoir~)
+// Disconnect event & reconnection logic TODO (à revoir~)
 client.DisconnectionHappened.Subscribe(error =>
 {
     logger.Error("Got disconnected : {0}\nrestarting in 30 seconds...", error);
