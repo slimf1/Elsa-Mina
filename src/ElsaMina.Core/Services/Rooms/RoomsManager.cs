@@ -1,7 +1,7 @@
 ﻿using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
+using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
-using RoomParameters = ElsaMina.DataAccess.Models.RoomParameters;
 
 namespace ElsaMina.Core.Services.Rooms;
 
@@ -46,6 +46,7 @@ public class RoomsManager : IRoomsManager
             await _roomParametersRepository.AddAsync(roomParameters);
             Logger.Current.Information("Inserted room parameters for room {0} in db", roomId);
         }
+
         var defaultLocale = roomParameters.Locale ?? _configurationManager.Configuration.DefaultLocaleCode;
         var room = new Room(roomTitle, roomId, defaultLocale);
 
@@ -53,7 +54,7 @@ public class RoomsManager : IRoomsManager
         {
             room.AddUser(userId);
         }
-        
+
         _rooms[room.RoomId] = room;
         Logger.Current.Information("Initializing {0} : DONE", roomTitle);
     }

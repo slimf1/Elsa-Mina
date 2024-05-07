@@ -1,6 +1,6 @@
 ﻿namespace ElsaMina.Core.Models;
 
-public static class RoomParameters
+public static class RoomConfigurationParameters
 {
     public static readonly IReadOnlyList<RoomBotConfigurationParameter> PARAMETERS =
     [
