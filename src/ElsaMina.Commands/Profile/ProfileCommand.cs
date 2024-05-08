@@ -71,7 +71,7 @@ public class ProfileCommand : Command
 
         var viewModel = new ProfileViewModel
         {
-            Culture = new CultureInfo(room?.Locale ?? _configurationManager.Configuration.DefaultLocaleCode),
+            Culture = room?.Culture ?? new CultureInfo(_configurationManager.Configuration.DefaultLocaleCode),
             Avatar = avatarUrl,
             UserId = userId,
             UserName = showdownUserDetails?.Name ?? userId,

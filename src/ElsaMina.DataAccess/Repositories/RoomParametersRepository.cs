@@ -21,13 +21,17 @@ public class RoomParametersRepository : IRoomParametersRepository
     public async Task<RoomParameters> GetByIdAsync(string key)
     {
         return await _dbContext.Set<RoomParameters>()
+            .AsNoTracking()
             .Include(x => x.Teams)
+            .Include(x => x.ParameterValues)
             .FirstOrDefaultAsync(x => x.Id == key);
     }
 
     public async Task<IEnumerable<RoomParameters>> GetAllAsync()
     {
-        return await _dbContext.Set<RoomParameters>().ToListAsync();
+        return await _dbContext.Set<RoomParameters>()
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task AddAsync(RoomParameters roomParameters)

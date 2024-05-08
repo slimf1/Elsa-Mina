@@ -35,6 +35,7 @@ public class ShowRoomDashboard : Command
     public override bool IsPrivateMessageOnly => true;
     public override bool IsWhitelistOnly => true; // todo : seul un mec authed sur la room peut
 
+    // TODO : à revoir
     public override async Task Run(IContext context)
     {
         var roomId = context.Target.Trim().ToLower();
@@ -51,6 +52,7 @@ public class ShowRoomDashboard : Command
             return;
         }
 
+        // TODO : faire une boucle sur les params + template pour un param
         var roomParameters = await _roomParametersRepository.GetByIdAsync(roomId);
         if (roomParameters == null)
         {
@@ -60,8 +62,7 @@ public class ShowRoomDashboard : Command
         
         if (context.IsPm)
         {
-            context.Culture = new CultureInfo(roomParameters.Locale
-                                             ?? _configurationManager.Configuration.DefaultLocaleCode);
+            context.Culture = room.Culture;
         }
 
         var viewModel = new RoomDashboardViewModel

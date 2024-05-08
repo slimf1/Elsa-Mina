@@ -29,8 +29,8 @@ public class RoomContext : Context
 
     public override CultureInfo Culture
     {
-        get => new(_room.Locale);
-        set => _room.Locale = value.Name;
+        get => _room.Culture;
+        set => _room.Culture = value;
     }
 
     public override ContextType Type => ContextType.Room;

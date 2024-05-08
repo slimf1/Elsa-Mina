@@ -309,4 +309,28 @@
     <data name="aboutrepeat_helpmessage" xml:space="preserve">
         <value>Syntaxe: -repeat &lt;id&gt;, &lt;message&gt;, &lt;durée en minutes&gt;</value>
     </data>
+    <data name="parameter_name_locale" xml:space="preserve">
+        <value>Langue</value>
+    </data>
+    <data name="parameter_name_is_showing_team_links_preview" xml:space="preserve">
+        <value>Affichage des équipes à partir des liens</value>
+    </data>
+    <data name="parameter_name_is_showing_error_messages" xml:space="preserve">
+        <value>Affichage des messages d'erreur</value>
+    </data>
+    <data name="parameter_name_has_command_auto_correct" xml:space="preserve">
+        <value>Correction orthographique des commandes</value>
+    </data>
+    <data name="parameter_description_has_command_auto_correct" xml:space="preserve">
+        <value>Affiche des suggestions lorsqu'une commande essayée est proche d'une commande existante</value>
+    </data>
+    <data name="parameter_description_is_showing_error_messages" xml:space="preserve">
+        <value>Affiche le message d'erreur et la trace d'appels lorsque l'exécution d'une commande échoue</value>
+    </data>
+    <data name="parameter_description_is_showing_team_links_preview" xml:space="preserve">
+        <value>Affiche un aperçu d'une équipe lorsqu'un lien Pokepaste ou CoupCritique est partagé dans le chat</value>
+    </data>
+    <data name="parameter_description_locale" xml:space="preserve">
+        <value>La langue utilisée pour les commandes</value>
+    </data>
 </root>

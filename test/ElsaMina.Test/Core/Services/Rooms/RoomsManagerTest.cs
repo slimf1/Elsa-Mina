@@ -12,6 +12,8 @@ public class RoomsManagerTest
 {
     private IConfigurationManager _configurationManager;
     private IRoomParametersRepository _roomParametersRepository;
+    private IRoomConfigurationParametersFactory _roomConfigurationParametersFactory;
+    private IRoomBotParameterValueRepository _roomBotParameterValueRepository;
 
     private RoomsManager _roomsManager;
 
@@ -20,8 +22,11 @@ public class RoomsManagerTest
     {
         _configurationManager = Substitute.For<IConfigurationManager>();
         _roomParametersRepository = Substitute.For<IRoomParametersRepository>();
+        _roomConfigurationParametersFactory = Substitute.For<IRoomConfigurationParametersFactory>();
+        _roomBotParameterValueRepository = Substitute.For<IRoomBotParameterValueRepository>();
 
-        _roomsManager = new RoomsManager(_configurationManager, _roomParametersRepository);
+        _roomsManager = new RoomsManager(_configurationManager, _roomConfigurationParametersFactory,
+            _roomParametersRepository, _roomBotParameterValueRepository);
     }
 
     private async Task InitializeFakeRooms()
@@ -52,7 +57,7 @@ public class RoomsManagerTest
         await _roomsManager.InitializeRoom("franais", "Français", Enumerable.Empty<string>());
 
         // Assert
-        Assert.That(_roomsManager.GetRoom("franais").Locale, Is.EqualTo("zh-CN"));
+        Assert.That(_roomsManager.GetRoom("franais").Culture.Name, Is.EqualTo("zh-CN"));
     }
     
     [Test]
@@ -62,14 +67,21 @@ public class RoomsManagerTest
         _roomParametersRepository.GetByIdAsync("franais").Returns(new RoomParameters
         {
             Id = "franais",
-            Locale = "fr-FR"
+            ParameterValues = new List<RoomBotParameterValue>
+            {
+                new()
+                {
+                    ParameterId = RoomParametersConstants.LOCALE,
+                    Value = "fr-FR"
+                }
+            }
         });
 
         // Act
         await _roomsManager.InitializeRoom("franais", "Français", Enumerable.Empty<string>());
 
         // Assert
-        Assert.That(_roomsManager.GetRoom("franais").Locale, Is.EqualTo("fr-FR"));
+        Assert.That(_roomsManager.GetRoom("franais").Culture.Name, Is.EqualTo("fr-FR"));
     }
 
     [Test]

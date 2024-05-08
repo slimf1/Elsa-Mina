@@ -3,5 +3,6 @@
 public enum RoomBotConfigurationType
 {
     Boolean,
-    String
+    String,
+    Enumeration
 }

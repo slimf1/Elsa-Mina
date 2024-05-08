@@ -3,6 +3,7 @@ using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Parsers.DefaultParsers;
 using ElsaMina.Core.Services.Clock;
+using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Repositories;
@@ -18,29 +19,28 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
     private readonly IClockService _clockService;
     private readonly ITeamLinkMatchFactory _teamLinkMatchFactory;
     private readonly ITemplatesManager _templatesManager;
-    private readonly IRoomParametersRepository _roomParametersRepository;
+    private readonly IRoomsManager _roomsManager;
 
     public DisplayTeamOnLinkParser(IContextFactory contextFactory,
         IClockService clockService,
         ITeamLinkMatchFactory teamLinkMatchFactory,
         ITemplatesManager templatesManager,
-        IRoomParametersRepository roomParametersRepository)
+        IRoomsManager roomManager)
         : base(contextFactory)
     {
         _clockService = clockService;
         _teamLinkMatchFactory = teamLinkMatchFactory;
         _templatesManager = templatesManager;
-        _roomParametersRepository = roomParametersRepository;
+        _roomsManager = roomManager;
     }
     
     public override string Identifier => nameof(DisplayTeamOnLinkParser);
 
     protected override async Task HandleMessage(IContext context)
     {
-        // Not costly since because the entity gets cached
-        // TODO : revoir pour le charger directement dans la room
-        var roomParameters = await _roomParametersRepository.GetByIdAsync(context.RoomId);
-        if ((roomParameters?.IsShowingTeamLinksPreviews ?? false) == false)
+        var isShowingTeamLinksPreviewEnabled = _roomsManager.GetRoomBotConfigurationParameterValue(
+            context.RoomId, RoomParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW).ToBoolean();
+        if (!isShowingTeamLinksPreviewEnabled)
         {
             return;
         }

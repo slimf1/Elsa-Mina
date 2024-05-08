@@ -52,6 +52,8 @@ public class CoreModule : Module
         builder.RegisterType<RandomService>().As<IRandomService>().SingleInstance();
         builder.RegisterType<RepeatsManager>().As<IRepeatsManager>().SingleInstance();
         builder.RegisterType<SystemService>().As<ISystemService>().SingleInstance();
+        builder.RegisterType<RoomConfigurationParametersFactory>().As<IRoomConfigurationParametersFactory>()
+            .SingleInstance();
 
         builder.RegisterType<Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot>().As<IBot>().AsSelf().SingleInstance();

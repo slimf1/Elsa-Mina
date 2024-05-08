@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Services.Rooms;
 using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.RoomDashboard;
@@ -8,11 +9,11 @@ namespace ElsaMina.Commands.RoomDashboard;
 [NamedCommand("set-locale", Aliases = ["setlocale"])]
 public class SetLocale : Command
 {
-    private readonly IRoomParametersRepository _roomParametersRepository;
+    private readonly IRoomsManager _roomsManager;
 
-    public SetLocale(IRoomParametersRepository roomParametersRepository)
+    public SetLocale(IRoomsManager roomsManager)
     {
-        _roomParametersRepository = roomParametersRepository;
+        _roomsManager = roomsManager;
     }
 
     public override char RequiredRank => '#';
@@ -33,16 +34,9 @@ public class SetLocale : Command
             return;
         }
 
-        var roomParameters = await _roomParametersRepository.GetByIdAsync(roomId);
-        if (roomParameters == null)
-        {
-            context.Reply($"Room '{roomId}' not found.");
-            return;
-        }
-
-        roomParameters.Locale = locale;
-        await _roomParametersRepository.UpdateAsync(roomParameters);
+        var success = await _roomsManager.SetRoomBotConfigurationParameterValue(roomId,
+            RoomParametersConstants.LOCALE, locale);
         context.Culture = cultureInfo;
-        context.Reply($"Updated locale of room {roomId} to : {locale}");
+        context.Reply(success ? $"Updated locale of room {roomId} to : {locale}" : "An error occurred.");
     }
 }

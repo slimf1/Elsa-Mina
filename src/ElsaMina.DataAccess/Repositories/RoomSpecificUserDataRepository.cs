@@ -23,6 +23,7 @@ public class RoomSpecificUserDataRepository : IRoomSpecificUserDataRepository
     {
         var (userId, roomId) = key;
         return await _dbContext.Set<RoomSpecificUserData>()
+            .AsNoTracking()
             .Include(x => x.Badges)
             .ThenInclude(x => x.Badge)
             .FirstOrDefaultAsync(x => x.Id == userId && x.RoomId == roomId);
@@ -31,6 +32,7 @@ public class RoomSpecificUserDataRepository : IRoomSpecificUserDataRepository
     public async Task<IEnumerable<RoomSpecificUserData>> GetAllAsync()
     {
         return await _dbContext.Set<RoomSpecificUserData>()
+            .AsNoTracking()
             .Include(x => x.Badges)
             .ThenInclude(x => x.Badge)
             .ToListAsync();

@@ -654,6 +654,78 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Affiche des suggestions lorsqu&apos;une commande essayée est proche d&apos;une commande existante.
+        /// </summary>
+        internal static string parameter_description_has_command_auto_correct {
+            get {
+                return ResourceManager.GetString("parameter_description_has_command_auto_correct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Affiche le message d&apos;erreur et la trace d&apos;appels lorsque l&apos;exécution d&apos;une commande échoue.
+        /// </summary>
+        internal static string parameter_description_is_showing_error_messages {
+            get {
+                return ResourceManager.GetString("parameter_description_is_showing_error_messages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Affiche un aperçu d&apos;une équipe lorsqu&apos;un lien Pokepaste ou CoupCritique est partagé dans le chat.
+        /// </summary>
+        internal static string parameter_description_is_showing_team_links_preview {
+            get {
+                return ResourceManager.GetString("parameter_description_is_showing_team_links_preview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La langue utilisée pour les commandes.
+        /// </summary>
+        internal static string parameter_description_locale {
+            get {
+                return ResourceManager.GetString("parameter_description_locale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Correction orthographique des commandes.
+        /// </summary>
+        internal static string parameter_name_has_command_auto_correct {
+            get {
+                return ResourceManager.GetString("parameter_name_has_command_auto_correct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Affichage des messages d&apos;erreur.
+        /// </summary>
+        internal static string parameter_name_is_showing_error_messages {
+            get {
+                return ResourceManager.GetString("parameter_name_is_showing_error_messages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Affichage des équipes à partir des liens.
+        /// </summary>
+        internal static string parameter_name_is_showing_team_links_preview {
+            get {
+                return ResourceManager.GetString("parameter_name_is_showing_team_links_preview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Langue.
+        /// </summary>
+        internal static string parameter_name_locale {
+            get {
+                return ResourceManager.GetString("parameter_name_locale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pas de badge.
         /// </summary>
         internal static string profile_no_badge {

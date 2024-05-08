@@ -1,21 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace ElsaMina.DataAccess.Models;
 
-namespace ElsaMina.DataAccess.Models;
-
+// todo : renommer "RoomInfo" ou similaire
 public class RoomParameters : IKeyed<string>
 {
     public string Key => Id;
 
-    public RoomParameters()
-    {
-        Teams = new HashSet<RoomTeam>();
-    }
-    
     public string Id { get; set; }
-    public bool? IsShowingErrorMessages { get; set; }
-    public bool? IsCommandAutocorrectEnabled { get; set; }
-    public bool? IsShowingTeamLinksPreviews { get; set; }
-    [StringLength(10)]
-    public string? Locale { get; set; }
-    public ICollection<RoomTeam> Teams { get; set; }
+    public ICollection<RoomTeam> Teams { get; set; } = new HashSet<RoomTeam>();
+    public ICollection<RoomBotParameterValue> ParameterValues { get; set; } = new HashSet<RoomBotParameterValue>();
 }

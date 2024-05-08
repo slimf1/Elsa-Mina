@@ -1,4 +1,6 @@
-﻿using ElsaMina.Core.Utils;
+﻿using System.Globalization;
+using ElsaMina.Core.Utils;
+using ElsaMina.DataAccess.Models;
 
 namespace ElsaMina.Core.Models;
 
@@ -7,14 +9,15 @@ public class Room : IRoom
     public string RoomId { get; }
     public string Name { get; }
     public IDictionary<string, IUser> Users { get; } = new Dictionary<string, IUser>();
-    public string Locale { get; set; }
+    public CultureInfo Culture { get; set; }
     public IGame Game { get; set; }
+    public RoomParameters Parameters { get; set; }
 
-    public Room(string roomTitle, string roomId, string locale)
+    public Room(string roomTitle, string roomId, CultureInfo culture)
     {
         RoomId = roomId ?? roomTitle.ToLowerAlphaNum();
         Name = roomTitle;
-        Locale = locale;
+        Culture = culture;
     }
 
     public void AddUser(string username)
@@ -45,6 +48,6 @@ public class Room : IRoom
         return $"{nameof(Room)}[{nameof(RoomId)}: {RoomId}, " +
                $"{nameof(Name)}: {Name}, " +
                $"{nameof(Users)}: {string.Join(", ", Users)}, " +
-               $"{nameof(Locale)}: {Locale}]";
+               $"{nameof(Culture)}: {Culture}]";
     }
 }

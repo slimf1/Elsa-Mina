@@ -16,5 +16,6 @@ public class DataAccessModule : Module
         builder.RegisterType<RoomParametersRepository>().As<IRoomParametersRepository>();
         builder.RegisterType<BadgeHoldingRepository>().As<IBadgeHoldingRepository>();
         builder.RegisterType<TeamRepository>().As<ITeamRepository>();
+        builder.RegisterType<RoomBotParameterValueRepository>().As<IRoomBotParameterValueRepository>();
     }
 }

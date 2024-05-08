@@ -28,6 +28,7 @@ public class RoomConfig : Command
     public override bool IsWhitelistOnly => true; // todo : only authed used from room
     public override bool IsPrivateMessageOnly => true;
 
+    // TODO à revoir
     public override async Task Run(IContext context)
     {
         var parts = context.Target.Split(",");
@@ -47,15 +48,15 @@ public class RoomConfig : Command
             return;
         }
 
-        room.Locale = locale;
+        room.Culture = new CultureInfo(locale);
 
         var roomParameters = new RoomParameters
         {
             Id = roomId,
-            Locale = locale,
-            IsShowingErrorMessages = parts[2] == "on",
-            IsCommandAutocorrectEnabled = parts[3] == "on",
-            IsShowingTeamLinksPreviews = parts[4] == "on"
+            //Locale = locale,
+            //IsShowingErrorMessages = parts[2] == "on",
+            //IsCommandAutocorrectEnabled = parts[3] == "on",
+            //IsShowingTeamLinksPreviews = parts[4] == "on"
         };
         
         try {

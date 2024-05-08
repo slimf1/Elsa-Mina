@@ -21,6 +21,7 @@ public class TeamRepository : ITeamRepository
     public async Task<Team> GetByIdAsync(string key)
     {
         return await _dbContext.Set<Team>()
+            .AsNoTracking()
             .Include(x => x.Rooms)
             .ThenInclude(x => x.RoomParameters)
             .FirstOrDefaultAsync(x => x.Id == key);
@@ -29,6 +30,7 @@ public class TeamRepository : ITeamRepository
     public async Task<IEnumerable<Team>> GetAllAsync()
     {
         return await _dbContext.Set<Team>()
+            .AsNoTracking()
             .Include(x => x.Rooms)
             .ThenInclude(x => x.RoomParameters)
             .ToListAsync();
@@ -56,6 +58,7 @@ public class TeamRepository : ITeamRepository
     public async Task<IEnumerable<Team>> GetTeamsFromRoom(string roomId)
     {
         return await _dbContext.Set<Team>()
+            .AsNoTracking()
             .Include(x => x.Rooms)
             .ThenInclude(x => x.RoomParameters)
             .Where(x => x.Rooms.Any(room => room.RoomId == roomId))

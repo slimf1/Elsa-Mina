@@ -25,78 +25,7 @@
         </thead>
         
         <tbody>
-        <!-- locale -->
-        <tr>
-            <td style="@cellStyle">
-                <label for="locale">
-                    @GetString("dashboard_locale_name")
-                </label>
-            </td>
-            <td style="@cellStyle">
-                @{ await IncludeAsync("RoomDashboard/LanguagesSelect", Model.LanguageSelectModel); }
-            </td>
-            <td style="@cellStyle">
-                @GetString("dashboard_locale_description")
-            </td>
-        </tr>
-        
-        <!-- errors -->
-        <tr>
-            <td style="@cellStyle">
-                <label for="errors">
-                    @GetString("dashboard_errors_name")
-                </label>
-            </td>
-            <td style="@cellStyle">
-                <input
-                    type="checkbox"
-                    id="errors"
-                    name="errors"
-                    @(Model.RoomParameters.IsShowingErrorMessages ?? false ? "checked" : "")/>
-            </td>
-            <td style="@cellStyle">
-                @GetString("dashboard_errors_description")
-            </td>
-        </tr>
-        
-        <!-- auto correct -->
-        <tr>
-            <td style="@cellStyle">
-                <label for="autocorrect">
-                    @GetString("dashboard_autocorrect_name")
-                </label>
-            </td>
-            <td style="@cellStyle">
-                <input
-                    type="checkbox"
-                    id="autocorrect"
-                    name="autocorrect"
-                    @(Model.RoomParameters.IsCommandAutocorrectEnabled ?? false ? "checked" : "")/>
-            </td>
-            <td style="@cellStyle">
-                @GetString("dashboard_autocorrect_description")
-            </td>
-        </tr>
-        
-        <!-- Team previews -->
-        <tr>
-            <td style="@cellStyle">
-                <label for="preview">
-                    @GetString("dashboard_team_previews_name")
-                </label>
-            </td>
-            <td style="@cellStyle">
-                <input
-                    type="checkbox"
-                    id="preview"
-                    name="preview"
-                    @(Model.RoomParameters.IsShowingTeamLinksPreviews ?? false ? "checked" : "")/>
-            </td>
-            <td style="@cellStyle">
-                @GetString("dashboard_team_previews_description")
-            </td>
-        </tr>
-        
+        <!-- todo : stuff -->
         </tbody>
     </table>
     

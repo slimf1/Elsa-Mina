@@ -22,6 +22,7 @@ public class BadgeHoldingRepository : IBadgeHoldingRepository
     {
         var (badgeId, userId, roomId) = key;
         return await _dbContext.Set<BadgeHolding>()
+            .AsNoTracking()
             .Include(x => x.Badge)
             .Include(x => x.RoomSpecificUserData)
             .FirstOrDefaultAsync(x => x.BadgeId == badgeId
@@ -32,6 +33,7 @@ public class BadgeHoldingRepository : IBadgeHoldingRepository
     public async Task<IEnumerable<BadgeHolding>> GetAllAsync()
     {
         return await _dbContext.Set<BadgeHolding>()
+            .AsNoTracking()
             .Include(x => x.Badge)
             .Include(x => x.RoomSpecificUserData)
             .ToListAsync();

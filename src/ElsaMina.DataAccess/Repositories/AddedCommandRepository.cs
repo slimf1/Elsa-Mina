@@ -21,12 +21,16 @@ public class AddedCommandRepository : IAddedCommandRepository
     public async Task<AddedCommand> GetByIdAsync(Tuple<string, string> key)
     {
         var (commandId, roomId) = key;
-        return await _dbContext.Set<AddedCommand>().FirstOrDefaultAsync(x => x.Id == commandId && x.RoomId == roomId);
+        return await _dbContext.Set<AddedCommand>()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == commandId && x.RoomId == roomId);
     }
 
     public async Task<IEnumerable<AddedCommand>> GetAllAsync()
     {
-        return await _dbContext.Set<AddedCommand>().ToListAsync();
+        return await _dbContext.Set<AddedCommand>()
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task AddAsync(AddedCommand addedCommand)

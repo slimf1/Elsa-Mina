@@ -18,6 +18,11 @@ public static partial class Text
     {
         return text[0].ToString().ToUpper() + text[1..];
     }
+
+    public static bool ToBoolean(this string text)
+    {
+        return text.Trim().ToLower() is "true" or "y" or "t" or "1";
+    }
     
     /// <remarks>
     /// Credit : https://gist.github.com/Davidblkx/e12ab0bb2aff7fd8072632b396538560

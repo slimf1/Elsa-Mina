@@ -4,6 +4,7 @@ namespace ElsaMina.Core.Services.Rooms;
 
 public interface IRoomsManager
 {
+    IReadOnlyDictionary<string, RoomBotConfigurationParameter> RoomBotConfigurationParameters { get; }
     IRoom GetRoom(string roomId);
     bool HasRoom(string roomId);
     Task InitializeRoom(string roomId, string roomTitle, IEnumerable<string> userIds);
@@ -11,4 +12,6 @@ public interface IRoomsManager
     void AddUserToRoom(string roomId, string userId);
     void RemoveUserFromRoom(string roomId, string userId);
     void RenameUserInRoom(string roomId, string newName, string lastName);
+    string GetRoomBotConfigurationParameterValue(string roomId, string roomBotParameterId);
+    Task<bool> SetRoomBotConfigurationParameterValue(string roomId, string roomBotParameterId, string value);
 }

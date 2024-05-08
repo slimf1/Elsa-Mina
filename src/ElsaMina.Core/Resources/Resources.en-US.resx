@@ -309,4 +309,28 @@
     <data name="aboutrepeat_helpmessage" xml:space="preserve">
         <value>Syntax: -repeat &lt;id&gt;, &lt;message&gt;, &lt;duration in minutes&gt;</value>
     </data>
+    <data name="parameter_name_has_command_auto_correct" xml:space="preserve">
+        <value>Command Auto-correct</value>
+    </data>
+    <data name="parameter_name_is_showing_error_messages" xml:space="preserve">
+        <value>Command error messages</value>
+    </data>
+    <data name="parameter_name_is_showing_team_links_preview" xml:space="preserve">
+        <value>Team links previews</value>
+    </data>
+    <data name="parameter_name_locale" xml:space="preserve">
+        <value>Locale</value>
+    </data>
+    <data name="parameter_description_has_command_auto_correct" xml:space="preserve">
+        <value>Shows commands suggestions if a tried command name is similar to an existing one</value>
+    </data>
+    <data name="parameter_description_is_showing_error_messages" xml:space="preserve">
+        <value>Shows the error message and the exception stack trace if a command execution fails</value>
+    </data>
+    <data name="parameter_description_is_showing_team_links_preview" xml:space="preserve">
+        <value>Shows a preview of a Pokémon team when a Pokepaste or CoupCritique link is shared in chat</value>
+    </data>
+    <data name="parameter_description_locale" xml:space="preserve">
+        <value>The language used for commands</value>
+    </data>
 </root>

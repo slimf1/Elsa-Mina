@@ -9,7 +9,7 @@ public class AddedCommand : IKeyed<Tuple<string, string>>
 
     public string Id { get; set; }
     public string RoomId { get; set; }
-    public string? Content { get; set; }
-    public string? Author { get; set; }
+    public string Content { get; set; }
+    public string Author { get; set; }
     public DateTime? CreationDate { get; set; }
 }

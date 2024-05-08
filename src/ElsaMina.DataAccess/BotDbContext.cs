@@ -30,12 +30,13 @@ public class BotDbContext : DbContext
 
         modelBuilder.Entity<AddedCommand>()
             .HasKey(command => new { command.Id, command.RoomId });
+
         modelBuilder.Entity<Badge>()
             .HasKey(badge => new { badge.Id, badge.RoomId });
 
         modelBuilder.Entity<BadgeHolding>()
             .HasKey(badgeHolding => new { badgeHolding.BadgeId, badgeHolding.UserId, badgeHolding.RoomId });
-        
+
         modelBuilder.Entity<BadgeHolding>()
             .HasOne(badgeHolding => badgeHolding.Badge)
             .WithMany(badge => badge.BadgeHolders)
@@ -45,12 +46,12 @@ public class BotDbContext : DbContext
             .HasOne(badgeHolding => badgeHolding.RoomSpecificUserData)
             .WithMany(userData => userData.Badges)
             .HasForeignKey(badgeHolding => new { badgeHolding.UserId, badgeHolding.RoomId });
-        
+
         modelBuilder.Entity<RoomSpecificUserData>()
             .HasKey(userData => new { userData.Id, userData.RoomId });
 
         modelBuilder.Entity<RoomTeam>()
-            .HasKey(roomTeam => new { Id = roomTeam.TeamId, roomTeam.RoomId });
+            .HasKey(roomTeam => new { roomTeam.TeamId, roomTeam.RoomId });
 
         modelBuilder.Entity<RoomTeam>()
             .HasOne(roomTeam => roomTeam.RoomParameters)
@@ -64,6 +65,14 @@ public class BotDbContext : DbContext
 
         modelBuilder.Entity<Repeat>()
             .HasKey(repeat => new { repeat.RoomId, repeat.Name });
+
+        modelBuilder.Entity<RoomBotParameterValue>()
+            .HasKey(roomBotParameterValue => new { roomBotParameterValue.RoomId, roomBotParameterValue.ParameterId });
+
+        modelBuilder.Entity<RoomBotParameterValue>()
+            .HasOne(roomBotParameterValue => roomBotParameterValue.RoomParameters)
+            .WithMany(roomsParameters => roomsParameters.ParameterValues)
+            .HasForeignKey(roomBotParameterValue => roomBotParameterValue.RoomId);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -74,7 +83,7 @@ public class BotDbContext : DbContext
         {
             return;
         }
-        
+
         var dbConfig = DbConfigProvider.GetDbConfig();
         optionsBuilder.UseNpgsql(dbConfig.ConnectionString);
     }
