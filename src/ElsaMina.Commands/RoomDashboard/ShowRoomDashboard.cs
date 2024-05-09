@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+﻿using System.Text;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
@@ -31,7 +31,7 @@ public class ShowRoomDashboard : Command
         _roomParametersRepository = roomParametersRepository;
         _templatesManager = templatesManager;
     }
-    
+
     public override bool IsPrivateMessageOnly => true;
     public override bool IsWhitelistOnly => true; // todo : seul un mec authed sur la room peut
 
@@ -59,29 +59,42 @@ public class ShowRoomDashboard : Command
             context.SendHtmlPage("dashboard-error", "<p>Could not find room parameters somehow</p>");
             return;
         }
-        
+
         if (context.IsPm)
         {
             context.Culture = room.Culture;
         }
 
+        var configurationCommandBuilder = new StringBuilder("/w ");
+        configurationCommandBuilder.Append(_configurationManager.Configuration.Name);
+        configurationCommandBuilder.Append(',');
+        configurationCommandBuilder.Append(_configurationManager.Configuration.Trigger);
+        configurationCommandBuilder.Append("rc ");
+        configurationCommandBuilder.Append(roomId);
+        configurationCommandBuilder.Append(',');
+        configurationCommandBuilder.AppendJoin(',', _roomsManager
+            .RoomBotConfigurationParameters.Values
+            .Select(parameter => $"{parameter.Identifier}={{{parameter.Identifier}}}"));
+
         var viewModel = new RoomDashboardViewModel
         {
             BotName = _configurationManager.Configuration.Name,
             Trigger = _configurationManager.Configuration.Trigger,
-            RoomParameters = roomParameters,
+            RoomId = roomId,
+            Command = configurationCommandBuilder.ToString(),
             RoomName = room.Name,
             Culture = context.Culture,
-            LanguageSelectModel = new LanguagesSelectViewModel
-            {
-                Name = "locale",
-                Id = "locale",
-                Cultures = _resourcesService.SupportedLocales,
-                Culture = context.Culture
-            }
+            RoomParameterLines = _roomsManager.RoomBotConfigurationParameters
+                .Select(roomParameter => new RoomParameterLineModel
+                {
+                    Culture = context.Culture,
+                    RoomParameter = roomParameter.Value,
+                    CurrentValue = _roomsManager
+                        .GetRoomBotConfigurationParameterValue(roomId, roomParameter.Value.Identifier)
+                })
         };
         var template = await _templatesManager.GetTemplate("RoomDashboard/RoomDashboard", viewModel);
-        
+
         context.SendHtmlPage($"{roomId}dashboard", template.RemoveNewlines());
     }
 }

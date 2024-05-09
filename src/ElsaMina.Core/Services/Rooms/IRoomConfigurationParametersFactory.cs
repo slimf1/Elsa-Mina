@@ -4,5 +4,5 @@ namespace ElsaMina.Core.Services.Rooms;
 
 public interface IRoomConfigurationParametersFactory
 {
-    IReadOnlyDictionary<string, RoomBotConfigurationParameter> GetParameters();
+    IReadOnlyDictionary<string, IRoomBotConfigurationParameter> GetParameters();
 }

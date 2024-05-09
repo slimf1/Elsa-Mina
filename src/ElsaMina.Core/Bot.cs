@@ -58,7 +58,7 @@ public class Bot : IBot
 
     public async Task Start()
     {
-        await _templatesManager.PreCompileTemplates();
+        await _templatesManager.CompileTemplates();
         await _commandExecutor.OnBotStartUp();
         await _client.Connect();
     }

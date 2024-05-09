@@ -21,7 +21,7 @@ public static partial class Text
 
     public static bool ToBoolean(this string text)
     {
-        return text.Trim().ToLower() is "true" or "y" or "t" or "1";
+        return text.Trim().ToLower() is "true" or "y" or "t" or "1" or "on";
     }
     
     /// <remarks>

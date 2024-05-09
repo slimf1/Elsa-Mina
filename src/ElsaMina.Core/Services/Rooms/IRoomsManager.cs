@@ -4,7 +4,7 @@ namespace ElsaMina.Core.Services.Rooms;
 
 public interface IRoomsManager
 {
-    IReadOnlyDictionary<string, RoomBotConfigurationParameter> RoomBotConfigurationParameters { get; }
+    IReadOnlyDictionary<string, IRoomBotConfigurationParameter> RoomBotConfigurationParameters { get; }
     IRoom GetRoom(string roomId);
     bool HasRoom(string roomId);
     Task InitializeRoom(string roomId, string roomTitle, IEnumerable<string> userIds);

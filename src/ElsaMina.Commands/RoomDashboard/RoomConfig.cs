@@ -1,10 +1,8 @@
-﻿using System.Globalization;
-using ElsaMina.Core;
+﻿using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
-using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.RoomDashboard;
@@ -33,7 +31,6 @@ public class RoomConfig : Command
     {
         var parts = context.Target.Split(",");
         var roomId = parts[0].Trim().ToLower();
-        var locale = parts[1].Trim().ToLower();
 
         var room = _roomsManager.GetRoom(roomId);
         if (room == null)
@@ -41,27 +38,15 @@ public class RoomConfig : Command
             context.ReplyLocalizedMessage("room_config_room_not_found", roomId);
             return;
         }
-
-        if (!_resourcesService.SupportedLocales.Select(culture => culture.Name.ToLower()).Contains(locale))
-        {
-            context.ReplyLocalizedMessage("room_config_locale_not_found", locale);
-            return;
-        }
-
-        room.Culture = new CultureInfo(locale);
-
-        var roomParameters = new RoomParameters
-        {
-            Id = roomId,
-            //Locale = locale,
-            //IsShowingErrorMessages = parts[2] == "on",
-            //IsCommandAutocorrectEnabled = parts[3] == "on",
-            //IsShowingTeamLinksPreviews = parts[4] == "on"
-        };
         
         try {
-            await _roomParametersRepository.UpdateAsync(roomParameters);
-            context.Culture = new CultureInfo(locale);
+            foreach (var pair in parts.Skip(1))
+            {
+                var items = pair.Split('=');
+                var parameterId = items[0];
+                var value = items[1];
+                await _roomsManager.SetRoomBotConfigurationParameterValue(roomId, parameterId, value);
+            }
             context.ReplyLocalizedMessage("room_config_success", roomId);
         }
         catch (Exception exception)

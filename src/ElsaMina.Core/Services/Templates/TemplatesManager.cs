@@ -20,7 +20,7 @@ public class TemplatesManager : ITemplatesManager
 
     private readonly IDependencyContainerService _dependencyContainerService;
 
-    private readonly ConcurrentDictionary<string, ITemplatePage> _preCompilationResults = new();
+    private readonly ConcurrentDictionary<string, ITemplatePage> _compilationResults = new();
 
     public TemplatesManager(IDependencyContainerService dependencyContainerService)
     {
@@ -29,19 +29,19 @@ public class TemplatesManager : ITemplatesManager
 
     public async Task<string> GetTemplate(string templateKey, object model)
     {
-        if (!_preCompilationResults.TryGetValue(templateKey, out var precompiledTemplatePage))
+        if (!_compilationResults.TryGetValue(templateKey, out var compiledTemplatePage))
         {
             return null;
         }
 
-        return await RAZOR_ENGINE.RenderTemplateAsync(precompiledTemplatePage, model);
+        return await RAZOR_ENGINE.RenderTemplateAsync(compiledTemplatePage, model);
     }
 
-    public async Task PreCompileTemplates()
+    public async Task CompileTemplates()
     {
         var compilationTasks = FileSystem
             .GetFilesFromDirectoryRecursively(TEMPLATES_DIRECTORY_PATH)
-            .Select(PreCompileTemplate);
+            .Select(CompileTemplate);
         await Task.WhenAll(compilationTasks);
     }
 
@@ -54,11 +54,11 @@ public class TemplatesManager : ITemplatesManager
         return await RAZOR_ENGINE.RenderTemplateAsync(template, viewModel);
     }
 
-    private async Task PreCompileTemplate(string templatePath)
+    private async Task CompileTemplate(string templatePath)
     {
-        Logger.Current.Information("Pre-compiling template {0}...", templatePath);
+        Logger.Current.Information("Compiling template {0}...", templatePath);
         var templateKey = GetTemplateKeyFromPath(templatePath);
-        _preCompilationResults[templateKey] = await RAZOR_ENGINE.CompileTemplateAsync(templatePath);
+        _compilationResults[templateKey] = await RAZOR_ENGINE.CompileTemplateAsync(templatePath);
     }
 
     private static string GetTemplateKeyFromPath(string templatePath)

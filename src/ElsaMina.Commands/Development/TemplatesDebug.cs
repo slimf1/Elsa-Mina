@@ -40,29 +40,6 @@ public class TemplatesDebug : DevelopmentCommand
                 UserName = parts[2],
                 Avatar = parts[3]
             },
-            "LanguageSelect/LanguagesSelect" => new LanguagesSelectViewModel
-            {
-                Name = "locale",
-                Id = "locale",
-                Cultures = _resourcesService.SupportedLocales
-            },
-            "RoomDashboard/RoomDashboard" => new RoomDashboardViewModel
-            {
-                BotName = _configurationManager.Configuration.Name,
-                RoomName = context.RoomId,
-                Trigger = _configurationManager.Configuration.Trigger,
-                LanguageSelectModel = new LanguagesSelectViewModel
-                {
-                    Name = "locale",
-                    Id = "locale",
-                    Cultures = _resourcesService.SupportedLocales,
-                    Culture = context.Culture
-                },
-                RoomParameters = new RoomParameters
-                {
-                    Id = "deez"
-                }
-            },
             "GuessingGame/GuessingGameResult" => new GuessingGameResultViewModel
             {
                 Culture = context.Culture,

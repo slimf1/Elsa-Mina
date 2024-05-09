@@ -1,0 +1,57 @@
+@using ElsaMina.Core.Models
+@using ElsaMina.Core.Templates
+@using ElsaMina.Core.Utils
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.RoomDashboard.RoomParameterLineModel>
+
+@{
+    const string cellStyle = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};" +
+                             $"text-align: center;" +
+                             $"padding: .25rem";
+}
+<tr>
+    <td style="@cellStyle">
+        <label for="@Model.RoomParameter.Identifier">
+            <h3>
+                @GetString(Model.RoomParameter.NameKey)
+            </h3>
+            <span>
+                @GetString(Model.RoomParameter.DescriptionKey)
+            </span>
+        </label>
+    </td>
+    <td style="@cellStyle">
+        @switch (Model.RoomParameter.Type)
+        {
+            case RoomBotConfigurationType.Enumeration:
+            {
+                <select
+                    name="@Model.RoomParameter.Identifier"
+                    id="@Model.RoomParameter.Identifier">
+                    @foreach (var option in Model.RoomParameter.PossibleValues)
+                    {
+                        <option
+                            value="@option.InternalValue"
+                            @(string.Equals(option.InternalValue, Model.CurrentValue, StringComparison.InvariantCultureIgnoreCase) ? "selected" : string.Empty)>
+                            @option.DisplayedValue
+                        </option>
+                    }
+                </select>
+                break;
+            }
+            case RoomBotConfigurationType.Boolean:
+                <input
+                    type="checkbox"
+                    id="@Model.RoomParameter.Identifier"
+                    name="@Model.RoomParameter.Identifier"
+                    @(Model.CurrentValue.ToBoolean() ? "checked" : string.Empty)/>
+                break;
+            case RoomBotConfigurationType.String:
+                <input
+                    type="text"
+                    id="@Model.RoomParameter.Identifier"
+                    name="@Model.RoomParameter.Identifier"
+                    value="@Model.CurrentValue"/>
+                break;
+        }
+    </td>
+</tr>

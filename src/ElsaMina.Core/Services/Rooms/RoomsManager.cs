@@ -26,7 +26,7 @@ public class RoomsManager : IRoomsManager
         RoomBotConfigurationParameters = roomConfigurationParametersFactory.GetParameters();
     }
 
-    public IReadOnlyDictionary<string, RoomBotConfigurationParameter> RoomBotConfigurationParameters { get; }
+    public IReadOnlyDictionary<string, IRoomBotConfigurationParameter> RoomBotConfigurationParameters { get; }
 
     public IRoom GetRoom(string roomId)
     {

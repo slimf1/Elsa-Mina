@@ -2,6 +2,7 @@
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
+using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Core.Services.Rooms;
 
@@ -17,19 +18,19 @@ public class RoomConfigurationParametersFactory : IRoomConfigurationParametersFa
         _resourcesService = resourcesService;
     }
 
-    public IReadOnlyDictionary<string, RoomBotConfigurationParameter> GetParameters() =>
-        new Dictionary<string, RoomBotConfigurationParameter>()
+    public IReadOnlyDictionary<string, IRoomBotConfigurationParameter> GetParameters() =>
+        new Dictionary<string, IRoomBotConfigurationParameter>
         {
-            [RoomParametersConstants.LOCALE] = new()
+            [RoomParametersConstants.LOCALE] = new RoomBotConfigurationParameter
             {
                 Identifier = RoomParametersConstants.LOCALE,
                 NameKey = "parameter_name_locale",
                 DescriptionKey = "parameter_description_locale",
-                Type = RoomBotConfigurationType.String,
+                Type = RoomBotConfigurationType.Enumeration,
                 DefaultValue = _configurationManager.Configuration.DefaultLocaleCode,
                 PossibleValues = _resourcesService.SupportedLocales.Select(culture => new EnumerationValue
                 {
-                    DisplayedValue = culture.DisplayName,
+                    DisplayedValue = culture.NativeName.Capitalize(),
                     InternalValue = culture.Name
                 }),
                 OnUpdateAction = (room, newValue) =>
@@ -44,7 +45,7 @@ public class RoomConfigurationParametersFactory : IRoomConfigurationParametersFa
                     }
                 }
             },
-            [RoomParametersConstants.HAS_COMMAND_AUTO_CORRECT] = new()
+            [RoomParametersConstants.HAS_COMMAND_AUTO_CORRECT] = new RoomBotConfigurationParameter
             {
                 Identifier = RoomParametersConstants.HAS_COMMAND_AUTO_CORRECT,
                 NameKey = "parameter_name_has_command_auto_correct",
@@ -52,15 +53,15 @@ public class RoomConfigurationParametersFactory : IRoomConfigurationParametersFa
                 Type = RoomBotConfigurationType.Boolean,
                 DefaultValue = true.ToString()
             },
-            [RoomParametersConstants.IS_SHOWING_ERROR_MESSAGES] = new()
+            [RoomParametersConstants.IS_SHOWING_ERROR_MESSAGES] = new RoomBotConfigurationParameter
             {
                 Identifier = RoomParametersConstants.IS_SHOWING_ERROR_MESSAGES,
-                NameKey = "parameter_name_is_showing_team_links_preview",
+                NameKey = "parameter_name_is_showing_error_messages",
                 DescriptionKey = "parameter_description_is_showing_error_messages",
                 Type = RoomBotConfigurationType.Boolean,
                 DefaultValue = true.ToString()
             },
-            [RoomParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW] = new()
+            [RoomParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW] = new RoomBotConfigurationParameter
             {
                 Identifier = RoomParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW,
                 NameKey = "parameter_name_is_showing_team_links_preview",

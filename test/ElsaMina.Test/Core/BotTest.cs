@@ -52,7 +52,7 @@ public class BotTest
         await _bot.Start();
         
         // Assert
-        await _templatesManager.Received(1).PreCompileTemplates();
+        await _templatesManager.Received(1).CompileTemplates();
         await _commandExecutor.Received(1).OnBotStartUp();
         await _client.Received(1).Connect();
     }
