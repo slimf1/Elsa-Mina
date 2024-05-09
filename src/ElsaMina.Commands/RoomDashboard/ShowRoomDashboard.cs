@@ -2,11 +2,9 @@
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
-using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
-using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.RoomDashboard;
 
@@ -14,21 +12,15 @@ namespace ElsaMina.Commands.RoomDashboard;
 public class ShowRoomDashboard : Command
 {
     private readonly IConfigurationManager _configurationManager;
-    private readonly IResourcesService _resourcesService;
     private readonly IRoomsManager _roomsManager;
-    private readonly IRoomParametersRepository _roomParametersRepository;
     private readonly ITemplatesManager _templatesManager;
 
     public ShowRoomDashboard(IConfigurationManager configurationManager,
-        IResourcesService resourcesService,
         IRoomsManager roomsManager,
-        IRoomParametersRepository roomParametersRepository,
         ITemplatesManager templatesManager)
     {
         _configurationManager = configurationManager;
-        _resourcesService = resourcesService;
         _roomsManager = roomsManager;
-        _roomParametersRepository = roomParametersRepository;
         _templatesManager = templatesManager;
     }
 
@@ -49,14 +41,6 @@ public class ShowRoomDashboard : Command
         if (room == null)
         {
             context.ReplyLocalizedMessage("dashboard_room_doesnt_exist", roomId);
-            return;
-        }
-
-        // TODO : faire une boucle sur les params + template pour un param
-        var roomParameters = await _roomParametersRepository.GetByIdAsync(roomId);
-        if (roomParameters == null)
-        {
-            context.SendHtmlPage("dashboard-error", "<p>Could not find room parameters somehow</p>");
             return;
         }
 
