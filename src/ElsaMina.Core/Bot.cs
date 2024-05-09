@@ -13,7 +13,7 @@ namespace ElsaMina.Core;
 
 public class Bot : IBot
 {
-    private const long SAME_MESSAGE_COOLDOWN = 3;
+    private const long SAME_MESSAGE_COOLDOWN_SECONDS = 3;
     private const int MESSAGE_LENGTH_LIMIT = 125000;
 
     private readonly IClient _client;
@@ -30,7 +30,7 @@ public class Bot : IBot
     private readonly SemaphoreSlim _loadRoomSemaphore = new(1, 1);
     private string _currentRoom;
     private string _lastMessage;
-    private long _lastMessageTime;
+    private DateTimeOffset _lastMessageTime;
     private bool _disposed;
 
     public Bot(IClient client,
@@ -134,7 +134,7 @@ public class Bot : IBot
         {
             name = name[^2..];
         }
-        
+
         Logger.Current.Information("Connected as : {0}", name);
 
         foreach (var roomId in _configurationManager.Configuration.Rooms)
@@ -161,7 +161,7 @@ public class Bot : IBot
             _systemService.Kill();
             return;
         }
-        
+
         _client.Send($"|/trn {response.CurrentUser.Username},0,{response.Assertion}");
     }
 
@@ -176,9 +176,10 @@ public class Bot : IBot
 
     public void Send(string message)
     {
+        var now = _clockService.CurrentDateTimeOffset;
         if ((_lastMessage == message &&
-             _clockService.CurrentDateTimeOffset.ToUnixTimeSeconds() - _lastMessageTime < SAME_MESSAGE_COOLDOWN) ||
-            message.Length > MESSAGE_LENGTH_LIMIT)
+             (now - _lastMessageTime).Seconds < SAME_MESSAGE_COOLDOWN_SECONDS)
+            || message.Length > MESSAGE_LENGTH_LIMIT)
         {
             return;
         }
@@ -187,7 +188,7 @@ public class Bot : IBot
 
         _client.Send(message);
         _lastMessage = message;
-        _lastMessageTime = _clockService.CurrentDateTimeOffset.ToUnixTimeSeconds();
+        _lastMessageTime = now;
         _systemService.Sleep(250);
     }
 

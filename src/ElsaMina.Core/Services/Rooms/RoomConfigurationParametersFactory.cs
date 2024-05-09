@@ -33,17 +33,7 @@ public class RoomConfigurationParametersFactory : IRoomConfigurationParametersFa
                     DisplayedValue = culture.NativeName.Capitalize(),
                     InternalValue = culture.Name
                 }),
-                OnUpdateAction = (room, newValue) =>
-                {
-                    try
-                    {
-                        room.Culture = new CultureInfo(newValue);
-                    }
-                    catch (CultureNotFoundException)
-                    {
-                        // Do nothing
-                    }
-                }
+                OnUpdateAction = (room, newValue) => room.Culture = new CultureInfo(newValue)
             },
             [RoomParametersConstants.HAS_COMMAND_AUTO_CORRECT] = new RoomBotConfigurationParameter
             {

@@ -1,28 +1,20 @@
 ﻿using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
-using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.RoomDashboard;
 
 [NamedCommand("room-config", Aliases = ["roomconfig", "rc"])]
 public class RoomConfig : Command
 {
-    private readonly IRoomParametersRepository _roomParametersRepository;
     private readonly IRoomsManager _roomsManager;
-    private readonly IResourcesService _resourcesService;
 
-    public RoomConfig(IRoomParametersRepository roomParametersRepository,
-        IRoomsManager roomsManager,
-        IResourcesService resourcesService)
+    public RoomConfig(IRoomsManager roomsManager)
     {
-        _roomParametersRepository = roomParametersRepository;
         _roomsManager = roomsManager;
-        _resourcesService = resourcesService;
     }
-    
+
     public override bool IsWhitelistOnly => true; // todo : only authed used from room
     public override bool IsPrivateMessageOnly => true;
 
@@ -38,8 +30,9 @@ public class RoomConfig : Command
             context.ReplyLocalizedMessage("room_config_room_not_found", roomId);
             return;
         }
-        
-        try {
+
+        try
+        {
             foreach (var pair in parts.Skip(1))
             {
                 var items = pair.Split('=');
@@ -47,6 +40,7 @@ public class RoomConfig : Command
                 var value = items[1];
                 await _roomsManager.SetRoomBotConfigurationParameterValue(roomId, parameterId, value);
             }
+
             context.ReplyLocalizedMessage("room_config_success", roomId);
         }
         catch (Exception exception)
