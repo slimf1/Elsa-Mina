@@ -1,0 +1,76 @@
+using System.Globalization;
+using ElsaMina.Core.Models;
+using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Services.Resources;
+using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Utils;
+using ElsaMina.DataAccess;
+using ElsaMina.DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using NSubstitute;
+
+namespace ElsaMina.IntegrationTests;
+
+public class RoomParametersTest
+{
+    private BotDbContext _context;
+    private RoomsManager _roomsManager;
+    
+    [SetUp]
+    public async Task SetUp()
+    {
+        var opts = new DbContextOptionsBuilder<BotDbContext>()
+            .UseInMemoryDatabase("BotDbIntegrationTest")
+            .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+            .Options;
+        _context = new BotDbContext(opts);
+        var configurationManager = Substitute.For<IConfigurationManager>();
+        configurationManager.Configuration.Returns(new Configuration
+        {
+            DefaultLocaleCode = "fr-FR"
+        });
+        var resourcesService = Substitute.For<IResourcesService>();
+        resourcesService.SupportedLocales.Returns([new CultureInfo("fr-FR")]);
+        var roomConfigurationParametersFactory = new RoomConfigurationParametersFactory(configurationManager,
+            resourcesService);
+        var roomParametersRepository = new RoomParametersRepository(_context);
+        var roomBotParameterValueRepository = new RoomBotParameterValueRepository(_context);
+        _roomsManager = new RoomsManager(configurationManager, roomConfigurationParametersFactory,
+            roomParametersRepository, roomBotParameterValueRepository);
+        const string roomId = "franais";
+        const string roomTitle = "Français";
+        var roomUsers = new List<string> { "&Teclis", "!Lionyx", "@Earth", " Mec" };
+        await _roomsManager.InitializeRoom(roomId, roomTitle, roomUsers);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _context.Dispose();
+    }
+
+    [Test]
+    public async Task Test_RoomConfiguration_ShouldUpdateDatabase()
+    {
+        // Get default value
+        Assert.That(_roomsManager
+                .GetRoomBotConfigurationParameterValue("franais", RoomParametersConstants.LOCALE),
+            Is.EqualTo("fr-FR"));
+        
+        // Modify value
+        var result = await _roomsManager
+            .SetRoomBotConfigurationParameterValue("franais", RoomParametersConstants.LOCALE, "en-US");
+        Assert.That(result, Is.True);
+        
+        Assert.That(_roomsManager
+                .GetRoomBotConfigurationParameterValue("franais", RoomParametersConstants.LOCALE),
+            Is.EqualTo("en-US"));
+
+        await _roomsManager.SetRoomBotConfigurationParameterValue("franais",
+            RoomParametersConstants.HAS_COMMAND_AUTO_CORRECT, false.ToString());
+        Assert.That(_roomsManager
+                .GetRoomBotConfigurationParameterValue("franais", RoomParametersConstants.HAS_COMMAND_AUTO_CORRECT).ToBoolean(),
+            Is.False);
+    }
+}
