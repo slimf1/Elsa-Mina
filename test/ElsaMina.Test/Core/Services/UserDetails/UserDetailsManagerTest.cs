@@ -44,7 +44,8 @@ public class UserDetailsManagerTest
     public async Task Test_GetUserDetails_ShouldReturnNull_WhenUserDetailsAreNotReceived()
     {
         // Arrange
-        _systemService.SleepAsync(Arg.Any<int>()).Returns(Task.CompletedTask);
+        // TODO : revoir ce test
+        _systemService.SleepAsync(Arg.Any<int>()).Returns(Task.Delay(TimeSpan.FromSeconds(1)));
         
         // Act
         var result = await _userDetailsManager.GetUserDetails("speks");
