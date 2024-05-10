@@ -28,6 +28,8 @@ public class CountriesGame : GuessingGame
         _randomService = randomService;
     }
 
+    public override string Identifier => nameof(CountriesGame);
+
     protected override void OnGameStart()
     {
         Context.ReplyLocalizedMessage("countries_game_start");

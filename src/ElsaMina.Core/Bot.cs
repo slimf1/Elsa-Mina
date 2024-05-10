@@ -13,8 +13,8 @@ namespace ElsaMina.Core;
 
 public class Bot : IBot
 {
-    private const long SAME_MESSAGE_COOLDOWN_SECONDS = 3;
-    private const int MESSAGE_LENGTH_LIMIT = 125000;
+    private const int MESSAGE_LENGTH_LIMIT = 125_000;
+    private static readonly TimeSpan SAME_MESSAGE_COOLDOWN = TimeSpan.FromSeconds(3);
 
     private readonly IClient _client;
     private readonly IConfigurationManager _configurationManager;
@@ -177,8 +177,7 @@ public class Bot : IBot
     public void Send(string message)
     {
         var now = _clockService.CurrentDateTimeOffset;
-        if ((_lastMessage == message &&
-             (now - _lastMessageTime).Seconds < SAME_MESSAGE_COOLDOWN_SECONDS)
+        if ((_lastMessage == message && now - _lastMessageTime < SAME_MESSAGE_COOLDOWN)
             || message.Length > MESSAGE_LENGTH_LIMIT)
         {
             return;

@@ -6,6 +6,8 @@ public abstract class Game : IGame
 {
     public IContext Context { get; set; }
 
+    public abstract string Identifier { get; }
+    
     public virtual void Cancel()
     {
     }
