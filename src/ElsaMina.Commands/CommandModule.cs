@@ -56,6 +56,7 @@ public class CommandModule : Module
         RegisterCommand<AboutRepeat>(builder);
         RegisterCommand<CreateRepeat>(builder);
         RegisterCommand<StopRepeat>(builder);
+        RegisterCommand<Say>(builder);
 
         RegisterParser<JoinRoomOnInviteParser>(builder);
         RegisterParser<GuessingGameParser>(builder);

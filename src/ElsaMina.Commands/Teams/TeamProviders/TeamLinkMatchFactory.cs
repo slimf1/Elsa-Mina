@@ -5,6 +5,7 @@ namespace ElsaMina.Commands.Teams.TeamProviders;
 public class TeamLinkMatchFactory : ITeamLinkMatchFactory
 {
     private readonly IDependencyContainerService _dependencyContainerService;
+    private IEnumerable<ITeamProvider> _teamProviders;
 
     public TeamLinkMatchFactory(IDependencyContainerService dependencyContainerService)
     {
@@ -13,8 +14,8 @@ public class TeamLinkMatchFactory : ITeamLinkMatchFactory
     
     public ITeamLinkMatch FindTeamLinkMatch(string message)
     {
-        var providers = _dependencyContainerService.Resolve<IEnumerable<ITeamProvider>>();
-        return providers
+        _teamProviders ??= _dependencyContainerService.Resolve<IEnumerable<ITeamProvider>>();
+        return _teamProviders
             .Select(provider => GetTeamLinkMatch(message, provider))
             .FirstOrDefault(match => match != null);
     }

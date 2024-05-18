@@ -23,21 +23,18 @@ public class ProfileCommand : Command
     private readonly IUserDetailsManager _userDetailsManager;
     private readonly ITemplatesManager _templatesManager;
     private readonly IRoomsManager _roomsManager;
-    private readonly IConfigurationManager _configurationManager;
     private readonly IUserDataService _userDataService;
 
     public ProfileCommand(IRoomSpecificUserDataRepository userDataRepository,
         IUserDetailsManager userDetailsManager,
         ITemplatesManager templatesManager,
         IRoomsManager roomsManager,
-        IConfigurationManager configurationManager,
         IUserDataService userDataService)
     {
         _userDataRepository = userDataRepository;
         _userDetailsManager = userDetailsManager;
         _templatesManager = templatesManager;
         _roomsManager = roomsManager;
-        _configurationManager = configurationManager;
         _userDataService = userDataService;
     }
     
@@ -71,7 +68,7 @@ public class ProfileCommand : Command
 
         var viewModel = new ProfileViewModel
         {
-            Culture = room?.Culture ?? new CultureInfo(_configurationManager.Configuration.DefaultLocaleCode),
+            Culture = room.Culture,
             Avatar = avatarUrl,
             UserId = userId,
             UserName = showdownUserDetails?.Name ?? userId,
