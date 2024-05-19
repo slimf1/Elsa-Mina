@@ -1,0 +1,27 @@
+﻿@using ElsaMina.Commands.ConnectFour
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.ConnectFour.ConnectFourGameTableModel>
+
+<table
+    style="border-collapse: collapse; width: 100%">
+    <tr>
+        <th>
+            Grille
+        </th>
+        <th>
+            Infos
+        </th>
+    </tr>
+
+    <tr>
+        <td>
+            @{ await IncludeAsync("ConnectFour/ConnectFourGrid", new ConnectFourGridModel 
+                {
+                   Culture = Model.Culture,
+                   CurrentGame = Model.CurrentGame,
+                   Trigger = Model.Trigger,
+                   BotName = Model.BotName
+               });
+            }
+        </td>
+    </tr>
+</table>

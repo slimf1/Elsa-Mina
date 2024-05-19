@@ -1,0 +1,53 @@
+﻿@using ElsaMina.Commands.ConnectFour
+@using ElsaMina.Core.Templates
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.ConnectFour.ConnectFourGridModel>
+
+@{
+    const string evenCellStyle = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR}";
+    const string oddCellStyle = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};" +
+                                $"background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR}";
+    const string headerCellStyle = $"text-align: center";
+}
+
+
+<table
+    style="border-collapse: collapse">
+    <tr>
+        @for (var i = 1; i <= ConnectFourConstants.GRID_WIDTH; ++i)
+        {
+            <th style="@headerCellStyle">
+                @i
+            </th>
+        }
+    </tr>
+
+    @for (var i = 0; i < ConnectFourConstants.GRID_HEIGHT; i++)
+    {
+        <tr>
+            @for (var j = 0; j < ConnectFourConstants.GRID_WIDTH; j++)
+            {
+                <button
+                    class="button"
+                    name="send"
+                    value="/msg @Model.BotName,@(Model.Trigger)c4play @(j + 1)"
+                    style="padding: 4px; background: none; border: none; width: 100%; height: 100%; box-shadow: none">
+                    @{
+                        var cellTextStyle = "";
+                        if (Model.CurrentGame.WinningLineIndices.Contains((i, j)))
+                        {
+                            cellTextStyle = "font-weight: bold; color: #0B0";
+                        } else if (Model.CurrentGame.LastPlayIndices == (i, j))
+                        {
+                            cellTextStyle = "font-weight: bold; color: #FFD700";
+                        }
+                    }
+                    <td style="@((i + j) % 2 == 1 ? oddCellStyle : evenCellStyle)">
+                        <span style="@cellTextStyle">
+                            @Model.CurrentGame.Grid[i, j]
+                        </span>
+                    </td>
+                </button>
+            }
+        </tr>
+    }
+</table>

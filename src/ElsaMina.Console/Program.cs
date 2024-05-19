@@ -1,4 +1,5 @@
-﻿using System.Reactive.Linq;
+﻿using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using Autofac;
 using ElsaMina.Commands;
@@ -49,7 +50,9 @@ using (var streamReader = new StreamReader(Path.Join("Config", configurationFile
 var bot = dependencyContainerService.Resolve<IBot>();
 var client = dependencyContainerService.Resolve<IClient>();
 // TODO
-client.MessageReceived.Select(message => bot.HandleReceivedMessage(message).ToObservable()).Subscribe();
+client.MessageReceived
+    .Select(message => bot.HandleReceivedMessage(message).ToObservable())
+    .Subscribe();
 
 // Disconnect event & reconnection logic TODO (à revoir~)
 client.DisconnectionHappened.Subscribe(error =>

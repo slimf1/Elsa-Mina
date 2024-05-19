@@ -10,6 +10,17 @@ public class RandomService : IRandomService
         return list.ElementAt(_rng.Next(0, list.Count));
     }
 
+    public void ShuffleInPlace<T>(IList<T> list)
+    {
+        var n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            var k = _rng.Next(n + 1);
+            (list[k], list[n]) = (list[n], list[k]);
+        }
+    }
+
     public double NextDouble()
     {
         return _rng.NextDouble();
