@@ -333,4 +333,31 @@
     <data name="parameter_description_locale" xml:space="preserve">
         <value>The language used for commands</value>
     </data>
+    <data name="c4_game_name" xml:space="preserve">
+        <value>Connect Four</value>
+    </data>
+    <data name="c4_game_rules" xml:space="preserve">
+        <value>Connect {0} in a row to win the game!</value>
+    </data>
+    <data name="c4_game_current_turn" xml:space="preserve">
+        <value>It's {0}'s turn ({1}) !</value>
+    </data>
+    <data name="c4_game_how_to_play" xml:space="preserve">
+        <value>Click on the cells to play</value>
+    </data>
+    <data name="c4_game_timeout" xml:space="preserve">
+        <value>(You have {0} seconds to play)</value>
+    </data>
+    <data name="c4_game_players" xml:space="preserve">
+        <value>Players: {0}</value>
+    </data>
+    <data name="vs" xml:space="preserve">
+        <value>VS.</value>
+    </data>
+    <data name="c4_game_turn" xml:space="preserve">
+        <value>Turn: {0}</value>
+    </data>
+    <data name="c4_game_party_id" xml:space="preserve">
+        <value>Game: {0}</value>
+    </data>
 </root>

@@ -10,8 +10,6 @@ public class ConnectFour : Game
 {
     public static int GameId { get; private set; }
 
-    private static readonly TimeSpan TIMEOUT_DELAY = TimeSpan.FromSeconds(30);
-
     private readonly IRandomService _randomService;
     private readonly ITemplatesManager _templatesManager;
     private readonly IConfigurationManager _configurationManager;
@@ -81,7 +79,7 @@ public class ConnectFour : Game
         _cancellationTokenSource = new CancellationTokenSource();
         Task.Run(async () =>
         {
-            await Task.Delay(TIMEOUT_DELAY, _cancellationTokenSource.Token);
+            await Task.Delay(ConnectFourConstants.TIMEOUT_DELAY, _cancellationTokenSource.Token);
             _cancellationTokenSource.Token.ThrowIfCancellationRequested();
             await OnTimeout();
         }, _cancellationTokenSource.Token);
@@ -89,7 +87,6 @@ public class ConnectFour : Game
 
     private async Task OnTimeout()
     {
-        // Disqualify the current player
         Players.Remove(PlayerCurrentlyPlaying);
         Context.Reply($"{PlayerCurrentlyPlaying} was disqualified because they could not play in time.");
 
@@ -115,12 +112,14 @@ public class ConnectFour : Game
 
     private async Task DisplayGrid()
     {
-        await _templatesManager.GetTemplate("ConnectFour/ConnectFourGrid", new ConnectFourGridModel
+        var template = await _templatesManager.GetTemplate("ConnectFour/ConnectFourGrid", new ConnectFourGridModel
         {
             Culture = Context.Culture,
             CurrentGame = this,
             BotName = _configurationManager.Configuration.Name,
             Trigger = _configurationManager.Configuration.Trigger
         });
+        
+        Context.SendHtmlPage($"c4-{GameId}", template.RemoveNewlines());
     }
 }

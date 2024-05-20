@@ -333,4 +333,31 @@
     <data name="parameter_description_locale" xml:space="preserve">
         <value>La langue utilisée pour les commandes</value>
     </data>
+    <data name="c4_game_name" xml:space="preserve">
+        <value>Puissance 4</value>
+    </data>
+    <data name="c4_game_rules" xml:space="preserve">
+        <value>Faites une ligne de {0} pour gagner la partie!</value>
+    </data>
+    <data name="c4_game_current_turn" xml:space="preserve">
+        <value>C'est au tour de {0} ({1}) !</value>
+    </data>
+    <data name="c4_game_how_to_play" xml:space="preserve">
+        <value>Cliquez sur les cases pour jouer</value>
+    </data>
+    <data name="c4_game_timeout" xml:space="preserve">
+        <value>(Vous avez {0} secondes pour jouer)</value>
+    </data>
+    <data name="c4_game_players" xml:space="preserve">
+        <value>Joueurs: {0}</value>
+    </data>
+    <data name="vs" xml:space="preserve">
+        <value>Contre</value>
+    </data>
+    <data name="c4_game_turn" xml:space="preserve">
+        <value>Tour: {0}</value>
+    </data>
+    <data name="c4_game_party_id" xml:space="preserve">
+        <value>Partie: {0}</value>
+    </data>
 </root>

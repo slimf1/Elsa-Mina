@@ -393,6 +393,78 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to C&apos;est au tour de {0} ({1}) !.
+        /// </summary>
+        internal static string c4_game_current_turn {
+            get {
+                return ResourceManager.GetString("c4_game_current_turn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cliquez sur les cases pour jouer.
+        /// </summary>
+        internal static string c4_game_how_to_play {
+            get {
+                return ResourceManager.GetString("c4_game_how_to_play", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Puissance 4.
+        /// </summary>
+        internal static string c4_game_name {
+            get {
+                return ResourceManager.GetString("c4_game_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partie: {0}.
+        /// </summary>
+        internal static string c4_game_party_id {
+            get {
+                return ResourceManager.GetString("c4_game_party_id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Joueurs: {0}.
+        /// </summary>
+        internal static string c4_game_players {
+            get {
+                return ResourceManager.GetString("c4_game_players", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Faites une ligne de {0} pour gagner la partie!.
+        /// </summary>
+        internal static string c4_game_rules {
+            get {
+                return ResourceManager.GetString("c4_game_rules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (Vous avez {0} secondes pour jouer).
+        /// </summary>
+        internal static string c4_game_timeout {
+            get {
+                return ResourceManager.GetString("c4_game_timeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tour: {0}.
+        /// </summary>
+        internal static string c4_game_turn {
+            get {
+                return ResourceManager.GetString("c4_game_turn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Un countriesgame a été lancé! Écrivez directement le nom du pays dans le chat..
         /// </summary>
         internal static string countries_game_start {
@@ -1001,6 +1073,15 @@ namespace ElsaMina.Core.Resources {
         internal static string title_success {
             get {
                 return ResourceManager.GetString("title_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contre.
+        /// </summary>
+        internal static string vs {
+            get {
+                return ResourceManager.GetString("vs", resourceCulture);
             }
         }
     }
