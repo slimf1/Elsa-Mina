@@ -9,6 +9,7 @@ COPY src/ElsaMina.Core/*.csproj /app/src/ElsaMina.Core/
 COPY src/ElsaMina.Commands/*.csproj /app/src/ElsaMina.Commands/
 COPY src/ElsaMina.DataAccess/*.csproj /app/src/ElsaMina.DataAccess/
 COPY test/ElsaMina.Test/*.csproj /app/test/ElsaMina.Test/
+COPY test/ElsaMina.IntegrationTests/*.csproj /app/test/ElsaMina.IntegrationTests/
 RUN dotnet restore
 
 COPY . .
