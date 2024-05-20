@@ -360,4 +360,10 @@
     <data name="c4_game_party_id" xml:space="preserve">
         <value>Game: {0}</value>
     </data>
+    <data name="c4_game_tie_end" xml:space="preserve">
+        <value>The game ended in a tie.</value>
+    </data>
+    <data name="c4_game_win_message" xml:space="preserve">
+        <value>{0} won the game!</value>
+    </data>
 </root>

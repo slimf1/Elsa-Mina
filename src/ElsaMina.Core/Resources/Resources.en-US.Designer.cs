@@ -447,6 +447,15 @@ namespace ElsaMina.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The game ended in a tie..
+        /// </summary>
+        internal static string c4_game_tie_end {
+            get {
+                return ResourceManager.GetString("c4_game_tie_end", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (You have {0} seconds to play).
         /// </summary>
         internal static string c4_game_timeout {
@@ -461,6 +470,15 @@ namespace ElsaMina.Core.Resources {
         internal static string c4_game_turn {
             get {
                 return ResourceManager.GetString("c4_game_turn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} won the game!.
+        /// </summary>
+        internal static string c4_game_win_message {
+            get {
+                return ResourceManager.GetString("c4_game_win_message", resourceCulture);
             }
         }
         

@@ -26,7 +26,7 @@
         <td>
             <b>@GetString("c4_game_name")</b>
             <p>@GetString("c4_game_rules", ConnectFourConstants.WINNING_LENGTH)</p>
-            <p>@GetString("c4_game_current_turn", Model.CurrentGame.PlayerCurrentlyPlaying, ConnectFourConstants.SYMBOLS[Model.CurrentGame.Players.IndexOf(Model.CurrentGame.PlayerCurrentlyPlaying)])</p>
+            <p>@GetString("c4_game_current_turn", Model.CurrentGame.PlayerCurrentlyPlaying, Model.CurrentGame.CurrentPlayerSymbol)</p>
             <p>@GetString("c4_game_how_to_play")</p>
             <p>@GetString("c4_game_timeout", ConnectFourConstants.TIMEOUT_DELAY.Seconds)</p>
             <p>@GetString("c4_game_players", string.Join(GetString("vs"), Model.CurrentGame.Players))</p>
