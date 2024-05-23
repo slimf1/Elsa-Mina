@@ -1,5 +1,5 @@
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Handlers.Handlers;
+using ElsaMina.Core.Handlers.DefaultHandlers;
 
 namespace ElsaMina.Commands.Development;
 

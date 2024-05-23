@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Handlers;
-using ElsaMina.Core.Handlers.Handlers;
+using ElsaMina.Core.Handlers.DefaultHandlers;
 using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Commands;

@@ -1,6 +1,6 @@
 using ElsaMina.Core.Services.UserDetails;
 
-namespace ElsaMina.Core.Handlers.Handlers;
+namespace ElsaMina.Core.Handlers.DefaultHandlers;
 
 public sealed class QueryResponseHandler : Handler
 {

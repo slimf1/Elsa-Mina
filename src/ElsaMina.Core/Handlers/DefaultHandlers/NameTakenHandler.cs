@@ -1,6 +1,6 @@
 using ElsaMina.Core.Services.System;
 
-namespace ElsaMina.Core.Handlers.Handlers;
+namespace ElsaMina.Core.Handlers.DefaultHandlers;
 
 public sealed class NameTakenHandler : Handler
 {

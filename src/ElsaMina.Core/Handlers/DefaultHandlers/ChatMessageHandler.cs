@@ -1,6 +1,6 @@
 using ElsaMina.Core.Contexts;
 
-namespace ElsaMina.Core.Handlers.Handlers;
+namespace ElsaMina.Core.Handlers.DefaultHandlers;
 
 public abstract class ChatMessageHandler : MessageHandler
 {

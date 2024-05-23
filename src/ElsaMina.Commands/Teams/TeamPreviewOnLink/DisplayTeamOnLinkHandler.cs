@@ -1,7 +1,7 @@
 ﻿using ElsaMina.Commands.Teams.TeamProviders;
 using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Handlers.Handlers;
+using ElsaMina.Core.Handlers.DefaultHandlers;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
