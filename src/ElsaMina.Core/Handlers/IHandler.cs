@@ -1,6 +1,6 @@
-﻿namespace ElsaMina.Core.Parsers;
+﻿namespace ElsaMina.Core.Handlers;
 
-public interface IParser
+public interface IHandler
 {
     string Identifier { get; }
     bool IsEnabled { get; set; }

@@ -3,15 +3,15 @@ using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms;
 
-namespace ElsaMina.Core.Parsers.DefaultParsers;
+namespace ElsaMina.Core.Handlers.Handlers;
 
-public abstract class CommandMessageParser : MessageParser
+public abstract class CommandMessageHandler : MessageHandler
 {
     private readonly IRoomsManager _roomsManager;
     private readonly IConfigurationManager _configurationManager;
     private readonly ICommandExecutor _commandExecutor;
     
-    protected CommandMessageParser(IContextFactory contextFactory,
+    protected CommandMessageHandler(IContextFactory contextFactory,
         IRoomsManager roomsManager,
         IConfigurationManager configurationManager,
         ICommandExecutor commandExecutor) : base(contextFactory)

@@ -1,5 +1,5 @@
 ﻿using ElsaMina.Core;
-using ElsaMina.Core.Parsers;
+using ElsaMina.Core.Handlers;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
@@ -20,7 +20,7 @@ public class BotTest
     private IRoomsManager _roomsManager;
     private IFormatsManager _formatsManager;
     private ILoginService _loginService;
-    private IParsersManager _parsersManager;
+    private IHandlerManager _handlerManager;
     private ISystemService _systemService;
     private ITemplatesManager _templatesManager;
     private ICommandExecutor _commandExecutor;
@@ -36,13 +36,13 @@ public class BotTest
         _roomsManager = Substitute.For<IRoomsManager>();
         _formatsManager = Substitute.For<IFormatsManager>();
         _loginService = Substitute.For<ILoginService>();
-        _parsersManager = Substitute.For<IParsersManager>();
+        _handlerManager = Substitute.For<IHandlerManager>();
         _systemService = Substitute.For<ISystemService>();
         _templatesManager = Substitute.For<ITemplatesManager>();
         _commandExecutor = Substitute.For<ICommandExecutor>();
         
         _bot = new Bot(_client, _configurationManager, _clockService, _roomsManager,
-            _formatsManager, _loginService, _parsersManager, _systemService, _templatesManager, _commandExecutor);
+            _formatsManager, _loginService, _handlerManager, _systemService, _templatesManager, _commandExecutor);
     }
 
     [Test]
@@ -90,15 +90,15 @@ public class BotTest
     {
         // Arrange
         const string message = "|c:|1|%Earth|test";
-        _parsersManager.IsInitialized.Returns(false);
+        _handlerManager.IsInitialized.Returns(false);
         
         // Act
         await _bot.HandleReceivedMessage(message);
         
         // Assert
-        await _parsersManager.Received(1).Initialize();
+        await _handlerManager.Received(1).Initialize();
         var expectedParts = new[] { "", "c:", "1", "%Earth", "test" };
-        await _parsersManager.Received(1).Parse(Arg.Is<string[]>(parts => parts.SequenceEqual(expectedParts)));
+        await _handlerManager.Received(1).HandleMessage(Arg.Is<string[]>(parts => parts.SequenceEqual(expectedParts)));
     }
     
     [Test]
@@ -106,14 +106,14 @@ public class BotTest
     {
         // Arrange
         const string message = "|c:|1|%Earth|test";
-        _parsersManager.IsInitialized.Returns(true);
+        _handlerManager.IsInitialized.Returns(true);
         
         // Act
         await _bot.HandleReceivedMessage(message);
         
         // Assert
-        await _parsersManager.DidNotReceive().Initialize();
+        await _handlerManager.DidNotReceive().Initialize();
         var expectedParts = new[] { "", "c:", "1", "%Earth", "test" };
-        await _parsersManager.Received(1).Parse(Arg.Is<string[]>(parts => parts.SequenceEqual(expectedParts)));
+        await _handlerManager.Received(1).HandleMessage(Arg.Is<string[]>(parts => parts.SequenceEqual(expectedParts)));
     }
 }

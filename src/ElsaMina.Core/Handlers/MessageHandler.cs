@@ -1,12 +1,12 @@
 ﻿using ElsaMina.Core.Contexts;
 
-namespace ElsaMina.Core.Parsers;
+namespace ElsaMina.Core.Handlers;
 
-public abstract class MessageParser : Parser
+public abstract class MessageHandler : Handler
 {
     private readonly IContextFactory _contextFactory;
 
-    protected MessageParser(IContextFactory contextFactory)
+    protected MessageHandler(IContextFactory contextFactory)
     {
         _contextFactory = contextFactory;
     }

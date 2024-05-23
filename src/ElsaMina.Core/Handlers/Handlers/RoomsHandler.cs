@@ -1,17 +1,17 @@
 using ElsaMina.Core.Services.Rooms;
 
-namespace ElsaMina.Core.Parsers.DefaultParsers;
+namespace ElsaMina.Core.Handlers.Handlers;
 
-public sealed class RoomsParser : Parser
+public sealed class RoomsHandler : Handler
 {
     private readonly IRoomsManager _roomsManager;
 
-    public RoomsParser(IRoomsManager roomsManager)
+    public RoomsHandler(IRoomsManager roomsManager)
     {
         _roomsManager = roomsManager;
     }
 
-    public override string Identifier => nameof(RoomsParser);
+    public override string Identifier => nameof(RoomsHandler);
 
     protected override Task Execute(string[] parts, string roomId = null)
     {

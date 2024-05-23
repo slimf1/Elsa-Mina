@@ -2,7 +2,7 @@
 
 public interface ISystemService
 {
-    void Sleep(int millis);
-    Task SleepAsync(int millis);
+    void Sleep(TimeSpan delay);
+    Task SleepAsync(TimeSpan delay);
     void Kill(int code = 1);
 }

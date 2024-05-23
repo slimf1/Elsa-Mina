@@ -1,7 +1,7 @@
 ﻿using ElsaMina.Commands.Teams.TeamProviders;
 using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Parsers.DefaultParsers;
+using ElsaMina.Core.Handlers.Handlers;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
@@ -10,7 +10,7 @@ using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.Teams.TeamPreviewOnLink;
 
-public class DisplayTeamOnLinkParser : ChatMessageParser
+public class DisplayTeamOnLinkHandler : ChatMessageHandler
 {
     private const int USER_DELAY = 30;
 
@@ -21,7 +21,7 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
     private readonly ITemplatesManager _templatesManager;
     private readonly IRoomsManager _roomsManager;
 
-    public DisplayTeamOnLinkParser(IContextFactory contextFactory,
+    public DisplayTeamOnLinkHandler(IContextFactory contextFactory,
         IClockService clockService,
         ITeamLinkMatchFactory teamLinkMatchFactory,
         ITemplatesManager templatesManager,
@@ -34,7 +34,7 @@ public class DisplayTeamOnLinkParser : ChatMessageParser
         _roomsManager = roomManager;
     }
     
-    public override string Identifier => nameof(DisplayTeamOnLinkParser);
+    public override string Identifier => nameof(DisplayTeamOnLinkHandler);
 
     protected override async Task HandleMessage(IContext context)
     {

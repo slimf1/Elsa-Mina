@@ -1,4 +1,4 @@
-﻿using ElsaMina.Core.Parsers;
+﻿using ElsaMina.Core.Handlers;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
@@ -22,7 +22,7 @@ public class Bot : IBot
     private readonly IRoomsManager _roomsManager;
     private readonly IFormatsManager _formatsManager;
     private readonly ILoginService _loginService;
-    private readonly IParsersManager _parsersManager;
+    private readonly IHandlerManager _handlerManager;
     private readonly ISystemService _systemService;
     private readonly ITemplatesManager _templatesManager;
     private readonly ICommandExecutor _commandExecutor;
@@ -39,7 +39,7 @@ public class Bot : IBot
         IRoomsManager roomsManager,
         IFormatsManager formatsManager,
         ILoginService loginService,
-        IParsersManager parsersManager,
+        IHandlerManager handlerManager,
         ISystemService systemService,
         ITemplatesManager templatesManager,
         ICommandExecutor commandExecutor)
@@ -50,7 +50,7 @@ public class Bot : IBot
         _roomsManager = roomsManager;
         _formatsManager = formatsManager;
         _loginService = loginService;
-        _parsersManager = parsersManager;
+        _handlerManager = handlerManager;
         _systemService = systemService;
         _templatesManager = templatesManager;
         _commandExecutor = commandExecutor;
@@ -106,12 +106,12 @@ public class Bot : IBot
 
         Logger.Current.Information("[Received] ({0}) {1}", room, line);
 
-        if (!_parsersManager.IsInitialized)
+        if (!_handlerManager.IsInitialized)
         {
-            await _parsersManager.Initialize();
+            await _handlerManager.Initialize();
         }
 
-        await _parsersManager.Parse(parts, roomId);
+        await _handlerManager.HandleMessage(parts, roomId);
 
         switch (parts[1])
         {
@@ -145,7 +145,7 @@ public class Bot : IBot
             }
 
             _client.Send($"|/join {roomId}");
-            _systemService.Sleep(250);
+            _systemService.Sleep(TimeSpan.FromMilliseconds(250));
         }
     }
 
@@ -188,7 +188,7 @@ public class Bot : IBot
         _client.Send(message);
         _lastMessage = message;
         _lastMessageTime = now;
-        _systemService.Sleep(250);
+        _systemService.Sleep(TimeSpan.FromMilliseconds(250));
     }
 
     public void Say(string roomId, string message)

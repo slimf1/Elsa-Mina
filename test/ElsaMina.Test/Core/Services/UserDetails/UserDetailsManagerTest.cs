@@ -26,7 +26,7 @@ public class UserDetailsManagerTest
     {
         // Arrange
         var tcs = new TaskCompletionSource();
-        _systemService.SleepAsync(Arg.Any<int>()).Returns(tcs.Task);
+        _systemService.SleepAsync(Arg.Any<TimeSpan>()).Returns(tcs.Task);
         var task = _userDetailsManager.GetUserDetails("panur");
         _userDetailsManager.HandleReceivedUserDetails("""{"id":"panur","userid":"panur","name":"Panur","avatar":"sightseerf","group":"+","autoconfirmed":true}""");
         
@@ -45,7 +45,7 @@ public class UserDetailsManagerTest
     {
         // Arrange
         // TODO : revoir ce test
-        _systemService.SleepAsync(Arg.Any<int>()).Returns(Task.Delay(TimeSpan.FromSeconds(1)));
+        _systemService.SleepAsync(Arg.Any<TimeSpan>()).Returns(Task.Delay(TimeSpan.FromSeconds(1)));
         
         // Act
         var result = await _userDetailsManager.GetUserDetails("speks");

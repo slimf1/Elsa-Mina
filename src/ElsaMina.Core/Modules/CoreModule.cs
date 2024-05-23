@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Parsers;
-using ElsaMina.Core.Parsers.DefaultParsers;
+using ElsaMina.Core.Handlers;
+using ElsaMina.Core.Handlers.Handlers;
 using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Commands;
@@ -43,7 +43,7 @@ public class CoreModule : Module
         builder.RegisterType<LoginService>().As<ILoginService>().SingleInstance();
         builder.RegisterType<ResourcesService>().As<IResourcesService>().SingleInstance();
         builder.RegisterType<PmSendersManager>().As<IPmSendersManager>().SingleInstance();
-        builder.RegisterType<ParsersManager>().As<IParsersManager>().SingleInstance();
+        builder.RegisterType<HandlerManager>().As<IHandlerManager>().SingleInstance();
         builder.RegisterType<AddedCommandsManager>().As<IAddedCommandsManager>().SingleInstance();
         builder.RegisterType<TemplatesManager>().As<ITemplatesManager>().SingleInstance();
         builder.RegisterType<RoomUserDataService>().As<IRoomUserDataService>();
@@ -58,10 +58,10 @@ public class CoreModule : Module
         builder.RegisterType<Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot>().As<IBot>().AsSelf().SingleInstance();
         
-        builder.RegisterType<ChatMessageCommandParser>().As<IParser>().SingleInstance();
-        builder.RegisterType<PrivateMessageCommandParser>().As<IParser>().SingleInstance();
-        builder.RegisterType<NameTakenParser>().As<IParser>().SingleInstance();
-        builder.RegisterType<QueryResponseParser>().As<IParser>().SingleInstance();
-        builder.RegisterType<RoomsParser>().As<IParser>().SingleInstance();
+        builder.RegisterType<ChatMessageCommandHandler>().As<IHandler>().SingleInstance();
+        builder.RegisterType<PrivateMessageCommandHandler>().As<IHandler>().SingleInstance();
+        builder.RegisterType<NameTakenHandler>().As<IHandler>().SingleInstance();
+        builder.RegisterType<QueryResponseHandler>().As<IHandler>().SingleInstance();
+        builder.RegisterType<RoomsHandler>().As<IHandler>().SingleInstance();
     }
 }

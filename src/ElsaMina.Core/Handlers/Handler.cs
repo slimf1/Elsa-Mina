@@ -1,6 +1,6 @@
-namespace ElsaMina.Core.Parsers;
+namespace ElsaMina.Core.Handlers;
 
-public abstract class Parser : IParser
+public abstract class Handler : IHandler
 {
     public abstract string Identifier { get; }
     public bool IsEnabled { get; set; } = true;

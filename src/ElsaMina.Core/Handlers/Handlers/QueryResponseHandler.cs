@@ -1,17 +1,17 @@
 using ElsaMina.Core.Services.UserDetails;
 
-namespace ElsaMina.Core.Parsers.DefaultParsers;
+namespace ElsaMina.Core.Handlers.Handlers;
 
-public sealed class QueryResponseParser : Parser
+public sealed class QueryResponseHandler : Handler
 {
     private readonly IUserDetailsManager _userDetailsManager;
 
-    public QueryResponseParser(IUserDetailsManager userDetailsManager)
+    public QueryResponseHandler(IUserDetailsManager userDetailsManager)
     {
         _userDetailsManager = userDetailsManager;
     }
 
-    public override string Identifier => nameof(QueryResponseParser);
+    public override string Identifier => nameof(QueryResponseHandler);
     
     protected override Task Execute(string[] parts, string roomId = null)
     {

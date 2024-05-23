@@ -1,17 +1,17 @@
 using ElsaMina.Core.Services.System;
 
-namespace ElsaMina.Core.Parsers.DefaultParsers;
+namespace ElsaMina.Core.Handlers.Handlers;
 
-public sealed class NameTakenParser : Parser
+public sealed class NameTakenHandler : Handler
 {
     private readonly ISystemService _systemService;
 
-    public NameTakenParser(ISystemService systemService)
+    public NameTakenHandler(ISystemService systemService)
     {
         _systemService = systemService;
     }
 
-    public override string Identifier => nameof(NameTakenParser);
+    public override string Identifier => nameof(NameTakenHandler);
 
     protected override Task Execute(string[] parts, string roomId = null)
     {

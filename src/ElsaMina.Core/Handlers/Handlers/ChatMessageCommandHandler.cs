@@ -3,11 +3,11 @@ using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms;
 
-namespace ElsaMina.Core.Parsers.DefaultParsers;
+namespace ElsaMina.Core.Handlers.Handlers;
 
-public sealed class ChatMessageCommandParser : CommandMessageParser
+public sealed class ChatMessageCommandHandler : CommandMessageHandler
 {
-    public ChatMessageCommandParser(IContextFactory contextFactory,
+    public ChatMessageCommandHandler(IContextFactory contextFactory,
         IRoomsManager roomsManager,
         IConfigurationManager configurationManager,
         ICommandExecutor commandExecutor)
@@ -15,8 +15,7 @@ public sealed class ChatMessageCommandParser : CommandMessageParser
     {
     }
 
-    public override string Identifier => nameof(ChatMessageCommandParser);
-
+    public override string Identifier => nameof(ChatMessageCommandHandler);
 
     protected override ContextType HandledContextType => ContextType.Room;
 }

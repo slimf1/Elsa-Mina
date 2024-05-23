@@ -1,22 +1,22 @@
 ﻿using ElsaMina.Commands.GuessingGame.Countries;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Parsers.DefaultParsers;
+using ElsaMina.Core.Handlers.Handlers;
 using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.GuessingGame;
 
-public class GuessingGameParser : ChatMessageParser
+public class GuessingGameHandler : ChatMessageHandler
 {
     private readonly IRoomsManager _roomsManager;
     
-    public GuessingGameParser(IContextFactory contextFactory,
+    public GuessingGameHandler(IContextFactory contextFactory,
         IRoomsManager roomsManager)
         : base(contextFactory)
     {
         _roomsManager = roomsManager;
     }
 
-    public override string Identifier => nameof(ChatMessageParser);
+    public override string Identifier => nameof(ChatMessageHandler);
 
     protected override Task HandleMessage(IContext context)
     {

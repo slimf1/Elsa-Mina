@@ -1,16 +1,16 @@
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Parsers.DefaultParsers;
+using ElsaMina.Core.Handlers.Handlers;
 
 namespace ElsaMina.Commands.Development;
 
-public class JoinRoomOnInviteParser : PrivateMessageParser
+public class JoinRoomOnInviteHandler : PrivateMessageHandler
 {
-    public JoinRoomOnInviteParser(IContextFactory contextFactory)
+    public JoinRoomOnInviteHandler(IContextFactory contextFactory)
         : base(contextFactory)
     {
     }
 
-    public override string Identifier => nameof(PrivateMessageParser);
+    public override string Identifier => nameof(PrivateMessageHandler);
 
     protected override Task HandleMessage(IContext context)
     {

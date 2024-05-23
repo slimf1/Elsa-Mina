@@ -17,11 +17,6 @@ public class CommandExecutor : ICommandExecutor
         _addedCommandsManager = addedCommandsManager;
     }
 
-    public bool HasCommand(string commandName)
-    {
-        return _dependencyContainerService.IsCommandRegistered(commandName);
-    }
-
     public IEnumerable<ICommand> GetAllCommands()
     {
         return _dependencyContainerService.GetAllCommands();
@@ -34,7 +29,7 @@ public class CommandExecutor : ICommandExecutor
 
     public async Task TryExecuteCommand(string commandName, IContext context)
     {
-        if (HasCommand(commandName))
+        if (_dependencyContainerService.IsCommandRegistered(commandName))
         {
             Logger.Current.Information("Executing {0} as a normal command", commandName);
             var commandInstance = _dependencyContainerService.ResolveCommand<ICommand>(commandName);
