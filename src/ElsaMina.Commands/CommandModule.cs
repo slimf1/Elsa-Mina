@@ -58,9 +58,9 @@ public class CommandModule : Module
         RegisterCommand<StopRepeat>(builder);
         RegisterCommand<Say>(builder);
 
-        RegisterParser<JoinRoomOnInviteHandler>(builder);
-        RegisterParser<GuessingGameHandler>(builder);
-        RegisterParser<DisplayTeamOnLinkHandler>(builder);
+        RegisterHandler<JoinRoomOnInviteHandler>(builder);
+        RegisterHandler<GuessingGameHandler>(builder);
+        RegisterHandler<DisplayTeamOnLinkHandler>(builder);
 
         builder.RegisterType<CountriesGame>().AsSelf();
 
@@ -96,7 +96,7 @@ public class CommandModule : Module
         }
     }
 
-    private static void RegisterParser<T>(ContainerBuilder builder) where T : IHandler
+    private static void RegisterHandler<T>(ContainerBuilder builder) where T : IHandler
     {
         builder.RegisterType<T>().As<IHandler>().SingleInstance();
     }
