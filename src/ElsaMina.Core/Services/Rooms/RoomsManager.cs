@@ -124,6 +124,7 @@ public class RoomsManager : IRoomsManager
                 };
 
                 await _roomBotParameterValueRepository.AddAsync(parameterValue);
+                roomParameters.ParameterValues.Add(parameterValue);
             }
             else
             {
