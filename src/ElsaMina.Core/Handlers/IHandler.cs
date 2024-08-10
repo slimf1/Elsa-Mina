@@ -6,5 +6,5 @@ public interface IHandler
     bool IsEnabled { get; set; }
 
     Task OnInitialize();
-    Task Invoke(string[] parts, string roomId = null);
+    Task OnMessageReceived(string[] parts, string roomId = null);
 }

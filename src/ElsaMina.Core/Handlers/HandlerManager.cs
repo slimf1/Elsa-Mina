@@ -34,7 +34,7 @@ public class HandlerManager : IHandlerManager
             _handlers
                 .Values
                 .Where(handler => handler.IsEnabled)
-                .Select(handler => handler.Invoke(parts, roomId))
+                .Select(handler => handler.OnMessageReceived(parts, roomId))
         );
     }
 }

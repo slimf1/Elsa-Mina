@@ -10,11 +10,11 @@ public abstract class Handler : IHandler
         return Task.CompletedTask;
     }
 
-    public async Task Invoke(string[] parts, string roomId = null)
+    public async Task OnMessageReceived(string[] parts, string roomId = null)
     {
         try
         {
-            await Execute(parts, roomId);
+            await HandleReceivedMessage(parts, roomId);
         }
         catch (Exception exception)
         {
@@ -23,5 +23,5 @@ public abstract class Handler : IHandler
         }
     }
 
-    protected abstract Task Execute(string[] parts, string roomId = null);
+    protected abstract Task HandleReceivedMessage(string[] parts, string roomId = null);
 }

@@ -13,7 +13,7 @@ public sealed class RoomsHandler : Handler
 
     public override string Identifier => nameof(RoomsHandler);
 
-    protected override Task Execute(string[] parts, string roomId = null)
+    protected override Task HandleReceivedMessage(string[] parts, string roomId = null)
     {
         if (parts.Length < 2)
         {

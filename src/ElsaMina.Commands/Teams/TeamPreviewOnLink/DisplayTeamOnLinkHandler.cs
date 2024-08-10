@@ -45,7 +45,7 @@ public class DisplayTeamOnLinkHandler : ChatMessageHandler
             return;
         }
 
-        var now = _clockService.CurrentDateTimeOffset;
+        var now = _clockService.CurrentUtcDateTime;
         if (_lastTeamTimes.TryGetValue(context.Sender.UserId, out var userLastTeamTime)
             && (now - userLastTeamTime).TotalSeconds < USER_DELAY && !context.IsSenderWhitelisted)
         {

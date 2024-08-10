@@ -13,7 +13,7 @@ public sealed class NameTakenHandler : Handler
 
     public override string Identifier => nameof(NameTakenHandler);
 
-    protected override Task Execute(string[] parts, string roomId = null)
+    protected override Task HandleReceivedMessage(string[] parts, string roomId = null)
     {
         if (parts.Length >= 2 && parts[1] == "nametaken")
         {

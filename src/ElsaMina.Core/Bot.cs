@@ -30,7 +30,7 @@ public class Bot : IBot
     private readonly SemaphoreSlim _loadRoomSemaphore = new(1, 1);
     private string _currentRoom;
     private string _lastMessage;
-    private DateTimeOffset _lastMessageTime;
+    private DateTime _lastMessageTime;
     private bool _disposed;
 
     public Bot(IClient client,
@@ -176,7 +176,7 @@ public class Bot : IBot
 
     public void Send(string message)
     {
-        var now = _clockService.CurrentDateTimeOffset;
+        var now = _clockService.CurrentUtcDateTime;
         if ((_lastMessage == message && now - _lastMessageTime < SAME_MESSAGE_COOLDOWN)
             || message.Length > MESSAGE_LENGTH_LIMIT)
         {

@@ -10,6 +10,6 @@ public class CreateConnectFourCommand : Command
 
     public override Task Run(IContext context)
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 }
