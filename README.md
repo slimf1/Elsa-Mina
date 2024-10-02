@@ -1,6 +1,6 @@
 # Elsa-Mina
 
-[![CI](https://github.com/slimf1/Elsa-Mina/actions/workflows/CI.yml/badge.svg)](https://github.com/slimf1/Elsa-Mina/actions/workflows/CI.yml)
+[![deploy](https://github.com/slimf1/Elsa-Mina/actions/workflows/deploy.yml/badge.svg)](https://github.com/slimf1/Elsa-Mina/actions/workflows/deploy.yml)
 
 > [!IMPORTANT]  
 > This is a work in progress!
