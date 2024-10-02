@@ -35,4 +35,4 @@ jobs:
         source: ./output
         target: ./ElsaV2
 # todo : restart process
-# todo : voir pour le self contained (w/ runtime)
+# todo : voir pour le self contained (w/ runtime unix-x64) + diviser en jobs (test, build, deploy)
