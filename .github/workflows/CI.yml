@@ -19,12 +19,12 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
     - name: Build
       run: dotnet build -c Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore --no-build --verbosity normal
     - name: Publish
-      run: dotnet publish -c Release -o ./output
+      run: dotnet publish --no-build -c Release -o ./output
     - name: Deploy
       uses: appleboy/scp-action@v0.1.7
       with:
