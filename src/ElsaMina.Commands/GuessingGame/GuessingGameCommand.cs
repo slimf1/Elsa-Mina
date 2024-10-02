@@ -9,6 +9,8 @@ namespace ElsaMina.Commands.GuessingGame;
 [NamedCommand("guessinggame", Aliases = ["countriesgame"])]
 public class GuessingGameCommand : Command
 {
+    private const int MAX_TURNS_COUNT = 20;
+    
     private readonly IRoomsManager _roomsManager;
     private readonly IDependencyContainerService _dependencyContainerService;
 
@@ -21,12 +23,12 @@ public class GuessingGameCommand : Command
 
     public override char RequiredRank => '+';
 
-    public override async Task OnBotStartUp()
+    public override Task OnBotStartUp()
     {
-        await base.OnBotStartUp();
-        await CountriesGame.LoadCountriesGameData();
+        return CountriesGame.LoadCountriesGameData();
     }
 
+    // TODO : localize
     public override Task Run(IContext context)
     {
         if (!int.TryParse(context.Target, out var turnsCount))
@@ -35,9 +37,9 @@ public class GuessingGameCommand : Command
             return Task.CompletedTask;
         }
 
-        if (turnsCount is < 0 or > 20)
+        if (turnsCount is <= 0 or > MAX_TURNS_COUNT)
         {
-            context.Reply("Invalid number of turns (should be between 1 and 20)");
+            context.Reply($"Invalid number of turns (should be between 1 and {MAX_TURNS_COUNT})");
             return Task.CompletedTask;
         }
 

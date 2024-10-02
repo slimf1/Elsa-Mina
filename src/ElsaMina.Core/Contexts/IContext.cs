@@ -11,7 +11,7 @@ public interface IContext
     string Command { get; }
     bool IsSenderWhitelisted { get; }
     string RoomId { get; }
-    bool IsPm { get; }
+    bool IsPrivateMessage { get; }
     CultureInfo Culture { get; set; }
     ContextType Type { get; }
 

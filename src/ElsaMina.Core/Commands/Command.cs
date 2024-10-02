@@ -12,7 +12,7 @@ public abstract class Command : ICommand
 
     public string CommandName { get; private set; }
     public IEnumerable<string> CommandAliases { get; private set; }
-    public virtual bool IsAllowedInPm => false;
+    public virtual bool IsAllowedInPrivateMessage => false;
     public virtual bool IsWhitelistOnly => false;
     public virtual bool IsPrivateMessageOnly => false;
     public virtual char RequiredRank => '&';
@@ -31,12 +31,12 @@ public abstract class Command : ICommand
 
     public async Task Call(IContext context)
     {
-        if (IsPrivateMessageOnly && !context.IsPm)
+        if (IsPrivateMessageOnly && !context.IsPrivateMessage)
         {
             return;
         }
 
-        if (context.IsPm && !(IsAllowedInPm || IsPrivateMessageOnly))
+        if (context.IsPrivateMessage && !(IsAllowedInPrivateMessage || IsPrivateMessageOnly))
         {
             return;
         }

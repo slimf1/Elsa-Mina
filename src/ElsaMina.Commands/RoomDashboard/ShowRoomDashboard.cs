@@ -44,7 +44,7 @@ public class ShowRoomDashboard : Command
             return;
         }
 
-        if (context.IsPm)
+        if (context.IsPrivateMessage)
         {
             context.Culture = room.Culture;
         }

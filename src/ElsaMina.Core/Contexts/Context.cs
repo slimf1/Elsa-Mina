@@ -56,12 +56,12 @@ public abstract class Context : IContext
                $"{nameof(Command)}: {Command}, " +
                $"{nameof(IsSenderWhitelisted)}: {IsSenderWhitelisted}, " +
                $"{nameof(RoomId)}: {RoomId}, " +
-               $"{nameof(IsPm)}: {IsPm}, " +
+               $"{nameof(IsPrivateMessage)}: {IsPrivateMessage}, " +
                $"{nameof(Culture)}: {Culture}]";
     }
 
     public abstract string RoomId { get; }
-    public abstract bool IsPm { get; }
+    public abstract bool IsPrivateMessage { get; }
     public abstract CultureInfo Culture { get; set; }
     public abstract ContextType Type { get; }
 

@@ -25,7 +25,7 @@ public class RoomContext : Context
 
     public override string RoomId => _room.RoomId;
 
-    public override bool IsPm => false;
+    public override bool IsPrivateMessage => false;
 
     public override CultureInfo Culture
     {

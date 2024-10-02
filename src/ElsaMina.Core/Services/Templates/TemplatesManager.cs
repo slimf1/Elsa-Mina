@@ -45,15 +45,6 @@ public class TemplatesManager : ITemplatesManager
         await Task.WhenAll(compilationTasks);
     }
 
-    public async Task<string> GetTemplate<TPage, TViewModel>()
-        where TPage : LocalizableTemplatePage<LocalizableViewModel>
-        where TViewModel : LocalizableViewModel
-    {
-        var template = _dependencyContainerService.Resolve<TPage>();
-        var viewModel = _dependencyContainerService.Resolve<TViewModel>();
-        return await RAZOR_ENGINE.RenderTemplateAsync(template, viewModel);
-    }
-
     private async Task CompileTemplate(string templatePath)
     {
         Logger.Current.Information("Compiling template {0}...", templatePath);

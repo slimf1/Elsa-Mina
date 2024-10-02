@@ -20,7 +20,7 @@ public class PmContext : Context
 
     public override string RoomId { get; }
 
-    public override bool IsPm => true;
+    public override bool IsPrivateMessage => true;
 
     public override CultureInfo Culture
     {

@@ -37,7 +37,7 @@ public class CommandExecutor : ICommandExecutor
             return;
         }
         
-        if (!context.IsPm) {
+        if (!context.IsPrivateMessage) {
             Logger.Current.Information("Trying command {0} as a custom command", commandName);
             await _addedCommandsManager.TryExecuteAddedCommand(commandName, context);
             return;

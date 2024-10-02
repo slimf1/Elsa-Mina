@@ -38,7 +38,7 @@ public class ProfileCommand : Command
         _userDataService = userDataService;
     }
     
-    public override bool IsAllowedInPm => true;
+    public override bool IsAllowedInPrivateMessage => true;
     public override char RequiredRank => '+';
 
     public override async Task Run(IContext context)

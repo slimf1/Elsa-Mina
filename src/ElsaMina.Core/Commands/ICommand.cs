@@ -6,7 +6,7 @@ public interface ICommand
 {
     public string CommandName { get; }
     public IEnumerable<string> CommandAliases { get; }
-    public bool IsAllowedInPm { get; }
+    public bool IsAllowedInPrivateMessage { get; }
     public bool IsWhitelistOnly { get; }
     public bool IsPrivateMessageOnly { get; }
     public char RequiredRank { get; }

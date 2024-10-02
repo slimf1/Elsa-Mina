@@ -19,7 +19,7 @@ public class AllCommands : Command
         _templatesManager = templatesManager;
     }
 
-    public override bool IsAllowedInPm => true;
+    public override bool IsAllowedInPrivateMessage => true;
 
     public override async Task Run(IContext context)
     {

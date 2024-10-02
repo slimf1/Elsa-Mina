@@ -7,7 +7,7 @@ namespace ElsaMina.Commands.ConnectFour;
 public class PlayConnectFourCommand : Command
 {
     public override bool IsPrivateMessageOnly => true;
-    public override bool IsAllowedInPm => true;
+    public override bool IsAllowedInPrivateMessage => true;
 
     public override Task Run(IContext context)
     {

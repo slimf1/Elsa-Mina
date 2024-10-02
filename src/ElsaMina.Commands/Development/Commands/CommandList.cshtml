@@ -12,7 +12,7 @@
                 &mdash; @GetString("allcommands_alias") : @string.Join(", ", command.CommandAliases)
             </span>
         }
-        @if (command.IsAllowedInPm)
+        @if (command.IsAllowedInPrivateMessage)
         {
             <span>(@GetString("allcommands_allowed_in_pm"))</span>
         }

@@ -6,7 +6,7 @@ namespace ElsaMina.Commands.Development;
 [NamedCommand("help", Aliases = ["about"])]
 public class Help : Command
 {
-    public override bool IsAllowedInPm => true;
+    public override bool IsAllowedInPrivateMessage => true;
     public override char RequiredRank => '+';
 
     public override Task Run(IContext context)
