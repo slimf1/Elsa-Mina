@@ -24,7 +24,7 @@ jobs:
     - name: Build
       run: dotnet build -c Release --no-restore
     - name: Publish
-      run: dotnet publish --no-build -c Release -o ./output
+      run: dotnet publish ./src/ElsaMina.Console/ElsaMina.Console.csproj --no-build -c Release -o ./output
     - name: Deploy
       uses: appleboy/scp-action@v0.1.7
       with:
