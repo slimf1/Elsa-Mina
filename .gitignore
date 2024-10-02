@@ -42,6 +42,7 @@ prod.dbconfig.json
 _UpgradeReport_Files/
 [Pp]ackages/
 [Dd]ist/
+output/
 
 Thumbs.db
 Desktop.ini

@@ -22,9 +22,9 @@ jobs:
     - name: Test
       run: dotnet test --no-restore --verbosity normal
     - name: Build
-      run: dotnet build -c Release --no-restore
+      run: dotnet build /p:DebugType=None /p:DebugSymbols=false -c Release --no-restore
     - name: Publish
-      run: dotnet publish ./src/ElsaMina.Console/ElsaMina.Console.csproj --no-build -c Release -o ./output
+      run: dotnet publish ./src/ElsaMina.Console/ElsaMina.Console.csproj /p:DebugType=None /p:DebugSymbols=false --no-build -c Release -o ./output
     - name: Deploy
       uses: appleboy/scp-action@v0.1.7
       with:
@@ -35,3 +35,4 @@ jobs:
         source: ./output
         target: ./ElsaV2
 # todo : restart process
+# todo : voir pour le self contained (w/ runtime)
