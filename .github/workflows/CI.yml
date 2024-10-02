@@ -20,6 +20,18 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build -c Release --no-restore
     - name: Test
       run: dotnet test --no-restore --no-build --verbosity normal
+    - name: Publish
+      run: dotnet publish -c Release -o ./output
+    - name: Deploy
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.SCP_HOST }}
+        username: ${{ secrets.SCP_USERNAME }}
+        key: ${{ secrets.SCP_KEY }}
+        passphrase: ${{ secrets.SCP_KEY_PASSPHRASE }}
+        source: ./output
+        target: ./ElsaV2
+# todo : restart process
