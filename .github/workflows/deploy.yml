@@ -40,6 +40,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-package
+      - name: test
+        run: ls -la
       - name: deploy
         uses: appleboy/scp-action@v0.1.7
         with:
