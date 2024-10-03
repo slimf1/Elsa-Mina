@@ -3,36 +3,42 @@ name: deploy
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
 
 jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+    with:
+      dotnet-version: "8.0.x"
+
   build:
-
+    needs: test
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
-    - name: Build
-      run: dotnet build /p:DebugType=None /p:DebugSymbols=false -c Release --no-restore
-    - name: Publish
-      run: dotnet publish ./src/ElsaMina.Console/ElsaMina.Console.csproj /p:DebugType=None /p:DebugSymbols=false --no-build -c Release -o ./output
-    - name: Deploy
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.SCP_HOST }}
-        username: ${{ secrets.SCP_USERNAME }}
-        key: ${{ secrets.SCP_KEY }}
-        passphrase: ${{ secrets.SCP_KEY_PASSPHRASE }}
-        source: ./output
-        target: ./ElsaV2
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "8.0.x"
+      - name: restore
+        run: dotnet restore -r linux-x64
+      - name: build
+        run: dotnet build ./src/ElsaMina.Console/ElsaMina.Console.csproj /p:DebugType=None /p:DebugSymbols=false --self-contained -c Release -r linux-x64 --no-restore
+      - name: publish
+        run: dotnet publish ./src/ElsaMina.Console/ElsaMina.Console.csproj /p:PublishSingleFile=true /p:DebugType=None /p:DebugSymbols=false --self-contained -c Release -r linux-x64 --no-restore --no-build -o ./output
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: deploy
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SCP_HOST }}
+          username: ${{ secrets.SCP_USERNAME }}
+          key: ${{ secrets.SCP_KEY }}
+          passphrase: ${{ secrets.SCP_KEY_PASSPHRASE }}
+          source: ./output
+          target: ./ElsaV2
+
 # todo : restart process
-# todo : voir pour le self contained (w/ runtime)
