@@ -22,9 +22,9 @@ jobs:
       - name: restore
         run: dotnet restore -r linux-x64
       - name: build
-        run: dotnet build ./src/ElsaMina.Console/ElsaMina.Console.csproj /p:DebugType=None /p:DebugSymbols=false --self-contained -c Release -r linux-x64 --no-restore
+        run: dotnet build ./src/ElsaMina.Console/ElsaMina.Console.csproj -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false --self-contained -c Release -r linux-x64 --no-restore
       - name: publish
-        run: dotnet publish ./src/ElsaMina.Console/ElsaMina.Console.csproj /p:PublishSingleFile=true /p:DebugType=None /p:DebugSymbols=false --self-contained -c Release -r linux-x64 --no-restore --no-build -o ./output
+        run: dotnet publish ./src/ElsaMina.Console/ElsaMina.Console.csproj -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false --self-contained -c Release -r linux-x64 --no-restore --no-build -o ./output
 
   deploy:
     needs: build
