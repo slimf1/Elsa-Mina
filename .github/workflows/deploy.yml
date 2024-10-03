@@ -25,12 +25,21 @@ jobs:
         run: dotnet build ./src/ElsaMina.Console/ElsaMina.Console.csproj -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false --self-contained -c Release -r linux-x64 --no-restore
       - name: publish
         run: dotnet publish ./src/ElsaMina.Console/ElsaMina.Console.csproj -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false --self-contained -c Release -r linux-x64 --no-restore --no-build -o ./output
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-package
+          path: ./output
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-package
       - name: deploy
         uses: appleboy/scp-action@v0.1.7
         with:
