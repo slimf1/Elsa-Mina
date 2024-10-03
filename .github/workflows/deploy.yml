@@ -59,6 +59,7 @@ jobs:
           passphrase: ${{ secrets.SERVER_KEY_PASSPHRASE }}
           script: |
             cd ./ElsaV2
+            ls -la
             chmod u+x ElsaMina.Console
             pkill -f "ElsaMina.Console"
             export ELSA_MINA_ENV=prod
