@@ -14,7 +14,7 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
@@ -35,7 +35,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: download artifacts
         uses: actions/download-artifact@v4
         with:
