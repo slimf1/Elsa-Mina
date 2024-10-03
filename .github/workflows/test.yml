@@ -6,7 +6,6 @@ on:
       dotnet-version:
         required: true
         type: string
-    secrets: inherit
 
 jobs:
   test:
