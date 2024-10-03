@@ -14,9 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{DB130ED6
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
 		Dockerfile = Dockerfile
-		.github\workflows\deploy.yml = .github\workflows\deploy.yml
-		.github\workflows\pr.yml = .github\workflows\pr.yml
-		.github\workflows\test.yml = .github\workflows\test.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{74C7AB01-EED1-4649-916B-ABA27E5A3D9B}"
@@ -28,6 +25,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{09513005-7A42-4BF0-B621-B23F2409048A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsaMina.IntegrationTests", "test\ElsaMina.IntegrationTests\ElsaMina.IntegrationTests.csproj", "{33EE44F8-2B0E-40A2-AEE2-2298C13C525B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{7C4591AF-FF28-4B63-9E90-42D988F13984}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\deploy.yml = .github\workflows\deploy.yml
+		.github\workflows\pr.yml = .github\workflows\pr.yml
+		.github\workflows\test.yml = .github\workflows\test.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,5 +63,7 @@ Global
 		{33EE44F8-2B0E-40A2-AEE2-2298C13C525B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33EE44F8-2B0E-40A2-AEE2-2298C13C525B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33EE44F8-2B0E-40A2-AEE2-2298C13C525B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal
