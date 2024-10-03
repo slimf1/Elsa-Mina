@@ -51,6 +51,8 @@ jobs:
           source: ./output
           target: ./ElsaV2
       - name: restart app
+        env:
+          CONFIG_FILE: ${{ secrets.CONFIG_FILE }}
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -62,4 +64,5 @@ jobs:
             chmod u+x ElsaMina.Console
             pkill -f "ElsaMina.Console"
             export ELSA_MINA_ENV=prod
+            echo $CONFIG_FILE > Config/prod.config.json
             nohup ./ElsaMina.Console &> /dev/null &
