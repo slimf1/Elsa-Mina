@@ -16,7 +16,7 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ inputs.dotnet-version }}
-      - name: Restore dependencies
+      - name: restore
         run: dotnet restore
-      - name: Run tests
+      - name: test
         run: dotnet test --no-restore --verbosity normal
