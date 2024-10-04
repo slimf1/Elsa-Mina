@@ -31,6 +31,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 		.github\workflows\test.yml = .github\workflows\test.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{87DEC13D-7646-41C3-95CE-24502E33BD36}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\build.sh = scripts\build.sh
+		scripts\publish.sh = scripts\publish.sh
+		scripts\shared.sh = scripts\shared.sh
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
