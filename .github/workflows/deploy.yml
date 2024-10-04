@@ -20,7 +20,7 @@ jobs:
         with:
           dotnet-version: "8.0.x"
       - name: restore
-        run: dotnet restore -r linux-x64
+        run: ./scripts/publish.sh
       - name: build
         run: ./scripts/build.sh
       - name: publish
