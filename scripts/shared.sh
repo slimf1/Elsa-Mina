@@ -1,3 +1,5 @@
-﻿export BUILD_PROPERTIES="-p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false --self-contained false"
-export CONFIGURATION="Release"
-export RUNTIME_ID="linux-x64"
+﻿#!/bin/bash
+
+BUILD_PROPERTIES="-p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false --self-contained false"
+CONFIGURATION="Release"
+RUNTIME_ID="linux-x64"
