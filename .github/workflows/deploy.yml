@@ -59,6 +59,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           passphrase: ${{ secrets.SERVER_KEY_PASSPHRASE }}
+          envs: CONFIG_FILE
           script: |
             cd ./ElsaV2/output
             chmod u+x ElsaMina.Console
