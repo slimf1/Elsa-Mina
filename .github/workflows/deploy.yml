@@ -61,7 +61,6 @@ jobs:
           passphrase: ${{ secrets.SERVER_KEY_PASSPHRASE }}
           envs: CONFIG_FILE
           script: |
-            export CONFIG_FILE=$CONFIG_FILE
             cd ./ElsaV2/output
             chmod u+x ElsaMina.Console
             pkill -f "ElsaMina.Console"
