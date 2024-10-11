@@ -1,5 +1,4 @@
-﻿using System.Reactive.Concurrency;
-using System.Reactive.Linq;
+﻿using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using Autofac;
 using ElsaMina.Commands;
@@ -11,13 +10,12 @@ using ElsaMina.Core.Services.DependencyInjection;
 using Serilog;
 
 // Logging
-var environment = Environment.GetEnvironmentVariable(EnvironmentConstants.ENVIRONMENT_VARIABLE_NAME);
 var loggerConfig = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .MinimumLevel.Debug()
     .WriteTo.Console();
 
-if (environment == EnvironmentConstants.PROD) {
+if (!EnvironmentConstants.IS_DEBUG) { // Built in release
     loggerConfig.MinimumLevel.Information();
     loggerConfig.WriteTo.File("log.txt", rollingInterval: RollingInterval.Day);
 }
@@ -34,14 +32,8 @@ dependencyContainerService.Container = container;
 DependencyContainerService.Current = dependencyContainerService;
 
 // Load configuration file
-var configurationFile = environment switch
-{
-    EnvironmentConstants.PROD => "prod.config.json",
-    EnvironmentConstants.DEV => "dev.config.json",
-    _ => throw new Exception("Unknown environment")
-};
 var configurationService = dependencyContainerService.Resolve<IConfigurationManager>();
-using (var streamReader = new StreamReader(Path.Join("Config", configurationFile)))
+using (var streamReader = new StreamReader("config.json"))
 {
     await configurationService.LoadConfiguration(streamReader);
 }

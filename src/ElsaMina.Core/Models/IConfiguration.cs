@@ -11,6 +11,7 @@ public interface IConfiguration
     IEnumerable<string> Rooms { get; }
     IEnumerable<string> RoomBlacklist { get; }
     IEnumerable<string> Whitelist { get; }
-    public string DefaultRoom { get; }
-    public string DefaultLocaleCode { get; }
+    string DefaultRoom { get; }
+    string DefaultLocaleCode { get; }
+    string ConnectionString { get; }
 }

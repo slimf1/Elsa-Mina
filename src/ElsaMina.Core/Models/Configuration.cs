@@ -13,4 +13,5 @@ public class Configuration : IConfiguration
     public IEnumerable<string> Whitelist { get; set; }
     public string DefaultRoom { get; set; }
     public string DefaultLocaleCode { get; set; }
+    public string ConnectionString { get; set; }
 }

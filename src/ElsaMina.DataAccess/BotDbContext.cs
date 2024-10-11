@@ -6,6 +6,14 @@ namespace ElsaMina.DataAccess;
 
 public class BotDbContext : DbContext
 {
+    public BotDbContext()
+    {
+    }
+
+    public BotDbContext(DbContextOptions<BotDbContext> options) : base(options)
+    {
+    }
+
     public DbSet<User> Users { get; set; }
     public DbSet<RoomSpecificUserData> UserData { get; set; }
     public DbSet<Badge> Badges { get; set; }
@@ -16,13 +24,7 @@ public class BotDbContext : DbContext
     public DbSet<RoomTeam> RoomTeams { get; set; }
     public DbSet<Repeat> Repeats { get; set; }
 
-    public BotDbContext()
-    {
-    }
-
-    public BotDbContext(DbContextOptions<BotDbContext> options) : base(options)
-    {
-    }
+    public string ConnectionString { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -79,12 +81,11 @@ public class BotDbContext : DbContext
     {
         base.OnConfiguring(optionsBuilder);
 
-        if (optionsBuilder.IsConfigured)
+        if (optionsBuilder.IsConfigured || string.IsNullOrEmpty(ConnectionString))
         {
             return;
         }
 
-        var dbConfig = DbConfigProvider.GetDbConfig();
-        optionsBuilder.UseNpgsql(dbConfig.ConnectionString);
+        optionsBuilder.UseNpgsql(ConnectionString);
     }
 }

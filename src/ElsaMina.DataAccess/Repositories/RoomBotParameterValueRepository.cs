@@ -5,7 +5,7 @@ namespace ElsaMina.DataAccess.Repositories;
 
 public class RoomBotParameterValueRepository : IRoomBotParameterValueRepository
 {
-    private readonly BotDbContext _dbContext;
+    private readonly DbContext _dbContext;
     private bool _disposed;
 
     public RoomBotParameterValueRepository() : this(new BotDbContext())
@@ -13,7 +13,7 @@ public class RoomBotParameterValueRepository : IRoomBotParameterValueRepository
         
     }
     
-    public RoomBotParameterValueRepository(BotDbContext context)
+    public RoomBotParameterValueRepository(DbContext context)
     {
         _dbContext = context;
     }
