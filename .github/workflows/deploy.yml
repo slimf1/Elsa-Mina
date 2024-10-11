@@ -63,4 +63,5 @@ jobs:
           script: |
             cd ./ElsaV2/output
             echo $CONFIG_FILE > config.json
-            pkill -fi "ElsaMina.Console"
+            pkill -0 "ElsaMina.Console" && pkill -fi "ElsaMina.Console"
+            chmod u+x ElsaMina.Console
