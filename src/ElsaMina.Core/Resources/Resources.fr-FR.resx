@@ -366,4 +366,7 @@
     <data name="c4_game_win_message" xml:space="preserve">
         <value>{0} a gagné la partie!</value>
     </data>
+    <data name="team_list_empty" xml:space="preserve">
+        <value>Aucune équipe trouvée.</value>
+    </data>
 </root>

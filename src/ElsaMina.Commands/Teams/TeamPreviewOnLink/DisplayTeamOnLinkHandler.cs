@@ -3,10 +3,10 @@ using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Handlers.DefaultHandlers;
 using ElsaMina.Core.Services.Clock;
+using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
-using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.Teams.TeamPreviewOnLink;
 
@@ -14,30 +14,38 @@ public class DisplayTeamOnLinkHandler : ChatMessageHandler
 {
     private const int USER_DELAY = 30;
 
-    private readonly Dictionary<string, DateTimeOffset> _lastTeamTimes = new();
+    private readonly Dictionary<string, DateTime> _lastTeamTimes = new();
 
     private readonly IClockService _clockService;
     private readonly ITeamLinkMatchFactory _teamLinkMatchFactory;
     private readonly ITemplatesManager _templatesManager;
     private readonly IRoomsManager _roomsManager;
+    private readonly IConfigurationManager _configurationManager;
 
     public DisplayTeamOnLinkHandler(IContextFactory contextFactory,
         IClockService clockService,
         ITeamLinkMatchFactory teamLinkMatchFactory,
         ITemplatesManager templatesManager,
-        IRoomsManager roomManager)
+        IRoomsManager roomManager,
+        IConfigurationManager configurationManager)
         : base(contextFactory)
     {
         _clockService = clockService;
         _teamLinkMatchFactory = teamLinkMatchFactory;
         _templatesManager = templatesManager;
         _roomsManager = roomManager;
+        _configurationManager = configurationManager;
     }
-    
+
     public override string Identifier => nameof(DisplayTeamOnLinkHandler);
 
     protected override async Task HandleMessage(IContext context)
     {
+        if (context.Message.StartsWith(_configurationManager.Configuration.Trigger))
+        {
+            return;
+        }
+
         var isShowingTeamLinksPreviewEnabled = _roomsManager.GetRoomBotConfigurationParameterValue(
             context.RoomId, RoomParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW).ToBoolean();
         if (!isShowingTeamLinksPreviewEnabled)
@@ -59,6 +67,7 @@ public class DisplayTeamOnLinkHandler : ChatMessageHandler
         {
             return;
         }
+
         var sharedTeam = await teamLinkMatch.GetTeamExport();
         if (sharedTeam == null)
         {
