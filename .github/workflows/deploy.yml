@@ -63,3 +63,4 @@ jobs:
           script: |
             cd ./ElsaV2/output
             echo $CONFIG_FILE > config.json
+            pkill -fi "ElsaMina.Console"
