@@ -65,3 +65,4 @@ jobs:
             echo $CONFIG_FILE > config.json
             pkill -0 "ElsaMina.Console" && pkill -fi "ElsaMina.Console"
             chmod u+x ElsaMina.Console
+            nohup ./ElsaMina.Console &> /dev/null &
