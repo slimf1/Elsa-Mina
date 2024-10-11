@@ -65,5 +65,6 @@ jobs:
             chmod u+x ElsaMina.Console
             pkill -f "ElsaMina.Console"
             export ELSA_MINA_ENV=prod
+            echo $CONFIG_FILE
+            echo $CONFIG_FILE > config_test.json
             echo "${{ secrets.CONFIG_FILE }}" > config.json
-            nohup ./ElsaMina.Console &> /dev/null &
