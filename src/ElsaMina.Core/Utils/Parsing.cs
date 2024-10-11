@@ -11,14 +11,9 @@ public static class Parsing
         }
 
         var text = message[triggerLength..];
-        var spaceIndex = text.IndexOf(" ", StringComparison.Ordinal);
+        var spaceIndex = text.IndexOf(' ');
         var command = spaceIndex > 0 ? text[..spaceIndex].ToLower() : text.Trim().ToLower();
         var target = spaceIndex > 0 ? text[(spaceIndex + 1)..] : string.Empty;
-        if (string.IsNullOrEmpty(command))
-        {
-            return (null, null);
-        }
-
-        return (target, command);
+        return string.IsNullOrEmpty(command) ? (null, null) : (target, command);
     }
 }

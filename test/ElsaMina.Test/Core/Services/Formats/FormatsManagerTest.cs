@@ -34,7 +34,7 @@ public class FormatsManagerTest
         _formatsManager.ParseFormatsFromReceivedLine(message);
 
         // Act
-        var tier = _formatsManager.GetFormattedTier("gen9randombattle");
+        var tier = _formatsManager.GetCleanFormat("gen9randombattle");
         
         // Assert
         Assert.That(tier, Is.EqualTo("[Gen 9] Random Battle"));
@@ -48,7 +48,7 @@ public class FormatsManagerTest
         _formatsManager.ParseFormatsFromReceivedLine(message);
 
         // Act
-        var tier = _formatsManager.GetFormattedTier("gen7littlecup");
+        var tier = _formatsManager.GetCleanFormat("gen7littlecup");
         
         // Assert
         Assert.That(tier, Is.EqualTo("gen7littlecup"));

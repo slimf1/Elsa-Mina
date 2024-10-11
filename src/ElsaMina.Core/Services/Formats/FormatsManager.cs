@@ -4,7 +4,7 @@ namespace ElsaMina.Core.Services.Formats;
 
 public class FormatsManager : IFormatsManager
 {
-    private readonly HashSet<string> _formats = new();
+    private readonly SortedSet<string> _formats = [];
 
     public IEnumerable<string> Formats => _formats;
 
@@ -21,8 +21,8 @@ public class FormatsManager : IFormatsManager
         }
     }
 
-    public string GetFormattedTier(string tier)
+    public string GetCleanFormat(string formatId)
     {
-        return _formats.FirstOrDefault(format => format.ToLowerAlphaNum() == tier) ?? tier;
+        return _formats.FirstOrDefault(format => format.ToLowerAlphaNum() == formatId) ?? formatId;
     }
 }

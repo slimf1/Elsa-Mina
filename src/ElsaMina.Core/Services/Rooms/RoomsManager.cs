@@ -47,7 +47,7 @@ public class RoomsManager : IRoomsManager
             Logger.Current.Information("Could not find room parameters, inserting in db...");
             roomParameters = new RoomParameters
             {
-                Id = roomId,
+                Id = roomId
             };
             await _roomParametersRepository.AddAsync(roomParameters);
             Logger.Current.Information("Inserted room parameters for room {0} in db", roomId);

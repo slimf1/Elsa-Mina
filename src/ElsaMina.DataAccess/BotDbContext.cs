@@ -1,5 +1,4 @@
 ﻿using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.DataAccess;
