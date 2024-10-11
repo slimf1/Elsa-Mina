@@ -63,6 +63,4 @@ jobs:
           script: |
             export CONFIG_FILE=$CONFIG_FILE
             cd ./ElsaV2/output
-            chmod u+x ElsaMina.Console
-            pkill -f "ElsaMina.Console"
             echo $CONFIG_FILE > config.json
