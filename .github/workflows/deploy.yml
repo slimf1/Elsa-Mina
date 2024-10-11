@@ -62,10 +62,9 @@ jobs:
           envs: CONFIG_FILE
           script: |
             export CONFIG_FILE=${{ secrets.CONFIG_FILE }}
-            echo $CONFIG_FILE
             cd ./ElsaV2/output
             chmod u+x ElsaMina.Console
             pkill -f "ElsaMina.Console"
             export ELSA_MINA_ENV=prod
-            echo $CONFIG_FILE > Config/prod.config.json
+            echo $CONFIG_FILE > config.json
             nohup ./ElsaMina.Console &> /dev/null &
