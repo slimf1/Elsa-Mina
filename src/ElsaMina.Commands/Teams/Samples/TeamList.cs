@@ -25,7 +25,7 @@ public class TeamList : Command
         var teamList = teams?.ToList();
         if (teamList == null || teamList.Count == 0)
         {
-            // TODO
+            context.ReplyLocalizedMessage("team_list_empty");
             return;
         }
 
