@@ -17,14 +17,14 @@ public class ConfigurationServiceTest
     public async Task Test_LoadConfiguration_ShouldLoadConfigurationFromReader()
     {
         // Arrange
-        var reader = new StringReader("{\"Env\": \"test\", \"Host\": \"test.server.com\"}");
+        var reader = new StringReader("{\"Name\": \"test\", \"Host\": \"test.server.com\"}");
 
         // Act
         await _configurationManager.LoadConfiguration(reader);
 
         // Assert
         Assert.That(_configurationManager.Configuration, Is.Not.Null);
-        Assert.That(_configurationManager.Configuration.Env, Is.EqualTo("test"));
+        Assert.That(_configurationManager.Configuration.Name, Is.EqualTo("test"));
         Assert.That(_configurationManager.Configuration.Host, Is.EqualTo("test.server.com"));
     }
 

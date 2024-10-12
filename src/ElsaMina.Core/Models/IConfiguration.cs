@@ -2,7 +2,6 @@
 
 public interface IConfiguration
 {
-    string Env { get; }
     string Host { get; }
     string Port { get; }
     string Name { get; }

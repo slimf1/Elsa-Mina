@@ -2,7 +2,6 @@
 
 public class Configuration : IConfiguration
 {
-    public string Env { get; set; }
     public string Host { get; set; }
     public string Port { get; set; }
     public string Name { get; set; }

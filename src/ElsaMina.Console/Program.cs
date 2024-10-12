@@ -2,6 +2,7 @@
 using System.Reactive.Threading.Tasks;
 using Autofac;
 using ElsaMina.Commands;
+using ElsaMina.Console;
 using ElsaMina.Core;
 using ElsaMina.Core.Constants;
 using ElsaMina.Core.Modules;
@@ -26,6 +27,7 @@ Logger.Current = logger;
 var builder = new ContainerBuilder();
 builder.RegisterModule<CoreModule>();
 builder.RegisterModule<CommandModule>();
+builder.RegisterType<VersionProvider>().As<IVersionProvider>();
 var container = builder.Build();
 var dependencyContainerService = container.Resolve<IDependencyContainerService>();
 dependencyContainerService.Container = container;

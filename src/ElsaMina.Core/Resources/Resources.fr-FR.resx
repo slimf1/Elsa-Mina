@@ -19,7 +19,7 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="help" xml:space="preserve">
-        <value>Elsa-Mina v7 : Bot en développement</value>
+        <value>Elsa-Mina v{0} : Bot en développement</value>
     </data>
     <data name="badge_help_message" xml:space="preserve">
         <value>Ajoute un nouveau badge. Syntaxe : -add-badge &lt;nom&gt;, &lt;image&gt;. Utiliser -add-trophy pour ajouter un trophée.</value>

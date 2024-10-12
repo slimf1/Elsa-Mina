@@ -10,9 +10,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="Config\**">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.4" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
