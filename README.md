@@ -50,8 +50,7 @@ dotnet ef migrations add <Migration Name> # Creates a new migration
 dotnet ef database update <Migration Name> # Applies a migration to an existing database
 ```
 
-### Configuration & Environments
+### Configuration
 
-Different environments can be configured using an environment variable named `ELSA_MINA_ENV`, which is set to either `dev` or `prod`.
-To run the bot, create a `dev.config.json` and a `prod.config.json` file in the `Config` directory of the `Console` project and fill in the details.
-Repeat the same process in the `DataAccess` project with a `dev.dbconfig.json` file and a `prod.dbconfig.json` file.
+The bot can be configured using a config.json file, located at the root of the Console project.
+Rename the example.config.json template and modify the relevant fields.
