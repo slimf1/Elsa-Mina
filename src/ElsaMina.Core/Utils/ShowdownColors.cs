@@ -1,18 +1,19 @@
-﻿using System.Globalization;
+﻿using System.Drawing;
+using System.Globalization;
 
 namespace ElsaMina.Core.Utils;
 
 public static class ShowdownColors
 {
-    private static readonly Dictionary<string, string> HEX_COLOR_CACHE = new();
+    private static readonly Dictionary<string, Color> HEX_COLOR_CACHE = new();
 
-    public static string ToHexColor(this string text)
+    public static Color ToColor(this string text)
     {
         text = text.ToLowerAlphaNum();
 
-        if (HEX_COLOR_CACHE.TryGetValue(text, out var color))
+        if (HEX_COLOR_CACHE.TryGetValue(text, out var cachedColor))
         {
-            return color;
+            return cachedColor;
         }
 
         var hash = text.ToMd5Digest();
@@ -48,9 +49,27 @@ public static class ShowdownColors
 
         (r, g, b) = HslToRgb(h, s, l);
 
-        var hexColor = $"#{(int)(r * 255):X02}{(int)(g * 255):X02}{(int)(b * 255):X02}";
-        HEX_COLOR_CACHE[text] = hexColor;
-        return hexColor;
+        var color = Color.FromArgb((int)Math.Round(r * 255), (int)Math.Round(g * 255), (int)Math.Round(b * 255));
+        HEX_COLOR_CACHE[text] = color;
+        return color;
+    }
+
+    public static string ToHexString(this Color color)
+    {
+        return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+    }
+
+    public static string ToHslString(this Color color)
+    {
+        var hue = color.GetHue();
+        var saturation = color.GetSaturation() * 100;
+        var brightness = color.GetBrightness() * 100;
+        return $"HSL({Math.Round(hue)}, {Math.Round(saturation)}%, {Math.Round(brightness)}%)";
+    }
+
+    public static string ToRgbString(this Color color)
+    {
+        return $"RGB({color.R}, {color.G}, {color.B})";
     }
 
     private static (double, double, double) HslToRgb(double h, double s, double l)

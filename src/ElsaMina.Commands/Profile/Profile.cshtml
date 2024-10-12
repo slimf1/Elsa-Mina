@@ -40,7 +40,7 @@
             <span
                 class="username"
                 data-name="@Model.UserId"
-                style="font-weight: bold; font-style: italic; padding: 2px; color: @Model.UserId.ToHexColor()">
+                style="font-weight: bold; font-style: italic; padding: 2px; color: @Model.UserId.ToColor().ToHexString()">
                 @Model.UserName
             </span>
             @{

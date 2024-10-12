@@ -1,0 +1,10 @@
+@using ElsaMina.Core.Templates
+@using ElsaMina.Core.Utils
+@inherits LocalizableTemplatePage<ElsaMina.Commands.Misc.Colors.NameColorInfoViewModel>
+
+<span style="color: @Model.Color.ToHexString(); font-weight: bold;">
+    @Model.Name
+</span>
+<span>
+    | @Model.Color.ToHexString() | @Model.Color.ToRgbString() | @Model.Color.ToHslString()
+</span>

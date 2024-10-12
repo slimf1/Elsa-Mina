@@ -6,6 +6,7 @@ using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Services.CustomColors;
 using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Http;
@@ -54,6 +55,7 @@ public class CoreModule : Module
         builder.RegisterType<SystemService>().As<ISystemService>().SingleInstance();
         builder.RegisterType<RoomConfigurationParametersFactory>().As<IRoomConfigurationParametersFactory>()
             .SingleInstance();
+        builder.RegisterType<CustomColorsManager>().As<ICustomColorsManager>().SingleInstance();
 
         builder.RegisterType<Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot>().As<IBot>().AsSelf().SingleInstance();

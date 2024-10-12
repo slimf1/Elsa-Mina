@@ -369,4 +369,7 @@
     <data name="team_list_empty" xml:space="preserve">
         <value>Aucune équipe trouvée.</value>
     </data>
+    <data name="name_color_help" xml:space="preserve">
+        <value>Donne la couleur associée à un pseudo.</value>
+    </data>
 </root>

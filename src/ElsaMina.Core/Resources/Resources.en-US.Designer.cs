@@ -746,5 +746,11 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("team_list_empty", resourceCulture);
             }
         }
+        
+        internal static string name_color_help {
+            get {
+                return ResourceManager.GetString("name_color_help", resourceCulture);
+            }
+        }
     }
 }

@@ -178,7 +178,7 @@ public class ConnectFour : Game
     private async Task OnTimeout()
     {
         Players.Remove(PlayerCurrentlyPlaying);
-        Context.Reply($"{PlayerCurrentlyPlaying} was disqualified because they could not play in time.");
+        Context.Reply($"{PlayerCurrentlyPlaying} were disqualified because they could not play in time.");
 
         if (Players.Count == 1)
         {

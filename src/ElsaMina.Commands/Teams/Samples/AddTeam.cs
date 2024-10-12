@@ -81,7 +81,7 @@ public partial class AddTeam : Command
             }
         };
         
-        // Special case for the french room
+        // Special case for the French room
         if (context.RoomId is "franais" or "arcade")
         {
             roomTeams.Add(new RoomTeam

@@ -369,4 +369,7 @@
     <data name="team_list_empty" xml:space="preserve">
         <value>Could not find any teams.</value>
     </data>
+    <data name="name_color_help" xml:space="preserve">
+        <value>Gives the color info for a given username.</value>
+    </data>
 </root>
