@@ -1,4 +1,5 @@
-﻿using System.Reactive.Linq;
+﻿using System.Reactive;
+using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using Autofac;
 using ElsaMina.Commands;
@@ -43,9 +44,14 @@ using (var streamReader = new StreamReader("config.json"))
 // Subscribe to message event
 var bot = dependencyContainerService.Resolve<IBot>();
 var client = dependencyContainerService.Resolve<IClient>();
-// TODO
 client.MessageReceived
     .Select(message => bot.HandleReceivedMessage(message).ToObservable())
+    .Merge()
+    .Catch((Exception exception) =>
+    {
+        logger.Error(exception, "Error while handling message");
+        return Observable.Throw<Unit>(exception);
+    })
     .Subscribe();
 
 // Disconnect event & reconnection logic TODO (à revoir~)

@@ -1,11 +1,14 @@
 using ElsaMina.Core.Contexts;
-using ElsaMina.DataAccess.Models;
+using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Core.Services.AddedCommands;
 
 public class AddedCommandsManager : IAddedCommandsManager
 {
+    private const int MAX_HEIGHT = 300;
+    private const int MAX_WIDTH = 400;
+    
     private readonly IAddedCommandRepository _addedCommandRepository;
 
     public AddedCommandsManager(IAddedCommandRepository addedCommandRepository)
@@ -28,12 +31,16 @@ public class AddedCommandsManager : IAddedCommandsManager
             return;
         }
 
-        context.Reply(GetMessageFromCommand(command));
-    }
-
-    private static string GetMessageFromCommand(AddedCommand command)
-    {
-        // TODO : parsing
-        return command.Content;
+        var content = command.Content;
+        if (Images.IMAGE_LINK_REGEX.IsMatch(content))
+        {
+            var (width, height) = await Images.GetRemoteImageDimensions(content);
+            (width, height) = Images.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);
+            context.SendHtml($"""<img src="{content}" width="{width}" height="{height}" />""");
+            return;
+        }
+        
+        // TODO : parsing w/ expressions
+        context.Reply(content);
     }
 }

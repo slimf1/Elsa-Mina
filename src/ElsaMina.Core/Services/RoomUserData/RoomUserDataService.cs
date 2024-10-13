@@ -1,4 +1,4 @@
-using System.Text.RegularExpressions;
+using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 
@@ -6,7 +6,6 @@ namespace ElsaMina.Core.Services.RoomUserData;
 
 public class RoomUserDataService : IRoomUserDataService
 {
-    private static readonly Regex IMAGES_REGEX = new("(http)?s?:(//[^\"']*.(?:png|jpg|jpeg|gif|png|svg))");
     private const int TITLE_MAX_LENGTH = 450;
 
     private readonly IRoomSpecificUserDataRepository _roomSpecificUserDataRepository;
@@ -78,7 +77,7 @@ public class RoomUserDataService : IRoomUserDataService
 
     public async Task SetUserAvatar(string roomId, string userId, string avatar)
     {
-        if (!IMAGES_REGEX.IsMatch(avatar))
+        if (!Images.IMAGE_LINK_REGEX.IsMatch(avatar))
         {
             throw new ArgumentException("Invalid URL");
         }
