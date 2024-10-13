@@ -5,7 +5,7 @@ using ElsaMina.Commands.Development;
 using ElsaMina.Commands.Development.Commands;
 using ElsaMina.Commands.GuessingGame;
 using ElsaMina.Commands.GuessingGame.Countries;
-using ElsaMina.Commands.Misc;
+using ElsaMina.Commands.JoinPhrases;
 using ElsaMina.Commands.Misc.Bitcoin;
 using ElsaMina.Commands.Misc.Colors;
 using ElsaMina.Commands.Misc.Facts;
@@ -64,10 +64,12 @@ public class CommandModule : Module
         RegisterCommand<NameColorInfo>(builder);
         RegisterCommand<FactsCommand>(builder);
         RegisterCommand<BitcoinCommand>(builder);
+        RegisterCommand<SetJoinPhrase>(builder);
 
         RegisterHandler<JoinRoomOnInviteHandler>(builder);
         RegisterHandler<GuessingGameHandler>(builder);
         RegisterHandler<DisplayTeamOnLinkHandler>(builder);
+        RegisterHandler<JoinPhraseHandler>(builder);
 
         builder.RegisterType<CountriesGame>().AsSelf();
 

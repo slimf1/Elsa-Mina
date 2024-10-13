@@ -752,5 +752,23 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("name_color_help", resourceCulture);
             }
         }
+        
+        internal static string setjoinphrase_help_message {
+            get {
+                return ResourceManager.GetString("setjoinphrase_help_message", resourceCulture);
+            }
+        }
+        
+        internal static string setjoinphrase_success {
+            get {
+                return ResourceManager.GetString("setjoinphrase_success", resourceCulture);
+            }
+        }
+        
+        internal static string setjoinphrase_failure {
+            get {
+                return ResourceManager.GetString("setjoinphrase_failure", resourceCulture);
+            }
+        }
     }
 }

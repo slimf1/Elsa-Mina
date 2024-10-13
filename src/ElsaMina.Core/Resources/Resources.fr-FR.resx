@@ -372,4 +372,13 @@
     <data name="name_color_help" xml:space="preserve">
         <value>Donne la couleur associée à un pseudo.</value>
     </data>
+    <data name="setjoinphrase_help_message" xml:space="preserve">
+        <value>Ajoute un message d'entrée pour la salle courante. Syntaxe : -setjoinphrase &lt;utilisateur&gt;, &lt;message&gt;</value>
+    </data>
+    <data name="setjoinphrase_success" xml:space="preserve">
+        <value>Le message d'entrée a été ajouté avec succès.</value>
+    </data>
+    <data name="setjoinphrase_failure" xml:space="preserve">
+        <value>Impossible d'ajouter le message d'entrée : {0}</value>
+    </data>
 </root>

@@ -372,4 +372,13 @@
     <data name="name_color_help" xml:space="preserve">
         <value>Gives the color info for a given username.</value>
     </data>
+    <data name="setjoinphrase_help_message" xml:space="preserve">
+        <value>Sets the join phrase of a user for this room. Syntax : -setjoinphrase &lt;user&gt;, &lt;phrase&gt;</value>
+    </data>
+    <data name="setjoinphrase_success" xml:space="preserve">
+        <value>The join phrase has been successfully added.</value>
+    </data>
+    <data name="setjoinphrase_failure" xml:space="preserve">
+        <value>Could not add the join phrase : {0}</value>
+    </data>
 </root>

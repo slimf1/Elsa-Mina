@@ -66,7 +66,7 @@ public class RoomUserDataService : IRoomUserDataService
 
     public async Task SetUserTitle(string roomId, string userId, string title)
     {
-        if (title.Length > TITLE_MAX_LENGTH)
+        if (title != null && title.Length > TITLE_MAX_LENGTH)
         {
             throw new ArgumentException("Title too long");
         }
@@ -78,7 +78,7 @@ public class RoomUserDataService : IRoomUserDataService
 
     public async Task SetUserAvatar(string roomId, string userId, string avatar)
     {
-        if (!Images.IMAGE_LINK_REGEX.IsMatch(avatar))
+        if (avatar != null && !Images.IMAGE_LINK_REGEX.IsMatch(avatar))
         {
             throw new ArgumentException("Invalid URL");
         }
@@ -90,7 +90,7 @@ public class RoomUserDataService : IRoomUserDataService
     
     public async Task SetUserJoinPhrase(string roomId, string userId, string joinPhrase)
     {
-        if (joinPhrase.Length > JOIN_PHRASE_MAX_LENGTH)
+        if (joinPhrase != null && joinPhrase.Length > JOIN_PHRASE_MAX_LENGTH)
         {
             throw new ArgumentException("Join phrase too long");
         }
