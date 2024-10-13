@@ -41,7 +41,7 @@ public class RoomContextTest
     [TestCase('@', ExpectedResult = true)]
     [TestCase('*', ExpectedResult = true)]
     [TestCase('#', ExpectedResult = true)]
-    [TestCase('&', ExpectedResult = true)]
+    [TestCase('~', ExpectedResult = true)]
     [TestCase('X', ExpectedResult = false)]
     public bool Test_HasSufficientRank_ShouldReturnTrue_WhenSenderRankIsSufficient(char userRank)
     {
@@ -55,8 +55,8 @@ public class RoomContextTest
 
     [Test]
     public void Test_HasSufficientRank_ShouldReturnTrueInEveryCase_WhenSenderIsWhitelisted(
-        [Values(' ', '+', '%', '@', '*', '#', '&')] char requiredRank,
-        [Values(' ', '+', '%', '@', '*', '#', '&')] char userRank)
+        [Values(' ', '+', '%', '@', '*', '#', '~')] char requiredRank,
+        [Values(' ', '+', '%', '@', '*', '#', '~')] char userRank)
     {
         // Arrange
         CreateRoomContext("", "", "test-command", 1);
