@@ -6,7 +6,9 @@ using ElsaMina.Commands.Development.Commands;
 using ElsaMina.Commands.GuessingGame;
 using ElsaMina.Commands.GuessingGame.Countries;
 using ElsaMina.Commands.Misc;
+using ElsaMina.Commands.Misc.Bitcoin;
 using ElsaMina.Commands.Misc.Colors;
+using ElsaMina.Commands.Misc.Facts;
 using ElsaMina.Commands.Misc.Repeats;
 using ElsaMina.Commands.Profile;
 using ElsaMina.Commands.RoomDashboard;
@@ -60,6 +62,8 @@ public class CommandModule : Module
         RegisterCommand<StopRepeat>(builder);
         RegisterCommand<Say>(builder);
         RegisterCommand<NameColorInfo>(builder);
+        RegisterCommand<FactsCommand>(builder);
+        RegisterCommand<BitcoinCommand>(builder);
 
         RegisterHandler<JoinRoomOnInviteHandler>(builder);
         RegisterHandler<GuessingGameHandler>(builder);

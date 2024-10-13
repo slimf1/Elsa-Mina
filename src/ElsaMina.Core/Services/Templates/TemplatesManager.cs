@@ -18,14 +18,7 @@ public class TemplatesManager : ITemplatesManager
         .UseMemoryCachingProvider()
         .Build();
 
-    private readonly IDependencyContainerService _dependencyContainerService;
-
     private readonly ConcurrentDictionary<string, ITemplatePage> _compilationResults = new();
-
-    public TemplatesManager(IDependencyContainerService dependencyContainerService)
-    {
-        _dependencyContainerService = dependencyContainerService;
-    }
 
     public async Task<string> GetTemplate(string templateKey, object model)
     {

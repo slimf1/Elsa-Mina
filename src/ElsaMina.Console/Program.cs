@@ -53,12 +53,6 @@ client.DisconnectionHappened.Subscribe(error =>
 {
     logger.Error("Got disconnected : {0}\nrestarting in 30 seconds...", error);
     Thread.Sleep(30 * 1000);
-    if (client.IsConnected)
-    {
-        logger.Error("Is still connected to server : Exiting");
-        Environment.Exit(1);
-        return;
-    }
     logger.Information("Reconnecting...");
     Task.Run(client.Connect);
 });

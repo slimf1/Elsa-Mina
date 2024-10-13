@@ -41,7 +41,7 @@ public class CountriesGame : GuessingGame
         var image = _randomService.NextDouble() < 0.5
             ? nextCountry.Flag
             : nextCountry.Location;
-        CurrentValidAnswers = new[] { nextCountry.EnglishName, nextCountry.FrenchName };
+        CurrentValidAnswers = [nextCountry.EnglishName, nextCountry.FrenchName];
         Context.Reply($"show {image}");
     }
 }
