@@ -9,4 +9,5 @@ public interface IRoomUserDataService
     Task TakeBadgeFromUser(string roomId, string userId, string badgeId);
     Task SetUserTitle(string roomId, string userId, string title);
     Task SetUserAvatar(string roomId, string userId, string avatar);
+    Task SetUserJoinPhrase(string roomId, string userId, string joinPhrase);
 }

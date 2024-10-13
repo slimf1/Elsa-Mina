@@ -80,7 +80,7 @@ public class BotDbContext : DbContext
     {
         base.OnConfiguring(optionsBuilder);
 
-        if (optionsBuilder.IsConfigured || string.IsNullOrEmpty(ConnectionString))
+        if (optionsBuilder.IsConfigured)
         {
             return;
         }

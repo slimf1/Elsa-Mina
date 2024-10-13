@@ -7,6 +7,7 @@ namespace ElsaMina.Core.Services.RoomUserData;
 public class RoomUserDataService : IRoomUserDataService
 {
     private const int TITLE_MAX_LENGTH = 450;
+    private const int JOIN_PHRASE_MAX_LENGTH = 300;
 
     private readonly IRoomSpecificUserDataRepository _roomSpecificUserDataRepository;
     private readonly IBadgeHoldingRepository _badgeHoldingRepository;
@@ -84,6 +85,17 @@ public class RoomUserDataService : IRoomUserDataService
 
         var userData = await GetUserAndCreateIfDoesntExist(roomId, userId);
         userData.Avatar = avatar;
+        await _roomSpecificUserDataRepository.UpdateAsync(userData);
+    }
+    
+    public async Task SetUserJoinPhrase(string roomId, string userId, string joinPhrase)
+    {
+        if (joinPhrase.Length > JOIN_PHRASE_MAX_LENGTH)
+        {
+            throw new ArgumentException("Join phrase too long");
+        }
+        var userData = await GetUserAndCreateIfDoesntExist(roomId, userId);
+        userData.JoinPhrase = joinPhrase;
         await _roomSpecificUserDataRepository.UpdateAsync(userData);
     }
 }
