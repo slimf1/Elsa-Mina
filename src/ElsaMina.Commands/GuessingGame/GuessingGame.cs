@@ -8,8 +8,8 @@ namespace ElsaMina.Commands.GuessingGame;
 public abstract class GuessingGame : Game
 {
     private const int DEFAULT_TURNS_COUNT = 10;
-    private const int SECONDS_BETWEEN_TURNS = 15;
     private const int MIN_LENGTH_FOR_AUTOCORRECT = 8;
+    private static readonly TimeSpan TURN_COOLDOWN = TimeSpan.FromSeconds(15);
 
     private readonly ITemplatesManager _templatesManager;
     private readonly IConfigurationManager _configurationManager;
@@ -20,8 +20,6 @@ public abstract class GuessingGame : Game
     private bool _hasRoundBeenWon;
     private bool _ended;
 
-    protected IEnumerable<string> CurrentValidAnswers { get; set; } = Enumerable.Empty<string>();
-
     protected GuessingGame(ITemplatesManager templatesManager,
         IConfigurationManager configurationManager)
     {
@@ -29,6 +27,8 @@ public abstract class GuessingGame : Game
         _configurationManager = configurationManager;
     }
     
+    protected IEnumerable<string> CurrentValidAnswers { get; set; } = [];
+
     public int TurnsCount { get; set; } = DEFAULT_TURNS_COUNT;
     public IRoom Room { get; set; }
 
@@ -47,7 +47,7 @@ public abstract class GuessingGame : Game
         _cancellationTokenSource = new CancellationTokenSource();
         Task.Run(async () =>
         {
-            await Task.Delay(SECONDS_BETWEEN_TURNS * 1000, _cancellationTokenSource.Token);
+            await Task.Delay(TURN_COOLDOWN, _cancellationTokenSource.Token);
             _cancellationTokenSource.Token.ThrowIfCancellationRequested();
             await OnTurnEnd();
         }, _cancellationTokenSource.Token);
@@ -123,7 +123,6 @@ public abstract class GuessingGame : Game
 
     protected virtual void OnGameStart()
     {
-        
     }
 
     protected abstract void OnTurnStart();
