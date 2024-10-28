@@ -64,7 +64,8 @@ public class GuessingGameCommand : Command
         game.TurnsCount = turnsCount;
         game.Room = room;
         game.Context = context;
-        
+        game.CleanupAction = () => room.EndGame();
+
         room.Game = game;
         game.Start();
         return Task.CompletedTask;

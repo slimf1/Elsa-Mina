@@ -8,6 +8,8 @@ namespace ElsaMina.Commands.ConnectFour;
 
 public class ConnectFour : Game
 {
+    private const char DEFAULT_CHARACTER = '_';
+    
     public static int GameId { get; private set; }
 
     private readonly IRandomService _randomService;
@@ -29,45 +31,44 @@ public class ConnectFour : Game
         GameId++;
     }
 
-    public List<string> Players { get; } = [];
+    public List<IUser> Players { get; } = [];
 
     public List<(int, int)> WinningLineIndices { get; private set; } = [];
 
-    public string PlayerCurrentlyPlaying { get; private set; }
+    public IUser PlayerCurrentlyPlaying { get; private set; }
 
     public char CurrentPlayerSymbol => ConnectFourConstants.SYMBOLS[Players.IndexOf(PlayerCurrentlyPlaying)];
 
     public int TurnCount { get; private set; }
 
-    public (int, int) LastPlayIndices { get; private set; }
+    public (int, int) LastPlayIndices { get; private set; } = (-1, -1);
 
     public char[,] Grid { get; } = new char[ConnectFourConstants.GRID_HEIGHT, ConnectFourConstants.GRID_WIDTH];
 
     public override string Identifier => nameof(ConnectFour);
 
-    public async Task JoinGame(string userName)
+    public async Task JoinGame(IUser user)
     {
         if (_isStarted)
         {
             return;
         }
 
-        var userId = userName.ToLowerAlphaNum();
-        if (Players.Contains(userId))
+        if (Players.Contains(user))
         {
             return;
         }
 
-        Players.Add(userName);
+        Players.Add(user);
         if (Players.Count >= ConnectFourConstants.MAX_PLAYERS_COUNT)
         {
             await StartGame();
         }
     }
 
-    public async Task Play(string user, string playedColumn)
+    public async Task Play(IUser user, string playedColumn)
     {
-        if (!_isStarted || user.ToLowerAlphaNum() != PlayerCurrentlyPlaying)
+        if (!_isStarted || !Equals(user, PlayerCurrentlyPlaying))
         {
             return;
         }
@@ -84,7 +85,7 @@ public class ConnectFour : Game
 
         playedColumnIndex -= 1;
         var i = ConnectFourConstants.GRID_HEIGHT - 1;
-        while (Grid[i, playedColumnIndex] != default)
+        while (Grid[i, playedColumnIndex] != DEFAULT_CHARACTER)
         {
             i--;
         }
@@ -155,10 +156,17 @@ public class ConnectFour : Game
 
     private async Task StartGame()
     {
+        for (var i = 0; i < ConnectFourConstants.GRID_HEIGHT; i++)
+        {
+            for (var j = 0; j < ConnectFourConstants.GRID_WIDTH; j++)
+            {
+                Grid[i, j] = DEFAULT_CHARACTER;
+            }
+        }
         _isStarted = true;
         _randomService.ShuffleInPlace(Players);
-        await DisplayGrid();
         InitializeNextTurn();
+        await DisplayGrid();
     }
 
     private void InitializeNextTurn()
@@ -190,10 +198,10 @@ public class ConnectFour : Game
         }
     }
 
-    private async Task OnWin(string winner)
+    private async Task OnWin(IUser winner)
     {
         await DisplayGrid();
-        if (string.IsNullOrWhiteSpace(winner))
+        if (winner is null)
         {
             Context.ReplyLocalizedMessage("c4_game_tie_end");
         }
@@ -214,13 +222,12 @@ public class ConnectFour : Game
     public override void Cancel()
     {
         base.Cancel();
-        _hasEnded = true;
-        _cancellationTokenSource?.Cancel();
+        OnEnd();
     }
 
     private async Task DisplayGrid()
     {
-        var template = await _templatesManager.GetTemplate("ConnectFour/ConnectFourGameTable", new ConnectFourGridModel
+        var template = await _templatesManager.GetTemplate("ConnectFour/ConnectFourGameTable", new ConnectFourGameTableModel
         {
             Culture = Context.Culture,
             CurrentGame = this,

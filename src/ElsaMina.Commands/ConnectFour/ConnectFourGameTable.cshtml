@@ -29,7 +29,7 @@
             <p>@GetString("c4_game_current_turn", Model.CurrentGame.PlayerCurrentlyPlaying, Model.CurrentGame.CurrentPlayerSymbol)</p>
             <p>@GetString("c4_game_how_to_play")</p>
             <p>@GetString("c4_game_timeout", ConnectFourConstants.TIMEOUT_DELAY.Seconds)</p>
-            <p>@GetString("c4_game_players", string.Join(GetString("vs"), Model.CurrentGame.Players))</p>
+            <p>@GetString("c4_game_players", string.Join(' ' + GetString("vs") + ' ', Model.CurrentGame.Players))</p>
             <p>@GetString("c4_game_turn", Model.CurrentGame.TurnCount)</p>
             <p>@GetString("c4_game_party_id", ConnectFour.GameId)</p>
         </td>

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using ElsaMina.Commands.Badges;
+using ElsaMina.Commands.ConnectFour;
 using ElsaMina.Commands.CustomCommands;
 using ElsaMina.Commands.Development;
 using ElsaMina.Commands.Development.Commands;
@@ -65,6 +66,9 @@ public class CommandModule : Module
         RegisterCommand<FactsCommand>(builder);
         RegisterCommand<BitcoinCommand>(builder);
         RegisterCommand<SetJoinPhrase>(builder);
+        RegisterCommand<CreateConnectFourCommand>(builder);
+        RegisterCommand<JoinConnectFourCommand>(builder);
+        RegisterCommand<PlayConnectFourCommand>(builder);
 
         RegisterHandler<JoinRoomOnInviteHandler>(builder);
         RegisterHandler<GuessingGameHandler>(builder);
@@ -72,6 +76,7 @@ public class CommandModule : Module
         RegisterHandler<JoinPhraseHandler>(builder);
 
         builder.RegisterType<CountriesGame>().AsSelf();
+        builder.RegisterType<ConnectFour.ConnectFour>().AsSelf();
 
         builder.RegisterType<PokepasteProvider>().As<ITeamProvider>();
         builder.RegisterType<CoupCritiqueProvider>().As<ITeamProvider>();
