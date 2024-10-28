@@ -18,7 +18,7 @@ public static class Images
         }
         catch (Exception exception)
         {
-            Logger.Current.Error(exception, "Failed to load image");
+            Logger.Error(exception, "Failed to load image");
             return (-1, -1);
         }
     }

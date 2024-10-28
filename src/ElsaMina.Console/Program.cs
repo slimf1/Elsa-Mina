@@ -11,19 +11,6 @@ using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.DependencyInjection;
 using Serilog;
 
-// Logging
-var loggerConfig = new LoggerConfiguration()
-    .Enrich.FromLogContext()
-    .MinimumLevel.Debug()
-    .WriteTo.Console();
-
-if (!EnvironmentConstants.IS_DEBUG) { // Built in release
-    loggerConfig.MinimumLevel.Information();
-    loggerConfig.WriteTo.File("log.txt", rollingInterval: RollingInterval.Day);
-}
-var logger = loggerConfig.CreateLogger();
-Logger.Current = logger;
-
 // DI 
 var builder = new ContainerBuilder();
 builder.RegisterModule<CoreModule>();
@@ -49,7 +36,7 @@ client.MessageReceived
     .Merge()
     .Catch((Exception exception) =>
     {
-        logger.Error(exception, "Error while handling message");
+        Log.Error(exception, "Error while handling message");
         return Observable.Throw<Unit>(exception);
     })
     .Subscribe();
@@ -57,9 +44,9 @@ client.MessageReceived
 // Disconnect event & reconnection logic TODO (à revoir~)
 client.DisconnectionHappened.Subscribe(error =>
 {
-    logger.Error("Got disconnected : {0}\nrestarting in 30 seconds...", error);
+    Logger.Error("Got disconnected : {0}\nrestarting in 30 seconds...", error);
     Thread.Sleep(30 * 1000);
-    logger.Information("Reconnecting...");
+    Logger.Information("Reconnecting...");
     Task.Run(client.Connect);
 });
 

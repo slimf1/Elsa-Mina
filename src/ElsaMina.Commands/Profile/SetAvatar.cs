@@ -37,7 +37,7 @@ public class SetAvatar : Command
         }
         catch (Exception exception)
         {
-            Logger.Current.Error(exception, "Error while updating avatar");
+            Logger.Error(exception, "Error while updating avatar");
             context.ReplyLocalizedMessage("avatar_failure", exception.Message);
         }
     }

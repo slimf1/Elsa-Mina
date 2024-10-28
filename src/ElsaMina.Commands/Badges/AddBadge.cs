@@ -54,7 +54,7 @@ public class AddBadge : Command
         }
         catch (Exception exception)
         {
-            Logger.Current.Error(exception, "Could not add badge");
+            Logger.Error(exception, "Could not add badge");
             context.ReplyLocalizedMessage("badge_add_failure_message", exception.Message);
         }
     }

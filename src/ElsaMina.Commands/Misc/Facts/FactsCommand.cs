@@ -30,7 +30,7 @@ public class FactsCommand : Command
         }
         catch (Exception ex)
         {
-            Logger.Current.Error(ex, "Could not fetch fact.");
+            Logger.Error(ex, "Could not fetch fact.");
         }
     }
 }

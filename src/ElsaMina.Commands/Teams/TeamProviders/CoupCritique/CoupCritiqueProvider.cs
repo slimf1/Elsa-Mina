@@ -44,7 +44,7 @@ public partial class CoupCritiqueProvider : ITeamProvider
         }
         catch (Exception exception)
         {
-            Logger.Current.Error(exception, "An error occurred while fetching team from Coup Critique");
+            Logger.Error(exception, "An error occurred while fetching team from Coup Critique");
             return null;
         }
     }

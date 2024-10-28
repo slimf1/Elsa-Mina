@@ -44,7 +44,7 @@ public sealed class RoomsHandler : Handler
                 };
                 if (!string.IsNullOrEmpty(message))
                 {
-                    Logger.Current.Error(message, roomId);
+                    Logger.Error(message, roomId);
                 }
                 break;
         }

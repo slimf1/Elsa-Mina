@@ -110,7 +110,7 @@ public partial class AddTeam : Command
         }
         catch (Exception exception)
         {
-            Logger.Current.Error(exception, "Could not insert team with id {0}", teamId);
+            Logger.Error(exception, "Could not insert team with id {0}", teamId);
             context.ReplyLocalizedMessage("add_team_failure", exception.Message);
         }
     }

@@ -31,7 +31,7 @@ public class BitcoinCommand : Command
         }
         catch (Exception ex)
         {
-            Logger.Current.Error(ex, "Could not fetch data from coindesk.");
+            Logger.Error(ex, "Could not fetch data from coindesk.");
         }
     }
 }

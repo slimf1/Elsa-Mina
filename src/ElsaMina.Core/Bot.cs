@@ -109,7 +109,7 @@ public class Bot : IBot
 
         var roomId = room ?? _currentRoom;
 
-        Logger.Current.Information("[Received] ({0}) {1}", room, line);
+        Logger.Information("[Received] ({0}) {1}", room, line);
 
         if (!_handlerManager.IsInitialized)
         {
@@ -140,7 +140,7 @@ public class Bot : IBot
             name = name[^2..];
         }
 
-        Logger.Current.Information("Connected as : {0}", name);
+        Logger.Information("Connected as : {0}", name);
 
         foreach (var roomId in _configurationManager.Configuration.Rooms)
         {
@@ -156,13 +156,13 @@ public class Bot : IBot
 
     private async Task Login(string challstr)
     {
-        Logger.Current.Information("Logging in...");
+        Logger.Information("Logging in...");
         var response = await _loginService.Login(challstr);
 
         if (response?.CurrentUser == null ||
             _configurationManager.Configuration.Name.ToLowerAlphaNum() != response.CurrentUser.UserId)
         {
-            Logger.Current.Error("Login failed. Check password validity. Exiting");
+            Logger.Error("Login failed. Check password validity. Exiting");
             _systemService.Kill();
             return;
         }
@@ -188,7 +188,7 @@ public class Bot : IBot
             return;
         }
 
-        Logger.Current.Information("[Sending] {0}", message);
+        Logger.Information("[Sending] {0}", message);
 
         _client.Send(message);
         _lastMessage = message;

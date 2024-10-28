@@ -42,7 +42,7 @@ public abstract class CommandMessageHandler : MessageHandler
         }
         catch (Exception exception)
         {
-            Logger.Current.Error(exception, "Command execution crashed with context : {0}", context);
+            Logger.Error(exception, "Command execution crashed with context : {0}", context);
         }
     }
 }

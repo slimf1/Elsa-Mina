@@ -40,7 +40,7 @@ public class TemplatesManager : ITemplatesManager
 
     private async Task CompileTemplate(string templatePath)
     {
-        Logger.Current.Information("Compiling template {0}...", templatePath);
+        Logger.Information("Compiling template {0}...", templatePath);
         var templateKey = GetTemplateKeyFromPath(templatePath);
         _compilationResults[templateKey] = await RAZOR_ENGINE.CompileTemplateAsync(templatePath);
     }

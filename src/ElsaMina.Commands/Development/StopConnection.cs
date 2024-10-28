@@ -16,7 +16,7 @@ public class StopConnection : DevelopmentCommand
 
     public override async Task Run(IContext context)
     {
-        Logger.Current.Information("Stopping connection : {0}", context);
+        Logger.Information("Stopping connection : {0}", context);
         await _client.Close();
     }
 }

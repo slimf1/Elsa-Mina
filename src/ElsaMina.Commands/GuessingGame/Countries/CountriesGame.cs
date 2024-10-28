@@ -18,7 +18,7 @@ public class CountriesGame : GuessingGame
         using var streamReader = new StreamReader(GAME_FILE_PATH);
         var fileContent = await streamReader.ReadToEndAsync();
         CountriesGameData = JsonConvert.DeserializeObject<CountriesGameData>(fileContent);
-        Logger.Current.Debug("Loaded countries game data with {0} entries", CountriesGameData.Countries.Count());
+        Logger.Debug("Loaded countries game data with {0} entries", CountriesGameData.Countries.Count());
     }
 
     public CountriesGame(ITemplatesManager templatesManager,

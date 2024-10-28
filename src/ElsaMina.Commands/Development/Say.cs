@@ -19,7 +19,7 @@ public class Say : DevelopmentCommand
     public override Task Run(IContext context)
     {
         var parts = context.Target.Split(';');
-        Logger.Current.Information("Say command used: {0}", context.Target);
+        Logger.Information("Say command used: {0}", context.Target);
         _bot.Say(parts[0], parts[1]);
         return Task.CompletedTask;
     }

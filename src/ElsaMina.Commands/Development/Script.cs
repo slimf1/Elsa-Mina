@@ -42,7 +42,7 @@ public class Script : DevelopmentCommand
         }
         catch (Exception exception)
         {
-            Logger.Current.Error(exception, "An error occurred while using script command.");
+            Logger.Error(exception, "An error occurred while using script command.");
             context.Reply($"An error occurred: {exception.Message}");
         }
     }

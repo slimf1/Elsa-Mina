@@ -40,17 +40,17 @@ public class RoomsManager : IRoomsManager
 
     public async Task InitializeRoom(string roomId, string roomTitle, IEnumerable<string> userIds)
     {
-        Logger.Current.Information("Initializing {0}...", roomTitle);
+        Logger.Information("Initializing {0}...", roomTitle);
         var roomParameters = await _roomParametersRepository.GetByIdAsync(roomId);
         if (roomParameters == null)
         {
-            Logger.Current.Information("Could not find room parameters, inserting in db...");
+            Logger.Information("Could not find room parameters, inserting in db...");
             roomParameters = new RoomParameters
             {
                 Id = roomId
             };
             await _roomParametersRepository.AddAsync(roomParameters);
-            Logger.Current.Information("Inserted room parameters for room {0} in db", roomId);
+            Logger.Information("Inserted room parameters for room {0} in db", roomId);
         }
         
         var localeParameterValue = roomParameters.ParameterValues?
@@ -67,12 +67,12 @@ public class RoomsManager : IRoomsManager
         }
 
         _rooms[room.RoomId] = room;
-        Logger.Current.Information("Initializing {0} : DONE", roomTitle);
+        Logger.Information("Initializing {0} : DONE", roomTitle);
     }
 
     public void RemoveRoom(string roomId)
     {
-        Logger.Current.Information("Removing room : {0}", roomId);
+        Logger.Information("Removing room : {0}", roomId);
         _rooms.Remove(roomId);
     }
 
@@ -133,13 +133,13 @@ public class RoomsManager : IRoomsManager
             }
 
             roomBotConfigurationParameter.OnUpdateAction?.Invoke(room, value);
-            Logger.Current.Information("Saved room parameter: '{0}' = '{1}' for room '{2}'",
+            Logger.Information("Saved room parameter: '{0}' = '{1}' for room '{2}'",
                 roomBotParameterId, value, roomId);
             return true;
         }
         catch (Exception exception)
         {
-            Logger.Current.Error(exception, "Room parameter save failed: '{0}' = '{1}' for room '{2}'",
+            Logger.Error(exception, "Room parameter save failed: '{0}' = '{1}' for room '{2}'",
                 roomBotParameterId, value, roomId);
             return false;
         }

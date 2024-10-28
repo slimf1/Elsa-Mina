@@ -88,7 +88,7 @@ public class CommandModule : Module
         var commandAttribute = typeof(T).GetCommandAttribute();
         if (commandAttribute == null)
         {
-            Logger.Current.Warning(
+            Logger.Warning(
                 "Command '{0}' does not have the named command attribute, and could not be registered",
                 typeof(T).Name);
             return;
@@ -97,15 +97,15 @@ public class CommandModule : Module
         var commandName = commandAttribute.Name;
         if (string.IsNullOrEmpty(commandName))
         {
-            Logger.Current.Warning("Command '{0}' has no name, and could not be registered", typeof(T).Name);
+            Logger.Warning("Command '{0}' has no name, and could not be registered", typeof(T).Name);
             return;
         }
 
-        Logger.Current.Information("Command '{0}' was registered", commandName);
+        Logger.Information("Command '{0}' was registered", commandName);
         builder.RegisterType<T>().AsSelf().Named<ICommand>(commandName);
         foreach (var commandAlias in commandAttribute.Aliases ?? Enumerable.Empty<string>())
         {
-            Logger.Current.Information("Alias '{0}' of command '{1}' was registered", commandAlias, commandName);
+            Logger.Information("Alias '{0}' of command '{1}' was registered", commandAlias, commandName);
             builder.RegisterType<T>().AsSelf().Named<ICommand>(commandAlias);
         }
     }

@@ -31,18 +31,18 @@ public class CommandExecutor : ICommandExecutor
     {
         if (_dependencyContainerService.IsCommandRegistered(commandName))
         {
-            Logger.Current.Information("Executing {0} as a normal command", commandName);
+            Logger.Information("Executing {0} as a normal command", commandName);
             var commandInstance = _dependencyContainerService.ResolveCommand<ICommand>(commandName);
             await commandInstance.Call(context);
             return;
         }
         
         if (!context.IsPrivateMessage) {
-            Logger.Current.Information("Trying command {0} as a custom command", commandName);
+            Logger.Information("Trying command {0} as a custom command", commandName);
             await _addedCommandsManager.TryExecuteAddedCommand(commandName, context);
             return;
         }
         
-        Logger.Current.Error("Could not find command {0}", commandName);
+        Logger.Error("Could not find command {0}", commandName);
     }
 }

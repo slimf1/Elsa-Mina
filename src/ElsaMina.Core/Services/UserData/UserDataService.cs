@@ -32,7 +32,7 @@ public class UserDataService : IUserDataService
         }
         catch (Exception exception)
         {
-            Logger.Current.Error(exception, "Error while getting user data");
+            Logger.Error(exception, "Error while getting user data");
             return null;
         }
     }

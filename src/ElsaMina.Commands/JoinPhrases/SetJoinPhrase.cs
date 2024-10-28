@@ -37,7 +37,7 @@ public class SetJoinPhrase : Command
         }
         catch (Exception exception)
         {
-            Logger.Current.Error(exception, "Error while updating join phrase");
+            Logger.Error(exception, "Error while updating join phrase");
             context.ReplyLocalizedMessage("setjoinphrase_failure", exception.Message);
         }
     }

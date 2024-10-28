@@ -17,7 +17,7 @@ public class Kill : DevelopmentCommand
 
     public override Task Run(IContext context)
     {
-        Logger.Current.Information("Killing bot : {0}", context);
+        Logger.Information("Killing bot : {0}", context);
         _systemService.Kill();
         return Task.CompletedTask;
     }
