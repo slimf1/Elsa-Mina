@@ -8,7 +8,6 @@ using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.Replays;
 
-// Todo : gérer les battles >2 btl
 public class ReplaysHandler : ChatMessageHandler
 {
     private static readonly Regex REPLAY_URL_REGEX =
@@ -40,7 +39,6 @@ public class ReplaysHandler : ChatMessageHandler
         {
             replayLink = replayLink[..^1];
         }
-
         replayLink += ".json";
 
         // risqué ?

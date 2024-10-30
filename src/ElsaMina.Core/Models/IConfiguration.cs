@@ -13,4 +13,6 @@ public interface IConfiguration
     string DefaultRoom { get; }
     string DefaultLocaleCode { get; }
     string ConnectionString { get; }
+    string YoutubeApiKey { get; set; }
+    string DictionaryApiKey { get; set; }
 }
