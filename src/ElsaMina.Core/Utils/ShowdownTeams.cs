@@ -73,13 +73,13 @@ public static class ShowdownTeams
                     line = line.Substring(0, atIndex);
                 }
 
-                if (line.Substring(line.Length - 4) == " (M)")
+                if (line.Length >= 4 && line.Substring(line.Length - 4) == " (M)")
                 {
                     currentSet.Gender = "M";
                     line = line.Substring(0, line.Length - 4);
                 }
 
-                if (line.Substring(line.Length - 4) == " (F)")
+                if (line.Length >= 4 && line.Substring(line.Length - 4) == " (F)")
                 {
                     currentSet.Gender = "F";
                     line = line.Substring(0, line.Length - 4);
@@ -87,7 +87,7 @@ public static class ShowdownTeams
 
                 var parenIndex = line.LastIndexOf(" (", StringComparison.Ordinal);
 
-                if (line.Substring(line.Length - 1) == ")" && parenIndex != -1)
+                if (line.Length >= 1 && line.Substring(line.Length - 1) == ")" && parenIndex != -1)
                 {
                     line = line.Substring(0, line.Length - 1);
                     currentSet.Species = line.Substring(parenIndex + 2); // TODO : dex

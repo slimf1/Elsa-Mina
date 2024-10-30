@@ -2,49 +2,36 @@
 
 <table style="width: 100%; table-layout: fixed;">
     <tbody>
-    <tr>
-        <td style="text-align: left;">
-            <i>@Model.Player1</i>
-        </td>
-        <td style="text-align: right;">
-            <i>@Model.Player2</i>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @foreach (var species in Model.Player1Species)
-            {
-                <psicon style="float: left;" pokemon="@species"/>
-            }
-        </td>
-        <td>
-            @foreach (var species in Model.Player2Species)
-            {
-                <psicon style="float: right;" pokemon="@species"/>
-            }
-        </td>
-    </tr>
-    @if (Model.Has4Players)
+    @for (var i = 0; i < Model.Players.Count; i += 2)
     {
+        var p1 = Model.Players[i];
+        var p2 = i + 1 < Model.Players.Count ? Model.Players[i + 1] : null;
         <tr>
+
             <td style="text-align: left;">
-                <i>@Model.Player3</i>
+                <i>@p1.Name</i>
             </td>
             <td style="text-align: right;">
-                <i>@Model.Player4</i>
+                @if (p2 != null)
+                {
+                    <i>@p2.Name</i>
+                }
             </td>
         </tr>
         <tr>
             <td>
-                @foreach (var species in Model.Player3Species)
+                @foreach (var species in p1.Team)
                 {
                     <psicon style="float: left;" pokemon="@species"/>
                 }
             </td>
             <td>
-                @foreach (var species in Model.Player4Species)
+                @if (p2 != null)
                 {
-                    <psicon style="float: right;" pokemon="@species"/>
+                    @foreach (var species in p2.Team)
+                    {
+                        <psicon style="float: right;" pokemon="@species"/>
+                    }
                 }
             </td>
         </tr>
