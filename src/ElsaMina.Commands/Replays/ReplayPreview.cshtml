@@ -24,6 +24,31 @@
             }
         </td>
     </tr>
+    @if (Model.Has4Players)
+    {
+        <tr>
+            <td style="text-align: left;">
+                <i>@Model.Player3</i>
+            </td>
+            <td style="text-align: right;">
+                <i>@Model.Player4</i>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @foreach (var species in Model.Player3Species)
+                {
+                    <psicon style="float: left;" pokemon="@species"/>
+                }
+            </td>
+            <td>
+                @foreach (var species in Model.Player4Species)
+                {
+                    <psicon style="float: right;" pokemon="@species"/>
+                }
+            </td>
+        </tr>
+    }
     <tr>
         <td colspan="2">
             <span>
