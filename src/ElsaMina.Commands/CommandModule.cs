@@ -12,6 +12,7 @@ using ElsaMina.Commands.Misc.Colors;
 using ElsaMina.Commands.Misc.Facts;
 using ElsaMina.Commands.Misc.Repeats;
 using ElsaMina.Commands.Profile;
+using ElsaMina.Commands.Replays;
 using ElsaMina.Commands.RoomDashboard;
 using ElsaMina.Commands.Teams.Samples;
 using ElsaMina.Commands.Teams.TeamPreviewOnLink;
@@ -74,6 +75,7 @@ public class CommandModule : Module
         RegisterHandler<GuessingGameHandler>(builder);
         RegisterHandler<DisplayTeamOnLinkHandler>(builder);
         RegisterHandler<JoinPhraseHandler>(builder);
+        RegisterHandler<ReplaysHandler>(builder);
 
         builder.RegisterType<CountriesGame>().AsSelf();
         builder.RegisterType<ConnectFour.ConnectFour>().AsSelf();
