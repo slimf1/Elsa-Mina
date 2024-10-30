@@ -1,0 +1,41 @@
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Replays.ReplayPreviewViewModel>;
+
+<table style="width: 100%; table-layout: fixed;">
+    <tbody>
+    <tr>
+        <td style="text-align: left;">
+            <i>@Model.Player1</i>
+        </td>
+        <td style="text-align: right;">
+            <i>@Model.Player2</i>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @foreach (var species in Model.Player1Species)
+            {
+                <psicon style="float: left;" pokemon="@species"/>
+            }
+        </td>
+        <td>
+            @foreach (var species in Model.Player2Species)
+            {
+                <psicon style="float: right;" pokemon="@species"/>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <span>
+                <b>@GetString("format"):</b> @Model.Format
+                <b>@GetString("date"):</b> @Model.Date.ToString("d", Model.Culture)
+                <b>@GetString("views"):</b> @Model.Views
+                @if (Model.Rating != 0)
+                {
+                    <b>@GetString("rating"):</b> @Model.Rating
+                }
+            </span>
+        </td>
+    </tr>
+    </tbody>
+</table>

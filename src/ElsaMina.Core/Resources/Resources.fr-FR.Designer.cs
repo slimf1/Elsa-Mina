@@ -770,5 +770,35 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("setjoinphrase_failure", resourceCulture);
             }
         }
+        
+        internal static string replay_preview_watch {
+            get {
+                return ResourceManager.GetString("replay_preview_watch", resourceCulture);
+            }
+        }
+        
+        internal static string format {
+            get {
+                return ResourceManager.GetString("format", resourceCulture);
+            }
+        }
+        
+        internal static string date {
+            get {
+                return ResourceManager.GetString("date", resourceCulture);
+            }
+        }
+        
+        internal static string views {
+            get {
+                return ResourceManager.GetString("views", resourceCulture);
+            }
+        }
+        
+        internal static string rating {
+            get {
+                return ResourceManager.GetString("rating", resourceCulture);
+            }
+        }
     }
 }
