@@ -2,12 +2,12 @@
 
 namespace ElsaMina.Core.Models;
 
-public class User : IUser
+public class User : IUser, IEquatable<User>
 {
     public User(string name, char rank)
     {
         UserId = name.ToLowerAlphaNum();
-        IsIdle = name[^2..] == "@!";
+        IsIdle = name.Length >= 2 && name[^2..] == "@!";
         Name = IsIdle ? name[..^2] : name;
         Rank = rank;
     }
@@ -17,17 +17,17 @@ public class User : IUser
     public bool IsIdle { get; }
     public char Rank { get; }
 
-    protected bool Equals(User other)
+    public bool Equals(User other)
     {
-        return UserId == other.UserId;
+        return UserId == other?.UserId;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object other)
     {
-        if (obj is null) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
-        return Equals((User)obj);
+        if (other is null) return false;
+        if (ReferenceEquals(this, other)) return true;
+        if (other.GetType() != GetType()) return false;
+        return Equals((User)other);
     }
 
     public override int GetHashCode()
