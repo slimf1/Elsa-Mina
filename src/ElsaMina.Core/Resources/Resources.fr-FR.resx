@@ -396,4 +396,10 @@
     <data name="rating" xml:space="preserve">
         <value>Classement</value>
     </data>
+    <data name="parameter_name_is_showing_replays_preview" xml:space="preserve">
+        <value>Affichage des infos d'un replay</value>
+    </data>
+    <data name="parameter_description_is_showing_replays_preview" xml:space="preserve">
+        <value>Affiche les joueurs et les équipes d'un replay</value>
+    </data>
 </root>

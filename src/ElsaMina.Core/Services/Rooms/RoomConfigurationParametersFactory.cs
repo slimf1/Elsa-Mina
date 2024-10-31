@@ -58,6 +58,14 @@ public class RoomConfigurationParametersFactory : IRoomConfigurationParametersFa
                 DescriptionKey = "parameter_description_is_showing_team_links_preview",
                 Type = RoomBotConfigurationType.Boolean,
                 DefaultValue = true.ToString()
+            },
+            [RoomParametersConstants.IS_SHOWING_REPLAYS_PREVIEW] = new RoomBotConfigurationParameter
+            {
+                Identifier = RoomParametersConstants.IS_SHOWING_REPLAYS_PREVIEW,
+                NameKey = "parameter_name_is_showing_replays_preview",
+                DescriptionKey = "parameter_description_is_showing_replays_preview",
+                Type = RoomBotConfigurationType.Boolean,
+                DefaultValue = true.ToString()
             }
         };
 }

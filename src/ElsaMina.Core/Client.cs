@@ -18,7 +18,8 @@ public class Client : IClient
         _configurationManager = configurationManager;
 
         _websocketClient = new WebsocketClient(new Uri($"wss://{Conf.Host}:{Conf.Port}/showdown/websocket"));
-        _websocketClient.IsReconnectionEnabled = false;
+        _websocketClient.IsReconnectionEnabled = true;
+        _websocketClient.ErrorReconnectTimeout = TimeSpan.FromSeconds(30);
     }
 
     private IConfiguration Conf => _configurationManager.Configuration;
@@ -40,6 +41,8 @@ public class Client : IClient
             return disconnectionInfo.CloseStatus?.ToString() ?? disconnectionInfo.CloseStatusDescription;
         });
 
+    public IObservable<ReconnectionInfo> ReconnectionHappened => _websocketClient.ReconnectionHappened;
+
     public bool IsConnected => _websocketClient.IsRunning;
 
     public async Task Connect()
@@ -51,7 +54,7 @@ public class Client : IClient
     public async Task Close()
     {
         Logger.Information("Closing connection");
-        await _websocketClient.Stop(WebSocketCloseStatus.Empty, string.Empty);
+        await _websocketClient.StopOrFail(WebSocketCloseStatus.Empty, string.Empty);
     }
 
     public void Send(string message)

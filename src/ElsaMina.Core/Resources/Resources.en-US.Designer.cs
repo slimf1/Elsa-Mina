@@ -800,5 +800,17 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("rating", resourceCulture);
             }
         }
+        
+        internal static string parameter_name_is_showing_replays_preview {
+            get {
+                return ResourceManager.GetString("parameter_name_is_showing_replays_preview", resourceCulture);
+            }
+        }
+        
+        internal static string parameter_description_is_showing_replays_preview {
+            get {
+                return ResourceManager.GetString("parameter_description_is_showing_replays_preview", resourceCulture);
+            }
+        }
     }
 }

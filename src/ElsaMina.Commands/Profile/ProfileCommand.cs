@@ -15,7 +15,7 @@ namespace ElsaMina.Commands.Profile;
 [NamedCommand("profile", Aliases = ["profil"])]
 public class ProfileCommand : Command
 {
-    private const string DEFAULT_AVATAR_ID = "unknown";
+    private const string DEFAULT_AVATAR_ID = "167";
     private const string AVATAR_URL = "https://play.pokemonshowdown.com/sprites/trainers/{0}.png";
     private const string AVATAR_CUSTOM_URL = "https://play.pokemonshowdown.com/sprites/trainers-custom/{0}.png";
 
@@ -101,6 +101,10 @@ public class ProfileCommand : Command
         else
         {
             var avatarId = showdownUserDetails?.Avatar ?? DEFAULT_AVATAR_ID;
+            if (BattleAvatars.AVATAR_NUMBERS.TryGetValue(avatarId, out var avatarName))
+            {
+                avatarId = avatarName;
+            }
             var avatarBaseUrl = AVATAR_URL;
             if (avatarId.StartsWith('#'))
             {

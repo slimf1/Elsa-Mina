@@ -5,7 +5,6 @@ using Autofac;
 using ElsaMina.Commands;
 using ElsaMina.Console;
 using ElsaMina.Core;
-using ElsaMina.Core.Constants;
 using ElsaMina.Core.Modules;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.DependencyInjection;
@@ -33,7 +32,7 @@ var bot = dependencyContainerService.Resolve<IBot>();
 var client = dependencyContainerService.Resolve<IClient>();
 client.MessageReceived
     .Select(message => bot.HandleReceivedMessage(message).ToObservable())
-    .Merge()
+    .Concat()
     .Catch((Exception exception) =>
     {
         Log.Error(exception, "Error while handling message");
@@ -41,13 +40,16 @@ client.MessageReceived
     })
     .Subscribe();
 
-// Disconnect event & reconnection logic TODO (à revoir~)
+// Disconnect event
 client.DisconnectionHappened.Subscribe(error =>
 {
-    Logger.Error("Got disconnected : {0}\nrestarting in 30 seconds...", error);
-    Thread.Sleep(30 * 1000);
-    Logger.Information("Reconnecting...");
-    Task.Run(client.Connect);
+    Logger.Error("Got disconnected : {0}", error);
+});
+
+// Reconnection
+client.ReconnectionHappened.Subscribe(info =>
+{
+    Logger.Information("Reconnecting : {0}", info.Type);
 });
 
 // Start

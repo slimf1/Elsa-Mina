@@ -1,11 +1,14 @@
 ﻿using System.Drawing;
 using System.Globalization;
+using ElsaMina.Core.Services.CustomColors;
+using ElsaMina.Core.Services.DependencyInjection;
 
 namespace ElsaMina.Core.Utils;
 
 public static class ShowdownColors
 {
     private static readonly Dictionary<string, Color> HEX_COLOR_CACHE = new();
+    private static ICustomColorsManager _customColorsManager;
 
     public static Color ToColor(this string text)
     {
@@ -24,8 +27,8 @@ public static class ShowdownColors
 
         var (r, g, b) = HslToRgb(h, s, l);
 
-        double lum = r * r * r * 0.2126 + g * g * g * 0.7152 + b * b * b * 0.0722;
-        double hlMod = (lum - 0.2) * -150;
+        var lum = r * r * r * 0.2126 + g * g * g * 0.7152 + b * b * b * 0.0722;
+        var hlMod = (lum - 0.2) * -150;
         if (hlMod > 18)
         {
             hlMod = (hlMod - 18) * 2.5;
@@ -39,7 +42,7 @@ public static class ShowdownColors
             hlMod = 0;
         }
 
-        double hDist = Math.Min(Math.Abs(180 - h), Math.Abs(240 - h));
+        var hDist = Math.Min(Math.Abs(180 - h), Math.Abs(240 - h));
         if (hDist < 15)
         {
             hlMod += (15 - hDist) / 3;
@@ -72,11 +75,23 @@ public static class ShowdownColors
         return $"RGB({color.R}, {color.G}, {color.B})";
     }
 
+    public static string ToColorHexCodeWithCustoms(this string userName)
+    {
+        var userId = userName.ToLowerAlphaNum();
+        _customColorsManager ??= DependencyContainerService.Current.Resolve<ICustomColorsManager>();
+        if (_customColorsManager.CustomColorsMapping.TryGetValue(userId, out var userCustomColor))
+        {
+            userId = userCustomColor;
+        }
+
+        return userId.ToColor().ToHexString();
+    }
+
     private static (double, double, double) HslToRgb(double h, double s, double l)
     {
-        double c = (100 - Math.Abs(2 * l - 100)) * s / 100 / 100;
-        double x = c * (1 - Math.Abs(h / 60 % 2 - 1));
-        double m = l / 100 - c / 2;
+        var c = (100 - Math.Abs(2 * l - 100)) * s / 100 / 100;
+        var x = c * (1 - Math.Abs(h / 60 % 2 - 1));
+        var m = l / 100 - c / 2;
 
         var (r, g, b) = (int)(h / 60) switch
         {

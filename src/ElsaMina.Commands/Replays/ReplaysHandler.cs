@@ -3,6 +3,7 @@ using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Handlers.DefaultHandlers;
 using ElsaMina.Core.Services.Http;
+using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
 
@@ -15,19 +16,29 @@ public class ReplaysHandler : ChatMessageHandler
 
     private readonly IHttpService _httpService;
     private readonly ITemplatesManager _templatesManager;
+    private readonly IRoomsManager _roomsManager;
 
     public ReplaysHandler(IContextFactory contextFactory,
         IHttpService httpService,
-        ITemplatesManager templatesManager) : base(contextFactory)
+        ITemplatesManager templatesManager,
+        IRoomsManager roomsManager) : base(contextFactory)
     {
         _httpService = httpService;
         _templatesManager = templatesManager;
+        _roomsManager = roomsManager;
     }
 
     public override string Identifier => nameof(ChatMessageHandler);
 
     protected override async Task HandleMessage(IContext context)
     {
+        var isReplayPreviewEnabled = _roomsManager.GetRoomBotConfigurationParameterValue(
+            context.RoomId, RoomParametersConstants.IS_SHOWING_REPLAYS_PREVIEW).ToBoolean();
+        if (!isReplayPreviewEnabled)
+        {
+            return;
+        }
+
         var match = REPLAY_URL_REGEX.Match(context.Message);
         if (!match.Success)
         {
