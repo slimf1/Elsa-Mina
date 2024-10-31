@@ -33,6 +33,10 @@ public class ContextFactory : IContextFactory
             case > 1 when parts[1] == "c:":
             {
                 var room = _roomsManager.GetRoom(roomId);
+                if (room == null)
+                {
+                    return null;
+                }
                 var timestamp = long.Parse(parts[2]);
                 var userId = parts[3].ToLowerAlphaNum();
                 var message = parts[4];

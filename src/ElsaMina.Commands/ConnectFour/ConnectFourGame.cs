@@ -126,6 +126,20 @@ public class ConnectFourGame : Game
         }
     }
 
+    public override void Cancel()
+    {
+        base.Cancel();
+        _cancellationTokenSource?.Cancel();
+        try
+        {
+            _cancellationTokenSource?.Dispose();
+        }
+        catch (ObjectDisposedException)
+        {
+            // Ignore
+        }
+    }
+
     #endregion
 
     #region Private Methods
@@ -134,9 +148,10 @@ public class ConnectFourGame : Game
     {
         List<List<(int, int)>> checks =
         [
-            CheckLines(symbol),
-            CheckColumns(symbol),
-            CheckDiagonals(symbol)
+            CheckWinDirection(symbol, 0, 1), // Horizontal
+            CheckWinDirection(symbol, 1, 0), // Vertical
+            CheckWinDirection(symbol, 1, 1), // Diagonal (top-left to bottom-right)
+            CheckWinDirection(symbol, 1, -1) // Diagonal (top-right to bottom-left)
         ];
         var passingChecks = checks.Where(check => check != null).ToArray();
 
@@ -168,80 +183,37 @@ public class ConnectFourGame : Game
         return true;
     }
 
-    private List<(int, int)> CheckDiagonals(char symbol)
-    {
-        for (var i = 0; i < ConnectFourConstants.GRID_HEIGHT - ConnectFourConstants.WINNING_LENGTH + 1; i++)
-        {
-            for (var j = 0; j < ConnectFourConstants.GRID_WIDTH - ConnectFourConstants.WINNING_LENGTH + 1; j++)
-            {
-                List<(int, int)> currentIndices = [];
-                for (var k = 0; k < ConnectFourConstants.WINNING_LENGTH; k++)
-                {
-                    currentIndices.Add((i + k, j + k));
-                }
-
-                if (currentIndices.All(pos => Grid[pos.Item1, pos.Item2] == symbol))
-                {
-                    return currentIndices;
-                }
-            }
-        }
-
-        for (var i = 0; i < ConnectFourConstants.GRID_HEIGHT - ConnectFourConstants.WINNING_LENGTH + 1; i++)
-        {
-            for (var j = ConnectFourConstants.WINNING_LENGTH; j < ConnectFourConstants.GRID_WIDTH; j++)
-            {
-                List<(int, int)> currentIndices = [];
-                for (var k = 0; k < ConnectFourConstants.WINNING_LENGTH; k++)
-                {
-                    currentIndices.Add((i + k, j - k));
-                }
-
-                if (currentIndices.All(pos => Grid[pos.Item1, pos.Item2] == symbol))
-                {
-                    return currentIndices;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    private List<(int, int)> CheckColumns(char symbol)
-    {
-        for (var i = 0; i < ConnectFourConstants.GRID_HEIGHT - ConnectFourConstants.WINNING_LENGTH + 1; i++)
-        {
-            for (var j = 0; j < ConnectFourConstants.GRID_WIDTH; j++)
-            {
-                List<(int, int)> currentIndices = [];
-                for (var k = 0; k < ConnectFourConstants.WINNING_LENGTH; k++)
-                {
-                    currentIndices.Add((i + k, j));
-                }
-
-                if (currentIndices.All(pos => Grid[pos.Item1, pos.Item2] == symbol))
-                {
-                    return currentIndices;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    private List<(int, int)> CheckLines(char symbol)
+    private List<(int, int)> CheckWinDirection(char symbol, int rowOffset, int colOffset)
     {
         for (var i = 0; i < ConnectFourConstants.GRID_HEIGHT; i++)
         {
-            for (var j = 0; j < ConnectFourConstants.GRID_WIDTH - ConnectFourConstants.WINNING_LENGTH + 1; j++)
+            for (var j = 0; j < ConnectFourConstants.GRID_WIDTH; j++)
             {
-                List<(int, int)> currentIndices = [];
+                var currentIndices = new List<(int, int)>();
                 for (var k = 0; k < ConnectFourConstants.WINNING_LENGTH; k++)
                 {
-                    currentIndices.Add((i, j + k));
+                    var row = i + k * rowOffset;
+                    var col = j + k * colOffset;
+
+                    if (row < 0
+                        || row >= ConnectFourConstants.GRID_HEIGHT
+                        || col < 0
+                        || col >= ConnectFourConstants.GRID_WIDTH)
+                    {
+                        currentIndices.Clear();
+                        break;
+                    }
+
+                    currentIndices.Add((row, col));
+
+                    if (Grid[row, col] != symbol)
+                    {
+                        currentIndices.Clear();
+                        break;
+                    }
                 }
 
-                if (currentIndices.All(pos => Grid[pos.Item1, pos.Item2] == symbol))
+                if (currentIndices.Count == ConnectFourConstants.WINNING_LENGTH)
                 {
                     return currentIndices;
                 }
