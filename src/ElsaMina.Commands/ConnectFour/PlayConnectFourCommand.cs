@@ -20,7 +20,7 @@ public class PlayConnectFourCommand : Command
     public override async Task Run(IContext context)
     {
         var room = _roomsManager.GetRoom(context.RoomId);
-        if (room?.Game is ConnectFour connectFour)
+        if (room?.Game is ConnectFourGame connectFour)
         {
             await connectFour.Play(context.Sender, context.Target);
         }

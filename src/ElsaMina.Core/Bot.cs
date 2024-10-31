@@ -85,6 +85,11 @@ public class Bot : IBot
                 await _loadRoomSemaphore.WaitAsync();
                 await LoadRoom(room, message);
             }
+            catch (Exception exception)
+            {
+                Logger.Error(exception, "An error occurred while creating room, aborting.");
+                _systemService.Kill();
+            }
             finally
             {
                 _loadRoomSemaphore.Release();
@@ -135,6 +140,10 @@ public class Bot : IBot
     private void CheckConnection(string[] parts)
     {
         var name = parts[2][1..];
+        if (name.Contains("Guest")) // We need to be logged in to join some rooms
+        {
+            return;
+        }
         if (name.Contains('@'))
         {
             name = name[^2..];

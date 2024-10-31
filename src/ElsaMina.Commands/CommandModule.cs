@@ -70,6 +70,7 @@ public class CommandModule : Module
         RegisterCommand<CreateConnectFourCommand>(builder);
         RegisterCommand<JoinConnectFourCommand>(builder);
         RegisterCommand<PlayConnectFourCommand>(builder);
+        RegisterCommand<EndConnectFour>(builder);
 
         RegisterHandler<JoinRoomOnInviteHandler>(builder);
         RegisterHandler<GuessingGameHandler>(builder);
@@ -78,7 +79,7 @@ public class CommandModule : Module
         RegisterHandler<ReplaysHandler>(builder);
 
         builder.RegisterType<CountriesGame>().AsSelf();
-        builder.RegisterType<ConnectFour.ConnectFour>().AsSelf();
+        builder.RegisterType<ConnectFourGame>().AsSelf();
 
         builder.RegisterType<PokepasteProvider>().As<ITeamProvider>();
         builder.RegisterType<CoupCritiqueProvider>().As<ITeamProvider>();
