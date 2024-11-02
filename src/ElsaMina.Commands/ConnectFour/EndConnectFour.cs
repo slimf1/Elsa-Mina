@@ -22,11 +22,11 @@ public class EndConnectFour : Command
         if (room?.Game is ConnectFourGame connectFourGame)
         {
             connectFourGame.Cancel();
-            context.Reply("The game has been cancelled.");
+            context.ReplyLocalizedMessage("c4_game_cancelled");
         }
         else
         {
-            context.Reply("There's no game currently ongoing.");
+            context.ReplyLocalizedMessage("c4_game_ongoing_game");
         }
         
         return Task.CompletedTask;

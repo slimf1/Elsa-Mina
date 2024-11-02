@@ -812,5 +812,41 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("parameter_description_is_showing_replays_preview", resourceCulture);
             }
         }
+        
+        internal static string guessing_game_specify {
+            get {
+                return ResourceManager.GetString("guessing_game_specify", resourceCulture);
+            }
+        }
+        
+        internal static string c4_game_on_timeout {
+            get {
+                return ResourceManager.GetString("c4_game_on_timeout", resourceCulture);
+            }
+        }
+        
+        internal static string c4_game_start_already_exist {
+            get {
+                return ResourceManager.GetString("c4_game_start_already_exist", resourceCulture);
+            }
+        }
+        
+        internal static string c4_game_start_announce {
+            get {
+                return ResourceManager.GetString("c4_game_start_announce", resourceCulture);
+            }
+        }
+        
+        internal static string c4_game_cancelled {
+            get {
+                return ResourceManager.GetString("c4_game_cancelled", resourceCulture);
+            }
+        }
+        
+        internal static string c4_game_ongoing_game {
+            get {
+                return ResourceManager.GetString("c4_game_ongoing_game", resourceCulture);
+            }
+        }
     }
 }

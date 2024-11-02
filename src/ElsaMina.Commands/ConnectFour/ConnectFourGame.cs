@@ -118,7 +118,7 @@ public class ConnectFourGame : Game
         }
 
         Players.Remove(PlayerCurrentlyPlaying);
-        Context.Reply($"{PlayerCurrentlyPlaying.Name} were disqualified because they could not play in time.");
+        Context.ReplyLocalizedMessage("c4_game_on_timeout", PlayerCurrentlyPlaying.Name);
 
         if (Players.Count == 1)
         {

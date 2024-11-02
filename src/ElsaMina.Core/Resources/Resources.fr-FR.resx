@@ -402,4 +402,22 @@
     <data name="parameter_description_is_showing_replays_preview" xml:space="preserve">
         <value>Affiche les joueurs et les équipes d'un replay</value>
     </data>
+    <data name="guessing_game_specify" xml:space="preserve">
+        <value>Merci de préciser le nombre de tours.</value>
+    </data>
+    <data name="c4_game_on_timeout" xml:space="preserve">
+        <value>{0} a été disqualifié(e) parce qu'ils n'ont pas pu jouer à temps.</value>
+    </data>
+    <data name="c4_game_start_already_exist" xml:space="preserve">
+        <value>Une partie est en cours.</value>
+    </data>
+    <data name="c4_game_start_announce" xml:space="preserve">
+        <value>Une partie de puissance 4 a été créée. Utilisez {0}c4j pour rejoindre.</value>
+    </data>
+    <data name="c4_game_cancelled" xml:space="preserve">
+        <value>La partie a été terminée.</value>
+    </data>
+    <data name="c4_game_ongoing_game" xml:space="preserve">
+        <value>Il n'y a pas de partie en cours.</value>
+    </data>
 </root>

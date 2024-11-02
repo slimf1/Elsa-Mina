@@ -402,4 +402,22 @@
     <data name="parameter_description_is_showing_replays_preview" xml:space="preserve">
         <value>Shows the players and teams of a replay</value>
     </data>
+    <data name="guessing_game_specify" xml:space="preserve">
+        <value>Please specify the turns.</value>
+    </data>
+    <data name="c4_game_on_timeout" xml:space="preserve">
+        <value>{0} were disqualified because they could not play in time.</value>
+    </data>
+    <data name="c4_game_start_already_exist" xml:space="preserve">
+        <value>A game is already ongoing.</value>
+    </data>
+    <data name="c4_game_start_announce" xml:space="preserve">
+        <value>A connect four game has been created. Use {0}c4j to join.</value>
+    </data>
+    <data name="c4_game_cancelled" xml:space="preserve">
+        <value>The game has been cancelled.</value>
+    </data>
+    <data name="c4_game_ongoing_game" xml:space="preserve">
+        <value>There's no game currently ongoing.</value>
+    </data>
 </root>
