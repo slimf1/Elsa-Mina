@@ -1,37 +1,41 @@
 ﻿@using ElsaMina.Commands.ConnectFour
+@using ElsaMina.Core.Templates
 @inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.ConnectFour.ConnectFourGameTableModel>
 
+@{
+    const string CELL_STYLE = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};";
+    const string CELL_STYLE_WITH_BG = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR}; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
+}
 <table
     style="border-collapse: collapse; width: 100%">
-    <tr>
-        <th>
+    <tr style="">
+        <th style="@CELL_STYLE_WITH_BG">
             Grille
         </th>
-        <th>
+        <th style="@CELL_STYLE_WITH_BG">
             Infos
         </th>
     </tr>
 
     <tr>
-        <td>
-            @{ await IncludeAsync("ConnectFour/ConnectFourGrid", new ConnectFourGridModel 
+        <td style="@CELL_STYLE">
+            @{ await IncludeAsync("ConnectFour/ConnectFourGrid", new ConnectFourGridModel
                {
                    Culture = Model.Culture,
                    CurrentGame = Model.CurrentGame,
                    Trigger = Model.Trigger,
                    BotName = Model.BotName
-               });
-            }
+               }); }
         </td>
-        <td>
-            <b>@GetString("c4_game_name")</b>
-            <p>@GetString("c4_game_rules", ConnectFourConstants.WINNING_LENGTH)</p>
-            <p>@GetString("c4_game_current_turn", Model.CurrentGame.PlayerCurrentlyPlaying.Name, Model.CurrentGame.CurrentPlayerSymbol)</p>
-            <p>@GetString("c4_game_how_to_play")</p>
-            <p>@GetString("c4_game_timeout", ConnectFourConstants.TIMEOUT_DELAY.Seconds)</p>
-            <p>@GetString("c4_game_players", string.Join(' ' + GetString("vs") + ' ', Model.CurrentGame.Players.Select(player => player.Name)))</p>
-            <p>@GetString("c4_game_turn", Model.CurrentGame.TurnCount)</p>
-            <p>@GetString("c4_game_party_id", ConnectFourGame.GameId)</p>
+        <td style="padding: 20px; @CELL_STYLE">
+            <span style="font-weight: bold;">@GetString("c4_game_name")</span><br />
+            <span>@GetString("c4_game_rules", ConnectFourConstants.WINNING_LENGTH)</span><br />
+            <span>@GetString("c4_game_current_turn", Model.CurrentGame.PlayerCurrentlyPlaying.Name, Model.CurrentGame.CurrentPlayerSymbol)</span><br />
+            <span>@GetString("c4_game_how_to_play")</span><br />
+            <span>@GetString("c4_game_timeout", ConnectFourConstants.TIMEOUT_DELAY.Seconds)</span><br />
+            <span>@GetString("c4_game_players", string.Join(' ' + GetString("vs") + ' ', Model.CurrentGame.Players.Select(player => player.Name)))</span><br />
+            <span>@GetString("c4_game_turn", Model.CurrentGame.TurnCount)</span><br />
+            <span>@GetString("c4_game_party_id", ConnectFourGame.GameId)</span>
         </td>
     </tr>
 </table>

@@ -16,8 +16,9 @@ public class ConnectFourGame : Game
     private readonly ITemplatesManager _templatesManager;
     private readonly IConfigurationManager _configurationManager;
 
+    private Timer _timer;
     private bool _isStarted;
-    private CancellationTokenSource _cancellationTokenSource;
+    private bool _isEnded;
 
     public ConnectFourGame(IRandomService randomService,
         ITemplatesManager templatesManager,
@@ -113,6 +114,11 @@ public class ConnectFourGame : Game
 
     public async Task OnTimeout()
     {
+        if (_isEnded)
+        {
+            return;
+        }
+
         Players.Remove(PlayerCurrentlyPlaying);
         Context.Reply($"{PlayerCurrentlyPlaying.Name} were disqualified because they could not play in time.");
 
@@ -129,15 +135,9 @@ public class ConnectFourGame : Game
     public override void Cancel()
     {
         base.Cancel();
-        _cancellationTokenSource?.Cancel();
-        try
-        {
-            _cancellationTokenSource?.Dispose();
-        }
-        catch (ObjectDisposedException)
-        {
-            // Ignore
-        }
+        _isEnded = true;
+        _timer?.Dispose();
+        _timer = null;
     }
 
     #endregion
@@ -244,22 +244,13 @@ public class ConnectFourGame : Game
         PlayerCurrentlyPlaying = Players[(TurnCount - 1) % ConnectFourConstants.MAX_PLAYERS_COUNT];
         CurrentPlayerSymbol = ConnectFourConstants.SYMBOLS[Players.IndexOf(PlayerCurrentlyPlaying)];
         await DisplayGrid();
-        _cancellationTokenSource?.Cancel();
-        _cancellationTokenSource = new CancellationTokenSource();
-        var token = _cancellationTokenSource.Token;
-        _ = Task.Run(async () =>
+
+        _timer?.Dispose();
+        _timer = new Timer(async _ =>
         {
-            try
-            {
-                await Task.Delay(ConnectFourConstants.TIMEOUT_DELAY, token);
-                token.ThrowIfCancellationRequested();
-                await OnTimeout();
-            }
-            catch (OperationCanceledException)
-            {
-                // Ignore
-            }
-        }, token);
+            await OnTimeout();
+            _timer?.Dispose();
+        }, null, ConnectFourConstants.TIMEOUT_DELAY, Timeout.InfiniteTimeSpan);
     }
 
     private async Task OnWin(IUser winner)
