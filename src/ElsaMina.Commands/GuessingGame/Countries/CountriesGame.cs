@@ -2,12 +2,16 @@
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Templates;
+using ElsaMina.Core.Utils;
 using Newtonsoft.Json;
 
 namespace ElsaMina.Commands.GuessingGame.Countries;
 
 public class CountriesGame : GuessingGame
 {
+    private const int MAX_HEIGHT = 200;
+    private const int MAX_WIDTH = 300;
+    
     private static readonly string GAME_FILE_PATH = Path.Join("Data", "countries_game.json");
     private static CountriesGameData CountriesGameData { get; set; }
 
@@ -35,13 +39,15 @@ public class CountriesGame : GuessingGame
         Context.ReplyLocalizedMessage("countries_game_start");
     }
 
-    protected override void OnTurnStart()
+    protected override async Task OnTurnStart()
     {
         var nextCountry = _randomService.RandomElement(CountriesGameData.Countries);
         var image = _randomService.NextDouble() < 0.5
             ? nextCountry.Flag
             : nextCountry.Location;
         CurrentValidAnswers = [nextCountry.EnglishName, nextCountry.FrenchName];
-        Context.Reply($"show {image}");
+        var (width, height) = await Images.GetRemoteImageDimensions(image);
+        (width, height) = Images.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);
+        Context.SendHtml($"""<img src="{image}" width="{width}" height="{height}" /> """);
     }
 }

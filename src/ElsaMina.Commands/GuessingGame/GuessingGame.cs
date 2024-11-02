@@ -29,23 +29,23 @@ public abstract class GuessingGame : Game
     protected IEnumerable<string> CurrentValidAnswers { get; set; } = [];
 
     public int TurnsCount { get; set; } = DEFAULT_TURNS_COUNT;
-    public IRoom Room { get; set; }
 
-    public void Start()
+    public async Task Start()
     {
         OnStart();
         OnGameStart();
-        InitializeNextTurn();
+        await InitializeNextTurn();
     }
 
-    private void InitializeNextTurn()
+    private async Task InitializeNextTurn()
     {
         _currentTurn++;
         Context.ReplyLocalizedMessage("guessing_game_turn_count", _currentTurn);
-        OnTurnStart();
+        await OnTurnStart();
+        _hasRoundBeenWon = false;
         _cancellationTokenSource?.Cancel();
         _cancellationTokenSource = new CancellationTokenSource();
-        Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             await Task.Delay(TURN_COOLDOWN, _cancellationTokenSource.Token);
             _cancellationTokenSource.Token.ThrowIfCancellationRequested();
@@ -61,14 +61,13 @@ public abstract class GuessingGame : Game
                 string.Join(", ", CurrentValidAnswers.Distinct()));
         }
 
-        _hasRoundBeenWon = false;
         if (_currentTurn >= TurnsCount || IsEnded)
         {
             await EndGame();
         }
         else
         {
-            InitializeNextTurn();
+            await InitializeNextTurn();
         }
     }
 
@@ -110,7 +109,7 @@ public abstract class GuessingGame : Game
             Scores = _scores
         };
         var template = await _templatesManager.GetTemplate("GuessingGame/GuessingGameResult", resultViewModel);
-        Context.Reply(template.RemoveNewlines());
+        Context.SendHtml(template.RemoveNewlines());
 
         Cancel();
     }
@@ -125,5 +124,5 @@ public abstract class GuessingGame : Game
     {
     }
 
-    protected abstract void OnTurnStart();
+    protected abstract Task OnTurnStart();
 }

@@ -16,7 +16,7 @@ public class GuessingGameHandler : ChatMessageHandler
         _roomsManager = roomsManager;
     }
 
-    public override string Identifier => nameof(ChatMessageHandler);
+    public override string Identifier => nameof(GuessingGameHandler);
 
     protected override Task HandleMessage(IContext context)
     {

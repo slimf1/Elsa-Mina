@@ -14,6 +14,10 @@ public abstract class Game : IGame
 
     protected void OnStart()
     {
+        if (IsStarted)
+        {
+            return;
+        }
         IsStarted = true;
         IsEnded = false;
         GameStarted();
@@ -21,6 +25,10 @@ public abstract class Game : IGame
 
     protected void OnEnd()
     {
+        if (IsEnded)
+        {
+            return;
+        }
         IsStarted = false;
         IsEnded = true;
         GameEnded();

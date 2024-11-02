@@ -61,7 +61,6 @@ public class GuessingGameCommand : Command
         }
 
         game.TurnsCount = turnsCount;
-        game.Room = room;
         game.Context = context;
 
         room.Game = game;
