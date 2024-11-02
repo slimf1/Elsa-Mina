@@ -28,25 +28,24 @@ public class GuessingGameCommand : Command
         return CountriesGame.LoadCountriesGameData();
     }
 
-    // TODO : localize
     public override Task Run(IContext context)
     {
         if (!int.TryParse(context.Target, out var turnsCount))
         {
-            context.Reply("Please specify the number of turns.");
+            context.ReplyLocalizedMessage("guessing_game_specify");
             return Task.CompletedTask;
         }
 
         if (turnsCount is <= 0 or > MAX_TURNS_COUNT)
         {
-            context.Reply($"Invalid number of turns (should be between 1 and {MAX_TURNS_COUNT})");
+            context.ReplyLocalizedMessage("guessing_game_invalid_number_turns", MAX_TURNS_COUNT);
             return Task.CompletedTask;
         }
 
         var room = _roomsManager.GetRoom(context.RoomId);
         if (room.Game != null)
         {
-            context.Reply("A game is already running");
+            context.ReplyLocalizedMessage("guessing_game_currently_ongoing");
             return Task.CompletedTask;
         }
 
@@ -57,7 +56,7 @@ public class GuessingGameCommand : Command
         };
         if (game == null)
         {
-            context.Reply("Invalid command");
+            context.ReplyLocalizedMessage("guessing_game_invalid_command");
             return Task.CompletedTask;
         }
 

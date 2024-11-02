@@ -420,4 +420,13 @@
     <data name="c4_game_ongoing_game" xml:space="preserve">
         <value>Il n'y a pas de partie en cours.</value>
     </data>
+    <data name="guessing_game_invalid_number_turns" xml:space="preserve">
+        <value>Nombre de tours invalide : Doit être entre 1 et {0}</value>
+    </data>
+    <data name="guessing_game_currently_ongoing" xml:space="preserve">
+        <value>Une autre partie est en cours.</value>
+    </data>
+    <data name="guessing_game_invalid_command" xml:space="preserve">
+        <value>Commande invalide.</value>
+    </data>
 </root>

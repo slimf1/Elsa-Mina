@@ -848,5 +848,23 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("c4_game_ongoing_game", resourceCulture);
             }
         }
+        
+        internal static string guessing_game_invalid_number_turns {
+            get {
+                return ResourceManager.GetString("guessing_game_invalid_number_turns", resourceCulture);
+            }
+        }
+        
+        internal static string guessing_game_currently_ongoing {
+            get {
+                return ResourceManager.GetString("guessing_game_currently_ongoing", resourceCulture);
+            }
+        }
+        
+        internal static string guessing_game_invalid_command {
+            get {
+                return ResourceManager.GetString("guessing_game_invalid_command", resourceCulture);
+            }
+        }
     }
 }
