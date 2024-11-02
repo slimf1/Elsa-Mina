@@ -7,6 +7,7 @@ using ElsaMina.Core.Services.CustomColors;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.Core.Services.System;
 using ElsaMina.Core.Services.Templates;
 using NSubstitute;
@@ -26,6 +27,7 @@ public class BotTest
     private ITemplatesManager _templatesManager;
     private ICommandExecutor _commandExecutor;
     private ICustomColorsManager _customColorsManager;
+    private IRoomUserDataService _roomUserDataService;
 
     private Bot _bot;
     
@@ -43,10 +45,11 @@ public class BotTest
         _templatesManager = Substitute.For<ITemplatesManager>();
         _commandExecutor = Substitute.For<ICommandExecutor>();
         _customColorsManager = Substitute.For<ICustomColorsManager>();
+        _roomUserDataService = Substitute.For<IRoomUserDataService>();
         
         _bot = new Bot(_client, _configurationManager, _clockService, _roomsManager,
             _formatsManager, _loginService, _handlerManager, _systemService, _templatesManager, _commandExecutor,
-            _customColorsManager);
+            _customColorsManager, _roomUserDataService);
     }
 
     [Test]

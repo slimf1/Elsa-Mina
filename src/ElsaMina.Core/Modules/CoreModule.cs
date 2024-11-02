@@ -47,7 +47,7 @@ public class CoreModule : Module
         builder.RegisterType<HandlerManager>().As<IHandlerManager>().SingleInstance();
         builder.RegisterType<AddedCommandsManager>().As<IAddedCommandsManager>().SingleInstance();
         builder.RegisterType<TemplatesManager>().As<ITemplatesManager>().SingleInstance();
-        builder.RegisterType<RoomUserDataService>().As<IRoomUserDataService>();
+        builder.RegisterType<RoomUserDataService>().As<IRoomUserDataService>().SingleInstance();
         builder.RegisterType<UserDetailsManager>().As<IUserDetailsManager>().SingleInstance();
         builder.RegisterType<UserDataService>().As<IUserDataService>().SingleInstance();
         builder.RegisterType<RandomService>().As<IRandomService>().SingleInstance();

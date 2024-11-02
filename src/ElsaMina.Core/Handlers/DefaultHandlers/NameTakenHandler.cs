@@ -20,7 +20,7 @@ public sealed class NameTakenHandler : Handler
             Logger.Error("Login failed, check username or password validity. Exiting");
             _systemService.Kill();
         }
-        
+
         return Task.CompletedTask;
     }
 }

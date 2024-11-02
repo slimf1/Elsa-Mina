@@ -12,6 +12,8 @@ public class RoomUserDataService : IRoomUserDataService
     private readonly IRoomSpecificUserDataRepository _roomSpecificUserDataRepository;
     private readonly IBadgeHoldingRepository _badgeHoldingRepository;
 
+    private readonly Dictionary<Tuple<string, string>, string> _joinPhrases = new();
+
     public RoomUserDataService(IRoomSpecificUserDataRepository roomSpecificUserDataRepository,
         IBadgeHoldingRepository badgeHoldingRepository)
     {
@@ -19,9 +21,25 @@ public class RoomUserDataService : IRoomUserDataService
         _badgeHoldingRepository = badgeHoldingRepository;
     }
 
+    public IReadOnlyDictionary<Tuple<string, string>, string> JoinPhrases => _joinPhrases;
+
     public async Task<RoomSpecificUserData> GetUserData(string roomId, string userId)
     {
         return await GetUserAndCreateIfDoesntExist(roomId, userId);
+    }
+
+    public async Task InitializeJoinPhrases()
+    {
+        var fullUserData = await _roomSpecificUserDataRepository.GetAllAsync();
+        foreach (var userData in fullUserData)
+        {
+            if (string.IsNullOrEmpty(userData.JoinPhrase))
+            {
+                continue;
+            }
+
+            _joinPhrases[new Tuple<string, string>(userData.Id, userData.RoomId)] = userData.JoinPhrase;
+        }
     }
 
     private async Task<RoomSpecificUserData> GetUserAndCreateIfDoesntExist(string roomId, string userId)
@@ -87,15 +105,27 @@ public class RoomUserDataService : IRoomUserDataService
         userData.Avatar = avatar;
         await _roomSpecificUserDataRepository.UpdateAsync(userData);
     }
-    
+
     public async Task SetUserJoinPhrase(string roomId, string userId, string joinPhrase)
     {
         if (joinPhrase != null && joinPhrase.Length > JOIN_PHRASE_MAX_LENGTH)
         {
             throw new ArgumentException("Join phrase too long");
         }
+
         var userData = await GetUserAndCreateIfDoesntExist(roomId, userId);
         userData.JoinPhrase = joinPhrase;
+        var key = new Tuple<string, string>(userData.Id, userData.RoomId);
+
+        if (string.IsNullOrEmpty(userData.JoinPhrase))
+        {
+            _joinPhrases.Remove(key);
+        }
+        else
+        {
+            _joinPhrases[key] = userData.JoinPhrase;
+        }
+
         await _roomSpecificUserDataRepository.UpdateAsync(userData);
     }
 }

@@ -6,6 +6,7 @@ using ElsaMina.Core.Services.CustomColors;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.Core.Services.System;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
@@ -28,6 +29,7 @@ public class Bot : IBot
     private readonly ITemplatesManager _templatesManager;
     private readonly ICommandExecutor _commandExecutor;
     private readonly ICustomColorsManager _customColorsManager;
+    private readonly IRoomUserDataService _roomUserDataService;
 
     private readonly SemaphoreSlim _loadRoomSemaphore = new(1, 1);
     private string _currentRoom;
@@ -45,7 +47,8 @@ public class Bot : IBot
         ISystemService systemService,
         ITemplatesManager templatesManager,
         ICommandExecutor commandExecutor,
-        ICustomColorsManager customColorsManager)
+        ICustomColorsManager customColorsManager,
+        IRoomUserDataService roomUserDataService)
     {
         _client = client;
         _configurationManager = configurationManager;
@@ -58,6 +61,7 @@ public class Bot : IBot
         _templatesManager = templatesManager;
         _commandExecutor = commandExecutor;
         _customColorsManager = customColorsManager;
+        _roomUserDataService = roomUserDataService;
     }
 
     public async Task Start()
@@ -65,6 +69,7 @@ public class Bot : IBot
         await _templatesManager.CompileTemplates();
         await _commandExecutor.OnBotStartUp();
         await _customColorsManager.FetchCustomColors();
+        await _roomUserDataService.InitializeJoinPhrases();
         await _client.Connect();
     }
 
