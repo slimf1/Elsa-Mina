@@ -1,0 +1,2877 @@
+[
+  {
+    "EnglishName":"Bulbasaur",
+    "FrenchName":"Bulbizarre",
+    "Description":"Il a une \u00e9trange graine plant\u00e9e sur son dos. Elle grandit avec lui depuis la naissance. (Pok\u00e9mon Rouge et Bleu)"
+  },
+  {
+    "EnglishName":"Ivysaur",
+    "FrenchName":"Herbizarre",
+    "Description":"Si le bourgeon sur son dos commence \u00e0 sentir bon la fleur risque d'\u00e9clore bient\u00f4t. (Pok\u00e9mon Argent)"
+  },
+  {
+    "EnglishName":"Venusaur",
+    "FrenchName":"Florizarre",
+    "Description":"Ses p\u00e9tales lui servent \u00e0 capter la lumi\u00e8re du soleil. Il peut ainsi en canaliser l'\u00e9nergie. (Pok\u00e9mon Or HeartGold)"
+  },
+  {
+    "EnglishName":"Charmander",
+    "FrenchName":"Salam\u00e8che",
+    "Description":"S'il est en bonne sant\u00e9, la flamme sur sa queue est importante, m\u00eame s'il pleut. (Pok\u00e9mon  Cristal)"
+  },
+  {
+    "EnglishName":"Charmeleon",
+    "FrenchName":"Reptincel",
+    "Description":"Exalt\u00e9 quand il affronte des adversaires puissants, ce Pok\u00e9mon en vient parfois \u00e0 cracher des flammes bleut\u00e9es. (Pok\u00e9mon Let's Go, Pikachu et Let's Go, \u00c9voli)"
+  },
+  {
+    "EnglishName":"Charizard",
+    "FrenchName":"Dracaufeu",
+    "Description":"Il parcourt les cieux en cherchant des adversaires \u00e0 sa mesure et crache de puissantes flammes capables de tout faire fondre. Il n'attaque pas les plus faibles que lui. (Pok\u00e9mon Emeraude)"
+  },
+  {
+    "EnglishName":"Squirtle",
+    "FrenchName":"Carapuce",
+    "Description":"Il se r\u00e9fugie dans sa carapace et r\u00e9plique en \u00e9claboussant l'ennemi \u00e0 la premi\u00e8re occasion. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Wartortle",
+    "FrenchName":"Carabaffe",
+    "Description":"On pr\u00e9tend qu'il vit 10 000 ans. Sa queue duveteuse est un symbole de long\u00e9vit\u00e9 populaire. (Pok\u00e9mon Noire et Blanc)"
+  },
+  {
+    "EnglishName":"Blastoise",
+    "FrenchName":"Tortank",
+    "Description":"Il devient \u00e9norme afin de supporter le puissant recul provoqu\u00e9 par le tir de ses Hydrocanons. (Pok\u00e9mon Or)"
+  },
+  {
+    "EnglishName":"Caterpie",
+    "FrenchName":"Chenipan",
+    "Description":"Ses pattes ont des ventouses lui permettant de grimper sur toute surface, notamment les arbres. (Pok\u00e9mon Argent SoulSilver)"
+  },
+  {
+    "EnglishName":"Metapod",
+    "FrenchName":"Chrysacier",
+    "Description":"M\u00eame si sa carapace est solide, elle n'est gu\u00e8re compos\u00e9e que de chitine et peut se briser ais\u00e9ment. Mieux vaut \u00e9viter les combats rudes. (Pok\u00e9mon Lune)"
+  },
+  {
+    "EnglishName":"Butterfree",
+    "FrenchName":"Papilusion",
+    "Description":"Ses ailes sont enduites d'une poudre toxique imperm\u00e9able. Il peut voler sous la pluie. (Pok\u00e9mon Jaune)"
+  },
+  {
+    "EnglishName":"Weedle",
+    "FrenchName":"Aspicot",
+    "Description":"Il vit dans les for\u00eats et se nourrit essentiellement de feuilles. L'aiguillon sur sa t\u00eate est empoisonn\u00e9. (Pok\u00e9mon Vert Feuille)"
+  },
+  {
+    "EnglishName":"Kakuna",
+    "FrenchName":"Coconfort",
+    "Description":"Il est la plupart du temps immobile, puisqu'il reste accroch\u00e9 \u00e0 un arbre. Cependant, int\u00e9rieurement, il est tr\u00e8s actif, car il se pr\u00e9pare pour sa prochaine \u00e9volution. En touchant sa carapace, on peut sentir sa chaleur. (Pok\u00e9mon Rubis et Saphir)"
+  },
+  {
+    "EnglishName":"Beedrill",
+    "FrenchName":"Dardargnan",
+    "Description":"Il virevolte rapidement autour de l'ennemi et frappe de son dard empoisonn\u00e9 avant de d\u00e9camper. (Pok\u00e9mon Noire et Blanc)"
+  },
+  {
+    "EnglishName":"Pidgey",
+    "FrenchName":"Roucool",
+    "Description":"Commun dans les for\u00eats et les plaines, docile, il fait fuir ses ennemis en envoyant du sable. (Pok\u00e9mon Argent SoulSilver)"
+  },
+  {
+    "EnglishName":"Pidgeotto",
+    "FrenchName":"Roucoups",
+    "Description":"Il fabrique son nid au centre de son large territoire. Ses griffes longues et puissantes lui servent \u00e0 attraper les proies. (Pok\u00e9mon Stadium)"
+  },
+  {
+    "EnglishName":"Pidgeot",
+    "FrenchName":"Roucarnage",
+    "Description":"Ce Pok\u00e9mon est dot\u00e9 d'un plumage magnifique et luisant. Bien des Dresseurs sont captiv\u00e9s par la beaut\u00e9 fatale de sa huppe et d\u00e9cident de le choisir comme leur Pok\u00e9mon favori. (Pok\u00e9mon Rubis Om\u00e9ga et Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Raticate",
+    "FrenchName":"Rattatac",
+    "Description":"Sa morsure est redoutable. Ses terribles crocs peuvent ronger les fondations des immeubles. (Pok\u00e9mon Or)"
+  },
+  {
+    "EnglishName":"Spearow",
+    "FrenchName":"Piafabec",
+    "Description":"Ses courtes ailes ne lui permettent pas de voler sur de longues distances. Il quadrille son territoire pour picorer les Pok\u00e9mon Insecte. (Pok\u00e9mon Ultra-Lune)"
+  },
+  {
+    "EnglishName":"Fearow",
+    "FrenchName":"Rapasdepic",
+    "Description":"Ses ailes g\u00e9antes lui permettent de planer si longtemps qu'il ne se pose que tr\u00e8s rarement. (Pok\u00e9mon Rouge et Bleu)"
+  },
+  {
+    "EnglishName":"Ekans",
+    "FrenchName":"Abo",
+    "Description":"Il s'enroule en spirale pour dormir. Sa t\u00eate reste relev\u00e9e de telle sorte que cette position lui permette de r\u00e9agir rapidement si une menace survenait. (Pok\u00e9mon Emeraude)"
+  },
+  {
+    "EnglishName":"Sandshrew",
+    "FrenchName":"Sabelette",
+    "Description":"Il a une peau tr\u00e8s s\u00e8che et extr\u00eamement dure. Ce Pok\u00e9mon peut s'enrouler sur lui-m\u00eame pour repousser les attaques. La nuit, il s'enterre dans le sable du d\u00e9sert pour dormir. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Sandslash",
+    "FrenchName":"Sablaireau",
+    "Description":"Ses griffes et \u00e9pines sont tranchantes, mais elles se brisent facilement. Cela dit, il n\u2019en a que faire, puisqu\u2019elles repoussent le lendemain. (Pok\u00e9mon Soleil)"
+  },
+  {
+    "EnglishName":"Clefairy",
+    "FrenchName":"M\u00e9lof\u00e9e",
+    "Description":"Ce Pok\u00e9mon retrouve ses cong\u00e9n\u00e8res et danse lors des nuits de pleine lune. Un champ magn\u00e9tique myst\u00e9rieux s'\u00e9tend alors alentour. (Pok\u00e9mon Lune)"
+  },
+  {
+    "EnglishName":"Clefable",
+    "FrenchName":"M\u00e9lodelfe",
+    "Description":"On dit qu'il vit dans de lointaines montagnes. Il d\u00e9teste \u00eatre vu. (Pok\u00e9mon Cristal)"
+  },
+  {
+    "EnglishName":"Vulpix",
+    "FrenchName":"Goupix",
+    "Description":"Il n'a qu'une seule queue \u00e0 la naissance. Celle-ci se divise \u00e0 la pointe au fil des ans. (Pok\u00e9mon Rouge et Bleu)"
+  },
+  {
+    "EnglishName":"Ninetales",
+    "FrenchName":"Feunard",
+    "Description":"On raconte que ses neuf queues d\u00e9tiennent un pouvoir mystique. Il peut vivre pendant mille ans. (Pok\u00e9mon Noir et Blanc)"
+  },
+  {
+    "EnglishName":"Jigglypuff",
+    "FrenchName":"Rondoudou",
+    "Description":"Quand ses yeux s'illuminent, il chante une myst\u00e9rieuse berceuse pour endormir ses ennemis. (Pok\u00e9mon Vert Feuille)"
+  },
+  {
+    "EnglishName":"Wigglytuff",
+    "FrenchName":"Grodoudou",
+    "Description":"En cas de danger, il gonfle d'air son corps doux et potel\u00e9 dans des proportions gigantesques. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Zubat",
+    "FrenchName":"Nosferapti",
+    "Description":"Il se dirige avec des ultrasons qui lui servent de sonar pour \u00e9viter les obstacles sur son trajet. (Pok\u00e9mon Jaune)"
+  },
+  {
+    "EnglishName":"Golbat",
+    "FrenchName":"Nosferalto",
+    "Description":"Sa morsure peut percer l'\u00e9piderme le plus dur. Il peut ainsi boire le sang de ses ennemis. (Pok\u00e9mon Jaune)"
+  },
+  {
+    "EnglishName":"Oddish",
+    "FrenchName":"Mystherbe",
+    "Description":"En journ\u00e9e, il plante ses pieds-racines dans le sol. La nuit, il se prom\u00e8ne en semant des graines. (Pok\u00e9mon Diamant, Perle et Platine)"
+  },
+  {
+    "EnglishName":"Gloom",
+    "FrenchName":"Ortide",
+    "Description":"Il s\u00e9cr\u00e8te un miel gluant, semblable \u00e0 de la bave. Il est sucr\u00e9 mais sent beaucoup trop mauvais. (Pok\u00e9mon Argent SoulSilver)"
+  },
+  {
+    "EnglishName":"Vileplume",
+    "FrenchName":"Rafflesia",
+    "Description":"Il vaporise une poudre allergisante depuis ses larges p\u00e9tales. Plus les p\u00e9tales sont grands, plus la poudre est abondante. (Pokemon Stadium)"
+  },
+  {
+    "EnglishName":"Venonat",
+    "FrenchName":"Mimitoss",
+    "Description":"Il vit \u00e0 l'ombre des grands arbres o\u00f9 il se nourrit d'insectes. Il est attir\u00e9 par la lumi\u00e8re. (Pok\u00e9mon Noir2)"
+  },
+  {
+    "EnglishName":"Venomoth",
+    "FrenchName":"A\u00e9romite",
+    "Description":"Il bat des ailes violemment pour projeter des poudres empoisonn\u00e9es vers ses adversaires. (Pok\u00e9mon Or HeartGold)"
+  },
+  {
+    "EnglishName":"Diglett",
+    "FrenchName":"Taupiqueur",
+    "Description":"Ce Pok\u00e9mon laboure le sol et le fertilise avec ses d\u00e9jections. Pour cette raison, beaucoup d'agriculteurs l'\u00e9l\u00e8vent avec soin. (Pok\u00e9mon Lune)"
+  },
+  {
+    "EnglishName":"Dugtrio",
+    "FrenchName":"Triopikeur",
+    "Description":"Terriblement puissant, il peut creuser un tunnel sur tout type de sol et jusqu'\u00e0 100 Km de profondeur. (Pok\u00e9mon Argent)"
+  },
+  {
+    "EnglishName":"Meowth",
+    "FrenchName":"Miaouss",
+    "Description":"Il est surtout actif la nuit. Il aime chaparder les objets ronds et brillants. (Pok\u00e9mon Jaune)"
+  },
+  {
+    "EnglishName":"Psyduck",
+    "FrenchName":"Psykokwak",
+    "Description":"Ses migraines r\u00e9veillent chez lui des zones du cerveau qui lui donnent des pouvoirs \u00e9tonnants. (Pok\u00e9mon Noir & Blanc 2)"
+  },
+  {
+    "EnglishName":"Golduck",
+    "FrenchName":"Akwakwak",
+    "Description":"Il nage si bien qu'il rejoint souvent des nageurs professionnels \u00e0 l'entrainement. Il utilise ses pouvoirs psychiques quand la lumi\u00e8re sur son front s'allume. (Pok\u00e9mon Emeraude)"
+  },
+  {
+    "EnglishName":"Mankey",
+    "FrenchName":"F\u00e9rosinge",
+    "Description":"Il se met en col\u00e8re tr\u00e8s vite. Calme ou furieux, son humeur change d'une seconde \u00e0 l'autre. (Pok\u00e9mon Vert Feuille)"
+  },
+  {
+    "EnglishName":"Primeape",
+    "FrenchName":"Colosinge",
+    "Description":"Il cherchera \u00e0 castagner celui qui le d\u00e9range, m\u00eame s'il doit le poursuivre jusqu'au bout du monde. (Pok\u00e9mon Cristal)"
+  },
+  {
+    "EnglishName":"Growlithe",
+    "FrenchName":"Caninos",
+    "Description":"Il est courageux et fier. Il se dresse vaillamment devant ses ennemis m\u00eame s'ils sont plus puissants. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Arcanine",
+    "FrenchName":"Arcanin",
+    "Description":"Un Pok\u00e9mon tr\u00e8s recherch\u00e9 pour sa gr\u00e2ce l\u00e9gendaire. Son pas \u00e9l\u00e9gant semble glisser sur le vent. (Pok\u00e9mon Rouge et Bleu)"
+  },
+  {
+    "EnglishName":"Poliwag",
+    "FrenchName":"Ptitard",
+    "Description":"La spirale sur son ventre est un organe interne visible en transparence tant sa peau est fine. Il nage mieux qu'il ne marche. (Pok\u00e9mon Stadium)"
+  },
+  {
+    "EnglishName":"Poliwhirl",
+    "FrenchName":"T\u00eatarte",
+    "Description":"Le tourbillon sur son ventre bouge l\u00e9g\u00e8rement. Le regarder longtemps peut engendrer une somnolence. (Pok\u00e9mon Or HeartGold)"
+  },
+  {
+    "EnglishName":"Poliwrath",
+    "FrenchName":"Tartard",
+    "Description":"Les muscles solides et surd\u00e9velopp\u00e9es de Tartard ne se fatiguent jamais, quels que soient les efforts qu'il produit. Ce Pok\u00e9mon est tellement infatigable qu'il peut traverser l'Oc\u00e9an Pacifique \u00e0 la nage avec une \u00e9tonnante facilit\u00e9. (Pok\u00e9mon Rubis et Saphir)"
+  },
+  {
+    "EnglishName":"Machop",
+    "FrenchName":"Machoc",
+    "Description":"Tr\u00e8s puissant malgr\u00e9 sa petite taille, il est pass\u00e9 ma\u00eetre en plusieurs types d'arts martiaux. (Pok\u00e9mon Jaune)"
+  },
+  {
+    "EnglishName":"Machoke",
+    "FrenchName":"Machopeur",
+    "Description":"Les muscles toniques de celui ci sont durs comme de l'acier. Ce Pok\u00e9mon est si fort qu'il peut facilement soulever un sumo avec un seul doigt. (Pok\u00e9mon Rubis)"
+  },
+  {
+    "EnglishName":"Machamp",
+    "FrenchName":"Mackogneur",
+    "Description":"La puissance et la rapidit\u00e9 de ses quatre bras puissants font des ravages sur ses adversaires. (Pok\u00e9mon Platine)"
+  },
+  {
+    "EnglishName":"Bellsprout",
+    "FrenchName":"Chetiflor",
+    "Description":"Son corps long et flexible lui permet de se tordre et d'osciller pour \u00e9viter tout type d'attaque. Il crache un fluide corrosif qui peut m\u00eame dissoudre le fer. (Pok\u00e9mon Emeraude)"
+  },
+  {
+    "EnglishName":"Weepinbell",
+    "FrenchName":"Boustiflor",
+    "Description":"Un Pok\u00e9mon v\u00e9g\u00e9tal. Il capture les proies \u00e9tourdies en les endormant \u00e0 l'aide d'une poudre toxique. (Pok\u00e9mon Noir et Blanc)"
+  },
+  {
+    "EnglishName":"Victreebel",
+    "FrenchName":"Empiflor",
+    "Description":"Il attire ses proies avec une odeur de miel et les avale tout enti\u00e8res. Il les dig\u00e8re en un jour seulement, les os y compris. (Pok\u00e9mon let's go Evoli & Pikachu)"
+  },
+  {
+    "EnglishName":"Geodude",
+    "FrenchName":"Racaillou",
+    "Description":"Il vit dans les plaines ou les montagnes. On le confond souvent avec un petit caillou. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Graveler",
+    "FrenchName":"Gravalanch",
+    "Description":"Il d\u00e9vale les pentes le long des montagnes, et traverse les obstacles en les pulv\u00e9risant. (Pok\u00e9mon Jaune)"
+  },
+  {
+    "EnglishName":"Golem",
+    "FrenchName":"Grolem",
+    "Description":"Sa peau de pierre est si dure que m\u00eame de la dynamite ne peut la fendre. (Pok\u00e9mon Cristal)"
+  },
+  {
+    "EnglishName":"Rapidash",
+    "FrenchName":"Galopa",
+    "Description":"Son galop d\u00e9passe les 240 Km/h. Il file comme une fl\u00e8che, laissant flotter sa crini\u00e8re ardente. (Pok\u00e9mon Diamant)"
+  },
+  {
+    "EnglishName":"Slowpoke",
+    "FrenchName":"Ramoloss",
+    "Description":"Il semble toujours perdu dans ses pens\u00e9es, mais personne ne sait vraiment \u00e0 quoi il pense. Il adore p\u00eacher en utilisant sa queue. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Slowbro",
+    "FrenchName":"Flagadoss",
+    "Description":"Chaque fois que Kokiyas mord avec force, il a soudain une id\u00e9e de g\u00e9nie, mais il l'oublie imm\u00e9diatement. (Pok\u00e9mon Lune)"
+  },
+  {
+    "EnglishName":"Magnemite",
+    "FrenchName":"Magn\u00e9ti",
+    "Description":"Les parties sur les c\u00f4t\u00e9s de son corps g\u00e9n\u00e8rent une \u00e9nergie lui permettant de l\u00e9viter. (Pokemon X)"
+  },
+  {
+    "EnglishName":"Magneton",
+    "FrenchName":"Magn\u00e9ton",
+    "Description":"Quand de gros nuages de pluie s'amoncellent dans le ciel, ils se rassemblent sur les hauteurs pour attendre la foudre. (Pok\u00e9mon Ultra-Lune)"
+  },
+  {
+    "EnglishName":"Farfetch\u2019d",
+    "FrenchName":"Canarticho",
+    "Description":"Ce Pok\u00e9mon se prom\u00e8ne toujours en tenant un l\u00e9gume. Il l'utilise pour faire son nid. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Seel",
+    "FrenchName":"Otaria",
+    "Description":"Il chasse ses proie dans l'eau gel\u00e9e, sous la couche de glace. Lorsqu'il cherche \u00e0 respirer, il perce un trou en frappant la glace avec la partie saillante de sa t\u00eate. (Pok\u00e9mon Rubis Om\u00e9ga et Saphir Alpha et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Dewgong",
+    "FrenchName":"Lamantine",
+    "Description":"Il adore piquer un roupillon \u00e0 m\u00eame la glace. Il y a tr\u00e8s longtemps, un marin ayant aper\u00e7u ce Pok\u00e9mon dormant sur un glacier a cru voir une sir\u00e8ne. (Pok\u00e9mon Rubis Om\u00e9ga et Saphir Alpha et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Grimer",
+    "FrenchName":"Tadmorv",
+    "Description":"Il est n\u00e9 dans la vase pollu\u00e9e des fonds marins. Dans les lieux trop propres, sa flore bact\u00e9rienne ne peut prolif\u00e9rer et il d\u00e9p\u00e9rit. (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Muk",
+    "FrenchName":"Grotadmorv",
+    "Description":"Ce Pok\u00e9mon ne mange que ce qui est r\u00e9pugnant et abject. Ils se rassemblent dans les villes o\u00f9 les gens jettent tout par terre, dans la rue. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Shellder",
+    "FrenchName":"Kokiyas",
+    "Description":"Prot\u00e9g\u00e9 par une carapace tr\u00e8s r\u00e9sistante, il est vuln\u00e9rable quand celle-ci s'ouvre. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Cloyster",
+    "FrenchName":"Crustabri",
+    "Description":"Sa coquille est extr\u00eamement r\u00e9sistante. Rien ne peut la d\u00e9truire, pas m\u00eame une bombe. Il ne l'ouvre que lorsqu'il attaque. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Gastly",
+    "FrenchName":"Fantominus",
+    "Description":"Il est compos\u00e9 \u00e0 95% de gaz toxiques. Les 5% restants ? Aux dires de certains, il s'agirait d'un m\u00e9lange de gaz toxiques et d'\u00e2mes damn\u00e9es. (Pok\u00e9mon Ultra-Lune)"
+  },
+  {
+    "EnglishName":"Haunter",
+    "FrenchName":"Spectrum",
+    "Description":"Il vole l'\u00e9nergie vitale de l'ennemi d'un coup de langue gazeuse. Il aime chasser dans l'ombre. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Gengar",
+    "FrenchName":"Ectoplasma",
+    "Description":"Parfois, pendant les nuits noires, une ombre projet\u00e9e par une r\u00e9verb\u00e8re peut tout \u00e0 coup vous d\u00e9passer. Il s'agit d'un pok\u00e9mon qui court, en se faisant passer pour l'ombre de quelqu'un d'autre. (Pok\u00e9mon Rubis Om\u00e9ga et Saphir Alpha et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Drowzee",
+    "FrenchName":"Soporifik",
+    "Description":"Il endort ses ennemis et d\u00e9vore leurs songes. S\u2019il mange trop de cauchemars, il fait une indigestion. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Hypno",
+    "FrenchName":"Hypnomade",
+    "Description":"il rencontre quelqu'un, il l'endort et go\u00fbte ses r\u00eaves. S'ils ont bon go\u00fbt, il emporte la personne avec lui. (Pok\u00e9mon Lune)"
+  },
+  {
+    "EnglishName":"Kingler",
+    "FrenchName":"Krabboss",
+    "Description":"Sa grosse pince, dure comme de l'acier, est d'une puissance incommensurable, mais elle est trop lourde. (Pok\u00e9mon : Let's Go, Pikachu et Let's Go, \u00c9voli)"
+  },
+  {
+    "EnglishName":"Voltorb",
+    "FrenchName":"Voltorbe",
+    "Description":"On dit qu'il se d\u00e9guise en Pok\u00e9 Ball. Il s'autod\u00e9truit \u00e0 la moindre stimulation. (Pok\u00e9mon : Let's Go, Pikachu et Let's Go, \u00c9voli)"
+  },
+  {
+    "EnglishName":"Electrode",
+    "FrenchName":"\u00c9lectrode",
+    "Description":"Il mange l'\u00e9lectricit\u00e9 qui se trouve dans l'atmosph\u00e8re. Les jours d'orage, on peut voir ce Pok\u00e9mon exploser sans arr\u00eat parce qu'il a aval\u00e9 trop d'\u00e9lectricit\u00e9. (Pok\u00e9mon Rubis Om\u00e9ga et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Exeggcute",
+    "FrenchName":"Noeunoeuf",
+    "Description":"Six pour le prix d\u2019un ! Si par malheur l\u2019un d\u2019entre eux dispara\u00eet, il est remplac\u00e9 d\u00e8s le lendemain matin par une nouvelle recrue. (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Exeggutor",
+    "FrenchName":"Noadkoko",
+    "Description":"Il frappe ses adversaires de ses pouvoirs psychiques. Comme il a trois t\u00eates, la puissance de ses attaques s\u2019en voit tripl\u00e9e. (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Cubone",
+    "FrenchName":"Osselait",
+    "Description":"La nuit, il pense avec nostalgie \u00e0 sa d\u00e9funte m\u00e8re et \u00e9clate en sanglots. Vaututrice, son pr\u00e9dateur, le localise au son de ses pleurs. (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Marowak",
+    "FrenchName":"Ossatueur",
+    "Description":"Il lance le grand os comme un boomerang pour terrasser son ancien pr\u00e9dateur, les Vaututrice, pour se venger. (Pok\u00e9mon Lune)"
+  },
+  {
+    "EnglishName":"Hitmonlee",
+    "FrenchName":"Kicklee",
+    "Description":"Il peut r\u00e9tracter et allonger ses jambes \u00e0 sa guise. La formidable allonge dont il dispose lui donne souvent l'avantage en plein combat. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Hitmonchan",
+    "FrenchName":"Tygnon",
+    "Description":"M\u00eame le b\u00e9ton c\u00e8de sous ses poings d\u00e9vastateurs. Au combat, il s'essouffle au bout de 3 minutes. (Pok\u00e9mon Perle)"
+  },
+  {
+    "EnglishName":"Lickitung",
+    "FrenchName":"Excelangue",
+    "Description":"Sa langue mesure 2m et elle est plus maniable que ses pattes. Son contact provoque la paralysie. (Pok\u00e9mon Jaune)"
+  },
+  {
+    "EnglishName":"Koffing",
+    "FrenchName":"Smogo",
+    "Description":"Sa fine enveloppe est remplie de gaz qui provoquent en permanence des reniflements et des irritations. (Pok\u00e9mon Or HeartGold)"
+  },
+  {
+    "EnglishName":"Weezing",
+    "FrenchName":"Smogogo",
+    "Description":"Il r\u00e9tr\u00e9cit ou gonfle ses deux corps pour m\u00e9langer les gaz toxiques qui s'y trouvent. Lorsque les gaz sont bien m\u00e9lang\u00e9s, la toxine devient tr\u00e8s puissante. Le Pok\u00e9mon se putr\u00e9fie aussi un peu plus. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Rhyhorn",
+    "FrenchName":"Rhinocorne",
+    "Description":"Son cerveau est tout petit, \u00e0 tel point que lorsqu'il attaque, il lui arrive d'oublier pourquoi il a commenc\u00e9 \u00e0 charger. Il lui arrive de se souvenir qu'il a d\u00e9moli certaines choses. (Pok\u00e9mon Rubis)"
+  },
+  {
+    "EnglishName":"Rhydon",
+    "FrenchName":"Rhinof\u00e9ros",
+    "Description":"En faisant tourner sa corne comme une perceuse, il peut m\u00eame briser un diamant \u00e0 l'\u00e9tat brut. (Pok\u00e9mon Cristal)"
+  },
+  {
+    "EnglishName":"Chansey",
+    "FrenchName":"Leveinard",
+    "Description":"Un Pok\u00e9mon rare et difficile \u00e0 capturer qui porte chance et bien-\u00eatre \u00e0 son possesseur. (Pok\u00e9mon Bleu)"
+  },
+  {
+    "EnglishName":"Tangela",
+    "FrenchName":"Saquedeneu",
+    "Description":"Ses lianes s'allongent au fil du temps. Elles recouvrent tout son corps, dont on ignore la v\u00e9ritable forme. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Kangaskhan",
+    "FrenchName":"Kangourex",
+    "Description":"La femelle \u00e9l\u00e8ve son petit dans sa poche ventrale pendant pr\u00e8s de trois ans. Celui-ci sort une fois capable de se nourrir. (Pok\u00e9mon Stadium)"
+  },
+  {
+    "EnglishName":"Horsea",
+    "FrenchName":"Hypotrempe",
+    "Description":"Il niche \u00e0 l'ombre du corail. Quand il se sent menac\u00e9, il dispara\u00eet dans un nuage d'encre opaque. (Pok\u00e9mon Platine)"
+  },
+  {
+    "EnglishName":"Seadra",
+    "FrenchName":"Hypoc\u00e9an",
+    "Description":"Le contact de ses nageoires dorsales engourdit. Il ancre sa queue au corail quand il dort pour \u00e9viter que le courant ne l'emporte. (Pok\u00e9mon : Let's Go, Pikachu et Let's Go, \u00c9voli)"
+  },
+  {
+    "EnglishName":"Goldeen",
+    "FrenchName":"Poissir\u00e8ne",
+    "Description":"Sa queue ondule gracieusement comme un voile. On l'appelle Reine des oc\u00e9ans. (Pok\u00e9mon Rouge)"
+  },
+  {
+    "EnglishName":"Seaking",
+    "FrenchName":"Poissoroy",
+    "Description":"Il existe deux types de Dresseurs de ce Pok\u00e9mon : ceux qui aiment sa corne et ceux qui pr\u00e9f\u00e8rent ses nageoires. Les deux groupes se d\u00e9testent. (Pok\u00e9mon Lune)"
+  },
+  {
+    "EnglishName":"Staryu",
+    "FrenchName":"Stari",
+    "Description":"On peut voir ces Pok\u00e9mon en grand nombre pr\u00e8s des c\u00f4tes. La nuit, le centre de son corps clignote d'une lumi\u00e8re rouge. (Pok\u00e9mon Rouge Feu)"
+  },
+  {
+    "EnglishName":"Starmie",
+    "FrenchName":"Staross",
+    "Description":"Staross nage en faisant tournoyer son corps en forme d'\u00e9toile, un peu \u00e0 la mani\u00e8re d'une h\u00e9lice de bateau. le c\u0153ur au centre du corps de ce Pok\u00e9mon brille de sept couleurs. (Pok\u00e9mon Saphir)"
+  },
+  {
+    "EnglishName":"Mr. Mime",
+    "FrenchName":"M. Mime",
+    "Description":"Il utilise un curieux pouvoir contenu dans ses doigts pour solidifier l'air en un mur invisible. (Pok\u00e9mon Cristal)"
+  },
+  {
+    "EnglishName":"Scyther",
+    "FrenchName":"Ins\u00e9cateur",
+    "Description":"Bondissant hors de l'herbe comme un ninja, il lac\u00e8re sa proie de ses griffes ac\u00e9r\u00e9es. (Pok\u00e9mon Jaune)"
+  },
+  {
+    "EnglishName":"Jynx",
+    "FrenchName":"Lippoutou",
+    "Description":"Il marche en rythme, ondule de tout son corps et se d\u00e9hanche comme s'il dansait. Ses mouvements sont si communicatifs que les gens qui le voient sont soudain pris d'une terrible envie de bouger les hanches, sans r\u00e9fl\u00e9chir. (Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Electabuzz",
+    "FrenchName":"Elektek",
+    "Description":"Stocker l'\u00e9nergie de la foudre dans ces Pok\u00e9mon pour qu'elle soit disponible \u00e0 tout moment est un projet \u00e0 l'\u00e9tude. (Pok\u00e9mon Noir 2 et Blanc 2)"
+  },
+  {
+    "EnglishName":"Pinsir",
+    "FrenchName":"Scarabrute",
+    "Description":"Quand il ne peut \u00e9craser sa proie avec sa pince, il la secoue et l'envoie dans les airs. (Pok\u00e9mon Bleu)"
+  },
+  {
+    "EnglishName":"Magikarp",
+    "FrenchName":"Magicarpe",
+    "Description":"Un Pok\u00e9mon tout \u00e0 fait path\u00e9tique. Il peut juste sauter haut en de rares occasions. (Pok\u00e9mon Or)"
+  },
+  {
+    "EnglishName":"Gyarados",
+    "FrenchName":"L\u00e9viator",
+    "Description":"Gigantesque et mal\u00e9fique, il est capable de raser une ville enti\u00e8re dans un acc\u00e8s de rage. (Pok\u00e9mon Vert Feuille)"
+  },
+  {
+    "EnglishName":"Lapras",
+    "FrenchName":"Lokhlass",
+    "Description":"Ce Pok\u00e9mon tr\u00e8s intelligent comprend le langage humain. Il adore parcourir les mers avec des gens sur son dos. (Pok\u00e9mon Blanc 2)"
+  },
+  {
+    "EnglishName":"Ditto",
+    "FrenchName":"M\u00e9tamorph",
+    "Description":"Quand il rep\u00e8re un ennemi, il adapte son corps pour en faire une copie presque parfaite de celui de son adversaire. (Pok\u00e9mon Let's Go)"
+  },
+  {
+    "EnglishName":"Eevee",
+    "FrenchName":"\u00c9voli",
+    "Description":"Un Pok\u00e9mon rare qui s'adapte aux environnements hostiles en variant ses formes \u00e9volutives. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Vaporeon",
+    "FrenchName":"Aquali",
+    "Description":"Il a \u00e9volu\u00e9 pour s'adapter au milieu aquatique. Il peut se fondre et dispara\u00eetre dans l'\u00e9l\u00e9ment liquide. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Jolteon",
+    "FrenchName":"Voltali",
+    "Description":"Quand son pelage se h\u00e9risse, c'est signe qu'il va projeter de l'\u00e9lectricit\u00e9. Attention, car il arrive que la foudre tombe pr\u00e8s de lui. (Pok\u00e9mon Lune)"
+  },
+  {
+    "EnglishName":"Flareon",
+    "FrenchName":"Pyroli",
+    "Description":"La fourrure soyeuse de ce Pok\u00e9mon a une fonction anatomique. Elle rejette la chaleur dans l'air pour que son corps ne surchauffe pas. La temp\u00e9rature du corps de ce Pok\u00e9mon peut atteindre 900\u00b0C. (Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Omanyte",
+    "FrenchName":"Amonita",
+    "Description":"Un Pok\u00e9mon pr\u00e9historique qui vivait dans les profondeurs marines. Il se d\u00e9place en agitant ses 10 tentacules. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Omastar",
+    "FrenchName":"Amonistar",
+    "Description":"On suppose que ce Pok\u00e9mon antique a disparu en raison de la lourdeur de sa coquille. Il est l'anc\u00eatre pr\u00e9sum\u00e9 des Octillery. (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Aerodactyl",
+    "FrenchName":"Pt\u00e9ra",
+    "Description":"Un Pok\u00e9mon qui arpentait le ciel au temps des dinosaures. Ses crocs sont pareils \u00e0 des scies. (Pok\u00e9mon Diamant)"
+  },
+  {
+    "EnglishName":"Snorlax",
+    "FrenchName":"Ronflex",
+    "Description":"Ce Pok\u00e9mon n'est pas satisfait tant qu'il n'a pas aval\u00e9 ses 400 kilos de nourriture quotidienne. D\u00e8s qu'il a fini de manger, il commence une sieste pour dig\u00e9rer. (Pok\u00e9mon Rouge Feu)"
+  },
+  {
+    "EnglishName":"Articuno",
+    "FrenchName":"Artikodin",
+    "Description":"Les majestueuses ailes translucides de ce Pok\u00e9mon l\u00e9gendaire semblent \u00eatre faites de givre. (Pok\u00e9mon Or HeartGold)"
+  },
+  {
+    "EnglishName":"Zapdos",
+    "FrenchName":"\u00c9lecthor",
+    "Description":"Ce Pok\u00e9mon l\u00e9gendaire annonce l'arriv\u00e9e de nuages noirs, d'\u00e9clairs et d'averses. (Pok\u00e9mon Jaune)"
+  },
+  {
+    "EnglishName":"Moltres",
+    "FrenchName":"Sulfura",
+    "Description":"Le l\u00e9gendaire oiseau du feu. Une pluie de flammes surgit \u00e0 chaque battement de ses ailes. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Dratini",
+    "FrenchName":"Minidraco",
+    "Description":"Il grandit en muant quasiment tous les jours. Sa peau est toute douce apr\u00e8s la mue. (Pok\u00e9mon Ultra Lune)"
+  },
+  {
+    "EnglishName":"Dragonair",
+    "FrenchName":"Draco",
+    "Description":"On l'appelle le Pok\u00e9mon divin. Quand son corps brille l\u00e9g\u00e8rement, le climat change. (Pok\u00e9mon Cristal)"
+  },
+  {
+    "EnglishName":"Dragonite",
+    "FrenchName":"Dracolosse",
+    "Description":"Il est capable de faire le tour de la plan\u00e8te en seize heures \u00e0 peine. C'est un Pok\u00e9mon au grand c\u0153ur qui ram\u00e8ne \u00e0 bon port les navires perdus dans les temp\u00eates. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Chikorita",
+    "FrenchName":"Germignon",
+    "Description":"Il jauge la temp\u00e9rature et l'humidit\u00e9 gr\u00e2ce \u00e0 la feuille sur sa t\u00eate. Il raffole des bains de soleil. (Pok\u00e9mon Noir et Blanc)"
+  },
+  {
+    "EnglishName":"Bayleef",
+    "FrenchName":"Macronium",
+    "Description":"Une odeur \u00e9pic\u00e9e provient de son cou. Si on la respire, cette odeur donne envie de se battre. (Pok\u00e9mon Or)"
+  },
+  {
+    "EnglishName":"Meganium",
+    "FrenchName":"M\u00e9ganium",
+    "Description":"Son souffle a l'incroyable capacit\u00e9 de ranimer les plantes et les fleurs fl\u00e9tries. (Pok\u00e9mon Noir 2 et Blanc 2)"
+  },
+  {
+    "EnglishName":"Cyndaquil",
+    "FrenchName":"H\u00e9ricendre",
+    "Description":"Il reste en g\u00e9n\u00e9ral courb\u00e9. S'il est en col\u00e8re ou surpris, des flammes jaillissent de son dos. (Pok\u00e9mon Argent et Pok\u00e9dex Deluxe (Tiger))"
+  },
+  {
+    "EnglishName":"Quilava",
+    "FrenchName":"Feurisson",
+    "Description":"Les flammes \u00e9manant de son dos grandissent s'il est en col\u00e8re. Il impressionne ainsi ses ennemis. (Pok\u00e9mon Cristal)"
+  },
+  {
+    "EnglishName":"Typhlosion",
+    "FrenchName":"Typhlosion",
+    "Description":"Quand il est en rage, il devient si br\u00fblant que tout ce qu'il touche devient instantan\u00e9ment enflamm\u00e9. (Pok\u00e9dex Deluxe (Tiger))"
+  },
+  {
+    "EnglishName":"Totodile",
+    "FrenchName":"Kaiminus",
+    "Description":"Malgr\u00e9 son tout petit corps, sa est tr\u00e8s puissante. Parfois, ce Pok\u00e9mon mordille les gens pour jouer, sans se rendre compte que sa morsure peut gravement blesser quelqu'un. (Pok\u00e9mon Rubis et Saphir)"
+  },
+  {
+    "EnglishName":"Croconaw",
+    "FrenchName":"Crocrodil",
+    "Description":"Quand il a referm\u00e9 sa m\u00e2choire sur son ennemi, il ne l\u00e2che pas prise. Ses crocs recourb\u00e9s comme des hame\u00e7ons ne peuvent pas \u00eatre retir\u00e9s une fois enfonc\u00e9s. (Pok\u00e9mon \u00c9meraude)"
+  },
+  {
+    "EnglishName":"Feraligatr",
+    "FrenchName":"Aligatueur",
+    "Description":"Quand il mord avec sa puissante m\u00e2choire, il secoue sa t\u00eate pour d\u00e9chiqueter sa pauvre victime. (Pok\u00e9mon Vert Feuille)"
+  },
+  {
+    "EnglishName":"Sentret",
+    "FrenchName":"Fouinette",
+    "Description":"Ce Pok\u00e9mon tr\u00e8s nerveux prend appui sur sa queue pour observer ses alentours. (Pok\u00e9mon Diamant, Perle et Platine)"
+  },
+  {
+    "EnglishName":"Furret",
+    "FrenchName":"Fouinar",
+    "Description":"La femelle s'enroule autour des petits pour les bercer. Il accule l'ennemi gr\u00e2ce \u00e0 sa vitesse. (Pok\u00e9mon Diamant, Perle et Platine)"
+  },
+  {
+    "EnglishName":"Noctowl",
+    "FrenchName":"Noarfang",
+    "Description":"Quand il r\u00e9fl\u00e9chit, il tourne sa t\u00eate \u00e0 180 degr\u00e9s pour optimiser son mode de pens\u00e9e. (Pok\u00e9mon Argent SoulSilver)"
+  },
+  {
+    "EnglishName":"Ledyba",
+    "FrenchName":"Coxy",
+    "Description":"Il est si timide qu'il ne se d\u00e9place qu'au milieu d'un essaim. Il exprime ses \u00e9motions par l'odeur. (Pok\u00e9mon Noir et Blanc)"
+  },
+  {
+    "EnglishName":"Ledian",
+    "FrenchName":"Coxyclaque",
+    "Description":"Il tire sa force de la lumi\u00e8re des \u00e9toiles. Plus il y en a et plus ses motifs dorsaux sont grands. (Pok\u00e9mon Noir et Blanc)"
+  },
+  {
+    "EnglishName":"Spinarak",
+    "FrenchName":"Mimigal",
+    "Description":"Il reste immobile dans sa toile pendant des jours. Il attend que sa proie se rapproche pour la capturer. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Ariados",
+    "FrenchName":"Migalos",
+    "Description":"Il peut produire des fils de soie par l'arri\u00e8re-train ou par la bouche. Il est difficile de diff\u00e9rencier les deux. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Crobat",
+    "FrenchName":"Nostenfer",
+    "Description":"Lorsqu'il vole depuis longtemps, il utilise ses ailes ant\u00e9rieures ou post\u00e9rieures en alternance. Il peut ais\u00e9ment changer de paire d'ailes lorsqu'il est fatigu\u00e9. (Pok\u00e9mon Rubis Om\u00e9ga et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Chinchou",
+    "FrenchName":"Loupio",
+    "Description":"Ses deux antennes sont charg\u00e9es de cellules qui g\u00e9n\u00e8rent un courant de forte intensit\u00e9. Ces cellules lib\u00e8rent tellement d'\u00e9lectricit\u00e9 qu'elles vibrent l\u00e9g\u00e8rement. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Cleffa",
+    "FrenchName":"M\u00e9lo",
+    "Description":"Les nuits o\u00f9 les \u00e9toiles filantes inondent le ciel, il danse en cercle avec ses cong\u00e9n\u00e8res. On dit qu\u2019admirer ce spectacle porte bonheur (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Igglybuff",
+    "FrenchName":"Toudoudou",
+    "Description":"Il adore chanter, mais il n'est pas encore tr\u00e8s dou\u00e9. Il s'am\u00e9liore progressivement si on le complimente suffisamment. (Pok\u00e9mon Soleil)"
+  },
+  {
+    "EnglishName":"Mareep",
+    "FrenchName":"Wattouat",
+    "Description":"Sa laine fournie enfle lorsqu'il accumule de l'\u00e9lectricit\u00e9 statique. Son contact peut choquer. (Pok\u00e9mon Diamant, Perle et Platine)"
+  },
+  {
+    "EnglishName":"Flaaffy",
+    "FrenchName":"Lainergie",
+    "Description":"Sa douce laine stocke facilement l'\u00e9lectricit\u00e9. Sa peau caoutchouteuse pr\u00e9vient l'\u00e9lectrocution. (Pok\u00e9mon Argent SoulSilver)"
+  },
+  {
+    "EnglishName":"Ampharos",
+    "FrenchName":"Pharamp",
+    "Description":"Le bout de sa queue brille avec intensit\u00e9. Jadis, on s'en servait pour envoyer des signaux. (Pok\u00e9mon Noir et Blanc)"
+  },
+  {
+    "EnglishName":"Bellossom",
+    "FrenchName":"Joliflor",
+    "Description":"\u00c0 la fin de la saison des pluies, il sort danser en plein air, attir\u00e9 par la chaleur du soleil. (Pok\u00e9mon Noir et Blanc)"
+  },
+  {
+    "EnglishName":"Sudowoodo",
+    "FrenchName":"Simularbre",
+    "Description":"Il fait semblant d'\u00eatre un arbre. Sa composition est en fait plus proche de la pierre. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Politoed",
+    "FrenchName":"Tarpaud",
+    "Description":"Le cheveu boucl\u00e9 sur sa t\u00eate est la preuve de son statut de roi. On raconte que plus son cheveu est long et boucl\u00e9, plus ce Pok\u00e9mon est respect\u00e9 par ses semblables. (Pok\u00e9mon Rubis Om\u00e9ga et Saphir Alpha et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Hoppip",
+    "FrenchName":"Granivol",
+    "Description":"Il d\u00e9rive avec le vent. Sa pr\u00e9sence en nombre dans les champs et les montagnes annonce le printemps. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Skiploom",
+    "FrenchName":"Floravol",
+    "Description":"Sa fleure \u00e9clot lorsque la temp\u00e9rature atteint 18 degr\u00e9s. Son ouverture change en fonction de la temp\u00e9rature. Certains se servent de lui comme d'un thermom\u00e8tre. (Pok\u00e9mon \u00c9meraude)"
+  },
+  {
+    "EnglishName":"Jumpluff",
+    "FrenchName":"Cotovol",
+    "Description":"Quand il est pris dans le vent, il utilise ses appendices de coton pour voler autour du monde. (Pok\u00e9mon Vert Feuille)"
+  },
+  {
+    "EnglishName":"Aipom",
+    "FrenchName":"Capumain",
+    "Description":"Il guette ses proies depuis la cime des arbres. Quand il aper\u00e7oit un Croquine, son mets pr\u00e9f\u00e9r\u00e9, il se jette dessus. (Pok\u00e9mon Ultra-Lune)"
+  },
+  {
+    "EnglishName":"Sunkern",
+    "FrenchName":"Tournegrin",
+    "Description":"Il vit en buvant la ros\u00e9e sur les feuilles. On dit qu'il ne peut rien avaler d'autre. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Sunflora",
+    "FrenchName":"H\u00e9liatronc",
+    "Description":"Les rayons du soleil lui donnent de l'\u00e9nergie. Il est connu pour migrer vers les r\u00e9gions ensoleill\u00e9es. (Pok\u00e9mon Noir et Blanc)"
+  },
+  {
+    "EnglishName":"Wooper",
+    "FrenchName":"Axoloto",
+    "Description":"Quand il marche sur la terre ferme, il r\u00e9pand une fine couche de poison tout le long de son corps. (Pok\u00e9mon Rouge Feu)"
+  },
+  {
+    "EnglishName":"Quagsire",
+    "FrenchName":"Maraiste",
+    "Description":"Il est si distrait que quand il nage, il se cogne souvent la t\u00eate sur les rochers ou les coques de bateau. (Pok\u00e9mon Rouge Feu)"
+  },
+  {
+    "EnglishName":"Espeon",
+    "FrenchName":"Mentali",
+    "Description":"Son fin pelage enregistre les courants d'air provoqu\u00e9s par les d\u00e9placements de ses ennemis. (Pok\u00e9mon Or)"
+  },
+  {
+    "EnglishName":"Umbreon",
+    "FrenchName":"Noctali",
+    "Description":"Quand la nuit tombe, les anneaux sur son corps se mettent \u00e0 luire, terrorisant ceux qui sont proches. (Pok\u00e9mon Rouge Feu)"
+  },
+  {
+    "EnglishName":"Murkrow",
+    "FrenchName":"Corn\u00e8bre",
+    "Description":"Les gens voient en lui un oiseau de malheur, mais il offre des choses brillantes aux Dresseurs dont il devient l'ami. (Pok\u00e9mon Lune)"
+  },
+  {
+    "EnglishName":"Slowking",
+    "FrenchName":"Roigada",
+    "Description":"Tous les jours, il entreprend des recherches pour r\u00e9soudre les myst\u00e8res du monde. Cependant, ce Pok\u00e9mon oublie tout ce qu'il a appris si le Kokiyas qui se trouve sur sa t\u00eate s'en va. (Pok\u00e9mon \u00c9meraude)"
+  },
+  {
+    "EnglishName":"Misdreavus",
+    "FrenchName":"Feufor\u00eave",
+    "Description":"Il adore faire des blagues, comme crier ou se mettre \u00e0 g\u00e9mir pour faire sursauter les gens en pleine nuit. (Pok\u00e9dex Deluxe (Tiger))"
+  },
+  {
+    "EnglishName":"Unknown",
+    "FrenchName":"Zarbi",
+    "Description":"Ils ressemblent aux vieux hi\u00e9roglyphes inscrits sur les tablettes. Il semble qu\u2019ils y soient li\u00e9s. (Pok\u00e9mon Or HeartGold)"
+  },
+  {
+    "EnglishName":"Wobbuffet",
+    "FrenchName":"Qulbutok\u00e9",
+    "Description":"Il d\u00e9teste la lumi\u00e8re. S'il est attaqu\u00e9, il se gonfle pour riposter avec plus de violence. (Pok\u00e9mon Or)"
+  },
+  {
+    "EnglishName":"Pineco",
+    "FrenchName":"Pomdepik",
+    "Description":"Il ressemble \u00e0 une pomme de pin. Sa carapace le prot\u00e8ge des Pok\u00e9mon Oiseaux qui le picorent par erreur. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Forretress",
+    "FrenchName":"Foretress",
+    "Description":"Il se cache dans sa carapace en acier tremp\u00e9. La carapace s'ouvre quand il attrape sa proie, mais cela va si vite qu'il est impossible de voir \u00e0 l'int\u00e9rieur. (Pok\u00e9mon \u00c9meraude)"
+  },
+  {
+    "EnglishName":"Dunsparce",
+    "FrenchName":"Insolourdo",
+    "Description":"Son nid est un v\u00e9ritable labyrinthe qu'il creuse \u00e0 l'aide de sa queue. Il sait \u00e0 peine voler. (Pok\u00e9mon Noir)"
+  },
+  {
+    "EnglishName":"Gligar",
+    "FrenchName":"Scorplane",
+    "Description":"Il s'accroche souvent aux falaises. Sa proie rep\u00e9r\u00e9e, il plane vers elle pour l'attaquer. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Scizor",
+    "FrenchName":"Cizayox",
+    "Description":"Il utilise ses \u00e9normes pinces dures comme de l'acier pour r\u00e9duire en miettes ceux qu'il identifie comme des ennemis. (Pok\u00e9mon Ultra-Lune)"
+  },
+  {
+    "EnglishName":"Shuckle",
+    "FrenchName":"Caratroc",
+    "Description":"Il stocke des Baies sous sa carapace. Elles fermentent et produisent des jus d\u00e9licieux. (Pok\u00e9mon Platine)"
+  },
+  {
+    "EnglishName":"Heracross",
+    "FrenchName":"Scarhino",
+    "Description":"Il parcourt les for\u00eats \u00e0 la recherche de miel. Il est tr\u00e8s fier de sa force colossale, mais sa capacit\u00e9 \u00e0 voler laisse quelque peu \u00e0 d\u00e9sirer. (Pok\u00e9mon Ultra-Lune)"
+  },
+  {
+    "EnglishName":"Sneasel",
+    "FrenchName":"Farfuret",
+    "Description":"Il fait \u00e9quipe avec ses cong\u00e9n\u00e8res pour voler les \u0153ufs des Pok\u00e9mon oiseaux, mais ils se font la guerre pour d\u00e9cider de qui les mangera. (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Slugma",
+    "FrenchName":"Limagma",
+    "Description":"Son corps est fait de magma. S'il cesse de bouger, il refroidit et durcit. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Magcargo",
+    "FrenchName":"Volcaropod",
+    "Description":"Sa coquille, tr\u00e8s fragile, projette r\u00e9guli\u00e8rement des flammes qui circulent dans son corps. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Swinub",
+    "FrenchName":"Marcacrin",
+    "Description":"Il fouille le sol de sa truffe \u00e0 la recherche de nourriture, et d\u00e9couvre parfois des sources chaudes. (Pok\u00e9mon Noir 2)"
+  },
+  {
+    "EnglishName":"Piloswine",
+    "FrenchName":"Cochignon",
+    "Description":"Il est prot\u00e9g\u00e9 du froid mordant par son \u00e9pais manteaux de fourrure. Ses cornes sont form\u00e9es de glace. (Pok\u00e9mon Platine)"
+  },
+  {
+    "EnglishName":"Corsola",
+    "FrenchName":"Corayon",
+    "Description":"Il vit dans les mers du sud. Si son environnement est pollu\u00e9, ses belles branches perdent leur couleur avant de tomber en morceaux. (Pok\u00e9mon \u00c9meraude)"
+  },
+  {
+    "EnglishName":"Remoraid",
+    "FrenchName":"R\u00e9moraid",
+    "Description":"Se servant de sa nageoire dorsale, il s'accroche sous un D\u00e9manta pour r\u00e9cup\u00e9rer ses restes. (Pok\u00e9mon Rouge Feu)"
+  },
+  {
+    "EnglishName":"Delibird",
+    "FrenchName":"Cadoizo",
+    "Description":"Il passe ses journ\u00e9es \u00e0 transporter de la nourriture. Il l'offre souvent aux gens \u00e9gar\u00e9s en montagne. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Mantine",
+    "FrenchName":"D\u00e9manta",
+    "Description":"Il nage avec \u00e9l\u00e9gance, sans se soucier des R\u00e9moraid coll\u00e9s \u00e0 ses nageoires. Il est de nature docile. (Pok\u00e9mon Perle)"
+  },
+  {
+    "EnglishName":"Skarmory",
+    "FrenchName":"Airmure",
+    "Description":"Son plumage d'acier, bien que tr\u00e8s r\u00e9sistant, est sujet \u00e0 la rouille. C'est pourquoi ce Pok\u00e9mon pr\u00e9f\u00e9rera rester au nid les jours de pluie. (Pok\u00e9mon Lune)"
+  },
+  {
+    "EnglishName":"Houndour",
+    "FrenchName":"Malosse",
+    "Description":"Il \u00e9met toutes sortes de cris pour communiquer avec ses semblables ou pour chasser une proie. (Pok\u00e9mon Vert Feuille)"
+  },
+  {
+    "EnglishName":"Houndoom",
+    "FrenchName":"D\u00e9molosse",
+    "Description":"Il crache des flammes empoisonn\u00e9es pour achever ses proies, qu'il partage avec les autres membres de sa meute. (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Kingdra",
+    "FrenchName":"Hyporoi",
+    "Description":"Il dort au plus profond de l'oc\u00e9an pour accumuler de l'\u00e9nergie. Son r\u00e9veil cause des tornades. (Pok\u00e9mon Argent SoulSilver)"
+  },
+  {
+    "EnglishName":"Stantler",
+    "FrenchName":"Cerfrousse",
+    "Description":"Les boules sur ses bois peuvent \u00eatre r\u00e9duites en poudre pour cr\u00e9er un somnif\u00e8re. (Pok\u00e9mon Cristal)"
+  },
+  {
+    "EnglishName":"Smeargle",
+    "FrenchName":"Queulorior",
+    "Description":"Ce Pok\u00e9mon marque son territoire en peignant \u00e0 l'aide du liquide suintant du bout de sa queue. (Pok\u00e9mon Soleil)"
+  },
+  {
+    "EnglishName":"Tyrogue",
+    "FrenchName":"Debugant",
+    "Description":"Il devient nerveux s'il ne s'entra\u00eene pas tous les jours. Lorsqu'un dresseur \u00e9l\u00e8ve ce Pok\u00e9mon, il doit \u00e9tablir et appliquer un programme d'entra\u00eenement tr\u00e8s complet. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Hitmontop",
+    "FrenchName":"Kapoera",
+    "Description":"Si vous \u00eates fascin\u00e9 par sa danse de coups de pieds, vous risquez de le regretter. (Pok\u00e9mon Or)"
+  },
+  {
+    "EnglishName":"Smoochum",
+    "FrenchName":"Lippouti",
+    "Description":"Il go\u00fbte \u00e0 tout du bout des l\u00e8vres. Elles gardent en m\u00e9moire ses go\u00fbts et ses d\u00e9go\u00fbts. (Pok\u00e9mon Diamant)"
+  },
+  {
+    "EnglishName":"Miltank",
+    "FrenchName":"Ecr\u00e9meuh",
+    "Description":"Si elle vient d'avoir un petit, son lait est bien plus nutritif que d'habitude. (Pok\u00e9mon Argent)"
+  },
+  {
+    "EnglishName":"Blissey",
+    "FrenchName":"Leuphorie",
+    "Description":"Il est d'une nature protectrice. S'il voit un Pok\u00e9mon malade, il le soignera jusqu'\u00e0 ce qu'il gu\u00e9risse. (Pok\u00e9mon Rouge Feu)"
+  },
+  {
+    "EnglishName":"Larvitar",
+    "FrenchName":"Embrylex",
+    "Description":"N\u00e9 sous terre, il ne peut atteindre la surface que s'il a mang\u00e9 toute la terre qui l'entoure. (Pok\u00e9mon Argent SoulSilver)"
+  },
+  {
+    "EnglishName":"Pupitar",
+    "FrenchName":"Ymphect",
+    "Description":"Son corps est dur comme la pierre souterraine. Il file comme une fus\u00e9e en expulsant des gaz. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Tyranitar",
+    "FrenchName":"Tyranocif",
+    "Description":"Lorsqu'il est en col\u00e8re, il abat des montagnes et enterre des fleuves. On doit alors modifier les cartes. (Pok\u00e9mon Noir et Blanc)"
+  },
+  {
+    "EnglishName":"Treecko",
+    "FrenchName":"Arcko",
+    "Description":"Il peut grimper aux murs \u00e0 l'aide de ses pattes. Gr\u00e2ce \u00e0 sa queue, il est capable de mesurer l'humidit\u00e9 de l'air et de pr\u00e9dire le temps du jour suivant. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Grovyle",
+    "FrenchName":"Massko",
+    "Description":"Les feuilles qui poussent sur son corps sont bien pratiques lorsqu'il veut se camoufler dans la for\u00eat. Ce Pok\u00e9mon est pass\u00e9 ma\u00eetre dans l'art de grimper aux arbres. (Pok\u00e9mon Rubis Om\u00e9ga et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Sceptile",
+    "FrenchName":"Jungko",
+    "Description":"Il parcourt la jungle avec agilit\u00e9 et attaque ses proies gr\u00e2ce aux feuilles tranchantes sur ses bras. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Torchic",
+    "FrenchName":"Poussifeu",
+    "Description":"Il dispose d'un endroit dans son corps pour stocker sa flamme. Si on lui fait un gros c\u00e2lin, sa flamme s'illumine chaleureusement. Ce Pok\u00e9mon est couvert d'un duvet tr\u00e8s doux. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Combusken",
+    "FrenchName":"Galifeu",
+    "Description":"Il combat gr\u00e2ce aux flammes ardentes qu'il crache de son bec et \u00e0 ses coups de pied destructeurs. Le cri de ce Pok\u00e9mon est tr\u00e8s puissant et tr\u00e8s g\u00eanant pour l'adversaire. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Blaziken",
+    "FrenchName":"Bras\u00e9gali",
+    "Description":"Il a des jambes incroyablement puissantes. Il peut sauter par-dessus un immeuble de trente \u00e9tages. Les coups de poing enflamm\u00e9s de ce Pok\u00e9mon peuvent carboniser ses ennemis. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Mudkip",
+    "FrenchName":"Gobou",
+    "Description":"Sous l'eau, il peut respirer gr\u00e2ce aux branchies sur ses joues. S'il se retrouve en difficult\u00e9 pendant un combat, ce Pok\u00e9mon d\u00e9cha\u00eene ses pouvoirs incroyables. Il peut d\u00e9truire des rochers plus gros que lui. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Marshtomp",
+    "FrenchName":"Flobio",
+    "Description":"Son corps est envelopp\u00e9 par un film fin et collant qui lui permet de vivre hors de l'eau. Ce Pok\u00e9mon joue dans la vase sur les plages lorsque la mar\u00e9e est basse. (Pok\u00e9mon Rubis Om\u00e9ga et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Swampert",
+    "FrenchName":"Laggron",
+    "Description":"Il est tr\u00e8s fort. Tellement fort qu'il peut ais\u00e9ment tirer un rocher pesant plus d'une tonne. Ce Pok\u00e9mon est \u00e9galement dot\u00e9 d'une vue si efficace qu'il peut m\u00eame voir \u00e0 travers l'eau trouble. (Pok\u00e9mon Rubis Om\u00e9ga et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Poochyena",
+    "FrenchName":"Medhy\u00e8na",
+    "Description":"Sans se poser de questions, il essaye de mordre tout ce qui bouge. Ce Pok\u00e9mon pourchasse sa proie jusqu'\u00e0 ce qu'elle s'\u00e9puise. Cependant, il se peut qu'il prenne peur et s'enfuie si la proie riposte. (Pok\u00e9mon Rubis Om\u00e9ga et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Mightyena",
+    "FrenchName":"Grahy\u00e8na",
+    "Description":"Ils forment des meutes de dix qui excellent au travail de groupe pour capturer leurs proies. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Zigzagoon",
+    "FrenchName":"Zigzaton",
+    "Description":"Un Pok\u00e9mon d'une curiosit\u00e9 insatiable. Il montre de l'int\u00e9r\u00eat pour tout ce qui l'entoure et passe d'un endroit \u00e0 un autre en zigzaguant pour tout regarder. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Linoone",
+    "FrenchName":"Lin\u00e9on",
+    "Description":"Lorsqu'il chasse, ce pok\u00e9mon fonce toujours tout droit sur sa proie \u00e0 pleine vitesse. Bien que ce Pok\u00e9mon puisse atteindre 100 km/h, il doit s'arr\u00eater en catastrophe avant de pouvoir tourner (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Wurmple",
+    "FrenchName":"Chenipotte",
+    "Description":"\u00c0 l'aide de ses pointes arri\u00e8re, il d\u00e9chire l'\u00e9corce des arbres et mange la s\u00e8ve qui coule dessus. Les pattes de ce Pok\u00e9mon sont dot\u00e9es de coussinets \u00e0 ventouses pour adh\u00e9rer aux parois en verre sans en glisser. (Pok\u00e9mon Rubis Om\u00e9ga et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Silcoon",
+    "FrenchName":"Armulys",
+    "Description":"Il s'accroche \u00e0 une branche d'arbre avec de la soie pour \u00e9viter de tomber. Ce Pok\u00e9mon y reste tranquillement en attendant son \u00e9volution. Il regarde l'ext\u00e9rieur \u00e0 travers un petit trou dans son cocon de soie. (Pok\u00e9mon Rubis Om\u00e9ga et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Beautifly",
+    "FrenchName":"Charmillon",
+    "Description":"R\u00e9put\u00e9 pour les motifs de ses ailes aux couleurs vives. Il allonge sa trompe pour butiner le nectar. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Cascoon",
+    "FrenchName":"Blindalys",
+    "Description":"Son corps, constitu\u00e9 de soie fine, durcit avec le temps. Si vous voyez appara\u00eetre des fissures, c'est qu'il va tr\u00e8s bient\u00f4t \u00e9voluer. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Dustox",
+    "FrenchName":"Papinox",
+    "Description":"Il est instinctivement attir\u00e9 par la lumi\u00e8re. Des nu\u00e9es de ce Pok\u00e9mon sont attir\u00e9es par les r\u00e9verb\u00e8res des villes, o\u00f9 il s\u00e8me la pagaille en grignotant les feuilles des arbres en bordure de route. (Pok\u00e9mon Rubis Om\u00e9ga et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Lotad",
+    "FrenchName":"N\u00e9nupiot",
+    "Description":"Il ressemble \u00e0 une plante aquatique et fait la navette pour les Pok\u00e9mon qui ne savent pas nager. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Seedot",
+    "FrenchName":"Grainipiot",
+    "Description":"Il ressemble \u00e0 un gland pendu \u00e0 une branche. Il adore effrayer les autres Pok\u00e9mon. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Nuzleaf",
+    "FrenchName":"Pifeuil",
+    "Description":"Ce Pok\u00e9mon se sert de la feuille sur sa t\u00eate pour jouer de la fl\u00fbte. Le son de sa fl\u00fbte effraie et d\u00e9contenance les gens perdus en for\u00eat. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Shiftry",
+    "FrenchName":"Tengalice",
+    "Description":"Il est un Pok\u00e9mon myst\u00e9rieux que l'on dit de vivre au-dessus des arbres imposants datant de plus de mille ans. Il cr\u00e9e des temp\u00eates terribles avec les feuilles \u00e9ventail qu'il d\u00e9tient. (Pok\u00e9mon Rubis Om\u00e9ga et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Taillow",
+    "FrenchName":"Nirondelle",
+    "Description":"Il ne supporte pas les saisons froides. Il vole vers d'autres terres \u00e0 la recherche de chaleur et peut ainsi parcourir 300 km par jour. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Swellow",
+    "FrenchName":"H\u00e9l\u00e9delle",
+    "Description":"Il vole dans les cieux en dessinant de grands arcs. Ce Pok\u00e9mon plonge en piqu\u00e9 d\u00e8s qu'il rep\u00e8re sa proie. Il attrape fermement la malheureuse cible dans ses serres, emp\u00eachant toute fuite. (Pok\u00e9mon Rubis Om\u00e9ga et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Wingull",
+    "FrenchName":"Go\u00e9lise",
+    "Description":"Il a l'habitude de transporter ses proies et ses objets de valeur dans son bec avant de les cacher. Ce Pok\u00e9mon se laisse porter par le vent et vole comme s'il surfait dans les cieux. (Pok\u00e9mon Rubis Om\u00e9ga et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Pelipper",
+    "FrenchName":"Bekipan",
+    "Description":"Le bec de ce Pok\u00e9mon est \u00e9norme, tellement \u00e9norme qu'un petit enfant pourrait grimper dedans et s'y cacher sans probl\u00e8me. (Pok\u00e9mon Soleil)"
+  },
+  {
+    "EnglishName":"Ralts",
+    "FrenchName":"Tarsal",
+    "Description":"Il a le pouvoir de ressentir les \u00e9motions des gens. Si son Dresseur est d'humeur joyeuse, ce Pok\u00e9mon devient lui aussi gai et enjou\u00e9. (Pok\u00e9mon Saphir Alpha) "
+  },
+  {
+    "EnglishName":"Surskit",
+    "FrenchName":"Arakdo",
+    "Description":"Il semble patiner sur l'eau. Le parfum diffus\u00e9 par le sommet de sa t\u00eate sert \u00e0 attirer ses proies. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Masquerain",
+    "FrenchName":"Maskadra",
+    "Description":"Des motifs en forme d'yeux ornent ses antennes. Ses 4 ailes l'aident \u00e0 voler dans toutes les directions. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Shroomish",
+    "FrenchName":"Balignon",
+    "Description":"Lorsqu'il se sent un danger, il secoue son corps et r\u00e9pand ses spores du haut de sa t\u00eate. Les spores de ce Pok\u00e9mon sont si toxiques qu'elles font d\u00e9p\u00e9rir les arbres et les herbes (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Breloom",
+    "FrenchName":"Chapignon",
+    "Description":"Il se rapproche de son ennemi en se servant de son jeu de jambes, puis donne des coups de poings avec ses bras \u00e9lastiques. La technique de combat de ce Pok\u00e9mon est digne des meilleurs boxeurs. (Pok\u00e9mon Rubis Om\u00e9ga et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Slakoth",
+    "FrenchName":"Parecool",
+    "Description":"Il se pr\u00e9lasse plus de vingt heures par jour. Il bouge tellement peu qu'il n'a presque pas besoin de manger. Le repas quotidien de ce Pok\u00e9mon n'est constitu\u00e9 que de trois feuilles. (Pok\u00e9mon Rubis Om\u00e9ga et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Slaking",
+    "FrenchName":"Monafl\u00e8mit",
+    "Description":"Il passe toute sa journ\u00e9e allong\u00e9 \u00e0 paresser. Il mange toute l'herbe qu'il trouve \u00e0 port\u00e9e de main. Ensuite, il change d'endroit, \u00e0 contrec\u0153ur. (Pok\u00e9mon Rubis Om\u00e9ga et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Nincada",
+    "FrenchName":"Ningale",
+    "Description":"Il vit depuis des ann\u00e9es sous terre, dans l'obscurit\u00e9 la plus totale. Ce Pok\u00e9mon absorbe les nutriments des racines des arbres. Il reste immobile, attendant patiemment son \u00e9volution. (Pok\u00e9mon Rubis Om\u00e9ga et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Shedinja",
+    "FrenchName":"Munja",
+    "Description":"Une carapace d'insecte laiss\u00e9e \u00e0 l'abandon. On dit qu'il vole l'\u00e2me de celui qui regarde \u00e0 l'int\u00e9rieur. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Whismur",
+    "FrenchName":"Chuchmur",
+    "Description":"G\u00e9n\u00e9ralement, sa voix est tr\u00e8s douce, \u00e0 peine audible, m\u00eame si on tend l'oreille. Pourtant, lorsque ce Pok\u00e9mon sent l'approche du danger, il se met \u00e0 crier si fort qu'il peut d\u00e9chirer des tympans. (Pok\u00e9mon Rubis Om\u00e9ga et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Loudred",
+    "FrenchName":"Ramboum",
+    "Description":"Il hurle en tr\u00e9pignant. Quand il a fini de hurler, ce Pok\u00e9mon reste incapable d'entendre le moindre son pendant un long moment. Il semble que ce soit son point faible. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Exploud",
+    "FrenchName":"Brouhabam",
+    "Description":"Son hurlement s'entend \u00e0 10 Km \u00e0 la ronde. Ses orifices \u00e9mettent toutes sortes de bruits. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Nosepass",
+    "FrenchName":"Tarinor",
+    "Description":"Son nez magn\u00e9tique pointe constamment vers le nord. Les voyageurs l'observent pour conna\u00eetre leur position. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Sableye",
+    "FrenchName":"T\u00e9n\u00e9fix",
+    "Description":"\u00c0 force de manger des gemmes, les yeux de ce Pok\u00e9mon des grottes obscures sont devenus des joyaux. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Mawile",
+    "FrenchName":"Mysdibule",
+    "Description":"Il utilise son visage charmeur pour tromper ses ennemis avant de les mordre avec ses \u00e9normes m\u00e2choires. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Aron",
+    "FrenchName":"Galekid",
+    "Description":"Il est recouvert d'une armure en acier. Quand il \u00e9volue, il en rev\u00eat une nouvelle et abandonne l'ancienne. Celle-ci est tr\u00e8s recherch\u00e9e par l'industrie sid\u00e9rurgique. (Pok\u00e9mon \u00c9meraude)"
+  },
+  {
+    "EnglishName":"Lairon",
+    "FrenchName":"Gal\u00e9gon",
+    "Description":"Il se nourrit du minerai de fer qu'il fore. Il d\u00e9fend son territoire en chargeant avec son corps d'acier. (Pok\u00e9mon Blanc)"
+  },
+  {
+    "EnglishName":"Aggron",
+    "FrenchName":"Galeking",
+    "Description":"Il creuse des galeries \u00e0 travers la pierre avec ses cornes d'acier pour trouver le fer qu'il appr\u00e9cie. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Meditite",
+    "FrenchName":"M\u00e9ditikka",
+    "Description":" Il pratique le yoga tous les jours et d\u00e9veloppe sa force spirituelle avec la m\u00e9ditation. (Pok\u00e9mon Perle)"
+  },
+  {
+    "EnglishName":"Medicham",
+    "FrenchName":"Charmina",
+    "Description":"Ses pouvoirs psy, renforc\u00e9s par la pratique du yoga, lui permettent de pr\u00e9dire les mouvements ennemis. (Pok\u00e9mon Argent SoulSilver)"
+  },
+  {
+    "EnglishName":"Electrike",
+    "FrenchName":"Dynavolt",
+    "Description":"Il court tellement vite que l\u2019\u0153il humain ne peut pas le suivre. La friction g\u00e9n\u00e9r\u00e9e par sa course est convertie en \u00e9lectricit\u00e9, puis stock\u00e9e dans la fourrure de ce Pok\u00e9mon. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Manectric",
+    "FrenchName":"\u00c9lecsprint",
+    "Description":"Il lib\u00e8re l'\u00e9lectricit\u00e9 par sa crini\u00e8re. Il cr\u00e9e un nuage d'orage pour appeler la foudre. (Pok\u00e9mon Platine)"
+  },
+  {
+    "EnglishName":"Plusle",
+    "FrenchName":"Posipi",
+    "Description":"Il absorbe l'\u00e9nergie des poteaux \u00e9lectriques et encourage ses amis avec des pompons d'\u00e9tincelles. (Pok\u00e9mon Noir)"
+  },
+  {
+    "EnglishName":"Minum",
+    "FrenchName":"N\u00e9gapi",
+    "Description":"Il encourage ses amis. Son corps produit plus d'\u00e9tincelles quand il est en mauvaise posture. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Volbeat",
+    "FrenchName":"Muciole",
+    "Description":"Il communique avec ses pairs en allumant son post\u00e9rieur la nuit. Il adore le doux parfum de Lumivole. (Pok\u00e9mon Diamant)"
+  },
+  {
+    "EnglishName":"Illumise",
+    "FrenchName":"Lumivole",
+    "Description":"Il utilise son doux parfum pour aider Muciole \u00e0 d\u00e9crire des arabesques dans le ciel nocturne. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Gulpin",
+    "FrenchName":"Gloupti",
+    "Description":"Son corps est principalement constitu\u00e9 d'un estomac dont les sucs digestifs dissolvent tout. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Swalot",
+    "FrenchName":"Avaltout",
+    "Description":"Il avale tout en une bouch\u00e9e. Ses sucs digestifs peuvent dig\u00e9rer n'importe quoi. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Numel",
+    "FrenchName":"Chamallot",
+    "Description":" Son dos bossu renferme une lave bouillonnante. Elle refroidit par temps de pluie, ce qui le ralentit. (Pok\u00e9mon Noir)"
+  },
+  {
+    "EnglishName":"Torkoal",
+    "FrenchName":"Chartor",
+    "Description":"Un bon indicateur de sa sant\u00e9 est le d\u00e9bit de la fum\u00e9e qui s'\u00e9chappe de sa carapace: s'il est important, c'est qu'il est en pleine forme. (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Grumpig",
+    "FrenchName":"Groret",
+    "Description":"Les perles noires amplifient ses pouvoirs psy. Sa danse \u00e9trange lui permet de contr\u00f4ler ses ennemis. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Trapinch",
+    "FrenchName":"Kraknoix",
+    "Description":"Il vit dans les d\u00e9serts arides. Pour attraper ses proies, il se place dans un trou et laisse sa gueule grande ouverte en attendant qu'elles tombent dedans. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Vibrava",
+    "FrenchName":"Vibraninf",
+    "Description":"Ses violents battements d'ailes g\u00e9n\u00e8rent des vagues d'ultrasons qui donnent de s\u00e9v\u00e8res migraines. (Pok\u00e9mon Or HeartGold)"
+  },
+  {
+    "EnglishName":"Flygon",
+    "FrenchName":"Lib\u00e9gon",
+    "Description":"Son puissant battement d'ailes provoque des temp\u00eates de sable. On l'appelle \u00ab esprit du d\u00e9sert. (Pok\u00e9mon Diamant)"
+  },
+  {
+    "EnglishName":"Swablu",
+    "FrenchName":"Tylton",
+    "Description":"Ses ailes sont comme des balles de coton. Perch\u00e9 sur la t\u00eate de quelqu'un, on dirait un chapeau. (Pok\u00e9mon Perle)"
+  },
+  {
+    "EnglishName":"Zangoose",
+    "FrenchName":"Mangriff",
+    "Description":"Son poil se h\u00e9risse d\u00e8s qu'il sent un S\u00e9viper. Il lac\u00e8re ses ennemis avec ses griffes ac\u00e9r\u00e9es. (Pok\u00e9mon Argent SoulSilver)"
+  },
+  {
+    "EnglishName":"Lunatone",
+    "FrenchName":"S\u00e9l\u00e9roc",
+    "Description":"On suppose qu'il est li\u00e9 au cycle lunaire, car il ne sort que les soirs de pleine lune. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Solrock",
+    "FrenchName":"Solaroc",
+    "Description":"Le bruit court que cette nouvelle esp\u00e8ce vient du soleil. Il produit de la lumi\u00e8re en tournoyant. (Pok\u00e9mon Blanc)"
+  },
+  {
+    "EnglishName":"Barboach",
+    "FrenchName":"Barloche",
+    "Description":"Ses barbillons font d'excellents radars qui lui permettent de rep\u00e9rer ses proies, m\u00eame en eau trouble. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Whiscash",
+    "FrenchName":"Barbicha",
+    "Description":"Il fait son nid au fond des marais. Il ne se pose pas de questions et avale toutes les cr\u00e9atures qui passent pr\u00e8s de lui. (Pok\u00e9mon Vert Feuille)"
+  },
+  {
+    "EnglishName":"Corpish",
+    "FrenchName":"Ecrapince",
+    "Description":"Quoi qu'il arrive, il ne rel\u00e2che jamais une proie tomb\u00e9e entre ses pinces. Ce Pok\u00e9mon tr\u00e8s robuste peut survivre dans n'importe quel environnement. (Pok\u00e9mon Emeraude)"
+  },
+  {
+    "EnglishName":"Crawdaunt",
+    "FrenchName":"Colhomard",
+    "Description":"Il a un temp\u00e9rament tr\u00e8s violent, ce qui le pousse \u00e0 d\u00e9fier tout ce qui passe pr\u00e8s de lui. Certaines formes de vie refusent d'habiter dans les \u00e9tangs occup\u00e9s par ce Pok\u00e9mon et d\u00e9sertent ces eaux. (Pok\u00e9mon Rubis)"
+  },
+  {
+    "EnglishName":"Baltoy",
+    "FrenchName":"Balbuto",
+    "Description":"Il se d\u00e9place en tournoyant sur son pied. Ce Pok\u00e9mon rare fut d\u00e9couvert dans de vieilles ruines. (Pok\u00e9mon Noir et Blanc)"
+  },
+  {
+    "EnglishName":"Claydol",
+    "FrenchName":"Kaorine",
+    "Description":"Il est un myst\u00e9rieux Pok\u00e9mon apparu sous la forme d'une statue en argile fabriqu\u00e9e par une civilisation vieille de plus de 20 000 ans. Ce Pok\u00e9mon envoie des rayons avec ses mains. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"lileep",
+    "FrenchName":"Lilia",
+    "Description":"cette esp\u00e8re s'est \u00e9teinte il y a environ cent millions d'ann\u00e9es. Cet ancien Pok\u00e9mon s'accroche \u00e0 un rocher, sous l'eau, et attrape ses proies \u00e0 l'aide de ses tentacules en forme de p\u00e9tales de fleur. (Pok\u00e9mon Rubis)"
+  },
+  {
+    "EnglishName":"Cradily",
+    "FrenchName":"Vacilys",
+    "Description":"Lorsqu'il chasse, il utilise ses huit tentacules. Il dissout sa proie \u00e0 l'aide d'un puissant acide avant de l'avaler. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Feebas",
+    "FrenchName":"Barpau",
+    "Description":"Ce Pok\u00e9mon a peut-\u00eatre un physique disgracieux, mais il est robuste et peut survivre dans tr\u00e8s peu d'eau. (Pok\u00e9mon Platine)"
+  },
+  {
+    "EnglishName":"Milotic",
+    "FrenchName":"Milobelus",
+    "Description":"Certains pr\u00e9tendent qu'il est le plus beau de tous les Pok\u00e9mon. Il a le pouvoir d'apaiser certaines \u00e9motions comme la col\u00e8re ou l'hostilit\u00e9, afin d'\u00e9viter les querelles inutiles. (Pok\u00e9mon Rubis)"
+  },
+  {
+    "EnglishName":"Castform",
+    "FrenchName":"Morph\u00e9o",
+    "Description":"Il change son apparence en fonction du temps. Les changements climatiques, comme la temp\u00e9rature ou l'humidit\u00e9, affectent sa structure cellulaire. (Pok\u00e9mon Emeraude)"
+  },
+  {
+    "EnglishName":"Shuppet",
+    "FrenchName":"Polichombr",
+    "Description":"Ils sont attir\u00e9s par les sentiments de jalousie et les esprits revanchards. Si quelqu'un veut se venger, ces Pok\u00e9mon apparaissent en nu\u00e9e et s'alignent devant la porte des gens concern\u00e9s. (Pok\u00e9mon Rubis)"
+  },
+  {
+    "EnglishName":"banette",
+    "FrenchName":"Branette",
+    "Description":" Une poup\u00e9e mue par la tristesse qui la ronge depuis qu'on l'a d\u00e9laiss\u00e9e. Elle recherche son propri\u00e9taire. (Pok\u00e9mon Noir et Blanc)"
+  },
+  {
+    "EnglishName":"Duskull",
+    "FrenchName":"Skelenox",
+    "Description":"Il peut traverser n'importe quel mur, m\u00eame le plus \u00e9pais. Une fois que ce Pok\u00e9mon a choisi une cible, il la pourchasse sans rel\u00e2che jusqu'\u00e0 l'aube. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Dusclops",
+    "FrenchName":"Teraclope",
+    "Description":"Il aspire l'\u00e2me de ceux qui regardent dans son corps creux o\u00f9 rougeoie son unique \u0153il. (Pok\u00e9mon Argent SoulSilver)"
+  },
+  {
+    "EnglishName":"Chimecho",
+    "FrenchName":"Eoko",
+    "Description":"Ses cris se r\u00e9percutent dans son corps creux avant d'exploser en notes m\u00e9lodieuses et saisissantes. (Pok\u00e9mon Platine)"
+  },
+  {
+    "EnglishName":"Wynaut",
+    "FrenchName":"Ok\u00e9ok\u00e9",
+    "Description":"Ils se rassemblent quand la nuit est claire pour jouer \u00e0 se presser les uns contre les autres. En se poussant, ces Pok\u00e9mon am\u00e9liorent leur endurance et s'entra\u00eenent \u00e0 renvoyer de puissantes contre-attaques. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Snorunt",
+    "FrenchName":"Stalgamin",
+    "Description":"Il survit en se nourrissant uniquement de neige et d'eau. De vieilles l\u00e9gendes racontent que les maisons visit\u00e9es par ce Pok\u00e9mon sont assur\u00e9es d'\u00eatre prosp\u00e8res pendant plusieurs g\u00e9n\u00e9rations. (Pokemon Saphir)"
+  },
+  {
+    "EnglishName":"Glalie",
+    "FrenchName":"Oniglali",
+    "Description":"Le corps de ce Pok\u00e9mon est en fait de rochers qu'il endurcit gr\u00e2ce \u00e0 une couche de glace. Ce Pok\u00e9mon a le pouvoir de geler l'humidit\u00e9 ambiante et de lui donner n'importe quelle forme. (Pok\u00e9mon Rubis)"
+  },
+  {
+    "EnglishName":"Spheal",
+    "FrenchName":"Obalie",
+    "Description":"Il voyage toujours en faisant rouler son corps tout rond. Lorsque la saison des neiges arrive, on peut voir ce Pok\u00e9mon rouler sur la glace et traverser la mer. (Pok\u00e9mon Saphir)"
+  },
+  {
+    "EnglishName":"Sealo",
+    "FrenchName":"Phogleur",
+    "Description":"Il a pris l'habitude de jongler avec tout ce qu'il d\u00e9couvre pour la premi\u00e8re fois. Ce Pok\u00e9mon se divertit parfois en faisant tourner un Obalie sur le bout de son museau. (Pok\u00e9mon Rubis)"
+  },
+  {
+    "EnglishName":"Walrein",
+    "FrenchName":"Kaimorse",
+    "Description":"Les deux \u00e9normes d\u00e9fenses de celui ci peuvent d\u00e9truire en un seul coup des blocs de glace de plus de 10 t. L'\u00e9paisse couche de graisse de ce Pok\u00e9mon l'isole lorsque la temp\u00e9rature est en dessous de z\u00e9ro. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"clampearl",
+    "FrenchName":"Coquiperl",
+    "Description":"Il grandit prot\u00e9g\u00e9 par sa coquille dure comme de la pierre. Lorsque son corps devient trop grand pour sa coquille, cela signifie que ce Pok\u00e9mon va bient\u00f4t \u00e9voluer. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Huntail",
+    "FrenchName":"Serpang",
+    "Description":"La queue de celui ci est en forme de poisson. Il l'utilise pour attirer sa proie qu'il avale en une fois gr\u00e2ce \u00e0 sa bouche b\u00e9ante. Ce Pok\u00e9mon nage en tortillant son corps comme un serpent. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Gorebyss",
+    "FrenchName":"Rosabyss",
+    "Description":"Il vit dans les profondeurs des mers du sud. Son corps est con\u00e7u pour supporter l'\u00e9norme pression des profondeurs abyssales. Du coup, le corps de ce Pok\u00e9mon n'est pas endommag\u00e9 par les attaques ordinaires. (Pok\u00e9mon Rubis)"
+  },
+  {
+    "EnglishName":"luvdisc",
+    "FrenchName":"Lovdisc",
+    "Description":"Un habitant des mers chaudes. On dit que le couple qui tombe sur ce Pok\u00e9mon conna\u00eetra l'amour \u00e9ternel. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Bagon",
+    "FrenchName":"Draby",
+    "Description":"Il r\u00eave de pouvoir un jour s'\u00e9lancer dans les cieux. Bien que vou\u00e9 \u00e0 l'\u00e9chec, ce Pok\u00e9mon se jette des falaises pour essayer de voler. \u00c0 force, sa t\u00eate est devenue aussi dure que de l'acier. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Shelgon",
+    "FrenchName":"Drackhaus",
+    "Description":"A l'int\u00e9rieur de la carapace blind\u00e9e de celui co, ses cellules sont en pleine transformation pour cr\u00e9er un nouveau corps. La carapace de ce Pok\u00e9mon est tr\u00e8s lourde, ce qui rend ses mouvements tr\u00e8s lents. (Pok\u00e9mon Rubis)"
+  },
+  {
+    "EnglishName":"Salamence",
+    "FrenchName":"Drattak",
+    "Description":"En \u00e9voluant, ce Pok\u00e9mon r\u00e9alise un r\u00eave d'enfance, celui d'avoir des ailes. Pour exprimer sa joie, il vole et plane dans les cieux en crachant des flammes. (Pok\u00e9mon Saphir)"
+  },
+  {
+    "EnglishName":"Beldum",
+    "FrenchName":"Terhal",
+    "Description":"Au lieu du sang, une force magn\u00e9tique tr\u00e8s puissante coule dans les veines de Terhal. Ce Pok\u00e9mon communique avec les autres en envoyant des pulsations magn\u00e9tiques. (Pok\u00e9mon Rubis)"
+  },
+  {
+    "EnglishName":"Metagross",
+    "FrenchName":"M\u00e9talosse",
+    "Description":"Il dispose de quatre cerveaux. Combin\u00e9s, ces cerveaux peuvent effectuer des calculs tr\u00e8s complexes plus vite qu'un ordinateur. Ce Pok\u00e9mon peut flotter dans l'air en repliant ses jambes. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Turtwig",
+    "FrenchName":"Tortipouss",
+    "Description":"Son corps produit de l'oxyg\u00e8ne par photosynth\u00e8se. La feuille sur sa t\u00eate fl\u00e9trit quand il a soif. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Grotle",
+    "FrenchName":"Boskara",
+    "Description":"Il vit en for\u00eat pr\u00e8s de l'eau. En journ\u00e9e, il la quitte pour dorer sa carapace feuillue au soleil. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Chimchar",
+    "FrenchName":"Ouisticram",
+    "Description":"La flamme de sa queue est aliment\u00e9e par un gaz de son estomac. M\u00eame la pluie ne saurait l'\u00e9teindre. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Monferno",
+    "FrenchName":"Chimpenfeu",
+    "Description":"Il attaque en prenant appui sur les murs et les plafonds. Sa queue ardente n'est pas son seul atout. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Infernape",
+    "FrenchName":"Simiabraz",
+    "Description":"Sa couronne de feu trahit son temp\u00e9rament bouillant. Sa vitesse est in\u00e9gal\u00e9e. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Piplup",
+    "FrenchName":"Tiplouf",
+    "Description":"Il est fier et d\u00e9teste accepter la nourriture qu'on lui offre. Son pelage \u00e9pais le prot\u00e8ge du froid. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Prinplup",
+    "FrenchName":"Prinplouf",
+    "Description":"C'est un Pok\u00e9mon solitaire. Un seul coup de ses puissantes ailes peut briser un arbre en deux. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Empoleon",
+    "FrenchName":"Pingol\u00e9on",
+    "Description":"Les trois cornes de son bec sont le symbole de sa force. Celles du chef sont plus grosses que les autres. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Starly",
+    "FrenchName":"\u00c9tourmi",
+    "Description":"Ils volent en nombre. Bien que minuscule, il bat des ailes avec une vigueur impressionnante. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Staravia",
+    "FrenchName":"\u00c9tourvol",
+    "Description":"Il peuple les champs et les for\u00eats. Lorsque deux vol\u00e9es se croisent, elles luttent pour le territoire. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Staraptor",
+    "FrenchName":"\u00c9touraptor",
+    "Description":"Sur sa t\u00eate, les plumes \u00e0 l'extr\u00e9mit\u00e9 forment une m\u00e8che rouge.Ses ailes et ses pattes ont des muscles d\u00e9velopp\u00e9s. Il peut voler en agrippant un petit Pok\u00e9mon. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Bidoof",
+    "FrenchName":"Keunotor",
+    "Description":"Il ronge constamment des troncs et des pierres pour se faire les incisives. Il niche le long de l'eau. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Bibarel",
+    "FrenchName":"Castorno",
+    "Description":"Il construit des barrages de boue et d'\u00e9corce le long des fleuves. C'est un ouvrier de renom. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Kricketot",
+    "FrenchName":"Crikzik",
+    "Description":"Il communique au son de ses antennes qui s'entrechoquent. Ce son marque l'arriv\u00e9e de l'automne. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Kricketune",
+    "FrenchName":"M\u00e9lokrik",
+    "Description":"Il exprime ses \u00e9motions par des m\u00e9lodies. Les scientifiques \u00e9tudient actuellement leur structure. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Shinx",
+    "FrenchName":"Lixy",
+    "Description":"Sa fourrure \u00e9tincelle en cas de danger. Il profite du fait que l'ennemi est aveugl\u00e9 pour s'enfuir. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Budew",
+    "FrenchName":"Rozbouton",
+    "Description":"Son bourgeon s'ouvre une fois gorg\u00e9 de soleil et lib\u00e8re du pollen. Il vit pr\u00e8s des sources d'eau pure. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Cranidos",
+    "FrenchName":"Kranidos",
+    "Description":"Il vivait dans la jungle il y a 100 millions d'ann\u00e9es. Il peut abattre un arbre d'un coup de t\u00eate. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Rampardos",
+    "FrenchName":"Charkos",
+    "Description":"Pok\u00e9mon pr\u00e9historique c\u00e9l\u00e8bre pour ses coups de t\u00eate puissants et son petit cerveau, son extinction serait due \u00e0 son extr\u00eame b\u00eatise. (Pok\u00e9mon Ultra-Lune)"
+  },
+  {
+    "EnglishName":"Shieldon",
+    "FrenchName":"Dinoclier",
+    "Description":"Il est n\u00e9 d'un fossile datant de 100 millions d'ann\u00e9es. Son visage est tr\u00e8s dur. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Burmy",
+    "FrenchName":"Cheniti",
+    "Description":"Pour se prot\u00e9ger des vents glac\u00e9s de l'hiver, il s'est tiss\u00e9 une cape de feuilles et de brindilles. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Wormadam",
+    "FrenchName":"Cheniselle",
+    "Description":"Son apparence varie selon le lieu d'\u00e9volution. Son corps est fa\u00e7onn\u00e9 avec les mat\u00e9riaux \u00e0 disposition. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Mothim",
+    "FrenchName":"Papilord",
+    "Description":"Il aime le nectar des fleurs et n'h\u00e9site pas \u00e0 voler celui que r\u00e9cup\u00e8re Apitrini. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Combee",
+    "FrenchName":"Apitrini",
+    "Description":"Il r\u00e9colte le nectar et l'am\u00e8ne \u00e0 la colonie. La nuit, les Pok\u00e9mon de cette esp\u00e8ce s'assemblent pour b\u00e2tir une ruche et s'endormir. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Vespiquen",
+    "FrenchName":"Apireine",
+    "Description":"Son abdomen abrite ses petits. Ce Pok\u00e9mon utilise des ph\u00e9romones pour leur donner des ordres (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Buizel",
+    "FrenchName":"Must\u00e9bou\u00e9e",
+    "Description":"Il utilise la bou\u00e9e autour de son cou pour passer la t\u00eate hors de l'eau et observer les alentours. (Pok\u00e9mon Saphir Alpha et Pok\u00e9mon GO)"
+  },
+  {
+    "EnglishName":"Floatzel",
+    "FrenchName":"Must\u00e9flott",
+    "Description":"Il a d\u00e9velopp\u00e9 une bou\u00e9e pour poursuivre ses proies aquatiques. Elle fait office de canot gonflable. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Cherubi",
+    "FrenchName":"Ceribou",
+    "Description":"Il rougit au soleil. Quand la petite boule est \u00e0 court de nutriments, elle fane en signe d'\u00e9volution. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Cherrim",
+    "FrenchName":"Ceriflor",
+    "Description":" Il \u00e9tait calme jusqu'\u00e0 ce que ses fleurs \u00e9closent puis il devient tr\u00e8s excit\u00e9.Une fois gorg\u00e9 de soleil, il d\u00e9ploie ses p\u00e9tales et bouge avec vivacit\u00e9. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Shellos",
+    "FrenchName":"Sancoki",
+    "Description":"Il change facilement de couleur ou de forme en fonction de son environnement. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Gastrodon",
+    "FrenchName":"Tritosor",
+    "Description":"Jadis, il semble qu'il portait une grande carapace pour se prot\u00e9ger. Il hante les eaux peu profondes. (Pok\u00e9mon Perle)"
+  },
+  {
+    "EnglishName":"Ambipom",
+    "FrenchName":"Capidextre",
+    "Description":"Ses queues jumelles sont si agiles et efficaces qu'il ne sert que tr\u00e8s rarement de ses bras. (Pok\u00e9mon Noir et Blanc)"
+  },
+  {
+    "EnglishName":"Drifloon",
+    "FrenchName":"Baudrive",
+    "Description":"Les enfants qui attrapent ces Pok\u00e9mon disparaissent parfois. On lui donne le surnom de \"bou\u00e9e des esprits \u00e9gar\u00e9s\". (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Drifblim",
+    "FrenchName":"Grodrive",
+    "Description":"M\u00eame si \u00e0 la tomb\u00e9e de la nuit on peut observer des nu\u00e9es enti\u00e8res de ces Pok\u00e9mon, elles finissent toujours par s'\u00e9vanouir dans la nature."
+  },
+  {
+    "EnglishName":"Buneary",
+    "FrenchName":"Laporeille",
+    "Description":"Il frappe l'ennemi en d\u00e9roulant violemment ses oreilles. Cela peut faire pleurer un adulte. (Pok\u00e9mon Diamant)"
+  },
+  {
+    "EnglishName":"Lopunny",
+    "FrenchName":"Lockpin",
+    "Description":"Il est capable de d\u00e9cocher de puissants coups de pied si on touche \u00e0 ses d\u00e9licates oreilles. (Pok\u00e9mon Platine)"
+  },
+  {
+    "EnglishName":"Mismagius",
+    "FrenchName":"Magir\u00eave",
+    "Description":"Il psalmodie des incantations. Ce sont souvent des mal\u00e9dictions, mais certaines apportent la joie. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Honchkrow",
+    "FrenchName":"Corboss",
+    "Description":"Un Pok\u00e9mon impitoyable qui ne tol\u00e8re pas l'\u00e9chec de ses sbires Corn\u00e8bre. (Pok\u00e9mon Argent SoulSilver)"
+  },
+  {
+    "EnglishName":"Glameow",
+    "FrenchName":"Chaglam",
+    "Description":"Lorsqu'il est heureux, sa queue d\u00e9crit des arabesques comme un ruban de gymnastique rythmique. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Purugly",
+    "FrenchName":"Chaffreux",
+    "Description":"Il plaque ses queues contre son dos pour para\u00eetre plus grand. Il soutient un regard des heures. (Pok\u00e9mon Noir et Blanc)"
+  },
+  {
+    "EnglishName":"Chingling",
+    "FrenchName":"Korillon",
+    "Description":"Quand il sautille, l'orbe qu'il a dans la bouche s'agite et tinte comme une cloche. (Pok\u00e9mon Platine)"
+  },
+  {
+    "EnglishName":"Stunky",
+    "FrenchName":"Moufouette",
+    "Description":"Son derri\u00e8re propulse un fluide naus\u00e9abond qui peut faire fuir les Pok\u00e9mon dans un rayon de 2 Km. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Skuntank",
+    "FrenchName":"Moufflair",
+    "Description":"Il attaque en projetant un liquide f\u00e9tide du bout de sa queue. Mieux vaut l'attaquer par les airs. (Pok\u00e9mon Platine)"
+  },
+  {
+    "EnglishName":"Bronzor",
+    "FrenchName":"Arch\u00e9omire",
+    "Description":"Certains scientifiques soutiennent que ce Pok\u00e9mon \u00e9tait jadis aussi r\u00e9fl\u00e9chissant qu'un miroir. (Pok\u00e9mon Noir et Blanc)"
+  },
+  {
+    "EnglishName":"Bronzong",
+    "FrenchName":"Arch\u00e9odong",
+    "Description":"On croyait autrefois que lui adresser des pri\u00e8res faisait pleuvoir et assurait les r\u00e9coltes. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Bonsly",
+    "FrenchName":"Manza\u00ef",
+    "Description":"Adepte des climats secs, il r\u00e9gule son humidit\u00e9 en laissant couler ce qui ressemble \u00e0 des larmes. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Happiny",
+    "FrenchName":"Ptiravi",
+    "Description":"Ce Pok\u00e9mon aime ce qui est rond et blanc et transporte un caillou en forme d'\u0153uf pour imiter Leveinard. (Pok\u00e9mon Diamant)"
+  },
+  {
+    "EnglishName":" Chatot",
+    "FrenchName":"Pijako",
+    "Description":"On peut lui enseigner quelques mots. S'il s'agit d'un groupe, ils retiendront les m\u00eames phrases. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Gible",
+    "FrenchName":"Griknot",
+    "Description":"Malgr\u00e9 sa maladresse, son \u00e9norme gueule lui permet de lancer des attaques puissantes. (Pok\u00e9mon Noir et Blanc)"
+  },
+  {
+    "EnglishName":"Gabite",
+    "FrenchName":"Carmache",
+    "Description":"Il perd parfois ses \u00e9cailles quand il mue. Les rem\u00e8des \u00e0 base de ses \u00e9cailles sont de puissants toniques. (Pok\u00e9mon Soleil)"
+  },
+  {
+    "EnglishName":"Garchomp",
+    "FrenchName":"Carchacrok",
+    "Description":"Quand il se recroqueville et \u00e9tend ses ailes, on dirait un chasseur. Sa vitesse est supersonique. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Munchlax",
+    "FrenchName":"Goinfrex",
+    "Description":"Il avale son poids en nourriture chaque jour. Il avale tout sans prendre le temps de m\u00e2cher. (Pok\u00e9mon Diamant)"
+  },
+  {
+    "EnglishName":"Hippowdon",
+    "FrenchName":"Hippodocus",
+    "Description":"Il emmagasine du sable qu'il expulse en tornades par les pores de sa peau pour attaquer. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Skorupi",
+    "FrenchName":"Rapion",
+    "Description":"Il saisit sa proie avec les pinces de sa queue, lui injecte un poison et la retient jusqu'\u00e0 ce qu'il agisse. (Pok\u00e9mon Diamant)"
+  },
+  {
+    "EnglishName":"Drapion",
+    "FrenchName":"Drascore",
+    "Description":"Il crache des \u00e9pines et un liquide toxiques et s\u00e9cr\u00e8te des flaques de poison. (Pok\u00e9mon Ranger 2)"
+  },
+  {
+    "EnglishName":"Croagunk",
+    "FrenchName":"Cradopaud",
+    "Description":"Son instinct de survie le pousse \u00e0 ne pas se battre dans les r\u00e8gles. C'est une mascotte populaire. (Pok\u00e9mon Platine)"
+  },
+  {
+    "EnglishName":"Toxicroak",
+    "FrenchName":"Coatox",
+    "Description":"Quand il coasse, le poison stock\u00e9 sous sa gorge est secou\u00e9, le rendant ainsi plus efficace. (Pok\u00e9mon Platine)"
+  },
+  {
+    "EnglishName":"Carnivine",
+    "FrenchName":"Vortente",
+    "Description":"Il s'accroche aux arbres des marais et attire ses proies avec sa salive \u00e0 l'odeur enivrante. (Pok\u00e9mon Noir et Blanc)"
+  },
+  {
+    "EnglishName":"Finneon",
+    "FrenchName":"\u00c9cayon",
+    "Description":"Apr\u00e8s une longue exposition au soleil, les motifs de ses nageoires caudales luisent \u00e0 la nuit tomb\u00e9e. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Mantyke",
+    "FrenchName":"Babimanta",
+    "Description":"Il nage si proche de la surface que l'on peut voir les motifs sur son dos depuis un bateau. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Snover",
+    "FrenchName":"Blizzi",
+    "Description":"Il s'aventure jusqu'au pied des montagnes en hiver, mais se r\u00e9fugie sur les pics neigeux au printemps. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Abomasnow",
+    "FrenchName":"Blizzaroi",
+    "Description":"Il hante les sommets aux neiges \u00e9ternelles, et se cache en d\u00e9clenchant des blizzards. (Pok\u00e9mon Or HeartGold et Argent SoulSilver)"
+  },
+  {
+    "EnglishName":"Weavile",
+    "FrenchName":"Dimoret",
+    "Description":"Ils communiquent entre eux en griffant des signes dans la roche et travaillent en groupe pour chasser l'ennemi. (Pok\u00e9mon Noir 2 et Blanc 2)"
+  },
+  {
+    "EnglishName":"Magnezone",
+    "FrenchName":"Magnezone",
+    "Description":"Son corps g\u00e9n\u00e8re un champ magn\u00e9tique et il se prot\u00e8ge avec une barri\u00e8re \u00e9lectrique. (Pok\u00e9mon Ranger 2)"
+  },
+  {
+    "EnglishName":"Lickilicky",
+    "FrenchName":"Coudlangue",
+    "Description":"Sa longue langue est couverte en permanence d'une \u00e9paisse couche de bave anesth\u00e9siante. (Pok\u00e9mon Noir et Blanc)"
+  },
+  {
+    "EnglishName":"Rhyperior",
+    "FrenchName":"Rhinastoc",
+    "Description":"Ses paumes projettent des Racaillou, et son corps couvert de Protecteurs r\u00e9siste m\u00eame \u00e0 une \u00e9ruption volcanique. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Tangrowth",
+    "FrenchName":"Bouldeneu",
+    "Description":"Il ligote sa proie en \u00e9tirant ses bras en lianes. Il ne craint pas de perdre un bras face \u00e0 un ennemi. (Pok\u00e9mon Diamant et Perle)"
+  },
+  {
+    "EnglishName":"Electivire",
+    "FrenchName":"\u00c9lekable",
+    "Description":"Encaissant les attaques, il vient toucher l'ennemi de ses queues et lui inflige une forte d\u00e9charge. (Pok\u00e9mon Platine)"
+  },
+  {
+    "EnglishName":"Magmortar",
+    "FrenchName":"Maganon",
+    "Description":"Il projette des boules de feu \u00e0 2 000 \u00b0C du bout de ses bras. M\u00eame son souffle est br\u00fblant. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Leafeon",
+    "FrenchName":"Phyllali",
+    "Description":"Il n'aime pas le conflit, mais s'il doit prot\u00e9ger ses amis, il peut raidir sa queue en forme de feuille et la rendre aussi tranchante qu'une lame. (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Glaceon",
+    "FrenchName":"Givrali",
+    "Description":"Il abaisse la temp\u00e9rature de son corps pour changer ses poils en aiguilles de glace qu'il projette sur l'ennemi. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Gliscor",
+    "FrenchName":"Scorvol",
+    "Description":"Le plus petit courant d'air peut lui donner assez d'\u00e9lan pour faire le tour du monde sans un coup d'aile. (Pok\u00e9mon Platine)"
+  },
+  {
+    "EnglishName":"Mamoswine",
+    "FrenchName":"Mammochon",
+    "Description":"Un Pok\u00e9mon si vieux qu'on l'a d\u00e9couvert sous des glaces vieilles de 10 000 ans. (Pok\u00e9mon Or HeartGold)"
+  },
+  {
+    "EnglishName":"Gallade",
+    "FrenchName":"Gallame",
+    "Description":"Toujours pr\u00eat \u00e0 prot\u00e9ger son prochain, il se bat f\u00e9rocement avec ses coudes en forme d'\u00e9p\u00e9es. (Pok\u00e9mon Platine)"
+  },
+  {
+    "EnglishName":"Probopass",
+    "FrenchName":"Tarinorme",
+    "Description":"Son corps lib\u00e8re une puissante force magn\u00e9tique. Il dirige trois petites unit\u00e9s appel\u00e9es Mini-nez. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Dusknoir",
+    "FrenchName":"Noctunoir",
+    "Description":"L'antenne sur sa t\u00eate capte les ondes radio du monde des esprits lui ordonnant d'y porter des gens. (Pok\u00e9mon Diamant et Perle)"
+  },
+  {
+    "EnglishName":"Froslass",
+    "FrenchName":"Momartik",
+    "Description":"On dit dans les r\u00e9gions enneig\u00e9es qu'il s'agit de la r\u00e9incarnation d'une jeune fille disparue dans les neiges. (Pok\u00e9mon Or HeartGold et Argent SoulSilver)"
+  },
+  {
+    "EnglishName":"Rotom",
+    "FrenchName":"Motisma",
+    "Description":"Son corps est fait de plasma. Il cause de gros d\u00e9g\u00e2ts en infiltrant des appareils \u00e9lectroniques. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Uxie",
+    "FrenchName":"Cr\u00e9helf",
+    "Description":"On l'appelle \u00ab \u00eatre du savoir \u00bb. On raconte que son regard a le pouvoir d'effacer la m\u00e9moire. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Mesprit",
+    "FrenchName":"Cr\u00e9follet",
+    "Description":"On l'appelle \u00ab \u00eatre de l'\u00e9motion \u00bb. Il enseigne aux hommes la beaut\u00e9 de la tristesse, la douleur et la joie. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Azelf",
+    "FrenchName":"Cr\u00e9fadet",
+    "Description":"On l'appelle \u00ab \u00eatre de la volont\u00e9 \u00bb. Il dort au fond d'un lac pour maintenir l'\u00e9quilibre du monde. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Snivy",
+    "FrenchName":"Vip\u00e9lierre",
+    "Description":"Un Pok\u00e9mon intelligent et tr\u00e8s calme. Lorsqu'il a re\u00e7u suffisamment de lumi\u00e8re du soleil, il devient plus agile. (Pok\u00e9mon Noir)"
+  },
+  {
+    "EnglishName":"Servine",
+    "FrenchName":"Lianaja",
+    "Description":"Il court comme s'il glissait sur le sol. Il d\u00e9route l'ennemi par ses mouvements et l'assomme d'un coup de liane. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Serperior",
+    "FrenchName":"Majaspic",
+    "Description":"Il peut paralyser l'ennemi d'un regard. Il amplifie l'\u00e9nergie du soleil dans son corps. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Tepig",
+    "FrenchName":"Gruikui",
+    "Description":"Il crache du feu par le groin. Mais quand il est enrhum\u00e9, seule une fum\u00e9e noir\u00e2tre en sort. (Pok\u00e9mon Blanc)"
+  },
+  {
+    "EnglishName":"Pignite",
+    "FrenchName":"Grotichon",
+    "Description":"Plus il a mang\u00e9 de Baies, plus il a de combustible, et il peut donc d\u00e9gager davantage de flammes et de puissance. (Pok\u00e9mon Noir 2 et Blanc 2)"
+  },
+  {
+    "EnglishName":"Emboar",
+    "FrenchName":"Roitiflam",
+    "Description":"Il a une barbe enflamm\u00e9e. Il ma\u00eetrise des techniques de combat au corps \u00e0 corps rapides et puissantes. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Oshawott",
+    "FrenchName":"Moustillon",
+    "Description":"Le coupillage de son ventre lui sert non seulement \u00e0 combattre, mais aussi \u00e0 trancher les Baies tr\u00e8s dures. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Dewott",
+    "FrenchName":"Mateloutre",
+    "Description":"L'apprentissage de sa technique de combat, qui utilise \u00e9galement ses deux coquillages, est extr\u00eamement rigoureux. (Pok\u00e9mon Noir)"
+  },
+  {
+    "EnglishName":"Samurott",
+    "FrenchName":"Clamiral",
+    "Description":"Il dissimule de grandes lames qu'il d\u00e9gaine en un \u00e9clair des fourreaux de ses pattes ant\u00e9rieures. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Patrat",
+    "FrenchName":"Ratentif",
+    "Description":"Tr\u00e8s prudent, il surveille attentivement son territoire, mais oublie souvent de regarder derri\u00e8re lui. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Watchog",
+    "FrenchName":"Miradar",
+    "Description":"Il intimide l'ennemi en faisant briller son pelage et ses yeux gr\u00e2ce \u00e0 une substance \u00e0 l'int\u00e9rieur de son corps. (Pok\u00e9mon Noir 2 et Blanc 2)"
+  },
+  {
+    "EnglishName":"Lilliput",
+    "FrenchName":"Ponchiot",
+    "Description":"Les longs poils de son museau font un excellent radar qui analyse les alentours avec une grande acuit\u00e9. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Herdier",
+    "FrenchName":"Ponchien",
+    "Description":"Les poils qui entourent son corps comme un manteau sont extr\u00eamement durs et amortissent les coups. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Stoutland",
+    "FrenchName":"Mastouffe",
+    "Description":"Il sauve les gens bloqu\u00e9s dans les montagnes par des temp\u00eates de neige. Ses longs poils le prot\u00e8gent du froid. (Pok\u00e9mon Noir)"
+  },
+  {
+    "EnglishName":"Purrloin",
+    "FrenchName":"Chacripan",
+    "Description":"Il d\u00e9tourne l'attention de ses victimes avec ses gestes mignons pour mieux les d\u00e9trousser et savourer leur d\u00e9sarroi. (Pok\u00e9mon Noir 2 et Blanc 2)"
+  },
+  {
+    "EnglishName":"Liepard",
+    "FrenchName":"L\u00e9opardus",
+    "Description":"Sa ligne \u00e9l\u00e9gante cache une musculature f\u00e9line qui lui permet de surprendre lors de ses attaques nocturnes. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Pansage",
+    "FrenchName":"Feuillajou",
+    "Description":"Les feuilles qui poussent sur sa t\u00eate soignent la fatigue. Il en donne aux Pok\u00e9mon affaiblis. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Simisage",
+    "FrenchName":"Feuiloutan",
+    "Description":"Il a un temp\u00e9rament violent et se bat avec sa queue pleine d'\u00e9pines. La feuille sur sa t\u00eate est tr\u00e8s am\u00e8re. (Pok\u00e9mon Noir)"
+  },
+  {
+    "EnglishName":"Pansear",
+    "FrenchName":"Flamajou",
+    "Description":"Il vit dans les crat\u00e8res des volcans. L'int\u00e9rieur de la m\u00e8che qu'il a sur la t\u00eate peut atteindre 300\u00b0C. (Pok\u00e9mon Blanc)"
+  },
+  {
+    "EnglishName":"Simisear",
+    "FrenchName":"Flamoutan",
+    "Description":"Quand il est excit\u00e9, des flamm\u00e8ches br\u00fblantes dansent sur sa t\u00eate et sa queue. Il raffole des choses sucr\u00e9es. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Panpour",
+    "FrenchName":"Flotajou",
+    "Description":"Sa houppette est charg\u00e9e d'eau et de nutriments. Il nourrit les plantes et les arbres avec sa queue. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Simipour",
+    "FrenchName":"Flotoutan",
+    "Description":"Il aime les endroits o\u00f9 l'eau est pure. Il se ravitaille en eau en l'aspirant avec sa queue. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Musharna",
+    "FrenchName":"Mushana",
+    "Description":"Il peut mat\u00e9rialiser les r\u00eaves qu'il a mang\u00e9s. La fum\u00e9e qui sort de son front prend la forme des objets vus en r\u00eave. (Pok\u00e9mon Blanc)"
+  },
+  {
+    "EnglishName":"Pidove",
+    "FrenchName":"Poichigeon",
+    "Description":"Ces Pok\u00e9mon vivent en ville. Ils sont peu farouches et se regroupent souvent dans les parcs ou sur les places. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Tranquill",
+    "FrenchName":"Colombeau",
+    "Description":"Quel que soit le lieu o\u00f9 il se trouve, il arrive toujours \u00e0 retrouver son Dresseur comme son propre nid. (Pok\u00e9mon Noir 2 et Blanc 2)"
+  },
+  {
+    "EnglishName":"Unfezant",
+    "FrenchName":"D\u00e9flaisan",
+    "Description":"Le m\u00e2le intimide ses ennemis avec ses caroncules. La femelle vole mieux que le m\u00e2le. (Pok\u00e9mon Noir)"
+  },
+  {
+    "EnglishName":"Blitzle",
+    "FrenchName":"Z\u00e9bibron",
+    "Description":"Sa crini\u00e8re luit quand il l\u00e2che des d\u00e9charges. Il module leur rythme et leur nombre pour communiquer avec ses pairs. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Zebstrika",
+    "FrenchName":"Z\u00e9blitz",
+    "Description":"De caract\u00e8re violent, il envoie avec sa crini\u00e8re des arcs \u00e9lectriques de tous les c\u00f4t\u00e9s lorsqu'il se sent provoqu\u00e9. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Roggenrola",
+    "FrenchName":"Nodulithe",
+    "Description":"Il a une oreille hexagonale. Son corps, compress\u00e9 dans des strates profondes, est dur comme de l'acier. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Boldore",
+    "FrenchName":"G\u00e9olithe",
+    "Description":"Quand il est en forme, son noyau devient visible. Il peut se d\u00e9placer dans toutes les directions sans se tourner. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Gigalith",
+    "FrenchName":"Gigalithe",
+    "Description":"D'innombrables fissures se dessinent \u00e0 la surface de son corps lorsqu'il d\u00e9cha\u00eene toute son \u00e9nergie. (Pok\u00e9mon Ultra Soleil)"
+  },
+  {
+    "EnglishName":"Woobat",
+    "FrenchName":"Chovsourir",
+    "Description":"Il s'accroche aux murs des cavernes en se servant de son nez comme ventouse. Il y laisse une trace en forme de c\u0153ur. (Pok\u00e9mon Blanc)"
+  },
+  {
+    "EnglishName":"Swoobat",
+    "FrenchName":"Rhinolove",
+    "Description":"Il \u00e9met des ondes sonores de diff\u00e9rentes fr\u00e9quences par le nez. Certaines peuvent briser des rochers. (Pok\u00e9mon Noir)"
+  },
+  {
+    "EnglishName":"Drilbur",
+    "FrenchName":"Rototaupe",
+    "Description":"Il tourbillonne sur lui-m\u00eame pour se d\u00e9placer sous terre. Il peut atteindre les 50 km/h en ligne droite. (Pok\u00e9mon Noir 2 et Blanc 2)"
+  },
+  {
+    "EnglishName":"Excadrill",
+    "FrenchName":"Minotaupe",
+    "Description":"Il se creuse des terriers labyrinthiques \u00e0 100 m sous terre. Il lui arrive de percer les galeries du m\u00e9tro. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Audino",
+    "FrenchName":"Nanm\u00e9ou\u00efe",
+    "Description":"Son ou\u00efe est si d\u00e9velopp\u00e9e qu'il arrive \u00e0 juger de la sant\u00e9 des gens ou \u00e0 savoir quand un \u0152uf va \u00e9clore. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Timburr",
+    "FrenchName":"Charpenti",
+    "Description":"Il porte toujours une poutre. Il appara\u00eet sur les chantiers pour aider aux travaux. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Gurdurr",
+    "FrenchName":"Ouvrifier",
+    "Description":"Ce Pok\u00e9mon hyper muscl\u00e9 manipule avec habilet\u00e9 les poutres m\u00e9talliques et peut d\u00e9manteler un immeuble en un clin d'oeil. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Conkeldurr",
+    "FrenchName":"B\u00e9tochef",
+    "Description":"Il utilise l'effet centrifuge pour manier sans trop d'effort ses piliers de b\u00e9ton et d\u00e9clencher des attaques puissantes. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Tympole",
+    "FrenchName":"Tritonde",
+    "Description":"Il ressemble \u00e0 un t\u00eatard avec des \u00e9couteurs sur la t\u00eate ou des pustules. Ses sourcils sont pench\u00e9s et rappellent des notes de musique. Il fait vibrer ses joues pour \u00e9mettre des sons imperceptibles pour l'homme. Il communique gr\u00e2ce \u00e0 leur rythme. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Palpitoad",
+    "FrenchName":"Batracn\u00e9",
+    "Description":"Quand il fait vibrer la bosse sur sa t\u00eate, il provoque des ondulations dans l'eau, mais aussi des tremblements de terre. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Seismitoad",
+    "FrenchName":"Crapustule",
+    "Description":"Il fait gicler un liquide paralysant des pustules sur sa t\u00eate, et attaque ses ennemis \u00e0 coups de vibrations. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Throh",
+    "FrenchName":"Judokrak",
+    "Description":"Ils aiment projeter ceux qui sont plus grand qu'eux. Ils changent de ceinture quand ils progressent. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Sawk",
+    "FrenchName":"Karacl\u00e9e",
+    "Description":"Quand il noue sa ceinture, il est plus concentr\u00e9 et ses coups font plus mal. Il s'\u00e9nerve si on g\u00eane son entra\u00eenement. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Sewaddle",
+    "FrenchName":"Larveyette",
+    "Description":"La mascotte des cr\u00e9ateurs de mode. Il d\u00e9coupe ses v\u00eatements dans les feuilles qu'il trouve. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Swadloon",
+    "FrenchName":"Couverdure",
+    "Description":"Il se prot\u00e8ge du froid en s'emmitouflant dans une feuille. Il se d\u00e9place en for\u00eat et mange les feuilles tomb\u00e9es par terre. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Leavanny",
+    "FrenchName":"Manternel",
+    "Description":"Il fabrique des v\u00eatements de feuilles pour les Pok\u00e9mons encore jeunes gr\u00e2ce \u00e0 son fil de soie adh\u00e9sif. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Venipede",
+    "FrenchName":"Venipatte",
+    "Description":"Sa morsure est tr\u00e8s venimeuse. Elle paralyse m\u00eame les grands Pok\u00e9mon Oiseaux, ses pr\u00e9dateurs. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Whirlipede",
+    "FrenchName":"Scobolide",
+    "Description":"Prot\u00e9g\u00e9 par sa solide carapace, il fonce sur ses ennemis en roulant comme un pneu. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Scolipede",
+    "FrenchName":"Brutapode",
+    "Description":"Il accule l'ennemi par ses mouvements rapides et l'attaque avec ses cornes. Il ne s'arr\u00eate qu'au coup de gr\u00e2ce. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Cottonee",
+    "FrenchName":"Doudouvet",
+    "Description":"Lorsqu'on l'attaque, il s\u00e8me du coton pour faire diversion. Celui-ci repousse tout de suite. (Pok\u00e9mon Ultra-Lune)"
+  },
+  {
+    "EnglishName":"Whimsicott",
+    "FrenchName":"Farfaduvet",
+    "Description":"Il s'introduit chez les gens \u00e0 la faveur d'un courant d'air, r\u00e9pand du coton aux quatre coins de la pi\u00e8ce puis repart comme si de rien n'\u00e9tait. (Pok\u00e9mon Soleil)"
+  },
+  {
+    "EnglishName":"Petilil",
+    "FrenchName":"Chlorobule",
+    "Description":"En raison de leurs vertus revigorantes, les feuilles de sa t\u00eate sont s\u00e9ch\u00e9es au soleil, puis bues en infusion par les personnes \u00e2g\u00e9es. (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Lilligant",
+    "FrenchName":"Fragilady",
+    "Description":"La fleur sur sa t\u00eate a des propri\u00e9t\u00e9s relaxantes. Elle se fane si on ne s'en occupe pas avec attention. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Basculin",
+    "FrenchName":"Bargantua",
+    "Description":"Les rouges et les bleus se d\u00e9testent et se battent d\u00e8s qu'ils s'aper\u00e7oivent. Un Pok\u00e9mon violent mais d\u00e9licieux. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Sandile",
+    "FrenchName":"Masca\u00efman",
+    "Description":"Tapi dans le sable, il attend qu'une proie passe pour lui croquer la patte. Il a notamment un gros faible pour les Kraknoix en guise d'ap\u00e9ritif. (Pok\u00e9mon Lune)"
+  },
+  {
+    "EnglishName":"Krokorok",
+    "FrenchName":"Escroco",
+    "Description":"Il garde une partie de ses prises en r\u00e9serve dans le sable, au cas o\u00f9 il rentrerait bredrouille de la chasse. (Pok\u00e9mon Ultra-Lune)"
+  },
+  {
+    "EnglishName":"Krookodile",
+    "FrenchName":"Crocorible",
+    "Description":"Il peut rep\u00e9rer une proie \u00e0 une distance de 50 km. Il s\u2019approche alors en \u00ab nageant \u00bb dans le sable, puis lui saute dessus pour la croquer. (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Darumaka",
+    "FrenchName":"Darumarond",
+    "Description":"Quand il dort, ses pattes se r\u00e9tractent et les flammes qui br\u00fblent \u00e0 600 \u00b0C dans son corps s'apaisent. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Darmanitan",
+    "FrenchName":"Darumacho",
+    "Description":"Il entretient des flammes \u00e0 1 400 \u00b0C dans son corps. De quoi d\u00e9truire un camion-benne d'un coup de poing ! (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Maractus",
+    "FrenchName":"Maracachi",
+    "Description":"Il vit dans les endroits secs. Quand il bouge son corps en rythme, il fait un bruit de maracas. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Dwebble",
+    "FrenchName":"Crabicoque",
+    "Description":"Lorsqu'il trouve un caillou \u00e0 sa taille, il y creuse un trou avec le fluide qui sort de sa bouche et s'en sert comme maison. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Crustle",
+    "FrenchName":"Crabaraque",
+    "Description":"Il est assez endurant pour voyager des jours durant dans des zones dess\u00e9ch\u00e9es avec son lourd rocher sur le dos. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Scraggy",
+    "FrenchName":"Baggiguane",
+    "Description":"Il remonte sa peau jusqu'\u00e0 son cou pour se prot\u00e9ger. Elle a une constitution \u00e9lastique qui absorbe les coups. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Scrafty",
+    "FrenchName":"Bagga\u00efd",
+    "Description":"La plus grande cr\u00eate d\u00e9termine le meneur du groupe. Il d\u00e9truit des blocs de b\u00e9ton \u00e0 coups de pied. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Sigilyph",
+    "FrenchName":"Crypt\u00e9ro",
+    "Description":"Il \u00e9tait le dieu protecteur d'une ville antique. Il repoussait les envahisseurs \u00e0 coups de pouvoir psychique. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Yamask",
+    "FrenchName":"Tutafef",
+    "Description":"Le motif de son masque est son visage quand il \u00e9tait humain. Parfois, il le regarde et se met \u00e0 pleurer. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Cofagrigus",
+    "FrenchName":"Tutankafer",
+    "Description":"Il para\u00eet qu'il avale les gens et les transforme en momies. Il adore manger des lingots d'or. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Tirtouga",
+    "FrenchName":"Carapagos",
+    "Description":"Il a \u00e9t\u00e9 recr\u00e9\u00e9 \u00e0 partir d'un fossile pr\u00e9historique. Il vivait autrefois dans la mer, mais avait su s'adapter pour chasser aussi sur la terre ferme. (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Carracosta",
+    "FrenchName":"M\u00e9gapagos",
+    "Description":"Il vit sur terre et en mer. Ses bras surpuissants peuvent percer des trous dans la coque des paquebots. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Archen",
+    "FrenchName":"Ark\u00e9apti",
+    "Description":"On dit qu'il serait l'anc\u00eatre de tous les Pok\u00e9mon Oiseaux. Il ne sait pas voler et se d\u00e9place en sautant d'arbre en arbre. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Archeops",
+    "FrenchName":"A\u00e9ropt\u00e9ryx",
+    "Description":"Il est plus dou\u00e9 pour courir que pour voler. Il doit s'\u00e9lancer \u00e0 40 km/h avant de pouvoir s'envoler. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Trubbish",
+    "FrenchName":"Miamiasme",
+    "Description":"Il aime les endroits mal tenus. Le gaz qu'il rote endort pendant une semaine. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Garbodor",
+    "FrenchName":"Miasmax",
+    "Description":"Il aspire les d\u00e9chets et les int\u00e8gre \u00e0 son corps pour produire des gaz et des fluides toxiques. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Minccino",
+    "FrenchName":"Chinchidou",
+    "Description":"Un Pok\u00e9mon qui aime la propret\u00e9. Chez lui, il enl\u00e8ve sans cesse la poussi\u00e8re en utilisant sa queue comme un plumeau. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Cinccino",
+    "FrenchName":"Pashmilla",
+    "Description":"La texture de ses poils blancs est incomparable. Elle n'attire ni la poussi\u00e8re, ni l'\u00e9lectricit\u00e9 statique. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Gothita",
+    "FrenchName":"Scrutella",
+    "Description":"Fixe les Pok\u00e9mon et les Dresseurs du regard comme s'il y avait quelque chose que personne d'autre ne pouvait voir. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Gothorita",
+    "FrenchName":"Mesm\u00e9rella",
+    "Description":"On dit qu'ils apparaissent les nuits \u00e9toil\u00e9es et manipulent les enfants pour jouer avec eux. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Gothitelle",
+    "FrenchName":"Sid\u00e9rella",
+    "Description":"Pr\u00e9dit l'avenir \u00e0 partir de la position et du mouvement des \u00e9toiles. Per\u00e7oit aussi l'esp\u00e9rance de vie des Dresseurs. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Solosis",
+    "FrenchName":"Nucl\u00e9os",
+    "Description":"Son corps est enrob\u00e9 dans un fluide sp\u00e9cial, ce qui lui permet de vivre dans n'importe quel environnement. (Pok\u00e9mon Blanc)"
+  },
+  {
+    "EnglishName":"Duosion",
+    "FrenchName":"M\u00e9ios",
+    "Description":"Il poss\u00e8de deux cerveaux s\u00e9par\u00e9s qui le font parfois agir de fa\u00e7on totalement incoh\u00e9rente. (Pok\u00e9mon Noir)"
+  },
+  {
+    "EnglishName":"Reuniclus",
+    "FrenchName":"Symbios",
+    "Description":"Ses bras, faits d'une mati\u00e8re conduisant ses pouvoirs psychiques, sont assez puissants pour broyer des rochers. (Pok\u00e9mon Noir 2 et Blanc 2)"
+  },
+  {
+    "EnglishName":"Ducklett",
+    "FrenchName":"Couaneton",
+    "Description":"Quand on l'attaque, il s'\u00e9broue et fait jaillir de la vapeur d'eau de tout son corps. Il se cache dedans pour s'enfuir. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Swanna",
+    "FrenchName":"Lakm\u00e9cygne",
+    "Description":"Un Pok\u00e9mon gracieux, mais aussi robuste. Il peut voler des milliers de kilom\u00e8tres gr\u00e2ce \u00e0 ses ailes puissantes. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Vanillite",
+    "FrenchName":"Sorb\u00e9b\u00e9",
+    "Description":"Ce Pok\u00e9mon est n\u00e9 d'un gla\u00e7on qui a baign\u00e9 dans la lumi\u00e8re du matin. Il se cache dans la neige pour dormir. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Vanilluxe",
+    "FrenchName":"Sorbouboul",
+    "Description":"Quand ses deux t\u00eates se f\u00e2chent en m\u00eame temps, il \u00e9met un blizzard de ses cornes et enfouit les alentours sous la neige. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Deerling",
+    "FrenchName":"Vivaldaim",
+    "Description":"Son pelage change selon la saison, et dans une moindre mesure en fonction de l'humidit\u00e9 et de la temp\u00e9rature. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Sawsbuck",
+    "FrenchName":"Haydaim",
+    "Description":"Il change d'habitat selon les saisons. Les gens constatent le passage des saisons en regardant ses ramures. (Pok\u00e9mon Noir)"
+  },
+  {
+    "EnglishName":"Emolga",
+    "FrenchName":"Emolga",
+    "Description":"Il accumule dans ses membranes l'\u00e9lectricit\u00e9 qu'il produit dans ses bajoues, et la rel\u00e2che tout en planant. (Pok\u00e9mon Noir)"
+  },
+  {
+    "EnglishName":"Karrablast",
+    "FrenchName":"Carabing",
+    "Description":"Pour une raison inconnue, ce Pok\u00e9mon \u00e9volue s'il subit une d\u00e9charge \u00e9lectrique pendant qu'il attaque un Escargaume. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Escavalier",
+    "FrenchName":"Lan\u00e7argot",
+    "Description":"Il vole \u00e0 toute vitesse et frappe tout ennemi de ses lances pointues. Il combat bravement contre les plus forts que lui. (Pok\u00e9mon Noir)"
+  },
+  {
+    "EnglishName":"Foongus",
+    "FrenchName":"Trompignon",
+    "Description":"Gr\u00e2ce \u00e0 sa ressemblance myst\u00e9rieuse avec une Pok\u00e9 Ball, il attire ses ennemis et rel\u00e2che des spores empoisonn\u00e9es. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Amoonguss",
+    "FrenchName":"Gaulet",
+    "Description":"On le trouve dans les endroits humides. Il fait danser ses ombrelles en forme de Pok\u00e9 Balls pour attirer ses proies. (Pok\u00e9mon Noir 2 et Blanc 2)"
+  },
+  {
+    "EnglishName":"Frillish",
+    "FrenchName":"Viskuse",
+    "Description":"Il enserre ses proies dans ses voiles et les entra\u00eene sous la surface de la mer jusqu'\u00e0 plus de 8 000 m de profondeur. (Pok\u00e9mon Blanc)"
+  },
+  {
+    "EnglishName":"Jellicent",
+    "FrenchName":"Moyade",
+    "Description":"Il est presque enti\u00e8rement fait d'eau de mer. On dit qu'il vit dans un palais fait des \u00e9paves des bateaux qu'il a coul\u00e9s. (Pok\u00e9mon Noir 2 et Blanc 2)"
+  },
+  {
+    "EnglishName":"Alomomola",
+    "FrenchName":"Mamanbo",
+    "Description":"Il berce les Pok\u00e9mon bless\u00e9s dans ses nageoires et les gu\u00e9rit gr\u00e2ce \u00e0 la membrane dont il est recouvert. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Joltik",
+    "FrenchName":"Statitik",
+    "Description":"Ne produisant pas lui-m\u00eame d'\u00e9lectricit\u00e9, il s'accroche aux Pok\u00e9mon plus grands et aspire leur \u00e9lectricit\u00e9 statique. (Pok\u00e9mon Noir 2 et Blanc 2)"
+  },
+  {
+    "EnglishName":"Galvantula",
+    "FrenchName":"Mygavolt",
+    "Description":"Il tend des pi\u00e8ges avec ses fils \u00e9lectriques. Il d\u00e9guste tranquillement ses proies une fois \u00e9lectrocut\u00e9es. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Ferroseed",
+    "FrenchName":"Grindur",
+    "Description":"Quand il sent un danger, il r\u00e9agit en projetant toutes ses \u00e9pines d'un coup et s'enfuit en roulant sur lui-m\u00eame. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Ferrothorn",
+    "FrenchName":"Noacier",
+    "Description":"Il s'accroche aux plafonds des grottes et attaque les proies qui passent en dessous avec ses \u00e9pines d'acier. (Pok\u00e9mon Blanc)"
+  },
+  {
+    "EnglishName":"Klink",
+    "FrenchName":"Tic",
+    "Description":"Le mouvement de ses deux corps ench\u00e2ss\u00e9s produit l'\u00e9nergie qui lui est n\u00e9cessaire pour vivre. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Klang",
+    "FrenchName":"Clic",
+    "Description":"Ils communiquent entre eux en changeant leur sens de rotation. Plus ils sont en col\u00e8re, plus ils tournent vite. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Klinklang",
+    "FrenchName":"Cliticlic",
+    "Description":"Son noyau rouge lui permet d'accumuler de l'\u00e9nergie qu'il projette ensuite aux alentours gr\u00e2ce \u00e0 ses pics. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Tynamo",
+    "FrenchName":"Anchwatt",
+    "Description":"Tout seuls, ils ne d\u00e9gagent pas beaucoup d'\u00e9lectricit\u00e9, mais un banc de ce Pok\u00e9mon produit la m\u00eame puissance qu'un \u00e9clair. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Eelektrik",
+    "FrenchName":"Lamp\u00e9roie",
+    "Description":"Ses t\u00e2ches \u00e9mettent de l'\u00e9lectricit\u00e9 quand il s'enroule autour de ses proies pour les paralyser avant de les d\u00e9vorer. (Pok\u00e9mon Noir 2 et Blanc 2)"
+  },
+  {
+    "EnglishName":"Eelektross",
+    "FrenchName":"Ohmassacre",
+    "Description":"Il s'attache \u00e0 ses proies avec sa bouche-ventouse et les \u00e9lectrocute avec ses crocs. (Pok\u00e9mon Blanc)"
+  },
+  {
+    "EnglishName":"Elgyem",
+    "FrenchName":"Lewsor",
+    "Description":"On dit qu'il est apparu soudainement il y a 50 ans des confins d'un d\u00e9sert o\u00f9 un OVNI se serait \u00e9cras\u00e9. (Pok\u00e9mon Noir 2 et Blanc 2)"
+  },
+  {
+    "EnglishName":"Beheeyem",
+    "FrenchName":"Neitram",
+    "Description":"Ses pouvoirs psychiques sont redoutables. Il peut contr\u00f4ler ses adversaires et modifier leurs souvenirs gr\u00e2ce \u00e0 ses doigts tricolores. (Pok\u00e9mon Ultra-Lune)"
+  },
+  {
+    "EnglishName":"Litwick",
+    "FrenchName":"Fun\u00e9cire",
+    "Description":"Sa flamme ne s'allume que lorsqu'il aspire l'\u00e9nergie vitale des gens et des autres Pok\u00e9mon. (Pok\u00e9mon Noir 2 et Blanc 2)"
+  },
+  {
+    "EnglishName":"Lampent",
+    "FrenchName":"M\u00e9lancolux",
+    "Description":"Il aspire les \u00e2mes pour entretenir sa flamme. Il erre dans les h\u00f4pitaux dans l'attente d'un tr\u00e9pas. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Chandelure",
+    "FrenchName":"Lugulabre",
+    "Description":"Les \u00e2mes consum\u00e9es par ses flammes \u00e9tranges sont condamn\u00e9es \u00e0 l'errance pour l'\u00e9ternit\u00e9. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Axew",
+    "FrenchName":"Coupenotte",
+    "Description":"Il laisse la marque de ses crocs dans les arbres pour marquer son territoire. Ses crocs repoussent d\u00e8s qu'ils tombent. (Pok\u00e9mon Blanc)"
+  },
+  {
+    "EnglishName":"Fraxure",
+    "FrenchName":"Incisache",
+    "Description":"Comme ses crocs bris\u00e9s ne repoussent pas, il les aiguise avec soin apr\u00e8s le combat sur les pierres des rivi\u00e8res. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Haxorus",
+    "FrenchName":"Tranchodon",
+    "Description":"Ses crocs sont tellement puissants qu'ils peuvent d\u00e9couper l'acier sans s'\u00e9mousser. Son armure est tr\u00e8s solide. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Cubchoo",
+    "FrenchName":"Polarhume",
+    "Description":"Ila toujours la goutte au nez. Il l'aspire pour d\u00e9clencher ses capacit\u00e9s. La morve en est la mati\u00e8re premi\u00e8re. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Beartic",
+    "FrenchName":"Polagriffe",
+    "Description":"Il g\u00e8le son haleine et en fait des crocs et des griffes de glace pour combattre. ll vit dans les terres gel\u00e9es du nord. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Cryogonal",
+    "FrenchName":"Hexagel",
+    "Description":"Il attrape ses proies \u00e0 l'aide de sa cha\u00eene faite de cristaux de givre et les g\u00e8le \u00e0 pr\u00e8s de -100\u00b0C. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Shelmet",
+    "FrenchName":"Escargaume",
+    "Description":"Il \u00e9volue quand il baigne dans une \u00e9nergie \u00e9lectrique avec un Carabing. La cause en est inconnue. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Accelgor",
+    "FrenchName":"Limaspeed",
+    "Description":"Il s'est bien all\u00e9g\u00e9 en se d\u00e9barrassant de sa lourde carapace. Il se bat avec l'agilit\u00e9 d'un ninja. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Stunfisk",
+    "FrenchName":"Limonde",
+    "Description":"Sa peau est si dure qu'il peut se faire pi\u00e9tiner par un sumo sans rien sentir. Il sourit en \u00e9mettant de l'\u00e9lectricit\u00e9. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Mienfoo",
+    "FrenchName":"Kungfouine",
+    "Description":"Il se flatte d'\u00eatre tr\u00e8s rapide. Pour compenser la faiblesse de ses coups, il en ass\u00e8ne un tr\u00e8s grand nombre. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Mienshao",
+    "FrenchName":"Shaofouine",
+    "Description":"Il combat \u00e0 l'aide des longs poils de ses pattes ant\u00e9rieures. Une fois lanc\u00e9 dans ses encha\u00eenements, rien ne l'arr\u00eate. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Druddigon",
+    "FrenchName":"Drakkarmin",
+    "Description":"Il sillonne les grottes \u00e9troites, capturant ses proies avec ses griffes ac\u00e9r\u00e9es. Sa face est dure comme le roc. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Golett",
+    "FrenchName":"Gringolem",
+    "Description":"Ce Pok\u00e9mon fait de terre glaise, produit de la technologie d'une civilisation antique, vit depuis des mill\u00e9naires. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Golurk",
+    "FrenchName":"Golemastoc",
+    "Description":"Ses cr\u00e9ateurs d'une lointaine \u00e9poque lui auraient ordonn\u00e9 de prot\u00e9ger les humains et les Pok\u00e9mon. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Pawniard",
+    "FrenchName":"Scalpion",
+    "Description":"Ignorant leurs propres blessures, ils se jettent en groupe sur l'ennemi pour le d\u00e9chirer de leur corps fait de lames. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Bisharp",
+    "FrenchName":"Scalproie",
+    "Description":"Peu importe sa puissance, il abdique de son r\u00f4le de chef si la lame de sa t\u00eate subit la moindre \u00e9br\u00e9chure. (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Bouffalant",
+    "FrenchName":"Frison",
+    "Description":"Son pelage fourni absorbe les chocs et lui permet d'ass\u00e9ner sans broncher le plus violent des coups de t\u00eate. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Rufflet",
+    "FrenchName":"Furaiglon",
+    "Description":"Il s'attaque \u00e0 tout ce qui bouge, sans discrimination. Ses blessures et \u00e9checs ne font que le rendre plus fort. (Pok\u00e9mon Soleil)"
+  },
+  {
+    "EnglishName":"Braviary",
+    "FrenchName":"Gueriaigle",
+    "Description":"Surnomm\u00e9 \u00ab le h\u00e9ros c\u00e9leste \u00bb, il est tellement fier qu'il pr\u00e9f\u00e8re endurer mille souffrances plut\u00f4t que de choisir la fuite. (Pok\u00e9mon Ultra-Lune)"
+  },
+  {
+    "EnglishName":"Vullaby",
+    "FrenchName":"Vostourno",
+    "Description":"Il prot\u00e8ge son tendre popotin avec le cr\u00e2ne d'une de ses proies. Il en change r\u00e9guli\u00e8rement en grandissant. (Pok\u00e9mon Soleil)"
+  },
+  {
+    "EnglishName":"Mandibuzz",
+    "FrenchName":"Vaututrice",
+    "Description":"Il guette le sol depuis les airs et fond sur les proies affaiblies. Il aime s'appr\u00eater avec des ossements. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Heatmor",
+    "FrenchName":"Aflamanoir",
+    "Description":"Avec sa langue de feu \u00e0 haute temp\u00e9rature, il fait fondre le corps d'acier des Fermite pour les d\u00e9vorer. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Durant",
+    "FrenchName":"Fermite",
+    "Description":"Ils portent une armure de fer et se regroupent pour contrer les attaques de leurs pr\u00e9dateurs, les Aflamanoir. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Deino",
+    "FrenchName":"Solochi",
+    "Description":"Comme il ne voit rien, il per\u00e7oit son environnement en mordant et en fon\u00e7ant \u00e0 tout va. Il est couvert de plaies. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Zweilous",
+    "FrenchName":"Diamat",
+    "Description":"Ses deux t\u00eates s'entendent mal et sont en comp\u00e9tition permanente pour savoir qui mangera le plus et qui sera le chef (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Hydreigon",
+    "FrenchName":"Trioxhydre",
+    "Description":"Les t\u00eates sur ses bras n'ont pas de cerveau. Avec ses trois t\u00eates, il d\u00e9vore et d\u00e9truit tout. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Larvesta",
+    "FrenchName":"Pyronille",
+    "Description":"Il se bat en projetant des flammes par ses cinq cornes. Ces gerbes de feu d\u00e9vastatrices peuvent atteindre les 3 000 \u00b0C (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Volcarona",
+    "FrenchName":"Pyrax",
+    "Description":"Selon la l\u00e9gende, il serait n\u00e9 d'un cocon de flammes et serait venu \u00e0 la rescousse des humains et des Pok\u00e9mons souffrant du froid. (Pok\u00e9mon Ultra-Lune)"
+  },
+  {
+    "EnglishName":"Cobalion",
+    "FrenchName":"Cobaltium",
+    "Description":"Un corps et un c\u0153ur en acier tremp\u00e9, jadis au service de la d\u00e9fense des Pok\u00e9mon bless\u00e9s par les humains. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Terrakion",
+    "FrenchName":"Terrakium",
+    "Description":"Sa puissance d'impact lui permet d'enfoncer d'un seul coup le rempart d'un ch\u00e2teau. Un Pok\u00e9mon de l\u00e9gende. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Virizion",
+    "FrenchName":"Viridium",
+    "Description":"Il lac\u00e8re ses ennemis avec une agilit\u00e9 sans \u00e9gale. La l\u00e9gende raconte qu'il prot\u00e8ge les Pok\u00e9mon. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Tornadus",
+    "FrenchName":"Bor\u00e9as",
+    "Description":"Le bas de son corps est entour\u00e9 d'une masse semblable \u00e0 un nuage. Il vole dans le ciel \u00e0 300 km/h. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Thundurus",
+    "FrenchName":"Fulguris",
+    "Description":"Il vole dans le ciel d'Unys et fait tomber des \u00e9clairs, provoquant des incendies qui font sa mauvaise r\u00e9putation. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Landorus",
+    "FrenchName":"D\u00e9m\u00e9t\u00e9ros",
+    "Description":"Il utilise l'\u00e9nergie qu'il tire du vent et de la foudre pour enrichir les sols en nutriments pour les cultures. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Chespin",
+    "FrenchName":"Marisson",
+    "Description":"Sa t\u00eate et son dos sont recouverts d'une carapace tellement dure que m\u00eame une collision avec un camion ne lui ferait rien. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Quilladin",
+    "FrenchName":"Bogu\u00e9risse",
+    "Description":"La carapace qui recouvre son corps le prot\u00e8ge des attaques adverses, et ses piquants lui permettent de contre-attaquer. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Chesnaught",
+    "FrenchName":"Blind\u00e9pique",
+    "Description":"Il est si puissant qu'il pourrait renverser un char de 50 t d'un seul assaut. Il se sert de son corps comme d'un bouclier pour prot\u00e9ger ses alli\u00e9s. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Fennekin",
+    "FrenchName":"Feunnec",
+    "Description":"En cas de coup de fatigue, il grignote des rameaux pour recharger ses batteries. Ses oreilles d\u00e9gagent une chaleur qui d\u00e9passe les 200\u00b0C (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Braixen",
+    "FrenchName":"Roussil",
+    "Description":"Quand il saisit la branche plant\u00e9e dans sa queue, elle prend feu par friction. Il peut communiquer avec ses cong\u00e9n\u00e8res en agitant ce b\u00e2ton enflamm\u00e9. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Delphox",
+    "FrenchName":"Goupelin",
+    "Description":"Peut pr\u00e9dire l'avenir s'il se concentre en fixant la flamme qui danse au bout de sa canne. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Froakie",
+    "FrenchName":"Grenousse",
+    "Description":"Il prot\u00e8ge son corps en l'entourant d'une mousse d\u00e9licate. Malgr\u00e9 son apparence insouciante, ce Pok\u00e9mon est en fait constamment \u00e0 l'aff\u00fbt. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Frogadier",
+    "FrenchName":"Cro\u00e2poral",
+    "Description":"Son agilit\u00e9 est incomparable. Il peut gravir une tour de 600 m de haut en moins d'une minute. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Greninja",
+    "FrenchName":"Amphinobi",
+    "Description":"Il transforme des jets d'eau sous pression en redoutables shuriken. Une fois lanc\u00e9s, ils tournent si vite qu'ils peuvent m\u00eame couper le m\u00e9tal. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Bunnelby",
+    "FrenchName":"Sapereau",
+    "Description":"Il est dot\u00e9 d'oreilles ressemblant \u00e0 des pelles. \u00c0 force de creuser des galeries, leur puissance est telle qu'elles peuvent trancher de grosses racines. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Diggersby",
+    "FrenchName":"Excavarenne",
+    "Description":"Ses oreilles sont de v\u00e9ritables excavateurs, venant \u00e0 bout des blocs de pierre les plus durs. Apr\u00e8s l'effort, il se repose en paressant. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Fletchling",
+    "FrenchName":"Passerouge",
+    "Description":"Une agr\u00e9able chaleur \u00e9mane toujours de son petit corps. Dans les r\u00e9gions froides, il n'est pas rare qu'il dorme dans le lit de son Dresseur. (Pok\u00e9mon Ultra-Lune)"
+  },
+  {
+    "EnglishName":"Fletchinder",
+    "FrenchName":"Braisillon",
+    "Description":"Il crache des \u00e9tincelles pour br\u00fbler les hautes herbes et attraper les proies surprises qui tentent d'\u00e9chapper \u00e0 l'incendie. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Talonflame",
+    "FrenchName":"Flambusard",
+    "Description":"Il fond sur ses proies en piqu\u00e9 \u00e0 500 km/h, semant derri\u00e8re lui une pluie d'escarbilles \u00e9chapp\u00e9es de ses ailes. (Pok\u00e9mon Lune)"
+  },
+  {
+    "EnglishName":"Scatterbug",
+    "FrenchName":"L\u00e9pidonille",
+    "Description":"Lorsqu'il est poursuivi par un Pok\u00e9mon Oiseau, il projette une poudre noire qui paralyse tous ceux qu'elle touche. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Spewpa",
+    "FrenchName":"P\u00e9r\u00e9grain",
+    "Description":"M\u00eame les becs ac\u00e9r\u00e9s des Pok\u00e9mon Oiseaux ne parviennent pas \u00e0 meurtrir son corps tr\u00e8s dur. Il se d\u00e9fend en crachant de la poudre. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Vivillon",
+    "FrenchName":"Prismillon",
+    "Description":"Ses ailes arborent diff\u00e9rents motifs en fonction de leur aire d'origine. Il est possible que le climat y soit pour quelque chose. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Litleo",
+    "FrenchName":"H\u00e9lionceau",
+    "Description":"Il n'h\u00e9site pas \u00e0 quitter la horde et \u00e0 mener une existence solitaire pour mieux pouvoir s'entra\u00eener. Il a le sang chaud et ne rechigne pas au combat. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Pyroar",
+    "FrenchName":"N\u00e9m\u00e9lios",
+    "Description":"Son souffle peut atteindre les 6 000\u00b0C et il s'en sert pour intimider l'ennemi. Dans la horde, les femelles prot\u00e8gent les petits. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Skiddo",
+    "FrenchName":"Cabriolaine",
+    "Description":"Tant qu'il a de l'eau et du soleil en abondance, ce Pok\u00e9mon n'a pas besoin de nourriture. Les feuilles sur son dos produisent son \u00e9nergie par photosynth\u00e8se. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Gogoat",
+    "FrenchName":"Chevroum",
+    "Description":"Ce Pok\u00e9mon vit dans les r\u00e9gions montagneuses. Le chef du troupeau s'impose \u00e0 l'issue d'un combat de cornes. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Pancham",
+    "FrenchName":"Pandespi\u00e8gle",
+    "Description":"Il fait son possible pour intimider ses adversaires avec un regard mena\u00e7ant, mais sans succ\u00e8s. Il a l'habitude de constamment m\u00e2cher une feuille. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Pangoro",
+    "FrenchName":"Pandarbare",
+    "Description":"D'un temp\u00e9rament fougueux, il ne supporte pas que l'on s'en prenne aux faibles. Sa feuille lui permet de deviner les actions de l'ennemi. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Furfrou",
+    "FrenchName":"Couafarel",
+    "Description":"Sa fourrure pousse ind\u00e9finiment, mais il refuse de se faire couper la toison par une personne en qui il n'a pas confiance. (Pok\u00e9mon Ultra-Lune)"
+  },
+  {
+    "EnglishName":"Espurr",
+    "FrenchName":"Psystigri",
+    "Description":"Il a quelques difficult\u00e9s \u00e0 contr\u00f4ler son pouvoir psychique. Gr\u00e2ce \u00e0 celui-ci, il peut projeter en l'air tous les objets dans un rayon de 100 m. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Meowstic",
+    "FrenchName":"Mistigrix",
+    "Description":"S'il se sent menac\u00e9, il l\u00e8ve les oreilles et d\u00e9cha\u00eene un pouvoir psychique capable de r\u00e9duire en miettes un camion de 10 t. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Honedge",
+    "FrenchName":"Monorpale",
+    "Description":"Si quelqu'un s'aventure \u00e0 l'empoigner, il enroule son \u00e9toffe bleue autour du bras de l'infortun\u00e9 et aspire son \u00e9nergie vitale jusqu'\u00e0 ce que ce dernier s'\u00e9croule. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Doublade",
+    "FrenchName":"Dimocl\u00e8s",
+    "Description":"M\u00eame les sabreurs chevronn\u00e9s sont incapables de parer les assauts continus et complexes men\u00e9s de concert par ces deux \u00e9p\u00e9es. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Aegislash",
+    "FrenchName":"Exagide",
+    "Description":"Il peut d\u00e9celer les qualit\u00e9s r\u00e9galiennes dans les \u00e2mes humaines. On raconte que celui ou celle qui obtient sa faveur deviendra \u00e0 coup s\u00fbr roi ou reine. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Spritzee",
+    "FrenchName":"Fluvetin",
+    "Description":"Son corps d\u00e9gage un parfum qui envo\u00fbte ceux qui le respirent et change en fonction de son alimentation. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Aromatisse",
+    "FrenchName":"Cocotine",
+    "Description":"Ce Pok\u00e9mon est capable d'\u00e9mettre toutes sortes d'odeurs pour incommoder son adversaire et augmenter ses chances de gagner. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Swirlix",
+    "FrenchName":"Sucroquin",
+    "Description":"Il se gave de sucreries \u00e0 longueur de journ\u00e9e, \u00e0 tel point que sa fourrure finit par ressembler \u00e0 de la barbe \u00e0 papa, sucr\u00e9e et poisseuse. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Slurpuff",
+    "FrenchName":"Cupcanaille",
+    "Description":"La finesse de son odorat lui permet de distinguer les nuances de parfums les plus subtiles, ce qui en fait un compagnon id\u00e9al pour les patissiers. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Inkay",
+    "FrenchName":"Sepiatop",
+    "Description":"Il attire ses proies en faisant clignoter son corps, puis les immobilise en les enserrant de ses longs tentacules. (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Malamar",
+    "FrenchName":"Sepiatroce",
+    "Description":"Il attire ses ennemis en les hypnotisant, avant de les enserrer de ses tentacules et de les neutraliser avec son suc gastrique. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Binacle",
+    "FrenchName":"Opermine",
+    "Description":"Ils prennent de l'\u00e9lan avec tout leur corps et soul\u00e8vent ainsi leur pierre pour se d\u00e9placer. Ils mangent les algues \u00e9chou\u00e9es sur le rivage. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Barbaracle",
+    "FrenchName":"Golgopathe",
+    "Description":"Apr\u00e8s \u00e9volution, les deux Opermine laissent place \u00e0 sept cr\u00e9atures qui ont la puissance cumul\u00e9e de sept Opermine. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Skrelp",
+    "FrenchName":"Venalgue",
+    "Description":"Sa ressemblance avec le varech pourri est confondante. Il se soustrait \u00e0 l'attention de ses ennemis en attendant de pouvoir \u00e9voluer. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Dragalge",
+    "FrenchName":"Kravarech",
+    "Description":"Il attend sa proie tapi au milieu des algues, et attaque en crachant un poison si corrosif qu'il peut m\u00eame dissoudre le m\u00e9tal. (Pok\u00e9mon Ultra-Lune)"
+  },
+  {
+    "EnglishName":"Clauncher",
+    "FrenchName":"Flingouste",
+    "Description":"Sa pince projette un jet d'eau sous pression suffisamment puissant pour abattre ses proies en plein vol. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Clawitzer",
+    "FrenchName":"Gamblast",
+    "Description":"Son \u00e9norme pince projette de v\u00e9ritables obus d'eau capables de transpercer la coque d'un p\u00e9trolier. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Helioptile",
+    "FrenchName":"Galvaran",
+    "Description":"Les plis de peau de chaque c\u00f4t\u00e9 de sa t\u00eate sont dot\u00e9s de cellules produisant de l'\u00e9lectricit\u00e9 quand elles sont expos\u00e9es \u00e0 la lumi\u00e8re du soleil. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Heliolisk",
+    "FrenchName":"Iguolta",
+    "Description":"Il augmente sa puissance motrice en stimulant les muscles de ses pattes avec des d\u00e9charges \u00e9lectriques. Il peut ainsi parcourir 100 m en 5 s. (Pok\u00e9mon Saphir Alpha)"
+  },
+  {
+    "EnglishName":"Tyrunt",
+    "FrenchName":"Ptyranidur",
+    "Description":"Ses \u00e9normes m\u00e2choires ont tant de puissance qu'elles peuvent compresser une voiture sans probl\u00e8me. Ce Pok\u00e9mon vivait il y a 100 millions d'ann\u00e9es. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Tyrantrum",
+    "FrenchName":"Rexillius",
+    "Description":"Dans les temps anciens, aucun Pok\u00e9mon ne pouvait rivaliser avec lui. Ses puissantes m\u00e2choires peuvent r\u00e9duire une \u00e9paisse plaque de m\u00e9tal en confettis. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Amaura",
+    "FrenchName":"Amagara",
+    "Description":"Pok\u00e9mon ancien, ramen\u00e9 \u00e0 la vie apr\u00e8s la d\u00e9couverte d'une partie de son corps conserv\u00e9e dans la glace pendant 100 millions d'ann\u00e9es. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Aurorus",
+    "FrenchName":"Dragmara",
+    "Description":"Les cristaux qui pars\u00e8ment son corps lui permettent de pi\u00e9ger ses ennemis dans la glace en \u00e9mettant de l'air refroidi \u00e0 -150\u00b0C. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Sylveon",
+    "FrenchName":"Nymphali",
+    "Description":"Gr\u00e2ce \u00e0 ses antennes semblables \u00e0 des rubans, il peut \u00e9mettre des ondes neutralisant l'hostilit\u00e9 et ainsi endormir la m\u00e9fiance de ses proies. (Pok\u00e9mon Soleil)"
+  },
+  {
+    "EnglishName":"Hawlucha",
+    "FrenchName":"Brutalibr\u00e9",
+    "Description":"Il terrasse ses adversaires gr\u00e2ce \u00e0 sa vitesse, mais il se pavane tant avant de lancer sa botte secr\u00e8te qu'il se retrouve parfois en difficult\u00e9. (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Carbink",
+    "FrenchName":"Strassie",
+    "Description":"Il ne s'agit pas d'un Pok\u00e9mon particuli\u00e8rement rare, mais son allure strass et paillettes attire les gens. (Pok\u00e9mon Lune)"
+  },
+  {
+    "EnglishName":"Goomy",
+    "FrenchName":"Mucuscule",
+    "Description":"C'est le plus faible de tous les Pok\u00e9mon Dragon. Sa peau doit rester hydrat\u00e9e pour respirer, c'est pourquoi il pr\u00e9f\u00e8re vivre tapi dans l'ombre. (Pok\u00e9mon Soleil)"
+  },
+  {
+    "EnglishName":"Sliggoo",
+    "FrenchName":"Colimucus",
+    "Description":"Il repousse ses ennemis en s\u00e9cr\u00e9tant un fluide qui dissout tout ce qu'il touche. Suite \u00e0 une d\u00e9g\u00e9n\u00e9rescence de ses yeux, il est aveugle. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Goodra",
+    "FrenchName":"Muplodocus",
+    "Description":"Ce Pok\u00e9mon Dragon peu farouche aime faire la f\u00eate \u00e0 son Dresseur ador\u00e9, le couvrant au passage de sa bave collante. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Klefki",
+    "FrenchName":"Trousselin",
+    "Description":"Nul ne sait pourquoi il collectionne les cl\u00e9s, mais il est aux anges d\u00e8s qu'on lui en donne une. Il n'accepte toutefois que les passe-partout. (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Phantump",
+    "FrenchName":"Broc\u00e9l\u00f4me",
+    "Description":"Il imite la voix d'un enfant pour inciter les gens \u00e0 se perdre au plus profond des bois. Il esp\u00e8re ainsi se faire de nouveaux amis. (Pok\u00e9mon Ultra-Soleil)"
+  },
+  {
+    "EnglishName":"Trevenant",
+    "FrenchName":"Dess\u00e9liande",
+    "Description":"Gr\u00e2ce \u00e0 ses racines, il contr\u00f4le les arbres de la for\u00eat o\u00f9 il a \u00e9lu refuge, et maudit quiconque a le malheur de les abattre. (Pok\u00e9mon Lune)"
+  },
+  {
+    "EnglishName":"Pumpkaboo",
+    "FrenchName":"Pitrouille",
+    "Description":"Ce Pok\u00e9mon est n\u00e9 du mariage d'un esprit pi\u00e9g\u00e9 dans le monde des vivants et d'une citrouille. Il commence \u00e0 s'animer au coucher du soleil. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Gourgeist",
+    "FrenchName":"Banshitrouye",
+    "Description":"Il enserre ses proies dans ses bras, semblables \u00e0 de longues m\u00e8ches de cheveux. Il se d\u00e9lecte de leur souffrance en chantonnant gaiement. (Pok\u00e9mon Y)"
+  },
+  {
+    "EnglishName":"Bergmite",
+    "FrenchName":"Grela\u00e7on",
+    "Description":"La glace qui couvre son corps bloque les attaques ennemies. Si elle se fissure, il la reconstitue imm\u00e9diatement en soufflant de l'air glac\u00e9. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Avalugg",
+    "FrenchName":"S\u00e9racrawl",
+    "Description":"Son immense corps recouvert de glace est aussi solide que de l'acier. Quand il se d\u00e9place, il \u00e9crase tout qui se trouve sur son passage. (Pok\u00e9mon Rubis Om\u00e9ga)"
+  },
+  {
+    "EnglishName":"Noibat",
+    "FrenchName":"Sonistrelle",
+    "Description":"Il appr\u00e9cie les grottes les plus sombres. Ses grandes oreilles lui permettent de g\u00e9n\u00e9rer des ultrasons d'une fr\u00e9quence de 200 000 Hz. (Pok\u00e9mon X)"
+  },
+  {
+    "EnglishName":"Noivern",
+    "FrenchName":"Bruyverne",
+    "Description":"Ce Pok\u00e9mon sanguinaire attaque tout ce qui entre dans son champ de vision avec ses ultrasons capables de pulv\u00e9riser des rochers. (Pok\u00e9mon Ultra-Lune)"
+  }
+]

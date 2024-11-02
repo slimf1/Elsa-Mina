@@ -217,7 +217,7 @@
         <value>Scores finaux</value>
     </data>
     <data name="guessing_game_turn_count" xml:space="preserve">
-        <value>Tour {0}</value>
+        <value>**Tour {0}**</value>
     </data>
     <data name="guessing_game_answer_not_found" xml:space="preserve">
         <value>Personne n'a trouvé la réponse a temps! La réponse était: {0}</value>
@@ -428,5 +428,8 @@
     </data>
     <data name="guessing_game_invalid_command" xml:space="preserve">
         <value>Commande invalide.</value>
+    </data>
+    <data name="pokedesc_start" xml:space="preserve">
+        <value>Une partie de PokeDesc a été lancée ! Donnez le nom du Pokémon correspondant directement dans le chat.</value>
     </data>
 </root>

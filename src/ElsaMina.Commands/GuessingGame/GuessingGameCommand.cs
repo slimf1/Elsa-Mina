@@ -1,4 +1,5 @@
 ﻿using ElsaMina.Commands.GuessingGame.Countries;
+using ElsaMina.Commands.GuessingGame.PokeDesc;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.DependencyInjection;
@@ -6,7 +7,7 @@ using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.GuessingGame;
 
-[NamedCommand("guessinggame", Aliases = ["countriesgame"])]
+[NamedCommand("guessinggame", Aliases = ["countriesgame", "pokedesc"])]
 public class GuessingGameCommand : Command
 {
     private const int MAX_TURNS_COUNT = 20;
@@ -23,9 +24,10 @@ public class GuessingGameCommand : Command
 
     public override char RequiredRank => '+';
 
-    public override Task OnBotStartUp()
+    public override async Task OnBotStartUp()
     {
-        return CountriesGame.LoadCountriesGameData();
+        await CountriesGame.LoadCountriesGameData();
+        await PokeDescGame.LoadPokeDescData();
     }
 
     public override Task Run(IContext context)
@@ -52,6 +54,7 @@ public class GuessingGameCommand : Command
         GuessingGame game = context.Command switch
         {
             "countriesgame" => _dependencyContainerService.Resolve<CountriesGame>(),
+            "pokedesc" => _dependencyContainerService.Resolve<PokeDescGame>(),
             _ => null
         };
         if (game == null)

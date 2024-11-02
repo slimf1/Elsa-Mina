@@ -25,7 +25,7 @@ public abstract class GuessingGame : Game
         _templatesManager = templatesManager;
         _configurationManager = configurationManager;
     }
-    
+
     protected IEnumerable<string> CurrentValidAnswers { get; set; } = [];
 
     public int TurnsCount { get; set; } = DEFAULT_TURNS_COUNT;
@@ -103,6 +103,7 @@ public abstract class GuessingGame : Game
         {
             await _cancellationTokenSource.CancelAsync();
         }
+
         var resultViewModel = new GuessingGameResultViewModel
         {
             Culture = Context.Culture,

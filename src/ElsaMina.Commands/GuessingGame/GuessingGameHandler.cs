@@ -21,9 +21,9 @@ public class GuessingGameHandler : ChatMessageHandler
     protected override Task HandleMessage(IContext context)
     {
         var room = _roomsManager.GetRoom(context.RoomId);
-        if (room?.Game is CountriesGame countriesGame)
+        if (room?.Game is GuessingGame guessingGame)
         {
-            countriesGame.OnAnswer(context.Sender.Name, context.Message);
+            guessingGame.OnAnswer(context.Sender.Name, context.Message);
         }
 
         return Task.CompletedTask;

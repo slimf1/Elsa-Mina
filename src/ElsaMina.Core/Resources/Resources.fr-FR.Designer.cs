@@ -866,5 +866,11 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("guessing_game_invalid_command", resourceCulture);
             }
         }
+        
+        internal static string pokedesc_start {
+            get {
+                return ResourceManager.GetString("pokedesc_start", resourceCulture);
+            }
+        }
     }
 }

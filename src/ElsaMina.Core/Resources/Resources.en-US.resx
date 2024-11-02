@@ -217,7 +217,7 @@
         <value>Point</value>
     </data>
     <data name="guessing_game_turn_count" xml:space="preserve">
-        <value>Turn #{0}</value>
+        <value>**Turn #{0}**</value>
     </data>
     <data name="guessing_game_answer_not_found" xml:space="preserve">
         <value>No one found the answer in time! The answer was: {0}</value>
@@ -428,5 +428,8 @@
     </data>
     <data name="guessing_game_invalid_command" xml:space="preserve">
         <value>Invalid command.</value>
+    </data>
+    <data name="pokedesc_start" xml:space="preserve">
+        <value>A PokeDesc game has been started! Give the name of the corresponding Pokémon directly in the chat.</value>
     </data>
 </root>

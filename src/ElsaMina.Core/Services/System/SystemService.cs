@@ -3,6 +3,6 @@
 public class SystemService : ISystemService
 {
     public void Sleep(TimeSpan delay) => Thread.Sleep(delay);
-    public Task SleepAsync(TimeSpan delay) => Task.Delay(delay);
+    public Task SleepAsync(TimeSpan delay, CancellationToken cancellationToken = default) => Task.Delay(delay, cancellationToken);
     public void Kill(int code = 1) => Environment.Exit(code);
 }
