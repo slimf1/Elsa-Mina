@@ -4,21 +4,25 @@ namespace ElsaMina.Core.Models;
 
 public abstract class Game : IGame
 {
-    public bool HasBeenCancelled { get; private set; }
-    
+    public event Action GameStarted = delegate { };
+    public event Action GameEnded = delegate { };
+
     public IContext Context { get; set; }
-
-    public Action CleanupAction { get; set; }
-
+    public bool IsStarted { get; private set; }
+    public bool IsEnded { get; private set; }
     public abstract string Identifier { get; }
-    
-    public virtual void Cancel() // todo : find a better way to handle lifecycle
+
+    protected void OnStart()
     {
-        if (HasBeenCancelled)
-        {
-            return;
-        }
-        HasBeenCancelled = true;
-        CleanupAction?.Invoke();
+        IsStarted = true;
+        IsEnded = false;
+        GameStarted();
+    }
+
+    protected void OnEnd()
+    {
+        IsStarted = false;
+        IsEnded = true;
+        GameEnded();
     }
 }

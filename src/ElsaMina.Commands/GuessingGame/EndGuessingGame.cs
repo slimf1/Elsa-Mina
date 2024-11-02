@@ -19,9 +19,9 @@ public class EndGuessingGame : Command
     public override Task Run(IContext context)
     {
         var room = _roomsManager.GetRoom(context.RoomId);
-        if (room?.Game is GuessingGame)
+        if (room?.Game is GuessingGame guessingGame)
         {
-            room.EndGame();
+            guessingGame.Cancel();
             context.ReplyLocalizedMessage("end_guessing_game_success");
             return Task.CompletedTask;
         }

@@ -32,7 +32,6 @@ public class CreateConnectFourCommand : Command
         var game = _dependencyContainerService.Resolve<ConnectFourGame>();
         game.Context = context;
         room.Game = game;
-        game.CleanupAction = () => room.EndGame();
         context.Reply("A connect four game has been created. Use &c4j to join.");
         return Task.CompletedTask;
     }

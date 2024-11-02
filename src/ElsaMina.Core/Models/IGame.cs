@@ -4,8 +4,9 @@ namespace ElsaMina.Core.Models;
 
 public interface IGame
 {
-    bool HasBeenCancelled { get; }
+    event Action GameStarted;
+    event Action GameEnded;
     IContext Context { get; set; }
     string Identifier { get; }
-    void Cancel();
+    bool IsStarted { get; }
 }

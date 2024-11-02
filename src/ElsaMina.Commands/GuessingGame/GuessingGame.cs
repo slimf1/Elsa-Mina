@@ -18,7 +18,6 @@ public abstract class GuessingGame : Game
     private readonly Dictionary<string, int> _scores = new();
     private int _currentTurn;
     private bool _hasRoundBeenWon;
-    private bool _ended;
 
     protected GuessingGame(ITemplatesManager templatesManager,
         IConfigurationManager configurationManager)
@@ -34,6 +33,7 @@ public abstract class GuessingGame : Game
 
     public void Start()
     {
+        OnStart();
         OnGameStart();
         InitializeNextTurn();
     }
@@ -62,7 +62,7 @@ public abstract class GuessingGame : Game
         }
 
         _hasRoundBeenWon = false;
-        if (_currentTurn >= TurnsCount || _ended)
+        if (_currentTurn >= TurnsCount || IsEnded)
         {
             await EndGame();
         }
@@ -111,13 +111,13 @@ public abstract class GuessingGame : Game
         };
         var template = await _templatesManager.GetTemplate("GuessingGame/GuessingGameResult", resultViewModel);
         Context.Reply(template.RemoveNewlines());
-        Room?.EndGame();
+
+        Cancel();
     }
 
-    public override void Cancel()
+    public void Cancel()
     {
-        base.Cancel();
-        _ended = true;
+        OnEnd();
         _cancellationTokenSource?.Cancel();
     }
 

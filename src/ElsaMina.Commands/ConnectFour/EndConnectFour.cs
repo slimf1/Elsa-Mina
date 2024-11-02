@@ -19,9 +19,9 @@ public class EndConnectFour : Command
     public override Task Run(IContext context)
     {
         var room = _roomsManager.GetRoom(context.RoomId);
-        if (room?.Game is ConnectFourGame)
+        if (room?.Game is ConnectFourGame connectFourGame)
         {
-            room.EndGame();
+            connectFourGame.Cancel();
             context.Reply("The game has been cancelled.");
         }
         else

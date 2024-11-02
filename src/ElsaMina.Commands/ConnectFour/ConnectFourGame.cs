@@ -17,8 +17,6 @@ public class ConnectFourGame : Game
     private readonly IConfigurationManager _configurationManager;
 
     private Timer _timer;
-    private bool _isStarted;
-    private bool _isEnded;
 
     public ConnectFourGame(IRandomService randomService,
         ITemplatesManager templatesManager,
@@ -55,7 +53,7 @@ public class ConnectFourGame : Game
 
     public async Task JoinGame(IUser user)
     {
-        if (_isStarted)
+        if (IsStarted)
         {
             return;
         }
@@ -74,7 +72,7 @@ public class ConnectFourGame : Game
 
     public async Task Play(IUser user, string playedColumn)
     {
-        if (!_isStarted || !Equals(user, PlayerCurrentlyPlaying))
+        if (!IsStarted || !Equals(user, PlayerCurrentlyPlaying))
         {
             return;
         }
@@ -114,7 +112,7 @@ public class ConnectFourGame : Game
 
     public async Task OnTimeout()
     {
-        if (_isEnded)
+        if (IsEnded)
         {
             return;
         }
@@ -132,10 +130,9 @@ public class ConnectFourGame : Game
         }
     }
 
-    public override void Cancel()
+    public void Cancel()
     {
-        base.Cancel();
-        _isEnded = true;
+        OnEnd();
         _timer?.Dispose();
         _timer = null;
     }
@@ -233,7 +230,7 @@ public class ConnectFourGame : Game
             }
         }
 
-        _isStarted = true;
+        OnStart();
         _randomService.ShuffleInPlace(Players);
         await InitializeNextTurn();
     }
