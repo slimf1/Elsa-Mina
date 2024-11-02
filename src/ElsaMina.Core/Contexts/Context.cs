@@ -67,6 +67,6 @@ public abstract class Context : IContext
 
     public abstract bool HasSufficientRank(char requiredRank);
     public abstract void Reply(string message);
-    public abstract void SendHtml(string html, string roomId = null);
+    public abstract void SendHtml(string html, string roomId = null, bool rankAware = false);
     public abstract void SendUpdatableHtml(string htmlId, string html, bool isChanging);
 }

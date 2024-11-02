@@ -45,8 +45,13 @@ public class RoomContext : Context
         Bot.Say(RoomId, message);
     }
 
-    public override void SendHtml(string html, string roomId = null)
+    public override void SendHtml(string html, string roomId = null, bool rankAware = false)
     {
+        if (rankAware && !HasSufficientRank('+'))
+        {
+            Bot.Say(RoomId, $"/pminfobox {Sender.UserId}, {html}");
+            return;
+        }
         Bot.Say(RoomId, $"/addhtmlbox {html}");
     }
 

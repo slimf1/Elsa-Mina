@@ -19,6 +19,8 @@ public class TeamList : Command
         _templatesManager = templatesManager;
     }
 
+    public override bool IsAllowedInPrivateMessage => true;
+
     public override async Task Run(IContext context)
     {
         var teams = await _teamRepository.GetTeamsFromRoom(context.RoomId);

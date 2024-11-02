@@ -39,7 +39,6 @@ public class ProfileCommand : Command
     }
     
     public override bool IsAllowedInPrivateMessage => true;
-    public override char RequiredRank => '+';
 
     public override async Task Run(IContext context)
     {
@@ -79,7 +78,7 @@ public class ProfileCommand : Command
             RegisterDate = registerDate
         };
         var template = await _templatesManager.GetTemplate("Profile/Profile", viewModel);
-        context.SendHtmlPage($"profile-{userId}", template.RemoveNewlines());
+        context.SendHtml($"profile-{userId}", template.RemoveNewlines(), rankAware: true);
     }
 
     private static char GetUserRoomRank(IContext context, UserDetailsDto showdownUserDetails)

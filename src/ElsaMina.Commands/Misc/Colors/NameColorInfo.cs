@@ -19,7 +19,6 @@ public class NameColorInfo : Command
     }
 
     public override bool IsAllowedInPrivateMessage => true;
-    public override char RequiredRank => '+';
     public override string HelpMessageKey => "name_color_help";
 
     public override async Task Run(IContext context)
@@ -38,6 +37,6 @@ public class NameColorInfo : Command
             Name = context.Target,
             Color = color
         });
-        context.SendHtml(template.RemoveNewlines());
+        context.SendHtml(template.RemoveNewlines(), rankAware: true);
     }
 }

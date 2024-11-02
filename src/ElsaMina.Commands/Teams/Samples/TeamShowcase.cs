@@ -34,7 +34,6 @@ public class TeamShowcase : Command
             Team = team
         });
 
-        // TODO : if sur le rank (page if < voiced)
-        context.SendHtml(template.RemoveNewlines());
+        context.SendHtml(template.RemoveNewlines(), rankAware: true);
     }
 }

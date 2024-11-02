@@ -21,6 +21,6 @@ public interface IContext
     bool HasSufficientRank(char requiredRank);
     void Reply(string message);
     void ReplyLocalizedMessage(string key, params object[] formatArguments);
-    void SendHtml(string html, string roomId = null);
+    void SendHtml(string html, string roomId = null, bool rankAware = false);
     void SendUpdatableHtml(string htmlId, string html, bool isChanging);
 }
