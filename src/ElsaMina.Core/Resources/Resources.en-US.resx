@@ -432,4 +432,7 @@
     <data name="pokedesc_start" xml:space="preserve">
         <value>A PokeDesc game has been started! Give the name of the corresponding Pokémon directly in the chat.</value>
     </data>
+    <data name="pokecries_started" xml:space="preserve">
+        <value>A PokeCries games has been created! Write the corresponding Pokémon's name directly in the chat.</value>
+    </data>
 </root>

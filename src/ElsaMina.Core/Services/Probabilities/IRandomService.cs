@@ -6,4 +6,5 @@ public interface IRandomService
     double NextDouble();
     void SetSeed(int seed);
     void ShuffleInPlace<T>(IList<T> list);
+    int NextInt(int lowerBound, int upperBound);
 }

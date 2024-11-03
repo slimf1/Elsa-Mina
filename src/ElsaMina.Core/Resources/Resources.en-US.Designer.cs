@@ -872,5 +872,11 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("pokedesc_start", resourceCulture);
             }
         }
+        
+        internal static string pokecries_started {
+            get {
+                return ResourceManager.GetString("pokecries_started", resourceCulture);
+            }
+        }
     }
 }

@@ -26,6 +26,11 @@ public class RandomService : IRandomService
         return _rng.NextDouble();
     }
 
+    public int NextInt(int lowerBound, int upperBound)
+    {
+        return _rng.Next(lowerBound, upperBound);
+    }
+
     public void SetSeed(int seed)
     {
         _rng = new Random(seed);
