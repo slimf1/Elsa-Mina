@@ -18,7 +18,6 @@ public class BitcoinCommand : Command
     }
 
     public override bool IsAllowedInPrivateMessage => true;
-    public override char RequiredRank => '+';
 
     public override async Task Run(IContext context)
     {
@@ -27,7 +26,7 @@ public class BitcoinCommand : Command
             var result = await _httpService.Get<CoinDeskResponseDto>(COINDESK_API_URL);
             var eur = result.Bpi["EUR"].Rate;
             var usd = result.Bpi["USD"].Rate;
-            context.Reply($"1 bitcoin = {eur:F2}€ = {usd:F2}$");
+            context.Reply($"1 bitcoin = {eur:F2}€ = {usd:F2}$", rankAware: true);
         }
         catch (Exception ex)
         {

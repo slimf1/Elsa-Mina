@@ -18,7 +18,6 @@ public class FactsCommand : Command
     }
 
     public override bool IsAllowedInPrivateMessage => true;
-    public override char RequiredRank => '+';
 
     public override async Task Run(IContext context)
     {
@@ -26,7 +25,7 @@ public class FactsCommand : Command
         try
         {
             var result = await _httpService.Get<FactDto>(string.Format(FACTS_URL, language));
-            context.Reply($"**Fact**: {result.Text}");
+            context.Reply($"**Fact**: {result.Text}", rankAware: true);
         }
         catch (Exception ex)
         {

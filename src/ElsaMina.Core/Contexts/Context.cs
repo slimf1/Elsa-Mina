@@ -48,6 +48,11 @@ public abstract class Context : IContext
         Reply(GetString(key, formatArguments));
     }
 
+    public void ReplyRankAwareLocalizedMessage(string key, params object[] formatArguments)
+    {
+        Reply(GetString(key, formatArguments), rankAware: true);
+    }
+
     public override string ToString()
     {
         return $"{nameof(Context)}[{nameof(Bot)}: {Bot}, " +
@@ -66,7 +71,7 @@ public abstract class Context : IContext
     public abstract ContextType Type { get; }
 
     public abstract bool HasSufficientRank(char requiredRank);
-    public abstract void Reply(string message);
+    public abstract void Reply(string message, bool rankAware = false);
     public abstract void SendHtml(string html, string roomId = null, bool rankAware = false);
     public abstract void SendUpdatableHtml(string htmlId, string html, bool isChanging);
 }

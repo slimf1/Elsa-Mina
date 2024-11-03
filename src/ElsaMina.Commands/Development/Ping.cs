@@ -7,11 +7,10 @@ namespace ElsaMina.Commands.Development;
 public class Ping : Command
 {
     public override bool IsAllowedInPrivateMessage => true;
-    public override char RequiredRank => '+';
 
     public override Task Run(IContext context)
     {
-        context.Reply("pong");
+        context.Reply("pong", rankAware: true);
         return Task.CompletedTask;
     }
 }

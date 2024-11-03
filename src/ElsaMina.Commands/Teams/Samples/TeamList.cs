@@ -25,17 +25,19 @@ public class TeamList : Command
     public override async Task Run(IContext context)
     {
         IEnumerable<Team> teams;
+        string roomId;
         if (!string.IsNullOrEmpty(context.Target))
         {
             var arguments = context.Target.Split(",");
             var format = arguments[0].ToLowerAlphaNum();
-            var roomId = arguments.Length >= 2 ? arguments[1].ToLowerAlphaNum() : context.RoomId;
+            roomId = arguments.Length >= 2 ? arguments[1].ToLowerAlphaNum() : context.RoomId;
 
             teams = await _teamRepository.GetTeamsFromRoomWithFormat(roomId, format);
         }
         else
         {
-            teams = await _teamRepository.GetTeamsFromRoom(context.RoomId);
+            roomId = context.RoomId;
+            teams = await _teamRepository.GetTeamsFromRoom(roomId);
         }
 
         var teamList = teams?.ToList();
@@ -51,6 +53,14 @@ public class TeamList : Command
             Teams = teamList
         });
 
-        context.SendHtmlPage($"teams-{context.RoomId}", template.RemoveNewlines());
+        var html = template.RemoveNewlines();
+        if (context.HasSufficientRank('+'))
+        {
+            context.SendHtml(html, roomId: roomId);
+        }
+        else
+        {
+            context.SendHtmlPage($"teams-{context.RoomId}", html);
+        }
     }
 }

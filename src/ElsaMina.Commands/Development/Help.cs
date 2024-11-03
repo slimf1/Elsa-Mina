@@ -15,11 +15,10 @@ public class Help : Command
     }
 
     public override bool IsAllowedInPrivateMessage => true;
-    public override char RequiredRank => '+';
 
     public override Task Run(IContext context)
     {
-        context.ReplyLocalizedMessage("help", _versionProvider.Version);
+        context.ReplyRankAwareLocalizedMessage("help", _versionProvider.Version);
         return Task.CompletedTask;
     }
 }

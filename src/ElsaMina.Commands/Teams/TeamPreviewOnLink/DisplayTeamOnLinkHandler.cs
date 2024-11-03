@@ -41,7 +41,9 @@ public class DisplayTeamOnLinkHandler : ChatMessageHandler
 
     protected override async Task HandleMessage(IContext context)
     {
-        if (context.Message.StartsWith(_configurationManager.Configuration.Trigger))
+        if (context.Message.StartsWith(_configurationManager.Configuration.Trigger)
+            || context.Message.StartsWith("/raw")
+            || context.Sender.UserId == _configurationManager.Configuration.Name.ToLowerAlphaNum())
         {
             return;
         }

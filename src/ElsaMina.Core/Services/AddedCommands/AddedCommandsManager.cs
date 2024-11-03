@@ -18,12 +18,6 @@ public class AddedCommandsManager : IAddedCommandsManager
 
     public async Task TryExecuteAddedCommand(string commandName, IContext context)
     {
-        if (!context.HasSufficientRank('+') &&
-            !context.IsSenderWhitelisted) // TODO : Parameterize via room parameters ?
-        {
-            return;
-        }
-
         var command =
             await _addedCommandRepository.GetByIdAsync(new Tuple<string, string>(commandName, context.RoomId));
         if (command == null)
@@ -36,11 +30,11 @@ public class AddedCommandsManager : IAddedCommandsManager
         {
             var (width, height) = await Images.GetRemoteImageDimensions(content);
             (width, height) = Images.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);
-            context.SendHtml($"""<img src="{content}" width="{width}" height="{height}" />""");
+            context.SendHtml($"""<img src="{content}" width="{width}" height="{height}" />""", rankAware: true);
             return;
         }
         
         // TODO : parsing w/ expressions
-        context.Reply(content);
+        context.Reply(content, rankAware: true);
     }
 }

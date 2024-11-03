@@ -19,8 +19,9 @@ public interface IContext
     string GetString(string key, params object[] formatArguments);
     void SendHtmlPage(string pageName, string html);
     bool HasSufficientRank(char requiredRank);
-    void Reply(string message);
+    void Reply(string message, bool rankAware = false);
     void ReplyLocalizedMessage(string key, params object[] formatArguments);
+    void ReplyRankAwareLocalizedMessage(string key, params object[] formatArguments);
     void SendHtml(string html, string roomId = null, bool rankAware = false);
     void SendUpdatableHtml(string htmlId, string html, bool isChanging);
 }

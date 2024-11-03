@@ -40,8 +40,13 @@ public class RoomContext : Context
         return IsSenderWhitelisted || RANKS.IndexOf(Sender.Rank) >= RANKS.IndexOf(requiredRank);
     }
 
-    public override void Reply(string message)
+    public override void Reply(string message, bool rankAware = false)
     {
+        if (rankAware && !HasSufficientRank('+'))
+        {
+            Bot.Say(RoomId, $"/pm {Sender.UserId}, {message}");
+            return;
+        }
         Bot.Say(RoomId, message);
     }
 
