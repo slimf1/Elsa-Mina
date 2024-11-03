@@ -2,6 +2,7 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
+using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.Teams.Samples;
@@ -23,7 +24,20 @@ public class TeamList : Command
 
     public override async Task Run(IContext context)
     {
-        var teams = await _teamRepository.GetTeamsFromRoom(context.RoomId);
+        IEnumerable<Team> teams;
+        if (!string.IsNullOrEmpty(context.Target))
+        {
+            var arguments = context.Target.Split(",");
+            var format = arguments[0].ToLowerAlphaNum();
+            var roomId = arguments.Length >= 2 ? arguments[1].ToLowerAlphaNum() : context.RoomId;
+
+            teams = await _teamRepository.GetTeamsFromRoomWithFormat(roomId, format);
+        }
+        else
+        {
+            teams = await _teamRepository.GetTeamsFromRoom(context.RoomId);
+        }
+
         var teamList = teams?.ToList();
         if (teamList == null || teamList.Count == 0)
         {

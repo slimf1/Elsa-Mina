@@ -65,6 +65,17 @@ public class TeamRepository : ITeamRepository
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<Team>> GetTeamsFromRoomWithFormat(string roomId, string format)
+    {
+        return await _dbContext.Set<Team>()
+            .AsNoTracking()
+            .Include(x => x.Rooms)
+            .ThenInclude(x => x.RoomParameters)
+            .Where(x => x.Rooms.Any(room => room.RoomId == roomId))
+            .Where(x => x.Format == format)
+            .ToListAsync();
+    }
+
     public void Dispose()
     {
         Dispose(true);
