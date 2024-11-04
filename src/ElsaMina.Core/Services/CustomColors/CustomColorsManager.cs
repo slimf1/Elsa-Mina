@@ -20,7 +20,8 @@ public class CustomColorsManager : ICustomColorsManager
     {
         try
         {
-           CustomColorsMapping = await _httpService.Get<Dictionary<string, string>>(CUSTOM_COLORS_FILE_URL);
+            var response = await _httpService.Get<Dictionary<string, string>>(CUSTOM_COLORS_FILE_URL);
+           CustomColorsMapping = response.Data;
            Logger.Information("Fetched {0} custom colors", CustomColorsMapping.Count);
         }
         catch (Exception exception)

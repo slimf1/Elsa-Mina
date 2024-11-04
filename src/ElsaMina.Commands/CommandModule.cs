@@ -21,6 +21,7 @@ using ElsaMina.Commands.Teams.TeamPreviewOnLink;
 using ElsaMina.Commands.Teams.TeamProviders;
 using ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
 using ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
+using ElsaMina.Commands.Teams.Tournaments;
 using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Handlers;
@@ -79,6 +80,7 @@ public class CommandModule : Module
         RegisterHandler<DisplayTeamOnLinkHandler>(builder);
         RegisterHandler<JoinPhraseHandler>(builder);
         RegisterHandler<ReplaysHandler>(builder);
+        RegisterHandler<DisplayTeamsOnTourHandler>(builder);
 
         builder.RegisterType<CountriesGame>().AsSelf();
         builder.RegisterType<ConnectFourGame>().AsSelf();

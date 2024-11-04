@@ -25,7 +25,8 @@ public partial class PokepasteProvider : ITeamProvider
     {
         try
         {
-            var pokepasteTeam = await _httpService.Get<PokepasteTeam>(teamLink.Trim() + "/json");
+            var response = await _httpService.Get<PokepasteTeam>(teamLink.Trim() + "/json");
+            var pokepasteTeam = response.Data;
             return new SharedTeam
             {
                 Title = pokepasteTeam.Title,

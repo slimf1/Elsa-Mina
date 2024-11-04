@@ -26,7 +26,8 @@ public class UserDataService : IUserDataService
         var uri = string.Format(USER_DATA_URL, userId);
         try
         {
-            var userData = await _httpService.Get<UserDataDto>(uri);
+            var response = await _httpService.Get<UserDataDto>(uri);
+            var userData = response.Data;
             _userDataCache[userId] = userData;
             return userData;
         }

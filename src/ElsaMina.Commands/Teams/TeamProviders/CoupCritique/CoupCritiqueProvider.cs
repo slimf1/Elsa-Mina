@@ -34,12 +34,13 @@ public partial class CoupCritiqueProvider : ITeamProvider
 
             var teamId = teamLink.Split("/").Last();
             var response = await _httpService.Get<CoupCritiqueResponse>(string.Format(COUP_CRITIQUE_API_URL, teamId));
+            var team = response.Data;
             return new SharedTeam
             {
-                Description = response.Team.Description,
-                TeamExport = response.Team.Export,
-                Author = response.Team.User.UserName,
-                Title = response.Team.Name
+                Description = team.Team.Description,
+                TeamExport = team.Team.Export,
+                Author = team.Team.User.UserName,
+                Title = team.Team.Name
             };
         }
         catch (Exception exception)

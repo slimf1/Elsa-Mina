@@ -24,8 +24,9 @@ public class BitcoinCommand : Command
         try
         {
             var result = await _httpService.Get<CoinDeskResponseDto>(COINDESK_API_URL);
-            var eur = result.Bpi["EUR"].Rate;
-            var usd = result.Bpi["USD"].Rate;
+            var data = result.Data;
+            var eur = data.Bpi["EUR"].Rate;
+            var usd = data.Bpi["USD"].Rate;
             context.Reply($"1 bitcoin = {eur:F2}€ = {usd:F2}$", rankAware: true);
         }
         catch (Exception ex)

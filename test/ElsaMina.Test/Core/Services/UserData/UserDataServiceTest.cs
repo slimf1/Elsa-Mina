@@ -1,4 +1,5 @@
-﻿using ElsaMina.Core.Services.Http;
+﻿using System.Net;
+using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.UserData;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
@@ -52,7 +53,11 @@ public class UserDataServiceTest
         // Arrange
         const string userName = "testUser";
         var userData = new UserDataDto { RegisterTime = 1625760000 };
-        _httpService.Get<UserDataDto>(Arg.Any<string>()).Returns(userData);
+        _httpService.Get<UserDataDto>(Arg.Any<string>()).Returns(new HttpResponse<UserDataDto>
+        {
+            Data = userData,
+            StatusCode = HttpStatusCode.OK
+        });
 
         // Act
         var result = await _userDataService.GetRegisterDate(userName);

@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
 
 namespace ElsaMina.Core.Utils;
 
@@ -60,6 +61,33 @@ public static partial class Text
         }
 
         return matrix[source1Length, source2Length];
+    }
+
+    public static string Shorten(this string text, int maxLength)
+    {
+        var words = text.Split(' ');
+        var wordCount = words.Length;
+        var length = 0;
+        var wordIndex = 0;
+        var finished = false;
+        var output = new StringBuilder();
+
+        while (length < maxLength && wordIndex < wordCount)
+        {
+            output.Append(words[wordIndex]);
+            length += words[wordIndex].Length;
+            wordIndex++;
+            if (wordIndex == wordCount)
+            {
+                finished = true;
+            }
+        }
+
+        if (finished)
+        {
+            output.Append("...");
+        }
+        return output.ToString();
     }
 
     [GeneratedRegex("[^A-Za-z0-9]")]

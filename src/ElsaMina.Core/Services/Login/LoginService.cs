@@ -28,7 +28,8 @@ public class LoginService : ILoginService
         // todo : auto retry ?
         try
         {
-            return await _httpService.PostUrlEncodedForm<LoginResponseDto>(LOGIN_URL, form, true);
+            var response = await _httpService.PostUrlEncodedForm<LoginResponseDto>(LOGIN_URL, form, true);
+            return response.Data;
         }
         catch (HttpException exception)
         {

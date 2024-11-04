@@ -19,7 +19,8 @@ public class DexManager : IDexManager
     {
         try
         {
-            Pokedex = await _httpService.Get<List<Pokemon>>(DEX_URL);
+            var response = await _httpService.Get<List<Pokemon>>(DEX_URL);
+            Pokedex = response.Data;
             Logger.Information("Dex : Fetched {0} entries", Pokedex.Count);
         }
         catch (Exception ex)

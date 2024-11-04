@@ -6,7 +6,7 @@ public class HttpService : IHttpService
 {
     private static readonly HttpClient HTTP_CLIENT = new();
 
-    public async Task<TResponse> PostJson<TRequest, TResponse>(string uri, TRequest dto,
+    public async Task<HttpResponse<TResponse>> PostJson<TRequest, TResponse>(string uri, TRequest dto,
         bool removeFirstCharacterFromResponse = false)
     {
         var serializedJson = JsonConvert.SerializeObject(dto);
@@ -23,10 +23,14 @@ public class HttpService : IHttpService
             stringContent = stringContent[1..];
         }
 
-        return JsonConvert.DeserializeObject<TResponse>(stringContent);
+        return new HttpResponse<TResponse>
+        {
+            StatusCode = response.StatusCode,
+            Data = JsonConvert.DeserializeObject<TResponse>(stringContent)
+        };
     }
 
-    public async Task<TResponse> PostUrlEncodedForm<TResponse>(string uri, IDictionary<string, string> form,
+    public async Task<HttpResponse<TResponse>> PostUrlEncodedForm<TResponse>(string uri, IDictionary<string, string> form,
         bool removeFirstCharacterFromResponse = false)
     {
         var content = new FormUrlEncodedContent(form);
@@ -42,11 +46,22 @@ public class HttpService : IHttpService
             stringContent = stringContent[1..];
         }
 
-        return JsonConvert.DeserializeObject<TResponse>(stringContent);
+        return new HttpResponse<TResponse>
+        {
+            StatusCode = response.StatusCode,
+            Data = JsonConvert.DeserializeObject<TResponse>(stringContent)
+        };
     }
 
-    public async Task<TResponse> Get<TResponse>(string uri)
+    public async Task<HttpResponse<TResponse>> Get<TResponse>(string uri, IDictionary<string, string> queryParams)
     {
+        if (queryParams != null && queryParams.Count > 0)
+        {
+            var queryString = string.Join("&", queryParams.Select(kvp =>
+                $"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value)}"));
+            uri = $"{uri}?{queryString}";
+        }
+
         var response = await HTTP_CLIENT.GetAsync(uri);
         var stringContent = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
@@ -54,6 +69,10 @@ public class HttpService : IHttpService
             throw new HttpException(response.StatusCode, stringContent);
         }
 
-        return JsonConvert.DeserializeObject<TResponse>(stringContent);
+        return new HttpResponse<TResponse>
+        {
+            StatusCode = response.StatusCode,
+            Data = JsonConvert.DeserializeObject<TResponse>(stringContent)
+        };
     }
 }
