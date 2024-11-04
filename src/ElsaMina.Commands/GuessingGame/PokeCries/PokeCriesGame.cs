@@ -49,7 +49,7 @@ public class PokeCriesGame : GuessingGame
         {
             var monId = _randomService.NextInt(1, MAX_MON_ID + 1);
             var message = $"<audio controls src=\"https://media.pokemoncentral.it/wiki/versi/{monId:D3}.mp3\"></audio>";
-            if (monId < 0 | monId > _dexManager.Pokedex.Count)
+            if (monId < 0 || monId > _dexManager.Pokedex.Count)
             {
                 // Should not be possible (todo : terminer le tour ?)
                 return Task.CompletedTask;

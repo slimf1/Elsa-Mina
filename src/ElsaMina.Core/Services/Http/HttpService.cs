@@ -30,7 +30,8 @@ public class HttpService : IHttpService
         };
     }
 
-    public async Task<IHttpResponse<TResponse>> PostUrlEncodedForm<TResponse>(string uri, IDictionary<string, string> form,
+    public async Task<IHttpResponse<TResponse>> PostUrlEncodedForm<TResponse>(string uri,
+        IDictionary<string, string> form,
         bool removeFirstCharacterFromResponse = false)
     {
         var content = new FormUrlEncodedContent(form);
