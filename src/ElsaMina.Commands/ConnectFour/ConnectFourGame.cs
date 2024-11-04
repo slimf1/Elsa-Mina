@@ -16,7 +16,7 @@ public class ConnectFourGame : Game
     private readonly ITemplatesManager _templatesManager;
     private readonly IConfigurationManager _configurationManager;
 
-    private Timer _timer;
+    private CancellationTokenSource _cancellationTokenSource;
 
     public ConnectFourGame(IRandomService randomService,
         ITemplatesManager templatesManager,
@@ -133,8 +133,7 @@ public class ConnectFourGame : Game
     public void Cancel()
     {
         OnEnd();
-        _timer?.Dispose();
-        _timer = null;
+        _cancellationTokenSource?.Cancel();
     }
 
     #endregion
@@ -242,12 +241,12 @@ public class ConnectFourGame : Game
         CurrentPlayerSymbol = ConnectFourConstants.SYMBOLS[Players.IndexOf(PlayerCurrentlyPlaying)];
         await DisplayGrid();
 
-        _timer?.Dispose();
-        _timer = new Timer(async _ =>
+        _cancellationTokenSource?.Cancel();
+        _cancellationTokenSource = new CancellationTokenSource();
+        _ = Task.Run(async () =>
         {
             await OnTimeout();
-            _timer?.Dispose();
-        }, null, ConnectFourConstants.TIMEOUT_DELAY, Timeout.InfiniteTimeSpan);
+        }, _cancellationTokenSource.Token);
     }
 
     private async Task OnWin(IUser winner)

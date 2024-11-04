@@ -1,15 +1,11 @@
 ﻿using ElsaMina.Core.Handlers;
 using ElsaMina.Core.Services.Clock;
-using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
-using ElsaMina.Core.Services.CustomColors;
-using ElsaMina.Core.Services.Dex;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.Rooms;
-using ElsaMina.Core.Services.RoomUserData;
+using ElsaMina.Core.Services.Start;
 using ElsaMina.Core.Services.System;
-using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Core;
@@ -27,11 +23,7 @@ public class Bot : IBot
     private readonly ILoginService _loginService;
     private readonly IHandlerManager _handlerManager;
     private readonly ISystemService _systemService;
-    private readonly ITemplatesManager _templatesManager;
-    private readonly ICommandExecutor _commandExecutor;
-    private readonly ICustomColorsManager _customColorsManager;
-    private readonly IRoomUserDataService _roomUserDataService;
-    private readonly IDexManager _dexManager;
+    private readonly IStartManager _startManager;
 
     private readonly SemaphoreSlim _loadRoomSemaphore = new(1, 1);
     private string _currentRoom;
@@ -47,11 +39,7 @@ public class Bot : IBot
         ILoginService loginService,
         IHandlerManager handlerManager,
         ISystemService systemService,
-        ITemplatesManager templatesManager,
-        ICommandExecutor commandExecutor,
-        ICustomColorsManager customColorsManager,
-        IRoomUserDataService roomUserDataService,
-        IDexManager dexManager)
+        IStartManager startManager)
     {
         _client = client;
         _configurationManager = configurationManager;
@@ -61,21 +49,13 @@ public class Bot : IBot
         _loginService = loginService;
         _handlerManager = handlerManager;
         _systemService = systemService;
-        _templatesManager = templatesManager;
-        _commandExecutor = commandExecutor;
-        _customColorsManager = customColorsManager;
-        _roomUserDataService = roomUserDataService;
-        _dexManager = dexManager;
+        _startManager = startManager;
     }
 
     public async Task Start()
     {
-        await _templatesManager.CompileTemplates();
-        await _commandExecutor.OnBotStartUp();
-        await _customColorsManager.FetchCustomColors();
-        await _roomUserDataService.InitializeJoinPhrases();
-        await _dexManager.LoadDex();
         await _client.Connect();
+        await _startManager.OnStart();
     }
 
     public async Task HandleReceivedMessage(string message)

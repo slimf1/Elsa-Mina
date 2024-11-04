@@ -9,6 +9,7 @@ using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.RoomUserData;
+using ElsaMina.Core.Services.Start;
 using ElsaMina.Core.Services.System;
 using ElsaMina.Core.Services.Templates;
 using NSubstitute;
@@ -25,11 +26,7 @@ public class BotTest
     private ILoginService _loginService;
     private IHandlerManager _handlerManager;
     private ISystemService _systemService;
-    private ITemplatesManager _templatesManager;
-    private ICommandExecutor _commandExecutor;
-    private ICustomColorsManager _customColorsManager;
-    private IRoomUserDataService _roomUserDataService;
-    private IDexManager _dexManager;
+    private IStartManager _startManager;
 
     private Bot _bot;
     
@@ -44,15 +41,10 @@ public class BotTest
         _loginService = Substitute.For<ILoginService>();
         _handlerManager = Substitute.For<IHandlerManager>();
         _systemService = Substitute.For<ISystemService>();
-        _templatesManager = Substitute.For<ITemplatesManager>();
-        _commandExecutor = Substitute.For<ICommandExecutor>();
-        _customColorsManager = Substitute.For<ICustomColorsManager>();
-        _roomUserDataService = Substitute.For<IRoomUserDataService>();
-        _dexManager = Substitute.For<IDexManager>();
+        _startManager = Substitute.For<IStartManager>();
         
         _bot = new Bot(_client, _configurationManager, _clockService, _roomsManager,
-            _formatsManager, _loginService, _handlerManager, _systemService, _templatesManager, _commandExecutor,
-            _customColorsManager, _roomUserDataService, _dexManager);
+            _formatsManager, _loginService, _handlerManager, _systemService, _startManager);
     }
 
     [Test]
@@ -62,8 +54,7 @@ public class BotTest
         await _bot.Start();
         
         // Assert
-        await _templatesManager.Received(1).CompileTemplates();
-        await _commandExecutor.Received(1).OnBotStartUp();
+        await _startManager.Received(1).OnStart();
         await _client.Received(1).Connect();
     }
 

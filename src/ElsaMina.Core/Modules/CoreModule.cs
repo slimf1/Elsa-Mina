@@ -18,6 +18,7 @@ using ElsaMina.Core.Services.Repeats;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.RoomUserData;
+using ElsaMina.Core.Services.Start;
 using ElsaMina.Core.Services.System;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Services.UserData;
@@ -58,6 +59,7 @@ public class CoreModule : Module
             .SingleInstance();
         builder.RegisterType<CustomColorsManager>().As<ICustomColorsManager>().SingleInstance();
         builder.RegisterType<DexManager>().As<IDexManager>().SingleInstance();
+        builder.RegisterType<StartManager>().As<IStartManager>().SingleInstance();
 
         builder.RegisterType<Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot>().As<IBot>().AsSelf().SingleInstance();
