@@ -6,7 +6,7 @@ public class HttpService : IHttpService
 {
     private static readonly HttpClient HTTP_CLIENT = new();
 
-    public async Task<HttpResponse<TResponse>> PostJson<TRequest, TResponse>(string uri, TRequest dto,
+    public async Task<IHttpResponse<TResponse>> PostJson<TRequest, TResponse>(string uri, TRequest dto,
         bool removeFirstCharacterFromResponse = false)
     {
         var serializedJson = JsonConvert.SerializeObject(dto);
@@ -30,7 +30,7 @@ public class HttpService : IHttpService
         };
     }
 
-    public async Task<HttpResponse<TResponse>> PostUrlEncodedForm<TResponse>(string uri, IDictionary<string, string> form,
+    public async Task<IHttpResponse<TResponse>> PostUrlEncodedForm<TResponse>(string uri, IDictionary<string, string> form,
         bool removeFirstCharacterFromResponse = false)
     {
         var content = new FormUrlEncodedContent(form);
@@ -53,7 +53,7 @@ public class HttpService : IHttpService
         };
     }
 
-    public async Task<HttpResponse<TResponse>> Get<TResponse>(string uri, IDictionary<string, string> queryParams)
+    public async Task<IHttpResponse<TResponse>> Get<TResponse>(string uri, IDictionary<string, string> queryParams)
     {
         if (queryParams != null && queryParams.Count > 0)
         {
