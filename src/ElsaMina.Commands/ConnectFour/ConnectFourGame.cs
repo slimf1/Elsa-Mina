@@ -243,10 +243,13 @@ public class ConnectFourGame : Game
 
         _cancellationTokenSource?.Cancel();
         _cancellationTokenSource = new CancellationTokenSource();
+        var token = _cancellationTokenSource.Token;
         _ = Task.Run(async () =>
         {
+            await Task.Delay(ConnectFourConstants.TIMEOUT_DELAY, token);
+            token.ThrowIfCancellationRequested();
             await OnTimeout();
-        }, _cancellationTokenSource.Token);
+        }, token);
     }
 
     private async Task OnWin(IUser winner)
