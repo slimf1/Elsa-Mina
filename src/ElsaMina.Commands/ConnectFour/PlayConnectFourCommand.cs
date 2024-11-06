@@ -19,10 +19,13 @@ public class PlayConnectFourCommand : Command
 
     public override async Task Run(IContext context)
     {
-        var room = _roomsManager.GetRoom(context.RoomId);
+        var parts = context.Target.Split(',');
+        var roomId = parts[0].Trim();
+        var play = parts[1].Trim();
+        var room = _roomsManager.GetRoom(roomId);
         if (room?.Game is ConnectFourGame connectFour)
         {
-            await connectFour.Play(context.Sender, context.Target);
+            await connectFour.Play(context.Sender, play);
         }
     }
 }

@@ -29,7 +29,7 @@
                     <button
                         class="button"
                         name="send"
-                        value="/msg @Model.BotName,@(Model.Trigger)c4play @(j + 1)"
+                        value="/msg @Model.BotName,@(Model.Trigger)c4play @Model.RoomId, @(j + 1)"
                         style="padding: 4px; background: none; border: none; width: 100%; height: 100%; box-shadow: none">
                         @{
                             var cellTextStyle = "";

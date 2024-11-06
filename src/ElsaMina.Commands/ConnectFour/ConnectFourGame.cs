@@ -273,6 +273,7 @@ public class ConnectFourGame : Game
             new ConnectFourGameTableModel
             {
                 Culture = Context.Culture,
+                RoomId = Context.RoomId,
                 CurrentGame = this,
                 BotName = _configurationManager.Configuration.Name,
                 Trigger = _configurationManager.Configuration.Trigger

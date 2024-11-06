@@ -6,15 +6,5 @@ namespace ElsaMina.Core.Templates;
 
 public class LocalizableViewModel
 {
-    private const string DEFAULT_CULTURE_CODE = "en-US";
-    
-    protected LocalizableViewModel()
-    {
-        Culture = new CultureInfo(
-            DependencyContainerService.Current?.Resolve<IConfigurationManager>()?.Configuration?.DefaultLocaleCode
-            ?? DEFAULT_CULTURE_CODE
-        );
-    }
-    
-    public CultureInfo Culture { get; set; }
+    public CultureInfo Culture { get; init; }
 }

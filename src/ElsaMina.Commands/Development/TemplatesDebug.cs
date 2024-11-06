@@ -16,16 +16,10 @@ namespace ElsaMina.Commands.Development;
 public class TemplatesDebug : DevelopmentCommand
 {
     private readonly ITemplatesManager _templatesManager;
-    private readonly IResourcesService _resourcesService;
-    private readonly IConfigurationManager _configurationManager;
 
-    public TemplatesDebug(ITemplatesManager templatesManager,
-        IResourcesService resourcesService,
-        IConfigurationManager configurationManager)
+    public TemplatesDebug(ITemplatesManager templatesManager)
     {
         _templatesManager = templatesManager;
-        _resourcesService = resourcesService;
-        _configurationManager = configurationManager;
     }
     
     public override async Task Run(IContext context)
@@ -38,7 +32,8 @@ public class TemplatesDebug : DevelopmentCommand
             {
                 UserId = parts[1],
                 UserName = parts[2],
-                Avatar = parts[3]
+                Avatar = parts[3],
+                Culture = context.Culture
             },
             "GuessingGame/GuessingGameResult" => new GuessingGameResultViewModel
             {
@@ -53,7 +48,6 @@ public class TemplatesDebug : DevelopmentCommand
             },
             _ => throw new ArgumentOutOfRangeException()
         };
-        model.Culture = context.Culture;
         
         var template = await _templatesManager.GetTemplate(templateName, model);
         context.SendHtmlPage($"debug-template-{templateName}", template.RemoveNewlines());
