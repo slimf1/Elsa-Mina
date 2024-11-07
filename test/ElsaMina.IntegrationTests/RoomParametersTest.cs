@@ -61,12 +61,13 @@ public class RoomParametersTest
         // Modify value
         var result = await _roomsManager
             .SetRoomBotConfigurationParameterValue("franais", RoomParametersConstants.LOCALE, "en-US");
-        Assert.That(result, Is.True);
-        
-        Assert.That(_roomsManager
-                .GetRoomBotConfigurationParameterValue("franais", RoomParametersConstants.LOCALE),
-            Is.EqualTo("en-US"));
-
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.True);
+            Assert.That(_roomsManager
+                    .GetRoomBotConfigurationParameterValue("franais", RoomParametersConstants.LOCALE),
+                Is.EqualTo("en-US"));
+        });
         await _roomsManager.SetRoomBotConfigurationParameterValue("franais",
             RoomParametersConstants.HAS_COMMAND_AUTO_CORRECT, false.ToString());
         Assert.That(_roomsManager

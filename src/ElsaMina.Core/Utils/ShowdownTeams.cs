@@ -311,9 +311,9 @@ public static class ShowdownTeams
         var firstEv = true;
         if (set.EffortValues != null)
         {
-            foreach (var (key, value) in BATTLE_STAT_NAMES)
+            foreach (var (key, battleStatValue) in BATTLE_STAT_NAMES)
             {
-                if (set.EffortValues[key] == 0)
+                if (!set.EffortValues.TryGetValue(key, out var effortValue) || effortValue == 0)
                 {
                     continue;
                 }
@@ -328,7 +328,7 @@ public static class ShowdownTeams
                     builder.Append(" / ");
                 }
 
-                builder.Append($"{set.EffortValues[key]} {value}");
+                builder.Append($"{set.EffortValues[key]} {battleStatValue}");
             }
         }
 

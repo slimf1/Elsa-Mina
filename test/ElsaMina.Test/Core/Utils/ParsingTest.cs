@@ -13,10 +13,13 @@ public class ParsingTest
 
         // Act
         var (target, command) = Parsing.ParseMessage(message, trigger);
+        Assert.Multiple(() =>
+        {
 
-        // Assert
-        Assert.That(target, Is.Null);
-        Assert.That(command, Is.Null);
+            // Assert
+            Assert.That(target, Is.Null);
+            Assert.That(command, Is.Null);
+        });
     }
 
     [Test]
@@ -56,9 +59,12 @@ public class ParsingTest
 
         // Act
         var (target, command) = Parsing.ParseMessage(message, trigger);
+        Assert.Multiple(() =>
+        {
 
-        // Assert
-        Assert.That(target, Is.Null);
-        Assert.That(command, Is.Null);
+            // Assert
+            Assert.That(target, Is.Null);
+            Assert.That(command, Is.Null);
+        });
     }
 }

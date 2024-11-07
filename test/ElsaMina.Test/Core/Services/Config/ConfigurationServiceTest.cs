@@ -23,9 +23,12 @@ public class ConfigurationServiceTest
         await _configurationManager.LoadConfiguration(reader);
 
         // Assert
-        Assert.That(_configurationManager.Configuration, Is.Not.Null);
-        Assert.That(_configurationManager.Configuration.Name, Is.EqualTo("test"));
-        Assert.That(_configurationManager.Configuration.Host, Is.EqualTo("test.server.com"));
+        Assert.Multiple(() =>
+        {
+            Assert.That(_configurationManager.Configuration, Is.Not.Null);
+            Assert.That(_configurationManager.Configuration.Name, Is.EqualTo("test"));
+            Assert.That(_configurationManager.Configuration.Host, Is.EqualTo("test.server.com"));
+        });
     }
 
     [Test]

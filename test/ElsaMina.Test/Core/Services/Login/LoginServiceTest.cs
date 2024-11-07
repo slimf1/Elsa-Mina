@@ -40,7 +40,7 @@ public class LoginServiceTest
         var result = await _loginService.Login(challstr);
 
         // Assert
-        Assert.IsNotNull(result);
+        Assert.That(result, Is.Not.Null);
         Assert.That(result, Is.EqualTo(expectedResponse));
     }
 

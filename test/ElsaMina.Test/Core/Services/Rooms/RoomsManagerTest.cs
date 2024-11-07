@@ -141,10 +141,13 @@ public class RoomsManagerTest
 
         // Act
         _roomsManager.AddUserToRoom("espaol", "&speks");
+        Assert.Multiple(() =>
+        {
 
-        // Assert
-        Assert.That(_roomsManager.GetRoom("espaol"), Is.Null);
-        Assert.That(_roomsManager.GetRoom("franais").Users, Has.Count.EqualTo(4));
+            // Assert
+            Assert.That(_roomsManager.GetRoom("espaol"), Is.Null);
+            Assert.That(_roomsManager.GetRoom("franais").Users, Has.Count.EqualTo(4));
+        });
     }
 
     [Test]
