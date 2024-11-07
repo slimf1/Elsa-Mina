@@ -11,7 +11,7 @@ namespace ElsaMina.Commands.Misc.Youtube;
 [NamedCommand("youtube", Aliases = ["yt", "ytb"])]
 public class YoutubeCommand : Command
 {
-    private const int THUMBNAIL_WIDTH = 120;
+    private const int THUMBNAIL_WIDTH = 160;
     private const int THUMBNAIL_HEIGHT = 90;
     public const int DESCRIPTION_MAX_LENGTH = 100;
     public const string YOUTUBE_API_URL = "https://www.googleapis.com/youtube/v3/search";
