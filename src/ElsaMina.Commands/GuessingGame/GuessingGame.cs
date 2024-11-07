@@ -113,10 +113,7 @@ public abstract class GuessingGame : Game
 
     private async Task EndGame()
     {
-        if (_cancellationTokenSource != null)
-        {
-            await _cancellationTokenSource.CancelAsync();
-        }
+        Cancel();
 
         var resultViewModel = new GuessingGameResultViewModel
         {
@@ -125,14 +122,16 @@ public abstract class GuessingGame : Game
         };
         var template = await _templatesManager.GetTemplate("GuessingGame/GuessingGameResult", resultViewModel);
         Context.SendHtml(template.RemoveNewlines());
-
-        Cancel();
     }
 
     public void Cancel()
     {
         OnEnd();
-        _cancellationTokenSource?.Cancel();
+        if (_cancellationTokenSource != null)
+        {
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource.Dispose();
+        }
     }
 
     protected virtual void OnGameStart()
