@@ -2,6 +2,7 @@
 
 [![deploy](https://github.com/slimf1/Elsa-Mina/actions/workflows/deploy.yml/badge.svg)](https://github.com/slimf1/Elsa-Mina/actions/workflows/deploy.yml)
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=slimf1_Elsa-Mina&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=slimf1_Elsa-Mina)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=slimf1_Elsa-Mina&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=slimf1_Elsa-Mina)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=slimf1_Elsa-Mina&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=slimf1_Elsa-Mina)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=slimf1_Elsa-Mina&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=slimf1_Elsa-Mina)

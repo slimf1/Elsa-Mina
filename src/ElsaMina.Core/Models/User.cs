@@ -22,12 +22,12 @@ public class User : IUser, IEquatable<User>
         return UserId == other?.UserId;
     }
 
-    public override bool Equals(object other)
+    public override bool Equals(object obj)
     {
-        if (other is null) return false;
-        if (ReferenceEquals(this, other)) return true;
-        if (other.GetType() != GetType()) return false;
-        return Equals((User)other);
+        if (obj is null) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+        return Equals((User)obj);
     }
 
     public override int GetHashCode()

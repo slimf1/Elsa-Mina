@@ -45,9 +45,9 @@ public class RepeatsManager : IRepeatsManager
         return _repeats.Where(repeat => repeat.RoomId == roomId);
     }
 
-    public bool StopRepeat(string roomId, string timerId)
+    public bool StopRepeat(string roomId, string repeatId)
     {
-        var repeat = GetRepeat(roomId, timerId);
+        var repeat = GetRepeat(roomId, repeatId);
         if (repeat == null)
         {
             return false;

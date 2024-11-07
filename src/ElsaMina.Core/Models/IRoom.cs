@@ -12,7 +12,7 @@ public interface IRoom
     IGame Game { get; set; }
     RoomParameters Parameters { get; set; }
 
-    void AddUser(string user);
-    void RemoveUser(string part);
+    void AddUser(string username);
+    void RemoveUser(string username);
     void RenameUser(string oldName, string newName);
 }

@@ -8,11 +8,6 @@ public class Repeat : IEquatable<Repeat>
     public uint Interval { get; init; }
     public Timer Timer { get; set; }
 
-    public override bool Equals(object obj)
-    {
-        return Equals(obj as Repeat);
-    }
-
     public override int GetHashCode()
     {
         return HashCode.Combine(RoomId, RepeatId);
@@ -21,5 +16,10 @@ public class Repeat : IEquatable<Repeat>
     public bool Equals(Repeat other)
     {
         return other != null && other.RoomId == RoomId && other.RepeatId == RepeatId;
+    }
+
+    public override bool Equals(object obj)
+    {
+        return Equals(obj as Repeat);
     }
 }
