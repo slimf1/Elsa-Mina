@@ -54,7 +54,7 @@ public class PokeCriesGame : GuessingGame
                 // Should not be possible (todo : terminer le tour ?)
                 return Task.CompletedTask;
             }
-            var pokemon = _dexManager.Pokedex.ElementAt(monId);
+            var pokemon = _dexManager.Pokedex[monId];
             CurrentValidAnswers = [pokemon.Name.French, pokemon.Name.English, pokemon.Name.Japanese];
             Context.SendHtml(message);
         }

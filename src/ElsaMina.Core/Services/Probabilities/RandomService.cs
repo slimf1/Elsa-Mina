@@ -7,7 +7,7 @@ public class RandomService : IRandomService
     public T RandomElement<T>(IEnumerable<T> enumerable)
     {
         var list = enumerable.ToList();
-        return list.ElementAt(_rng.Next(0, list.Count));
+        return list[_rng.Next(0, list.Count)];
     }
 
     public void ShuffleInPlace<T>(IList<T> list)

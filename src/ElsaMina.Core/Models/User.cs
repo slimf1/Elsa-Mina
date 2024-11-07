@@ -2,7 +2,7 @@
 
 namespace ElsaMina.Core.Models;
 
-public class User : IUser, IEquatable<User>
+public sealed class User : IUser, IEquatable<User>
 {
     public User(string name, char rank)
     {

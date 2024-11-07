@@ -45,8 +45,15 @@ public static partial class Text
             return source1Length;
         }
 
-        for (var i = 0; i <= source1Length; matrix[i, 0] = i++){}
-        for (var j = 0; j <= source2Length; matrix[0, j] = j++){}
+        for (var i = 0; i <= source1Length; matrix[i, 0] = i++)
+        {
+            // Do nothing
+        }
+
+        for (var j = 0; j <= source2Length; matrix[0, j] = j++)
+        {
+            // Do nothing
+        }
 
         for (var i = 1; i <= source1Length; i++)
         {

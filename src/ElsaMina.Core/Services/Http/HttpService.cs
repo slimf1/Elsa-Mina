@@ -54,7 +54,7 @@ public class HttpService : IHttpService
         };
     }
 
-    public async Task<IHttpResponse<TResponse>> Get<TResponse>(string uri, IDictionary<string, string> queryParams)
+    public async Task<IHttpResponse<TResponse>> Get<TResponse>(string uri, IDictionary<string, string> queryParams = null)
     {
         if (queryParams != null && queryParams.Count > 0)
         {

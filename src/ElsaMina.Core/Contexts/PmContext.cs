@@ -5,8 +5,6 @@ namespace ElsaMina.Core.Contexts;
 
 public class PmContext : Context
 {
-    private CultureInfo _currentCulture;
-
     public PmContext(IContextProvider contextProvider,
         IBot bot,
         string message,
@@ -14,7 +12,7 @@ public class PmContext : Context
         IUser sender,
         string command) : base(contextProvider, bot, message, target, sender, command)
     {
-        _currentCulture = contextProvider.DefaultCulture;
+        Culture = contextProvider.DefaultCulture;
         RoomId = contextProvider.DefaultRoom;
     }
 
@@ -22,11 +20,7 @@ public class PmContext : Context
 
     public override bool IsPrivateMessage => true;
 
-    public override CultureInfo Culture
-    {
-        get => _currentCulture;
-        set => _currentCulture = value;
-    }
+    public sealed override CultureInfo Culture { get; set; }
 
     public override ContextType Type => ContextType.Pm;
 
@@ -47,6 +41,6 @@ public class PmContext : Context
     public override string ToString()
     {
         return $"{nameof(PmContext)}[{base.ToString()}, " +
-               $"{nameof(_currentCulture)}: {_currentCulture}]";
+               $"{nameof(Culture)}: {Culture}]";
     }
 }

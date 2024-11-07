@@ -46,7 +46,7 @@ public class TemplatesDebug : DevelopmentCommand
                     ["lionyx"] = 1,
                 }
             },
-            _ => throw new ArgumentOutOfRangeException()
+            _ => null
         };
         
         var template = await _templatesManager.GetTemplate(templateName, model);

@@ -43,14 +43,28 @@ public abstract class GuessingGame : Game
         Context.ReplyLocalizedMessage("guessing_game_turn_count", _currentTurn);
         await OnTurnStart();
         _hasRoundBeenWon = false;
-        _cancellationTokenSource?.Cancel();
+
+        if (_cancellationTokenSource != null)
+        {
+            await _cancellationTokenSource.CancelAsync();
+            _cancellationTokenSource.Dispose();
+        }
+
         _cancellationTokenSource = new CancellationTokenSource();
+        var token = _cancellationTokenSource.Token;
         _ = Task.Run(async () =>
         {
-            await Task.Delay(TURN_COOLDOWN, _cancellationTokenSource.Token);
-            _cancellationTokenSource.Token.ThrowIfCancellationRequested();
-            await OnTurnEnd();
-        }, _cancellationTokenSource.Token);
+            try
+            {
+                await Task.Delay(TURN_COOLDOWN, token);
+                token.ThrowIfCancellationRequested();
+                await OnTurnEnd();
+            }
+            catch (OperationCanceledException)
+            {
+                // Do nothing
+            }
+        }, token);
     }
 
     private async Task OnTurnEnd()

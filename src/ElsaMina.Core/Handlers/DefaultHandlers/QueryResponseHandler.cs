@@ -15,12 +15,9 @@ public sealed class QueryResponseHandler : Handler
     
     protected override Task HandleReceivedMessage(string[] parts, string roomId = null)
     {
-        if (parts.Length >= 2 && parts[1] == "queryresponse")
+        if (parts.Length >= 2 && parts[1] == "queryresponse" && parts[2] == "userdetails")
         {
-            if (parts[2] == "userdetails")
-            {
-                _userDetailsManager.HandleReceivedUserDetails(parts[3]);
-            }
+            _userDetailsManager.HandleReceivedUserDetails(parts[3]);
         }
 
         return Task.CompletedTask;

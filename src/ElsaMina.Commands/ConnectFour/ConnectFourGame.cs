@@ -149,11 +149,11 @@ public class ConnectFourGame : Game
             CheckWinDirection(symbol, 1, 1), // Diagonal (top-left to bottom-right)
             CheckWinDirection(symbol, 1, -1) // Diagonal (top-right to bottom-left)
         ];
-        var passingChecks = checks.Where(check => check != null).ToArray();
+        var passingChecks = checks.Where(check => check.Count > 0).ToArray();
 
         if (passingChecks.Length >= 1)
         {
-            WinningLineIndices = passingChecks.First();
+            WinningLineIndices = passingChecks[0];
             var winner = Players[Array.IndexOf(ConnectFourConstants.SYMBOLS, symbol)];
             await OnWin(winner);
         }
@@ -216,7 +216,7 @@ public class ConnectFourGame : Game
             }
         }
 
-        return null;
+        return [];
     }
 
     private async Task StartGame()
@@ -241,14 +241,25 @@ public class ConnectFourGame : Game
         CurrentPlayerSymbol = ConnectFourConstants.SYMBOLS[Players.IndexOf(PlayerCurrentlyPlaying)];
         await DisplayGrid();
 
-        _cancellationTokenSource?.Cancel();
+        if (_cancellationTokenSource != null)
+        {
+            await _cancellationTokenSource.CancelAsync();
+            _cancellationTokenSource.Dispose();
+        }
         _cancellationTokenSource = new CancellationTokenSource();
         var token = _cancellationTokenSource.Token;
         _ = Task.Run(async () =>
         {
-            await Task.Delay(ConnectFourConstants.TIMEOUT_DELAY, token);
-            token.ThrowIfCancellationRequested();
-            await OnTimeout();
+            try
+            {
+                await Task.Delay(ConnectFourConstants.TIMEOUT_DELAY, token);
+                token.ThrowIfCancellationRequested();
+                await OnTimeout();
+            }
+            catch (OperationCanceledException)
+            {
+                // Do nothing
+            }
         }, token);
     }
 
