@@ -57,10 +57,13 @@ public class ConnectFourGameTest
             await _game.JoinGame(_mockUser1);
             await _game.JoinGame(_mockUser2);
 
-            Assert.That(_game.Players, Has.Member(_mockUser1));
-            Assert.That(_game.Players, Has.Member(_mockUser2));
-            Assert.That(_game.TurnCount, Is.EqualTo(1));
-            Assert.That(_game.Players, Has.Count.EqualTo(2));
+            Assert.Multiple(() =>
+            {
+                Assert.That(_game.Players, Has.Member(_mockUser1));
+                Assert.That(_game.Players, Has.Member(_mockUser2));
+                Assert.That(_game.TurnCount, Is.EqualTo(1));
+                Assert.That(_game.Players, Has.Count.EqualTo(2));
+            });
         }
 
         [Test]
@@ -74,9 +77,12 @@ public class ConnectFourGameTest
             var mockUser3 = Substitute.For<IUser>();
             await _game.JoinGame(mockUser3);
 
-            Assert.That(_game.Players, Does.Not.Contain(mockUser3));
-            Assert.That(_game.Players, Has.Count.EqualTo(2));
-            Assert.That(_game.TurnCount, Is.EqualTo(2));
+            Assert.Multiple(() =>
+            {
+                Assert.That(_game.Players, Does.Not.Contain(mockUser3));
+                Assert.That(_game.Players, Has.Count.EqualTo(2));
+                Assert.That(_game.TurnCount, Is.EqualTo(2));
+            });
         }
 
         [Test]

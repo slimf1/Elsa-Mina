@@ -22,7 +22,7 @@ public class DeleteCustomCommand : Command
         var commandId = context.Target.Trim().ToLower();
         try
         {
-            await _addedCommandRepository.DeleteAsync(new(commandId, context.RoomId));
+            await _addedCommandRepository.DeleteAsync(new Tuple<string, string>(commandId, context.RoomId));
             context.ReplyLocalizedMessage("deletecommand_success", commandId);
         }
         catch (Exception exception)

@@ -11,6 +11,7 @@ using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Dex;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Http;
+using ElsaMina.Core.Services.Images;
 using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.PrivateMessages;
 using ElsaMina.Core.Services.Probabilities;
@@ -60,6 +61,7 @@ public class CoreModule : Module
         builder.RegisterType<CustomColorsManager>().As<ICustomColorsManager>().SingleInstance();
         builder.RegisterType<DexManager>().As<IDexManager>().SingleInstance();
         builder.RegisterType<StartManager>().As<IStartManager>().SingleInstance();
+        builder.RegisterType<ImageService>().As<IImageService>().SingleInstance();
 
         builder.RegisterType<Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot>().As<IBot>().AsSelf().SingleInstance();
