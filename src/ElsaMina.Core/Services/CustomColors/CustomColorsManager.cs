@@ -4,7 +4,7 @@ namespace ElsaMina.Core.Services.CustomColors;
 
 public class CustomColorsManager : ICustomColorsManager
 {
-    private const string CUSTOM_COLORS_FILE_URL = "https://play.pokemonshowdown.com/config/colors.json";
+    public const string CUSTOM_COLORS_FILE_URL = "https://play.pokemonshowdown.com/config/colors.json";
     
     private readonly IHttpService _httpService;
 

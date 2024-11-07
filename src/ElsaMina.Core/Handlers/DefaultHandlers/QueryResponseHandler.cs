@@ -13,7 +13,7 @@ public sealed class QueryResponseHandler : Handler
 
     public override string Identifier => nameof(QueryResponseHandler);
     
-    protected override Task HandleReceivedMessage(string[] parts, string roomId = null)
+    public override Task HandleReceivedMessage(string[] parts, string roomId = null)
     {
         if (parts.Length >= 2 && parts[1] == "queryresponse" && parts[2] == "userdetails")
         {

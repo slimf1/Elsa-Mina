@@ -23,5 +23,5 @@ public abstract class Handler : IHandler
         }
     }
 
-    protected abstract Task HandleReceivedMessage(string[] parts, string roomId = null);
+    public abstract Task HandleReceivedMessage(string[] parts, string roomId = null);
 }

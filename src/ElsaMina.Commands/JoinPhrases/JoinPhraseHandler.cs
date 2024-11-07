@@ -27,7 +27,7 @@ public class JoinPhraseHandler : Handler
 
     public override string Identifier => nameof(JoinPhraseHandler);
 
-    protected override Task HandleReceivedMessage(string[] parts, string roomId = null)
+    public override Task HandleReceivedMessage(string[] parts, string roomId = null)
     {
         if (parts.Length != 3 || parts[1] != "J")
         {

@@ -21,7 +21,7 @@ public abstract class CommandMessageHandler : MessageHandler
         _commandExecutor = commandExecutor;
     }
 
-    protected override async Task HandleMessage(IContext context)
+    public override async Task HandleMessage(IContext context)
     {
         if (context.RoomId == null || !_roomsManager.HasRoom(context.RoomId))
         {

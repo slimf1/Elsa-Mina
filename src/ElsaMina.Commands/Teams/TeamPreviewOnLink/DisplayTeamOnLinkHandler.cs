@@ -39,7 +39,7 @@ public class DisplayTeamOnLinkHandler : ChatMessageHandler
 
     public override string Identifier => nameof(DisplayTeamOnLinkHandler);
 
-    protected override async Task HandleMessage(IContext context)
+    public override async Task HandleMessage(IContext context)
     {
         if (context.Message.StartsWith(_configurationManager.Configuration.Trigger)
             || context.Message.StartsWith("/raw")

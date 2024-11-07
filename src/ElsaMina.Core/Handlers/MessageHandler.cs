@@ -13,7 +13,7 @@ public abstract class MessageHandler : Handler
 
     protected abstract ContextType HandledContextType { get; }
 
-    protected sealed override async Task HandleReceivedMessage(string[] parts, string roomId = null)
+    public sealed override async Task HandleReceivedMessage(string[] parts, string roomId = null)
     {
         var context = _contextFactory.TryBuildContextFromReceivedMessage(parts, roomId);
         if (context == null || HandledContextType != context.Type)
@@ -24,5 +24,5 @@ public abstract class MessageHandler : Handler
         await HandleMessage(context);
     }
 
-    protected abstract Task HandleMessage(IContext context);
+    public abstract Task HandleMessage(IContext context);
 }

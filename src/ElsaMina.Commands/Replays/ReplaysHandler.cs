@@ -31,7 +31,7 @@ public class ReplaysHandler : ChatMessageHandler
 
     public override string Identifier => nameof(ChatMessageHandler);
 
-    protected override async Task HandleMessage(IContext context)
+    public override async Task HandleMessage(IContext context)
     {
         var isReplayPreviewEnabled = _roomsManager.GetRoomBotConfigurationParameterValue(
             context.RoomId, RoomParametersConstants.IS_SHOWING_REPLAYS_PREVIEW).ToBoolean();

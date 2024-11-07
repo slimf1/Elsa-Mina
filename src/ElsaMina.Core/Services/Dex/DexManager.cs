@@ -4,7 +4,7 @@ namespace ElsaMina.Core.Services.Dex;
 
 public class DexManager : IDexManager
 {
-    private const string DEX_URL = "https://tyradex.tech/api/v1/pokemon";
+    public const string DEX_URL = "https://tyradex.tech/api/v1/pokemon";
 
     private readonly IHttpService _httpService;
 

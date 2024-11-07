@@ -12,7 +12,7 @@ public class JoinRoomOnInviteHandler : PrivateMessageHandler
 
     public override string Identifier => nameof(PrivateMessageHandler);
 
-    protected override Task HandleMessage(IContext context)
+    public override Task HandleMessage(IContext context)
     {
         if (!context.Message.StartsWith("/invite ") || !context.IsSenderWhitelisted)
         {
