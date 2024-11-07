@@ -17,6 +17,12 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ inputs.dotnet-version }}
+      - name: install SonarCloud scanner
+        run: |
+          dotnet tool update --global dotnet-sonarscanner
+      - name: install coverage scanner
+        run: |
+          dotnet tool install --global dotnet-coverage
       - name: analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
