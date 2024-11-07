@@ -447,4 +447,10 @@
     <data name="youtube_error_occurred" xml:space="preserve">
         <value>An error occurred.</value>
     </data>
+    <data name="bitcoin_error" xml:space="preserve">
+        <value>An error occurred.</value>
+    </data>
+    <data name="fact_error" xml:space="preserve">
+        <value>An error occurred.</value>
+    </data>
 </root>

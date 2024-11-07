@@ -902,5 +902,17 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("youtube_error_occurred", resourceCulture);
             }
         }
+        
+        internal static string bitcoin_error {
+            get {
+                return ResourceManager.GetString("bitcoin_error", resourceCulture);
+            }
+        }
+        
+        internal static string fact_error {
+            get {
+                return ResourceManager.GetString("fact_error", resourceCulture);
+            }
+        }
     }
 }
