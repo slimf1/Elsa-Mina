@@ -81,7 +81,7 @@ public class ProfileCommand : Command
         context.SendHtml($"profile-{userId}", template.RemoveNewlines(), rankAware: true);
     }
 
-    private static char GetUserRoomRank(IContext context, UserDetailsDto showdownUserDetails)
+    public static char GetUserRoomRank(IContext context, UserDetailsDto showdownUserDetails)
     {
         var userRoom = showdownUserDetails?
             .Rooms?
@@ -90,7 +90,7 @@ public class ProfileCommand : Command
         return userRoom != null ? userRoom[0] : ' ';
     }
 
-    private static string GetAvatar(RoomSpecificUserData storedUserData, UserDetailsDto showdownUserDetails)
+    public static string GetAvatar(RoomSpecificUserData storedUserData, UserDetailsDto showdownUserDetails)
     {
         string avatarUrl;
         if (!string.IsNullOrEmpty(storedUserData?.Avatar))
@@ -116,7 +116,7 @@ public class ProfileCommand : Command
         return avatarUrl;
     }
 
-    private static string GetStatus(UserDetailsDto showdownUserDetails)
+    public static string GetStatus(UserDetailsDto showdownUserDetails)
     {
         var status = showdownUserDetails?.Status;
         if (status?.StartsWith('!') == true)

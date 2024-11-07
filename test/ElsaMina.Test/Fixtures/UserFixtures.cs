@@ -14,5 +14,5 @@ public static class UserFixtures
 
     public static IUser AdminUser(string name = "testUser") => RankedUser(name, '&');
 
-    private static IUser RankedUser(string name, char rank) => new User(name, rank);
+    private static User RankedUser(string name, char rank) => new User(name, rank);
 }

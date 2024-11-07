@@ -59,7 +59,7 @@ public class RoomsManagerTest
         // Assert
         Assert.That(_roomsManager.GetRoom("franais").Culture.Name, Is.EqualTo("zh-CN"));
     }
-    
+
     [Test]
     public async Task Test_InitializeRoom_ShouldUserLocaleStoredInDb_WhenRoomParametersExist()
     {
@@ -90,31 +90,33 @@ public class RoomsManagerTest
         // Arrange & Act
         await InitializeFakeRooms();
 
-        // Assert
-        Assert.That(_roomsManager.HasRoom("my-room"), Is.True);
-        Assert.That(_roomsManager.HasRoom("franais"), Is.True);
-        Assert.That(_roomsManager.HasRoom("doesn't exist"), Is.False);
-        Assert.That(_roomsManager.GetRoom("my-room"), Is.Not.Null);
-        Assert.That(_roomsManager.GetRoom("franais"), Is.Not.Null);
-        Assert.That(_roomsManager.GetRoom("doesn't exist"), Is.Null);
+        Assert.Multiple(() =>
+        {
+            // Assert
+            Assert.That(_roomsManager.HasRoom("my-room"), Is.True);
+            Assert.That(_roomsManager.HasRoom("franais"), Is.True);
+            Assert.That(_roomsManager.HasRoom("doesn't exist"), Is.False);
+            Assert.That(_roomsManager.GetRoom("my-room"), Is.Not.Null);
+            Assert.That(_roomsManager.GetRoom("franais"), Is.Not.Null);
+            Assert.That(_roomsManager.GetRoom("doesn't exist"), Is.Null);
+            Assert.That(_roomsManager.GetRoom("my-room").RoomId, Is.EqualTo("my-room"));
+            Assert.That(_roomsManager.GetRoom("my-room").Name, Is.EqualTo("My Room"));
+            Assert.That(_roomsManager.GetRoom("my-room").Users, Has.Count.EqualTo(3));
+            Assert.That(_roomsManager.GetRoom("my-room").Users.ContainsKey("test"), Is.True);
+            Assert.That(_roomsManager.GetRoom("my-room").Users["test"].IsIdle, Is.False);
+            Assert.That(_roomsManager.GetRoom("my-room").Users.ContainsKey("james"), Is.True);
+            Assert.That(_roomsManager.GetRoom("my-room").Users["james"].IsIdle, Is.True);
+            Assert.That(_roomsManager.GetRoom("my-room").Users.ContainsKey("dude"), Is.True);
+            Assert.That(_roomsManager.GetRoom("my-room").Users["dude"].IsIdle, Is.False);
 
-        Assert.That(_roomsManager.GetRoom("my-room").RoomId, Is.EqualTo("my-room"));
-        Assert.That(_roomsManager.GetRoom("my-room").Name, Is.EqualTo("My Room"));
-        Assert.That(_roomsManager.GetRoom("my-room").Users, Has.Count.EqualTo(3));
-        Assert.That(_roomsManager.GetRoom("my-room").Users.ContainsKey("test"), Is.True);
-        Assert.That(_roomsManager.GetRoom("my-room").Users["test"].IsIdle, Is.False);
-        Assert.That(_roomsManager.GetRoom("my-room").Users.ContainsKey("james"), Is.True);
-        Assert.That(_roomsManager.GetRoom("my-room").Users["james"].IsIdle, Is.True);
-        Assert.That(_roomsManager.GetRoom("my-room").Users.ContainsKey("dude"), Is.True);
-        Assert.That(_roomsManager.GetRoom("my-room").Users["dude"].IsIdle, Is.False);
-        
-        Assert.That(_roomsManager.GetRoom("franais").RoomId, Is.EqualTo("franais"));
-        Assert.That(_roomsManager.GetRoom("franais").Name, Is.EqualTo("Français"));
-        Assert.That(_roomsManager.GetRoom("franais").Users, Has.Count.EqualTo(4));
-        Assert.That(_roomsManager.GetRoom("franais").Users.ContainsKey("teclis"), Is.True);
-        Assert.That(_roomsManager.GetRoom("franais").Users.ContainsKey("lionyx"), Is.True);
-        Assert.That(_roomsManager.GetRoom("franais").Users.ContainsKey("earth"), Is.True);
-        Assert.That(_roomsManager.GetRoom("franais").Users.ContainsKey("mec"), Is.True);
+            Assert.That(_roomsManager.GetRoom("franais").RoomId, Is.EqualTo("franais"));
+            Assert.That(_roomsManager.GetRoom("franais").Name, Is.EqualTo("Français"));
+            Assert.That(_roomsManager.GetRoom("franais").Users, Has.Count.EqualTo(4));
+            Assert.That(_roomsManager.GetRoom("franais").Users.ContainsKey("teclis"), Is.True);
+            Assert.That(_roomsManager.GetRoom("franais").Users.ContainsKey("lionyx"), Is.True);
+            Assert.That(_roomsManager.GetRoom("franais").Users.ContainsKey("earth"), Is.True);
+            Assert.That(_roomsManager.GetRoom("franais").Users.ContainsKey("mec"), Is.True);
+        });
     }
 
     [Test]
@@ -197,11 +199,14 @@ public class RoomsManagerTest
         _roomsManager.RenameUserInRoom("franais", "mec", "&DieuSupreme");
 
         // Assert
-        Assert.That(_roomsManager.GetRoom("franais").Users, Has.Count.EqualTo(4));
-        Assert.That(_roomsManager.GetRoom("franais").Users.ContainsKey("mec"), Is.False);
-        Assert.That(_roomsManager.GetRoom("franais").Users.ContainsKey("dieusupreme"), Is.True);
-        Assert.That(_roomsManager.GetRoom("franais").Users["dieusupreme"].Name, Is.EqualTo("DieuSupreme"));
-        Assert.That(_roomsManager.GetRoom("franais").Users["dieusupreme"].Rank, Is.EqualTo('&'));
+        Assert.Multiple(() =>
+        {
+            Assert.That(_roomsManager.GetRoom("franais").Users, Has.Count.EqualTo(4));
+            Assert.That(_roomsManager.GetRoom("franais").Users.ContainsKey("mec"), Is.False);
+            Assert.That(_roomsManager.GetRoom("franais").Users.ContainsKey("dieusupreme"), Is.True);
+            Assert.That(_roomsManager.GetRoom("franais").Users["dieusupreme"].Name, Is.EqualTo("DieuSupreme"));
+            Assert.That(_roomsManager.GetRoom("franais").Users["dieusupreme"].Rank, Is.EqualTo('&'));
+        });
     }
 
     [Test]
