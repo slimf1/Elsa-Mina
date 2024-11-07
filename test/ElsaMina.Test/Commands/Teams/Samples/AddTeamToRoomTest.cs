@@ -86,7 +86,7 @@ public class AddTeamToRoomTests
         await _command.Run(_context);
 
         // Assert
-        Assert.IsTrue(team.Rooms.Any(roomTeam => roomTeam.RoomId == "roomId" && roomTeam.TeamId == "teamid"));
+        Assert.That(team.Rooms.Any(roomTeam => roomTeam.RoomId == "roomId" && roomTeam.TeamId == "teamid"), Is.True);
         await _teamRepository.Received(1).UpdateAsync(team);
         _context.Received().ReplyLocalizedMessage("add_team_to_room_success");
     }

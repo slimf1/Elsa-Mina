@@ -1,6 +1,6 @@
 ﻿namespace ElsaMina.Core.Services.Repeats;
 
-public class Repeat : IEquatable<Repeat>
+public sealed class Repeat : IEquatable<Repeat>
 {
     public string RoomId { get; init; }
     public string RepeatId { get; init; }

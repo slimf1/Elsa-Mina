@@ -60,7 +60,7 @@ public class LoginServiceTest
         var result = await _loginService.Login(challstr);
 
         // Assert
-        Assert.IsNull(result);
+        Assert.That(result, Is.Null);
     }
 
     [Test]
@@ -79,7 +79,7 @@ public class LoginServiceTest
         var result = await _loginService.Login(challstr);
 
         // Assert
-        Assert.IsNull(result);
+        Assert.That(result, Is.Null);
     }
 
     [Test]

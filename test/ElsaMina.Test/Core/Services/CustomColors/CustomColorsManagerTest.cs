@@ -34,7 +34,7 @@ public class CustomColorsManagerTest
 
         // Assert
         Assert.That(_customColorsManager.CustomColorsMapping, Is.Not.Null);
-        Assert.That(_customColorsManager.CustomColorsMapping.Count, Is.EqualTo(2));
+        Assert.That(_customColorsManager.CustomColorsMapping, Has.Count.EqualTo(2));
         Assert.That(_customColorsManager.CustomColorsMapping, Is.EquivalentTo(expectedColors));
     }
 
@@ -50,7 +50,7 @@ public class CustomColorsManagerTest
         await _customColorsManager.FetchCustomColors();
 
         // Assert
-        Assert.That(_customColorsManager.CustomColorsMapping.Count, Is.EqualTo(1));
+        Assert.That(_customColorsManager.CustomColorsMapping, Has.Count.EqualTo(1));
         Assert.That(_customColorsManager.CustomColorsMapping["user1"], Is.EqualTo("#FF5733"));
     }
 

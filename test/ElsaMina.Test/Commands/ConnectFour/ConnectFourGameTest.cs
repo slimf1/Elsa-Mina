@@ -60,7 +60,7 @@ public class ConnectFourGameTest
             Assert.That(_game.Players, Has.Member(_mockUser1));
             Assert.That(_game.Players, Has.Member(_mockUser2));
             Assert.That(_game.TurnCount, Is.EqualTo(1));
-            Assert.That(_game.Players.Count, Is.EqualTo(2));
+            Assert.That(_game.Players, Has.Count.EqualTo(2));
         }
 
         [Test]
@@ -75,7 +75,7 @@ public class ConnectFourGameTest
             await _game.JoinGame(mockUser3);
 
             Assert.That(_game.Players, Does.Not.Contain(mockUser3));
-            Assert.That(_game.Players.Count, Is.EqualTo(2));
+            Assert.That(_game.Players, Has.Count.EqualTo(2));
             Assert.That(_game.TurnCount, Is.EqualTo(2));
         }
 

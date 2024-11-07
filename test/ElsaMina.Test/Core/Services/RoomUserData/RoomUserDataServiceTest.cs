@@ -67,7 +67,7 @@ public class RoomUserDataServiceTest
         await _service.InitializeJoinPhrases();
 
         // Assert
-        Assert.That(_service.JoinPhrases.Count, Is.EqualTo(2));
+        Assert.That(_service.JoinPhrases, Has.Count.EqualTo(2));
         Assert.That(_service.JoinPhrases[new Tuple<string, string>("user1", "room1")], Is.EqualTo("Hello"));
         Assert.That(_service.JoinPhrases[new Tuple<string, string>("user2", "room2")], Is.EqualTo("Welcome"));
     }

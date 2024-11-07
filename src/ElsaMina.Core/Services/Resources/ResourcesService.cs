@@ -29,7 +29,7 @@ public class ResourcesService : IResourcesService
         return _resourceManager.Value.GetString(key, cultureInfo ?? _defaultLocale);
     }
     
-    private IEnumerable<CultureInfo> GetSupportedLocales()
+    private List<CultureInfo> GetSupportedLocales()
     {
         var supportedLocales = new List<CultureInfo>();
         foreach (var cultureInfo in CultureInfo.GetCultures(CultureTypes.AllCultures))

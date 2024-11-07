@@ -32,14 +32,17 @@ public class UserDetailsManagerTest
         
         // Act
         var result = await task;
-        
-        // Assert
-        Assert.That(result.Name, Is.EqualTo("Panur"));
-        Assert.That(result.Avatar, Is.EqualTo("sightseerf"));
-        Assert.That(result.Group, Is.EqualTo("+"));
-        Assert.That(result.AutoConfirmed, Is.True);
+        Assert.Multiple(() =>
+        {
+
+            // Assert
+            Assert.That(result.Name, Is.EqualTo("Panur"));
+            Assert.That(result.Avatar, Is.EqualTo("sightseerf"));
+            Assert.That(result.Group, Is.EqualTo("+"));
+            Assert.That(result.AutoConfirmed, Is.True);
+        });
     }
-    
+
     [Test]
     public async Task Test_GetUserDetails_ShouldReturnNull_WhenUserDetailsAreNotReceived()
     {

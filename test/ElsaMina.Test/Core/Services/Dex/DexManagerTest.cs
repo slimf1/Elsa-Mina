@@ -34,7 +34,7 @@ public class DexManagerTest
 
         // Assert
         Assert.That(_dexManager.Pokedex, Is.Not.Null);
-        Assert.That(_dexManager.Pokedex.Count, Is.EqualTo(2));
+        Assert.That(_dexManager.Pokedex, Has.Count.EqualTo(2));
         Assert.That(_dexManager.Pokedex, Is.EquivalentTo(expectedPokedex));
     }
 
@@ -50,7 +50,7 @@ public class DexManagerTest
         await _dexManager.LoadDex();
 
         // Assert
-        Assert.That(_dexManager.Pokedex.Count, Is.EqualTo(1));
+        Assert.That(_dexManager.Pokedex, Has.Count.EqualTo(1));
         Assert.That(_dexManager.Pokedex[0].Name.English, Is.EqualTo("Bulbasaur"));
     }
 
