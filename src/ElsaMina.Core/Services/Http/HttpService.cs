@@ -76,4 +76,9 @@ public class HttpService : IHttpService
             Data = JsonConvert.DeserializeObject<TResponse>(stringContent)
         };
     }
+
+    public Task<Stream> GetStream(string uri)
+    {
+        return HTTP_CLIENT.GetStreamAsync(uri);
+    }
 }

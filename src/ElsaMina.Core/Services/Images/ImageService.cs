@@ -1,18 +1,25 @@
 using System.Text.RegularExpressions;
+using ElsaMina.Core.Services.Http;
 using SixLabors.ImageSharp;
 
-namespace ElsaMina.Core.Utils;
+namespace ElsaMina.Core.Services.Images;
 
-public static class Images
+public class ImageService : IImageService
 {
     public static readonly Regex IMAGE_LINK_REGEX = new("(http)?s?:(//[^\"']*.(?:png|jpg|jpeg|gif|png|svg))", RegexOptions.Compiled, TimeSpan.FromSeconds(1));
-    private static readonly HttpClient HTTP_CLIENT = new();
+
+    private readonly IHttpService _httpService;
+
+    public ImageService(IHttpService httpService)
+    {
+        _httpService = httpService;
+    }
     
-    public static async Task<(int Width, int Height)> GetRemoteImageDimensions(string url)
+    public async Task<(int Width, int Height)> GetRemoteImageDimensions(string url)
     {
         try
         {
-            var stream = await HTTP_CLIENT.GetStreamAsync(url);
+            var stream = await _httpService.GetStream(url);
             var image = await Image.LoadAsync(stream);
             return (image.Width, image.Height);
         }
@@ -23,7 +30,7 @@ public static class Images
         }
     }
 
-    public static (int Width, int Height) ResizeWithSameAspectRatio(int width, int height, int maxWidth, int maxHeight)
+    public (int Width, int Height) ResizeWithSameAspectRatio(int width, int height, int maxWidth, int maxHeight)
     {
         int newWidth, newHeight;
         if (width <= maxWidth && height <= maxHeight)

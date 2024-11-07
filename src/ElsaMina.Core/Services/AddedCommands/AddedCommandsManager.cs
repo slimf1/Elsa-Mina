@@ -1,4 +1,5 @@
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Services.Images;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Repositories;
 
@@ -10,10 +11,13 @@ public class AddedCommandsManager : IAddedCommandsManager
     private const int MAX_WIDTH = 400;
     
     private readonly IAddedCommandRepository _addedCommandRepository;
+    private readonly IImageService _imageService;
 
-    public AddedCommandsManager(IAddedCommandRepository addedCommandRepository)
+    public AddedCommandsManager(IAddedCommandRepository addedCommandRepository,
+        IImageService imageService)
     {
         _addedCommandRepository = addedCommandRepository;
+        _imageService = imageService;
     }
 
     public async Task TryExecuteAddedCommand(string commandName, IContext context)
@@ -26,10 +30,10 @@ public class AddedCommandsManager : IAddedCommandsManager
         }
 
         var content = command.Content;
-        if (Images.IMAGE_LINK_REGEX.IsMatch(content))
+        if (ImageService.IMAGE_LINK_REGEX.IsMatch(content))
         {
-            var (width, height) = await Images.GetRemoteImageDimensions(content);
-            (width, height) = Images.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);
+            var (width, height) = await _imageService.GetRemoteImageDimensions(content);
+            (width, height) = _imageService.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);
             context.SendHtml($"""<img src="{content}" width="{width}" height="{height}" />""", rankAware: true);
             return;
         }

@@ -1,5 +1,6 @@
 ﻿using ElsaMina.Core;
 using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Services.Images;
 using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
@@ -16,6 +17,7 @@ public class CountriesGame : GuessingGame
     private static CountriesGameData CountriesGameData { get; set; }
 
     private readonly IRandomService _randomService;
+    private readonly IImageService _imageService;
 
     public static async Task LoadCountriesGameData()
     {
@@ -27,9 +29,11 @@ public class CountriesGame : GuessingGame
 
     public CountriesGame(ITemplatesManager templatesManager,
         IRandomService randomService,
-        IConfigurationManager configurationManager) : base(templatesManager, configurationManager)
+        IConfigurationManager configurationManager,
+        IImageService imageService) : base(templatesManager, configurationManager)
     {
         _randomService = randomService;
+        _imageService = imageService;
     }
 
     public override string Identifier => nameof(CountriesGame);
@@ -46,8 +50,8 @@ public class CountriesGame : GuessingGame
             ? nextCountry.Flag
             : nextCountry.Location;
         CurrentValidAnswers = [nextCountry.EnglishName, nextCountry.FrenchName];
-        var (width, height) = await Images.GetRemoteImageDimensions(image);
-        (width, height) = Images.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);
+        var (width, height) = await _imageService.GetRemoteImageDimensions(image);
+        (width, height) = _imageService.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);
         Context.SendHtml($"""<img src="{image}" width="{width}" height="{height}" /> """);
     }
 }

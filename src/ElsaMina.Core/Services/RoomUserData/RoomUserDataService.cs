@@ -1,3 +1,4 @@
+using ElsaMina.Core.Services.Images;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
@@ -96,7 +97,7 @@ public class RoomUserDataService : IRoomUserDataService
 
     public async Task SetUserAvatar(string roomId, string userId, string avatar)
     {
-        if (avatar != null && !Images.IMAGE_LINK_REGEX.IsMatch(avatar))
+        if (avatar != null && !ImageService.IMAGE_LINK_REGEX.IsMatch(avatar))
         {
             throw new ArgumentException("Invalid URL");
         }

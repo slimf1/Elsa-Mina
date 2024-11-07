@@ -7,4 +7,5 @@ public interface IHttpService
     public Task<IHttpResponse<TResponse>> PostUrlEncodedForm<TResponse>(string uri, IDictionary<string, string> form,
         bool removeFirstCharacterFromResponse = false);
     public Task<IHttpResponse<TResponse>> Get<TResponse>(string uri, IDictionary<string, string> queryParams = null);
+    Task<Stream> GetStream(string uri);
 }
