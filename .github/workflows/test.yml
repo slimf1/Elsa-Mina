@@ -33,7 +33,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet tool install --global dotnet-sonarscanner
           dotnet-sonarscanner begin /k:"slimf1_Elsa-Mina" /o:"slimf1" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="TestResults/coverage.opencover.xml"
           dotnet build --no-incremental
           dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
