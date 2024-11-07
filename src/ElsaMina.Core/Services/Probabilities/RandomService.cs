@@ -2,7 +2,7 @@
 
 public class RandomService : IRandomService
 {
-    private Random _rng = new();
+    private readonly Random _rng = new();
 
     public T RandomElement<T>(IEnumerable<T> enumerable)
     {
@@ -29,10 +29,5 @@ public class RandomService : IRandomService
     public int NextInt(int lowerBound, int upperBound)
     {
         return _rng.Next(lowerBound, upperBound);
-    }
-
-    public void SetSeed(int seed)
-    {
-        _rng = new Random(seed);
     }
 }
