@@ -9,5 +9,3 @@ jobs:
     uses: ./.github/workflows/test.yml
     with:
       dotnet-version: "8.0.x"
-    secrets:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
