@@ -30,6 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 		.github\workflows\deploy.yml = .github\workflows\deploy.yml
 		.github\workflows\pr.yml = .github\workflows\pr.yml
 		.github\workflows\test.yml = .github\workflows\test.yml
+		.github\workflows\sonar.yml = .github\workflows\sonar.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{87DEC13D-7646-41C3-95CE-24502E33BD36}"
