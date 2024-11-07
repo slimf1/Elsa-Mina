@@ -1,4 +1,4 @@
-﻿name: test
+﻿name: test and analyze
 
 on:
   workflow_call:
@@ -16,7 +16,24 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ inputs.dotnet-version }}
+      - name: cache SonarCloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: install SonarCloud scanners
+        run: |
+          dotnet tool install --global dotnet-sonarscanner
       - name: restore
         run: dotnet restore
-      - name: test
-        run: dotnet test --no-restore --verbosity normal
+      - name: test with coverage
+        run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./TestResults/coverage.opencover.xml
+      - name: analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          dotnet tool install --global dotnet-sonarscanner
+          dotnet-sonarscanner begin /k:"slimf1_Elsa-Mina" /o:"slimf1" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="TestResults/coverage.opencover.xml"
+          dotnet build --no-incremental
+          dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
