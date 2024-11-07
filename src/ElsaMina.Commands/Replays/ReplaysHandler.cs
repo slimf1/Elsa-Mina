@@ -12,7 +12,8 @@ namespace ElsaMina.Commands.Replays;
 public class ReplaysHandler : ChatMessageHandler
 {
     private static readonly Regex REPLAY_URL_REGEX =
-        new(@"https:\/\/(replay\.pokemonshowdown\.com\/(\w{1,30}-){0,1}\w{2,30}-\d{1,30}(-\w{33}){0,1})");
+        new(@"https:\/\/(replay\.pokemonshowdown\.com\/(\w{1,30}-){0,1}\w{2,30}-\d{1,30}(-\w{33}){0,1})",
+            RegexOptions.Compiled, TimeSpan.FromSeconds(1));
 
     private readonly IHttpService _httpService;
     private readonly ITemplatesManager _templatesManager;

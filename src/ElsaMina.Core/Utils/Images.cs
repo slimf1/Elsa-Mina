@@ -5,7 +5,7 @@ namespace ElsaMina.Core.Utils;
 
 public static class Images
 {
-    public static readonly Regex IMAGE_LINK_REGEX = new("(http)?s?:(//[^\"']*.(?:png|jpg|jpeg|gif|png|svg))");
+    public static readonly Regex IMAGE_LINK_REGEX = new("(http)?s?:(//[^\"']*.(?:png|jpg|jpeg|gif|png|svg))", RegexOptions.Compiled, TimeSpan.FromSeconds(1));
     private static readonly HttpClient HTTP_CLIENT = new();
     
     public static async Task<(int Width, int Height)> GetRemoteImageDimensions(string url)

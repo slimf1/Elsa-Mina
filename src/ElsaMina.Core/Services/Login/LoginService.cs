@@ -5,7 +5,7 @@ namespace ElsaMina.Core.Services.Login;
 
 public class LoginService : ILoginService
 {
-    private const string LOGIN_URL = "http://play.pokemonshowdown.com/action.php";
+    private const string LOGIN_URL = "https://play.pokemonshowdown.com/action.php";
 
     private readonly IHttpService _httpService;
     private readonly IConfigurationManager _configurationManager;

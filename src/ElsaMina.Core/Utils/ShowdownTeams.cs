@@ -38,7 +38,7 @@ public static class ShowdownTeams
         ["spe"] = "Spe"
     };
 
-    private static readonly Regex NATURE_REGEX = new("^[A-Za-z]+ (N|n)ature");
+    private static readonly Regex NATURE_REGEX = new("^[A-Za-z]+ (N|n)ature", RegexOptions.Compiled, TimeSpan.FromSeconds(1));
     
     public static IEnumerable<PokemonSet> DeserializeTeamExport(string export)
     {
