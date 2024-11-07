@@ -7,6 +7,7 @@
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=slimf1_Elsa-Mina&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=slimf1_Elsa-Mina)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=slimf1_Elsa-Mina&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=slimf1_Elsa-Mina)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=slimf1_Elsa-Mina&metric=bugs)](https://sonarcloud.io/summary/new_code?id=slimf1_Elsa-Mina)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=slimf1_Elsa-Mina&metric=coverage)](https://sonarcloud.io/summary/new_code?id=slimf1_Elsa-Mina)
 
 > [!IMPORTANT]  
 > This is a work in progress!
