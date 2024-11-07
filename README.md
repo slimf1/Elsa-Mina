@@ -2,6 +2,11 @@
 
 [![deploy](https://github.com/slimf1/Elsa-Mina/actions/workflows/deploy.yml/badge.svg)](https://github.com/slimf1/Elsa-Mina/actions/workflows/deploy.yml)
 
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=slimf1_Elsa-Mina&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=slimf1_Elsa-Mina)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=slimf1_Elsa-Mina&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=slimf1_Elsa-Mina)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=slimf1_Elsa-Mina&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=slimf1_Elsa-Mina)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=slimf1_Elsa-Mina&metric=bugs)](https://sonarcloud.io/summary/new_code?id=slimf1_Elsa-Mina)
+
 > [!IMPORTANT]  
 > This is a work in progress!
 
