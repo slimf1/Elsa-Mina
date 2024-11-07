@@ -13,6 +13,7 @@ using ElsaMina.Commands.Misc.Bitcoin;
 using ElsaMina.Commands.Misc.Colors;
 using ElsaMina.Commands.Misc.Facts;
 using ElsaMina.Commands.Misc.Repeats;
+using ElsaMina.Commands.Misc.Youtube;
 using ElsaMina.Commands.Profile;
 using ElsaMina.Commands.Replays;
 using ElsaMina.Commands.RoomDashboard;
@@ -74,6 +75,7 @@ public class CommandModule : Module
         RegisterCommand<JoinConnectFourCommand>(builder);
         RegisterCommand<PlayConnectFourCommand>(builder);
         RegisterCommand<EndConnectFour>(builder);
+        RegisterCommand<YoutubeCommand>(builder);
 
         RegisterHandler<JoinRoomOnInviteHandler>(builder);
         RegisterHandler<GuessingGameHandler>(builder);

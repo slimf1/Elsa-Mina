@@ -878,5 +878,29 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("pokecries_started", resourceCulture);
             }
         }
+        
+        internal static string youtube_no_results {
+            get {
+                return ResourceManager.GetString("youtube_no_results", resourceCulture);
+            }
+        }
+        
+        internal static string youtube_watch {
+            get {
+                return ResourceManager.GetString("youtube_watch", resourceCulture);
+            }
+        }
+        
+        internal static string youtube_video_info {
+            get {
+                return ResourceManager.GetString("youtube_video_info", resourceCulture);
+            }
+        }
+        
+        internal static string youtube_error_occurred {
+            get {
+                return ResourceManager.GetString("youtube_error_occurred", resourceCulture);
+            }
+        }
     }
 }

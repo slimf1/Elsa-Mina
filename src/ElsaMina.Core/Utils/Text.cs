@@ -88,6 +88,10 @@ public static partial class Text
             {
                 finished = true;
             }
+            else
+            {
+                output.Append(' ');
+            }
         }
 
         if (finished)

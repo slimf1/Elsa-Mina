@@ -1,0 +1,19 @@
+@using System.Web@using System.Web
+
+@using ElsaMina.Commands.Misc.Youtube
+@using ElsaMina.Core.Utils
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Misc.Youtube.YoutubeVideoPreviewViewModel>
+
+<table style="padding: 0.25em;">
+    <thead>
+    <th>
+        <img src="@Model.ThumbnailSource" width="@Model.ThumbnailWidth" height="@Model.ThumbnailHeight" alt="Thumbnail"/>
+    </th>
+    <th style="padding: 0.5em; text-align: left;">
+        <b>@HttpUtility.HtmlDecode(Model.Title)</b><br />
+        <span style="font-style: italic; font-weight: normal;">@GetString("youtube_video_info", Model.ChannelTitle, Model.PublishTime.ToString("d", Model.Culture))</span><br/>
+        <small>@Model.Description.Shorten(YoutubeCommand.DESCRIPTION_MAX_LENGTH)</small><br/>
+        <a href="https://www.youtube.com/watch?v=@Model.VideoId">@GetString("youtube_watch")</a>
+    </th>
+    </thead>
+</table>

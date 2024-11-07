@@ -435,4 +435,16 @@
     <data name="pokecries_started" xml:space="preserve">
         <value>Une partie de PokeCries a été lancée ! Écrivez directement le nom du Pokémon correspondant dans le chat.</value>
     </data>
+    <data name="youtube_no_results" xml:space="preserve">
+        <value>Aucune vidéo trouvée.</value>
+    </data>
+    <data name="youtube_watch" xml:space="preserve">
+        <value>Regarder sur YouTube</value>
+    </data>
+    <data name="youtube_video_info" xml:space="preserve">
+        <value>Mise en ligne par {0} le {1}</value>
+    </data>
+    <data name="youtube_error_occurred" xml:space="preserve">
+        <value>Une erreur est survenue.</value>
+    </data>
 </root>
