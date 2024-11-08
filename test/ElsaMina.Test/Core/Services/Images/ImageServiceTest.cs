@@ -71,8 +71,11 @@ public class ImageServiceTest
         var (newWidth, newHeight) = _imageService.ResizeWithSameAspectRatio(width, height, maxWidth, maxHeight);
 
         // Assert
-        Assert.That(newWidth, Is.EqualTo(400));
-        Assert.That(newHeight, Is.EqualTo(300));
+        Assert.Multiple(() =>
+        {
+            Assert.That(newWidth, Is.EqualTo(400));
+            Assert.That(newHeight, Is.EqualTo(300));
+        });
     }
 
     [Test]
@@ -86,11 +89,10 @@ public class ImageServiceTest
 
         // Act
         var (newWidth, newHeight) = _imageService.ResizeWithSameAspectRatio(width, height, maxWidth, maxHeight);
-        
+
         // Assert
         Assert.Multiple(() =>
         {
-
             Assert.That(newWidth, Is.EqualTo(800));
             Assert.That(newHeight, Is.EqualTo(400));
         });
@@ -111,7 +113,6 @@ public class ImageServiceTest
         // Assert
         Assert.Multiple(() =>
         {
-
             Assert.That(newWidth, Is.EqualTo(400));
             Assert.That(newHeight, Is.EqualTo(800));
         });
@@ -132,7 +133,6 @@ public class ImageServiceTest
         // Assert
         Assert.Multiple(() =>
         {
-
             Assert.That(newWidth, Is.EqualTo(800));
             Assert.That(newHeight, Is.EqualTo(600));
         });

@@ -25,7 +25,7 @@ public class LoginService : ILoginService
             ["pass"] = _configurationManager.Configuration.Password,
             ["act"] = "login"
         };
-        // todo : auto retry ?
+
         try
         {
             var response = await _httpService.PostUrlEncodedForm<LoginResponseDto>(LOGIN_URL, form, true);
