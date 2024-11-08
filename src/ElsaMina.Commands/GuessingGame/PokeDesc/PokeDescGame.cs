@@ -1,31 +1,21 @@
-using ElsaMina.Core;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Templates;
-using Newtonsoft.Json;
 
 namespace ElsaMina.Commands.GuessingGame.PokeDesc;
 
 public class PokeDescGame : GuessingGame
 {
-    private static readonly string GAME_FILE_PATH = Path.Join("Data", "pokedesc.json");
-    private static List<PokemonDescription> PokeDescGameData { get; set; }
-
-    public static async Task LoadPokeDescData()
-    {
-        using var streamReader = new StreamReader(GAME_FILE_PATH);
-        var fileContent = await streamReader.ReadToEndAsync();
-        PokeDescGameData = JsonConvert.DeserializeObject<List<PokemonDescription>>(fileContent);
-        Logger.Information("Loaded PokeDesc game data with {0} entries", PokeDescGameData.Count);
-    }
-
     private readonly IRandomService _randomService;
+    private readonly IDataManager _dataManager;
 
     public PokeDescGame(ITemplatesManager templatesManager,
         IConfigurationManager configurationManager,
-        IRandomService randomService) : base(templatesManager, configurationManager)
+        IRandomService randomService,
+        IDataManager dataManager) : base(templatesManager, configurationManager)
     {
         _randomService = randomService;
+        _dataManager = dataManager;
     }
 
     public override string Identifier => nameof(PokeDescGame);
@@ -38,7 +28,7 @@ public class PokeDescGame : GuessingGame
 
     protected override Task OnTurnStart()
     {
-        var randomDescription = _randomService.RandomElement(PokeDescGameData);
+        var randomDescription = _randomService.RandomElement(_dataManager.PokemonDescriptions);
         CurrentValidAnswers = [randomDescription.EnglishName, randomDescription.FrenchName];
         Context.Reply(randomDescription.Description);
 

@@ -92,6 +92,10 @@ public class CommandModule : Module
         builder.RegisterType<PokepasteProvider>().As<ITeamProvider>();
         builder.RegisterType<CoupCritiqueProvider>().As<ITeamProvider>();
         builder.RegisterType<TeamLinkMatchFactory>().As<ITeamLinkMatchFactory>().SingleInstance();
+        builder.RegisterType<DataManager>().As<IDataManager>().SingleInstance().OnActivating(e =>
+        {
+            e.Instance.Initialize().Wait(); // Risque d'ANR mais obligé pour garantir la bonne initialisation...
+        });
     }
 
     private static void RegisterCommand<T>(ContainerBuilder builder) where T : ICommand

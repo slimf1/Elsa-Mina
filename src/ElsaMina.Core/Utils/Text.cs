@@ -24,7 +24,7 @@ public static partial class Text
     {
         return text.Trim().ToLower() is "true" or "y" or "t" or "1" or "on";
     }
-    
+
     /// <remarks>
     /// Credit : https://gist.github.com/Davidblkx/e12ab0bb2aff7fd8072632b396538560
     /// </remarks>
@@ -72,32 +72,37 @@ public static partial class Text
 
     public static string Shorten(this string text, int maxLength)
     {
-        var words = text.Split(' ');
-        var wordCount = words.Length;
-        var length = 0;
-        var wordIndex = 0;
-        var finished = false;
-        var output = new StringBuilder();
-
-        while (length < maxLength && wordIndex < wordCount)
+        if (string.IsNullOrEmpty(text) || maxLength <= 0)
         {
-            output.Append(words[wordIndex]);
-            length += words[wordIndex].Length;
-            wordIndex++;
-            if (wordIndex == wordCount)
-            {
-                finished = true;
-            }
-            else
-            {
-                output.Append(' ');
-            }
+            return string.Empty;
         }
 
-        if (finished)
+        var words = text.Split(' ');
+        var output = new StringBuilder();
+        var length = 0;
+
+        foreach (var word in words)
+        {
+            if (length + word.Length > maxLength)
+            {
+                break;
+            }
+
+            if (output.Length > 0)
+            {
+                output.Append(' ');
+                length++;
+            }
+
+            output.Append(word);
+            length += word.Length;
+        }
+
+        if (length < text.Length)
         {
             output.Append("...");
         }
+
         return output.ToString();
     }
 
