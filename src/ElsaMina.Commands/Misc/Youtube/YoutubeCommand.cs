@@ -65,7 +65,12 @@ public class YoutubeCommand : Command
                     Culture = context.Culture,
                     ChannelTitle = firstVideoSnippet.ChannelTitle,
                     Description = firstVideoSnippet.Description,
-                    PublishTime = DateTime.Parse(firstVideoSnippet.PublishTime),
+                    PublishTime = DateTime.ParseExact(
+                        firstVideoSnippet.PublishTime,
+                        "yyyy-MM-ddTHH:mm:ssZ",
+                        null,
+                        System.Globalization.DateTimeStyles.RoundtripKind
+                    ),
                     Title = firstVideoSnippet.Title,
                     VideoId = firstVideo.Id.VideoIdValue,
                     ThumbnailSource = firstVideoSnippet.Thumbnails.Medium.Url,

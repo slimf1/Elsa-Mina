@@ -74,7 +74,7 @@ public class FactsCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldLogError_WhenApiCallFails()
+    public async Task Test_Run_ShouldReplyWithError_WhenApiCallFails()
     {
         // Arrange
         _httpService.Get<FactDto>(Arg.Any<string>())
@@ -84,6 +84,6 @@ public class FactsCommandTest
         await _factsCommand.Run(_context);
 
         // Assert
-        _context.ReplyLocalizedMessage("fact_error");
+        _context.Received(1).ReplyLocalizedMessage("fact_error");
     }
 }

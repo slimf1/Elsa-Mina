@@ -34,8 +34,11 @@ public class ImageServiceTest
         var (width, height) = await _imageService.GetRemoteImageDimensions("http://example.com/image.png");
 
         // Assert
-        Assert.That(width, Is.EqualTo(100));
-        Assert.That(height, Is.EqualTo(200));
+        Assert.Multiple(() =>
+        {
+            Assert.That(width, Is.EqualTo(100));
+            Assert.That(height, Is.EqualTo(200));
+        });
     }
 
     [Test]
@@ -48,8 +51,11 @@ public class ImageServiceTest
         var (width, height) = await _imageService.GetRemoteImageDimensions("http://example.com/image.png");
 
         // Assert
-        Assert.That(width, Is.EqualTo(-1));
-        Assert.That(height, Is.EqualTo(-1));
+        Assert.Multiple(() =>
+        {
+            Assert.That(width, Is.EqualTo(-1));
+            Assert.That(height, Is.EqualTo(-1));
+        });
     }
 
     [Test]
@@ -80,10 +86,14 @@ public class ImageServiceTest
 
         // Act
         var (newWidth, newHeight) = _imageService.ResizeWithSameAspectRatio(width, height, maxWidth, maxHeight);
-
+        
         // Assert
-        Assert.That(newWidth, Is.EqualTo(800));
-        Assert.That(newHeight, Is.EqualTo(400));
+        Assert.Multiple(() =>
+        {
+
+            Assert.That(newWidth, Is.EqualTo(800));
+            Assert.That(newHeight, Is.EqualTo(400));
+        });
     }
 
     [Test]
@@ -99,8 +109,12 @@ public class ImageServiceTest
         var (newWidth, newHeight) = _imageService.ResizeWithSameAspectRatio(width, height, maxWidth, maxHeight);
 
         // Assert
-        Assert.That(newWidth, Is.EqualTo(400));
-        Assert.That(newHeight, Is.EqualTo(800));
+        Assert.Multiple(() =>
+        {
+
+            Assert.That(newWidth, Is.EqualTo(400));
+            Assert.That(newHeight, Is.EqualTo(800));
+        });
     }
 
     [Test]
@@ -116,7 +130,11 @@ public class ImageServiceTest
         var (newWidth, newHeight) = _imageService.ResizeWithSameAspectRatio(width, height, maxWidth, maxHeight);
 
         // Assert
-        Assert.That(newWidth, Is.EqualTo(800));
-        Assert.That(newHeight, Is.EqualTo(600));
+        Assert.Multiple(() =>
+        {
+
+            Assert.That(newWidth, Is.EqualTo(800));
+            Assert.That(newHeight, Is.EqualTo(600));
+        });
     }
 }

@@ -16,7 +16,7 @@ public class ShowdownTeamsTest
         var result = ShowdownTeams.DeserializeTeamExport(export);
 
         // Assert
-        Assert.IsEmpty(result);
+        Assert.That(result, Is.Empty);
     }
 
     [Test]

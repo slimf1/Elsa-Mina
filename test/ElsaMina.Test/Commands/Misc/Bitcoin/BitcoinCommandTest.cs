@@ -55,7 +55,7 @@ public class BitcoinCommandTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldLogError_WhenApiCallFails()
+    public async Task Test_Run_ShouldReplyWithError_WhenApiCallFails()
     {
         // Arrange
         _httpService.Get<CoinDeskResponseDto>(Arg.Any<string>())

@@ -80,7 +80,6 @@ public class YoutubeCommandTest
         {
             YoutubeApiKey = "fakeApiKey"
         });
-        var publishTime = new DateTime(2018, 9, 20, 0, 0, 0, DateTimeKind.Utc);
         var mockResponse = new HttpResponse<YouTubeSearchResponse>
         {
             Data = new YouTubeSearchResponse
@@ -94,7 +93,7 @@ public class YoutubeCommandTest
                             ChannelTitle = "Test Channel",
                             Description = "Test Description",
                             Title = "Test Video",
-                            PublishTime = publishTime.ToString(CultureInfo.InvariantCulture),
+                            PublishTime = "2020-05-15T08:38:58Z",
                             Thumbnails = new Thumbnails
                             {
                                 Medium = new Thumbnail { Url = "https://test.com/thumbnail.jpg" }
@@ -119,7 +118,7 @@ public class YoutubeCommandTest
                       && vm.ChannelTitle == "Test Channel"
                       && vm.Description == "Test Description"
                       && vm.Title == "Test Video"
-                      && vm.PublishTime == publishTime
+                      && vm.PublishTime == new DateTime(2020, 5, 15, 8, 38, 58, DateTimeKind.Utc)
                       && vm.ThumbnailSource == "https://test.com/thumbnail.jpg"
             ));
     }
