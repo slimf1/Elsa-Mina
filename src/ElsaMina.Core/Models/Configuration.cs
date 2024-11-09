@@ -15,4 +15,5 @@ public class Configuration : IConfiguration
     public string ConnectionString { get; set; }
     public string YoutubeApiKey { get; set; }
     public string DictionaryApiKey { get; set; }
+    public string RiotApiKey { get; set; }
 }

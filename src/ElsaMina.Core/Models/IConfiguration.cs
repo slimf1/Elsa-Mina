@@ -15,4 +15,5 @@ public interface IConfiguration
     string ConnectionString { get; }
     string YoutubeApiKey { get; }
     string DictionaryApiKey { get; }
+    string RiotApiKey { get; }
 }
