@@ -16,11 +16,8 @@ public class Bot : IBot
     private static readonly TimeSpan SAME_MESSAGE_COOLDOWN = TimeSpan.FromSeconds(3);
 
     private readonly IClient _client;
-    private readonly IConfigurationManager _configurationManager;
     private readonly IClockService _clockService;
     private readonly IRoomsManager _roomsManager;
-    private readonly IFormatsManager _formatsManager;
-    private readonly ILoginService _loginService;
     private readonly IHandlerManager _handlerManager;
     private readonly ISystemService _systemService;
     private readonly IStartManager _startManager;
@@ -32,21 +29,15 @@ public class Bot : IBot
     private bool _disposed;
 
     public Bot(IClient client,
-        IConfigurationManager configurationManager,
         IClockService clockService,
         IRoomsManager roomsManager,
-        IFormatsManager formatsManager,
-        ILoginService loginService,
         IHandlerManager handlerManager,
         ISystemService systemService,
         IStartManager startManager)
     {
         _client = client;
-        _configurationManager = configurationManager;
         _clockService = clockService;
         _roomsManager = roomsManager;
-        _formatsManager = formatsManager;
-        _loginService = loginService;
         _handlerManager = handlerManager;
         _systemService = systemService;
         _startManager = startManager;
@@ -112,61 +103,6 @@ public class Bot : IBot
         }
 
         await _handlerManager.HandleMessage(parts, roomId);
-
-        switch (parts[1])
-        {
-            case "challstr":
-                await Login(string.Join("|", parts[2..]));
-                break;
-            case "updateuser":
-                CheckConnection(parts);
-                break;
-            case "formats":
-                _formatsManager.ParseFormatsFromReceivedLine(line);
-                break;
-        }
-    }
-
-    private void CheckConnection(string[] parts)
-    {
-        var name = parts[2][1..];
-        if (name.Contains("Guest")) // We need to be logged in to join some rooms
-        {
-            return;
-        }
-        if (name.Contains('@'))
-        {
-            name = name[^2..];
-        }
-
-        Logger.Information("Connected as : {0}", name);
-
-        foreach (var roomId in _configurationManager.Configuration.Rooms)
-        {
-            if (_configurationManager.Configuration.RoomBlacklist.Contains(roomId))
-            {
-                continue;
-            }
-
-            _client.Send($"|/join {roomId}");
-            _systemService.Sleep(TimeSpan.FromMilliseconds(250));
-        }
-    }
-
-    private async Task Login(string challstr)
-    {
-        Logger.Information("Logging in...");
-        var response = await _loginService.Login(challstr);
-
-        if (response?.CurrentUser == null ||
-            _configurationManager.Configuration.Name.ToLowerAlphaNum() != response.CurrentUser.UserId)
-        {
-            Logger.Error("Login failed. Check password validity. Exiting");
-            _systemService.Kill();
-            return;
-        }
-
-        _client.Send($"|/trn {response.CurrentUser.Username},0,{response.Assertion}");
     }
 
     private async Task LoadRoom(string roomId, string message)

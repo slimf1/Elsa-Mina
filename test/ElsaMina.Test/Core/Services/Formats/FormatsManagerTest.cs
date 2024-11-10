@@ -19,7 +19,7 @@ public class FormatsManagerTest
         const string message = "|formats|,1|S/V Singles|[Gen 9] Random Battle,f|[Gen 9] Unrated Random Battle,b";
 
         // Act
-        _formatsManager.ParseFormatsFromReceivedLine(message);
+        _formatsManager.ParseFormats(message.Split("|"));
 
         // Assert
         Assert.That(_formatsManager.Formats, Is.Not.Empty);
@@ -31,7 +31,7 @@ public class FormatsManagerTest
     {
         // Arrange
         const string message = "|formats|,1|S/V Singles|[Gen 9] Random Battle,f|[Gen 9] Unrated Random Battle,b";
-        _formatsManager.ParseFormatsFromReceivedLine(message);
+        _formatsManager.ParseFormats(message.Split("|"));
 
         // Act
         var tier = _formatsManager.GetCleanFormat("gen9randombattle");
@@ -45,7 +45,7 @@ public class FormatsManagerTest
     {
         // Arrange
         const string message = "|formats|,1|S/V Singles|[Gen 9] Random Battle,f|[Gen 9] Unrated Random Battle,b";
-        _formatsManager.ParseFormatsFromReceivedLine(message);
+        _formatsManager.ParseFormats(message.Split("|"));
 
         // Act
         var tier = _formatsManager.GetCleanFormat("gen7littlecup");

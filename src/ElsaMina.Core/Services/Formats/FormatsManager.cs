@@ -8,9 +8,12 @@ public class FormatsManager : IFormatsManager
 
     public IEnumerable<string> Formats => _formats;
 
-    public void ParseFormatsFromReceivedLine(string message)
+    public void ParseFormats(string[] formats)
     {
-        var formats = message.Split("|")[4..];
+        if (formats == null)
+        {
+            return;
+        }
         foreach (var format in formats)
         {
             if (!format.StartsWith("[Gen"))

@@ -24,6 +24,7 @@ using ElsaMina.Core.Services.System;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Services.UserData;
 using ElsaMina.Core.Services.UserDetails;
+using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Core.Modules;
 
@@ -66,10 +67,13 @@ public class CoreModule : Module
         builder.RegisterType<Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot>().As<IBot>().AsSelf().SingleInstance();
         
-        builder.RegisterType<ChatMessageCommandHandler>().As<IHandler>().SingleInstance();
-        builder.RegisterType<PrivateMessageCommandHandler>().As<IHandler>().SingleInstance();
-        builder.RegisterType<NameTakenHandler>().As<IHandler>().SingleInstance();
-        builder.RegisterType<QueryResponseHandler>().As<IHandler>().SingleInstance();
-        builder.RegisterType<RoomsHandler>().As<IHandler>().SingleInstance();
+        builder.RegisterHandler<ChatMessageCommandHandler>();
+        builder.RegisterHandler<PrivateMessageCommandHandler>();
+        builder.RegisterHandler<NameTakenHandler>();
+        builder.RegisterHandler<QueryResponseHandler>();
+        builder.RegisterHandler<RoomsHandler>();
+        builder.RegisterHandler<CheckConnectionHandler>();
+        builder.RegisterHandler<FormatsHandler>();
+        builder.RegisterHandler<LoginHandler>();
     }
 }

@@ -85,6 +85,9 @@ public class BotDbContext : DbContext
             return;
         }
 
-        optionsBuilder.UseNpgsql(ConnectionString);
+        optionsBuilder.UseNpgsql(ConnectionString, builder =>
+        {
+            builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+        });
     }
 }

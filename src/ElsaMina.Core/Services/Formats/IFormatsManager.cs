@@ -3,6 +3,6 @@
 public interface IFormatsManager
 {
     IEnumerable<string> Formats { get; }
-    void ParseFormatsFromReceivedLine(string message);
+    void ParseFormats(string[] formats);
     string GetCleanFormat(string formatId);
 }
