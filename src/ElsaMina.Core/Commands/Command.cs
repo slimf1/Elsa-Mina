@@ -15,7 +15,7 @@ public abstract class Command : ICommand
     public virtual bool IsAllowedInPrivateMessage => false;
     public virtual bool IsWhitelistOnly => false;
     public virtual bool IsPrivateMessageOnly => false;
-    public virtual char RequiredRank => '&';
+    public virtual char RequiredRank => '~';
     public virtual string HelpMessageKey => string.Empty;
     public virtual bool IsHidden => false;
 

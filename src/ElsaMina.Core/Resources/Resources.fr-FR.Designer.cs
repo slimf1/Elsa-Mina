@@ -914,5 +914,29 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("fact_error", resourceCulture);
             }
         }
+        
+        internal static string c4_panel_title {
+            get {
+                return ResourceManager.GetString("c4_panel_title", resourceCulture);
+            }
+        }
+        
+        internal static string c4_panel_players {
+            get {
+                return ResourceManager.GetString("c4_panel_players", resourceCulture);
+            }
+        }
+        
+        internal static string c4_panel_join {
+            get {
+                return ResourceManager.GetString("c4_panel_join", resourceCulture);
+            }
+        }
+        
+        internal static string c4_panel_ongoing_game {
+            get {
+                return ResourceManager.GetString("c4_panel_ongoing_game", resourceCulture);
+            }
+        }
     }
 }

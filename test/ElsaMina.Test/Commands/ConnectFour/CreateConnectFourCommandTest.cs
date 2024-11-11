@@ -18,6 +18,7 @@ public class CreateConnectFourCommandTest
     private CreateConnectFourCommand _command;
     private IContext _context;
     private IRoom _room;
+    private ITemplatesManager _templatesManager;
     private ConnectFourGame _game;
 
     [SetUp]
@@ -26,11 +27,12 @@ public class CreateConnectFourCommandTest
         _roomsManager = Substitute.For<IRoomsManager>();
         _dependencyContainerService = Substitute.For<IDependencyContainerService>();
         _configurationManager = Substitute.For<IConfigurationManager>();
-        _command = new CreateConnectFourCommand(_roomsManager, _dependencyContainerService, _configurationManager);
+        _templatesManager = Substitute.For<ITemplatesManager>();
+        _command = new CreateConnectFourCommand(_roomsManager, _dependencyContainerService);
 
         _context = Substitute.For<IContext>();
         _room = Substitute.For<IRoom>();
-        _game = new ConnectFourGame(Substitute.For<IRandomService>(), Substitute.For<ITemplatesManager>(), _configurationManager);
+        _game = new ConnectFourGame(Substitute.For<IRandomService>(), _templatesManager, _configurationManager);
 
         _context.RoomId.Returns("room-id");
         _roomsManager.GetRoom("room-id").Returns(_room);
@@ -49,7 +51,7 @@ public class CreateConnectFourCommandTest
 
         // Assert
         _dependencyContainerService.Received(1).Resolve<ConnectFourGame>();
-        _context.Received(1).ReplyLocalizedMessage("c4_game_start_announce", "!");
+        await _templatesManager.GetTemplate("ConnectFour/ConnectFourGamePanel", Arg.Any<object>());
         Assert.That(_room.Game, Is.SameAs(_game));
     }
 

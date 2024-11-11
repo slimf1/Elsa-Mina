@@ -11,6 +11,7 @@ public class ConnectFourGame : Game
     private const char DEFAULT_CHARACTER = '_';
 
     public static int GameId { get; private set; }
+    private static string AnnounceId => $"c4-announce-{GameId}";
 
     private readonly IRandomService _randomService;
     private readonly ITemplatesManager _templatesManager;
@@ -47,9 +48,26 @@ public class ConnectFourGame : Game
 
     public override string Identifier => nameof(ConnectFourGame);
 
+    public string PlayerNames => string.Join(", ", Players.Select(player => player.Name));
+
     #endregion
 
     #region Public Methods
+
+    public async Task DisplayAnnounce()
+    {
+        var template = await _templatesManager.GetTemplate("ConnectFour/ConnectFourGamePanel",
+            new ConnectFourGamePanelViewModel
+            {
+                Culture = Context.Culture,
+                BotName = _configurationManager.Configuration.Name,
+                ConnectFourGame = this,
+                RoomId = Context.RoomId,
+                Trigger = _configurationManager.Configuration.Trigger
+            });
+
+        Context.SendUpdatableHtml(AnnounceId, template.RemoveNewlines(), true);
+    }
 
     public async Task JoinGame(IUser user)
     {
@@ -221,6 +239,9 @@ public class ConnectFourGame : Game
 
     private async Task StartGame()
     {
+        var ongoingGameMessage = Context.GetString("c4_panel_ongoing_game", PlayerNames);
+        Context.SendUpdatableHtml(AnnounceId, ongoingGameMessage, true);
+
         for (var i = 0; i < ConnectFourConstants.GRID_HEIGHT; i++)
         {
             for (var j = 0; j < ConnectFourConstants.GRID_WIDTH; j++)
@@ -246,6 +267,7 @@ public class ConnectFourGame : Game
             await _cancellationTokenSource.CancelAsync();
             _cancellationTokenSource.Dispose();
         }
+
         _cancellationTokenSource = new CancellationTokenSource();
         var token = _cancellationTokenSource.Token;
         _ = Task.Run(async () =>

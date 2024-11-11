@@ -1,3 +1,4 @@
+using System.Globalization;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
@@ -13,8 +14,8 @@ public class YoutubeCommand : Command
 {
     private const int THUMBNAIL_WIDTH = 160;
     private const int THUMBNAIL_HEIGHT = 90;
+    private const string YOUTUBE_API_URL = "https://www.googleapis.com/youtube/v3/search";
     public const int DESCRIPTION_MAX_LENGTH = 100;
-    public const string YOUTUBE_API_URL = "https://www.googleapis.com/youtube/v3/search";
 
     private readonly IHttpService _httpService;
     private readonly IConfigurationManager _configurationManager;
@@ -28,6 +29,8 @@ public class YoutubeCommand : Command
         _configurationManager = configurationManager;
         _templatesManager = templatesManager;
     }
+
+    public override char RequiredRank => ' ';
 
     public override async Task Run(IContext context)
     {
@@ -68,8 +71,8 @@ public class YoutubeCommand : Command
                     PublishTime = DateTime.ParseExact(
                         firstVideoSnippet.PublishTime,
                         "yyyy-MM-ddTHH:mm:ssZ",
-                        null,
-                        System.Globalization.DateTimeStyles.RoundtripKind
+                        CultureInfo.InvariantCulture,
+                        DateTimeStyles.RoundtripKind
                     ),
                     Title = firstVideoSnippet.Title,
                     VideoId = firstVideo.Id.VideoIdValue,

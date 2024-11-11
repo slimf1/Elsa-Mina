@@ -15,7 +15,7 @@ public class StopRepeat : Command
         _repeatsManager = repeatsManager;
     }
 
-    public override char RequiredRank => '%';
+    public override char RequiredRank => '+';
 
     public override Task Run(IContext context)
     {

@@ -5,7 +5,7 @@ namespace ElsaMina.Core.Contexts;
 
 public class RoomContext : Context
 {
-    private static readonly List<char> RANKS = [' ', '+', '%', '@', '*', '#', '~'];
+    private static readonly List<char> RANKS = [' ', '+', '%', '@', '*', '#', '&', '~'];
 
     private readonly IRoom _room;
     private readonly long _timestamp;

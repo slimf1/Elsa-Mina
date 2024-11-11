@@ -18,6 +18,7 @@ public class BitcoinCommand : Command
     }
 
     public override bool IsAllowedInPrivateMessage => true;
+    public override char RequiredRank => ' ';
 
     public override async Task Run(IContext context)
     {

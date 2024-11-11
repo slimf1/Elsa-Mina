@@ -20,6 +20,7 @@ public class NameColorInfo : Command
 
     public override bool IsAllowedInPrivateMessage => true;
     public override string HelpMessageKey => "name_color_help";
+    public override char RequiredRank => ' ';
 
     public override async Task Run(IContext context)
     {

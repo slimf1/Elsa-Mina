@@ -453,4 +453,16 @@
     <data name="fact_error" xml:space="preserve">
         <value>An error occurred.</value>
     </data>
+    <data name="c4_panel_title" xml:space="preserve">
+        <value>A connect four game has been created!</value>
+    </data>
+    <data name="c4_panel_players" xml:space="preserve">
+        <value>Registered players: {0}</value>
+    </data>
+    <data name="c4_panel_join" xml:space="preserve">
+        <value>Join the game</value>
+    </data>
+    <data name="c4_panel_ongoing_game" xml:space="preserve">
+        <value>A connect four game is ongoing... Players: {0}</value>
+    </data>
 </root>

@@ -25,24 +25,21 @@ public class FactsCommandTest
     public void Test_IsAllowedInPrivateMessage_ShouldReturnTrue()
     {
         // Assert
-        Assert.IsTrue(_factsCommand.IsAllowedInPrivateMessage);
+        Assert.That(_factsCommand.IsAllowedInPrivateMessage, Is.True);
     }
 
     [Test]
     public async Task Test_Run_ShouldReplyWithFact_WhenApiCallSucceeds()
     {
         // Arrange
-        var mockResponse = new HttpResponse<FactDto>()
+        var mockResponse = new HttpResponse<FactDto>
         {
-            Data = new FactDto()
+            Data = new FactDto
             {
                 Text = "Bananas are berries, but strawberries are not!"
             }
         };
-
         _httpService.Get<FactDto>(Arg.Any<string>()).Returns(mockResponse);
-
-        // Arrange for the context Command to be "fact"
         _context.Command.Returns("fact");
 
         // Act
@@ -56,7 +53,7 @@ public class FactsCommandTest
     public async Task Test_Run_ShouldReplyWithGermanFact_WhenCommandIsFactDe()
     {
         // Arrange
-        var mockResponse = new HttpResponse<FactDto>()
+        var mockResponse = new HttpResponse<FactDto>
         {
             Data = new FactDto
             {

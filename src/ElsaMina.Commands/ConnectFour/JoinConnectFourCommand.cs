@@ -14,14 +14,21 @@ public class JoinConnectFourCommand : Command
         _roomsManager = roomsManager;
     }
 
+    public override bool IsAllowedInPrivateMessage => true;
+    public override bool IsPrivateMessageOnly => true;
+
     public override async Task Run(IContext context)
     {
-        var room = _roomsManager.GetRoom(context.RoomId);
+        var room = _roomsManager.GetRoom(context.Target);
         if (room?.Game is not ConnectFourGame connectFour)
         {
             return;
         }
 
         await connectFour.JoinGame(context.Sender);
+        if (!connectFour.IsStarted)
+        {
+            await connectFour.DisplayAnnounce(); // Gets updated
+        }
     }
 }

@@ -453,4 +453,16 @@
     <data name="fact_error" xml:space="preserve">
         <value>Une erreur est survenue.</value>
     </data>
+    <data name="c4_panel_title" xml:space="preserve">
+        <value>Une partie de puissance 4 a été lancée !</value>
+    </data>
+    <data name="c4_panel_players" xml:space="preserve">
+        <value>Joueurs inscrits: {0}</value>
+    </data>
+    <data name="c4_panel_join" xml:space="preserve">
+        <value>Rejoindre la partie</value>
+    </data>
+    <data name="c4_panel_ongoing_game" xml:space="preserve">
+        <value>Une partie de puissance 4 est en cours... Joueurs: {0}</value>
+    </data>
 </root>
