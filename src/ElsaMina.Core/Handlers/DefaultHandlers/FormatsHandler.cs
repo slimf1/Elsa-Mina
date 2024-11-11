@@ -15,7 +15,7 @@ public class FormatsHandler : Handler
 
     public override Task HandleReceivedMessage(string[] parts, string roomId = null)
     {
-        if (parts.Length >= 1 && parts[0] == "format")
+        if (parts.Length >= 5 && parts[1] == "formats")
         {
             _formatsManager.ParseFormats(parts[4..]);
         }
