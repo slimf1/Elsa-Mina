@@ -37,7 +37,7 @@ public class RoomsHandlerTest
     {
         // Arrange
         const string roomId = "room1";
-        string[] parts = ["cmd", "deinit"];
+        string[] parts = ["", "deinit"];
 
         // Act
         await _roomsHandler.HandleReceivedMessage(parts, roomId);
@@ -83,7 +83,7 @@ public class RoomsHandlerTest
         const string roomId = "room1";
         const string oldUsername = "oldUser";
         const string newUsername = "newUser";
-        string[] parts = ["cmd", "N", oldUsername, newUsername];
+        string[] parts = ["", "N", oldUsername, newUsername];
 
         // Act
         await _roomsHandler.HandleReceivedMessage(parts, roomId);
@@ -148,7 +148,7 @@ public class RoomsHandlerTest
     {
         // Arrange
         const string roomId = "room1";
-        string[] parts = ["cmd", "noinit", "unknownsubcommand"];
+        string[] parts = ["", "noinit", "unknownsubcommand"];
 
         // Act
         await _roomsHandler.HandleReceivedMessage(parts, roomId);

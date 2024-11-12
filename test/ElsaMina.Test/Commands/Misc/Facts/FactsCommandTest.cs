@@ -4,7 +4,7 @@ using ElsaMina.Core.Services.Http;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 
-namespace ElsaMina.Test.Commands.Misc;
+namespace ElsaMina.Test.Commands.Misc.Facts;
 
 public class FactsCommandTest
 {
