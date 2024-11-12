@@ -59,7 +59,7 @@ public class TeamLinkMatchFactoryTests
         var result = _factory.FindTeamLinkMatch(message);
 
         // Assert
-        Assert.IsNull(result);
+        Assert.That(result, Is.Null);
     }
 
     [Test]

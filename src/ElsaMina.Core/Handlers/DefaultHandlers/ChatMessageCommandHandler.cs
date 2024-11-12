@@ -15,7 +15,5 @@ public sealed class ChatMessageCommandHandler : CommandMessageHandler
     {
     }
 
-    public override string Identifier => nameof(ChatMessageCommandHandler);
-
     protected override ContextType HandledContextType => ContextType.Room;
 }

@@ -11,8 +11,6 @@ public class FormatsHandler : Handler
         _formatsManager = formatsManager;
     }
 
-    public override string Identifier => nameof(FormatsHandler);
-
     public override Task HandleReceivedMessage(string[] parts, string roomId = null)
     {
         if (parts.Length >= 5 && parts[1] == "formats")

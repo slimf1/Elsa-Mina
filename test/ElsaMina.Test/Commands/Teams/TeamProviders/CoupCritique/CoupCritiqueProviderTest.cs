@@ -98,6 +98,6 @@ public class CoupCritiqueProviderTest
         var result = await _provider.GetTeamExport(teamLink);
 
         // Assert
-        Assert.IsNull(result);
+        Assert.That(result, Is.Null);
     }
 }

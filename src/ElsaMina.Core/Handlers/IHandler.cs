@@ -2,7 +2,6 @@
 
 public interface IHandler
 {
-    string Identifier { get; }
     bool IsEnabled { get; set; }
 
     Task OnInitialize();

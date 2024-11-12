@@ -105,11 +105,4 @@ public class ReplaysHandlerTest
         // Assert
         _context.DidNotReceive().SendHtml(Arg.Any<string>());
     }
-
-    [Test]
-    public void Test_Identifier_ShouldReturnCorrectIdentifier()
-    {
-        // Assert
-        Assert.That(_replaysHandler.Identifier, Is.EqualTo("ChatMessageHandler"));
-    }
 }

@@ -14,7 +14,5 @@ public sealed class PrivateMessageCommandHandler : CommandMessageHandler
     {
     }
 
-    public override string Identifier => nameof(PrivateMessageCommandHandler);
-
     protected override ContextType HandledContextType => ContextType.Pm;
 }

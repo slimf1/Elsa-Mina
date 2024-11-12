@@ -2,7 +2,6 @@ namespace ElsaMina.Core.Handlers;
 
 public abstract class Handler : IHandler
 {
-    public abstract string Identifier { get; }
     public bool IsEnabled { get; set; } = true;
 
     public virtual Task OnInitialize()
@@ -18,7 +17,7 @@ public abstract class Handler : IHandler
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "An error occurred while executing handler '{0}'", Identifier);
+            Logger.Error(exception, "An error occurred while executing handler '{0}'", GetType().FullName);
             throw;
         }
     }

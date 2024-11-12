@@ -37,8 +37,6 @@ public class DisplayTeamOnLinkHandler : ChatMessageHandler
         _configurationManager = configurationManager;
     }
 
-    public override string Identifier => nameof(DisplayTeamOnLinkHandler);
-
     public override async Task HandleMessage(IContext context)
     {
         if (context.Message.StartsWith(_configurationManager.Configuration.Trigger)

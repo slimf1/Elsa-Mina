@@ -23,8 +23,6 @@ public class LoginHandler : Handler
         _client = client;
     }
 
-    public override string Identifier => nameof(LoginHandler);
-
     public override async Task HandleReceivedMessage(string[] parts, string roomId = null)
     {
         if (parts.Length > 2 && parts[1] == "challstr")

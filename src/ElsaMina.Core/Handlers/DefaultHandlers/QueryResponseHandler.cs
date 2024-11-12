@@ -11,8 +11,6 @@ public sealed class QueryResponseHandler : Handler
         _userDetailsManager = userDetailsManager;
     }
 
-    public override string Identifier => nameof(QueryResponseHandler);
-    
     public override Task HandleReceivedMessage(string[] parts, string roomId = null)
     {
         if (parts.Length >= 4 && parts[1] == "queryresponse" && parts[2] == "userdetails")

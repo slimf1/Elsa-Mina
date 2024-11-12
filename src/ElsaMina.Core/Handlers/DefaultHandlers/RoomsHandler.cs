@@ -11,8 +11,6 @@ public sealed class RoomsHandler : Handler
         _roomsManager = roomsManager;
     }
 
-    public override string Identifier => nameof(RoomsHandler);
-
     public override Task HandleReceivedMessage(string[] parts, string roomId = null)
     {
         if (parts.Length < 2)

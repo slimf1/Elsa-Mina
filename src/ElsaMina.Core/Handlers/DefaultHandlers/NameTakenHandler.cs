@@ -11,8 +11,6 @@ public sealed class NameTakenHandler : Handler
         _systemService = systemService;
     }
 
-    public override string Identifier => nameof(NameTakenHandler);
-
     public override Task HandleReceivedMessage(string[] parts, string roomId = null)
     {
         if (parts.Length >= 2 && parts[1] == "nametaken")

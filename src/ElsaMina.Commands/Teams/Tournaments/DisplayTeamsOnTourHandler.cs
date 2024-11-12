@@ -25,8 +25,6 @@ public class DisplayTeamsOnTourHandler : Handler
         _bot = bot;
     }
 
-    public override string Identifier => nameof(DisplayTeamsOnTourHandler);
-
     public override async Task HandleReceivedMessage(string[] parts, string roomId = null)
     {
         if (parts.Length < 4 || parts[1] != "tournament" || parts[2] != "create")
