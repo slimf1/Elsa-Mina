@@ -465,4 +465,7 @@
     <data name="c4_panel_ongoing_game" xml:space="preserve">
         <value>A connect four game is ongoing... Players: {0}</value>
     </data>
+    <data name="tour_finale_announce_message" xml:space="preserve">
+        <value>Look at the tournament's finals : &lt;&lt;{0}&gt;&gt;</value>
+    </data>
 </root>

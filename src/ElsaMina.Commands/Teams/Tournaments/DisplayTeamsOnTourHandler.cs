@@ -52,7 +52,11 @@ public class DisplayTeamsOnTourHandler : Handler
             _ => format
         };
 
-        var teams = await _teamRepository.GetTeamsFromRoomWithFormat(roomId, format);
+        var teams = (await _teamRepository.GetTeamsFromRoomWithFormat(roomId, format))?.ToList();
+        if (teams == null || teams.Count == 0)
+        {
+            return;
+        }
         var room = _roomsManager.GetRoom(roomId);
         var template = await _templatesManager.GetTemplate("Teams/TeamList", new TeamListViewModel
         {

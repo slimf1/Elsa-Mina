@@ -465,4 +465,7 @@
     <data name="c4_panel_ongoing_game" xml:space="preserve">
         <value>Une partie de puissance 4 est en cours... Joueurs: {0}</value>
     </data>
+    <data name="tour_finale_announce_message" xml:space="preserve">
+        <value>Regardez la finale du tournoi : &lt;&lt;{0}&gt;&gt;</value>
+    </data>
 </root>

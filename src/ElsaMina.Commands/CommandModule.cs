@@ -23,6 +23,7 @@ using ElsaMina.Commands.Teams.TeamProviders;
 using ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
 using ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
 using ElsaMina.Commands.Teams.Tournaments;
+using ElsaMina.Commands.Tournaments;
 using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands;
@@ -80,6 +81,7 @@ public class CommandModule : Module
         builder.RegisterHandler<JoinPhraseHandler>();
         builder.RegisterHandler<ReplaysHandler>();
         builder.RegisterHandler<DisplayTeamsOnTourHandler>();
+        builder.RegisterHandler<TourFinaleAnnounceHandler>();
 
         builder.RegisterType<CountriesGame>().AsSelf();
         builder.RegisterType<ConnectFourGame>().AsSelf();

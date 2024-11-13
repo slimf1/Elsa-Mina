@@ -938,5 +938,11 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("c4_panel_ongoing_game", resourceCulture);
             }
         }
+        
+        internal static string tour_finale_announce_message {
+            get {
+                return ResourceManager.GetString("tour_finale_announce_message", resourceCulture);
+            }
+        }
     }
 }
