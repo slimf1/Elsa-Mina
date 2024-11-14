@@ -58,7 +58,10 @@ public class DisplayTeamsOnTourHandlerTest
     public async Task Test_HandleReceivedMessage_ShouldNormalizeAndAliasFormatCorrectly_WhenValidGen9FormatProvided()
     {
         // Arrange
-        var teams = new List<Team>(); // mock empty or populated as needed
+        List<Team> teams = [
+            new() { Id = "team1" },
+            new() { Id = "team2" }
+        ];
         var room = Substitute.For<IRoom>();
         room.Culture.Returns(new CultureInfo("fr-FR"));
         _roomsManager.GetRoom("roomId").Returns(room);
@@ -72,7 +75,7 @@ public class DisplayTeamsOnTourHandlerTest
         // Assert
         await _teamRepository.Received(1).GetTeamsFromRoomWithFormat("roomId", "natdex");
         await _templatesManager.Received(1).GetTemplate("Teams/TeamList",
-            Arg.Is<TeamListViewModel>(vm => vm.Culture.Name == "fr-FR" && vm.Teams == teams));
+            Arg.Is<TeamListViewModel>(vm => vm.Culture.Name == "fr-FR" && vm.Teams.SequenceEqual(teams)));
         _bot.Received(1).Say("roomId", "/addhtmlbox renderedTemplate");
     }
 
@@ -80,7 +83,10 @@ public class DisplayTeamsOnTourHandlerTest
     public async Task Test_HandleReceivedMessage_ShouldHandleAliasFormatsCorrectly_WhenFormatIsAnAlias()
     {
         // Arrange
-        var teams = new List<Team>();
+        List<Team> teams = [
+            new() { Id = "team1" },
+            new() { Id = "team2" }
+        ];
         var room = Substitute.For<IRoom>();
         room.Culture.Returns(new CultureInfo("fr-FR"));
         _roomsManager.GetRoom("roomId").Returns(room);
@@ -94,7 +100,7 @@ public class DisplayTeamsOnTourHandlerTest
         // Assert
         await _teamRepository.Received(1).GetTeamsFromRoomWithFormat("roomId", "aaa");
         await _templatesManager.Received(1).GetTemplate("Teams/TeamList",
-            Arg.Is<TeamListViewModel>(vm => vm.Culture.Name == "fr-FR" && vm.Teams == teams));
+            Arg.Is<TeamListViewModel>(vm => vm.Culture.Name == "fr-FR" && vm.Teams.SequenceEqual(teams)));
         _bot.Received(1).Say("roomId", "/addhtmlbox renderedTemplate");
     }
 
@@ -131,7 +137,7 @@ public class DisplayTeamsOnTourHandlerTest
         // Assert
         await _teamRepository.Received(1).GetTeamsFromRoomWithFormat("roomId", "ag");
         await _templatesManager.Received(1).GetTemplate("Teams/TeamList",
-            Arg.Is<TeamListViewModel>(vm => vm.Culture.Name == "fr-FR" && vm.Teams == teams));
+            Arg.Is<TeamListViewModel>(vm => vm.Culture.Name == "fr-FR" && vm.Teams.SequenceEqual(teams)));
         _bot.Received(1).Say("roomId", "/addhtmlbox renderedTemplate");
     }
 }
