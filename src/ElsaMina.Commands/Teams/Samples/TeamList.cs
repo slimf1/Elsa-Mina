@@ -31,7 +31,6 @@ public class TeamList : Command
             var arguments = context.Target.Split(",");
             var format = arguments[0].ToLowerAlphaNum();
             roomId = arguments.Length >= 2 ? arguments[1].ToLowerAlphaNum() : context.RoomId;
-
             teams = await _teamRepository.GetTeamsFromRoomWithFormat(roomId, format);
         }
         else
@@ -56,7 +55,8 @@ public class TeamList : Command
         var html = template.RemoveNewlines();
         if (context.HasSufficientRank('+'))
         {
-            context.SendHtml(html, roomId: roomId);
+            var message = $"""<div style="overflow-y: auto; max-height: 230px;">{html}</div>""";
+            context.SendHtml(message, roomId: roomId);
         }
         else
         {

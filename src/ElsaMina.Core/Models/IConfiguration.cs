@@ -16,4 +16,5 @@ public interface IConfiguration
     string YoutubeApiKey { get; }
     string DictionaryApiKey { get; }
     string RiotApiKey { get; }
+    string ArcadeWebhookUrl { get; }
 }

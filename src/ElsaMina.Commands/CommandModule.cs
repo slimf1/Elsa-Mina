@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using ElsaMina.Commands.Arcade;
 using ElsaMina.Commands.Badges;
 using ElsaMina.Commands.ConnectFour;
 using ElsaMina.Commands.CustomCommands;
@@ -82,6 +83,7 @@ public class CommandModule : Module
         builder.RegisterHandler<ReplaysHandler>();
         builder.RegisterHandler<DisplayTeamsOnTourHandler>();
         builder.RegisterHandler<TourFinaleAnnounceHandler>();
+        builder.RegisterHandler<ArcadeEventsHandler>();
 
         builder.RegisterType<CountriesGame>().AsSelf();
         builder.RegisterType<ConnectFourGame>().AsSelf();

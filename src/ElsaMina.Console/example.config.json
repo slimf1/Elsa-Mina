@@ -12,5 +12,6 @@
   "ConnectionString": "",
   "YoutubeApiKey": "",
   "DictionaryApiKey": "",
-  "RiotApiKey": ""
+  "RiotApiKey": "",
+  "ArcadeWebhookUrl": ""
 }

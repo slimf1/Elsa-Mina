@@ -16,4 +16,5 @@ public class Configuration : IConfiguration
     public string YoutubeApiKey { get; set; }
     public string DictionaryApiKey { get; set; }
     public string RiotApiKey { get; set; }
+    public string ArcadeWebhookUrl { get; set; }
 }
