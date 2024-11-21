@@ -5,6 +5,10 @@ on:
     secrets:
       SONAR_TOKEN:
         required: true
+    inputs:
+      dotnet-version:
+        required: true
+        type: string    
 
 jobs:
   analyze:
