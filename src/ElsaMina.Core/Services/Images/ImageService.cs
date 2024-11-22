@@ -6,7 +6,7 @@ namespace ElsaMina.Core.Services.Images;
 
 public class ImageService : IImageService
 {
-    public static readonly Regex IMAGE_LINK_REGEX = new("(http)?s?:(//[^\"']*.(?:png|jpg|jpeg|gif|png|svg))",
+    private static readonly Regex IMAGE_LINK_REGEX = new("(http)?s?:(//[^\"']*.(?:png|jpg|jpeg|gif|png|svg))",
         RegexOptions.Compiled, TimeSpan.FromSeconds(1));
 
     private readonly IHttpService _httpService;
@@ -15,6 +15,9 @@ public class ImageService : IImageService
     {
         _httpService = httpService;
     }
+
+    public bool IsLinkImage(string link) =>
+        !string.IsNullOrWhiteSpace(link) && IMAGE_LINK_REGEX.IsMatch(link);
 
     public async Task<(int Width, int Height)> GetRemoteImageDimensions(string url)
     {

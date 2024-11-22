@@ -1,3 +1,4 @@
+using ElsaMina.Core.Services.Images;
 using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
@@ -10,13 +11,15 @@ public class RoomUserDataServiceTest
     private IRoomSpecificUserDataRepository _roomSpecificUserDataRepository;
     private IBadgeHoldingRepository _badgeHoldingRepository;
     private RoomUserDataService _service;
+    private IImageService _imageService;
 
     [SetUp]
     public void SetUp()
     {
         _roomSpecificUserDataRepository = Substitute.For<IRoomSpecificUserDataRepository>();
         _badgeHoldingRepository = Substitute.For<IBadgeHoldingRepository>();
-        _service = new RoomUserDataService(_roomSpecificUserDataRepository, _badgeHoldingRepository);
+        _imageService = Substitute.For<IImageService>();
+        _service = new RoomUserDataService(_roomSpecificUserDataRepository, _badgeHoldingRepository, _imageService);
     }
 
     [Test]
@@ -160,6 +163,7 @@ public class RoomUserDataServiceTest
         var roomId = "room1";
         var userId = "user1";
         var invalidAvatar = "invalid_url";
+        _imageService.IsLinkImage(invalidAvatar).Returns(false);
 
         // Act & Assert
         Assert.ThrowsAsync<ArgumentException>(async () => await _service.SetUserAvatar(roomId, userId, invalidAvatar));
@@ -172,6 +176,7 @@ public class RoomUserDataServiceTest
         var roomId = "room1";
         var userId = "user1";
         var avatar = "https://valid.url/image.jpg";
+        _imageService.IsLinkImage(avatar).Returns(true);
         var userData = new RoomSpecificUserData { Id = userId, RoomId = roomId };
         _roomSpecificUserDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(userData);
 

@@ -48,6 +48,7 @@ public class AddedCommandsManagerTest
         {
             Content = "https://example.com/image.png"
         };
+        _imageService.IsLinkImage("https://example.com/image.png").Returns(true);
         _addedCommandRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(command);
         _imageService.GetRemoteImageDimensions(Arg.Any<string>()).Returns(Task.FromResult((400, 300)));
         _imageService.ResizeWithSameAspectRatio(400, 300, Arg.Any<int>(), Arg.Any<int>()).Returns((400, 300));
@@ -88,6 +89,7 @@ public class AddedCommandsManagerTest
         {
             Content = "https://example.com/largeimage.png"
         };
+        _imageService.IsLinkImage("https://example.com/largeimage.png").Returns(true);
         _addedCommandRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(command);
         _imageService.GetRemoteImageDimensions(Arg.Any<string>()).Returns(Task.FromResult((800, 600)));
         _imageService.ResizeWithSameAspectRatio(800, 600, 400, 300).Returns((400, 300));
@@ -109,6 +111,7 @@ public class AddedCommandsManagerTest
         {
             Content = "https://example.com/smallimage.png"
         };
+        _imageService.IsLinkImage("https://example.com/smallimage.png").Returns(true);
         _addedCommandRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(command);
         _imageService.GetRemoteImageDimensions(Arg.Any<string>()).Returns(Task.FromResult((200, 150)));
         _imageService.ResizeWithSameAspectRatio(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>()).Returns((200, 150));

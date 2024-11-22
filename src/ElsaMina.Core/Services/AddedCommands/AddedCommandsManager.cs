@@ -1,6 +1,5 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Images;
-using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Core.Services.AddedCommands;
@@ -30,7 +29,7 @@ public class AddedCommandsManager : IAddedCommandsManager
         }
 
         var content = command.Content;
-        if (ImageService.IMAGE_LINK_REGEX.IsMatch(content))
+        if (_imageService.IsLinkImage(content))
         {
             var (width, height) = await _imageService.GetRemoteImageDimensions(content);
             (width, height) = _imageService.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);

@@ -137,4 +137,18 @@ public class ImageServiceTest
             Assert.That(newHeight, Is.EqualTo(600));
         });
     }
+    
+    [Test]
+    [TestCase(null, ExpectedResult = false)]
+    [TestCase("", ExpectedResult = false)]
+    [TestCase("e", ExpectedResult = false)]
+    [TestCase("https://youtube.com", ExpectedResult = false)]
+    [TestCase("https://example/image.png", ExpectedResult = true)]
+    [TestCase("https://example/image.gif", ExpectedResult = true)]
+    [TestCase("https://example/image.jpg", ExpectedResult = true)]
+    public bool Test_IsImageLink_ShouldReturnTrue_WhenLinkIsAnImage(string link)
+    {
+        // Act & Assert
+        return _imageService.IsLinkImage(link);
+    }
 }
