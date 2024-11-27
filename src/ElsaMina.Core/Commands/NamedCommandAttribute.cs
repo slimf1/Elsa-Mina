@@ -8,6 +8,12 @@ public class NamedCommandAttribute : Attribute
         Name = name;
     }
 
+    public NamedCommandAttribute(string name, params string[] aliases)
+    {
+        Name = name;
+        Aliases = aliases;
+    }
+
     public string Name { get; }
 
     public string[] Aliases { get; set; } = [];

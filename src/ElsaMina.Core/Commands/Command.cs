@@ -18,6 +18,7 @@ public abstract class Command : ICommand
     public virtual char RequiredRank => '~';
     public virtual string HelpMessageKey => string.Empty;
     public virtual bool IsHidden => false;
+    public virtual string[] AllowedRooms => [];
 
     public void ReplyLocalizedHelpMessage(IContext context, params object[] formatArguments)
     {
@@ -51,6 +52,11 @@ public abstract class Command : ICommand
             return;
         }
 
+        if (AllowedRooms.Length > 0 && !AllowedRooms.Contains(context.RoomId))
+        {
+            return;
+        }
+
         await Run(context);
     }
 
@@ -60,6 +66,6 @@ public abstract class Command : ICommand
     {
         var commandAttribute = GetType().GetCommandAttribute();
         CommandName = commandAttribute?.Name ?? string.Empty;
-        CommandAliases = commandAttribute?.Aliases ?? Enumerable.Empty<string>();
+        CommandAliases = commandAttribute?.Aliases ?? [];
     }
 }

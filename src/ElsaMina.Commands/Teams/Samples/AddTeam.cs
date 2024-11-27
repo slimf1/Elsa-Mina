@@ -11,10 +11,11 @@ using ElsaMina.DataAccess.Repositories;
 namespace ElsaMina.Commands.Teams.Samples;
 
 [NamedCommand("add-team", Aliases = ["addteam"])]
-public partial class AddTeam : Command
+public class AddTeam : Command
 {
-    private static readonly Regex TEAM_NAME_FILTER = TeamNameFilterRegex();
     private const int MAX_NAME_LENGTH = 70;
+    private static readonly Regex TEAM_NAME_FILTER = new(@"[^\w\d\s+\-[\]]", RegexOptions.Compiled,
+        TimeSpan.FromSeconds(1));
 
     private readonly ITeamLinkMatchFactory _teamLinkMatchFactory;
     private readonly ITeamRepository _teamRepository;
@@ -80,7 +81,7 @@ public partial class AddTeam : Command
                 TeamId = teamId
             }
         };
-        
+
         // Special case for the French room
         if (context.RoomId is "franais" or "arcade")
         {
@@ -90,7 +91,7 @@ public partial class AddTeam : Command
                 TeamId = teamId
             });
         }
-        
+
         var team = new Team
         {
             Id = teamId,
@@ -114,7 +115,4 @@ public partial class AddTeam : Command
             context.ReplyLocalizedMessage("add_team_failure", exception.Message);
         }
     }
-
-    [GeneratedRegex(@"[^\w\d\s+\-[\]]")]
-    private static partial Regex TeamNameFilterRegex();
 }

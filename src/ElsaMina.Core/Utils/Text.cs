@@ -3,11 +3,14 @@ using System.Text.RegularExpressions;
 
 namespace ElsaMina.Core.Utils;
 
-public static partial class Text
+public static class Text
 {
+    private static readonly Regex FILTER_REGEX = new("[^A-Za-z0-9]",
+        RegexOptions.Compiled, TimeSpan.FromSeconds(1));
+    
     public static string ToLowerAlphaNum(this string text)
     {
-        return ToLowerAlphaNumFilterRegex().Replace(text.ToLower(), "");
+        return FILTER_REGEX.Replace(text.ToLower(), "");
     }
 
     public static string RemoveNewlines(this string text)
@@ -105,7 +108,4 @@ public static partial class Text
 
         return output.ToString();
     }
-
-    [GeneratedRegex("[^A-Za-z0-9]")]
-    private static partial Regex ToLowerAlphaNumFilterRegex();
 }

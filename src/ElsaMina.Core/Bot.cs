@@ -62,11 +62,6 @@ public class Bot : IBot
                 await _loadRoomSemaphore.WaitAsync();
                 await LoadRoom(room, message);
             }
-            catch (Exception exception)
-            {
-                Logger.Error(exception, "An error occurred while creating room, aborting.");
-                _systemService.Kill();
-            }
             finally
             {
                 _loadRoomSemaphore.Release();
@@ -130,13 +125,6 @@ public class Bot : IBot
     public void Say(string roomId, string message)
     {
         Send($"{roomId}|{message}");
-    }
-
-    public override string ToString()
-    {
-        return $"{nameof(Bot)}[{nameof(_currentRoom)}: {_currentRoom}, " +
-               $"{nameof(_lastMessage)}: {_lastMessage}," +
-               $"{nameof(_lastMessageTime)}: {_lastMessageTime}]";
     }
 
     public void Dispose()

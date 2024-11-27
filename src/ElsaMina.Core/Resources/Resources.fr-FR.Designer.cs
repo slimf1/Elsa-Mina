@@ -944,5 +944,29 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("tour_finale_announce_message", resourceCulture);
             }
         }
+        
+        internal static string arcade_level_invalid_value {
+            get {
+                return ResourceManager.GetString("arcade_level_invalid_value", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_level_add {
+            get {
+                return ResourceManager.GetString("arcade_level_add", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_level_update {
+            get {
+                return ResourceManager.GetString("arcade_level_update", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_level_help {
+            get {
+                return ResourceManager.GetString("arcade_level_help", resourceCulture);
+            }
+        }
     }
 }

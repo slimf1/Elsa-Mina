@@ -468,4 +468,16 @@
     <data name="tour_finale_announce_message" xml:space="preserve">
         <value>Regardez la finale du tournoi : &lt;&lt;{0}&gt;&gt;</value>
     </data>
+    <data name="arcade_level_invalid_value" xml:space="preserve">
+        <value>Palier invalide. Veuillez utiliser 2, 3 ou 4.</value>
+    </data>
+    <data name="arcade_level_add" xml:space="preserve">
+        <value>Ajout du niveau de {0} = {1}</value>
+    </data>
+    <data name="arcade_level_update" xml:space="preserve">
+        <value>Mise à jour du niveau de {0} = {1}</value>
+    </data>
+    <data name="arcade_level_help" xml:space="preserve">
+        <value>Syntaxe: addpalier (utilisateur), (palier)</value>
+    </data>
 </root>

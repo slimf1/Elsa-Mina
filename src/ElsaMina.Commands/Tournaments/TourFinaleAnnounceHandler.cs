@@ -12,7 +12,9 @@ public class TourFinaleAnnounceHandler : Handler
     private readonly IResourcesService _resourcesService;
     private readonly IRoomsManager _roomsManager;
 
-    public TourFinaleAnnounceHandler(IBot bot, IResourcesService resourcesService, IRoomsManager roomsManager)
+    public TourFinaleAnnounceHandler(IBot bot,
+        IResourcesService resourcesService,
+        IRoomsManager roomsManager)
     {
         _bot = bot;
         _resourcesService = resourcesService;
@@ -21,21 +23,33 @@ public class TourFinaleAnnounceHandler : Handler
 
     public override Task HandleReceivedMessage(string[] parts, string roomId = null)
     {
-        if (parts.Length >= 4 && parts[1] == "tournament" && parts[2] == "update")
+        if (parts.Length < 4 || parts[1] != "tournament" || parts[2] != "update")
         {
-            var tournamentData = JsonConvert.DeserializeObject<TournamentData>(parts[3]);
-            if (tournamentData?.BracketData?.RootNode?.State == "inprogress")
-            {
-                var battleRoom = tournamentData.BracketData.RootNode.Room;
-                if (battleRoom != null)
-                {
-                    var room = _roomsManager.GetRoom(roomId);
-                    var message = _resourcesService.GetString("tour_finale_announce_message", room.Culture);
-                    _bot.Say(roomId, $"/wall {string.Format(message, battleRoom)}");
-                }
-            }
+            return Task.CompletedTask;
         }
-        
+
+        var tournamentData = JsonConvert.DeserializeObject<TournamentData>(parts[3]);
+        if (tournamentData?.BracketData?.RootNode?.State != "inprogress")
+        {
+            return Task.CompletedTask;
+        }
+
+        var battleRoom = tournamentData.BracketData.RootNode.Room;
+        if (battleRoom == null)
+        {
+            return Task.CompletedTask;
+        }
+
+        var room = _roomsManager.GetRoom(roomId);
+        if (room == null)
+        {
+            return Task.CompletedTask;
+        }
+
+        var messageTemplate = _resourcesService.GetString("tour_finale_announce_message", room.Culture);
+
+        _bot.Say(roomId, $"/wall {string.Format(messageTemplate, battleRoom)}");
+
         return Task.CompletedTask;
     }
 }
