@@ -489,4 +489,13 @@
     <data name="display_paliers_help" xml:space="preserve">
         <value>Affiche les paliers d'arcade.</value>
     </data>
+    <data name="arcade_level_delete_help" xml:space="preserve">
+        <value>Supprime un utilisateur des paliers d'arcade.</value>
+    </data>
+    <data name="arcade_level_delete_not_found" xml:space="preserve">
+        <value>Le joueur n'a pas été trouvé.</value>
+    </data>
+    <data name="arcade_level_delete_success" xml:space="preserve">
+        <value>Le joueur a été supprimé.</value>
+    </data>
 </root>

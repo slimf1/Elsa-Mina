@@ -489,4 +489,13 @@
     <data name="display_paliers_help" xml:space="preserve">
         <value>Display the arcade levels.</value>
     </data>
+    <data name="arcade_level_delete_help" xml:space="preserve">
+        <value>Delete someone from the arcade levels.</value>
+    </data>
+    <data name="arcade_level_delete_not_found" xml:space="preserve">
+        <value>Player not found.</value>
+    </data>
+    <data name="arcade_level_delete_success" xml:space="preserve">
+        <value>The player has been deleted.</value>
+    </data>
 </root>

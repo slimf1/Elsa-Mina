@@ -986,5 +986,23 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("display_paliers_help", resourceCulture);
             }
         }
+        
+        internal static string arcade_level_delete_help {
+            get {
+                return ResourceManager.GetString("arcade_level_delete_help", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_level_delete_not_found {
+            get {
+                return ResourceManager.GetString("arcade_level_delete_not_found", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_level_delete_success {
+            get {
+                return ResourceManager.GetString("arcade_level_delete_success", resourceCulture);
+            }
+        }
     }
 }
