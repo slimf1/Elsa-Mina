@@ -1,5 +1,6 @@
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Services.UserData;
@@ -37,7 +38,7 @@ public class ProfileCommand : Command
     }
     
     public override bool IsAllowedInPrivateMessage => true;
-    public override char RequiredRank => ' ';
+    public override Rank RequiredRank => Rank.Regular;
 
     public override async Task Run(IContext context)
     {

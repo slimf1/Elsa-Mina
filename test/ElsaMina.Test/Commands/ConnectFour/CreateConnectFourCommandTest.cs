@@ -73,6 +73,6 @@ public class CreateConnectFourCommandTest
         var rank = _command.RequiredRank;
 
         // Assert
-        Assert.That(rank, Is.EqualTo('+'));
+        Assert.That(rank, Is.EqualTo(Rank.Voiced));
     }
 }

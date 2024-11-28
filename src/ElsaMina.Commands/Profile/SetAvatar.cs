@@ -1,6 +1,7 @@
 ﻿using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.Core.Utils;
 
@@ -16,7 +17,7 @@ public class SetAvatar : Command
         _roomUserDataService = roomUserDataService;
     }
 
-    public override char RequiredRank => '%';
+    public override Rank RequiredRank => Rank.Driver;
     public override string HelpMessageKey => "avatar_help_message";
 
     public override async Task Run(IContext context)

@@ -12,15 +12,15 @@ public class PmSendersManager : IPmSendersManager
         return _users.ContainsKey(userId);
     }
 
-    public IUser GetUser(string userName)
+    public IUser GetUser(string username)
     {
-        var userId = userName.ToLowerAlphaNum();
+        var userId = username.ToLowerAlphaNum();
         if (HasUser(userId))
         {
             return _users[userId];
         }
 
-        var user = new User(userName[1..], userName[0]);
+        var user = User.FromUsername(username);
         _users[userId] = user;
         return user;
     }

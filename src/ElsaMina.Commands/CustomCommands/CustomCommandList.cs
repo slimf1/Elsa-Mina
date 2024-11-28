@@ -1,5 +1,6 @@
 ﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.CustomCommands;
@@ -18,7 +19,7 @@ public class CustomCommandList : Command
         _addedCommandRepository = addedCommandRepository;
     }
 
-    public override char RequiredRank => '+';
+    public override Rank RequiredRank => Rank.Voiced;
 
     public override async Task Run(IContext context)
     {

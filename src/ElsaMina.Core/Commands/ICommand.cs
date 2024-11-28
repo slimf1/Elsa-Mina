@@ -1,4 +1,5 @@
 ﻿using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 
 namespace ElsaMina.Core.Commands;
 
@@ -9,7 +10,7 @@ public interface ICommand
     public bool IsAllowedInPrivateMessage { get; }
     public bool IsWhitelistOnly { get; }
     public bool IsPrivateMessageOnly { get; }
-    public char RequiredRank { get; }
+    public Rank RequiredRank { get; }
     public string HelpMessageKey { get; }
     public bool IsHidden { get; }
 

@@ -1,6 +1,7 @@
 using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 
@@ -16,7 +17,7 @@ public class EditCustomCommand : Command
         _addedCommandsRepository = addedCommandsRepository;
     }
 
-    public override char RequiredRank => '%';
+    public override Rank RequiredRank => Rank.Driver;
     public override string HelpMessageKey => "editcommand_help";
 
     public override async Task Run(IContext context)

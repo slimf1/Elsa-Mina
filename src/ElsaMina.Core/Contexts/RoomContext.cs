@@ -1,12 +1,11 @@
 ﻿using System.Globalization;
+using ElsaMina.Core.Commands;
 using ElsaMina.Core.Models;
 
 namespace ElsaMina.Core.Contexts;
 
 public class RoomContext : Context
 {
-    private static readonly List<char> RANKS = [' ', '+', '%', '@', '*', '#', '&', '~'];
-
     private readonly IRoom _room;
     private readonly long _timestamp;
 
@@ -35,28 +34,31 @@ public class RoomContext : Context
 
     public override ContextType Type => ContextType.Room;
 
-    public override bool HasSufficientRank(char requiredRank)
+    public override bool HasSufficientRank(Rank requiredRank)
     {
-        return IsSenderWhitelisted || RANKS.IndexOf(Sender.Rank) >= RANKS.IndexOf(requiredRank);
+        
+        return IsSenderWhitelisted || (int)Sender.Rank >= (int)requiredRank;
     }
 
     public override void Reply(string message, bool rankAware = false)
     {
-        if (rankAware && !HasSufficientRank('+'))
+        if (rankAware && !HasSufficientRank(Rank.Voiced))
         {
             Bot.Say(RoomId, $"/pm {Sender.UserId}, {message}");
             return;
         }
+
         Bot.Say(RoomId, message);
     }
 
     public override void SendHtml(string html, string roomId = null, bool rankAware = false)
     {
-        if (rankAware && !HasSufficientRank('+'))
+        if (rankAware && !HasSufficientRank(Rank.Voiced))
         {
             Bot.Say(RoomId, $"/pminfobox {Sender.UserId}, {html}");
             return;
         }
+
         Bot.Say(RoomId, $"/addhtmlbox {html}");
     }
 
@@ -64,12 +66,5 @@ public class RoomContext : Context
     {
         var command = isChanging ? "changeuhtml" : "adduhtml";
         Bot.Say(RoomId, $"/{command} {htmlId}, {html}");
-    }
-
-    public override string ToString()
-    {
-        return $"{nameof(RoomContext)}[{base.ToString()}," +
-               $"{nameof(_room)}: {_room}, " +
-               $"{nameof(_timestamp)}: {_timestamp}]";
     }
 }

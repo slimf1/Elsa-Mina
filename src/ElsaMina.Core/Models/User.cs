@@ -4,7 +4,25 @@ namespace ElsaMina.Core.Models;
 
 public sealed class User : IUser, IEquatable<User>
 {
-    public User(string name, char rank)
+    private static readonly IReadOnlyDictionary<char, Rank> RANK_MAPPING = new Dictionary<char, Rank>
+    {
+        [' '] = Rank.Regular,
+        ['+'] = Rank.Voiced,
+        ['%'] = Rank.Driver,
+        ['@'] = Rank.Mod,
+        ['*'] = Rank.Bot,
+        ['#'] = Rank.RoomOwner,
+        ['&'] = Rank.Leader,
+        ['~'] = Rank.Admin
+    };
+    
+    public static IUser FromUsername(string username)
+    {
+        var rank = RANK_MAPPING.ContainsKey(username[0]) ? RANK_MAPPING[username[0]] : Rank.Regular;
+        return new User(username[1..], rank);
+    }
+    
+    public User(string name, Rank rank)
     {
         UserId = name.ToLowerAlphaNum();
         IsIdle = name.Length >= 2 && name[^2..] == "@!";
@@ -15,7 +33,7 @@ public sealed class User : IUser, IEquatable<User>
     public string UserId { get; }
     public string Name { get; }
     public bool IsIdle { get; }
-    public char Rank { get; }
+    public Rank Rank { get; }
 
     public bool Equals(User other)
     {
@@ -32,14 +50,6 @@ public sealed class User : IUser, IEquatable<User>
 
     public override int GetHashCode()
     {
-        return (UserId != null ? UserId.GetHashCode() : 0);
-    }
-
-    public override string ToString()
-    {
-        return $"{nameof(User)}[{nameof(UserId)}: {UserId}, " +
-               $"{nameof(Name)}: {Name}, " +
-               $"{nameof(IsIdle)}: {IsIdle}, " +
-               $"{nameof(Rank)}: {Rank}]";
+        return UserId != null ? UserId.GetHashCode() : 0;
     }
 }

@@ -480,4 +480,13 @@
     <data name="arcade_level_help" xml:space="preserve">
         <value>Syntaxe: addpalier (utilisateur), (palier)</value>
     </data>
+    <data name="arcade_levels_level" xml:space="preserve">
+        <value>Palier</value>
+    </data>
+    <data name="arcade_levels_players" xml:space="preserve">
+        <value>Joueurs</value>
+    </data>
+    <data name="display_paliers_help" xml:space="preserve">
+        <value>Affiche les paliers d'arcade.</value>
+    </data>
 </root>

@@ -1,6 +1,7 @@
 using System.Globalization;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Templates;
@@ -30,7 +31,7 @@ public class YoutubeCommand : Command
         _templatesManager = templatesManager;
     }
 
-    public override char RequiredRank => ' ';
+    public override Rank RequiredRank => Rank.Regular;
 
     public override async Task Run(IContext context)
     {

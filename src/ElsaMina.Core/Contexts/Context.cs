@@ -53,24 +53,12 @@ public abstract class Context : IContext
         Reply(GetString(key, formatArguments), rankAware: true);
     }
 
-    public override string ToString()
-    {
-        return $"{nameof(Context)}[{nameof(Bot)}: {Bot}, " +
-               $"{nameof(Target)}: {Target}, " +
-               $"{nameof(Sender)}: {Sender}, " +
-               $"{nameof(Command)}: {Command}, " +
-               $"{nameof(IsSenderWhitelisted)}: {IsSenderWhitelisted}, " +
-               $"{nameof(RoomId)}: {RoomId}, " +
-               $"{nameof(IsPrivateMessage)}: {IsPrivateMessage}, " +
-               $"{nameof(Culture)}: {Culture}]";
-    }
-
     public abstract string RoomId { get; }
     public abstract bool IsPrivateMessage { get; }
     public abstract CultureInfo Culture { get; set; }
     public abstract ContextType Type { get; }
 
-    public abstract bool HasSufficientRank(char requiredRank);
+    public abstract bool HasSufficientRank(Rank requiredRank);
     public abstract void Reply(string message, bool rankAware = false);
     public abstract void SendHtml(string html, string roomId = null, bool rankAware = false);
     public abstract void SendUpdatableHtml(string htmlId, string html, bool isChanging);

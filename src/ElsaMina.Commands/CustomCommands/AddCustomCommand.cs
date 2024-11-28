@@ -1,5 +1,6 @@
 ﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.DataAccess.Models;
@@ -26,7 +27,7 @@ public class AddCustomCommand : Command
         _clockService = clockService;
     }
     
-    public override char RequiredRank => '@';
+    public override Rank RequiredRank => Rank.Mod;
 
     public override async Task Run(IContext context)
     {

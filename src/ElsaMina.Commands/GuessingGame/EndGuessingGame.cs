@@ -1,5 +1,6 @@
 ﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.GuessingGame;
@@ -14,7 +15,7 @@ public class EndGuessingGame : Command
         _roomsManager = roomsManager;
     }
 
-    public override char RequiredRank => '+';
+    public override Rank RequiredRank => Rank.Voiced;
 
     public override Task Run(IContext context)
     {

@@ -1,5 +1,6 @@
 ﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Repeats;
 using ElsaMina.Core.Utils;
 
@@ -15,7 +16,7 @@ public class AboutRepeat : Command
         _repeatsManager = repeatsManager;
     }
 
-    public override char RequiredRank => '+';
+    public override Rank RequiredRank => Rank.Voiced;
 
     public override Task Run(IContext context)
     {

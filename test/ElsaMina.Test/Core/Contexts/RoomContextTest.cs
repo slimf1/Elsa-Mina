@@ -38,30 +38,28 @@ public class RoomContextTest
     }
 
     [Test]
-    [TestCase(' ', ExpectedResult = false)]
-    [TestCase('+', ExpectedResult = false)]
-    [TestCase('%', ExpectedResult = false)]
-    [TestCase('@', ExpectedResult = true)]
-    [TestCase('*', ExpectedResult = true)]
-    [TestCase('#', ExpectedResult = true)]
-    [TestCase('~', ExpectedResult = true)]
-    [TestCase('X', ExpectedResult = false)]
-    public bool Test_HasSufficientRank_ShouldReturnTrue_WhenSenderRankIsSufficient(char userRank)
+    [TestCase(Rank.Regular, ExpectedResult = false)]
+    [TestCase(Rank.Voiced, ExpectedResult = false)]
+    [TestCase(Rank.Driver, ExpectedResult = false)]
+    [TestCase(Rank.Mod, ExpectedResult = true)]
+    [TestCase(Rank.Bot, ExpectedResult = true)]
+    [TestCase(Rank.RoomOwner, ExpectedResult = true)]
+    [TestCase(Rank.Leader, ExpectedResult = true)]
+    [TestCase(Rank.Admin, ExpectedResult = true)]
+    public bool Test_HasSufficientRank_ShouldReturnTrue_WhenSenderRankIsSufficient(Rank userRank)
     {
         // Arrange
         CreateRoomContext("", "", "test-command", 1);
         _sender.Rank.Returns(userRank);
 
         // Act & Assert
-        return _roomContext.HasSufficientRank('@');
+        return _roomContext.HasSufficientRank(Rank.Mod);
     }
 
     [Test]
     public void Test_HasSufficientRank_ShouldReturnTrueInEveryCase_WhenSenderIsWhitelisted(
-        [Values(' ', '+', '%', '@', '*', '#', '~')]
-        char requiredRank,
-        [Values(' ', '+', '%', '@', '*', '#', '~')]
-        char userRank)
+        [Values] Rank requiredRank,
+        [Values] Rank userRank)
     {
         // Arrange
         CreateRoomContext("", "", "test-command", 1);
@@ -81,7 +79,7 @@ public class RoomContextTest
     {
         // Arrange
         CreateRoomContext("", "", null, 1);
-        _sender.Rank.Returns(' ');
+        _sender.Rank.Returns(Rank.Regular);
 
         // Act
         _roomContext.Reply("Test message", rankAware: true);
@@ -106,7 +104,7 @@ public class RoomContextTest
     {
         // Arrange
         CreateRoomContext("", "", null, 1);
-        _sender.Rank.Returns(' ');
+        _sender.Rank.Returns(Rank.Regular);
 
         // Act
         _roomContext.SendHtml("HTML content", rankAware: true);

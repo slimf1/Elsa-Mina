@@ -1,5 +1,6 @@
 ﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 
 namespace ElsaMina.Commands.Development;
@@ -15,6 +16,7 @@ public class Help : Command
     }
 
     public override bool IsAllowedInPrivateMessage => true;
+    public override Rank RequiredRank => Rank.Regular;
 
     public override Task Run(IContext context)
     {

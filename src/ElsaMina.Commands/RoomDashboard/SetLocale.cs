@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.DataAccess.Repositories;
 
@@ -16,7 +17,7 @@ public class SetLocale : Command
         _roomsManager = roomsManager;
     }
 
-    public override char RequiredRank => '#';
+    public override Rank RequiredRank => Rank.RoomOwner;
 
     public override async Task Run(IContext context)
     {

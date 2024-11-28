@@ -1,5 +1,6 @@
 ﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Rooms;
 
@@ -18,7 +19,7 @@ public class CreateConnectFourCommand : Command
         _dependencyContainerService = dependencyContainerService;
     }
 
-    public override char RequiredRank => '+';
+    public override Rank RequiredRank => Rank.Voiced;
 
     public override async Task Run(IContext context)
     {

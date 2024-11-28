@@ -1,6 +1,7 @@
 using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
@@ -21,7 +22,7 @@ public class GiveBadge : Command
         _roomUserDataService = roomUserDataService;
     }
     
-    public override char RequiredRank => '%';
+    public override Rank RequiredRank => Rank.Driver;
     public override string HelpMessageKey => "badge_give_help_message";
 
     public override async Task Run(IContext context)

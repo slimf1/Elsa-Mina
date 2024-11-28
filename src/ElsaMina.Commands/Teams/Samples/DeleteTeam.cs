@@ -1,6 +1,7 @@
 ﻿using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Repositories;
 
@@ -16,7 +17,7 @@ public class DeleteTeam : Command
         _teamRepository = teamRepository;
     }
 
-    public override char RequiredRank => '+';
+    public override Rank RequiredRank => Rank.Voiced;
 
     public override async Task Run(IContext context)
     {

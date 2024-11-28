@@ -1,5 +1,6 @@
 using ElsaMina.Commands.Profile;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.RoomUserData;
 using NSubstitute;
 
@@ -70,7 +71,7 @@ public class SetAvatarTest
     public void Test_RequiredRank_ShouldBeCorrect()
     {
         // Assert
-        Assert.That(_command.RequiredRank, Is.EqualTo('%'));
+        Assert.That(_command.RequiredRank, Is.EqualTo(Rank.Driver));
     }
 
     [Test]

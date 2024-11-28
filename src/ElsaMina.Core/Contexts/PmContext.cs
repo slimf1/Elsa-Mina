@@ -24,7 +24,7 @@ public class PmContext : Context
 
     public override ContextType Type => ContextType.Pm;
 
-    public override bool HasSufficientRank(char requiredRank) => true;
+    public override bool HasSufficientRank(Rank requiredRank) => true;
 
     public override void Reply(string message, bool rankAware = false)
         => Bot.Send($"|/pm {Sender.UserId}, {message}");
@@ -36,11 +36,5 @@ public class PmContext : Context
     {
         var command = isChanging ? "pmchangeuhtml" : "pmuhtml";
         Bot.Say(RoomId, $"/{command} {Sender.UserId}, {htmlId}, {html}");
-    }
-
-    public override string ToString()
-    {
-        return $"{nameof(PmContext)}[{base.ToString()}, " +
-               $"{nameof(Culture)}: {Culture}]";
     }
 }

@@ -5,5 +5,5 @@ namespace ElsaMina.Core.Services.PrivateMessages;
 public interface IPmSendersManager
 {
     bool HasUser(string userId);
-    IUser GetUser(string userName);
+    IUser GetUser(string username);
 }

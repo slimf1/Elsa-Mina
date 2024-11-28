@@ -1,5 +1,6 @@
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using NSubstitute;
 
 namespace ElsaMina.Test.Core.Commands;
@@ -37,7 +38,7 @@ public class CommandTest
     {
         // Arrange
         _context.IsPrivateMessage.Returns(true);
-        _context.HasSufficientRank(Arg.Any<char>()).Returns(true);
+        _context.HasSufficientRank(Arg.Any<Rank>()).Returns(true);
         _testCommand.CommandIsPrivateMessageOnly = true;
 
         // Act
@@ -66,7 +67,7 @@ public class CommandTest
     {
         // Arrange
         _context.IsSenderWhitelisted.Returns(true);
-        _context.HasSufficientRank(Arg.Any<char>()).Returns(true);
+        _context.HasSufficientRank(Arg.Any<Rank>()).Returns(true);
         _testCommand.CommandIsWhitelistOnly = true;
 
         // Act
@@ -80,8 +81,8 @@ public class CommandTest
     public async Task Test_Call_ShouldNotRun_WhenInsufficientRank()
     {
         // Arrange
-        _context.HasSufficientRank(Arg.Any<char>()).Returns(false);
-        _testCommand.CommandRequiredRank = '~';
+        _context.HasSufficientRank(Arg.Any<Rank>()).Returns(false);
+        _testCommand.CommandRequiredRank = Rank.Admin;
 
         // Act
         await _testCommand.Call(_context);
@@ -94,8 +95,8 @@ public class CommandTest
     public async Task Test_Call_ShouldRun_WhenSufficientRank()
     {
         // Arrange
-        _context.HasSufficientRank(Arg.Any<char>()).Returns(true);
-        _testCommand.CommandRequiredRank = '~';
+        _context.HasSufficientRank(Arg.Any<Rank>()).Returns(true);
+        _testCommand.CommandRequiredRank = Rank.Admin;
 
         // Act
         await _testCommand.Call(_context);
@@ -129,12 +130,12 @@ public class CommandTest
 
         public bool CommandIsPrivateMessageOnly { get; set; }
         public bool CommandIsWhitelistOnly { get; set; }
-        public char CommandRequiredRank { get; set; }
+        public Rank CommandRequiredRank { get; set; }
         public string CommandHelpMessageKey { get; set; }
 
         public override bool IsWhitelistOnly => CommandIsWhitelistOnly;
         public override bool IsPrivateMessageOnly => CommandIsPrivateMessageOnly;
-        public override char RequiredRank => CommandRequiredRank;
+        public override Rank RequiredRank => CommandRequiredRank;
         public override string HelpMessageKey => CommandHelpMessageKey;
 
         public override Task Run(IContext context)

@@ -1,5 +1,6 @@
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
@@ -16,8 +17,8 @@ public class SetArcadeLevel : Command
         _arcadeLevelRepository = arcadeLevelRepository;
     }
 
-    public override char RequiredRank => '%';
-    public override string[] AllowedRooms => ["arcade"];
+    public override Rank RequiredRank => Rank.Driver;
+    public override string[] AllowedRooms => ["arcade", "botdevelopment"];
     public override string HelpMessageKey => "arcade_level_help";
 
     public override async Task Run(IContext context)

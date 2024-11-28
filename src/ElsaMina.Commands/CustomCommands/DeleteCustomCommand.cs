@@ -1,5 +1,6 @@
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.CustomCommands;
@@ -14,7 +15,7 @@ public class DeleteCustomCommand : Command
         _addedCommandRepository = addedCommandRepository;
     }
 
-    public override char RequiredRank => '%';
+    public override Rank RequiredRank => Rank.Driver;
     public override string HelpMessageKey => "deletecommand_help";
 
     public override async Task Run(IContext context)

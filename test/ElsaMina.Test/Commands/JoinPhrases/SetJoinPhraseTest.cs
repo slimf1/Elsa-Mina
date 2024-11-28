@@ -1,5 +1,6 @@
 using ElsaMina.Commands.JoinPhrases;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.RoomUserData;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
@@ -26,7 +27,7 @@ public class SetJoinPhraseTest
     public void Test_RequiredRank_ShouldReturnCorrectRank()
     {
         // Assert
-        Assert.That(_command.RequiredRank, Is.EqualTo('%'));
+        Assert.That(_command.RequiredRank, Is.EqualTo(Rank.Driver));
     }
 
     [Test]

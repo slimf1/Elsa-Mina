@@ -1,4 +1,5 @@
 ﻿using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Core.Commands;
@@ -15,7 +16,7 @@ public abstract class Command : ICommand
     public virtual bool IsAllowedInPrivateMessage => false;
     public virtual bool IsWhitelistOnly => false;
     public virtual bool IsPrivateMessageOnly => false;
-    public virtual char RequiredRank => '~';
+    public virtual Rank RequiredRank => Rank.Admin;
     public virtual string HelpMessageKey => string.Empty;
     public virtual bool IsHidden => false;
     public virtual string[] AllowedRooms => [];

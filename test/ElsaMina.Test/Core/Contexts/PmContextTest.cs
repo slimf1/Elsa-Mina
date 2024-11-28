@@ -105,12 +105,12 @@ public class PmContextTests
     }
 
     [Test]
-    public void Test_PmContext_ShouldAlwaysHaveSufficientRank()
+    public void Test_PmContext_ShouldAlwaysHaveSufficientRank([Values] Rank rank)
     {
         // Act
         var context = new PmContext(_contextProvider, _bot, _message, _target, _sender, _command);
 
         // Assert
-        Assert.That(context.HasSufficientRank('A'), Is.True);
+        Assert.That(context.HasSufficientRank(rank), Is.True);
     }
 }

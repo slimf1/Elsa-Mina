@@ -1,6 +1,7 @@
 ﻿using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
@@ -17,7 +18,7 @@ public class AddBadge : Command
         _badgeRepository = badgeRepository;
     }
 
-    public override char RequiredRank => '%';
+    public override Rank RequiredRank => Rank.Driver;
 
     public override async Task Run(IContext context)
     {

@@ -76,6 +76,7 @@ public class CommandModule : Module
         builder.RegisterCommand<EndConnectFour>();
         builder.RegisterCommand<YoutubeCommand>();
         builder.RegisterCommand<SetArcadeLevel>();
+        builder.RegisterCommand<DisplayArcadeLevels>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();

@@ -1,5 +1,6 @@
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.CustomColors;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
@@ -20,7 +21,7 @@ public class NameColorInfo : Command
 
     public override bool IsAllowedInPrivateMessage => true;
     public override string HelpMessageKey => "name_color_help";
-    public override char RequiredRank => ' ';
+    public override Rank RequiredRank => Rank.Regular;
 
     public override async Task Run(IContext context)
     {

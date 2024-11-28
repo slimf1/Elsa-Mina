@@ -3,6 +3,7 @@ using ElsaMina.Commands.Teams.TeamProviders;
 using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
@@ -32,7 +33,7 @@ public class AddTeam : Command
 
     public override string HelpMessageKey => "add_team_help_message";
 
-    public override char RequiredRank => '+';
+    public override Rank RequiredRank => Rank.Voiced;
 
     public override async Task Run(IContext context)
     {

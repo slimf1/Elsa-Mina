@@ -208,7 +208,7 @@ public class RoomsManagerTest
             Assert.That(_roomsManager.GetRoom("franais").Users.ContainsKey("mec"), Is.False);
             Assert.That(_roomsManager.GetRoom("franais").Users.ContainsKey("dieusupreme"), Is.True);
             Assert.That(_roomsManager.GetRoom("franais").Users["dieusupreme"].Name, Is.EqualTo("DieuSupreme"));
-            Assert.That(_roomsManager.GetRoom("franais").Users["dieusupreme"].Rank, Is.EqualTo('&'));
+            Assert.That(_roomsManager.GetRoom("franais").Users["dieusupreme"].Rank, Is.EqualTo(Rank.Leader));
         });
     }
 

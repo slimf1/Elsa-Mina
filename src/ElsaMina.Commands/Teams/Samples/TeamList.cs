@@ -1,5 +1,6 @@
 ﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
@@ -53,7 +54,7 @@ public class TeamList : Command
         });
 
         var html = template.RemoveNewlines();
-        if (context.HasSufficientRank('+'))
+        if (context.HasSufficientRank(Rank.Voiced))
         {
             var message = $"""<div style="overflow-y: auto; max-height: 230px;">{html}</div>""";
             context.SendHtml(message, roomId: roomId);

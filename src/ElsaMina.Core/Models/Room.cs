@@ -29,7 +29,7 @@ public class Room : IRoom
 
     public void AddUser(string username)
     {
-        var user = new User(username[1..], username[0]);
+        var user = User.FromUsername(username);
         Users[user.UserId] = user;
     }
 
@@ -69,13 +69,5 @@ public class Room : IRoom
     private void HandleGameStart()
     {
         // Do nothing
-    }
-
-    public override string ToString()
-    {
-        return $"{nameof(Room)}[{nameof(RoomId)}: {RoomId}, " +
-               $"{nameof(Name)}: {Name}, " +
-               $"{nameof(Users)}: {string.Join(", ", Users)}, " +
-               $"{nameof(Culture)}: {Culture}]";
     }
 }

@@ -1,5 +1,6 @@
 using ElsaMina.Commands.CustomCommands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 using NSubstitute;
@@ -25,7 +26,7 @@ public class EditCustomCommandTest
     public void Test_RequiredRank_ShouldBePercent()
     {
         // Assert
-        Assert.That(_editCustomCommand.RequiredRank, Is.EqualTo('%'));
+        Assert.That(_editCustomCommand.RequiredRank, Is.EqualTo(Rank.Driver));
     }
 
     [Test]

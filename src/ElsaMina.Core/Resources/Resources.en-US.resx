@@ -480,4 +480,13 @@
     <data name="arcade_level_help" xml:space="preserve">
         <value>Syntax: addpalier (user), (level)</value>
     </data>
+    <data name="arcade_levels_level" xml:space="preserve">
+        <value>Level</value>
+    </data>
+    <data name="arcade_levels_players" xml:space="preserve">
+        <value>Players</value>
+    </data>
+    <data name="display_paliers_help" xml:space="preserve">
+        <value>Display the arcade levels.</value>
+    </data>
 </root>

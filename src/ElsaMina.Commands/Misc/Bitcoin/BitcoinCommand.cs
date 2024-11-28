@@ -1,6 +1,7 @@
 using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Http;
 
 namespace ElsaMina.Commands.Misc.Bitcoin;
@@ -18,7 +19,7 @@ public class BitcoinCommand : Command
     }
 
     public override bool IsAllowedInPrivateMessage => true;
-    public override char RequiredRank => ' ';
+    public override Rank RequiredRank => Rank.Regular;
 
     public override async Task Run(IContext context)
     {

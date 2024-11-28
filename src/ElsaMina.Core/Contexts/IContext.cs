@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using ElsaMina.Core.Commands;
 using ElsaMina.Core.Models;
 
 namespace ElsaMina.Core.Contexts;
@@ -18,7 +19,7 @@ public interface IContext
     string GetString(string key);
     string GetString(string key, params object[] formatArguments);
     void SendHtmlPage(string pageName, string html);
-    bool HasSufficientRank(char requiredRank);
+    bool HasSufficientRank(Rank requiredRank);
     void Reply(string message, bool rankAware = false);
     void ReplyLocalizedMessage(string key, params object[] formatArguments);
     void ReplyRankAwareLocalizedMessage(string key, params object[] formatArguments);
