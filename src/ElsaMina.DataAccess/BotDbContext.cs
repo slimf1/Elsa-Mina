@@ -23,6 +23,7 @@ public class BotDbContext : DbContext
     public DbSet<RoomTeam> RoomTeams { get; set; }
     public DbSet<Repeat> Repeats { get; set; }
     public DbSet<ArcadeLevel> ArcadeLevels { get; set; }
+    public DbSet<PollSuggestion> PollSuggestions { get; set; }
 
     public string ConnectionString { get; set; }
 

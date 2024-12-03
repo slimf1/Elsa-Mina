@@ -24,5 +24,6 @@ public class DataAccessModule : Module
         builder.RegisterType<TeamRepository>().As<ITeamRepository>();
         builder.RegisterType<RoomBotParameterValueRepository>().As<IRoomBotParameterValueRepository>();
         builder.RegisterType<ArcadeLevelRepository>().As<IArcadeLevelRepository>();
+        builder.RegisterType<PollSuggestionRepository>().As<IPollSuggestionRepository>();
     }
 }
