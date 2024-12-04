@@ -18,7 +18,7 @@ public abstract class Handler : IHandler
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "An error occurred while executing handler '{0}'", GetType().FullName);
+            Logger.Error(exception, "An error occurred while executing handler '{0}'", Identifier);
             throw;
         }
     }

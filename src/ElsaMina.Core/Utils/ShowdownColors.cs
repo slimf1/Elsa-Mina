@@ -105,4 +105,10 @@ public static class ShowdownColors
 
         return (r + m, g + m, b + m);
     }
+
+    public static void Reset()
+    {
+        HEX_COLOR_CACHE.Clear();
+        _customColorsManager = null;
+    }
 }
