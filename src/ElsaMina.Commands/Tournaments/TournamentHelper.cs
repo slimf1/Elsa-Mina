@@ -35,7 +35,7 @@ public static class TournamentHelper
         return auxobj;
     }
 
-    public static Dictionary<string, object> ParseTourResults(string jsonData)
+    public static TournamentResults ParseTourResults(string jsonData)
     {
         var data = JsonConvert.DeserializeObject<TournamentData>(jsonData);
 
@@ -44,10 +44,10 @@ public static class TournamentHelper
             return null;
         }
 
-        var res = new Dictionary<string, object>();
         var parsedTree = ParseTourTree(data.BracketData.RootNode);
-
-        res["players"] = new List<string>(parsedTree.Keys);
+        var result = new TournamentResults();
+        
+        result.Players = parsedTree.Keys.ToList();
 
         var general = new Dictionary<string, int>();
         foreach (var key in parsedTree.Keys)
@@ -55,20 +55,20 @@ public static class TournamentHelper
             general[key.ToLowerAlphaNum()] = parsedTree[key];
         }
 
-        res["general"] = general;
+        result.General = general;
 
-        res["winner"] = data.Results[0][0].ToLowerAlphaNum();
-        res["finalist"] = string.Empty;
-        res["semiFinalists"] = new List<string>();
+        result.Winner = data.Results[0][0].ToLowerAlphaNum();
+        result.Finalist = string.Empty;
+        result.SemiFinalists = [];
 
         if (data.BracketData.RootNode.Children != null)
         {
             foreach (var child in data.BracketData.RootNode.Children)
             {
                 var aux = child.Team?.ToLowerAlphaNum() ?? string.Empty;
-                if (!string.IsNullOrEmpty(aux) && aux != (string)res["winner"])
+                if (!string.IsNullOrEmpty(aux) && aux != result.Winner)
                 {
-                    res["finalist"] = aux;
+                    result.Finalist = aux;
                 }
 
                 if (child.Children != null)
@@ -76,16 +76,16 @@ public static class TournamentHelper
                     foreach (var grandchild in child.Children)
                     {
                         var aux2 = grandchild.Team.ToLowerAlphaNum() ?? string.Empty;
-                        if (!string.IsNullOrEmpty(aux2) && aux2 != (string)res["winner"] &&
-                            aux2 != (string)res["finalist"] && !((List<string>)res["semiFinalists"]).Contains(aux2))
+                        if (!string.IsNullOrEmpty(aux2) && aux2 != result.Winner &&
+                            aux2 != result.Finalist && !result.SemiFinalists.Contains(aux2))
                         {
-                            ((List<string>)res["semiFinalists"]).Add(aux2);
+                            result.SemiFinalists.Add(aux2);
                         }
                     }
                 }
             }
         }
 
-        return res;
+        return result;
     }
 }

@@ -3,6 +3,7 @@ namespace ElsaMina.Core.Handlers;
 public abstract class Handler : IHandler
 {
     public bool IsEnabled { get; set; } = true;
+    public string Identifier => GetType().FullName;
 
     public virtual Task OnInitialize()
     {

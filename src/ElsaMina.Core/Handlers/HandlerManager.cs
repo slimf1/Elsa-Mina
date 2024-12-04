@@ -21,8 +21,7 @@ public class HandlerManager : IHandlerManager
         var handlers = _containerService.Resolve<IEnumerable<IHandler>>().ToList();
         foreach (var handler in handlers)
         {
-            var name = handler.GetType().FullName ?? handler.GetType().Name;
-            _handlers[name] = handler;
+            _handlers[handler.Identifier] = handler;
         }
 
         await Task.WhenAll(handlers.Select(handler => handler.OnInitialize()));
