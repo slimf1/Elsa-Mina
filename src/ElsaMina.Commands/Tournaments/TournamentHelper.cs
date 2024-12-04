@@ -5,87 +5,103 @@ namespace ElsaMina.Commands.Tournaments;
 
 public static class TournamentHelper
 {
-    public static Dictionary<string, int> ParseTourTree(TournamentNode node)
+    private const string FINISHED_STATE = "finished";
+    private const string SINGLE_ELIMINATION_ID = "singleelimination";
+
+    private static Dictionary<string, int> ParseTourTree(TournamentNode node)
     {
-        var auxobj = new Dictionary<string, int>();
-        var team = node.Team;
-        var state = node.State;
-        var children = node.Children ?? new List<TournamentNode>();
-
-        if (team != null)
+        var teamScores = new Dictionary<string, int>();
+        if (node.Team != null)
         {
-            auxobj.TryAdd(team, 0);
+            teamScores[node.Team] = 0;
         }
 
-        if (!string.IsNullOrEmpty(state) && state == "finished" && team != null)
+        if (!string.IsNullOrEmpty(node.State) && node.State == FINISHED_STATE && node.Team != null)
         {
-            auxobj[team]++;
+            teamScores[node.Team]++;
         }
 
-        foreach (var child in children)
+        foreach (var childNode in node.Children ?? Enumerable.Empty<TournamentNode>())
         {
-            var aux = ParseTourTree(child);
-            foreach (var kvp in aux)
+            var childScores = ParseTourTree(childNode);
+            foreach (var (team, score) in childScores)
             {
-                auxobj.TryAdd(kvp.Key, 0);
-                auxobj[kvp.Key] += kvp.Value;
+                teamScores[team] = teamScores.GetValueOrDefault(team, 0) + score;
             }
         }
 
-        return auxobj;
+        return teamScores;
     }
 
     public static TournamentResults ParseTourResults(string jsonData)
     {
         var data = JsonConvert.DeserializeObject<TournamentData>(jsonData);
-
-        if (data.Generator.ToLowerAlphaNum() != "singleelimination")
+        if (!IsSingleElimination(data))
         {
             return null;
         }
 
-        var parsedTree = ParseTourTree(data.BracketData.RootNode);
-        var result = new TournamentResults();
-        
-        result.Players = parsedTree.Keys.ToList();
+        var teamScores = ParseTourTree(data.BracketData.RootNode);
+        var tournamentResults = CreateTournamentResults(data, teamScores);
 
-        var general = new Dictionary<string, int>();
-        foreach (var key in parsedTree.Keys)
+        PopulateFinalistsAndSemiFinalists(data.BracketData.RootNode, tournamentResults);
+        PopulateFormat(data, tournamentResults);
+
+        return tournamentResults;
+    }
+
+    private static void PopulateFormat(TournamentData data, TournamentResults tournamentResults)
+    {
+        tournamentResults.Format = data?.Format;
+    }
+
+    private static bool IsSingleElimination(TournamentData data) =>
+        data.Generator.ToLowerAlphaNum() == SINGLE_ELIMINATION_ID;
+
+    private static TournamentResults CreateTournamentResults(TournamentData data, Dictionary<string, int> teamScores)
+    {
+        return new TournamentResults
         {
-            general[key.ToLowerAlphaNum()] = parsedTree[key];
+            Players = teamScores.Keys.ToList(),
+            General = teamScores.ToDictionary(
+                kvp => kvp.Key.ToLowerAlphaNum(),
+                kvp => kvp.Value),
+            Winner = data.Results[0][0].ToLowerAlphaNum(),
+            Finalist = string.Empty,
+            SemiFinalists = []
+        };
+    }
+
+    private static void PopulateFinalistsAndSemiFinalists(TournamentNode rootNode, TournamentResults results)
+    {
+        foreach (var childNode in rootNode.Children ?? Enumerable.Empty<TournamentNode>())
+        {
+            UpdateFinalist(childNode, results);
+            AddSemiFinalists(childNode, results);
         }
+    }
 
-        result.General = general;
-
-        result.Winner = data.Results[0][0].ToLowerAlphaNum();
-        result.Finalist = string.Empty;
-        result.SemiFinalists = [];
-
-        if (data.BracketData.RootNode.Children != null)
+    private static void UpdateFinalist(TournamentNode node, TournamentResults results)
+    {
+        var team = node.Team?.ToLowerAlphaNum();
+        if (!string.IsNullOrEmpty(team) && team != results.Winner)
         {
-            foreach (var child in data.BracketData.RootNode.Children)
-            {
-                var aux = child.Team?.ToLowerAlphaNum() ?? string.Empty;
-                if (!string.IsNullOrEmpty(aux) && aux != result.Winner)
-                {
-                    result.Finalist = aux;
-                }
+            results.Finalist = team;
+        }
+    }
 
-                if (child.Children != null)
-                {
-                    foreach (var grandchild in child.Children)
-                    {
-                        var aux2 = grandchild.Team.ToLowerAlphaNum() ?? string.Empty;
-                        if (!string.IsNullOrEmpty(aux2) && aux2 != result.Winner &&
-                            aux2 != result.Finalist && !result.SemiFinalists.Contains(aux2))
-                        {
-                            result.SemiFinalists.Add(aux2);
-                        }
-                    }
-                }
+    private static void AddSemiFinalists(TournamentNode node, TournamentResults results)
+    {
+        foreach (var grandChildNode in node.Children ?? Enumerable.Empty<TournamentNode>())
+        {
+            var team = grandChildNode.Team?.ToLowerAlphaNum();
+            if (!string.IsNullOrEmpty(team) &&
+                team != results.Winner &&
+                team != results.Finalist &&
+                !results.SemiFinalists.Contains(team))
+            {
+                results.SemiFinalists.Add(team);
             }
         }
-
-        return result;
     }
 }

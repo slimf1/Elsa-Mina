@@ -27,6 +27,9 @@ public class TournamentData
 {
     [JsonProperty("generator")]
     public string Generator { get; set; }
+    
+    [JsonProperty("format")]
+    public string Format { get; set; }
 
     [JsonProperty("bracketData")]
     public BracketData BracketData { get; set; }
