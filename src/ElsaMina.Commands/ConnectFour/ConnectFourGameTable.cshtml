@@ -37,6 +37,17 @@
             <span>@GetString("c4_game_players", Model.CurrentGame.PlayerNames)</span><br />
             <span>@GetString("c4_game_turn", Model.CurrentGame.TurnCount)</span><br />
             <span>@GetString("c4_game_party_id", ConnectFourGame.GameId)</span>
+            <br /><br />
+            <details>
+                <summary>@GetString("c4_game_options")</summary>
+                <br />
+                <button
+                    class="button"
+                    value="/pm @Model.BotName,@(Model.Trigger)c4ff @Model.RoomId"
+                    name="send">
+                    @GetString("c4_game_forfeit")
+                </button>
+            </details>
         </td>
     </tr>
 </table>

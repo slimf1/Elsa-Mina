@@ -20,7 +20,7 @@ public class JoinConnectFourCommand : Command
     public override async Task Run(IContext context)
     {
         var room = _roomsManager.GetRoom(context.Target);
-        if (room?.Game is not ConnectFourGame connectFour)
+        if (room?.Game is not IConnectFourGame connectFour)
         {
             return;
         }

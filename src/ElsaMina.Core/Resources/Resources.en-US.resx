@@ -498,4 +498,13 @@
     <data name="arcade_level_delete_success" xml:space="preserve">
         <value>The player has been deleted.</value>
     </data>
+    <data name="c4_game_player_forfeited" xml:space="preserve">
+        <value>{0} forfeited.</value>
+    </data>
+    <data name="c4_game_forfeit" xml:space="preserve">
+        <value>Forfeit</value>
+    </data>
+    <data name="c4_game_options" xml:space="preserve">
+        <value>Options</value>
+    </data>
 </root>

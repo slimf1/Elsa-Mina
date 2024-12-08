@@ -1,15 +1,15 @@
-﻿using ElsaMina.Core.Commands;
+using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.ConnectFour;
 
-[NamedCommand("c4play")]
-public class PlayConnectFourCommand : Command
+[NamedCommand("c4forfeit", "c4ff")]
+public class ForfeitConnectFourCommand : Command
 {
     private readonly IRoomsManager _roomsManager;
 
-    public PlayConnectFourCommand(IRoomsManager roomsManager)
+    public ForfeitConnectFourCommand(IRoomsManager roomsManager)
     {
         _roomsManager = roomsManager;
     }
@@ -19,13 +19,11 @@ public class PlayConnectFourCommand : Command
 
     public override async Task Run(IContext context)
     {
-        var parts = context.Target.Split(',');
-        var roomId = parts[0].Trim();
-        var play = parts[1].Trim();
+        var roomId = context.Target.Trim();
         var room = _roomsManager.GetRoom(roomId);
         if (room?.Game is IConnectFourGame connectFour)
         {
-            await connectFour.Play(context.Sender, play);
+            await connectFour.Forfeit(context.Sender);
         }
     }
 }

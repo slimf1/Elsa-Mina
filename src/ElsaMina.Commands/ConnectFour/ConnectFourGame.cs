@@ -1,4 +1,5 @@
-﻿using ElsaMina.Core.Models;
+﻿using ElsaMina.Core;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Templates;
@@ -6,7 +7,7 @@ using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.ConnectFour;
 
-public class ConnectFourGame : Game
+public class ConnectFourGame : Game, IConnectFourGame
 {
     private const char DEFAULT_CHARACTER = '_';
 
@@ -16,16 +17,19 @@ public class ConnectFourGame : Game
     private readonly IRandomService _randomService;
     private readonly ITemplatesManager _templatesManager;
     private readonly IConfigurationManager _configurationManager;
+    private readonly IBot _bot;
 
     private CancellationTokenSource _cancellationTokenSource;
 
     public ConnectFourGame(IRandomService randomService,
         ITemplatesManager templatesManager,
-        IConfigurationManager configurationManager)
+        IConfigurationManager configurationManager,
+        IBot bot)
     {
         _randomService = randomService;
         _templatesManager = templatesManager;
         _configurationManager = configurationManager;
+        _bot = bot;
 
         GameId++;
     }
@@ -128,6 +132,17 @@ public class ConnectFourGame : Game
         await InitializeNextTurn();
     }
 
+    public async Task Forfeit(IUser user)
+    {
+        if (!IsStarted || !Players.Contains(user))
+        {
+            return;
+        }
+
+        Context.ReplyLocalizedMessage("c4_game_player_forfeited", user.Name);
+        await RemovePlayerAndCheckWin(user);
+    }
+
     public async Task OnTimeout()
     {
         if (IsEnded)
@@ -135,8 +150,13 @@ public class ConnectFourGame : Game
             return;
         }
 
-        Players.Remove(PlayerCurrentlyPlaying);
         Context.ReplyLocalizedMessage("c4_game_on_timeout", PlayerCurrentlyPlaying.Name);
+        await RemovePlayerAndCheckWin(PlayerCurrentlyPlaying);
+    }
+
+    private async Task RemovePlayerAndCheckWin(IUser player)
+    {
+        Players.Remove(player);
 
         if (Players.Count == 1)
         {
@@ -312,7 +332,12 @@ public class ConnectFourGame : Game
                 Trigger = _configurationManager.Configuration.Trigger
             });
 
-        Context.SendHtmlPage($"c4-{GameId}", template.RemoveNewlines());
+        var pageName = $"c4-game-{Context.RoomId}-{GameId}";
+        var sanitizedTemplate = template.RemoveNewlines();
+        foreach (var player in Players)
+        {
+            _bot.Say(Context.RoomId, $"/sendhtmlpage {player.Name}, {pageName}, {sanitizedTemplate}");
+        }
     }
 
     #endregion

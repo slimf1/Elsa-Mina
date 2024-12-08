@@ -20,7 +20,7 @@ public class EndConnectFour : Command
     public override Task Run(IContext context)
     {
         var room = _roomsManager.GetRoom(context.RoomId);
-        if (room?.Game is ConnectFourGame connectFourGame)
+        if (room?.Game is IConnectFourGame connectFourGame)
         {
             connectFourGame.Cancel();
             context.ReplyLocalizedMessage("c4_game_cancelled");

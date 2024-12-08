@@ -78,6 +78,7 @@ public class CommandModule : Module
         builder.RegisterCommand<SetArcadeLevel>();
         builder.RegisterCommand<DisplayArcadeLevels>();
         builder.RegisterCommand<DeleteArcadeLevel>();
+        builder.RegisterCommand<ForfeitConnectFourCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();

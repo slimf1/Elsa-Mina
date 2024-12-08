@@ -1004,5 +1004,23 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("arcade_level_delete_success", resourceCulture);
             }
         }
+        
+        internal static string c4_game_player_forfeited {
+            get {
+                return ResourceManager.GetString("c4_game_player_forfeited", resourceCulture);
+            }
+        }
+        
+        internal static string c4_game_forfeit {
+            get {
+                return ResourceManager.GetString("c4_game_forfeit", resourceCulture);
+            }
+        }
+        
+        internal static string c4_game_options {
+            get {
+                return ResourceManager.GetString("c4_game_options", resourceCulture);
+            }
+        }
     }
 }
