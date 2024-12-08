@@ -1,4 +1,5 @@
 using ElsaMina.Commands.ConnectFour;
+using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
@@ -18,6 +19,7 @@ public class ConnectFourGameTest
         private ITemplatesManager _mockTemplatesManager;
         private IConfigurationManager _mockConfigurationManager;
         private IDependencyContainerService _dependencyContainerService;
+        private IBot _bot;
         private IContext _context;
         private IUser _mockUser1;
         private IUser _mockUser2;
@@ -29,6 +31,7 @@ public class ConnectFourGameTest
             _mockTemplatesManager = Substitute.For<ITemplatesManager>();
             _mockConfigurationManager = Substitute.For<IConfigurationManager>();
             _context = Substitute.For<IContext>();
+            _bot = Substitute.For<IBot>();
             _dependencyContainerService = Substitute.For<IDependencyContainerService>();
 
             DependencyContainerService.Current = _dependencyContainerService;
@@ -36,7 +39,7 @@ public class ConnectFourGameTest
             var config = new Configuration { Name = "Bot", Trigger = "!", DefaultLocaleCode = "fr-FR" };
             _mockConfigurationManager.Configuration.Returns(config);
 
-            _game = new ConnectFourGame(_mockRandomService, _mockTemplatesManager, _mockConfigurationManager);
+            _game = new ConnectFourGame(_mockRandomService, _mockTemplatesManager, _mockConfigurationManager, _bot);
             _game.Context = _context;
 
             _mockUser1 = Substitute.For<IUser>();

@@ -1,4 +1,5 @@
 using ElsaMina.Commands.ConnectFour;
+using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
@@ -19,6 +20,7 @@ public class CreateConnectFourCommandTest
     private IContext _context;
     private IRoom _room;
     private ITemplatesManager _templatesManager;
+    private IBot _bot;
     private ConnectFourGame _game;
 
     [SetUp]
@@ -28,11 +30,14 @@ public class CreateConnectFourCommandTest
         _dependencyContainerService = Substitute.For<IDependencyContainerService>();
         _configurationManager = Substitute.For<IConfigurationManager>();
         _templatesManager = Substitute.For<ITemplatesManager>();
+        _bot = Substitute.For<IBot>();
         _command = new CreateConnectFourCommand(_roomsManager, _dependencyContainerService);
 
         _context = Substitute.For<IContext>();
         _room = Substitute.For<IRoom>();
-        _game = new ConnectFourGame(Substitute.For<IRandomService>(), _templatesManager, _configurationManager);
+        _room = Substitute.For<IRoom>();
+        _game = new ConnectFourGame(Substitute.For<IRandomService>(), _templatesManager,
+            _configurationManager, _bot);
 
         _context.RoomId.Returns("room-id");
         _roomsManager.GetRoom("room-id").Returns(_room);
