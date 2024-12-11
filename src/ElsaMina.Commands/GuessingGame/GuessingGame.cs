@@ -5,7 +5,7 @@ using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.GuessingGame;
 
-public abstract class GuessingGame : Game
+public abstract class GuessingGame : Game, IGuessingGame
 {
     private const int DEFAULT_TURNS_COUNT = 10;
     private const int MIN_LENGTH_FOR_AUTOCORRECT = 8;

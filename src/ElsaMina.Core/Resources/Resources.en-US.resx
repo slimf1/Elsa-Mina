@@ -507,4 +507,10 @@
     <data name="c4_game_options" xml:space="preserve">
         <value>Options</value>
     </data>
+    <data name="arcade_level_update_error" xml:space="preserve">
+        <value>An error occurred while updating arcade level : {0}</value>
+    </data>
+    <data name="arcade_level_no_users" xml:space="preserve">
+        <value>No arcade levels found.</value>
+    </data>
 </root>

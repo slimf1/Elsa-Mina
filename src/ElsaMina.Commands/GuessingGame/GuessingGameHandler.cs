@@ -1,5 +1,4 @@
-﻿using ElsaMina.Commands.GuessingGame.Countries;
-using ElsaMina.Core.Contexts;
+﻿using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Handlers.DefaultHandlers;
 using ElsaMina.Core.Services.Rooms;
 
@@ -19,7 +18,7 @@ public class GuessingGameHandler : ChatMessageHandler
     public override Task HandleMessage(IContext context)
     {
         var room = _roomsManager.GetRoom(context.RoomId);
-        if (room?.Game is GuessingGame guessingGame)
+        if (room?.Game is IGuessingGame guessingGame)
         {
             guessingGame.OnAnswer(context.Sender.Name, context.Message);
         }

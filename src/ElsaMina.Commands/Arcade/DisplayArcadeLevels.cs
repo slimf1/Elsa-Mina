@@ -1,8 +1,10 @@
+using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
+using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.Arcade;
@@ -27,7 +29,23 @@ public class DisplayArcadeLevels : Command
     public override async Task Run(IContext context)
     {
         var levels = new Dictionary<int, List<string>>();
-        foreach (var arcadeLevel in await _arcadeLevelRepository.GetAllAsync())
+
+        List<ArcadeLevel> arcadeLevels = [];
+        try
+        {
+            arcadeLevels = (await _arcadeLevelRepository.GetAllAsync()).ToList();
+        }
+        catch (Exception e)
+        {
+            Logger.Error(e, "An error occurred while getting arcade levels.");
+        }
+
+        if (!arcadeLevels.Any())
+        {
+            context.ReplyLocalizedMessage("arcade_level_no_users");
+            return;
+        }
+        foreach (var arcadeLevel in arcadeLevels)
         {
             if (levels.ContainsKey(arcadeLevel.Level))
             {

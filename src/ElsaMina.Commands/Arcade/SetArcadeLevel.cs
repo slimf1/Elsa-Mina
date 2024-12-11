@@ -46,18 +46,32 @@ public class SetArcadeLevel : Command
         var arcadeLevel = await _arcadeLevelRepository.GetByIdAsync(user);
         if (arcadeLevel == null)
         {
-            await _arcadeLevelRepository.AddAsync(new ArcadeLevel
+            try
             {
-                Id = user,
-                Level = level
-            });
-            context.ReplyLocalizedMessage("arcade_level_add", user, level);
+                await _arcadeLevelRepository.AddAsync(new ArcadeLevel
+                {
+                    Id = user,
+                    Level = level
+                });
+                context.ReplyLocalizedMessage("arcade_level_add", user, level);
+            }
+            catch (Exception e)
+            {
+                context.ReplyLocalizedMessage("arcade_level_update_error", e.Message);
+            }
         }
         else
         {
             arcadeLevel.Level = level;
-            await _arcadeLevelRepository.UpdateAsync(arcadeLevel);
-            context.ReplyLocalizedMessage("arcade_level_update", user, level);
+            try
+            {
+                await _arcadeLevelRepository.UpdateAsync(arcadeLevel);
+                context.ReplyLocalizedMessage("arcade_level_update", user, level);
+            }
+            catch (Exception e)
+            {
+                context.ReplyLocalizedMessage("arcade_level_update_error", e.Message);
+            }
         }
     }
 }

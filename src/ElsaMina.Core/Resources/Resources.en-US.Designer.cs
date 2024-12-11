@@ -1022,5 +1022,17 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("c4_game_options", resourceCulture);
             }
         }
+        
+        internal static string arcade_level_update_error {
+            get {
+                return ResourceManager.GetString("arcade_level_update_error", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_level_no_users {
+            get {
+                return ResourceManager.GetString("arcade_level_no_users", resourceCulture);
+            }
+        }
     }
 }

@@ -507,4 +507,10 @@
     <data name="c4_game_options" xml:space="preserve">
         <value>Options</value>
     </data>
+    <data name="arcade_level_update_error" xml:space="preserve">
+        <value>Une erreur est survenue lors de la mise à jour du palier : {0}</value>
+    </data>
+    <data name="arcade_level_no_users" xml:space="preserve">
+        <value>Aucun palier trouvé.</value>
+    </data>
 </root>
