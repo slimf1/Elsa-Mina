@@ -1034,5 +1034,11 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("arcade_level_no_users", resourceCulture);
             }
         }
+        
+        internal static string arcade_level_delete_failure {
+            get {
+                return ResourceManager.GetString("arcade_level_delete_failure", resourceCulture);
+            }
+        }
     }
 }

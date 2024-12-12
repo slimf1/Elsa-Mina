@@ -15,7 +15,7 @@ public class DeleteArcadeLevel : Command
     {
         _arcadeLevelRepository = arcadeLevelRepository;
     }
-    
+
     public override Rank RequiredRank => Rank.Driver;
     public override string[] AllowedRooms => ["arcade", "botdevelopment"];
     public override string HelpMessageKey => "arcade_level_delete_help";
@@ -36,8 +36,15 @@ public class DeleteArcadeLevel : Command
         }
         else
         {
-            await _arcadeLevelRepository.DeleteAsync(id);
-            context.ReplyLocalizedMessage("arcade_level_delete_success");
+            try
+            {
+                await _arcadeLevelRepository.DeleteAsync(id);
+                context.ReplyLocalizedMessage("arcade_level_delete_success");
+            }
+            catch (Exception e)
+            {
+                context.ReplyLocalizedMessage("arcade_level_delete_failure", e.Message);
+            }
         }
     }
 }

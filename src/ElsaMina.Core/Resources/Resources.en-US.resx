@@ -513,4 +513,7 @@
     <data name="arcade_level_no_users" xml:space="preserve">
         <value>No arcade levels found.</value>
     </data>
+    <data name="arcade_level_delete_failure" xml:space="preserve">
+        <value>An error occurred when deleting arcade level : {0}</value>
+    </data>
 </root>

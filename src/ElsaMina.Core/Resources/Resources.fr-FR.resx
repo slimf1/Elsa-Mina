@@ -513,4 +513,7 @@
     <data name="arcade_level_no_users" xml:space="preserve">
         <value>Aucun palier trouvé.</value>
     </data>
+    <data name="arcade_level_delete_failure" xml:space="preserve">
+        <value>Une erreur est survenue à la suppression du palier : {0}</value>
+    </data>
 </root>
