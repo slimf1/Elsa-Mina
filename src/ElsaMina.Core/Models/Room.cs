@@ -9,7 +9,7 @@ public class Room : IRoom
     private const int MESSAGE_QUEUE_LENGTH = 50;
     
     private readonly Dictionary<string, DateTime> _joinDateTimes = [];
-    private readonly List<Tuple<string, string>> _lastMessages = [];
+    private readonly Queue<Tuple<string, string>> _lastMessages = new(MESSAGE_QUEUE_LENGTH);
     private IGame _game;
 
     public Room(string roomTitle, string roomId, CultureInfo culture)
@@ -35,10 +35,10 @@ public class Room : IRoom
 
     public void UpdateMessageQueue(string user, string message)
     {
-        _lastMessages.Add(Tuple.Create(user, message));
+        _lastMessages.Enqueue(Tuple.Create(user, message));
         if (_lastMessages.Count == MESSAGE_QUEUE_LENGTH)
         {
-            _lastMessages.RemoveAt(0);
+            _lastMessages.Dequeue();
         }
     }
 
