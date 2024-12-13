@@ -6,7 +6,16 @@ namespace ElsaMina.Core.Models;
 
 public class Room : IRoom
 {
+    private readonly Dictionary<string, DateTime> _joinDateTimes = [];
     private IGame _game;
+
+    public Room(string roomTitle, string roomId, CultureInfo culture)
+    {
+        RoomId = roomId ?? roomTitle.ToLowerAlphaNum();
+        Name = roomTitle;
+        Culture = culture;
+    }
+
     public string RoomId { get; }
     public string Name { get; }
     public IDictionary<string, IUser> Users { get; } = new Dictionary<string, IUser>();
@@ -20,28 +29,31 @@ public class Room : IRoom
 
     public RoomParameters Parameters { get; set; }
 
-    public Room(string roomTitle, string roomId, CultureInfo culture)
-    {
-        RoomId = roomId ?? roomTitle.ToLowerAlphaNum();
-        Name = roomTitle;
-        Culture = culture;
-    }
-
     public void AddUser(string username)
     {
         var user = User.FromUsername(username);
         Users[user.UserId] = user;
+        _joinDateTimes[user.UserId] = DateTime.UtcNow;
     }
 
     public void RemoveUser(string username)
     {
-        Users.Remove(username.ToLowerAlphaNum());
+        var userId = username.ToLowerAlphaNum();
+        Users.Remove(userId);
+        _joinDateTimes.Remove(userId);
     }
 
     public void RenameUser(string oldName, string newName)
     {
         RemoveUser(oldName);
         AddUser(newName);
+    }
+
+    public DateTime GetUserJoinDate(string username)
+    {
+        return _joinDateTimes.TryGetValue(username.ToLowerAlphaNum(), out var joinDate)
+            ? joinDate
+            : DateTime.MinValue;
     }
 
     private void OnGameChanged(IGame oldGame, IGame newGame)
@@ -57,7 +69,7 @@ public class Room : IRoom
             newGame.GameStarted += HandleGameStart;
             newGame.GameEnded += HandleGameEnd;
         }
-        
+
         _game = newGame;
     }
 

@@ -1,4 +1,5 @@
 ﻿using ElsaMina.Core.Models;
+using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.DataAccess.Models;
@@ -14,6 +15,8 @@ public class RoomsManagerTest
     private IRoomParametersRepository _roomParametersRepository;
     private IRoomConfigurationParametersFactory _roomConfigurationParametersFactory;
     private IRoomBotParameterValueRepository _roomBotParameterValueRepository;
+    private IUserPlayTimeRepository _userPlayTimeRepository;
+    private IClockService _clockService;
 
     private RoomsManager _roomsManager;
 
@@ -24,9 +27,11 @@ public class RoomsManagerTest
         _roomParametersRepository = Substitute.For<IRoomParametersRepository>();
         _roomConfigurationParametersFactory = Substitute.For<IRoomConfigurationParametersFactory>();
         _roomBotParameterValueRepository = Substitute.For<IRoomBotParameterValueRepository>();
+        _userPlayTimeRepository = Substitute.For<IUserPlayTimeRepository>();
+        _clockService = Substitute.For<IClockService>();
 
         _roomsManager = new RoomsManager(_configurationManager, _roomConfigurationParametersFactory,
-            _roomParametersRepository, _roomBotParameterValueRepository);
+            _roomParametersRepository, _roomBotParameterValueRepository, _userPlayTimeRepository, _clockService);
     }
 
     private async Task InitializeFakeRooms()
@@ -238,5 +243,47 @@ public class RoomsManagerTest
         // Assert
         Assert.That(_roomsManager.GetRoom("my-room").Users, Has.Count.EqualTo(3));
         Assert.That(_roomsManager.GetRoom("my-room").Users["james"].IsIdle, Is.False);
+    }
+
+    [Test]
+    public async Task Test_AddPlayTimeForUser_ShouldAddPlayTime_WhenPlayTimeDoesNotExist()
+    {
+        // Arrange
+        var room = Substitute.For<IRoom>();
+        room.RoomId.Returns("myRoom");
+        room.GetUserJoinDate("speks").Returns(new DateTime(2022, 10, 1, 20, 30, 0, DateTimeKind.Utc));
+        _clockService.CurrentUtcDateTime.Returns(new DateTime(2022, 10, 1, 22, 00, 0, DateTimeKind.Utc));
+
+        // Act
+        await _roomsManager.AddPlayTimeForUser(room, "speks");
+        
+        // Assert
+        await _userPlayTimeRepository.Received(1).AddAsync(Arg.Is<UserPlayTime>(playTime => Math.Abs(playTime.PlayTime.TotalHours - 1.5) < 1e-3
+            && playTime.UserId == "speks"
+            && playTime.RoomId == "myRoom"));
+    }
+    
+    [Test]
+    public async Task Test_AddPlayTimeForUser_ShouldUpdatePlayTime_WhenPlayTimeDoesExist()
+    {
+        // Arrange
+        var room = Substitute.For<IRoom>();
+        room.RoomId.Returns("myRoom");
+        _userPlayTimeRepository.GetByIdAsync(Tuple.Create("speks", "myRoom")).Returns(new UserPlayTime
+        {
+            PlayTime = new TimeSpan(10, 30, 0),
+            UserId = "speks",
+            RoomId = "myRoom"
+        });
+        room.GetUserJoinDate("speks").Returns(new DateTime(2022, 10, 1, 20, 30, 0, DateTimeKind.Utc));
+        _clockService.CurrentUtcDateTime.Returns(new DateTime(2022, 10, 1, 22, 00, 0, DateTimeKind.Utc));
+
+        // Act
+        await _roomsManager.AddPlayTimeForUser(room, "speks");
+        
+        // Assert
+        await _userPlayTimeRepository.Received(1).UpdateAsync(Arg.Is<UserPlayTime>(playTime => Math.Abs(playTime.PlayTime.TotalHours - 12) < 1e-3
+            && playTime.UserId == "speks"
+            && playTime.RoomId == "myRoom"));
     }
 }

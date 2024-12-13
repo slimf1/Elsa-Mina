@@ -15,4 +15,5 @@ public interface IRoom
     void AddUser(string username);
     void RemoveUser(string username);
     void RenameUser(string oldName, string newName);
+    DateTime GetUserJoinDate(string username);
 }

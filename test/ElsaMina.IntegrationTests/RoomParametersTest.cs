@@ -1,5 +1,6 @@
 using System.Globalization;
 using ElsaMina.Core.Models;
+using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
@@ -16,6 +17,8 @@ public class RoomParametersTest
 {
     private BotDbContext _context;
     private RoomsManager _roomsManager;
+    private IUserPlayTimeRepository _userPlayTimeRepository;
+    private IClockService _clockService;
     
     [SetUp]
     public async Task SetUp()
@@ -25,6 +28,8 @@ public class RoomParametersTest
             .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
             .Options;
         _context = new BotDbContext(opts);
+        _userPlayTimeRepository = Substitute.For<IUserPlayTimeRepository>();
+        _clockService = Substitute.For<IClockService>();
         var configurationManager = Substitute.For<IConfigurationManager>();
         configurationManager.Configuration.Returns(new Configuration
         {
@@ -37,7 +42,7 @@ public class RoomParametersTest
         var roomParametersRepository = new RoomParametersRepository(_context);
         var roomBotParameterValueRepository = new RoomBotParameterValueRepository(_context);
         _roomsManager = new RoomsManager(configurationManager, roomConfigurationParametersFactory,
-            roomParametersRepository, roomBotParameterValueRepository);
+            roomParametersRepository, roomBotParameterValueRepository, _userPlayTimeRepository, _clockService);
         const string roomId = "franais";
         const string roomTitle = "Français";
         var roomUsers = new List<string> { "&Teclis", "!Lionyx", "@Earth", " Mec" };
@@ -48,6 +53,7 @@ public class RoomParametersTest
     public void TearDown()
     {
         _context.Dispose();
+        _userPlayTimeRepository.Dispose();
     }
 
     [Test]

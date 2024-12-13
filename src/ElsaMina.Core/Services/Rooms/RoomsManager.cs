@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
 using ElsaMina.Core.Models;
+using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 
@@ -11,17 +13,23 @@ public class RoomsManager : IRoomsManager
     private readonly IConfigurationManager _configurationManager;
     private readonly IRoomParametersRepository _roomParametersRepository;
     private readonly IRoomBotParameterValueRepository _roomBotParameterValueRepository;
+    private readonly IUserPlayTimeRepository _userPlayTimeRepository;
+    private readonly IClockService _clockService;
 
     private readonly Dictionary<string, IRoom> _rooms = new();
 
     public RoomsManager(IConfigurationManager configurationManager,
         IRoomConfigurationParametersFactory roomConfigurationParametersFactory,
         IRoomParametersRepository roomParametersRepository,
-        IRoomBotParameterValueRepository roomBotParameterValueRepository)
+        IRoomBotParameterValueRepository roomBotParameterValueRepository,
+        IUserPlayTimeRepository userPlayTimeRepository,
+        IClockService clockService)
     {
         _configurationManager = configurationManager;
         _roomParametersRepository = roomParametersRepository;
         _roomBotParameterValueRepository = roomBotParameterValueRepository;
+        _userPlayTimeRepository = userPlayTimeRepository;
+        _clockService = clockService;
 
         RoomBotConfigurationParameters = roomConfigurationParametersFactory.GetParameters();
     }
@@ -52,7 +60,7 @@ public class RoomsManager : IRoomsManager
             await _roomParametersRepository.AddAsync(roomParameters);
             Logger.Information("Inserted room parameters for room {0} in db", roomId);
         }
-        
+
         var localeParameterValue = roomParameters.ParameterValues?
             .FirstOrDefault(parameter => parameter.ParameterId == RoomParametersConstants.LOCALE);
         var defaultLocale = localeParameterValue?.Value ?? _configurationManager.Configuration.DefaultLocaleCode;
@@ -76,14 +84,21 @@ public class RoomsManager : IRoomsManager
         _rooms.Remove(roomId);
     }
 
-    public void AddUserToRoom(string roomId, string userId)
+    public void AddUserToRoom(string roomId, string username)
     {
-        GetRoom(roomId)?.AddUser(userId);
+        GetRoom(roomId)?.AddUser(username);
     }
 
-    public void RemoveUserFromRoom(string roomId, string userId)
+    public void RemoveUserFromRoom(string roomId, string username)
     {
-        GetRoom(roomId)?.RemoveUser(userId);
+        var room = GetRoom(roomId);
+        if (room == null)
+        {
+            return;
+        }
+
+        _ = AddPlayTimeForUser(room, username);
+        room.RemoveUser(username);
     }
 
     public void RenameUserInRoom(string roomId, string formerName, string newName)
@@ -95,7 +110,7 @@ public class RoomsManager : IRoomsManager
     {
         var roomParameters = GetRoom(roomId)?.Parameters?.ParameterValues;
         if (roomParameters == null || !RoomBotConfigurationParameters
-            .TryGetValue(roomBotParameterId, out var roomBotConfigurationParameter))
+                .TryGetValue(roomBotParameterId, out var roomBotConfigurationParameter))
         {
             return default;
         }
@@ -142,6 +157,49 @@ public class RoomsManager : IRoomsManager
             Logger.Error(exception, "Room parameter save failed: '{0}' = '{1}' for room '{2}'",
                 roomBotParameterId, value, roomId);
             return false;
+        }
+    }
+
+    public async Task AddPlayTimeForUser(IRoom room, string username)
+    {
+        var userId = username.ToLowerAlphaNum();
+        var joinDate = room.GetUserJoinDate(username);
+        if (joinDate == DateTime.MinValue)
+        {
+            return;
+        }
+
+        var timeSpan = _clockService.CurrentUtcDateTime - joinDate;
+        try
+        {
+            await UpdateUserPlayTime(room, userId, timeSpan);
+        }
+        catch (Exception exception)
+        {
+            Logger.Error(exception, "An error occurred while updating playtime");
+        }
+    }
+
+    private async Task UpdateUserPlayTime(IRoom room, string userId, TimeSpan additionalPlayTime)
+    {
+        Logger.Information("Trying to update user playtime : {0} in {1} = +{2}", userId, room.RoomId, additionalPlayTime.TotalSeconds);
+        var key = Tuple.Create(userId, room.RoomId);
+        var savedPlayTime = await _userPlayTimeRepository.GetByIdAsync(key);
+        if (savedPlayTime == null)
+        {
+            await _userPlayTimeRepository.AddAsync(new UserPlayTime
+            {
+                UserId = userId,
+                RoomId = room.RoomId,
+                PlayTime = additionalPlayTime
+            });
+            Logger.Information("Added user play time for user {0} in db : {1}", userId, additionalPlayTime.TotalSeconds);
+        }
+        else
+        {
+            savedPlayTime.PlayTime += additionalPlayTime;
+            await _userPlayTimeRepository.UpdateAsync(savedPlayTime);
+            Logger.Information("Updated user play time for user {0} in db : +{1}", userId, additionalPlayTime.TotalSeconds);
         }
     }
 }

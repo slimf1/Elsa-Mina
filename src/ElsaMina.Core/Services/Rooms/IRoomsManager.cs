@@ -9,8 +9,8 @@ public interface IRoomsManager
     bool HasRoom(string roomId);
     Task InitializeRoom(string roomId, string roomTitle, IEnumerable<string> userIds);
     void RemoveRoom(string roomId);
-    void AddUserToRoom(string roomId, string userId);
-    void RemoveUserFromRoom(string roomId, string userId);
+    void AddUserToRoom(string roomId, string username);
+    void RemoveUserFromRoom(string roomId, string username);
     void RenameUserInRoom(string roomId, string formerName, string newName);
     string GetRoomBotConfigurationParameterValue(string roomId, string roomBotParameterId);
     Task<bool> SetRoomBotConfigurationParameterValue(string roomId, string roomBotParameterId, string value);

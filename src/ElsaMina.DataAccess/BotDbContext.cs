@@ -24,6 +24,7 @@ public class BotDbContext : DbContext
     public DbSet<Repeat> Repeats { get; set; }
     public DbSet<ArcadeLevel> ArcadeLevels { get; set; }
     public DbSet<PollSuggestion> PollSuggestions { get; set; }
+    public DbSet<UserPlayTime> UserPlayTimes { get; set; }
 
     public string ConnectionString { get; set; }
 
@@ -69,6 +70,9 @@ public class BotDbContext : DbContext
         modelBuilder.Entity<Repeat>()
             .HasKey(repeat => new { repeat.RoomId, repeat.Name });
 
+        modelBuilder.Entity<UserPlayTime>()
+            .HasKey(repeat => new { repeat.UserId, repeat.RoomId });
+
         modelBuilder.Entity<RoomBotParameterValue>()
             .HasKey(roomBotParameterValue => new { roomBotParameterValue.RoomId, roomBotParameterValue.ParameterId });
 
@@ -87,9 +91,7 @@ public class BotDbContext : DbContext
             return;
         }
 
-        optionsBuilder.UseNpgsql(ConnectionString, builder =>
-        {
-            builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
-        });
+        optionsBuilder.UseNpgsql(ConnectionString,
+            builder => { builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null); });
     }
 }
