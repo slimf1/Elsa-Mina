@@ -20,19 +20,21 @@ public abstract class BaseRepository<T, TKey> : IRepository<T, TKey> where T : c
     {
         await _dbContext.Set<T>().AddAsync(entity);
         await _dbContext.SaveChangesAsync();
+        _dbContext.Entry(entity).State = EntityState.Detached;
     }
 
     public async Task UpdateAsync(T entity)
     {
         _dbContext.Set<T>().Update(entity);
-        _dbContext.Entry(entity).State = EntityState.Detached;
         await _dbContext.SaveChangesAsync();
+        _dbContext.Entry(entity).State = EntityState.Detached;
     }
 
     public async Task DeleteAsync(T entity)
     {
         _dbContext.Set<T>().Remove(entity);
-        await _dbContext.SaveChangesAsync();    }
+        await _dbContext.SaveChangesAsync();
+    }
 
     public async Task DeleteByIdAsync(TKey key)
     {
