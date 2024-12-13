@@ -17,4 +17,5 @@ public class Configuration : IConfiguration
     public string DictionaryApiKey { get; set; }
     public string RiotApiKey { get; set; }
     public string ArcadeWebhookUrl { get; set; }
+    public string MistralApiKey { get; set; }
 }

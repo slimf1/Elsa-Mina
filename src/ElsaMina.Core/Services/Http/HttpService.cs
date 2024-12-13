@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text;
+using Newtonsoft.Json;
 
 namespace ElsaMina.Core.Services.Http;
 
@@ -7,11 +8,22 @@ public class HttpService : IHttpService
     private static readonly HttpClient HTTP_CLIENT = new();
 
     public async Task<IHttpResponse<TResponse>> PostJson<TRequest, TResponse>(string uri, TRequest dto,
-        bool removeFirstCharacterFromResponse = false)
+        bool removeFirstCharacterFromResponse = false, IDictionary<string, string> headers = null)
     {
         var serializedJson = JsonConvert.SerializeObject(dto);
-        var content = new StringContent(serializedJson);
-        var response = await HTTP_CLIENT.PostAsync(uri, content);
+        var content = new StringContent(serializedJson, Encoding.UTF8, "application/json");
+        using var request = new HttpRequestMessage(HttpMethod.Post, uri);
+        request.Content = content;
+
+        if (headers != null)
+        {
+            foreach (var header in headers)
+            {
+                request.Headers.Add(header.Key, header.Value);
+            }
+        }
+        
+        var response = await HTTP_CLIENT.SendAsync(request);
         var stringContent = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
         {
@@ -54,7 +66,8 @@ public class HttpService : IHttpService
         };
     }
 
-    public async Task<IHttpResponse<TResponse>> Get<TResponse>(string uri, IDictionary<string, string> queryParams = null)
+    public async Task<IHttpResponse<TResponse>> Get<TResponse>(string uri,
+        IDictionary<string, string> queryParams = null)
     {
         if (queryParams != null && queryParams.Count > 0)
         {

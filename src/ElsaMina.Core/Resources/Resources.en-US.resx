@@ -516,4 +516,7 @@
     <data name="arcade_level_delete_failure" xml:space="preserve">
         <value>An error occurred when deleting arcade level : {0}</value>
     </data>
+    <data name="ask_error" xml:space="preserve">
+        <value>An error occurred while fetching a response !</value>
+    </data>
 </root>

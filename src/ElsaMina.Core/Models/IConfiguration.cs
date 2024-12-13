@@ -17,4 +17,5 @@ public interface IConfiguration
     string DictionaryApiKey { get; }
     string RiotApiKey { get; }
     string ArcadeWebhookUrl { get; }
+    string MistralApiKey { get; }
 }

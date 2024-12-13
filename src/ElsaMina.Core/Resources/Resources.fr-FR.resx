@@ -516,4 +516,7 @@
     <data name="arcade_level_delete_failure" xml:space="preserve">
         <value>Une erreur est survenue à la suppression du palier : {0}</value>
     </data>
+    <data name="ask_error" xml:space="preserve">
+        <value>Une erreur est survenue lors de la réponse !</value>
+    </data>
 </root>

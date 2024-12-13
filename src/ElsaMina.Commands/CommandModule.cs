@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using ElsaMina.Commands.AiChat;
 using ElsaMina.Commands.Arcade;
 using ElsaMina.Commands.Badges;
 using ElsaMina.Commands.ConnectFour;
@@ -79,6 +80,7 @@ public class CommandModule : Module
         builder.RegisterCommand<DisplayArcadeLevels>();
         builder.RegisterCommand<DeleteArcadeLevel>();
         builder.RegisterCommand<ForfeitConnectFourCommand>();
+        builder.RegisterCommand<AskElsaCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();
