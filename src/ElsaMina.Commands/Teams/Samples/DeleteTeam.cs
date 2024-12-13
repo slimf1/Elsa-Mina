@@ -30,7 +30,7 @@ public class DeleteTeam : Command
 
         try
         {
-            await _teamRepository.DeleteAsync(team.Id);
+            await _teamRepository.DeleteByIdAsync(team.Id);
             context.ReplyLocalizedMessage("deleteteam_team_deleted_successfully");
         }
         catch (Exception exception)

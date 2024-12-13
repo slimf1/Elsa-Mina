@@ -3,22 +3,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.DataAccess.Repositories;
 
-public class BadgeRepository : IBadgeRepository
+public class BadgeRepository : BaseRepository<Badge, Tuple<string, string>>, IBadgeRepository
 {
     private readonly DbContext _dbContext;
-    private bool _disposed;
-
-    public BadgeRepository() : this(new BotDbContext())
-    {
-        
-    }
     
-    public BadgeRepository(DbContext dbContext)
+    public BadgeRepository(DbContext dbContext) : base(dbContext)
     {
         _dbContext = dbContext;
     }
 
-    public async Task<Badge> GetByIdAsync(Tuple<string, string> key)
+    public override async Task<Badge> GetByIdAsync(Tuple<string, string> key)
     {
         var (badgeId, roomId) = key;
         return await _dbContext.Set<Badge>()
@@ -28,52 +22,12 @@ public class BadgeRepository : IBadgeRepository
             .FirstOrDefaultAsync(x => x.Id == badgeId && x.RoomId == roomId);
     }
 
-    public async Task<IEnumerable<Badge>> GetAllAsync()
+    public override async Task<IEnumerable<Badge>> GetAllAsync()
     {
         return await _dbContext.Set<Badge>()
             .AsNoTracking()
             .Include(x => x.BadgeHolders)
             .ThenInclude(x => x.RoomSpecificUserData)
             .ToListAsync();
-    }
-
-    public async Task AddAsync(Badge badge)
-    {
-        await _dbContext.Set<Badge>().AddAsync(badge);
-        await _dbContext.SaveChangesAsync();
-    }
-
-    public async Task UpdateAsync(Badge badge)
-    {
-        _dbContext.Set<Badge>().Update(badge);
-        await _dbContext.SaveChangesAsync();
-    }
-
-    public async Task DeleteAsync(Tuple<string, string> key)
-    {
-        var badge = await GetByIdAsync(key);
-        _dbContext.Set<Badge>().Remove(badge);
-        await _dbContext.SaveChangesAsync();
-    }
-    
-    private void Dispose(bool disposing)
-    {
-        if (!disposing || _disposed)
-        {
-            return;
-        }
-        _dbContext?.Dispose();
-        _disposed = true;
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    ~BadgeRepository()
-    {
-        Dispose(false);
     }
 }

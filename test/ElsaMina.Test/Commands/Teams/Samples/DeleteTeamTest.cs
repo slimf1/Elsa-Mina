@@ -46,7 +46,7 @@ public class DeleteTeamTests
         await _command.Run(_context);
 
         // Assert
-        await _teamRepository.Received(1).DeleteAsync("teamid");
+        await _teamRepository.Received(1).DeleteByIdAsync("teamid");
         _context.Received().ReplyLocalizedMessage("deleteteam_team_deleted_successfully");
     }
 
@@ -57,7 +57,7 @@ public class DeleteTeamTests
         var team = new Team { Id = "teamid" };
         _context.Target.Returns("teamId");
         _teamRepository.GetByIdAsync("teamid").Returns(Task.FromResult(team));
-        _teamRepository.When(repo => repo.DeleteAsync("teamid")).Do(_ => throw new Exception("Deletion error"));
+        _teamRepository.When(repo => repo.DeleteByIdAsync("teamid")).Do(_ => throw new Exception("Deletion error"));
 
         // Act
         await _command.Run(_context);

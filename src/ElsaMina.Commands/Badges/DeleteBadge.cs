@@ -31,7 +31,7 @@ public class DeleteBadge : Command
 
         try
         {
-            await _badgeRepository.DeleteAsync(key);
+            await _badgeRepository.DeleteByIdAsync(key);
             context.ReplyLocalizedMessage("badge_delete_success", badgeId);
         }
         catch (Exception exception)

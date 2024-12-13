@@ -62,9 +62,15 @@ public class CachedRepository<TRepository, T, TKey> : IRepository<T, TKey>
         _cache[entity.Key] = entity;
     }
 
-    public async Task DeleteAsync(TKey key)
+    public async Task DeleteAsync(T entity)
     {
-        await _repository.DeleteAsync(key);
+        await _repository.DeleteAsync(entity);
+        _cache.Remove(entity.Key);
+    }
+
+    public async Task DeleteByIdAsync(TKey key)
+    {
+        await _repository.DeleteByIdAsync(key);
         _cache.Remove(key);
     }
 

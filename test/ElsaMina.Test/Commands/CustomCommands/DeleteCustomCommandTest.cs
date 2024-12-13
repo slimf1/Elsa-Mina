@@ -39,7 +39,7 @@ public class DeleteCustomCommandTest
 
         // Assert
         await _addedCommandRepository.Received(1)
-            .DeleteAsync(new Tuple<string, string>("commandtodelete", "room1"));
+            .DeleteByIdAsync(new Tuple<string, string>("commandtodelete", "room1"));
         _context.Received(1).ReplyLocalizedMessage("deletecommand_success", "commandtodelete");
     }
 
@@ -52,7 +52,7 @@ public class DeleteCustomCommandTest
 
         var exceptionMessage = "Database error";
         _addedCommandRepository
-            .When(repo => repo.DeleteAsync(Arg.Any<Tuple<string, string>>()))
+            .When(repo => repo.DeleteByIdAsync(Arg.Any<Tuple<string, string>>()))
             .Do(x => throw new Exception(exceptionMessage));
 
         // Act

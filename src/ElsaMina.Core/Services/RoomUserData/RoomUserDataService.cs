@@ -82,7 +82,7 @@ public class RoomUserDataService : IRoomUserDataService
             throw new ArgumentException("Badge not found");
         }
 
-        await _badgeHoldingRepository.DeleteAsync(key);
+        await _badgeHoldingRepository.DeleteByIdAsync(key);
     }
 
     public async Task SetUserTitle(string roomId, string userId, string title)

@@ -123,7 +123,7 @@ public class RoomUserDataServiceTest
         await _service.TakeBadgeFromUser(roomId, userId, badgeId);
 
         // Assert
-        await _badgeHoldingRepository.Received().DeleteAsync(Arg.Any<Tuple<string, string, string>>());
+        await _badgeHoldingRepository.Received().DeleteByIdAsync(Arg.Any<Tuple<string, string, string>>());
     }
 
     [Test]

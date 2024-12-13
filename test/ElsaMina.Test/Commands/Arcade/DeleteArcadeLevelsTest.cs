@@ -59,7 +59,7 @@ public class DeleteArcadeLevelTests
         await _command.Run(context);
 
         // Assert
-        await _arcadeLevelRepository.Received(1).DeleteAsync("existinguser");
+        await _arcadeLevelRepository.Received(1).DeleteByIdAsync("existinguser");
         context.Received(1).ReplyLocalizedMessage("arcade_level_delete_success");
     }
 
@@ -71,7 +71,7 @@ public class DeleteArcadeLevelTests
         context.Target.Returns("usertodelete");
         _arcadeLevelRepository.GetByIdAsync("usertodelete").Returns(new ArcadeLevel { Id = "usertodelete" });
         _arcadeLevelRepository
-            .When(repo => repo.DeleteAsync("usertodelete"))
+            .When(repo => repo.DeleteByIdAsync("usertodelete"))
             .Throw(new Exception("Database error"));
 
         // Act
