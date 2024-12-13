@@ -71,10 +71,10 @@ public class AskElsaCommand : Command
             headers: headers
         );
 
-        var choice = response.Data?.Choices?.FirstOrDefault();
+        var choice = response?.Data?.Choices?.FirstOrDefault();
         if (choice == null)
         {
-            context.Reply("ask_error");
+            context.ReplyLocalizedMessage("ask_error");
             return;
         }
 
