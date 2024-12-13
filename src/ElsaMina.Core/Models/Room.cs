@@ -6,7 +6,10 @@ namespace ElsaMina.Core.Models;
 
 public class Room : IRoom
 {
+    private const int MESSAGE_QUEUE_LENGTH = 50;
+    
     private readonly Dictionary<string, DateTime> _joinDateTimes = [];
+    private readonly List<Tuple<string, string>> _lastMessages = [];
     private IGame _game;
 
     public Room(string roomTitle, string roomId, CultureInfo culture)
@@ -28,6 +31,16 @@ public class Room : IRoom
     }
 
     public RoomParameters Parameters { get; set; }
+    public IEnumerable<Tuple<string, string>> LastMessages => _lastMessages;
+
+    public void UpdateMessageQueue(string user, string message)
+    {
+        _lastMessages.Add(Tuple.Create(user, message));
+        if (_lastMessages.Count == MESSAGE_QUEUE_LENGTH)
+        {
+            _lastMessages.RemoveAt(0);
+        }
+    }
 
     public void AddUser(string username)
     {

@@ -1,4 +1,5 @@
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Core.Handlers.DefaultHandlers;
 
@@ -20,6 +21,10 @@ public sealed class RoomsHandler : Handler
 
         switch (parts[1])
         {
+            case "c:":
+                var room = _roomsManager.GetRoom(roomId);
+                room?.UpdateMessageQueue(parts[3].ToLowerAlphaNum(), parts[4]);
+                break;
             case "deinit":
                 _roomsManager.RemoveRoom(roomId);
                 break;
@@ -33,16 +38,16 @@ public sealed class RoomsHandler : Handler
                 _roomsManager.RenameUserInRoom(roomId, parts[3], parts[2]);
                 break;
             case "noinit":
-                var message = parts[2] switch
+                var errorMessage = parts[2] switch
                 {
                     "joinfailed" => "Could not join room '{0}', probably due to a lack of permissions",
                     "nonexistent" => "Room '{0}' doesn't exist, please check configuration",
                     "namerequired" => "Could not join room '{0}' because the bot is not logged in",
                     _ => string.Empty
                 };
-                if (!string.IsNullOrEmpty(message))
+                if (!string.IsNullOrEmpty(errorMessage))
                 {
-                    Logger.Error(message, roomId);
+                    Logger.Error(errorMessage, roomId);
                 }
                 break;
         }
