@@ -7,8 +7,8 @@ public abstract class BaseRepository<T, TKey> : IRepository<T, TKey> where T : c
 {
     private readonly DbContext _dbContext;
     private bool _disposed;
-    
-    public BaseRepository(DbContext dbContext)
+
+    protected BaseRepository(DbContext dbContext)
     {
         _dbContext = dbContext;
     }

@@ -1,8 +1,10 @@
+using System.Globalization;
 using ElsaMina.Commands.AiChat;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
+using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
@@ -14,6 +16,7 @@ public class AskElsaCommandTest
     private IHttpService _httpService;
     private IConfigurationManager _configurationManager;
     private IRoomsManager _roomsManager;
+    private IResourcesService _resourcesService;
     private AskElsaCommand _command;
 
     [SetUp]
@@ -22,7 +25,8 @@ public class AskElsaCommandTest
         _httpService = Substitute.For<IHttpService>();
         _configurationManager = Substitute.For<IConfigurationManager>();
         _roomsManager = Substitute.For<IRoomsManager>();
-        _command = new AskElsaCommand(_httpService, _configurationManager, _roomsManager);
+        _resourcesService = Substitute.For<IResourcesService>();
+        _command = new AskElsaCommand(_httpService, _configurationManager, _roomsManager, _resourcesService);
     }
 
     [Test]
@@ -52,6 +56,7 @@ public class AskElsaCommandTest
         const string apiKey = "test-api-key";
         const string roomId = "room-1";
         const string roomName = "RoomName";
+        const string prompt = "test-prompt {0} {1} {2} {3} {4}";
 
         _configurationManager.Configuration.MistralApiKey.Returns(apiKey);
         _configurationManager.Configuration.Name.Returns("Elsa");
@@ -60,6 +65,7 @@ public class AskElsaCommandTest
         context.RoomId.Returns(roomId);
         context.Target.Returns("Bonjour");
         context.Sender.Name.Returns("User123");
+        _resourcesService.GetString("ask_prompt", Arg.Any<CultureInfo>()).Returns(prompt);
 
         var room = Substitute.For<IRoom>();
         room.Name.Returns(roomName);
@@ -86,6 +92,7 @@ public class AskElsaCommandTest
             "https://api.mistral.ai/v1/chat/completions",
             Arg.Is<MistralRequestDto>(dto =>
                 dto.Model == "mistral-large-latest" &&
+                dto.Messages.First().Content.Contains("test-prompt") &&
                 dto.Messages.First().Content.Contains("Bonjour") &&
                 dto.Messages.First().Content.Contains("User123") &&
                 dto.Messages.First().Content.Contains("Alice: Hello, Bob: Hi")
