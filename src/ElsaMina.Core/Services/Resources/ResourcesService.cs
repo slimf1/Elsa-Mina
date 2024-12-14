@@ -7,29 +7,27 @@ namespace ElsaMina.Core.Services.Resources;
 
 public class ResourcesService : IResourcesService
 {
-    private readonly CultureInfo _defaultLocale;
+    private readonly CultureInfo _defaultCulture;
     private readonly Lazy<ResourceManager> _resourceManager =
         new(() => new ResourceManager("ElsaMina.Core.Resources.Resources", Assembly.GetExecutingAssembly()));
 
-    private IEnumerable<CultureInfo> _supportedLocales;
+    private IEnumerable<CultureInfo> _supportedCultures;
 
     public ResourcesService(IConfigurationManager configurationManager)
     {
-        _defaultLocale = new CultureInfo(configurationManager.Configuration.DefaultLocaleCode);
+        _defaultCulture = new CultureInfo(configurationManager.Configuration.DefaultLocaleCode);
     }
     
-    public IEnumerable<CultureInfo> SupportedLocales => _supportedLocales ??= GetSupportedLocales();
+    public IEnumerable<CultureInfo> SupportedLocales => _supportedCultures ??= GetSupportedCultures();
 
     public string GetString(string key, CultureInfo cultureInfo = null)
     {
-        if (string.IsNullOrEmpty(key))
-        {
-            return string.Empty;
-        }
-        return _resourceManager.Value.GetString(key, cultureInfo ?? _defaultLocale);
+        return string.IsNullOrEmpty(key)
+            ? string.Empty
+            : _resourceManager.Value.GetString(key, cultureInfo ?? _defaultCulture);
     }
     
-    private List<CultureInfo> GetSupportedLocales()
+    private List<CultureInfo> GetSupportedCultures()
     {
         var supportedLocales = new List<CultureInfo>();
         foreach (var cultureInfo in CultureInfo.GetCultures(CultureTypes.AllCultures))

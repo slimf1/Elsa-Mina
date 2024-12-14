@@ -17,6 +17,7 @@ public class RoomsManager : IRoomsManager
     private readonly IClockService _clockService;
 
     private readonly Dictionary<string, IRoom> _rooms = new();
+    private readonly TaskQueue _taskQueue = new();
 
     public RoomsManager(IConfigurationManager configurationManager,
         IRoomConfigurationParametersFactory roomConfigurationParametersFactory,
@@ -97,8 +98,12 @@ public class RoomsManager : IRoomsManager
             return;
         }
 
-        _ = AddPlayTimeForUser(room, username);
+        var joinDate = room.GetUserJoinDate(username);
         room.RemoveUser(username);
+        _taskQueue.Enqueue(async () =>
+        {
+            await AddPlayTimeForUser(room, username, joinDate);
+        });
     }
 
     public void RenameUserInRoom(string roomId, string formerName, string newName)
@@ -160,10 +165,9 @@ public class RoomsManager : IRoomsManager
         }
     }
 
-    public async Task AddPlayTimeForUser(IRoom room, string username)
+    public async Task AddPlayTimeForUser(IRoom room, string username, DateTime joinDate)
     {
         var userId = username.ToLowerAlphaNum();
-        var joinDate = room.GetUserJoinDate(username);
         if (joinDate == DateTime.MinValue)
         {
             return;
@@ -193,13 +197,13 @@ public class RoomsManager : IRoomsManager
                 RoomId = room.RoomId,
                 PlayTime = additionalPlayTime
             });
-            Logger.Information("Added user play time for user {0} in db : {1}", userId, additionalPlayTime.TotalSeconds);
+            Logger.Information("Added user play time for user {0} in {1} : {2}", userId, room.RoomId, additionalPlayTime.TotalSeconds);
         }
         else
         {
             savedPlayTime.PlayTime += additionalPlayTime;
             await _userPlayTimeRepository.UpdateAsync(savedPlayTime);
-            Logger.Information("Updated user play time for user {0} in db : +{1}", userId, additionalPlayTime.TotalSeconds);
+            Logger.Information("Updated user play time for user {0} in {1} : +{2}", userId, room.RoomId, additionalPlayTime.TotalSeconds);
         }
     }
 }

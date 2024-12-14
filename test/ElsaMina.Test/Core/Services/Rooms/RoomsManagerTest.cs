@@ -251,11 +251,11 @@ public class RoomsManagerTest
         // Arrange
         var room = Substitute.For<IRoom>();
         room.RoomId.Returns("myRoom");
-        room.GetUserJoinDate("speks").Returns(new DateTime(2022, 10, 1, 20, 30, 0, DateTimeKind.Utc));
+        var joinDate = new DateTime(2022, 10, 1, 20, 30, 0, DateTimeKind.Utc);
         _clockService.CurrentUtcDateTime.Returns(new DateTime(2022, 10, 1, 22, 00, 0, DateTimeKind.Utc));
 
         // Act
-        await _roomsManager.AddPlayTimeForUser(room, "speks");
+        await _roomsManager.AddPlayTimeForUser(room, "speks", joinDate);
         
         // Assert
         await _userPlayTimeRepository.Received(1).AddAsync(Arg.Is<UserPlayTime>(playTime => Math.Abs(playTime.PlayTime.TotalHours - 1.5) < 1e-3
@@ -275,11 +275,11 @@ public class RoomsManagerTest
             UserId = "speks",
             RoomId = "myRoom"
         });
-        room.GetUserJoinDate("speks").Returns(new DateTime(2022, 10, 1, 20, 30, 0, DateTimeKind.Utc));
+        var joinDate = new DateTime(2022, 10, 1, 20, 30, 0, DateTimeKind.Utc);
         _clockService.CurrentUtcDateTime.Returns(new DateTime(2022, 10, 1, 22, 00, 0, DateTimeKind.Utc));
 
         // Act
-        await _roomsManager.AddPlayTimeForUser(room, "speks");
+        await _roomsManager.AddPlayTimeForUser(room, "speks", joinDate);
         
         // Assert
         await _userPlayTimeRepository.Received(1).UpdateAsync(Arg.Is<UserPlayTime>(playTime => Math.Abs(playTime.PlayTime.TotalHours - 12) < 1e-3

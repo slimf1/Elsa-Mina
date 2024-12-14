@@ -4,6 +4,7 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
+using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.AiChat;
@@ -15,20 +16,20 @@ public class AskElsaCommand : Command
     private const string DEFAULT_MODEL = "mistral-large-latest";
     private const string DEFAULT_ROLE = "user";
 
-    private const string PROMPT =
-        "Tu es un chatbot dans un salon français sur un simulateur de combat Pokémon en ligne (Pokémon Showdown). Tu dois répondre au message suivant : \"{0}\", venant de l'utilisateur \"{1}\". La réponse ne doit pas dépasser 300 caractères et tu dois n'envoyer qu'une ligne. Ton nom est : \"{2}\". Nous sommes dans le salon \"{3}\". Les messages précédents du salon sont : \"{4}\". Tu n'as pas besoin de préfixer tes messages par ton nom.";
-
     private readonly IHttpService _httpService;
     private readonly IConfigurationManager _configurationManager;
     private readonly IRoomsManager _roomsManager;
+    private readonly IResourcesService _resourcesService;
 
     public AskElsaCommand(IHttpService httpService,
         IConfigurationManager configurationManager,
-        IRoomsManager roomsManager)
+        IRoomsManager roomsManager,
+        IResourcesService resourcesService)
     {
         _httpService = httpService;
         _configurationManager = configurationManager;
         _roomsManager = roomsManager;
+        _resourcesService = resourcesService;
     }
 
     public override Rank RequiredRank => Rank.Voiced;
@@ -47,6 +48,7 @@ public class AskElsaCommand : Command
         {
             ["Authorization"] = $"Bearer {key}"
         };
+        var prompt = _resourcesService.GetString("ask_prompt", context.Culture);
         var dto = new MistralRequestDto
         {
             Model = DEFAULT_MODEL,
@@ -56,7 +58,7 @@ public class AskElsaCommand : Command
                 {
                     Role = DEFAULT_ROLE,
                     Content = string.Format(
-                        PROMPT,
+                        prompt,
                         context.Target,
                         context.Sender.Name,
                         _configurationManager.Configuration.Name,

@@ -1046,5 +1046,11 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("ask_error", resourceCulture);
             }
         }
+        
+        internal static string ask_prompt {
+            get {
+                return ResourceManager.GetString("ask_prompt", resourceCulture);
+            }
+        }
     }
 }
