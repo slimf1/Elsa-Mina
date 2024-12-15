@@ -23,15 +23,8 @@ public class TeamLinkMatchFactory : ITeamLinkMatchFactory
     private static TeamLinkMatch GetTeamLinkMatch(string message, ITeamProvider provider)
     {
         var matchingLink = provider.GetMatchFromLink(message);
-        if (!string.IsNullOrEmpty(matchingLink))
-        {
-            return new TeamLinkMatch
-            {
-                Provider = provider,
-                TeamLink = matchingLink
-            };
-        }
-
-        return null;
+        return !string.IsNullOrEmpty(matchingLink)
+            ? new TeamLinkMatch(provider, matchingLink)
+            : null;
     }
 }

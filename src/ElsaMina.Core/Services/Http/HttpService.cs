@@ -22,7 +22,7 @@ public class HttpService : IHttpService
                 request.Headers.Add(header.Key, header.Value);
             }
         }
-        
+
         var response = await HTTP_CLIENT.SendAsync(request);
         var stringContent = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
@@ -67,7 +67,7 @@ public class HttpService : IHttpService
     }
 
     public async Task<IHttpResponse<TResponse>> Get<TResponse>(string uri,
-        IDictionary<string, string> queryParams = null)
+        IDictionary<string, string> queryParams = null, IDictionary<string, string> headers = null)
     {
         if (queryParams != null && queryParams.Count > 0)
         {
@@ -76,7 +76,15 @@ public class HttpService : IHttpService
             uri = $"{uri}?{queryString}";
         }
 
-        var response = await HTTP_CLIENT.GetAsync(uri);
+        using var request = new HttpRequestMessage(HttpMethod.Get, uri);
+        if (headers != null)
+        {
+            foreach (var header in headers)
+            {
+                request.Headers.Add(header.Key, header.Value);
+            }
+        } 
+        var response = await HTTP_CLIENT.SendAsync(request);
         var stringContent = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
         {

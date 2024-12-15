@@ -2,16 +2,22 @@
 
 public class TeamLinkMatch : ITeamLinkMatch
 {
-    public ITeamProvider Provider { get; init; }
-    public string TeamLink { get; init; }
+    private readonly ITeamProvider _provider;
+    private readonly string _teamLink;
+
+    public TeamLinkMatch(ITeamProvider provider, string teamLink)
+    {
+        _provider = provider;
+        _teamLink = teamLink;
+    }
 
     public async Task<SharedTeam> GetTeamExport()
     {
-        if (Provider == null || TeamLink == null)
+        if (_provider == null || _teamLink == null)
         {
             return null;
         }
 
-        return await Provider.GetTeamExport(TeamLink);
+        return await _provider.GetTeamExport(_teamLink);
     }
 }
