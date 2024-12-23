@@ -28,7 +28,7 @@ public class EditCustomCommand : Command
         AddedCommand command = null;
         try
         {
-            command = await _addedCommandsRepository.GetByIdAsync(new Tuple<string, string>(commandId, context.RoomId));
+            command = await _addedCommandsRepository.GetByIdAsync(Tuple.Create(commandId, context.RoomId));
         }
         catch (Exception exception)
         {

@@ -22,7 +22,7 @@ public class DeleteBadge : Command
     public override async Task Run(IContext context)
     {
         var badgeId = context.Target.ToLowerAlphaNum();
-        var key = new Tuple<string, string>(badgeId, context.RoomId);
+        var key = Tuple.Create(badgeId, context.RoomId);
         if (await _badgeRepository.GetByIdAsync(key) == null)
         {
             context.ReplyLocalizedMessage("badge_delete_doesnt_exist", badgeId);

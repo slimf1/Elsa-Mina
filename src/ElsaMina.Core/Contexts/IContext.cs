@@ -9,6 +9,7 @@ public interface IContext
     string Message { get; }
     string Target { get; }
     IUser Sender { get; }
+    IRoom Room { get; }
     string Command { get; }
     bool IsSenderWhitelisted { get; }
     string RoomId { get; }

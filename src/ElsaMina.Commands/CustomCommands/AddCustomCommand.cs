@@ -59,7 +59,7 @@ public class AddCustomCommand : Command
             return;
         }
 
-        var existingCommand = await _addedCommandRepository.GetByIdAsync(new Tuple<string, string>(
+        var existingCommand = await _addedCommandRepository.GetByIdAsync(Tuple.Create(
             command, context.RoomId));
         if (existingCommand != null)
         {

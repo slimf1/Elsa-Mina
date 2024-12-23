@@ -18,7 +18,6 @@ public class ProfileCommandTest
     private IRoomSpecificUserDataRepository _userDataRepository;
     private IUserDetailsManager _userDetailsManager;
     private ITemplatesManager _templatesManager;
-    private IRoomsManager _roomsManager;
     private IUserDataService _userDataService;
     private IContext _context;
 
@@ -28,14 +27,12 @@ public class ProfileCommandTest
         _userDataRepository = Substitute.For<IRoomSpecificUserDataRepository>();
         _userDetailsManager = Substitute.For<IUserDetailsManager>();
         _templatesManager = Substitute.For<ITemplatesManager>();
-        _roomsManager = Substitute.For<IRoomsManager>();
         _userDataService = Substitute.For<IUserDataService>();
 
         _command = new ProfileCommand(
             _userDataRepository,
             _userDetailsManager,
             _templatesManager,
-            _roomsManager,
             _userDataService
         );
 

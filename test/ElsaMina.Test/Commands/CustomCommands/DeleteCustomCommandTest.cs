@@ -39,7 +39,7 @@ public class DeleteCustomCommandTest
 
         // Assert
         await _addedCommandRepository.Received(1)
-            .DeleteByIdAsync(new Tuple<string, string>("commandtodelete", "room1"));
+            .DeleteByIdAsync(Tuple.Create("commandtodelete", "room1"));
         _context.Received(1).ReplyLocalizedMessage("deletecommand_success", "commandtodelete");
     }
 

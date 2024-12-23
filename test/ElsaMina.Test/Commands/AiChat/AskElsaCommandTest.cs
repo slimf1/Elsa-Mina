@@ -15,7 +15,6 @@ public class AskElsaCommandTest
 {
     private IHttpService _httpService;
     private IConfigurationManager _configurationManager;
-    private IRoomsManager _roomsManager;
     private IResourcesService _resourcesService;
     private AskElsaCommand _command;
 
@@ -24,9 +23,8 @@ public class AskElsaCommandTest
     {
         _httpService = Substitute.For<IHttpService>();
         _configurationManager = Substitute.For<IConfigurationManager>();
-        _roomsManager = Substitute.For<IRoomsManager>();
         _resourcesService = Substitute.For<IResourcesService>();
-        _command = new AskElsaCommand(_httpService, _configurationManager, _roomsManager, _resourcesService);
+        _command = new AskElsaCommand(_httpService, _configurationManager, _resourcesService);
     }
 
     [Test]
@@ -70,8 +68,7 @@ public class AskElsaCommandTest
         var room = Substitute.For<IRoom>();
         room.Name.Returns(roomName);
         room.LastMessages.Returns([Tuple.Create("Alice", "Hello"), Tuple.Create("Bob", "Hi")]);
-
-        _roomsManager.GetRoom(roomId).Returns(room);
+        context.Room.Returns(room);
 
         var response = new MistralResponseDto
         {

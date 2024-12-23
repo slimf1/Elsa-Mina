@@ -22,7 +22,7 @@ public class AddedCommandsManager : IAddedCommandsManager
     public async Task TryExecuteAddedCommand(string commandName, IContext context)
     {
         var command =
-            await _addedCommandRepository.GetByIdAsync(new Tuple<string, string>(commandName, context.RoomId));
+            await _addedCommandRepository.GetByIdAsync(Tuple.Create(commandName, context.RoomId));
         if (command == null)
         {
             return;

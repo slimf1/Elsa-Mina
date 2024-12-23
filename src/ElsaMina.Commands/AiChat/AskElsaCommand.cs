@@ -5,7 +5,6 @@ using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Resources;
-using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.AiChat;
 
@@ -18,17 +17,14 @@ public class AskElsaCommand : Command
 
     private readonly IHttpService _httpService;
     private readonly IConfigurationManager _configurationManager;
-    private readonly IRoomsManager _roomsManager;
     private readonly IResourcesService _resourcesService;
 
     public AskElsaCommand(IHttpService httpService,
         IConfigurationManager configurationManager,
-        IRoomsManager roomsManager,
         IResourcesService resourcesService)
     {
         _httpService = httpService;
         _configurationManager = configurationManager;
-        _roomsManager = roomsManager;
         _resourcesService = resourcesService;
     }
 
@@ -43,7 +39,7 @@ public class AskElsaCommand : Command
             return;
         }
 
-        var room = _roomsManager.GetRoom(context.RoomId);
+        var room = context.Room;
         var headers = new Dictionary<string, string>
         {
             ["Authorization"] = $"Bearer {key}"

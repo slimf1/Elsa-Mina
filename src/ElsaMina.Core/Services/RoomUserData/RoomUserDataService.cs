@@ -41,7 +41,7 @@ public class RoomUserDataService : IRoomUserDataService
                 continue;
             }
 
-            _joinPhrases[new Tuple<string, string>(userData.Id, userData.RoomId)] = userData.JoinPhrase;
+            _joinPhrases[Tuple.Create(userData.Id, userData.RoomId)] = userData.JoinPhrase;
         }
     }
 
@@ -76,7 +76,7 @@ public class RoomUserDataService : IRoomUserDataService
 
     public async Task TakeBadgeFromUser(string roomId, string userId, string badgeId)
     {
-        var key = new Tuple<string, string, string>(badgeId, userId, roomId);
+        var key = Tuple.Create(badgeId, userId, roomId);
         if (await _badgeHoldingRepository.GetByIdAsync(key) == null)
         {
             throw new ArgumentException("Badge not found");
@@ -118,7 +118,7 @@ public class RoomUserDataService : IRoomUserDataService
 
         var userData = await GetUserAndCreateIfDoesntExist(roomId, userId);
         userData.JoinPhrase = joinPhrase;
-        var key = new Tuple<string, string>(userData.Id, userData.RoomId);
+        var key = Tuple.Create(userData.Id, userData.RoomId);
 
         if (string.IsNullOrEmpty(userData.JoinPhrase))
         {

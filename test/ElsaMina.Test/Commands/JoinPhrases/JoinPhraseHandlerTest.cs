@@ -66,7 +66,7 @@ public class JoinPhraseHandlerTest
         // Arrange
         var now = DateTime.UtcNow;
         _clockService.CurrentUtcDateTime.Returns(now);
-        var key = new Tuple<string, string>(TEST_USER_ID, TEST_ROOM_ID);
+        var key = Tuple.Create(TEST_USER_ID, TEST_ROOM_ID);
         _roomUserDataService.JoinPhrases.Returns(new Dictionary<Tuple<string, string>, string>
         {
             [key] = JOIN_PHRASE

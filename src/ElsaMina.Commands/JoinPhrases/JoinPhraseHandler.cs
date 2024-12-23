@@ -33,7 +33,7 @@ public class JoinPhraseHandler : Handler
         }
 
         var userId = parts[2].ToLowerAlphaNum();
-        var key = new Tuple<string, string>(userId, roomId);
+        var key = Tuple.Create(userId, roomId);
 
         if (!_roomUserDataService.JoinPhrases.TryGetValue(key, out var joinPhrase))
         {

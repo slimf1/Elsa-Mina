@@ -27,10 +27,9 @@ public abstract class Context : IContext
     public string Message { get; }
     public string Target { get; }
     public IUser Sender { get; }
+    public IRoom Room => _contextProvider.GetRoom(RoomId);
     public string Command { get; }
-
-    public bool IsSenderWhitelisted => _contextProvider.CurrentWhitelist
-        .Contains(Sender.UserId);
+    public bool IsSenderWhitelisted => _contextProvider.CurrentWhitelist.Contains(Sender.UserId);
 
     public void SendHtmlPage(string pageName, string html)
     {

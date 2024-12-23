@@ -25,21 +25,23 @@ public class LoginHandler : Handler
 
     public override async Task HandleReceivedMessage(string[] parts, string roomId = null)
     {
-        if (parts.Length > 2 && parts[1] == "challstr")
+        if (parts.Length <= 2 || parts[1] != "challstr")
         {
-            Logger.Information("Logging in...");
-            var nonce = string.Join("|", parts[2..]);
-            var response = await _loginService.Login(nonce);
-
-            if (response?.CurrentUser == null ||
-                _configurationManager.Configuration.Name.ToLowerAlphaNum() != response.CurrentUser.UserId)
-            {
-                Logger.Error("Login failed. Check password validity. Exiting");
-                _systemService.Kill();
-                return;
-            }
-
-            _client.Send($"|/trn {response.CurrentUser.Username},0,{response.Assertion}");
+            return;
         }
+
+        Logger.Information("Logging in...");
+        var nonce = string.Join("|", parts[2..]);
+        var response = await _loginService.Login(nonce);
+
+        if (response?.CurrentUser == null ||
+            _configurationManager.Configuration.Name.ToLowerAlphaNum() != response.CurrentUser.UserId)
+        {
+            Logger.Error("Login failed. Check password validity. Exiting");
+            _systemService.Kill();
+            return;
+        }
+
+        _client.Send($"|/trn {response.CurrentUser.Username},0,{response.Assertion}");
     }
 }

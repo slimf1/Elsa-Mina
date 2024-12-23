@@ -34,7 +34,7 @@ public class AddBadge : Command
         var isTrophy = context.Command is "add-trophy" or "newtrophy" or "new-trophy";
         var badgeId = name.ToLowerAlphaNum();
 
-        var existingBadge = await _badgeRepository.GetByIdAsync(new Tuple<string, string>(badgeId, context.RoomId));
+        var existingBadge = await _badgeRepository.GetByIdAsync(Tuple.Create(badgeId, context.RoomId));
         if (existingBadge != null)
         {
             context.ReplyLocalizedMessage("badge_add_already_exist", name);

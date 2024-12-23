@@ -9,13 +9,10 @@ namespace ElsaMina.Commands.ConnectFour;
 [NamedCommand("connectfour", Aliases = ["connect-four", "c4", "connect4"])]
 public class CreateConnectFourCommand : Command
 {
-    private readonly IRoomsManager _roomsManager;
     private readonly IDependencyContainerService _dependencyContainerService;
 
-    public CreateConnectFourCommand(IRoomsManager roomsManager,
-        IDependencyContainerService dependencyContainerService)
+    public CreateConnectFourCommand(IDependencyContainerService dependencyContainerService)
     {
-        _roomsManager = roomsManager;
         _dependencyContainerService = dependencyContainerService;
     }
 
@@ -23,7 +20,7 @@ public class CreateConnectFourCommand : Command
 
     public override async Task Run(IContext context)
     {
-        var room = _roomsManager.GetRoom(context.RoomId);
+        var room = context.Room;
         if (room.Game is not null)
         {
             context.ReplyLocalizedMessage("c4_game_start_already_exist");

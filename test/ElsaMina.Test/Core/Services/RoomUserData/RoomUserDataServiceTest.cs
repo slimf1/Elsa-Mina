@@ -76,8 +76,8 @@ public class RoomUserDataServiceTest
         Assert.Multiple(() =>
         {
             Assert.That(_service.JoinPhrases, Has.Count.EqualTo(2));
-            Assert.That(_service.JoinPhrases[new Tuple<string, string>("user1", "room1")], Is.EqualTo("Hello"));
-            Assert.That(_service.JoinPhrases[new Tuple<string, string>("user2", "room2")], Is.EqualTo("Welcome"));
+            Assert.That(_service.JoinPhrases[Tuple.Create("user1", "room1")], Is.EqualTo("Hello"));
+            Assert.That(_service.JoinPhrases[Tuple.Create("user2", "room2")], Is.EqualTo("Welcome"));
         });
     }
 
@@ -216,6 +216,6 @@ public class RoomUserDataServiceTest
         // Assert
         Assert.That(userData.JoinPhrase, Is.EqualTo(joinPhrase));
         await _roomSpecificUserDataRepository.Received().UpdateAsync(userData);
-        Assert.That(_service.JoinPhrases[new Tuple<string, string>(userId, roomId)], Is.EqualTo(joinPhrase));
+        Assert.That(_service.JoinPhrases[Tuple.Create(userId, roomId)], Is.EqualTo(joinPhrase));
     }
 }

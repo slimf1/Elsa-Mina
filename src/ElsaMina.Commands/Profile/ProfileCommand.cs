@@ -1,7 +1,6 @@
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
-using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Services.UserData;
 using ElsaMina.Core.Services.UserDetails;
@@ -21,19 +20,16 @@ public class ProfileCommand : Command
     private readonly IRoomSpecificUserDataRepository _userDataRepository;
     private readonly IUserDetailsManager _userDetailsManager;
     private readonly ITemplatesManager _templatesManager;
-    private readonly IRoomsManager _roomsManager;
     private readonly IUserDataService _userDataService;
 
     public ProfileCommand(IRoomSpecificUserDataRepository userDataRepository,
         IUserDetailsManager userDetailsManager,
         ITemplatesManager templatesManager,
-        IRoomsManager roomsManager,
         IUserDataService userDataService)
     {
         _userDataRepository = userDataRepository;
         _userDetailsManager = userDetailsManager;
         _templatesManager = templatesManager;
-        _roomsManager = roomsManager;
         _userDataService = userDataService;
     }
     
@@ -50,7 +46,7 @@ public class ProfileCommand : Command
             return;
         }
 
-        var t1 = _userDataRepository.GetByIdAsync(new Tuple<string, string>(userId, context.RoomId));
+        var t1 = _userDataRepository.GetByIdAsync(Tuple.Create(userId, context.RoomId));
         var t2 = _userDetailsManager.GetUserDetails(userId);
         var t3 = _userDataService.GetRegisterDate(userId);
         await Task.WhenAll(t1, t2, t3);
@@ -59,8 +55,7 @@ public class ProfileCommand : Command
         var showdownUserDetails = t2.Result;
         var registerDate = t3.Result;
 
-        var room = _roomsManager.GetRoom(context.RoomId);
-        
+        var room = context.Room;
         var status = GetStatus(showdownUserDetails);
         var avatarUrl = GetAvatar(storedUserData, showdownUserDetails);
         var userRoomRank = GetUserRoomRank(context, showdownUserDetails);

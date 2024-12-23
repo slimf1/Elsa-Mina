@@ -31,16 +31,16 @@ public class CreateConnectFourCommandTest
         _configurationManager = Substitute.For<IConfigurationManager>();
         _templatesManager = Substitute.For<ITemplatesManager>();
         _bot = Substitute.For<IBot>();
-        _command = new CreateConnectFourCommand(_roomsManager, _dependencyContainerService);
+        _command = new CreateConnectFourCommand(_dependencyContainerService);
 
         _context = Substitute.For<IContext>();
         _room = Substitute.For<IRoom>();
-        _room = Substitute.For<IRoom>();
+        _room.RoomId.Returns("room-id");
         _game = new ConnectFourGame(Substitute.For<IRandomService>(), _templatesManager,
             _configurationManager, _bot);
 
         _context.RoomId.Returns("room-id");
-        _roomsManager.GetRoom("room-id").Returns(_room);
+        _context.Room.Returns(_room);
         _dependencyContainerService.Resolve<ConnectFourGame>().Returns(_game);
     }
 

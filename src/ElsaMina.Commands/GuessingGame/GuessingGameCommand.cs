@@ -5,7 +5,6 @@ using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.DependencyInjection;
-using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.GuessingGame;
 
@@ -14,13 +13,10 @@ public class GuessingGameCommand : Command
 {
     private const int MAX_TURNS_COUNT = 20;
     
-    private readonly IRoomsManager _roomsManager;
     private readonly IDependencyContainerService _dependencyContainerService;
 
-    public GuessingGameCommand(IRoomsManager roomsManager,
-        IDependencyContainerService dependencyContainerService)
+    public GuessingGameCommand(IDependencyContainerService dependencyContainerService)
     {
-        _roomsManager = roomsManager;
         _dependencyContainerService = dependencyContainerService;
     }
 
@@ -40,7 +36,7 @@ public class GuessingGameCommand : Command
             return;
         }
 
-        var room = _roomsManager.GetRoom(context.RoomId);
+        var room = context.Room;
         if (room.Game != null)
         {
             context.ReplyLocalizedMessage("guessing_game_currently_ongoing");
