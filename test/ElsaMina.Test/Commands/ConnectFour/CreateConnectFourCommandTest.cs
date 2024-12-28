@@ -5,7 +5,6 @@ using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Probabilities;
-using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using NSubstitute;
 
@@ -13,7 +12,6 @@ namespace ElsaMina.Test.Commands.ConnectFour;
 
 public class CreateConnectFourCommandTest
 {
-    private IRoomsManager _roomsManager;
     private IDependencyContainerService _dependencyContainerService;
     private IConfigurationManager _configurationManager;
     private CreateConnectFourCommand _command;
@@ -26,7 +24,6 @@ public class CreateConnectFourCommandTest
     [SetUp]
     public void SetUp()
     {
-        _roomsManager = Substitute.For<IRoomsManager>();
         _dependencyContainerService = Substitute.For<IDependencyContainerService>();
         _configurationManager = Substitute.For<IConfigurationManager>();
         _templatesManager = Substitute.For<ITemplatesManager>();

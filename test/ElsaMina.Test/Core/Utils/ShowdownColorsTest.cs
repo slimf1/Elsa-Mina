@@ -13,7 +13,6 @@ public class ShowdownColorsTests
     [SetUp]
     public void SetUp()
     {
-        ShowdownColors.Reset();
         _customColorsManager = Substitute.For<ICustomColorsManager>();
         var containerService = Substitute.For<IDependencyContainerService>();
         containerService.Resolve<ICustomColorsManager>().Returns(_customColorsManager);

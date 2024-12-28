@@ -1,4 +1,5 @@
 using System.Globalization;
+using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
@@ -6,7 +7,6 @@ using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
-using Serilog;
 
 namespace ElsaMina.Commands.Misc.Youtube;
 
@@ -39,7 +39,7 @@ public class YoutubeCommand : Command
         var apiKey = _configurationManager.Configuration.YoutubeApiKey;
         if (string.IsNullOrWhiteSpace(apiKey))
         {
-            Log.Error("Youtube API key is empty.");
+            Logger.Error("Youtube API key is empty.");
             return;
         }
 
@@ -56,7 +56,7 @@ public class YoutubeCommand : Command
             var results = response.Data;
             if (results?.Items == null || results.Items.Count == 0)
             {
-                Log.Error("Youtube API returned no results.");
+                Logger.Error("Youtube API returned no results.");
                 context.ReplyLocalizedMessage("youtube_no_results");
                 return;
             }
@@ -86,7 +86,7 @@ public class YoutubeCommand : Command
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Failed to retrieve youtube search response.");
+            Logger.Error(ex, "Failed to retrieve youtube search response.");
             context.ReplyLocalizedMessage("youtube_error_occurred");
         }
     }

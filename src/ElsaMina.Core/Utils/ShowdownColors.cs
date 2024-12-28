@@ -8,7 +8,6 @@ namespace ElsaMina.Core.Utils;
 public static class ShowdownColors
 {
     private static readonly Dictionary<string, Color> HEX_COLOR_CACHE = new();
-    private static ICustomColorsManager _customColorsManager;
 
     public static Color ToColor(this string text)
     {
@@ -78,8 +77,8 @@ public static class ShowdownColors
     public static string ToColorHexCodeWithCustoms(this string userName)
     {
         var userId = userName.ToLowerAlphaNum();
-        _customColorsManager ??= DependencyContainerService.Current.Resolve<ICustomColorsManager>();
-        if (_customColorsManager.CustomColorsMapping.TryGetValue(userId, out var userCustomColor))
+        var customColorsManager = DependencyContainerService.Current.Resolve<ICustomColorsManager>();
+        if (customColorsManager.CustomColorsMapping.TryGetValue(userId, out var userCustomColor))
         {
             userId = userCustomColor;
         }
@@ -104,11 +103,5 @@ public static class ShowdownColors
         };
 
         return (r + m, g + m, b + m);
-    }
-
-    public static void Reset()
-    {
-        HEX_COLOR_CACHE.Clear();
-        _customColorsManager = null;
     }
 }
