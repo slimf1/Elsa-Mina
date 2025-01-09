@@ -11,8 +11,8 @@ public abstract class Command : ICommand
         InitializeNameAndAliasesFromAttribute();
     }
 
-    public string CommandName { get; private set; }
-    public IEnumerable<string> CommandAliases { get; private set; }
+    public string Name { get; private set; }
+    public IEnumerable<string> Aliases { get; private set; }
     public virtual bool IsAllowedInPrivateMessage => false;
     public virtual bool IsWhitelistOnly => false;
     public virtual bool IsPrivateMessageOnly => false;
@@ -66,7 +66,7 @@ public abstract class Command : ICommand
     private void InitializeNameAndAliasesFromAttribute()
     {
         var commandAttribute = GetType().GetCommandAttribute();
-        CommandName = commandAttribute?.Name ?? string.Empty;
-        CommandAliases = commandAttribute?.Aliases ?? [];
+        Name = commandAttribute?.Name ?? string.Empty;
+        Aliases = commandAttribute?.Aliases ?? [];
     }
 }

@@ -19,7 +19,9 @@ public class CommandExecutor : ICommandExecutor
 
     public IEnumerable<ICommand> GetAllCommands()
     {
-        return _dependencyContainerService.GetAllCommands();
+        return _dependencyContainerService
+            .GetAllRegistrations<ICommand>()
+            .DistinctBy(command => command.Name);
     }
 
     public Task OnBotStartUp()
@@ -29,10 +31,10 @@ public class CommandExecutor : ICommandExecutor
 
     public async Task TryExecuteCommand(string commandName, IContext context)
     {
-        if (_dependencyContainerService.IsCommandRegistered(commandName))
+        if (_dependencyContainerService.IsRegisteredWithName<ICommand>(commandName))
         {
             Logger.Information("Executing {0} as a normal command", commandName);
-            var commandInstance = _dependencyContainerService.ResolveCommand<ICommand>(commandName);
+            var commandInstance = _dependencyContainerService.ResolveNamed<ICommand>(commandName);
             await commandInstance.Call(context);
             return;
         }

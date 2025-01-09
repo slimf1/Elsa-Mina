@@ -5,8 +5,8 @@ namespace ElsaMina.Core.Commands;
 
 public interface ICommand
 {
-    public string CommandName { get; }
-    public IEnumerable<string> CommandAliases { get; }
+    public string Name { get; }
+    public IEnumerable<string> Aliases { get; }
     public bool IsAllowedInPrivateMessage { get; }
     public bool IsWhitelistOnly { get; }
     public bool IsPrivateMessageOnly { get; }

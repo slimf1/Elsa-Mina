@@ -7,29 +7,38 @@ public class DependencyContainerService : IDependencyContainerService
 {
     public static IDependencyContainerService Current { get; set; }
 
-    public IContainer Container { get; set; }
+    private IContainer _container;
+
+    public void SetContainer(IContainer container)
+    {
+        _container = container;
+    }
 
     public T Resolve<T>() where T : notnull
     {
-        return Container == null ? default : Container.Resolve<T>();
+        return _container == null ? default : _container.Resolve<T>();
     }
 
-    public T ResolveCommand<T>(string commandName) where T : ICommand
+    public T ResolveNamed<T>(string name)
     {
-        return Container == null ? default : Container.ResolveNamed<T>(commandName);
+        return _container == null ? default : _container.ResolveNamed<T>(name);
     }
 
-    public bool IsCommandRegistered(string commandName)
+    public bool IsRegisteredWithName<T>(string name)
     {
-        return Container?.IsRegisteredWithName<ICommand>(commandName) ?? false;
+        return _container?.IsRegisteredWithName<T>(name) ?? false;
     }
 
-    public IEnumerable<ICommand> GetAllCommands()
+    public IEnumerable<T> GetAllRegistrations<T>() where T : class
     {
-        return Container.ComponentRegistry.Registrations
-            .Where(r => typeof(ICommand).IsAssignableFrom(r.Activator.LimitType))
+        if (_container is null)
+        {
+            return [];
+        }
+
+        return _container.ComponentRegistry.Registrations
+            .Where(r => typeof(T).IsAssignableFrom(r.Activator.LimitType))
             .Select(r => r.Activator.LimitType)
-            .Select(type => Container.Resolve(type) as ICommand)
-            .DistinctBy(type => type?.CommandName);
+            .Select(type => _container.Resolve(type) as T);
     }
 }

@@ -1,14 +1,12 @@
-﻿
-using Autofac;
-using ElsaMina.Core.Commands;
+﻿using Autofac;
 
 namespace ElsaMina.Core.Services.DependencyInjection;
 
 public interface IDependencyContainerService
 {
-    IContainer Container { get; set; }
+    void SetContainer(IContainer container);
     T Resolve<T>() where T : notnull;
-    T ResolveCommand<T>(string commandName) where T : ICommand;
-    bool IsCommandRegistered(string commandName);
-    IEnumerable<ICommand> GetAllCommands();
+    T ResolveNamed<T>(string name);
+    bool IsRegisteredWithName<T>(string name);
+    IEnumerable<T> GetAllRegistrations<T>() where T : class;
 }

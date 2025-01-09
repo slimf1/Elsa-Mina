@@ -8,7 +8,6 @@ using ElsaMina.Core;
 using ElsaMina.Core.Modules;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.DependencyInjection;
-using Serilog;
 
 // DI 
 var builder = new ContainerBuilder();
@@ -17,7 +16,7 @@ builder.RegisterModule<CommandModule>();
 builder.RegisterType<VersionProvider>().As<IVersionProvider>();
 var container = builder.Build();
 var dependencyContainerService = container.Resolve<IDependencyContainerService>();
-dependencyContainerService.Container = container;
+dependencyContainerService.SetContainer(container);
 DependencyContainerService.Current = dependencyContainerService;
 
 // Load configuration file
@@ -35,7 +34,7 @@ client.MessageReceived
     .Concat()
     .Catch((Exception exception) =>
     {
-        Log.Error(exception, "Error while handling message");
+        Logger.Error(exception, "Error while handling message");
         return Observable.Throw<Unit>(exception);
     })
     .Subscribe();

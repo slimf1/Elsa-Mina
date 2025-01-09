@@ -4,12 +4,12 @@
     @foreach (var command in Model.Commands)
     {
         <span style="font-weight: bold">
-            @command.CommandName
+            @command.Name
         </span>
-        @if (command.CommandAliases.Any())
+        @if (command.Aliases.Any())
         {
             <span>
-                &mdash; @GetString("allcommands_alias") : @string.Join(", ", command.CommandAliases)
+                &mdash; @GetString("allcommands_alias") : @string.Join(", ", command.Aliases)
             </span>
         }
         @if (command.IsAllowedInPrivateMessage)

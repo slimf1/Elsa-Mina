@@ -30,13 +30,15 @@ public class CommandExecutorTest
             Substitute.For<ICommand>(),
             Substitute.For<ICommand>()
         };
-        _dependencyContainerService.GetAllCommands().Returns(expectedCommands);
+        expectedCommands.ElementAt(0).Name.Returns("1");
+        expectedCommands.ElementAt(1).Name.Returns("2");
+        _dependencyContainerService.GetAllRegistrations<ICommand>().Returns(expectedCommands);
 
         // Act
         var result = _commandExecutor.GetAllCommands();
 
         // Assert
-        CollectionAssert.AreEquivalent(expectedCommands, result);
+        Assert.That(result, Is.EquivalentTo(expectedCommands));
     }
 
     [Test]
@@ -48,7 +50,9 @@ public class CommandExecutorTest
             Substitute.For<ICommand>(),
             Substitute.For<ICommand>()
         };
-        _dependencyContainerService.GetAllCommands().Returns(commands);
+        commands.ElementAt(0).Name.Returns("1");
+        commands.ElementAt(1).Name.Returns("2");
+        _dependencyContainerService.GetAllRegistrations<ICommand>().Returns(commands);
 
         // Act
         await _commandExecutor.OnBotStartUp();
@@ -67,8 +71,8 @@ public class CommandExecutorTest
         var commandName = "sampleCommand";
         var context = Substitute.For<IContext>();
         var command = Substitute.For<ICommand>();
-        _dependencyContainerService.IsCommandRegistered(commandName).Returns(true);
-        _dependencyContainerService.ResolveCommand<ICommand>(commandName).Returns(command);
+        _dependencyContainerService.IsRegisteredWithName<ICommand>(commandName).Returns(true);
+        _dependencyContainerService.ResolveNamed<ICommand>(commandName).Returns(command);
 
         // Act
         await _commandExecutor.TryExecuteCommand(commandName, context);
@@ -84,7 +88,7 @@ public class CommandExecutorTest
         var commandName = "customCommand";
         var context = Substitute.For<IContext>();
         context.IsPrivateMessage.Returns(false);
-        _dependencyContainerService.IsCommandRegistered(commandName).Returns(false);
+        _dependencyContainerService.IsRegisteredWithName<ICommand>(commandName).Returns(false);
 
         // Act
         await _commandExecutor.TryExecuteCommand(commandName, context);
@@ -100,13 +104,13 @@ public class CommandExecutorTest
         var commandName = "nonExistentCommand";
         var context = Substitute.For<IContext>();
         context.IsPrivateMessage.Returns(true);
-        _dependencyContainerService.IsCommandRegistered(commandName).Returns(false);
+        _dependencyContainerService.IsRegisteredWithName<ICommand>(commandName).Returns(false);
 
         // Act
         await _commandExecutor.TryExecuteCommand(commandName, context);
 
         // Assert
         await _addedCommandsManager.DidNotReceive().TryExecuteAddedCommand(commandName, context);
-        _dependencyContainerService.DidNotReceive().ResolveCommand<ICommand>(commandName);
+        _dependencyContainerService.DidNotReceive().ResolveNamed<ICommand>(commandName);
     }
 }
