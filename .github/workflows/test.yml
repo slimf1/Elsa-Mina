@@ -21,8 +21,9 @@ jobs:
       - name: test
         continue-on-error: true
         run: dotnet test --no-restore --verbosity normal --logger "trx;LogFileName=test-results.trx"
-      - name: Publish test results
-        uses: actions/upload-artifact@v4
+      - name: publish results
+        uses: dorny/test-reporter@v1
         with:
-          name: test-results
-          path: "**/*.trx"
+          name: Test Results
+          path: "**/test-results.trx"
+          reporter: dotnet-trx
