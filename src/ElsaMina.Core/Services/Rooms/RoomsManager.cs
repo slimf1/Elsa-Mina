@@ -47,8 +47,17 @@ public class RoomsManager : IRoomsManager
         return _rooms.ContainsKey(roomId);
     }
 
-    public async Task InitializeRoom(string roomId, string roomTitle, IEnumerable<string> userIds)
+    public async Task InitializeRoom(string roomId, IEnumerable<string> lines)
     {
+        var receivedLines = lines.ToArray();
+        var roomTitle = receivedLines
+            .FirstOrDefault(line => line.StartsWith("|title|"))?
+            .Split("|")[2];
+        var users = receivedLines
+            .FirstOrDefault(line => line.StartsWith("|users|"))?
+            .Split("|")[2]
+            .Split(",")[1..];
+
         Logger.Information("Initializing {0}...", roomTitle);
         var roomParameters = await _roomParametersRepository.GetByIdAsync(roomId);
         if (roomParameters == null)
@@ -65,17 +74,18 @@ public class RoomsManager : IRoomsManager
         var localeParameterValue = roomParameters.ParameterValues?
             .FirstOrDefault(parameter => parameter.ParameterId == RoomParametersConstants.LOCALE);
         var defaultLocale = localeParameterValue?.Value ?? _configurationManager.Configuration.DefaultLocaleCode;
-        var room = new Room(roomTitle, roomId, new CultureInfo(defaultLocale))
+        var room = new Room(roomTitle ?? roomId, roomId, new CultureInfo(defaultLocale))
         {
             Parameters = roomParameters
         };
 
-        foreach (var userId in userIds)
+        foreach (var userId in users ?? [])
         {
             room.AddUser(userId);
         }
 
         _rooms[room.RoomId] = room;
+        room.InitializeMessageQueueFromLogs(receivedLines);
         Logger.Information("Initializing {0} : DONE", roomTitle);
     }
 
@@ -100,10 +110,7 @@ public class RoomsManager : IRoomsManager
 
         var joinDate = room.GetUserJoinDate(username);
         room.RemoveUser(username);
-        _taskQueue.Enqueue(async () =>
-        {
-            await AddPlayTimeForUser(room, username, joinDate);
-        });
+        _taskQueue.Enqueue(async () => await AddPlayTimeForUser(room, username, joinDate));
     }
 
     public void RenameUserInRoom(string roomId, string formerName, string newName)
@@ -186,7 +193,8 @@ public class RoomsManager : IRoomsManager
 
     private async Task UpdateUserPlayTime(IRoom room, string userId, TimeSpan additionalPlayTime)
     {
-        Logger.Information("Trying to update user playtime : {0} in {1} = +{2}", userId, room.RoomId, additionalPlayTime.TotalSeconds);
+        Logger.Information("Trying to update user playtime : {0} in {1} = +{2}", userId, room.RoomId,
+            additionalPlayTime.TotalSeconds);
         var key = Tuple.Create(userId, room.RoomId);
         var savedPlayTime = await _userPlayTimeRepository.GetByIdAsync(key);
         if (savedPlayTime == null)
@@ -197,13 +205,15 @@ public class RoomsManager : IRoomsManager
                 RoomId = room.RoomId,
                 PlayTime = additionalPlayTime
             });
-            Logger.Information("Added user play time for user {0} in {1} : {2}", userId, room.RoomId, additionalPlayTime.TotalSeconds);
+            Logger.Information("Added user play time for user {0} in {1} : {2}", userId, room.RoomId,
+                additionalPlayTime.TotalSeconds);
         }
         else
         {
             savedPlayTime.PlayTime += additionalPlayTime;
             await _userPlayTimeRepository.UpdateAsync(savedPlayTime);
-            Logger.Information("Updated user play time for user {0} in {1} : +{2}", userId, room.RoomId, additionalPlayTime.TotalSeconds);
+            Logger.Information("Updated user play time for user {0} in {1} : +{2}", userId, room.RoomId,
+                additionalPlayTime.TotalSeconds);
         }
     }
 }

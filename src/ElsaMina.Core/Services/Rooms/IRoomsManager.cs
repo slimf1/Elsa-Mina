@@ -7,7 +7,7 @@ public interface IRoomsManager
     IReadOnlyDictionary<string, IRoomBotConfigurationParameter> RoomBotConfigurationParameters { get; }
     IRoom GetRoom(string roomId);
     bool HasRoom(string roomId);
-    Task InitializeRoom(string roomId, string roomTitle, IEnumerable<string> userIds);
+    Task InitializeRoom(string roomId, IEnumerable<string> lines);
     void RemoveRoom(string roomId);
     void AddUserToRoom(string roomId, string username);
     void RemoveUserFromRoom(string roomId, string username);

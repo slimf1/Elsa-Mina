@@ -23,7 +23,7 @@ public sealed class RoomsHandler : Handler
         {
             case "c:":
                 var room = _roomsManager.GetRoom(roomId);
-                room?.UpdateMessageQueue(parts[3].ToLowerAlphaNum(), parts[4]);
+                room?.UpdateMessageQueue(parts[3], parts[4]);
                 break;
             case "deinit":
                 _roomsManager.RemoveRoom(roomId);

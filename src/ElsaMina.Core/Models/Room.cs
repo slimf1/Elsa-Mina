@@ -6,7 +6,7 @@ namespace ElsaMina.Core.Models;
 
 public class Room : IRoom
 {
-    private const int MESSAGE_QUEUE_LENGTH = 50;
+    private const int MESSAGE_QUEUE_LENGTH = 30;
     
     private readonly Dictionary<string, DateTime> _joinDateTimes = [];
     private readonly Queue<Tuple<string, string>> _lastMessages = new(MESSAGE_QUEUE_LENGTH);
@@ -31,7 +31,7 @@ public class Room : IRoom
     }
 
     public RoomParameters Parameters { get; set; }
-    public IEnumerable<Tuple<string, string>> LastMessages => _lastMessages;
+    public IEnumerable<Tuple<string, string>> LastMessages => _lastMessages.Reverse();
 
     public void UpdateMessageQueue(string user, string message)
     {
@@ -39,6 +39,20 @@ public class Room : IRoom
         if (_lastMessages.Count == MESSAGE_QUEUE_LENGTH)
         {
             _lastMessages.Dequeue();
+        }
+    }
+
+    public void InitializeMessageQueueFromLogs(IEnumerable<string> logs)
+    {
+        var filteredMessages = logs
+            .Where(line => line.StartsWith("|c:|"))
+            .TakeLast(MESSAGE_QUEUE_LENGTH)
+            .Select(line => line.Split("|"))
+            .Select(messageParts => (messageParts[3], messageParts[4]));
+        
+        foreach (var (user, message) in filteredMessages)
+        {
+            _lastMessages.Enqueue(Tuple.Create(user, message));
         }
     }
 

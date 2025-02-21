@@ -18,7 +18,7 @@ public class Bot : IBot
     private readonly ISystemService _systemService;
     private readonly IStartManager _startManager;
 
-    private readonly SemaphoreSlim _loadRoomSemaphore = new(1, 1);
+    private readonly SemaphoreSlim _initializeRoomSemaphore = new(1, 1);
     private string _currentRoom;
     private string _lastMessage;
     private DateTime _lastMessageTime;
@@ -41,8 +41,8 @@ public class Bot : IBot
 
     public async Task Start()
     {
-        await _client.Connect();
         await _startManager.OnStart();
+        await _client.Connect();
     }
 
     public async Task HandleReceivedMessage(string message)
@@ -59,12 +59,12 @@ public class Bot : IBot
         {
             try
             {
-                await _loadRoomSemaphore.WaitAsync();
-                await LoadRoom(room, message);
+                await _initializeRoomSemaphore.WaitAsync();
+                await _roomsManager.InitializeRoom(room, lines);
             }
             finally
             {
-                _loadRoomSemaphore.Release();
+                _initializeRoomSemaphore.Release();
             }
         }
         else
@@ -94,15 +94,6 @@ public class Bot : IBot
         }
 
         await _handlerManager.HandleMessage(parts, roomId);
-    }
-
-    private async Task LoadRoom(string roomId, string message)
-    {
-        var parts = message.Split("\n");
-        var roomTitle = parts[2].Split("|")[2];
-        var users = parts[3].Split("|")[2].Split(",")[1..];
-
-        await _roomsManager.InitializeRoom(roomId, roomTitle, users);
     }
 
     public void Send(string message)

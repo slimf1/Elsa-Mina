@@ -10,7 +10,7 @@ public static class Text
     
     public static string ToLowerAlphaNum(this string text)
     {
-        return FILTER_REGEX.Replace(text.ToLower(), "");
+        return FILTER_REGEX.Replace(text.ToLower(), string.Empty);
     }
 
     public static string RemoveNewlines(this string text)

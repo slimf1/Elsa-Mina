@@ -54,7 +54,7 @@ public class BotTest
 
         // Assert
         var expectedUsers = new List<string> { "*Bot", "@Mod", " Regular", "#Ro User", "+Voiced" };
-        await _roomsManager.Received(1).InitializeRoom("room", "Room Title",
+        await _roomsManager.Received(1).InitializeRoom("room",
             Arg.Is<IEnumerable<string>>(users => users.SequenceEqual(expectedUsers)));
     }
 

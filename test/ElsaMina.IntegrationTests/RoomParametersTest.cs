@@ -43,10 +43,14 @@ public class RoomParametersTest
         var roomBotParameterValueRepository = new RoomBotParameterValueRepository(_context);
         _roomsManager = new RoomsManager(configurationManager, roomConfigurationParametersFactory,
             roomParametersRepository, roomBotParameterValueRepository, _userPlayTimeRepository, _clockService);
-        const string roomId = "franais";
-        const string roomTitle = "Français";
-        var roomUsers = new List<string> { "&Teclis", "!Lionyx", "@Earth", " Mec" };
-        await _roomsManager.InitializeRoom(roomId, roomTitle, roomUsers);
+        string[] lines =
+        [
+            ">franais",
+            "|init|chat",
+            "|title|Français",
+            "|users|4,&Teclis,!Lionyx,@Earth, Mec"
+        ];
+        await _roomsManager.InitializeRoom("franais", lines);
     }
 
     [TearDown]

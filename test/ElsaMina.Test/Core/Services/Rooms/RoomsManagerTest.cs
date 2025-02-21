@@ -38,14 +38,26 @@ public class RoomsManagerTest
     {
         const string roomId1 = "my-room";
         const string roomTitle1 = "My Room";
-        var roomUsers1 = new List<string> { "&Test", "+James@!", " Dude" };
+        string[] linesRoom1 =
+        [
+            ">" + roomId1,
+            "|init|chat",
+            "|title|"+ roomTitle1,
+            "|users|3,&Test,+James@!, Dude"
+        ];
 
         const string roomId2 = "franais";
         const string roomTitle2 = "Français";
-        var roomUsers2 = new List<string> { "&Teclis", "!Lionyx", "@Earth", " Mec" };
+        string[] linesRoom2 =
+        [
+            ">" + roomId2,
+            "|init|chat",
+            "|title|"+ roomTitle2,
+            "|users|4,&Teclis,!Lionyx,@Earth, Mec"
+        ];
 
-        await _roomsManager.InitializeRoom(roomId1, roomTitle1, roomUsers1);
-        await _roomsManager.InitializeRoom(roomId2, roomTitle2, roomUsers2);
+        await _roomsManager.InitializeRoom(roomId1, linesRoom1);
+        await _roomsManager.InitializeRoom(roomId2, linesRoom2);
     }
 
     [Test]
@@ -59,7 +71,7 @@ public class RoomsManagerTest
         _roomParametersRepository.GetByIdAsync("franais").ReturnsNull();
 
         // Act
-        await _roomsManager.InitializeRoom("franais", "Français", Enumerable.Empty<string>());
+        await _roomsManager.InitializeRoom("franais", []);
 
         // Assert
         Assert.That(_roomsManager.GetRoom("franais").Culture.Name, Is.EqualTo("zh-CN"));
@@ -83,7 +95,7 @@ public class RoomsManagerTest
         });
 
         // Act
-        await _roomsManager.InitializeRoom("franais", "Français", Enumerable.Empty<string>());
+        await _roomsManager.InitializeRoom("franais", []);
 
         // Assert
         Assert.That(_roomsManager.GetRoom("franais").Culture.Name, Is.EqualTo("fr-FR"));
