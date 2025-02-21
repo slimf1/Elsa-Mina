@@ -8,8 +8,8 @@ on:
         type: string
 
 permissions:
-  id-token: write
   contents: read
+  actions: read
   checks: write
 
 jobs:
