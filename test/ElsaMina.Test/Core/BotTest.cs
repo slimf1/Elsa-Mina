@@ -53,9 +53,9 @@ public class BotTest
         await _bot.HandleReceivedMessage(message);
 
         // Assert
-        var expectedUsers = new List<string> { "*Bot", "@Mod", " Regular", "#Ro User", "+Voiced" };
+        var expectedLines = new List<string> { ">room", "|init|chat", "|title|Room Title", "|users|5,*Bot,@Mod, Regular,#Ro User,+Voiced" };
         await _roomsManager.Received(1).InitializeRoom("room",
-            Arg.Is<IEnumerable<string>>(users => users.SequenceEqual(expectedUsers)));
+            Arg.Is<IEnumerable<string>>(users => users.SequenceEqual(expectedLines)));
     }
 
     [Test]

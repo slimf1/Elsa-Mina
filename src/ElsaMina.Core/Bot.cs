@@ -47,7 +47,11 @@ public class Bot : IBot
 
     public async Task HandleReceivedMessage(string message)
     {
-        var lines = message.Split("\n");
+        var lines = message.Split("\n").Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
+        if (lines.Length == 0)
+        {
+            return;
+        }
         string room = null;
         if (lines[0].Length > 0 && lines[0][0] == '>')
         {
