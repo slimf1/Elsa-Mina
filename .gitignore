@@ -4,6 +4,9 @@ config.json
 # IDE
 .idea
 
+# Tests results
+*.trx
+
 # Database
 *.db
 *.db-shm
