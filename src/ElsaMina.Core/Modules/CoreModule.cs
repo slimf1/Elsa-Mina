@@ -25,6 +25,8 @@ using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Services.UserData;
 using ElsaMina.Core.Services.UserDetails;
 using ElsaMina.Core.Utils;
+using ElsaMina.FileSharing;
+using ElsaMina.FileSharing.S3;
 
 namespace ElsaMina.Core.Modules;
 
@@ -75,5 +77,12 @@ public class CoreModule : Module
         builder.RegisterHandler<CheckConnectionHandler>();
         builder.RegisterHandler<FormatsHandler>();
         builder.RegisterHandler<LoginHandler>();
+
+        builder.RegisterType<S3CredentialsProvider>().As<IS3CredentialsProvider>().SingleInstance();
+        builder.RegisterType<S3FileSharingService>().As<IFileSharingService>().SingleInstance().OnActivating(
+            ctx =>
+            {
+                ctx.Instance.InitializeAsync().Wait();
+            });
     }
 }

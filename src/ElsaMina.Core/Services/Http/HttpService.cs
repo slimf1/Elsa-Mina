@@ -66,6 +66,30 @@ public class HttpService : IHttpService
         };
     }
 
+    public async Task<Stream> PostStream<TRequest>(string uri, TRequest dto, IDictionary<string, string> headers = null)
+    {
+        var serializedJson = JsonConvert.SerializeObject(dto);
+        var content = new StringContent(serializedJson, Encoding.UTF8, "application/json");
+        using var request = new HttpRequestMessage(HttpMethod.Post, uri);
+        request.Content = content;
+        if (headers != null)
+        {
+            foreach (var header in headers)
+            {
+                request.Headers.Add(header.Key, header.Value);
+            }
+        }
+
+        var response = await HTTP_CLIENT.SendAsync(request);
+        var stringContent = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new HttpException(response.StatusCode, stringContent);
+        }
+
+        return await response.Content.ReadAsStreamAsync();
+    }
+
     public async Task<IHttpResponse<TResponse>> Get<TResponse>(string uri,
         IDictionary<string, string> queryParams = null, IDictionary<string, string> headers = null)
     {

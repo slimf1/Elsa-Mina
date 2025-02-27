@@ -18,4 +18,10 @@ public interface IConfiguration
     string RiotApiKey { get; }
     string ArcadeWebhookUrl { get; }
     string MistralApiKey { get; }
+    string ElevenLabsApiKey { get; }
+    string S3BucketName { get; }
+    string S3EndpointUrl { get; }
+    string S3AccessKey { get; }
+    string S3SecretKey { get; }
+    string S3BaseUrl { get; }
 }

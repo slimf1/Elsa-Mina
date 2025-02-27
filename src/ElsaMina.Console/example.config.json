@@ -14,5 +14,11 @@
   "DictionaryApiKey": "",
   "RiotApiKey": "",
   "ArcadeWebhookUrl": "",
-  "MistralApiKey": ""
+  "MistralApiKey": "",
+  "ElevenLabsApiKey": "",
+  "S3BucketName": "",
+  "S3EndpointUrl": "",
+  "S3AccessKey": "",
+  "S3SecretKey": "",
+  "S3BaseUrl": ""
 }
