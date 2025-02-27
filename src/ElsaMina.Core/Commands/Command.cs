@@ -19,7 +19,7 @@ public abstract class Command : ICommand
     public virtual Rank RequiredRank => Rank.Admin;
     public virtual string HelpMessageKey => string.Empty;
     public virtual bool IsHidden => false;
-    public virtual string[] AllowedRooms => [];
+    public virtual IEnumerable<string> RoomRestriction => [];
 
     public void ReplyLocalizedHelpMessage(IContext context, params object[] formatArguments)
     {
@@ -53,7 +53,7 @@ public abstract class Command : ICommand
             return;
         }
 
-        if (AllowedRooms.Length > 0 && !AllowedRooms.Contains(context.RoomId))
+        if (RoomRestriction.Any() && !RoomRestriction.Contains(context.RoomId))
         {
             return;
         }

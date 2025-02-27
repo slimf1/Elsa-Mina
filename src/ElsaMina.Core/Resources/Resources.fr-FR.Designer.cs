@@ -1052,5 +1052,11 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("ask_prompt", resourceCulture);
             }
         }
+        
+        internal static string allcommands_room_restriction {
+            get {
+                return ResourceManager.GetString("allcommands_room_restriction", resourceCulture);
+            }
+        }
     }
 }

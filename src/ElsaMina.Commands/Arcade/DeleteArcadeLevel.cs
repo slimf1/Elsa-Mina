@@ -17,7 +17,7 @@ public class DeleteArcadeLevel : Command
     }
 
     public override Rank RequiredRank => Rank.Driver;
-    public override string[] AllowedRooms => ["arcade", "botdevelopment"];
+    public override string[] RoomRestriction => ["arcade", "botdevelopment"];
     public override string HelpMessageKey => "arcade_level_delete_help";
 
     public override async Task Run(IContext context)

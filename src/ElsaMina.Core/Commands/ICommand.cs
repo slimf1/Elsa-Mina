@@ -13,6 +13,7 @@ public interface ICommand
     public Rank RequiredRank { get; }
     public string HelpMessageKey { get; }
     public bool IsHidden { get; }
+    public IEnumerable<string> RoomRestriction { get; }
 
     void ReplyLocalizedHelpMessage(IContext context, params object[] formatArguments);
     Task OnBotStartUp();

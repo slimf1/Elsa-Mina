@@ -24,7 +24,7 @@ public class DisplayArcadeLevels : Command
 
     public override Rank RequiredRank => Rank.Regular;
     public override string HelpMessageKey => "display_paliers_help";
-    public override string[] AllowedRooms => ["arcade", "botdevelopment"];
+    public override string[] RoomRestriction => ["arcade", "botdevelopment"];
 
     public override async Task Run(IContext context)
     {

@@ -7,13 +7,17 @@ namespace ElsaMina.Commands;
 
 public class DataManager : IDataManager
 {
-    public CountriesGameData CountriesGameData { get; private set; }
+    private const string DATA_DIRECTORY_NAME = "Data";
+
+    public ICountriesGameData CountriesGameData { get; private set; }
     public IReadOnlyList<PokemonDescription> PokemonDescriptions { get; private set; }
 
     public async Task Initialize()
     {
-        CountriesGameData = await GetDataFromFile<CountriesGameData>("./Data/countries_game.json");
-        PokemonDescriptions = await GetDataFromFile<List<PokemonDescription>>("./Data/pokedesc.json");
+        CountriesGameData =
+            await GetDataFromFile<CountriesGameData>(Path.Join(DATA_DIRECTORY_NAME, "countries_game.json"));
+        PokemonDescriptions =
+            await GetDataFromFile<List<PokemonDescription>>(Path.Join(DATA_DIRECTORY_NAME, "pokedesc.json"));
 
         Logger.Information("Fetched countries & pokemon descriptions.");
     }

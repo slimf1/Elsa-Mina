@@ -5,6 +5,6 @@ namespace ElsaMina.Commands;
 
 public interface IDataManager
 {
-    CountriesGameData CountriesGameData { get; }
+    ICountriesGameData CountriesGameData { get; }
     IReadOnlyList<PokemonDescription> PokemonDescriptions { get; }
 }

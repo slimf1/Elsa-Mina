@@ -27,6 +27,12 @@
         <div>
             @GetString("allcommands_required_rank") : @command.RequiredRank
         </div>
+        @if (command.RoomRestriction.Any())
+        {
+            <div>
+                @GetString("allcommands_room_restriction", string.Join(", ", command.RoomRestriction))
+            </div>
+        }
         @if (!string.IsNullOrEmpty(command.HelpMessageKey))
         {
             <div>
