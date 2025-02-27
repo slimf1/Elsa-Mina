@@ -1,3 +1,4 @@
+using System.Net;
 using System.Security.Cryptography;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -35,7 +36,6 @@ public class S3FileSharingService : IFileSharingService
         }
 
         var sha256 = ComputeSha256(fileStream);
-        fileStream.Position = 0; // Reset stream for upload
         var request = new PutObjectRequest
         {
             BucketName = _credentialsProvider.BucketName,
@@ -49,7 +49,7 @@ public class S3FileSharingService : IFileSharingService
 
         var response = await _client.PutObjectAsync(request, cancellationToken);
 
-        if (response.HttpStatusCode != System.Net.HttpStatusCode.OK)
+        if (response.HttpStatusCode != HttpStatusCode.OK)
         {
             Console.WriteLine($"Upload failed: {response.HttpStatusCode}");
             return null;
@@ -63,11 +63,6 @@ public class S3FileSharingService : IFileSharingService
         var baseUrl = new Uri(_credentialsProvider.BaseUrl);
         return new Uri(baseUrl, objectName).AbsoluteUri;
     }
-
-    public Task DeleteFileAsync(string fileName, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
     
     public void Dispose()
     {
@@ -78,7 +73,7 @@ public class S3FileSharingService : IFileSharingService
     {
         using var sha256 = SHA256.Create();
         var hashBytes = sha256.ComputeHash(stream);
+        stream.Position = 0;
         return BitConverter.ToString(hashBytes).Replace("-", "").ToLower(); // Convert to hex string
     }
-
 }

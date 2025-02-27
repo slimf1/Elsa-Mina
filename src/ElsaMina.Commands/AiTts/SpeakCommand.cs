@@ -13,12 +13,14 @@ namespace ElsaMina.Commands.AiTts;
 public class SpeakCommand : Command
 {
     private const string VOICE_ID = "Qrl71rx6Yg8RvyPYRGCQ";
+    private const string ELEVEN_LABS_TTS_API_URL = $"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}";
+
     private readonly IHttpService _httpService;
     private readonly IConfigurationManager _configurationManager;
     private readonly IFileSharingService _fileSharingService;
     private readonly IClockService _clockService;
 
-    public SpeakCommand(IHttpService httpService,IConfigurationManager configurationManager,
+    public SpeakCommand(IHttpService httpService, IConfigurationManager configurationManager,
         IFileSharingService fileSharingService, IClockService clockService)
     {
         _httpService = httpService;
@@ -29,6 +31,7 @@ public class SpeakCommand : Command
 
     public override bool IsAllowedInPrivateMessage => true;
     public override Rank RequiredRank => Rank.Voiced;
+
     public override async Task Run(IContext context)
     {
         var key = _configurationManager.Configuration.ElevenLabsApiKey;
@@ -50,13 +53,16 @@ public class SpeakCommand : Command
             ModelId = "eleven_multilingual_v2"
         };
 
-        var stream = await _httpService.PostStream($"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}",
+        var stream = await _httpService.PostStream(ELEVEN_LABS_TTS_API_URL,
             dto, headers);
 
         var fileName = $"speakcmd_{_clockService.CurrentUtcDateTime:yyyyMMdd_HHmmss}.mp3";
         var url = await _fileSharingService.CreateFileAsync(
             stream, fileName, "Speak command", "audio/mpeg");
 
-        context.SendHtml($"""<audio src="{url}" controls></audio> """);
+        if (!string.IsNullOrEmpty(url))
+        {
+            context.SendHtml($"""<audio src="{url}" controls></audio> """);
+        }
     }
 }

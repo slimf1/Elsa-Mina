@@ -75,11 +75,6 @@ public class GoogleDriveFileSharingService : IFileSharingService
         return $"https://drive.google.com/file/d/{id}/view";
     }
 
-    public Task DeleteFileAsync(string fileName, CancellationToken cancellationToken = default)
-    {
-        return Task.CompletedTask;
-    }
-
     public void Dispose()
     {
         _driveService?.Dispose();
