@@ -96,7 +96,8 @@ public abstract class GuessingGame : Game, IGuessingGame
         var userId = userName.ToLowerAlphaNum();
         var maxLevenshteinDistance = answer.Length > MIN_LENGTH_FOR_AUTOCORRECT ? 1 : 0;
         if (!CurrentValidAnswers.Any(validAnswer =>
-                Text.LevenshteinDistance(validAnswer.ToLower(), answer.ToLower()) <= maxLevenshteinDistance))
+                Text.LevenshteinDistance(validAnswer.ToLowerAlphaNum(), answer.ToLowerAlphaNum()) <=
+                maxLevenshteinDistance))
         {
             return;
         }
@@ -134,9 +135,7 @@ public abstract class GuessingGame : Game, IGuessingGame
         }
     }
 
-    protected virtual void OnGameStart()
-    {
-    }
+    protected abstract void OnGameStart();
 
     protected abstract Task OnTurnStart();
 }

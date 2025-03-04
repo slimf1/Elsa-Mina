@@ -22,7 +22,6 @@ public class PokeDescGame : GuessingGame
 
     protected override void OnGameStart()
     {
-        base.OnGameStart();
         Context.ReplyLocalizedMessage("pokedesc_start");
     }
 

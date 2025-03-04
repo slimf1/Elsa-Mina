@@ -54,7 +54,6 @@ public class PokeCriesGame : GuessingGame
 
     protected override void OnGameStart()
     {
-        base.OnGameStart();
         Context.ReplyLocalizedMessage("pokecries_started");
     }
 

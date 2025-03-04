@@ -62,7 +62,7 @@ public class SpeakCommand : Command
 
         if (!string.IsNullOrEmpty(url))
         {
-            context.SendHtml($"""<audio src="{url}" controls></audio> """);
+            context.SendHtml($"""<audio src="{url}" controls></audio>""");
         }
     }
 }
