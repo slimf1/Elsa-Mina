@@ -32,33 +32,33 @@ public class BitcoinCommandTests
     public async Task Test_Run_ShouldReplyWithBitcoinRates_WhenApiCallSucceeds()
     {
         // Arrange
-        var mockResponse = new HttpResponse<CoinDeskResponseDto>
+        var mockResponse = new HttpResponse<IDictionary<string, IDictionary<string, int>>>
         {
-            Data = new CoinDeskResponseDto
+            Data = new Dictionary<string, IDictionary<string, int>>
             {
-                Bpi = new Dictionary<string, BpiDto>
+                ["bitcoin"] = new Dictionary<string, int>
                 {
-                    ["EUR"] = new() { Rate = 40000.50 },
-                    ["USD"] = new() { Rate = 42000.75 }
+                    ["eur"] = 40000,
+                    ["usd"] = 42000
                 }
             }
         };
 
-        _httpService.Get<CoinDeskResponseDto>(Arg.Any<string>())
+        _httpService.Get<IDictionary<string, IDictionary<string, int>>>(Arg.Any<string>())
             .Returns(mockResponse);
 
         // Act
         await _bitcoinCommand.Run(_context);
 
         // Assert
-        _context.Received().Reply("1 bitcoin = 40000.50€ = 42000.75$", rankAware: true);
+        _context.Received().Reply("1 bitcoin = 40000€ = 42000$", rankAware: true);
     }
 
     [Test]
     public async Task Test_Run_ShouldReplyWithError_WhenApiCallFails()
     {
         // Arrange
-        _httpService.Get<CoinDeskResponseDto>(Arg.Any<string>())
+        _httpService.Get<IDictionary<string, IDictionary<string, int>>>(Arg.Any<string>())
             .Throws(new Exception("API error"));
 
         // Act

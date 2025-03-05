@@ -14,4 +14,5 @@ public interface IRoomsManager
     void RenameUserInRoom(string roomId, string formerName, string newName);
     string GetRoomBotConfigurationParameterValue(string roomId, string roomBotParameterId);
     Task<bool> SetRoomBotConfigurationParameterValue(string roomId, string roomBotParameterId, string value);
+    void Clear();
 }

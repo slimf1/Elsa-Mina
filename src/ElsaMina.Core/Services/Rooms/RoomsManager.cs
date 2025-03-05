@@ -191,6 +191,11 @@ public class RoomsManager : IRoomsManager
         }
     }
 
+    public void Clear()
+    {
+        _rooms.Clear();
+    }
+
     private async Task UpdateUserPlayTime(IRoom room, string userId, TimeSpan additionalPlayTime)
     {
         Logger.Information("Trying to update user playtime : {0} in {1} = +{2}", userId, room.RoomId,

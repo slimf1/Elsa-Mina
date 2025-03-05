@@ -9,7 +9,7 @@ namespace ElsaMina.Commands.Misc.Bitcoin;
 [NamedCommand("bitcoin", Aliases = ["btc"])]
 public class BitcoinCommand : Command
 {
-    private const string COINDESK_API_URL = "https://api.coindesk.com/v1/bpi/currentprice.json";
+    private const string COINDESK_API_URL = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd,eur";
 
     private readonly IHttpService _httpService;
 
@@ -25,11 +25,11 @@ public class BitcoinCommand : Command
     {
         try
         {
-            var result = await _httpService.Get<CoinDeskResponseDto>(COINDESK_API_URL);
-            var data = result.Data;
-            var eur = data.Bpi["EUR"].Rate;
-            var usd = data.Bpi["USD"].Rate;
-            context.Reply($"1 bitcoin = {eur:F2}€ = {usd:F2}$", rankAware: true);
+            var result = await _httpService.Get<IDictionary<string, IDictionary<string, int>>>(COINDESK_API_URL);
+            var coinValues = result.Data["bitcoin"];
+            var eur = coinValues["eur"];
+            var usd = coinValues["usd"];
+            context.Reply($"1 bitcoin = {eur}€ = {usd}$", rankAware: true);
         }
         catch (Exception ex)
         {

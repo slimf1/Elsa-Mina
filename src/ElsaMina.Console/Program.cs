@@ -43,15 +43,17 @@ client.MessageReceived
 client.DisconnectionHappened.Subscribe(error =>
 {
     Logger.Error("Got disconnected : {0}", error);
+    bot.OnReset();
 });
 
 // Reconnection
 client.ReconnectionHappened.Subscribe(info =>
 {
     Logger.Information("Reconnecting : {0}", info.Type);
+    bot.OnStart();
 });
 
 // Start
-await bot.Start();
+await bot.Connect();
 var exitEvent = new ManualResetEvent(false);
 exitEvent.WaitOne();

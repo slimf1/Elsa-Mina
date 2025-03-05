@@ -29,6 +29,7 @@ public class StartManager : IStartManager
 
     public async Task OnStart()
     {
+        // Static data / referentials
         await _templatesManager.CompileTemplates();
         await _commandExecutor.OnBotStartUp();
         await _customColorsManager.FetchCustomColors();

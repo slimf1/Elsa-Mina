@@ -33,10 +33,10 @@ public class BotTest
     }
 
     [Test]
-    public async Task Test_Start_ShouldConnectAndPreCompileTemplates()
+    public async Task Test_Connect_ShouldStartAndConnect()
     {
         // Act
-        await _bot.Start();
+        await _bot.Connect();
 
         // Assert
         await _startManager.Received(1).OnStart();

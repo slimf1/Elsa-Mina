@@ -39,11 +39,23 @@ public class Bot : IBot
         _startManager = startManager;
     }
 
-    public async Task Start()
+    public async Task Connect()
     {
         await _startManager.OnStart();
         await _client.Connect();
     }
+
+    public void OnStart()
+    {
+        // On connect / reconnect
+    }
+
+    public void OnReset()
+    {
+        // On disconnect
+        _roomsManager.Clear();
+    }
+
 
     public async Task HandleReceivedMessage(string message)
     {
@@ -52,6 +64,7 @@ public class Bot : IBot
         {
             return;
         }
+
         string room = null;
         if (lines[0].Length > 0 && lines[0][0] == '>')
         {
