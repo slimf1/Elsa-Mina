@@ -31,7 +31,6 @@ public class StartManager : IStartManager
     {
         // Static data / referentials
         await _templatesManager.CompileTemplates();
-        await _commandExecutor.OnBotStartUp();
         await _customColorsManager.FetchCustomColors();
         await _roomUserDataService.InitializeJoinPhrases();
         await _dexManager.LoadDex();

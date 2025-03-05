@@ -3,7 +3,7 @@ using ElsaMina.Core.Models;
 
 namespace ElsaMina.Core.Commands;
 
-public interface ICommand
+public interface ICommand : IBotLifecycleHandler
 {
     public string Name { get; }
     public IEnumerable<string> Aliases { get; }
@@ -16,6 +16,5 @@ public interface ICommand
     public IEnumerable<string> RoomRestriction { get; }
 
     void ReplyLocalizedHelpMessage(IContext context, params object[] formatArguments);
-    Task OnBotStartUp();
     Task Call(IContext context);
 }

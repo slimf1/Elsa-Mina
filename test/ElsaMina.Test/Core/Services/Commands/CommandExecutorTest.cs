@@ -42,29 +42,6 @@ public class CommandExecutorTest
     }
 
     [Test]
-    public async Task Test_OnBotStartUp_ShouldInvokeOnBotStartUpOnAllCommands()
-    {
-        // Arrange
-        var commands = new List<ICommand>
-        {
-            Substitute.For<ICommand>(),
-            Substitute.For<ICommand>()
-        };
-        commands.ElementAt(0).Name.Returns("1");
-        commands.ElementAt(1).Name.Returns("2");
-        _dependencyContainerService.GetAllRegistrations<ICommand>().Returns(commands);
-
-        // Act
-        await _commandExecutor.OnBotStartUp();
-
-        // Assert
-        foreach (var command in commands)
-        {
-            await command.Received().OnBotStartUp();
-        }
-    }
-
-    [Test]
     public async Task Test_TryExecuteCommand_ShouldExecuteCommand_WhenCommandIsRegistered()
     {
         // Arrange

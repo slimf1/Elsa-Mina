@@ -16,7 +16,7 @@ public class HandlerManager : IHandlerManager
 
     public bool IsInitialized { get; private set; }
 
-    public async Task Initialize()
+    public void Initialize()
     {
         var handlers = _containerService.Resolve<IEnumerable<IHandler>>().ToList();
         foreach (var handler in handlers)
@@ -24,7 +24,6 @@ public class HandlerManager : IHandlerManager
             _handlers[handler.Identifier] = handler;
         }
 
-        await Task.WhenAll(handlers.Select(handler => handler.OnInitialize()));
         IsInitialized = true;
     }
 

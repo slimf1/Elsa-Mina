@@ -24,11 +24,6 @@ public class CommandExecutor : ICommandExecutor
             .DistinctBy(command => command.Name);
     }
 
-    public Task OnBotStartUp()
-    {
-        return Task.WhenAll(GetAllCommands().Select(command => command.OnBotStartUp()));
-    }
-
     public async Task TryExecuteCommand(string commandName, IContext context)
     {
         if (_dependencyContainerService.IsRegisteredWithName<ICommand>(commandName))
@@ -38,13 +33,14 @@ public class CommandExecutor : ICommandExecutor
             await commandInstance.Call(context);
             return;
         }
-        
-        if (!context.IsPrivateMessage) {
+
+        if (!context.IsPrivateMessage)
+        {
             Logger.Information("Trying command {0} as a custom command", commandName);
             await _addedCommandsManager.TryExecuteAddedCommand(commandName, context);
             return;
         }
-        
+
         Logger.Error("Could not find command {0}", commandName);
     }
 }

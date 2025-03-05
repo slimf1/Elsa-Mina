@@ -29,7 +29,7 @@ public class AddedCommandsManager : IAddedCommandsManager
         }
 
         var content = command.Content;
-        if (_imageService.IsLinkImage(content))
+        if (_imageService.IsImageLink(content))
         {
             var (width, height) = await _imageService.GetRemoteImageDimensions(content);
             (width, height) = _imageService.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);

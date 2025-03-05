@@ -149,6 +149,6 @@ public class ImageServiceTest
     public bool Test_IsImageLink_ShouldReturnTrue_WhenLinkIsAnImage(string link)
     {
         // Act & Assert
-        return _imageService.IsLinkImage(link);
+        return _imageService.IsImageLink(link);
     }
 }

@@ -65,6 +65,7 @@ public class CoreModule : Module
         builder.RegisterType<DexManager>().As<IDexManager>().SingleInstance();
         builder.RegisterType<StartManager>().As<IStartManager>().SingleInstance();
         builder.RegisterType<ImageService>().As<IImageService>().SingleInstance();
+        builder.RegisterType<BotLifecycleManager>().As<IBotLifecycleManager>().SingleInstance();
 
         builder.RegisterType<Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot>().As<IBot>().AsSelf().SingleInstance();

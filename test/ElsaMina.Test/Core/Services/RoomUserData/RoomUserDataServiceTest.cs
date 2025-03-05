@@ -163,7 +163,7 @@ public class RoomUserDataServiceTest
         var roomId = "room1";
         var userId = "user1";
         var invalidAvatar = "invalid_url";
-        _imageService.IsLinkImage(invalidAvatar).Returns(false);
+        _imageService.IsImageLink(invalidAvatar).Returns(false);
 
         // Act & Assert
         Assert.ThrowsAsync<ArgumentException>(async () => await _service.SetUserAvatar(roomId, userId, invalidAvatar));
@@ -176,7 +176,7 @@ public class RoomUserDataServiceTest
         var roomId = "room1";
         var userId = "user1";
         var avatar = "https://valid.url/image.jpg";
-        _imageService.IsLinkImage(avatar).Returns(true);
+        _imageService.IsImageLink(avatar).Returns(true);
         var userData = new RoomSpecificUserData { Id = userId, RoomId = roomId };
         _roomSpecificUserDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(userData);
 

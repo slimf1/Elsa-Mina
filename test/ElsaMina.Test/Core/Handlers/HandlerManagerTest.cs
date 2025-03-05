@@ -17,7 +17,7 @@ public class HandlerManagerTests
     }
 
     [Test]
-    public async Task Test_Initialize_ShouldPopulateHandlers_WhenHandlersAreResolved()
+    public void Test_Initialize_ShouldPopulateHandlers_WhenHandlersAreResolved()
     {
         // Arrange
         var handler1 = Substitute.For<IHandler>();
@@ -29,16 +29,14 @@ public class HandlerManagerTests
             .Returns(new[] { handler1, handler2 });
 
         // Act
-        await _handlerManager.Initialize();
+        _handlerManager.Initialize();
 
         // Assert
         Assert.IsTrue(_handlerManager.IsInitialized);
-        await handler1.Received(1).OnInitialize();
-        await handler2.Received(1).OnInitialize();
     }
 
     [Test]
-    public async Task Test_Initialize_ShouldSetIsInitializedTrue_WhenCalled()
+    public void Test_Initialize_ShouldSetIsInitializedTrue_WhenCalled()
     {
         // Arrange
         var handler = Substitute.For<IHandler>();
@@ -46,7 +44,7 @@ public class HandlerManagerTests
             .Returns(new[] { handler });
 
         // Act
-        await _handlerManager.Initialize();
+        _handlerManager.Initialize();
 
         // Assert
         Assert.IsTrue(_handlerManager.IsInitialized);
@@ -69,8 +67,7 @@ public class HandlerManagerTests
 
         _mockContainerService.Resolve<IEnumerable<IHandler>>()
             .Returns(new[] { handler1, handler2, handler3 });
-
-        await _handlerManager.Initialize();
+        _handlerManager.Initialize();
 
         var parts = new[] { "MessagePart1", "MessagePart2" };
         var roomId = "Room1";

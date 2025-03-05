@@ -5,11 +5,6 @@ public abstract class Handler : IHandler
     public bool IsEnabled { get; set; } = true;
     public string Identifier => GetType().FullName;
 
-    public virtual Task OnInitialize()
-    {
-        return Task.CompletedTask;
-    }
-
     public async Task OnMessageReceived(string[] parts, string roomId = null)
     {
         try
@@ -24,4 +19,16 @@ public abstract class Handler : IHandler
     }
 
     public abstract Task HandleReceivedMessage(string[] parts, string roomId = null);
+
+    public virtual void OnConnect()
+    {
+    }
+
+    public virtual void OnStart()
+    {
+    }
+
+    public virtual void OnReset()
+    {
+    }
 }

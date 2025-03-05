@@ -16,7 +16,7 @@ public class ImageService : IImageService
         _httpService = httpService;
     }
 
-    public bool IsLinkImage(string link) =>
+    public bool IsImageLink(string link) =>
         !string.IsNullOrWhiteSpace(link) && IMAGE_LINK_REGEX.IsMatch(link);
 
     public async Task<(int Width, int Height)> GetRemoteImageDimensions(string url)

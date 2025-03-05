@@ -99,7 +99,7 @@ public class RoomUserDataService : IRoomUserDataService
 
     public async Task SetUserAvatar(string roomId, string userId, string avatar)
     {
-        if (avatar != null && !_imageService.IsLinkImage(avatar))
+        if (avatar != null && !_imageService.IsImageLink(avatar))
         {
             throw new ArgumentException("Invalid URL");
         }

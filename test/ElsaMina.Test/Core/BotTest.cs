@@ -16,6 +16,7 @@ public class BotTest
     private IHandlerManager _handlerManager;
     private ISystemService _systemService;
     private IStartManager _startManager;
+    private IBotLifecycleManager _lifecycleManager;
 
     private Bot _bot;
 
@@ -28,19 +29,42 @@ public class BotTest
         _handlerManager = Substitute.For<IHandlerManager>();
         _systemService = Substitute.For<ISystemService>();
         _startManager = Substitute.For<IStartManager>();
+        _lifecycleManager = Substitute.For<IBotLifecycleManager>();
 
-        _bot = new Bot(_client, _clockService, _roomsManager, _handlerManager, _systemService, _startManager);
+        _bot = new Bot(_client, _clockService, _roomsManager, _handlerManager, _systemService, _startManager,
+            _lifecycleManager);
     }
 
     [Test]
-    public async Task Test_Connect_ShouldStartAndConnect()
+    public async Task Test_Connect_ShouldConnectAndCallLifecycleHandler()
     {
         // Act
         await _bot.Connect();
 
         // Assert
+        _lifecycleManager.Received(1).OnConnect();
         await _startManager.Received(1).OnStart();
         await _client.Received(1).Connect();
+    }
+
+    [Test]
+    public void Test_OnStart_ShouldCallLifecycleHandler()
+    {
+        // Act
+        _bot.OnStart();
+
+        // Assert
+        _lifecycleManager.Received(1).OnStart();
+    }
+
+    [Test]
+    public void Test_OnReset_ShouldCallLifecycleHandler()
+    {
+        // Act
+        _bot.OnReset();
+
+        // Assert
+        _lifecycleManager.Received(1).OnReset();
     }
 
     [Test]
@@ -53,7 +77,8 @@ public class BotTest
         await _bot.HandleReceivedMessage(message);
 
         // Assert
-        var expectedLines = new List<string> { ">room", "|init|chat", "|title|Room Title", "|users|5,*Bot,@Mod, Regular,#Ro User,+Voiced" };
+        var expectedLines = new List<string>
+            { ">room", "|init|chat", "|title|Room Title", "|users|5,*Bot,@Mod, Regular,#Ro User,+Voiced" };
         await _roomsManager.Received(1).InitializeRoom("room",
             Arg.Is<IEnumerable<string>>(users => users.SequenceEqual(expectedLines)));
     }
@@ -69,7 +94,7 @@ public class BotTest
         await _bot.HandleReceivedMessage(message);
 
         // Assert
-        await _handlerManager.Received(1).Initialize();
+        _handlerManager.Received(1).Initialize();
         var expectedParts = new[] { "", "c:", "1", "%Earth", "test" };
         await _handlerManager.Received(1).HandleMessage(Arg.Is<string[]>(parts => parts.SequenceEqual(expectedParts)));
     }
@@ -85,7 +110,7 @@ public class BotTest
         await _bot.HandleReceivedMessage(message);
 
         // Assert
-        await _handlerManager.DidNotReceive().Initialize();
+        _handlerManager.DidNotReceive().Initialize();
         var expectedParts = new[] { "", "c:", "1", "%Earth", "test" };
         await _handlerManager.Received(1).HandleMessage(Arg.Is<string[]>(parts => parts.SequenceEqual(expectedParts)));
     }

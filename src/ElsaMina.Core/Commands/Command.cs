@@ -26,11 +26,6 @@ public abstract class Command : ICommand
         context.Reply(context.GetString(HelpMessageKey, formatArguments));
     }
 
-    public virtual Task OnBotStartUp()
-    {
-        return Task.CompletedTask;
-    }
-
     public async Task Call(IContext context)
     {
         if (IsPrivateMessageOnly && !context.IsPrivateMessage)
@@ -68,5 +63,17 @@ public abstract class Command : ICommand
         var commandAttribute = GetType().GetCommandAttribute();
         Name = commandAttribute?.Name ?? string.Empty;
         Aliases = commandAttribute?.Aliases ?? [];
+    }
+
+    public virtual void OnConnect()
+    {
+    }
+
+    public virtual void OnStart()
+    {
+    }
+
+    public virtual void OnReset()
+    {
     }
 }
