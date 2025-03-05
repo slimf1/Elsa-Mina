@@ -62,7 +62,6 @@ public class Bot : IBot
         _roomsManager.Clear();
     }
 
-
     public async Task HandleReceivedMessage(string message)
     {
         var lines = message.Split("\n").Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
