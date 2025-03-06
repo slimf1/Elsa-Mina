@@ -2,6 +2,6 @@ namespace ElsaMina.Core.Services.UserDetails;
 
 public interface IUserDetailsManager
 {
-    Task<UserDetailsDto> GetUserDetails(string userId);
+    Task<UserDetailsDto> GetUserDetailsAsync(string userId, CancellationToken cancellationToken = default);
     void HandleReceivedUserDetails(string message);
 }

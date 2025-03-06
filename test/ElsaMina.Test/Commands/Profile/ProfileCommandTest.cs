@@ -47,7 +47,7 @@ public class ProfileCommandTest
         // Arrange
         _context.Target.Returns("user1");
         var userDetails = new UserDetailsDto { Name = "User One", Avatar = "1" };
-        _userDetailsManager.GetUserDetails("user1").Returns(Task.FromResult(userDetails));
+        _userDetailsManager.GetUserDetailsAsync("user1").Returns(Task.FromResult(userDetails));
         _userDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>())
             .Returns(Task.FromResult(new RoomSpecificUserData { Id = "user1", RoomId = "testRoom" }));
         _templatesManager.GetTemplate("Profile/Profile", Arg.Any<object>())
@@ -58,7 +58,7 @@ public class ProfileCommandTest
 
         // Assert
         await _templatesManager.Received(1).GetTemplate("Profile/Profile", Arg.Any<object>());
-        _context.Received(1).SendHtml(Arg.Any<string>(), "<html>Profile template</html>", true);
+        _context.Received(1).SendHtml("<html>Profile template</html>", rankAware: true);
     }
 
     [Test]
@@ -66,7 +66,7 @@ public class ProfileCommandTest
     {
         // Arrange
         _context.Target.Returns("unknownUser");
-        _userDetailsManager.GetUserDetails("unknownUser").Returns(Task.FromResult<UserDetailsDto>(null));
+        _userDetailsManager.GetUserDetailsAsync("unknownUser").Returns(Task.FromResult<UserDetailsDto>(null));
 
         // Act
         await _command.Run(_context);
@@ -118,6 +118,6 @@ public class ProfileCommandTest
 
         // Assert
         await _templatesManager.Received(1).GetTemplate("Profile/Profile", Arg.Any<object>());
-        _context.Received(1).SendHtml(Arg.Any<string>(), Arg.Any<string>(), true);
+        _context.Received(1).SendHtml(Arg.Any<string>(), rankAware: true);
     }
 }

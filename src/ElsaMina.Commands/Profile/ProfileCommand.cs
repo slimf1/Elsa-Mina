@@ -46,14 +46,14 @@ public class ProfileCommand : Command
             return;
         }
 
-        var t1 = _userDataRepository.GetByIdAsync(Tuple.Create(userId, context.RoomId));
-        var t2 = _userDetailsManager.GetUserDetails(userId);
-        var t3 = _userDataService.GetRegisterDate(userId);
-        await Task.WhenAll(t1, t2, t3);
+        var userDataTask = _userDataRepository.GetByIdAsync(Tuple.Create(userId, context.RoomId));
+        var userDetailsTask = _userDetailsManager.GetUserDetailsAsync(userId);
+        var registerDateTask = _userDataService.GetRegisterDate(userId);
+        await Task.WhenAll(userDataTask, userDetailsTask, registerDateTask);
 
-        var storedUserData = t1.Result;
-        var showdownUserDetails = t2.Result;
-        var registerDate = t3.Result;
+        var storedUserData = userDataTask.Result;
+        var showdownUserDetails = userDetailsTask.Result;
+        var registerDate = registerDateTask.Result;
 
         var room = context.Room;
         var status = GetStatus(showdownUserDetails);
@@ -73,7 +73,7 @@ public class ProfileCommand : Command
             RegisterDate = registerDate
         };
         var template = await _templatesManager.GetTemplate("Profile/Profile", viewModel);
-        context.SendHtml($"profile-{userId}", template.RemoveNewlines(), rankAware: true);
+        context.SendHtml(template.RemoveNewlines(), rankAware: true);
     }
 
     public static char GetUserRoomRank(IContext context, UserDetailsDto showdownUserDetails)

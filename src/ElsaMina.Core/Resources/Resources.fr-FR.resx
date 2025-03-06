@@ -525,4 +525,34 @@
     <data name="allcommands_room_restriction" xml:space="preserve">
         <value>Disponible dans les salles : {0}</value>
     </data>
+    <data name="rankcommand_help" xml:space="preserve">
+        <value>Affiche les 5 meilleurs tiers d'un joueur en fonction du GXE. Syntaxe: -rank &lt;utilisateur&gt;. Utilisez -lowestrank pour les 5 pires tiers.</value>
+    </data>
+    <data name="rankcommand_no_ratings" xml:space="preserve">
+        <value>Ce joueur n'a pas encore participé à une partie classée.</value>
+    </data>
+    <data name="rankcommand_error" xml:space="preserve">
+        <value>Une erreur est survenue.</value>
+    </data>
+    <data name="rankcommand_title" xml:space="preserve">
+        <value>Classements de {0}</value>
+    </data>
+    <data name="rankcommand_elo" xml:space="preserve">
+        <value>Elo</value>
+    </data>
+    <data name="rankcommand_gxe" xml:space="preserve">
+        <value>GXE</value>
+    </data>
+    <data name="rankcommand_wins" xml:space="preserve">
+        <value>V</value>
+    </data>
+    <data name="rankcommand_losses" xml:space="preserve">
+        <value>D</value>
+    </data>
+    <data name="rankcommand_wr" xml:space="preserve">
+        <value>WR</value>
+    </data>
+    <data name="rankcommand_format" xml:space="preserve">
+        <value>Format</value>
+    </data>
 </root>

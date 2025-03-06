@@ -1,0 +1,34 @@
+@using ElsaMina.Core.Templates
+@using ElsaMina.Core.Utils
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Showdown.Ranking.RankingShowcaseViewModel>
+
+@{
+    const string headerStyle = "border-bottom: 1px solid #94b8b8; padding: 4px";
+}
+<div style="max-height: 200px; overflow-y: auto">
+    <table style="margin: auto; border: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; border-radius: 12px; padding: 4px">
+        <thead>
+        <tr>
+            <th style="@headerStyle">@GetString("rankcommand_format")</th>
+            <th style="@headerStyle">@GetString("rankcommand_elo")</th>
+            <th style="@headerStyle">@GetString("rankcommand_gxe")</th>
+            <th style="@headerStyle">@GetString("rankcommand_wins")</th>
+            <th style="@headerStyle">@GetString("rankcommand_losses")</th>
+            <th style="@headerStyle">@GetString("rankcommand_wr")</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var rating in Model.Rankings)
+        {
+            <tr style="color: @rating.GxeBasedColor.ToRgbString()">
+                <td>@rating.FormatId</td>
+                <td style="text-align: center">@rating.Elo.ToString("F0", Model.Culture)</td>
+                <td style="text-align: center">@rating.Gxe.ToString("F1", Model.Culture)</td>
+                <td style="text-align: center">@rating.Wins</td>
+                <td style="text-align: center">@rating.Losses</td>
+                <td style="text-align: center">@rating.WinRate.ToString("F2", Model.Culture) %</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

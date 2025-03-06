@@ -20,6 +20,7 @@ using ElsaMina.Commands.Misc.Youtube;
 using ElsaMina.Commands.Profile;
 using ElsaMina.Commands.Replays;
 using ElsaMina.Commands.RoomDashboard;
+using ElsaMina.Commands.Showdown.Ranking;
 using ElsaMina.Commands.Teams.Samples;
 using ElsaMina.Commands.Teams.TeamPreviewOnLink;
 using ElsaMina.Commands.Teams.TeamProviders;
@@ -83,6 +84,7 @@ public class CommandModule : Module
         builder.RegisterCommand<ForfeitConnectFourCommand>();
         builder.RegisterCommand<AskElsaCommand>();
         builder.RegisterCommand<SpeakCommand>();
+        builder.RegisterCommand<RankingCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();

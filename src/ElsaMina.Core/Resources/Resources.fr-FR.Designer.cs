@@ -1058,5 +1058,65 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("allcommands_room_restriction", resourceCulture);
             }
         }
+        
+        internal static string rankcommand_help {
+            get {
+                return ResourceManager.GetString("rankcommand_help", resourceCulture);
+            }
+        }
+        
+        internal static string rankcommand_no_ratings {
+            get {
+                return ResourceManager.GetString("rankcommand_no_ratings", resourceCulture);
+            }
+        }
+        
+        internal static string rankcommand_error {
+            get {
+                return ResourceManager.GetString("rankcommand_error", resourceCulture);
+            }
+        }
+        
+        internal static string rankcommand_title {
+            get {
+                return ResourceManager.GetString("rankcommand_title", resourceCulture);
+            }
+        }
+        
+        internal static string rankcommand_elo {
+            get {
+                return ResourceManager.GetString("rankcommand_elo", resourceCulture);
+            }
+        }
+        
+        internal static string rankcommand_gxe {
+            get {
+                return ResourceManager.GetString("rankcommand_gxe", resourceCulture);
+            }
+        }
+        
+        internal static string rankcommand_wins {
+            get {
+                return ResourceManager.GetString("rankcommand_wins", resourceCulture);
+            }
+        }
+        
+        internal static string rankcommand_losses {
+            get {
+                return ResourceManager.GetString("rankcommand_losses", resourceCulture);
+            }
+        }
+        
+        internal static string rankcommand_wr {
+            get {
+                return ResourceManager.GetString("rankcommand_wr", resourceCulture);
+            }
+        }
+        
+        internal static string rankcommand_format {
+            get {
+                return ResourceManager.GetString("rankcommand_format", resourceCulture);
+            }
+        }
     }
 }

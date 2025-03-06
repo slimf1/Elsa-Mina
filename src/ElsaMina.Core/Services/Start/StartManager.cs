@@ -30,9 +30,11 @@ public class StartManager : IStartManager
     public async Task OnStart()
     {
         // Static data / referentials
-        await _templatesManager.CompileTemplates();
-        await _customColorsManager.FetchCustomColors();
-        await _roomUserDataService.InitializeJoinPhrases();
-        await _dexManager.LoadDex();
+        await Task.WhenAll(
+            _templatesManager.CompileTemplates(),
+            _customColorsManager.FetchCustomColors(),
+            _roomUserDataService.InitializeJoinPhrases(),
+            _dexManager.LoadDex()
+        );
     }
 }

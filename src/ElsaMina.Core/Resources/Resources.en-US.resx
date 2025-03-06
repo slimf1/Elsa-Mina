@@ -525,4 +525,34 @@
     <data name="allcommands_room_restriction" xml:space="preserve">
         <value>Available in rooms : {0}</value>
     </data>
+    <data name="rankcommand_help" xml:space="preserve">
+        <value>Shows the 5 highest ratings (ranked by GXE) of a user. Syntax: -rank &lt;user&gt;. Use -lowestrank for the lowest ranks.</value>
+    </data>
+    <data name="rankcommand_no_ratings" xml:space="preserve">
+        <value>This user has yet to play on the ladder.</value>
+    </data>
+    <data name="rankcommand_error" xml:space="preserve">
+        <value>An error occurred.</value>
+    </data>
+    <data name="rankcommand_title" xml:space="preserve">
+        <value>{0}'s rankings</value>
+    </data>
+    <data name="rankcommand_elo" xml:space="preserve">
+        <value>Elo</value>
+    </data>
+    <data name="rankcommand_gxe" xml:space="preserve">
+        <value>GXE</value>
+    </data>
+    <data name="rankcommand_wins" xml:space="preserve">
+        <value>W</value>
+    </data>
+    <data name="rankcommand_losses" xml:space="preserve">
+        <value>L</value>
+    </data>
+    <data name="rankcommand_wr" xml:space="preserve">
+        <value>WR</value>
+    </data>
+    <data name="rankcommand_format" xml:space="preserve">
+        <value>Format</value>
+    </data>
 </root>

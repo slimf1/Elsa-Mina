@@ -104,4 +104,10 @@ public static class ShowdownColors
 
         return (r + m, g + m, b + m);
     }
+
+    public static Color FromHsl(double h, double s, double l)
+    {
+        var (r, g, b) = HslToRgb(h, s, l);
+        return Color.FromArgb((int)Math.Round(r * 255), (int)Math.Round(g * 255), (int)Math.Round(b * 255));
+    }
 }

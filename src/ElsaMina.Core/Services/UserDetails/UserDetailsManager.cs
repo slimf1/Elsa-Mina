@@ -10,38 +10,48 @@ public class UserDetailsManager : IUserDetailsManager
 
     private readonly IClient _client;
     private readonly ISystemService _systemService;
+    private readonly
+        ConcurrentDictionary<string, (TaskCompletionSource<UserDetailsDto> Tcs, CancellationTokenSource Cts)>
+        _taskCompletionSources = new();
 
-    private readonly ConcurrentDictionary<string, TaskCompletionSource<UserDetailsDto>> _taskCompletionSources = new();
-
-    public UserDetailsManager(IClient client,
-        ISystemService systemService)
+    public UserDetailsManager(IClient client, ISystemService systemService)
     {
         _client = client;
         _systemService = systemService;
     }
 
-    public Task<UserDetailsDto> GetUserDetails(string userId)
+    public Task<UserDetailsDto> GetUserDetailsAsync(string userId, CancellationToken cancellationToken = default)
     {
         _client.Send($"|/cmd userdetails {userId}");
-        if (_taskCompletionSources.TryGetValue(userId, out var taskCompletionSource))
+
+        if (_taskCompletionSources.TryGetValue(userId, out var existingEntry))
         {
-            taskCompletionSource.SetResult(null);
-            _taskCompletionSources.Remove(userId, out _);
+            existingEntry.Cts.Cancel();
+            _taskCompletionSources.TryRemove(userId, out _);
         }
 
-        _taskCompletionSources[userId] = new TaskCompletionSource<UserDetailsDto>();
-        Task.Run(async () =>
-        {
-            await _systemService.SleepAsync(CANCEL_DELAY);
-            if (!_taskCompletionSources.TryGetValue(userId, out var tcs))
-            {
-                return;
-            }
+        var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        var tcs = new TaskCompletionSource<UserDetailsDto>(TaskCreationOptions.RunContinuationsAsynchronously);
 
-            tcs.SetResult(null);
-            _taskCompletionSources.Remove(userId, out _);
-        });
-        return _taskCompletionSources[userId].Task;
+        _taskCompletionSources[userId] = (tcs, cts);
+
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                await _systemService.SleepAsync(CANCEL_DELAY, cts.Token);
+                if (_taskCompletionSources.TryRemove(userId, out var entry))
+                {
+                    entry.Tcs.TrySetResult(null);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // Do nothing
+            }
+        }, cts.Token);
+
+        return tcs.Task;
     }
 
     public void HandleReceivedUserDetails(string message)
@@ -60,17 +70,12 @@ public class UserDetailsManager : IUserDetailsManager
             Logger.Error(exception, "Error while deserializing userdata json");
         }
 
-        if (userDetailsDto == null)
+        if (userDetailsDto == null || !_taskCompletionSources.TryRemove(userDetailsDto.UserId, out var entry))
         {
             return;
         }
 
-        if (!_taskCompletionSources.TryGetValue(userDetailsDto.UserId, out var taskCompletionSource))
-        {
-            return;
-        }
-
-        taskCompletionSource.SetResult(userDetailsDto);
-        _taskCompletionSources.Remove(userDetailsDto.UserId, out _);
+        entry.Cts.Cancel(); // Cancel the timeout task
+        entry.Tcs.TrySetResult(userDetailsDto);
     }
 }

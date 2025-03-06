@@ -26,15 +26,14 @@ public class UserDetailsManagerTest
     {
         // Arrange
         var tcs = new TaskCompletionSource();
-        _systemService.SleepAsync(Arg.Any<TimeSpan>()).Returns(tcs.Task);
-        var task = _userDetailsManager.GetUserDetails("panur");
+        _systemService.SleepAsync(Arg.Any<TimeSpan>(), Arg.Any<CancellationToken>()).Returns(tcs.Task);
+        var task = _userDetailsManager.GetUserDetailsAsync("panur");
         _userDetailsManager.HandleReceivedUserDetails("""{"id":"panur","userid":"panur","name":"Panur","avatar":"sightseerf","group":"+","autoconfirmed":true}""");
         
         // Act
         var result = await task;
         Assert.Multiple(() =>
         {
-
             // Assert
             Assert.That(result.Name, Is.EqualTo("Panur"));
             Assert.That(result.Avatar, Is.EqualTo("sightseerf"));
@@ -51,7 +50,7 @@ public class UserDetailsManagerTest
         _systemService.SleepAsync(Arg.Any<TimeSpan>()).Returns(Task.Delay(TimeSpan.FromSeconds(1)));
         
         // Act
-        var result = await _userDetailsManager.GetUserDetails("speks");
+        var result = await _userDetailsManager.GetUserDetailsAsync("speks");
         
         // Assert
         Assert.That(result, Is.Null);

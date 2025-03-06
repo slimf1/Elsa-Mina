@@ -91,7 +91,8 @@ public class HttpService : IHttpService
     }
 
     public async Task<IHttpResponse<TResponse>> Get<TResponse>(string uri,
-        IDictionary<string, string> queryParams = null, IDictionary<string, string> headers = null)
+        IDictionary<string, string> queryParams = null, IDictionary<string, string> headers = null,
+        bool removeFirstCharacterFromResponse = false)
     {
         if (queryParams != null && queryParams.Count > 0)
         {
@@ -107,9 +108,15 @@ public class HttpService : IHttpService
             {
                 request.Headers.Add(header.Key, header.Value);
             }
-        } 
+        }
+
         var response = await HTTP_CLIENT.SendAsync(request);
         var stringContent = await response.Content.ReadAsStringAsync();
+        if (removeFirstCharacterFromResponse)
+        {
+            stringContent = stringContent[1..];
+        }
+
         if (!response.IsSuccessStatusCode)
         {
             throw new HttpException(response.StatusCode, stringContent);
