@@ -25,7 +25,7 @@ public class BitcoinCommand : Command
     {
         try
         {
-            var result = await _httpService.Get<IDictionary<string, IDictionary<string, int>>>(COINDESK_API_URL);
+            var result = await _httpService.GetAsync<IDictionary<string, IDictionary<string, int>>>(COINDESK_API_URL);
             var coinValues = result.Data["bitcoin"];
             var eur = coinValues["eur"];
             var usd = coinValues["usd"];

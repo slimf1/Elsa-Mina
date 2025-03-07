@@ -63,7 +63,7 @@ public class PokepasteProviderTests
             Data = expectedPokepasteTeam
         };
 
-        _httpServiceMock.Get<PokepasteTeam>(apiUrl).Returns(expectedResponse);
+        _httpServiceMock.GetAsync<PokepasteTeam>(apiUrl).Returns(expectedResponse);
 
         // Act
         var result = await _provider.GetTeamExport(teamLink);
@@ -86,7 +86,7 @@ public class PokepasteProviderTests
         const string teamLink = "https://pokepast.es/1234abcd5678efgh";
         var apiUrl = teamLink.Trim() + "/json";
         _httpServiceMock
-            .Get<PokepasteTeam>(apiUrl)
+            .GetAsync<PokepasteTeam>(apiUrl)
             .Returns<Task<IHttpResponse<PokepasteTeam>>>(_ => throw new Exception("Network error"));
 
         // Act

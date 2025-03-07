@@ -2,7 +2,6 @@ using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Formats;
-using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
 
@@ -11,20 +10,17 @@ namespace ElsaMina.Commands.Showdown.Ranking;
 [NamedCommand("rank", "ranking", "lowestrank", "lowest-rank")]
 public class RankingCommand : Command
 {
-    private const string RANK_RESOURCE_URL =
-        "https://play.pokemonshowdown.com/~~showdown/action.php?act=ladderget&user={0}";
-
     private const int RANKS_SHOWN_COUNT = 5;
 
-    private readonly IHttpService _httpService;
+    private readonly IShowdownRanksProvider _showdownRanksProvider;
     private readonly ITemplatesManager _templatesManager;
     private readonly IFormatsManager _formatsManager;
 
-    public RankingCommand(IHttpService httpService,
+    public RankingCommand(IShowdownRanksProvider showdownRanksProvider,
         ITemplatesManager templatesManager,
         IFormatsManager formatsManager)
     {
-        _httpService = httpService;
+        _showdownRanksProvider = showdownRanksProvider;
         _templatesManager = templatesManager;
         _formatsManager = formatsManager;
     }
@@ -42,11 +38,8 @@ public class RankingCommand : Command
 
         try
         {
-            var result = await _httpService.Get<IEnumerable<RankingDataDto>>(
-                string.Format(RANK_RESOURCE_URL, username.ToLowerAlphaNum()),
-                removeFirstCharacterFromResponse: true);
-
-            var sortedRankings = result.Data.OrderBy(rankingDto => -rankingDto.Gxe).ToList();
+            var result = await _showdownRanksProvider.GetRankingDataAsync(username.ToLowerAlphaNum());
+            var sortedRankings = result.OrderBy(rankingDto => -rankingDto.Gxe).ToList();
 
             sortedRankings.ForEach(rankingDto =>
                 rankingDto.FormatId = _formatsManager.GetCleanFormat(rankingDto.FormatId));

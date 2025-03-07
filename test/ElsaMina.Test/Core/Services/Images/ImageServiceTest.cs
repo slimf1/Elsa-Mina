@@ -28,7 +28,7 @@ public class ImageServiceTest
         await image.SaveAsPngAsync(memoryStream);
         memoryStream.Seek(0, SeekOrigin.Begin);
 
-        _httpService.GetStream(Arg.Any<string>()).Returns(memoryStream);
+        _httpService.GetStreamAsync(Arg.Any<string>()).Returns(memoryStream);
 
         // Act
         var (width, height) = await _imageService.GetRemoteImageDimensions("http://example.com/image.png");
@@ -45,7 +45,7 @@ public class ImageServiceTest
     public async Task Test_GetRemoteImageDimensions_ShouldReturnMinusOneDimensions_WhenImageFailsToLoad()
     {
         // Arrange
-        _httpService.GetStream(Arg.Any<string>()).Throws(new Exception("Image load failed"));
+        _httpService.GetStreamAsync(Arg.Any<string>()).Throws(new Exception("Image load failed"));
 
         // Act
         var (width, height) = await _imageService.GetRemoteImageDimensions("http://example.com/image.png");

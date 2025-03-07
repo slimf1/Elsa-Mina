@@ -63,7 +63,7 @@ public class AskElsaCommand : Command
                 }
             ]
         };
-        var response = await _httpService.PostJson<MistralRequestDto, MistralResponseDto>(
+        var response = await _httpService.PostJsonAsync<MistralRequestDto, MistralResponseDto>(
             MISTRAL_AUTOCOMPLETE_API_URL,
             dto,
             headers: headers

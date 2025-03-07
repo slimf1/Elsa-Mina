@@ -26,7 +26,7 @@ public class FactsCommand : Command
         var language = context.Command == "factde" ? "de" : "en";
         try
         {
-            var response = await _httpService.Get<FactDto>(string.Format(FACTS_URL, language));
+            var response = await _httpService.GetAsync<FactDto>(string.Format(FACTS_URL, language));
             context.Reply($"**Fact**: {response.Data.Text}", rankAware: true);
         }
         catch (Exception ex)

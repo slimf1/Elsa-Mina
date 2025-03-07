@@ -1118,5 +1118,11 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("rankcommand_format", resourceCulture);
             }
         }
+        
+        internal static string profile_best_rank {
+            get {
+                return ResourceManager.GetString("profile_best_rank", resourceCulture);
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@ public class HttpService : IHttpService
 {
     private static readonly HttpClient HTTP_CLIENT = new();
 
-    public async Task<IHttpResponse<TResponse>> PostJson<TRequest, TResponse>(string uri, TRequest dto,
+    public async Task<IHttpResponse<TResponse>> PostJsonAsync<TRequest, TResponse>(string uri, TRequest dto,
         bool removeFirstCharacterFromResponse = false, IDictionary<string, string> headers = null)
     {
         var serializedJson = JsonConvert.SerializeObject(dto);
@@ -42,7 +42,7 @@ public class HttpService : IHttpService
         };
     }
 
-    public async Task<IHttpResponse<TResponse>> PostUrlEncodedForm<TResponse>(string uri,
+    public async Task<IHttpResponse<TResponse>> PostUrlEncodedFormAsync<TResponse>(string uri,
         IDictionary<string, string> form,
         bool removeFirstCharacterFromResponse = false)
     {
@@ -66,7 +66,7 @@ public class HttpService : IHttpService
         };
     }
 
-    public async Task<Stream> PostStream<TRequest>(string uri, TRequest dto, IDictionary<string, string> headers = null)
+    public async Task<Stream> PostStreamAsync<TRequest>(string uri, TRequest dto, IDictionary<string, string> headers = null)
     {
         var serializedJson = JsonConvert.SerializeObject(dto);
         var content = new StringContent(serializedJson, Encoding.UTF8, "application/json");
@@ -90,9 +90,11 @@ public class HttpService : IHttpService
         return await response.Content.ReadAsStreamAsync();
     }
 
-    public async Task<IHttpResponse<TResponse>> Get<TResponse>(string uri,
-        IDictionary<string, string> queryParams = null, IDictionary<string, string> headers = null,
-        bool removeFirstCharacterFromResponse = false)
+    public async Task<IHttpResponse<TResponse>> GetAsync<TResponse>(string uri,
+        IDictionary<string, string> queryParams = null,
+        IDictionary<string, string> headers = null,
+        bool removeFirstCharacterFromResponse = false,
+        CancellationToken cancellationToken = default)
     {
         if (queryParams != null && queryParams.Count > 0)
         {
@@ -110,8 +112,8 @@ public class HttpService : IHttpService
             }
         }
 
-        var response = await HTTP_CLIENT.SendAsync(request);
-        var stringContent = await response.Content.ReadAsStringAsync();
+        var response = await HTTP_CLIENT.SendAsync(request, cancellationToken);
+        var stringContent = await response.Content.ReadAsStringAsync(cancellationToken);
         if (removeFirstCharacterFromResponse)
         {
             stringContent = stringContent[1..];
@@ -129,7 +131,7 @@ public class HttpService : IHttpService
         };
     }
 
-    public Task<Stream> GetStream(string uri)
+    public Task<Stream> GetStreamAsync(string uri)
     {
         return HTTP_CLIENT.GetStreamAsync(uri);
     }

@@ -26,7 +26,7 @@ public class UserDataService : IUserDataService
         var uri = string.Format(USER_DATA_URL, userId);
         try
         {
-            var response = await _httpService.Get<UserDataDto>(uri);
+            var response = await _httpService.GetAsync<UserDataDto>(uri);
             var userData = response.Data;
             _userDataCache[userId] = userData;
             return userData;
@@ -38,7 +38,7 @@ public class UserDataService : IUserDataService
         }
     }
 
-    public async Task<DateTimeOffset> GetRegisterDate(string userName)
+    public async Task<DateTimeOffset> GetRegisterDateAsync(string userName)
     {
         var userData = await GetUserData(userName); // todo : cache validity
         return userData == null

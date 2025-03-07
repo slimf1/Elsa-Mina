@@ -44,7 +44,7 @@ public class BitcoinCommandTests
             }
         };
 
-        _httpService.Get<IDictionary<string, IDictionary<string, int>>>(Arg.Any<string>())
+        _httpService.GetAsync<IDictionary<string, IDictionary<string, int>>>(Arg.Any<string>())
             .Returns(mockResponse);
 
         // Act
@@ -58,7 +58,7 @@ public class BitcoinCommandTests
     public async Task Test_Run_ShouldReplyWithError_WhenApiCallFails()
     {
         // Arrange
-        _httpService.Get<IDictionary<string, IDictionary<string, int>>>(Arg.Any<string>())
+        _httpService.GetAsync<IDictionary<string, IDictionary<string, int>>>(Arg.Any<string>())
             .Throws(new Exception("API error"));
 
         // Act

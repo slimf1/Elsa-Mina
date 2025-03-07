@@ -30,7 +30,7 @@ public class AskElsaCommandTest
     [Test]
     public void Test_RequiredRank_ShouldBeDriver_WhenCreated()
     {
-        Assert.That(Rank.Voiced, Is.EqualTo(_command.RequiredRank));
+        Assert.That(_command.RequiredRank, Is.EqualTo(Rank.Voiced));
     }
 
     [Test]
@@ -75,7 +75,7 @@ public class AskElsaCommandTest
             Choices = [new MistralChoiceDto { Message = new MistralResponseMessageDto { Content = "Hello" } }]
         };
         _httpService
-            .PostJson<MistralRequestDto, MistralResponseDto>(
+            .PostJsonAsync<MistralRequestDto, MistralResponseDto>(
                 Arg.Any<string>(),
                 Arg.Any<MistralRequestDto>(),
                 headers: Arg.Any<Dictionary<string, string>>())
@@ -85,7 +85,7 @@ public class AskElsaCommandTest
         await _command.Run(context);
 
         // Assert
-        await _httpService.Received(1).PostJson<MistralRequestDto, MistralResponseDto>(
+        await _httpService.Received(1).PostJsonAsync<MistralRequestDto, MistralResponseDto>(
             "https://api.mistral.ai/v1/chat/completions",
             Arg.Is<MistralRequestDto>(dto =>
                 dto.Model == "mistral-large-latest" &&
@@ -106,7 +106,7 @@ public class AskElsaCommandTest
         var context = Substitute.For<IContext>();
 
         _httpService
-            .PostJson<MistralRequestDto, MistralResponseDto>(
+            .PostJsonAsync<MistralRequestDto, MistralResponseDto>(
                 Arg.Any<string>(),
                 Arg.Any<MistralRequestDto>(),
                 headers: Arg.Any<Dictionary<string, string>>())
@@ -133,7 +133,7 @@ public class AskElsaCommandTest
             ]
         };
         _httpService
-            .PostJson<MistralRequestDto, MistralResponseDto>(
+            .PostJsonAsync<MistralRequestDto, MistralResponseDto>(
                 Arg.Any<string>(),
                 Arg.Any<MistralRequestDto>(),
                 headers: Arg.Any<Dictionary<string, string>>())

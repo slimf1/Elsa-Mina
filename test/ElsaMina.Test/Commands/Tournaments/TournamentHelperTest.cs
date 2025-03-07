@@ -19,18 +19,18 @@ public class TournamentHelperTest
         {
             Assert.That(results.Format, Is.EqualTo("Random Inverse Party #2"));
             Assert.That(results.Winner, Is.EqualTo("pujolly"));
-            Assert.That(results.Finalist, Is.EqualTo("emon123"));
+            Assert.That(results.RunnerUp, Is.EqualTo("emon123"));
             Assert.That(results.SemiFinalists, Is.EquivalentTo(new List<string> { "reegychodon64", "bloodyjae" }));
             Assert.That(results.Players, Is.EquivalentTo(new List<string> { "Pujolly", "Emon123", "Drafeu-kun", "palapapop", "Reegychodon_64", "Dragonillis", "Naiike", "Bloody jae", "le ru c'est la rue"}));
-            Assert.That(results.General["pujolly"], Is.EqualTo(3));
-            Assert.That(results.General["emon123"], Is.EqualTo(3));
-            Assert.That(results.General["drafeukun"], Is.EqualTo(0));
-            Assert.That(results.General["palapapop"], Is.EqualTo(0));
-            Assert.That(results.General["reegychodon64"], Is.EqualTo(1));
-            Assert.That(results.General["dragonillis"], Is.EqualTo(0));
-            Assert.That(results.General["naiike"], Is.EqualTo(0));
-            Assert.That(results.General["bloodyjae"], Is.EqualTo(1));
-            Assert.That(results.General["lerucestlarue"], Is.EqualTo(0));
+            Assert.That(results.WinsCount["pujolly"], Is.EqualTo(3));
+            Assert.That(results.WinsCount["emon123"], Is.EqualTo(3));
+            Assert.That(results.WinsCount["drafeukun"], Is.EqualTo(0));
+            Assert.That(results.WinsCount["palapapop"], Is.EqualTo(0));
+            Assert.That(results.WinsCount["reegychodon64"], Is.EqualTo(1));
+            Assert.That(results.WinsCount["dragonillis"], Is.EqualTo(0));
+            Assert.That(results.WinsCount["naiike"], Is.EqualTo(0));
+            Assert.That(results.WinsCount["bloodyjae"], Is.EqualTo(1));
+            Assert.That(results.WinsCount["lerucestlarue"], Is.EqualTo(0));
         });
     }
 }

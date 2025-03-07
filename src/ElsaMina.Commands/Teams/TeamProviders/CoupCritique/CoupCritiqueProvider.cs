@@ -35,7 +35,7 @@ public class CoupCritiqueProvider : ITeamProvider
 
             var urlParts = teamLink.Split('/');
             var teamId = urlParts[^1];
-            var response = await _httpService.Get<CoupCritiqueResponse>(string.Format(COUP_CRITIQUE_API_URL, teamId));
+            var response = await _httpService.GetAsync<CoupCritiqueResponse>(string.Format(COUP_CRITIQUE_API_URL, teamId));
             var team = response.Data;
             return new SharedTeam
             {

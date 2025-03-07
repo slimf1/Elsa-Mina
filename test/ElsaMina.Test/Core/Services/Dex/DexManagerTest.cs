@@ -27,7 +27,7 @@ public class DexManagerTest
             new() { Name = new Name { English = "Charizard" } }
         };
         var response = new HttpResponse<List<Pokemon>> { Data = expectedPokedex };
-        _httpService.Get<List<Pokemon>>(Arg.Is(DexManager.DEX_URL)).Returns(response);
+        _httpService.GetAsync<List<Pokemon>>(Arg.Is(DexManager.DEX_URL)).Returns(response);
 
         // Act
         await _dexManager.LoadDex();
@@ -44,7 +44,7 @@ public class DexManagerTest
         // Arrange
         var expectedPokedex = new List<Pokemon> { new() { Name = new Name { English = "Bulbasaur" } } };
         var response = new HttpResponse<List<Pokemon>> { Data = expectedPokedex };
-        _httpService.Get<List<Pokemon>>(Arg.Is(DexManager.DEX_URL)).Returns(response);
+        _httpService.GetAsync<List<Pokemon>>(Arg.Is(DexManager.DEX_URL)).Returns(response);
 
         // Act
         await _dexManager.LoadDex();
@@ -58,7 +58,7 @@ public class DexManagerTest
     public async Task Test_LoadDex_ShouldLogError_WhenExceptionThrown()
     {
         // Arrange
-        _httpService.Get<List<Pokemon>>(Arg.Is(DexManager.DEX_URL)).Throws(new Exception("Network error"));
+        _httpService.GetAsync<List<Pokemon>>(Arg.Is(DexManager.DEX_URL)).Throws(new Exception("Network error"));
 
         // Act
         await _dexManager.LoadDex();
@@ -71,7 +71,7 @@ public class DexManagerTest
     public void Test_LoadDex_ShouldNotThrowException_WhenExceptionOccurs()
     {
         // Arrange
-        _httpService.Get<List<Pokemon>>(Arg.Is(DexManager.DEX_URL)).Throws(new Exception("Network error"));
+        _httpService.GetAsync<List<Pokemon>>(Arg.Is(DexManager.DEX_URL)).Throws(new Exception("Network error"));
 
         // Act & Assert
         Assert.DoesNotThrowAsync(async () => await _dexManager.LoadDex());

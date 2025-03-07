@@ -26,7 +26,7 @@ public class PokepasteProvider : ITeamProvider
     {
         try
         {
-            var response = await _httpService.Get<PokepasteTeam>(teamLink.Trim() + "/json");
+            var response = await _httpService.GetAsync<PokepasteTeam>(teamLink.Trim() + "/json");
             var pokepasteTeam = response.Data;
             return new SharedTeam
             {

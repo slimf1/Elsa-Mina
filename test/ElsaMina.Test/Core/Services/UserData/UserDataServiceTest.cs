@@ -24,7 +24,7 @@ public class UserDataServiceTest
     {
         // Arrange
         const string userName = "testUser";
-        _httpService.Get<UserDataDto>(Arg.Any<string>()).Throws<Exception>();
+        _httpService.GetAsync<UserDataDto>(Arg.Any<string>()).Throws<Exception>();
 
         // Act
         var result = await _userDataService.GetUserData(userName);
@@ -38,10 +38,10 @@ public class UserDataServiceTest
     {
         // Arrange
         const string userName = "testUser";
-        _httpService.Get<UserDataDto>(Arg.Any<string>()).ReturnsNull();
+        _httpService.GetAsync<UserDataDto>(Arg.Any<string>()).ReturnsNull();
 
         // Act
-        var result = await _userDataService.GetRegisterDate(userName);
+        var result = await _userDataService.GetRegisterDateAsync(userName);
 
         // Assert
         Assert.That(result, Is.EqualTo(DateTimeOffset.MinValue));
@@ -53,14 +53,14 @@ public class UserDataServiceTest
         // Arrange
         const string userName = "testUser";
         var userData = new UserDataDto { RegisterTime = 1625760000 };
-        _httpService.Get<UserDataDto>(Arg.Any<string>()).Returns(new HttpResponse<UserDataDto>
+        _httpService.GetAsync<UserDataDto>(Arg.Any<string>()).Returns(new HttpResponse<UserDataDto>
         {
             Data = userData,
             StatusCode = HttpStatusCode.OK
         });
 
         // Act
-        var result = await _userDataService.GetRegisterDate(userName);
+        var result = await _userDataService.GetRegisterDateAsync(userName);
 
         // Assert
         Assert.That(result, Is.EqualTo(DateTimeOffset.Parse("07/08/2021 16:00:00Z")));

@@ -63,11 +63,11 @@ public static class TournamentHelper
         return new TournamentResults
         {
             Players = teamScores.Keys.ToList(),
-            General = teamScores.ToDictionary(
+            WinsCount = teamScores.ToDictionary(
                 kvp => kvp.Key.ToLowerAlphaNum(),
                 kvp => kvp.Value),
             Winner = data.Results[0][0].ToLowerAlphaNum(),
-            Finalist = string.Empty,
+            RunnerUp = string.Empty,
             SemiFinalists = []
         };
     }
@@ -86,7 +86,7 @@ public static class TournamentHelper
         var team = node.Team?.ToLowerAlphaNum();
         if (!string.IsNullOrEmpty(team) && team != results.Winner)
         {
-            results.Finalist = team;
+            results.RunnerUp = team;
         }
     }
 
@@ -97,7 +97,7 @@ public static class TournamentHelper
             var team = grandChildNode.Team?.ToLowerAlphaNum();
             if (!string.IsNullOrEmpty(team) &&
                 team != results.Winner &&
-                team != results.Finalist &&
+                team != results.RunnerUp &&
                 !results.SemiFinalists.Contains(team))
             {
                 results.SemiFinalists.Add(team);

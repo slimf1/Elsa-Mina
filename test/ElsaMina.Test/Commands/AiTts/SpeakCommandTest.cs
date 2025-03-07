@@ -42,7 +42,7 @@ public class SpeakCommandTest
         await _command.Run(_context);
         
         // Then
-        await _httpService.DidNotReceive().PostStream(Arg.Any<string>(), Arg.Any<Stream>(),
+        await _httpService.DidNotReceive().PostStreamAsync(Arg.Any<string>(), Arg.Any<Stream>(),
             Arg.Any<IDictionary<string, string>>());
         await _fileSharingService.DidNotReceive().CreateFileAsync(Arg.Any<Stream>(), Arg.Any<string>(),
             Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>());
@@ -56,7 +56,7 @@ public class SpeakCommandTest
         _context.Target.Returns("target");
         var stream = new MemoryStream([1, 2, 3]);
         _clockService.CurrentUtcDateTime.Returns(new DateTime(2020, 5, 3, 10, 30, 45));
-        _httpService.PostStream(Arg.Any<string>(), Arg.Is<ElevenLabsRequestDto>(dto => dto.Text == "target"),
+        _httpService.PostStreamAsync(Arg.Any<string>(), Arg.Is<ElevenLabsRequestDto>(dto => dto.Text == "target"),
             Arg.Any<IDictionary<string, string>>()).Returns(stream);
         _fileSharingService.CreateFileAsync(stream, "speakcmd_20200503_103045.mp3",
                 "Speak command", "audio/mpeg")
@@ -78,7 +78,7 @@ public class SpeakCommandTest
         _context.Target.Returns("target");
         var stream = new MemoryStream([1, 2, 3]);
         _clockService.CurrentUtcDateTime.Returns(new DateTime(2020, 5, 3, 10, 30, 45));
-        _httpService.PostStream(Arg.Any<string>(), Arg.Is<ElevenLabsRequestDto>(dto => dto.Text == "target"),
+        _httpService.PostStreamAsync(Arg.Any<string>(), Arg.Is<ElevenLabsRequestDto>(dto => dto.Text == "target"),
             Arg.Any<IDictionary<string, string>>()).Returns(stream);
         _fileSharingService.CreateFileAsync(stream, "speakcmd_20200503_103045.mp3",
                 "Speak command", "audio/mpeg")

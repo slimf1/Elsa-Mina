@@ -100,6 +100,7 @@ public class CommandModule : Module
         builder.RegisterType<PokeDescGame>().AsSelf();
         builder.RegisterType<PokeCriesGame>().AsSelf();
 
+        builder.RegisterType<ShowdownRanksProvider>().As<IShowdownRanksProvider>().SingleInstance();
         builder.RegisterType<PokepasteProvider>().As<ITeamProvider>();
         builder.RegisterType<CoupCritiqueProvider>().As<ITeamProvider>();
         builder.RegisterType<TeamLinkMatchFactory>().As<ITeamLinkMatchFactory>().SingleInstance();

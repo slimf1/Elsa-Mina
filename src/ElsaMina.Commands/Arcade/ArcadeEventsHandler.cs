@@ -73,7 +73,7 @@ public class ArcadeEventsHandler : Handler
                     }
                 ]
             };
-            var response = await _httpService.PostJson<ArcadeEventWebhookBody, object>(webhookUrl, body);
+            var response = await _httpService.PostJsonAsync<ArcadeEventWebhookBody, object>(webhookUrl, body);
             if (response.StatusCode == HttpStatusCode.NoContent)
             {
                 Logger.Information("Sent arcade announce via webhook successfully.");

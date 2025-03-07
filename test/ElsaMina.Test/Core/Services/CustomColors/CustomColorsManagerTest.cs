@@ -27,7 +27,7 @@ public class CustomColorsManagerTest
             { "user2", "#33FF57" }
         };
         var response = new HttpResponse<Dictionary<string, string>> { Data = expectedColors };
-        _httpService.Get<Dictionary<string, string>>(Arg.Is(CustomColorsManager.CUSTOM_COLORS_FILE_URL)).Returns(response);
+        _httpService.GetAsync<Dictionary<string, string>>(Arg.Is(CustomColorsManager.CUSTOM_COLORS_FILE_URL)).Returns(response);
 
         // Act
         await _customColorsManager.FetchCustomColors();
@@ -44,7 +44,7 @@ public class CustomColorsManagerTest
         // Arrange
         var expectedColors = new Dictionary<string, string> { { "user1", "#FF5733" } };
         var response = new HttpResponse<Dictionary<string, string>> { Data = expectedColors };
-        _httpService.Get<Dictionary<string, string>>(Arg.Is(CustomColorsManager.CUSTOM_COLORS_FILE_URL)).Returns(response);
+        _httpService.GetAsync<Dictionary<string, string>>(Arg.Is(CustomColorsManager.CUSTOM_COLORS_FILE_URL)).Returns(response);
 
         // Act
         await _customColorsManager.FetchCustomColors();
@@ -58,7 +58,7 @@ public class CustomColorsManagerTest
     public async Task Test_FetchCustomColors_ShouldLogError_WhenExceptionThrown()
     {
         // Arrange
-        _httpService.Get<Dictionary<string, string>>(Arg.Is(CustomColorsManager.CUSTOM_COLORS_FILE_URL)).Throws(new Exception("Network error"));
+        _httpService.GetAsync<Dictionary<string, string>>(Arg.Is(CustomColorsManager.CUSTOM_COLORS_FILE_URL)).Throws(new Exception("Network error"));
 
         // Act
         await _customColorsManager.FetchCustomColors();
@@ -71,7 +71,7 @@ public class CustomColorsManagerTest
     public void Test_FetchCustomColors_ShouldNotThrowException_WhenExceptionOccurs()
     {
         // Arrange
-        _httpService.Get<Dictionary<string, string>>(Arg.Is(CustomColorsManager.CUSTOM_COLORS_FILE_URL)).Throws(new Exception("Network error"));
+        _httpService.GetAsync<Dictionary<string, string>>(Arg.Is(CustomColorsManager.CUSTOM_COLORS_FILE_URL)).Throws(new Exception("Network error"));
 
         // Act & Assert
         Assert.DoesNotThrowAsync(async () => await _customColorsManager.FetchCustomColors());

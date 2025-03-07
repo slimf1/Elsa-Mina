@@ -1,3 +1,4 @@
+using ElsaMina.Commands.Showdown.Ranking;
 using ElsaMina.Core.Templates;
 using ElsaMina.DataAccess.Models;
 
@@ -13,4 +14,5 @@ public class ProfileViewModel : LocalizableViewModel
     public string Title { get; set; }
     public IEnumerable<Badge> Badges { get; set; }
     public DateTimeOffset RegisterDate { get; set; }
+    public RankingDataDto BestRanking { get; set; }
 }

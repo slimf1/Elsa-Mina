@@ -33,7 +33,7 @@ public class LoginServiceTest
         _configurationManager.Configuration.Returns(config);
 
         _httpService
-            .PostUrlEncodedForm<LoginResponseDto>(Arg.Is(LoginService.LOGIN_URL), Arg.Any<Dictionary<string, string>>(), true)
+            .PostUrlEncodedFormAsync<LoginResponseDto>(Arg.Is(LoginService.LOGIN_URL), Arg.Any<Dictionary<string, string>>(), true)
             .Returns(loginResponse);
 
         // Act
@@ -53,7 +53,7 @@ public class LoginServiceTest
         _configurationManager.Configuration.Returns(config);
 
         _httpService
-            .PostUrlEncodedForm<LoginResponseDto>(Arg.Is(LoginService.LOGIN_URL), Arg.Any<Dictionary<string, string>>(), true)
+            .PostUrlEncodedFormAsync<LoginResponseDto>(Arg.Is(LoginService.LOGIN_URL), Arg.Any<Dictionary<string, string>>(), true)
             .Throws(new HttpException(HttpStatusCode.InternalServerError, "Internal Server Error"));
 
         // Act
@@ -72,7 +72,7 @@ public class LoginServiceTest
         _configurationManager.Configuration.Returns(config);
 
         _httpService
-            .PostUrlEncodedForm<LoginResponseDto>(Arg.Is(LoginService.LOGIN_URL), Arg.Any<Dictionary<string, string>>(), true)
+            .PostUrlEncodedFormAsync<LoginResponseDto>(Arg.Is(LoginService.LOGIN_URL), Arg.Any<Dictionary<string, string>>(), true)
             .Throws(new Exception("Unexpected error"));
 
         // Act
@@ -101,7 +101,7 @@ public class LoginServiceTest
         await _loginService.Login(challstr);
 
         // Assert
-        await _httpService.Received().PostUrlEncodedForm<LoginResponseDto>(
+        await _httpService.Received().PostUrlEncodedFormAsync<LoginResponseDto>(
             Arg.Is(LoginService.LOGIN_URL),
             Arg.Is<Dictionary<string, string>>(form => 
                 form["challstr"] == expectedForm["challstr"] &&

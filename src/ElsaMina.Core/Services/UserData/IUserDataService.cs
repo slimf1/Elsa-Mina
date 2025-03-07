@@ -3,5 +3,5 @@
 public interface IUserDataService
 {
     Task<UserDataDto> GetUserData(string userName);
-    Task<DateTimeOffset> GetRegisterDate(string userName);
+    Task<DateTimeOffset> GetRegisterDateAsync(string userName);
 }

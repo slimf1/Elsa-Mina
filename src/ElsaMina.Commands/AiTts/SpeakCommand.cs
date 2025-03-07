@@ -53,7 +53,7 @@ public class SpeakCommand : Command
             ModelId = "eleven_multilingual_v2"
         };
 
-        var stream = await _httpService.PostStream(ELEVEN_LABS_TTS_API_URL,
+        var stream = await _httpService.PostStreamAsync(ELEVEN_LABS_TTS_API_URL,
             dto, headers);
 
         var fileName = $"speakcmd_{_clockService.CurrentUtcDateTime:yyyyMMdd_HHmmss}.mp3";

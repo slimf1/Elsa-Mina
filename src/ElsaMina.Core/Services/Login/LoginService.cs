@@ -28,7 +28,7 @@ public class LoginService : ILoginService
 
         try
         {
-            var response = await _httpService.PostUrlEncodedForm<LoginResponseDto>(LOGIN_URL, form, true);
+            var response = await _httpService.PostUrlEncodedFormAsync<LoginResponseDto>(LOGIN_URL, form, true);
             return response.Data;
         }
         catch (HttpException exception)

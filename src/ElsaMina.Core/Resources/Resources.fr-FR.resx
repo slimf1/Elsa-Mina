@@ -555,4 +555,7 @@
     <data name="rankcommand_format" xml:space="preserve">
         <value>Format</value>
     </data>
+    <data name="profile_best_rank" xml:space="preserve">
+        <value>Meilleur format</value>
+    </data>
 </root>

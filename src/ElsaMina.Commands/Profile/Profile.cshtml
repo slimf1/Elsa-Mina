@@ -72,6 +72,11 @@
                 <span>: @Model.RegisterDate.ToString("d", Model.Culture)</span>
                 <br />
             }
+            @if (Model.BestRanking != null)
+            {
+                <span style="text-decoration: underline">@GetString("profile_best_rank")</span>
+                <span>: @Model.BestRanking.FormatId (@Model.BestRanking.Elo.ToString("F0", Model.Culture))</span>
+            }
             
         </td>
         <td style="@badgesCellStyle">

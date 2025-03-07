@@ -52,7 +52,7 @@ public class YoutubeCommand : Command
         };
         try
         {
-            var response = await _httpService.Get<YouTubeSearchResponse>(YOUTUBE_API_URL, queryParams);
+            var response = await _httpService.GetAsync<YouTubeSearchResponse>(YOUTUBE_API_URL, queryParams);
             var results = response.Data;
             if (results?.Items == null || results.Items.Count == 0)
             {

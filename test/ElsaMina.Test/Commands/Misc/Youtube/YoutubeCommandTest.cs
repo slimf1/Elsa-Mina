@@ -45,7 +45,7 @@ public class YoutubeCommandTest
 
         // Assert
         await _httpService.DidNotReceive()
-            .Get<YouTubeSearchResponse>(Arg.Any<string>(), Arg.Any<IDictionary<string, string>>());
+            .GetAsync<YouTubeSearchResponse>(Arg.Any<string>(), Arg.Any<IDictionary<string, string>>());
     }
 
     [Test]
@@ -56,7 +56,7 @@ public class YoutubeCommandTest
         {
             YoutubeApiKey = "fakeApiKey"
         });
-        _httpService.Get<YouTubeSearchResponse>(Arg.Any<string>(), Arg.Any<Dictionary<string, string>>())
+        _httpService.GetAsync<YouTubeSearchResponse>(Arg.Any<string>(), Arg.Any<Dictionary<string, string>>())
             .Returns(new HttpResponse<YouTubeSearchResponse>
             {
                 Data = new YouTubeSearchResponse
@@ -105,7 +105,7 @@ public class YoutubeCommandTest
             }
         };
 
-        _httpService.Get<YouTubeSearchResponse>(Arg.Any<string>(), Arg.Any<Dictionary<string, string>>())
+        _httpService.GetAsync<YouTubeSearchResponse>(Arg.Any<string>(), Arg.Any<Dictionary<string, string>>())
             .Returns(mockResponse);
 
         // Act
@@ -131,7 +131,7 @@ public class YoutubeCommandTest
         {
             YoutubeApiKey = "fakeApiKey"
         });
-        _httpService.Get<YouTubeSearchResponse>(Arg.Any<string>(), Arg.Any<Dictionary<string, string>>())
+        _httpService.GetAsync<YouTubeSearchResponse>(Arg.Any<string>(), Arg.Any<Dictionary<string, string>>())
             .Throws(new Exception("Test exception"));
 
         // Act

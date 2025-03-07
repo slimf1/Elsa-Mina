@@ -1,6 +1,8 @@
+using ElsaMina.Commands.Showdown.Ranking;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
+using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Services.UserData;
 using ElsaMina.Core.Services.UserDetails;
@@ -21,16 +23,22 @@ public class ProfileCommand : Command
     private readonly IUserDetailsManager _userDetailsManager;
     private readonly ITemplatesManager _templatesManager;
     private readonly IUserDataService _userDataService;
+    private readonly IShowdownRanksProvider _showdownRanksProvider;
+    private readonly IFormatsManager _formatsManager;
 
     public ProfileCommand(IRoomSpecificUserDataRepository userDataRepository,
         IUserDetailsManager userDetailsManager,
         ITemplatesManager templatesManager,
-        IUserDataService userDataService)
+        IUserDataService userDataService,
+        IShowdownRanksProvider showdownRanksProvider,
+        IFormatsManager formatsManager)
     {
         _userDataRepository = userDataRepository;
         _userDetailsManager = userDetailsManager;
         _templatesManager = templatesManager;
         _userDataService = userDataService;
+        _showdownRanksProvider = showdownRanksProvider;
+        _formatsManager = formatsManager;
     }
     
     public override bool IsAllowedInPrivateMessage => true;
@@ -48,8 +56,9 @@ public class ProfileCommand : Command
 
         var userDataTask = _userDataRepository.GetByIdAsync(Tuple.Create(userId, context.RoomId));
         var userDetailsTask = _userDetailsManager.GetUserDetailsAsync(userId);
-        var registerDateTask = _userDataService.GetRegisterDate(userId);
-        await Task.WhenAll(userDataTask, userDetailsTask, registerDateTask);
+        var registerDateTask = _userDataService.GetRegisterDateAsync(userId);
+        var ranksTask = _showdownRanksProvider.GetRankingDataAsync(userId);
+        await Task.WhenAll(userDataTask, userDetailsTask, registerDateTask, ranksTask);
 
         var storedUserData = userDataTask.Result;
         var showdownUserDetails = userDetailsTask.Result;
@@ -59,6 +68,12 @@ public class ProfileCommand : Command
         var status = GetStatus(showdownUserDetails);
         var avatarUrl = GetAvatar(storedUserData, showdownUserDetails);
         var userRoomRank = GetUserRoomRank(context, showdownUserDetails);
+        var bestRanking = ranksTask.Result?.OrderBy(ranking => -ranking.Elo).FirstOrDefault();
+
+        if (bestRanking != null)
+        {
+            bestRanking.FormatId = _formatsManager.GetCleanFormat(bestRanking.FormatId);
+        }
 
         var viewModel = new ProfileViewModel
         {
@@ -70,13 +85,14 @@ public class ProfileCommand : Command
             Status = status,
             Badges = storedUserData?.Badges.Select(holding => holding.Badge),
             Title = storedUserData?.Title,
-            RegisterDate = registerDate
+            RegisterDate = registerDate,
+            BestRanking = bestRanking
         };
         var template = await _templatesManager.GetTemplate("Profile/Profile", viewModel);
         context.SendHtml(template.RemoveNewlines(), rankAware: true);
     }
 
-    public static char GetUserRoomRank(IContext context, UserDetailsDto showdownUserDetails)
+    private static char GetUserRoomRank(IContext context, UserDetailsDto showdownUserDetails)
     {
         var userRoom = showdownUserDetails?
             .Rooms?

@@ -23,7 +23,7 @@ public class ImageService : IImageService
     {
         try
         {
-            var stream = await _httpService.GetStream(url);
+            var stream = await _httpService.GetStreamAsync(url);
             var image = await Image.LoadAsync(stream);
             return (image.Width, image.Height);
         }
