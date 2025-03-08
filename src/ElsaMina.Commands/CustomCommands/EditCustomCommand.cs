@@ -24,7 +24,7 @@ public class EditCustomCommand : Command
     {
         var parts = context.Target.Split(",");
         var commandId = parts[0].Trim().ToLower();
-        var content = parts[1].Trim();
+        var content = string.Join(",", parts[1..]).Trim();
         AddedCommand command = null;
         try
         {

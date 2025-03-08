@@ -38,7 +38,7 @@ public class AddCustomCommand : Command
         }
 
         var command = arguments[0].Trim().ToLower();
-        var content = arguments[1].Trim();
+        var content = string.Join(",", arguments[1..]).Trim();
 
         if (command.Length > MAX_COMMAND_NAME_LENGTH)
         {

@@ -1,10 +1,14 @@
+using System.Globalization;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.Images;
+using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
+using User = ElsaMina.Core.Models.User;
 
 namespace ElsaMina.Test.Core.Services.AddedCommands;
 
@@ -13,13 +17,15 @@ public class AddedCommandsManagerTest
     private IAddedCommandRepository _addedCommandRepository;
     private AddedCommandsManager _addedCommandsManager;
     private IImageService _imageService;
+    private IRandomService _randomService;
 
     [SetUp]
     public void SetUp()
     {
         _addedCommandRepository = Substitute.For<IAddedCommandRepository>();
         _imageService = Substitute.For<IImageService>();
-        _addedCommandsManager = new AddedCommandsManager(_addedCommandRepository, _imageService);
+        _randomService = Substitute.For<IRandomService>();
+        _addedCommandsManager = new AddedCommandsManager(_addedCommandRepository, _imageService, _randomService);
     }
 
     [Test]
@@ -121,5 +127,37 @@ public class AddedCommandsManagerTest
 
         // Assert
         context.Received().SendHtml(Arg.Is<string>(s => s.Contains("width=\"200\" height=\"150\"")), rankAware: Arg.Any<bool>());
+    }
+    
+    [Test]
+    public void Test_ParseContent_ShouldParseExpression()
+    {
+        // Arrange
+        var context = Substitute.For<IContext>();
+        const string content = "value = {sin(123) + cos(456) + tan(789)} {repeat(sin(e), 3)}";
+
+        // Act
+        var result = _addedCommandsManager.EvaluateContent(content, context);
+
+        // Assert
+        Assert.That(result, Is.EqualTo("value = -0.8561420972077014 0.410781290502908850.410781290502908850.41078129050290885"));
+    }
+    
+    [Test]
+    public void Test_ParseContent_ShouldParseExpressionWithContext()
+    {
+        // Arrange
+        var context = Substitute.For<IContext>();
+        context.Sender.Returns(new User("Mec", Rank.Voiced));
+        context.Room.Returns(new Room("Chat Room", "chatroom", CultureInfo.InvariantCulture));
+        context.Command.Returns("myCmd");
+        context.Target.Returns("myArgs");
+        const string content = "{command} {author} {room} {args}";
+
+        // Act
+        var result = _addedCommandsManager.EvaluateContent(content, context);
+
+        // Assert
+        Assert.That(result, Is.EqualTo("myCmd Mec Chat Room myArgs"));
     }
 }
