@@ -5,17 +5,26 @@ namespace ElsaMina.Core.Utils;
 
 public static class Text
 {
-    private static readonly Regex FILTER_REGEX = new("[^A-Za-z0-9]",
+    private static readonly Regex ALPHA_NUMERIC_FILTER_REGEX = new("[^A-Za-z0-9]",
         RegexOptions.Compiled, TimeSpan.FromSeconds(1));
-    
+
+    private static readonly Regex WHITESPACE_BETWEEN_TAGS_REGEX =
+        new(@"\s*(<[^>]+>)\s*", RegexOptions.Compiled, TimeSpan.FromSeconds(1));
+
+
     public static string ToLowerAlphaNum(this string text)
     {
-        return FILTER_REGEX.Replace(text.ToLower(), string.Empty);
+        return ALPHA_NUMERIC_FILTER_REGEX.Replace(text.ToLower(), string.Empty);
     }
 
     public static string RemoveNewlines(this string text)
     {
         return text.Replace("\n", string.Empty);
+    }
+
+    public static string RemoveWhitespacesBetweenTags(this string text)
+    {
+        return WHITESPACE_BETWEEN_TAGS_REGEX.Replace(text, "$1");
     }
 
     public static string Capitalize(this string text)

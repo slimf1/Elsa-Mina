@@ -27,7 +27,8 @@ public class TemplatesManager : ITemplatesManager
             return null;
         }
 
-        return await RAZOR_ENGINE.RenderTemplateAsync(compiledTemplatePage, model);
+        var template = await RAZOR_ENGINE.RenderTemplateAsync(compiledTemplatePage, model);
+        return template.RemoveNewlines().RemoveWhitespacesBetweenTags();
     }
 
     public async Task CompileTemplates()

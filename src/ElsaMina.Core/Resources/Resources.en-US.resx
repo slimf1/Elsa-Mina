@@ -558,4 +558,31 @@
     <data name="profile_best_rank" xml:space="preserve">
         <value>Best Format</value>
     </data>
+    <data name="ladder_title" xml:space="preserve">
+        <value>Ladder {0}</value>
+    </data>
+    <data name="ladder_username" xml:space="preserve">
+        <value>User</value>
+    </data>
+    <data name="ladder_elo" xml:space="preserve">
+        <value>Elo</value>
+    </data>
+    <data name="ladder_gxe" xml:space="preserve">
+        <value>GXE</value>
+    </data>
+    <data name="ladder_wins" xml:space="preserve">
+        <value>W</value>
+    </data>
+    <data name="ladder_losses" xml:space="preserve">
+        <value>L</value>
+    </data>
+    <data name="ladder_wr" xml:space="preserve">
+        <value>WR</value>
+    </data>
+    <data name="ladder_help" xml:space="preserve">
+        <value>Displays the ladder of a given tier. Syntax: -ladder &lt;tier&gt;, &lt;prefix (opt)&gt;</value>
+    </data>
+    <data name="ladder_no_players" xml:space="preserve">
+        <value>No players found.</value>
+    </data>
 </root>

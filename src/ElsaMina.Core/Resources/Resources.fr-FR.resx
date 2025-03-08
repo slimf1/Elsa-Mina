@@ -558,4 +558,31 @@
     <data name="profile_best_rank" xml:space="preserve">
         <value>Meilleur format</value>
     </data>
+    <data name="ladder_title" xml:space="preserve">
+        <value>Classements {0}</value>
+    </data>
+    <data name="ladder_username" xml:space="preserve">
+        <value>Joueur</value>
+    </data>
+    <data name="ladder_elo" xml:space="preserve">
+        <value>Elo</value>
+    </data>
+    <data name="ladder_gxe" xml:space="preserve">
+        <value>GXE</value>
+    </data>
+    <data name="ladder_wins" xml:space="preserve">
+        <value>V</value>
+    </data>
+    <data name="ladder_losses" xml:space="preserve">
+        <value>D</value>
+    </data>
+    <data name="ladder_wr" xml:space="preserve">
+        <value>WR</value>
+    </data>
+    <data name="ladder_help" xml:space="preserve">
+        <value>Affiche le classement d'un tier. Syntaxe: -ladder &lt;tier&gt;, &lt;prefixe (opt)&gt;</value>
+    </data>
+    <data name="ladder_no_players" xml:space="preserve">
+        <value>Aucun joueur trouvé.</value>
+    </data>
 </root>

@@ -1,0 +1,45 @@
+@using ElsaMina.Core.Templates
+@using ElsaMina.Core.Utils
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Showdown.Ladder.LadderTableViewModel>
+
+@{
+    const string headerStyle = "border-bottom: 1px solid #94b8b8; padding: 4px";
+}
+<div style="max-height: 200px; overflow-y: auto">
+    <table style="margin: auto; border: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; border-radius: 12px; padding: 4px">
+        <thead>
+        <tr>
+            <th colspan="@(Model.ShowInnerRanking ? "8" : "7")">@GetString("ladder_title", Model.Format)</th>
+        </tr>
+        <tr>
+            <th style="@headerStyle" colspan="@(Model.ShowInnerRanking ? "2" : "1")">#</th>
+            <th style="@headerStyle">@GetString("ladder_username")</th>
+            <th style="@headerStyle">@GetString("ladder_elo")</th>
+            <th style="@headerStyle">@GetString("ladder_gxe")</th>
+            <th style="@headerStyle">@GetString("ladder_wins")</th>
+            <th style="@headerStyle">@GetString("ladder_losses")</th>
+            <th style="@headerStyle">@GetString("ladder_wr")</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var rating in Model.TopList)
+        {
+            <tr>
+                @if (Model.ShowInnerRanking)
+                {
+                    <td style="text-align: center">@rating.InnerIndex</td>
+                }
+                <td style="text-align: center">@rating.Index</td>
+                <td style="color: @rating.UserId.ToColorHexCodeWithCustoms()">
+                    @rating.Username
+                </td>
+                <td style="text-align: center">@rating.Elo.ToString("F0", Model.Culture)</td>
+                <td style="text-align: center">@rating.Gxe.ToString("F1", Model.Culture)</td>
+                <td style="text-align: center">@rating.Wins</td>
+                <td style="text-align: center">@rating.Losses</td>
+                <td style="text-align: center">@rating.WinRate.ToString("F2", Model.Culture)%</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

@@ -1,6 +1,8 @@
 using ElsaMina.Commands.Profile;
+using ElsaMina.Commands.Showdown.Ranking;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
+using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Services.UserData;
@@ -19,6 +21,8 @@ public class ProfileCommandTest
     private IUserDetailsManager _userDetailsManager;
     private ITemplatesManager _templatesManager;
     private IUserDataService _userDataService;
+    private IShowdownRanksProvider _showdownRanksProvider;
+    private IFormatsManager _formatsManager;
     private IContext _context;
 
     [SetUp]
@@ -28,12 +32,16 @@ public class ProfileCommandTest
         _userDetailsManager = Substitute.For<IUserDetailsManager>();
         _templatesManager = Substitute.For<ITemplatesManager>();
         _userDataService = Substitute.For<IUserDataService>();
+        _showdownRanksProvider = Substitute.For<IShowdownRanksProvider>();
+        _formatsManager = Substitute.For<IFormatsManager>();
 
         _command = new ProfileCommand(
             _userDataRepository,
             _userDetailsManager,
             _templatesManager,
-            _userDataService
+            _userDataService,
+            _showdownRanksProvider,
+            _formatsManager
         );
 
         _context = Substitute.For<IContext>();

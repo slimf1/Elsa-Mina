@@ -1124,5 +1124,59 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("profile_best_rank", resourceCulture);
             }
         }
+        
+        internal static string ladder_title {
+            get {
+                return ResourceManager.GetString("ladder_title", resourceCulture);
+            }
+        }
+        
+        internal static string ladder_username {
+            get {
+                return ResourceManager.GetString("ladder_username", resourceCulture);
+            }
+        }
+        
+        internal static string ladder_elo {
+            get {
+                return ResourceManager.GetString("ladder_elo", resourceCulture);
+            }
+        }
+        
+        internal static string ladder_gxe {
+            get {
+                return ResourceManager.GetString("ladder_gxe", resourceCulture);
+            }
+        }
+        
+        internal static string ladder_wins {
+            get {
+                return ResourceManager.GetString("ladder_wins", resourceCulture);
+            }
+        }
+        
+        internal static string ladder_losses {
+            get {
+                return ResourceManager.GetString("ladder_losses", resourceCulture);
+            }
+        }
+        
+        internal static string ladder_wr {
+            get {
+                return ResourceManager.GetString("ladder_wr", resourceCulture);
+            }
+        }
+        
+        internal static string ladder_help {
+            get {
+                return ResourceManager.GetString("ladder_help", resourceCulture);
+            }
+        }
+        
+        internal static string ladder_no_players {
+            get {
+                return ResourceManager.GetString("ladder_no_players", resourceCulture);
+            }
+        }
     }
 }
