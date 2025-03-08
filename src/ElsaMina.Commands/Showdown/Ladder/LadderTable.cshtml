@@ -3,22 +3,24 @@
 @inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Showdown.Ladder.LadderTableViewModel>
 
 @{
-    const string headerStyle = "border-bottom: 1px solid #94b8b8; padding: 4px";
+    const string headerStyle = $"border-bottom: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR}; padding: 4px";
 }
 <div style="max-height: 200px; overflow-y: auto">
     <table style="margin: auto; border: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; border-radius: 12px; padding: 4px">
         <thead>
         <tr>
-            <th colspan="@(Model.ShowInnerRanking ? "8" : "7")">@GetString("ladder_title", Model.Format)</th>
+            <th colspan="@(Model.ShowInnerRanking ? "8" : "7")" scope="colgroup">
+                @GetString("ladder_title", Model.Format)
+            </th>
         </tr>
         <tr>
-            <th style="@headerStyle" colspan="@(Model.ShowInnerRanking ? "2" : "1")">#</th>
-            <th style="@headerStyle">@GetString("ladder_username")</th>
-            <th style="@headerStyle">@GetString("ladder_elo")</th>
-            <th style="@headerStyle">@GetString("ladder_gxe")</th>
-            <th style="@headerStyle">@GetString("ladder_wins")</th>
-            <th style="@headerStyle">@GetString("ladder_losses")</th>
-            <th style="@headerStyle">@GetString("ladder_wr")</th>
+            <th scope="col" style="@headerStyle" colspan="@(Model.ShowInnerRanking ? "2" : "1")">#</th>
+            <th scope="col" style="@headerStyle">@GetString("ladder_username")</th>
+            <th scope="col" style="@headerStyle">@GetString("ladder_elo")</th>
+            <th scope="col" style="@headerStyle">@GetString("ladder_gxe")</th>
+            <th scope="col" style="@headerStyle">@GetString("ladder_wins")</th>
+            <th scope="col" style="@headerStyle">@GetString("ladder_losses")</th>
+            <th scope="col" style="@headerStyle">@GetString("ladder_wr")</th>
         </tr>
         </thead>
         <tbody>
