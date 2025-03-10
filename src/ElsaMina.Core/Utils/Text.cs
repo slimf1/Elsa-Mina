@@ -29,6 +29,10 @@ public static class Text
 
     public static string Capitalize(this string text)
     {
+        if (string.IsNullOrEmpty(text))
+        {
+            return text;
+        }
         return text[0].ToString().ToUpper() + text[1..];
     }
 
