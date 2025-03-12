@@ -65,15 +65,15 @@ public abstract class Command : ICommand
         Aliases = commandAttribute?.Aliases ?? [];
     }
 
-    public virtual void OnConnect()
-    {
-    }
-
     public virtual void OnStart()
     {
     }
 
-    public virtual void OnReset()
+    public virtual void OnReconnect()
+    {
+    }
+
+    public virtual void OnDisconnect()
     {
     }
 }

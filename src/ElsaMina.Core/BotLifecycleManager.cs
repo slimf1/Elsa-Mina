@@ -15,14 +15,6 @@ public class BotLifecycleManager : IBotLifecycleManager
     private IEnumerable<IBotLifecycleHandler> Handlers =>
         _handlers ??= _dependencyContainerService.Resolve<IEnumerable<IBotLifecycleHandler>>();
 
-    public void OnConnect()
-    {
-        foreach (var handler in Handlers)
-        {
-            handler.OnConnect();
-        }
-    }
-
     public void OnStart()
     {
         foreach (var handler in Handlers)
@@ -31,11 +23,19 @@ public class BotLifecycleManager : IBotLifecycleManager
         }
     }
 
-    public void OnReset()
+    public void OnReconnect()
     {
         foreach (var handler in Handlers)
         {
-            handler.OnReset();
+            handler.OnReconnect();
+        }
+    }
+
+    public void OnDisconnect()
+    {
+        foreach (var handler in Handlers)
+        {
+            handler.OnDisconnect();
         }
     }
 }

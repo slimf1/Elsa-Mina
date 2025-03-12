@@ -10,4 +10,5 @@ public interface IContextProvider
     CultureInfo DefaultCulture { get; }
     string GetString(string key, CultureInfo culture);
     IRoom GetRoom(string roomId);
+    string GetRoomParameterValue(string roomId, string key);
 }

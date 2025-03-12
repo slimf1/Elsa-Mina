@@ -87,6 +87,7 @@ public class CommandModule : Module
         builder.RegisterCommand<SpeakCommand>();
         builder.RegisterCommand<RankingCommand>();
         builder.RegisterCommand<LadderCommand>();
+        builder.RegisterCommand<FailCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();

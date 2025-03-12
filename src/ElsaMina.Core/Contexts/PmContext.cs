@@ -26,6 +26,8 @@ public class PmContext : Context
 
     public override bool HasSufficientRank(Rank requiredRank) => true;
 
+    protected override bool IsAllowingErrorMessages => true;
+
     public override void Reply(string message, bool rankAware = false)
         => Bot.Send($"|/pm {Sender.UserId}, {message}");
 

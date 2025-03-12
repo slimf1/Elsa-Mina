@@ -585,4 +585,7 @@
     <data name="ladder_no_players" xml:space="preserve">
         <value>No players found.</value>
     </data>
+    <data name="command_execution_error" xml:space="preserve">
+        <value>Command execution threw an error.</value>
+    </data>
 </root>

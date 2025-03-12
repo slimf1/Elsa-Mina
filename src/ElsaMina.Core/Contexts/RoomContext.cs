@@ -1,11 +1,13 @@
 ﻿using System.Globalization;
-using ElsaMina.Core.Commands;
 using ElsaMina.Core.Models;
+using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Core.Contexts;
 
 public class RoomContext : Context
 {
+    private readonly IContextProvider _contextProvider;
     private readonly IRoom _room;
     private readonly long _timestamp;
 
@@ -18,6 +20,8 @@ public class RoomContext : Context
         IRoom room,
         long timestamp) : base(contextProvider, bot, message, target, sender, command)
     {
+        _contextProvider = contextProvider;
+
         _room = room;
         _timestamp = timestamp;
     }
@@ -34,9 +38,11 @@ public class RoomContext : Context
 
     public override ContextType Type => ContextType.Room;
 
+    protected override bool IsAllowingErrorMessages => _contextProvider
+        .GetRoomParameterValue(RoomId, RoomParametersConstants.IS_SHOWING_ERROR_MESSAGES).ToBoolean();
+
     public override bool HasSufficientRank(Rank requiredRank)
     {
-        
         return IsSenderWhitelisted || (int)Sender.Rank >= (int)requiredRank;
     }
 

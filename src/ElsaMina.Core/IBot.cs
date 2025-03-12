@@ -5,7 +5,7 @@ public interface IBot : IDisposable
     Task HandleReceivedMessage(string message);
     void Send(string message);
     void Say(string roomId, string message);
-    Task Connect();
-    void OnStart();
-    void OnReset();
+    Task Start();
+    void OnReconnect();
+    void OnDisconnect();
 }

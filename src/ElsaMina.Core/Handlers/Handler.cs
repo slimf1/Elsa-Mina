@@ -20,15 +20,15 @@ public abstract class Handler : IHandler
 
     public abstract Task HandleReceivedMessage(string[] parts, string roomId = null);
 
-    public virtual void OnConnect()
-    {
-    }
-
     public virtual void OnStart()
     {
     }
 
-    public virtual void OnReset()
+    public virtual void OnReconnect()
+    {
+    }
+
+    public virtual void OnDisconnect()
     {
     }
 }

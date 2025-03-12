@@ -36,35 +36,35 @@ public class BotTest
     }
 
     [Test]
-    public async Task Test_Connect_ShouldConnectAndCallLifecycleHandler()
+    public async Task Test_Start_ShouldConnectAndCallLifecycleHandler()
     {
         // Act
-        await _bot.Connect();
+        await _bot.Start();
 
         // Assert
-        _lifecycleManager.Received(1).OnConnect();
+        _lifecycleManager.Received(1).OnStart();
         await _startManager.Received(1).OnStart();
         await _client.Received(1).Connect();
     }
 
     [Test]
-    public void Test_OnStart_ShouldCallLifecycleHandler()
+    public void Test_OnReconnect_ShouldCallLifecycleHandler()
     {
         // Act
-        _bot.OnStart();
+        _bot.OnReconnect();
 
         // Assert
-        _lifecycleManager.Received(1).OnStart();
+        _lifecycleManager.Received(1).OnReconnect();
     }
 
     [Test]
-    public void Test_OnReset_ShouldCallLifecycleHandler()
+    public void Test_OnDisconnect_ShouldCallLifecycleHandler()
     {
         // Act
-        _bot.OnReset();
+        _bot.OnDisconnect();
 
         // Assert
-        _lifecycleManager.Received(1).OnReset();
+        _lifecycleManager.Received(1).OnDisconnect();
     }
 
     [Test]

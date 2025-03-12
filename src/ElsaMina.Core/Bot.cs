@@ -42,23 +42,23 @@ public class Bot : IBot
         _lifecycleManager = lifecycleManager;
     }
 
-    public async Task Connect()
+    public async Task Start()
     {
-        _lifecycleManager.OnConnect();
+        _lifecycleManager.OnStart();
         await _startManager.OnStart();
         await _client.Connect();
     }
 
-    public void OnStart()
+    public void OnReconnect()
     {
         // On connect / reconnect
-        _lifecycleManager.OnStart();
+        _lifecycleManager.OnReconnect();
     }
 
-    public void OnReset()
+    public void OnDisconnect()
     {
         // On disconnect
-        _lifecycleManager.OnReset();
+        _lifecycleManager.OnDisconnect();
         _roomsManager.Clear();
     }
 

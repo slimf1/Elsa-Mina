@@ -35,4 +35,9 @@ public class DefaultContextProvider : IContextProvider
     {
         return _roomsManager.GetRoom(roomId);
     }
+
+    public string GetRoomParameterValue(string roomId, string key)
+    {
+        return _roomsManager.GetRoomBotConfigurationParameterValue(roomId, key);
+    }
 }

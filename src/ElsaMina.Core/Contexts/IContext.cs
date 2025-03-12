@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using ElsaMina.Core.Commands;
 using ElsaMina.Core.Models;
 
 namespace ElsaMina.Core.Contexts;
@@ -26,4 +25,5 @@ public interface IContext
     void ReplyRankAwareLocalizedMessage(string key, params object[] formatArguments);
     void SendHtml(string html, string roomId = null, bool rankAware = false);
     void SendUpdatableHtml(string htmlId, string html, bool isChanging);
+    void HandleError(Exception exception);
 }
