@@ -32,7 +32,7 @@ public class CheckConnectionHandler : Handler
                 name = name[^2..];
             }
 
-            Logger.Information("Connected as : {0}", name);
+            Log.Information("Connected as : {0}", name);
 
             foreach (var roomIdToJoin in _configurationManager.Configuration.Rooms)
             {

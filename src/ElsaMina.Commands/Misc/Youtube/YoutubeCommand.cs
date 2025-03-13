@@ -39,7 +39,7 @@ public class YoutubeCommand : Command
         var apiKey = _configurationManager.Configuration.YoutubeApiKey;
         if (string.IsNullOrWhiteSpace(apiKey))
         {
-            Logger.Error("Youtube API key is empty.");
+            Log.Error("Youtube API key is empty.");
             return;
         }
 
@@ -56,7 +56,7 @@ public class YoutubeCommand : Command
             var results = response.Data;
             if (results?.Items == null || results.Items.Count == 0)
             {
-                Logger.Error("Youtube API returned no results.");
+                Log.Error("Youtube API returned no results.");
                 context.ReplyLocalizedMessage("youtube_no_results");
                 return;
             }
@@ -86,7 +86,7 @@ public class YoutubeCommand : Command
         }
         catch (Exception ex)
         {
-            Logger.Error(ex, "Failed to retrieve youtube search response.");
+            Log.Error(ex, "Failed to retrieve youtube search response.");
             context.ReplyLocalizedMessage("youtube_error_occurred");
         }
     }

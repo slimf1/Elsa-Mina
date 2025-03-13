@@ -29,7 +29,7 @@ public class TaskQueue
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(ex, "Error processing task in queue");
+                    Log.Error(ex, "Error processing task in queue");
                 }
                 finally
                 {

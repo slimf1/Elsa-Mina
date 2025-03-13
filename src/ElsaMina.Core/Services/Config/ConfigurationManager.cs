@@ -11,6 +11,6 @@ public class ConfigurationManager : IConfigurationManager
     {
         var json = await textReader.ReadToEndAsync();
         Configuration = JsonConvert.DeserializeObject<Configuration>(json);
-        Logger.Information("Loaded configuration");
+        Log.Information("Loaded configuration");
     }
 }

@@ -35,7 +35,7 @@ public class AskElsaCommand : Command
         var key = _configurationManager.Configuration.MistralApiKey;
         if (string.IsNullOrWhiteSpace(key))
         {
-            Logger.Error("Missing Mistral API key");
+            Log.Error("Missing Mistral API key");
             return;
         }
 

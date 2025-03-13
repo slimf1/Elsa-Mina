@@ -43,7 +43,7 @@ public class GiveBadge : Command
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "An error occurred while fetching a badge");
+            Log.Error(exception, "An error occurred while fetching a badge");
         }
 
         if (badge == null)
@@ -59,7 +59,7 @@ public class GiveBadge : Command
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "An error occurred while giving a badge");
+            Log.Error(exception, "An error occurred while giving a badge");
             context.ReplyLocalizedMessage("badge_give_error", exception.Message);
         }
     }

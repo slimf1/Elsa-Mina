@@ -10,6 +10,7 @@ public class GoogleDriveFileSharingService : IFileSharingService
     private const string CREDENTIALS_FILE = "credentials.json";
 
     private DriveService? _driveService;
+    private bool _disposed;
 
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
     {
@@ -77,6 +78,18 @@ public class GoogleDriveFileSharingService : IFileSharingService
 
     public void Dispose()
     {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    private void Dispose(bool disposing)
+    {
+        if (_disposed || !disposing)
+        {
+            return;
+        }
+        
         _driveService?.Dispose();
+        _disposed = true;
     }
 }

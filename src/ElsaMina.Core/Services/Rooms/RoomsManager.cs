@@ -58,17 +58,17 @@ public class RoomsManager : IRoomsManager
             .Split("|")[2]
             .Split(",")[1..];
 
-        Logger.Information("Initializing {0}...", roomTitle);
+        Log.Information("Initializing {0}...", roomTitle);
         var roomParameters = await _roomParametersRepository.GetByIdAsync(roomId);
         if (roomParameters == null)
         {
-            Logger.Information("Could not find room parameters, inserting in db...");
+            Log.Information("Could not find room parameters, inserting in db...");
             roomParameters = new RoomParameters
             {
                 Id = roomId
             };
             await _roomParametersRepository.AddAsync(roomParameters);
-            Logger.Information("Inserted room parameters for room {0} in db", roomId);
+            Log.Information("Inserted room parameters for room {0} in db", roomId);
         }
 
         var localeParameterValue = roomParameters.ParameterValues?
@@ -86,12 +86,12 @@ public class RoomsManager : IRoomsManager
 
         _rooms[room.RoomId] = room;
         room.InitializeMessageQueueFromLogs(receivedLines);
-        Logger.Information("Initializing {0} : DONE", roomTitle);
+        Log.Information("Initializing {0} : DONE", roomTitle);
     }
 
     public void RemoveRoom(string roomId)
     {
-        Logger.Information("Removing room : {0}", roomId);
+        Log.Information("Removing room : {0}", roomId);
         _rooms.Remove(roomId);
     }
 
@@ -160,13 +160,13 @@ public class RoomsManager : IRoomsManager
             }
 
             roomBotConfigurationParameter.OnUpdateAction?.Invoke(room, value);
-            Logger.Information("Saved room parameter: '{0}' = '{1}' for room '{2}'",
+            Log.Information("Saved room parameter: '{0}' = '{1}' for room '{2}'",
                 roomBotParameterId, value, roomId);
             return true;
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "Room parameter save failed: '{0}' = '{1}' for room '{2}'",
+            Log.Error(exception, "Room parameter save failed: '{0}' = '{1}' for room '{2}'",
                 roomBotParameterId, value, roomId);
             return false;
         }
@@ -187,7 +187,7 @@ public class RoomsManager : IRoomsManager
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "An error occurred while updating playtime");
+            Log.Error(exception, "An error occurred while updating playtime");
         }
     }
 
@@ -198,7 +198,7 @@ public class RoomsManager : IRoomsManager
 
     private async Task UpdateUserPlayTime(IRoom room, string userId, TimeSpan additionalPlayTime)
     {
-        Logger.Information("Trying to update user playtime : {0} in {1} = +{2}", userId, room.RoomId,
+        Log.Information("Trying to update user playtime : {0} in {1} = +{2}", userId, room.RoomId,
             additionalPlayTime.TotalSeconds);
         var key = Tuple.Create(userId, room.RoomId);
         var savedPlayTime = await _userPlayTimeRepository.GetByIdAsync(key);
@@ -210,14 +210,14 @@ public class RoomsManager : IRoomsManager
                 RoomId = room.RoomId,
                 PlayTime = additionalPlayTime
             });
-            Logger.Information("Added user play time for user {0} in {1} : {2}", userId, room.RoomId,
+            Log.Information("Added user play time for user {0} in {1} : {2}", userId, room.RoomId,
                 additionalPlayTime.TotalSeconds);
         }
         else
         {
             savedPlayTime.PlayTime += additionalPlayTime;
             await _userPlayTimeRepository.UpdateAsync(savedPlayTime);
-            Logger.Information("Updated user play time for user {0} in {1} : +{2}", userId, room.RoomId,
+            Log.Information("Updated user play time for user {0} in {1} : +{2}", userId, room.RoomId,
                 additionalPlayTime.TotalSeconds);
         }
     }

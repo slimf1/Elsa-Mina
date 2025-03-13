@@ -32,7 +32,7 @@ public class EditCustomCommand : Command
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "Error executing command");
+            Log.Error(exception, "Error executing command");
         }
 
         if (command == null)

@@ -45,7 +45,7 @@ public class RoomConfig : Command
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "An error occurred while updating room configuration");
+            Log.Error(exception, "An error occurred while updating room configuration");
             context.ReplyLocalizedMessage("room_config_failure", exception.Message);
         }
     }

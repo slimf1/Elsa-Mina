@@ -43,7 +43,7 @@ public class TakeBadge : Command
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "An error occurred while taking badge");
+            Log.Error(exception, "An error occurred while taking badge");
             context.ReplyLocalizedMessage("takebadge_failure", exception.Message);
         }
     }

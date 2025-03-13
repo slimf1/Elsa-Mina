@@ -71,7 +71,7 @@ public class DisplayTeamOnLinkHandler : ChatMessageHandler
         var sharedTeam = await teamLinkMatch.GetTeamExport();
         if (sharedTeam == null)
         {
-            Logger.Error("An error occurred while fetching team from link {0}",
+            Log.Error("An error occurred while fetching team from link {0}",
                 context.Message);
             return;
         }

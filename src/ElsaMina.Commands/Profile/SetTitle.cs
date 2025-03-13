@@ -38,7 +38,7 @@ public class SetTitle : Command
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "Error while updating avatar");
+            Log.Error(exception, "Error while updating avatar");
             context.ReplyLocalizedMessage("title_failure", exception.Message);
         }
     }

@@ -1,6 +1,8 @@
-﻿namespace ElsaMina.Core.Models;
+﻿using ElsaMina.FileSharing.S3;
 
-public interface IConfiguration
+namespace ElsaMina.Core.Models;
+
+public interface IConfiguration : IS3CredentialsProvider
 {
     string Host { get; }
     string Port { get; }
@@ -19,9 +21,4 @@ public interface IConfiguration
     string ArcadeWebhookUrl { get; }
     string MistralApiKey { get; }
     string ElevenLabsApiKey { get; }
-    string S3BucketName { get; }
-    string S3EndpointUrl { get; }
-    string S3AccessKey { get; }
-    string S3SecretKey { get; }
-    string S3BaseUrl { get; }
 }

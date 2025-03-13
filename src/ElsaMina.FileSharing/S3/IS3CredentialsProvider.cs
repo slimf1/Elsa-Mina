@@ -2,9 +2,9 @@ namespace ElsaMina.FileSharing.S3;
 
 public interface IS3CredentialsProvider
 {
-    string BucketName { get; }
-    string EndpointUrl { get; }
-    string AccessKey { get; }
-    string SecretKey { get; }
-    string BaseUrl { get; }
+    string S3BucketName { get; }
+    string S3EndpointUrl { get; }
+    string S3AccessKey { get; }
+    string S3SecretKey { get; }
+    string S3BaseUrl { get; }
 }

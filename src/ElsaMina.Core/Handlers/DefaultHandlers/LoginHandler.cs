@@ -30,14 +30,14 @@ public class LoginHandler : Handler
             return;
         }
 
-        Logger.Information("Logging in...");
+        Log.Information("Logging in...");
         var nonce = string.Join("|", parts[2..]);
         var response = await _loginService.Login(nonce);
 
         if (response?.CurrentUser == null ||
             _configurationManager.Configuration.Name.ToLowerAlphaNum() != response.CurrentUser.UserId)
         {
-            Logger.Error("Login failed. Check password validity. Exiting");
+            Log.Error("Login failed. Check password validity. Exiting");
             _systemService.Kill();
             return;
         }

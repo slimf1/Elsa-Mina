@@ -28,7 +28,7 @@ public class CommandExecutor : ICommandExecutor
     {
         if (_dependencyContainerService.IsRegisteredWithName<ICommand>(commandName))
         {
-            Logger.Information("Executing {0} as a normal command", commandName);
+            Log.Information("Executing {0} as a normal command", commandName);
             var commandInstance = _dependencyContainerService.ResolveNamed<ICommand>(commandName);
             await commandInstance.Call(context);
             return;
@@ -36,11 +36,11 @@ public class CommandExecutor : ICommandExecutor
 
         if (!context.IsPrivateMessage)
         {
-            Logger.Information("Trying command {0} as a custom command", commandName);
+            Log.Information("Trying command {0} as a custom command", commandName);
             await _addedCommandsManager.TryExecuteAddedCommand(commandName, context);
             return;
         }
 
-        Logger.Error("Could not find command {0}", commandName);
+        Log.Error("Could not find command {0}", commandName);
     }
 }

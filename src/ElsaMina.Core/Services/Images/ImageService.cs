@@ -29,7 +29,7 @@ public class ImageService : IImageService
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "Failed to load image");
+            Log.Error(exception, "Failed to load image");
             return (-1, -1);
         }
     }

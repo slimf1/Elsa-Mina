@@ -11,7 +11,7 @@ public static class DependencyInjection
         var commandAttribute = typeof(TCommand).GetCommandAttribute();
         if (commandAttribute == null)
         {
-            Logger.Warning(
+            Log.Warning(
                 "Command '{0}' does not have the named command attribute, and could not be registered",
                 typeof(TCommand).Name);
             return;
@@ -20,15 +20,15 @@ public static class DependencyInjection
         var commandName = commandAttribute.Name;
         if (string.IsNullOrEmpty(commandName))
         {
-            Logger.Warning("Command '{0}' has no name, and could not be registered", typeof(TCommand).Name);
+            Log.Warning("Command '{0}' has no name, and could not be registered", typeof(TCommand).Name);
             return;
         }
 
-        Logger.Information("Command '{0}' was registered", commandName);
+        Log.Information("Command '{0}' was registered", commandName);
         builder.RegisterType<TCommand>().AsSelf().As<IBotLifecycleHandler>().Named<ICommand>(commandName);
         foreach (var commandAlias in commandAttribute.Aliases ?? Enumerable.Empty<string>())
         {
-            Logger.Information("Alias '{0}' of command '{1}' was registered", commandAlias, commandName);
+            Log.Information("Alias '{0}' of command '{1}' was registered", commandAlias, commandName);
             builder.RegisterType<TCommand>().AsSelf().As<IBotLifecycleHandler>().Named<ICommand>(commandAlias);
         }
     }

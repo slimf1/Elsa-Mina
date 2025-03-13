@@ -38,7 +38,7 @@ public class PokepasteProvider : ITeamProvider
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "An error occurred while fetching a postepaste team");
+            Log.Error(exception, "An error occurred while fetching a postepaste team");
             return null;
         }
     }

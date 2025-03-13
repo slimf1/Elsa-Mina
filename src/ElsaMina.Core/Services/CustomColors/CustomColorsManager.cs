@@ -22,11 +22,11 @@ public class CustomColorsManager : ICustomColorsManager
         {
             var response = await _httpService.GetAsync<Dictionary<string, string>>(CUSTOM_COLORS_FILE_URL);
            CustomColorsMapping = response.Data;
-           Logger.Information("Fetched {0} custom colors", CustomColorsMapping.Count);
+           Log.Information("Fetched {0} custom colors", CustomColorsMapping.Count);
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "Could not fetch custom colors");
+            Log.Error(exception, "Could not fetch custom colors");
         }
     }
 }

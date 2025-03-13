@@ -33,7 +33,7 @@ public class BitcoinCommand : Command
         }
         catch (Exception ex)
         {
-            Logger.Error(ex, "Could not fetch data from coindesk.");
+            Log.Error(ex, "Could not fetch data from coindesk.");
             context.ReplyLocalizedMessage("bitcoin_error");
         }
     }

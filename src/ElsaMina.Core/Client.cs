@@ -47,13 +47,13 @@ public class Client : IClient
 
     public async Task Connect()
     {
-        Logger.Information("Connecting to : {0}", _websocketClient.Url);
+        Log.Information("Connecting to : {0}", _websocketClient.Url);
         await _websocketClient.StartOrFail();
     }
 
     public async Task Close()
     {
-        Logger.Information("Closing connection");
+        Log.Information("Closing connection");
         await _websocketClient.StopOrFail(WebSocketCloseStatus.Empty, string.Empty);
     }
 

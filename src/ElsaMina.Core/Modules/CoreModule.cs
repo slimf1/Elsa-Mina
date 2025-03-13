@@ -2,6 +2,7 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Handlers;
 using ElsaMina.Core.Handlers.DefaultHandlers;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Commands;
@@ -40,6 +41,8 @@ public class CoreModule : Module
 
         builder.RegisterType<DependencyContainerService>().As<IDependencyContainerService>().SingleInstance();
         builder.RegisterType<ConfigurationManager>().As<IConfigurationManager>().SingleInstance();
+        builder.Register(e => e.Resolve<IConfigurationManager>().Configuration).As<IConfiguration>()
+            .As<IS3CredentialsProvider>().SingleInstance();
         builder.RegisterType<HttpService>().As<IHttpService>().SingleInstance();
         builder.RegisterType<ClockService>().As<IClockService>().SingleInstance();
         builder.RegisterType<ContextFactory>().As<IContextFactory>().SingleInstance();
@@ -69,7 +72,7 @@ public class CoreModule : Module
 
         builder.RegisterType<Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot>().As<IBot>().AsSelf().SingleInstance();
-        
+
         builder.RegisterHandler<ChatMessageCommandHandler>();
         builder.RegisterHandler<PrivateMessageCommandHandler>();
         builder.RegisterHandler<NameTakenHandler>();
@@ -79,11 +82,7 @@ public class CoreModule : Module
         builder.RegisterHandler<FormatsHandler>();
         builder.RegisterHandler<LoginHandler>();
 
-        builder.RegisterType<S3CredentialsProvider>().As<IS3CredentialsProvider>().SingleInstance();
         builder.RegisterType<S3FileSharingService>().As<IFileSharingService>().SingleInstance().OnActivating(
-            ctx =>
-            {
-                ctx.Instance.InitializeAsync().Wait();
-            });
+            ctx => { ctx.Instance.InitializeAsync().Wait(); });
     }
 }

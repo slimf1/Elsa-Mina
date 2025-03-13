@@ -3,7 +3,6 @@ using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Clock;
-using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.FileSharing;
 
@@ -16,17 +15,17 @@ public class SpeakCommand : Command
     private const string ELEVEN_LABS_TTS_API_URL = $"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}";
 
     private readonly IHttpService _httpService;
-    private readonly IConfigurationManager _configurationManager;
     private readonly IFileSharingService _fileSharingService;
     private readonly IClockService _clockService;
+    private readonly IConfiguration _configuration;
 
-    public SpeakCommand(IHttpService httpService, IConfigurationManager configurationManager,
-        IFileSharingService fileSharingService, IClockService clockService)
+    public SpeakCommand(IHttpService httpService,
+        IFileSharingService fileSharingService, IClockService clockService, IConfiguration configuration)
     {
         _httpService = httpService;
-        _configurationManager = configurationManager;
         _fileSharingService = fileSharingService;
         _clockService = clockService;
+        _configuration = configuration;
     }
 
     public override bool IsAllowedInPrivateMessage => true;
@@ -34,10 +33,10 @@ public class SpeakCommand : Command
 
     public override async Task Run(IContext context)
     {
-        var key = _configurationManager.Configuration.ElevenLabsApiKey;
+        var key = _configuration.ElevenLabsApiKey;
         if (string.IsNullOrWhiteSpace(key))
         {
-            Logger.Error("Missing ElevenLabs API key");
+            Log.Error("Missing ElevenLabs API key");
             return;
         }
 
@@ -56,7 +55,7 @@ public class SpeakCommand : Command
         var stream = await _httpService.PostStreamAsync(ELEVEN_LABS_TTS_API_URL,
             dto, headers);
 
-        var fileName = $"speakcmd_{_clockService.CurrentUtcDateTime:yyyyMMdd_HHmmss}.mp3";
+        var fileName = $"speakcmd_{_clockService.CurrentUtcDateTime:yyyyMMdd_HHmmssfff}.mp3";
         var url = await _fileSharingService.CreateFileAsync(
             stream, fileName, "Speak command", "audio/mpeg");
 

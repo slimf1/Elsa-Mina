@@ -86,7 +86,7 @@ public class LadderCommand : Command
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "Failed to get Ladder");
+            Log.Error(exception, "Failed to get Ladder");
             context.ReplyLocalizedMessage("ladder_error");
         }
     }

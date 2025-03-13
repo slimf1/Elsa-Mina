@@ -108,7 +108,7 @@ public class Bot : IBot
 
         var roomId = room ?? _currentRoom;
 
-        Logger.Information("[Received] ({0}) {1}", room, line);
+        Log.Information("[Received] ({0}) {1}", room, line);
 
         if (!_handlerManager.IsInitialized)
         {
@@ -127,7 +127,7 @@ public class Bot : IBot
             return;
         }
 
-        Logger.Information("[Sending] {0}", message);
+        Log.Information("[Sending] {0}", message);
 
         _client.Send(message);
         _lastMessage = message;

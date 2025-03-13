@@ -54,7 +54,7 @@ public class ReplaysHandler : ChatMessageHandler
         // risqué ?
         try
         {
-            Logger.Information("Fetching replay info from : {0}", replayLink);
+            Log.Information("Fetching replay info from : {0}", replayLink);
             var response = await _httpService.GetAsync<ReplayDto>(replayLink);
             var replayInfo = response.Data;
             var teams = ReplaysHelper.GetTeamsFromLog(replayInfo.Log);
@@ -76,7 +76,7 @@ public class ReplaysHandler : ChatMessageHandler
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "Failed to get replay info");
+            Log.Error(exception, "Failed to get replay info");
         }
     }
 }

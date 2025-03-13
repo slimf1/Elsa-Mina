@@ -34,7 +34,7 @@ client.MessageReceived
     .Concat()
     .Catch((Exception exception) =>
     {
-        Logger.Error(exception, "Error while handling message");
+        Log.Error(exception, "Error while handling message");
         return Observable.Throw<Unit>(exception);
     })
     .Subscribe();
@@ -42,14 +42,14 @@ client.MessageReceived
 // Disconnect event
 client.DisconnectionHappened.Subscribe(error =>
 {
-    Logger.Error("Got disconnected : {0}", error);
+    Log.Error("Got disconnected : {0}", error);
     bot.OnDisconnect();
 });
 
 // Reconnection
 client.ReconnectionHappened.Subscribe(info =>
 {
-    Logger.Information("Reconnecting : {0}", info.Type);
+    Log.Information("Reconnecting : {0}", info.Type);
     bot.OnReconnect();
 });
 

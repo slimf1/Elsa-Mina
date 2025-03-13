@@ -56,7 +56,7 @@ public class AddTeamToRoom : Command
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "An error occurred while adding room to team");
+            Log.Error(exception, "An error occurred while adding room to team");
             context.ReplyLocalizedMessage("add_team_to_room_failure", exception.Message);
         }
     }

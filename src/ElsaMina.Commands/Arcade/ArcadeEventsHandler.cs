@@ -50,7 +50,7 @@ public class ArcadeEventsHandler : Handler
 
         if (string.IsNullOrWhiteSpace(webhookUrl))
         {
-            Logger.Error("Arcade webhook url is missing.");
+            Log.Error("Arcade webhook url is missing.");
             return;
         }
 
@@ -76,16 +76,16 @@ public class ArcadeEventsHandler : Handler
             var response = await _httpService.PostJsonAsync<ArcadeEventWebhookBody, object>(webhookUrl, body);
             if (response.StatusCode == HttpStatusCode.NoContent)
             {
-                Logger.Information("Sent arcade announce via webhook successfully.");
+                Log.Information("Sent arcade announce via webhook successfully.");
             }
             else
             {
-                Logger.Error("Error while sending arcade announce via webhook : received = {0}", response.StatusCode);
+                Log.Error("Error while sending arcade announce via webhook : received = {0}", response.StatusCode);
             }
         }
         catch (Exception ex)
         {
-            Logger.Error(ex, "Error while sending arcade announce via webhook");
+            Log.Error(ex, "Error while sending arcade announce via webhook");
         }
     }
 }

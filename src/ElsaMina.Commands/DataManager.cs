@@ -19,7 +19,7 @@ public class DataManager : IDataManager
         PokemonDescriptions =
             await GetDataFromFile<List<PokemonDescription>>(Path.Join(DATA_DIRECTORY_NAME, "pokedesc.json"));
 
-        Logger.Information("Fetched countries & pokemon descriptions.");
+        Log.Information("Fetched countries & pokemon descriptions.");
     }
 
     private static async Task<T> GetDataFromFile<T>(string filePath)

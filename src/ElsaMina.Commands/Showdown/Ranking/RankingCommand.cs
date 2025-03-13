@@ -65,7 +65,7 @@ public class RankingCommand : Command
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "Ranking command failed");
+            Log.Error(exception, "Ranking command failed");
             context.ReplyRankAwareLocalizedMessage("rankcommand_error");
         }
     }

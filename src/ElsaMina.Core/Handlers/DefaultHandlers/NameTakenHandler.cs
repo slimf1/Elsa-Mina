@@ -15,7 +15,7 @@ public sealed class NameTakenHandler : Handler
     {
         if (parts.Length >= 2 && parts[1] == "nametaken")
         {
-            Logger.Error("Login failed, check username or password validity. Exiting");
+            Log.Error("Login failed, check username or password validity. Exiting");
             _systemService.Kill();
         }
 

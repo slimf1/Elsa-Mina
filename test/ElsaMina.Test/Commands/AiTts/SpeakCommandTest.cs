@@ -1,7 +1,7 @@
 using ElsaMina.Commands.AiTts;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Clock;
-using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.FileSharing;
 using NSubstitute;
@@ -11,7 +11,7 @@ namespace ElsaMina.Test.Commands.AiTts;
 public class SpeakCommandTest
 {
     private IHttpService _httpService;
-    private IConfigurationManager _configurationManager;
+    private IConfiguration _configuration;
     private IFileSharingService _fileSharingService;
     private IClockService _clockService;
     private IContext _context;
@@ -22,21 +22,23 @@ public class SpeakCommandTest
     public void SetUp()
     {
         _httpService = Substitute.For<IHttpService>();
-        _configurationManager = Substitute.For<IConfigurationManager>();
         _fileSharingService = Substitute.For<IFileSharingService>();
         _clockService = Substitute.For<IClockService>();
+        _configuration = Substitute.For<IConfiguration>();
         
         _context = Substitute.For<IContext>();
         
-        _command = new SpeakCommand(_httpService, _configurationManager,
-            _fileSharingService, _clockService);
+        _command = new SpeakCommand(_httpService,
+            _fileSharingService, _clockService, _configuration);
     }
     
     [Test]
-    public async Task Test_Run_ShouldDoNothing_WhenApiKeyIsMissing()
+    [TestCase(null)]
+    [TestCase("")]
+    public async Task Test_Run_ShouldDoNothing_WhenApiKeyIsMissing(string key)
     {
         // Given
-        _configurationManager.Configuration.ElevenLabsApiKey.Returns(string.Empty);
+        _configuration.ElevenLabsApiKey.Returns(key);
         
         // When
         await _command.Run(_context);
@@ -52,13 +54,13 @@ public class SpeakCommandTest
     public async Task Test_Run_ShouldFetchStreamAndUploadIt_WhenArgsAreValid()
     {
         // Given
-        _configurationManager.Configuration.ElevenLabsApiKey.Returns("key");
+        _configuration.ElevenLabsApiKey.Returns("key");
         _context.Target.Returns("target");
         var stream = new MemoryStream([1, 2, 3]);
-        _clockService.CurrentUtcDateTime.Returns(new DateTime(2020, 5, 3, 10, 30, 45));
+        _clockService.CurrentUtcDateTime.Returns(new DateTime(2020, 5, 3, 10, 30, 45, 300));
         _httpService.PostStreamAsync(Arg.Any<string>(), Arg.Is<ElevenLabsRequestDto>(dto => dto.Text == "target"),
             Arg.Any<IDictionary<string, string>>()).Returns(stream);
-        _fileSharingService.CreateFileAsync(stream, "speakcmd_20200503_103045.mp3",
+        _fileSharingService.CreateFileAsync(stream, "speakcmd_20200503_103045300.mp3",
                 "Speak command", "audio/mpeg")
             .Returns("url");
 
@@ -74,13 +76,13 @@ public class SpeakCommandTest
     public async Task Test_Run_ShouldFetchStreamAndUploadIt()
     {
         // Given
-        _configurationManager.Configuration.ElevenLabsApiKey.Returns("key");
+        _configuration.ElevenLabsApiKey.Returns("key");
         _context.Target.Returns("target");
         var stream = new MemoryStream([1, 2, 3]);
-        _clockService.CurrentUtcDateTime.Returns(new DateTime(2020, 5, 3, 10, 30, 45));
+        _clockService.CurrentUtcDateTime.Returns(new DateTime(2020, 5, 3, 10, 30, 45, 300));
         _httpService.PostStreamAsync(Arg.Any<string>(), Arg.Is<ElevenLabsRequestDto>(dto => dto.Text == "target"),
             Arg.Any<IDictionary<string, string>>()).Returns(stream);
-        _fileSharingService.CreateFileAsync(stream, "speakcmd_20200503_103045.mp3",
+        _fileSharingService.CreateFileAsync(stream, "speakcmd_20200503_103045300.mp3",
                 "Speak command", "audio/mpeg")
             .Returns("url");
 

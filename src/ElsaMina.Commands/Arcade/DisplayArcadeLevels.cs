@@ -37,7 +37,7 @@ public class DisplayArcadeLevels : Command
         }
         catch (Exception e)
         {
-            Logger.Error(e, "An error occurred while getting arcade levels.");
+            Log.Error(e, "An error occurred while getting arcade levels.");
         }
 
         if (!arcadeLevels.Any())

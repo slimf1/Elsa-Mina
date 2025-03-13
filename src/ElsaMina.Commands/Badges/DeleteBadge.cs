@@ -36,7 +36,7 @@ public class DeleteBadge : Command
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "Error while deleting badge");
+            Log.Error(exception, "Error while deleting badge");
             context.ReplyLocalizedMessage("badge_delete_failure", exception.Message);
         }
     }

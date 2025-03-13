@@ -21,11 +21,11 @@ public class DexManager : IDexManager
         {
             var response = await _httpService.GetAsync<List<Pokemon>>(DEX_URL);
             Pokedex = response.Data;
-            Logger.Information("Dex : Fetched {0} entries", Pokedex.Count);
+            Log.Information("Dex : Fetched {0} entries", Pokedex.Count);
         }
         catch (Exception ex)
         {
-            Logger.Error(ex, "Error loading Dex");
+            Log.Error(ex, "Error loading Dex");
         }
     }
 }

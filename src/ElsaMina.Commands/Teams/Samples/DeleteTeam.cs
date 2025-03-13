@@ -35,7 +35,7 @@ public class DeleteTeam : Command
         }
         catch (Exception exception)
         {
-            Logger.Error(exception, "An error occurred while deleting team");
+            Log.Error(exception, "An error occurred while deleting team");
             context.ReplyLocalizedMessage("deleteteam_team_deletion_error", exception.Message);
         }
     }

@@ -67,7 +67,7 @@ public class UserDetailsManager : IUserDetailsManager
         }
         catch (JsonSerializationException exception)
         {
-            Logger.Error(exception, "Error while deserializing userdata json");
+            Log.Error(exception, "Error while deserializing userdata json");
         }
 
         if (userDetailsDto == null || !_taskCompletionSources.TryRemove(userDetailsDto.UserId, out var entry))
