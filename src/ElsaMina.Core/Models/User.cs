@@ -4,7 +4,7 @@ namespace ElsaMina.Core.Models;
 
 public sealed class User : IUser, IEquatable<User>
 {
-    private static readonly IReadOnlyDictionary<char, Rank> RANK_MAPPING = new Dictionary<char, Rank>
+    private static readonly Dictionary<char, Rank> RANK_MAPPING = new()
     {
         [' '] = Rank.Regular,
         ['+'] = Rank.Voiced,

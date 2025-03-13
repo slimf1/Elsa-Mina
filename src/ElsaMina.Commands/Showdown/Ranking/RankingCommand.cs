@@ -39,12 +39,12 @@ public class RankingCommand : Command
         try
         {
             var result = await _showdownRanksProvider.GetRankingDataAsync(username.ToLowerAlphaNum());
-            var sortedRankings = result.OrderBy(rankingDto => -rankingDto.Gxe).ToList();
+            var sortedRankings = result.OrderByDescending(rankingDto => rankingDto.Gxe).ToList();
 
             sortedRankings.ForEach(rankingDto =>
                 rankingDto.FormatId = _formatsManager.GetCleanFormat(rankingDto.FormatId));
 
-            if (!sortedRankings.Any())
+            if (sortedRankings.Count == 0)
             {
                 context.ReplyRankAwareLocalizedMessage("rankcommand_no_ratings");
                 return;
