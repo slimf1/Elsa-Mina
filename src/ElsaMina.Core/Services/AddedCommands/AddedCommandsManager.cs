@@ -99,7 +99,7 @@ public class AddedCommandsManager : IAddedCommandsManager
 
         _predefinedFunctions.Add("choice", args => _randomService.RandomElement(args));
         _predefinedFunctions.Add("dice",
-            args => _randomService.NextInt(Convert.ToInt32(args[0].ToString()), Convert.ToInt32(args[0]) + 1));
+            args => _randomService.NextInt(Convert.ToInt32(args[0].ToString()), Convert.ToInt32(args[1]) + 1));
         _predefinedFunctions.Add("repeat", args => string.Concat(Enumerable.Repeat(args[0], Convert.ToInt32(args[1]))));
         _predefinedFunctions.Add("optional",
             args => _randomService.NextDouble() < Convert.ToDouble(args[1]) ? args[0] : string.Empty);
