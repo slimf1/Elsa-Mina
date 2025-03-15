@@ -36,7 +36,7 @@ public class GoogleDriveFileSharingService : IFileSharingService
     {
         if (_driveService == null)
         {
-            throw new ApplicationException("The GoogleDriveFileSharingService is not initialized.");
+            return null;
         }
 
         var fileMetadata = new Google.Apis.Drive.v3.Data.File
@@ -71,7 +71,7 @@ public class GoogleDriveFileSharingService : IFileSharingService
         Console.WriteLine($"File shared: {GetFileUrlFromId(file.Id)}");
     }
 
-    private string GetFileUrlFromId(string id)
+    private static string GetFileUrlFromId(string id)
     {
         return $"https://drive.google.com/file/d/{id}/view";
     }
@@ -82,7 +82,7 @@ public class GoogleDriveFileSharingService : IFileSharingService
         GC.SuppressFinalize(this);
     }
 
-    private void Dispose(bool disposing)
+    protected virtual void Dispose(bool disposing)
     {
         if (_disposed || !disposing)
         {

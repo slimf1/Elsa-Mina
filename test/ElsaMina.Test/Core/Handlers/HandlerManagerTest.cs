@@ -32,7 +32,7 @@ public class HandlerManagerTests
         _handlerManager.Initialize();
 
         // Assert
-        Assert.IsTrue(_handlerManager.IsInitialized);
+        Assert.That(_handlerManager.IsInitialized, Is.True);
     }
 
     [Test]
@@ -47,7 +47,7 @@ public class HandlerManagerTests
         _handlerManager.Initialize();
 
         // Assert
-        Assert.IsTrue(_handlerManager.IsInitialized);
+        Assert.That(_handlerManager.IsInitialized, Is.True);
     }
 
     [Test]

@@ -7,7 +7,7 @@ namespace ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
 public class PokepasteProvider : ITeamProvider
 {
     private static readonly Regex TEAM_LINK_REGEX = new(@"https:\/\/(pokepast\.es\/[0-9A-Fa-f]{16}\/?)",
-        RegexOptions.Compiled, TimeSpan.FromSeconds(1));
+        RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
     
     private readonly IHttpService _httpService;
 

@@ -6,10 +6,10 @@ namespace ElsaMina.Core.Utils;
 public static class Text
 {
     private static readonly Regex ALPHA_NUMERIC_FILTER_REGEX = new("[^A-Za-z0-9]",
-        RegexOptions.Compiled, TimeSpan.FromSeconds(1));
+        RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
 
     private static readonly Regex WHITESPACE_BETWEEN_TAGS_REGEX =
-        new(@"\s*(<[^>]+>)\s*", RegexOptions.Compiled, TimeSpan.FromSeconds(1));
+        new(@"\s*(<[^>]+>)\s*", RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
 
 
     public static string ToLowerAlphaNum(this string text)

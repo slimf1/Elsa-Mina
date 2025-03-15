@@ -9,7 +9,7 @@ public class CoupCritiqueProvider : ITeamProvider
     private const string COUP_CRITIQUE_API_URL = "https://www.coupcritique.fr/api/teams/{0}";
 
     private static readonly Regex TEAM_LINK_REGEX = new(@"https:\/\/(www\.coupcritique\.fr\/entity\/teams\/\d+\/?)",
-        RegexOptions.Compiled, TimeSpan.FromSeconds(1));
+        RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
     
     private readonly IHttpService _httpService;
 

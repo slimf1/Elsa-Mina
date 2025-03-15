@@ -4,9 +4,9 @@ namespace ElsaMina.Core;
 
 public static class Log
 {
-    private static readonly Serilog.Core.Logger Logger;
+    private static readonly Serilog.Core.Logger Logger = GetLogger();
 
-    static Log()
+    private static Serilog.Core.Logger GetLogger()
     {
         var loggerConfig = new LoggerConfiguration()
             .Enrich.FromLogContext()
@@ -17,7 +17,7 @@ public static class Log
             loggerConfig.MinimumLevel.Information();
             loggerConfig.WriteTo.File("log.txt", rollingInterval: RollingInterval.Day);
 #endif
-        Logger = loggerConfig.CreateLogger();
+        return loggerConfig.CreateLogger();
     }
 
     public static void Information(string message) => Logger.Information(message);

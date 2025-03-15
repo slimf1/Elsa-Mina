@@ -12,6 +12,9 @@ public class AddedCommandsManager : IAddedCommandsManager
     private const int MAX_HEIGHT = 300;
     private const int MAX_WIDTH = 400;
 
+    private static readonly Regex EXPRESSION_IDENTIFIER =
+        new("{([^}]+)}", RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
+
     private readonly IAddedCommandRepository _addedCommandRepository;
     private readonly IImageService _imageService;
     private readonly IRandomService _randomService;
@@ -56,7 +59,7 @@ public class AddedCommandsManager : IAddedCommandsManager
     {
         InitializeDefinitions(context);
 
-        var matches = Regex.Matches(content, "{([^}]+)}");
+        var matches = EXPRESSION_IDENTIFIER.Matches(content);
         foreach (Match match in matches)
         {
             var expression = match.Groups[1].Value;
@@ -93,7 +96,7 @@ public class AddedCommandsManager : IAddedCommandsManager
         // Pas très opti en effet
         _predefinedFunctions.Clear();
         _predefinedIdentifiers.Clear();
-        
+
         _predefinedFunctions.Add("choice", args => _randomService.RandomElement(args));
         _predefinedFunctions.Add("dice",
             args => _randomService.NextInt(Convert.ToInt32(args[0].ToString()), Convert.ToInt32(args[0]) + 1));

@@ -71,7 +71,7 @@ public class S3FileSharingService : IFileSharingService
         using var sha256 = SHA256.Create();
         var hashBytes = sha256.ComputeHash(stream);
         stream.Position = 0;
-        return BitConverter.ToString(hashBytes).Replace("-", "").ToLower(); // Convert to hex string
+        return Convert.ToHexStringLower(hashBytes).Replace("-", "").ToLower(); // Convert to hex string
     }
 
     public void Dispose()
@@ -80,7 +80,7 @@ public class S3FileSharingService : IFileSharingService
         GC.SuppressFinalize(this);
     }
 
-    private void Dispose(bool disposing)
+    protected virtual void Dispose(bool disposing)
     {
         if (_disposed || !disposing)
         {

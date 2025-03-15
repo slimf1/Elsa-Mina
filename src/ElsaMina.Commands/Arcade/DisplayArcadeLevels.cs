@@ -40,16 +40,17 @@ public class DisplayArcadeLevels : Command
             Log.Error(e, "An error occurred while getting arcade levels.");
         }
 
-        if (!arcadeLevels.Any())
+        if (arcadeLevels.Count == 0)
         {
             context.ReplyLocalizedMessage("arcade_level_no_users");
             return;
         }
+
         foreach (var arcadeLevel in arcadeLevels)
         {
-            if (levels.ContainsKey(arcadeLevel.Level))
+            if (levels.TryGetValue(arcadeLevel.Level, out var currentLevelList))
             {
-                levels[arcadeLevel.Level].Add(arcadeLevel.Id);
+                currentLevelList.Add(arcadeLevel.Id);
             }
             else
             {
@@ -62,7 +63,7 @@ public class DisplayArcadeLevels : Command
             Culture = context.Culture,
             Levels = levels
         });
-        
+
         context.SendHtml(template.RemoveNewlines(), rankAware: true);
     }
 }

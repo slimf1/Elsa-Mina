@@ -16,7 +16,7 @@ public class AddTeam : Command
 {
     private const int MAX_NAME_LENGTH = 70;
     private static readonly Regex TEAM_NAME_FILTER = new(@"[^\w\d\s+\-[\]]", RegexOptions.Compiled,
-        TimeSpan.FromSeconds(1));
+        Constants.REGEX_MATCH_TIMEOUT);
 
     private readonly ITeamLinkMatchFactory _teamLinkMatchFactory;
     private readonly ITeamRepository _teamRepository;

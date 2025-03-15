@@ -93,11 +93,12 @@ public class RankingCommandTests
         await _rankingCommand.Run(_context);
 
         // Assert
+        string[] expectedFormats = ["gen4ou", "gen5ou", "gen6ou", "gen7ou", "gen8ou"];
         await _templatesManager.Received()
             .GetTemplate("Showdown/Ranking/RankingShowcase",
                 Arg.Is<RankingShowcaseViewModel>(vm =>
                     vm.Rankings.Select(r => r.FormatId)
-                        .SequenceEqual(new[] { "gen4ou", "gen5ou", "gen6ou", "gen7ou", "gen8ou" })));
+                        .SequenceEqual(expectedFormats)));
         _context.Received().SendHtml("formatted_html", rankAware: true);
     }
 

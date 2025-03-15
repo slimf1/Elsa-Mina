@@ -18,7 +18,7 @@ public sealed class User : IUser, IEquatable<User>
     
     public static IUser FromUsername(string username)
     {
-        var rank = RANK_MAPPING.ContainsKey(username[0]) ? RANK_MAPPING[username[0]] : Rank.Regular;
+        var rank = RANK_MAPPING.TryGetValue(username[0], out var rankValue) ? rankValue : Rank.Regular;
         return new User(username[1..], rank);
     }
     

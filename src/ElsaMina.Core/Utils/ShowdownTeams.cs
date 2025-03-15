@@ -38,20 +38,22 @@ public static class ShowdownTeams
         ["spe"] = "Spe"
     };
 
-    private static readonly Regex NATURE_REGEX = new("^[A-Za-z]+ (N|n)ature", RegexOptions.Compiled, TimeSpan.FromSeconds(1));
-    
+    private static readonly Regex NATURE_REGEX =
+        new("^[A-Za-z]+ (N|n)ature", RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
+
     public static IEnumerable<PokemonSet> DeserializeTeamExport(string export)
     {
         var team = new List<PokemonSet>();
         PokemonSet currentSet = null;
-        
+
         foreach (var teamLine in export.Split("\n"))
         {
             var line = teamLine.Trim();
             if (line == string.Empty || line == "---")
             {
                 currentSet = null;
-            } else if (currentSet == null) 
+            }
+            else if (currentSet == null)
             {
                 currentSet = new PokemonSet
                 {
@@ -59,7 +61,7 @@ public static class ShowdownTeams
                     Species = string.Empty,
                     Gender = string.Empty
                 };
-                
+
                 team.Add(currentSet);
                 var atIndex = line.LastIndexOf(" @ ", StringComparison.Ordinal);
                 if (atIndex != -1)
@@ -99,45 +101,56 @@ public static class ShowdownTeams
                     currentSet.Species = line; // TODO : dex
                     currentSet.Name = string.Empty;
                 }
-            } else if (line.Length > 7 && line.Substring(0, 7) == "Trait: ")
+            }
+            else if (line.Length > 7 && line.Substring(0, 7) == "Trait: ")
             {
                 line = line.Substring(7);
                 currentSet.Ability = line;
-            } else if (line.Length > 9 && line.Substring(0, 9) == "Ability: ")
+            }
+            else if (line.Length > 9 && line.Substring(0, 9) == "Ability: ")
             {
                 line = line.Substring(9);
                 currentSet.Ability = line;
-            } else if (line == "Shiny: Yes")
+            }
+            else if (line == "Shiny: Yes")
             {
                 currentSet.IsShiny = true;
-            } else if (line.Length > 7 && line.Substring(0, 7) == "Level: ")
+            }
+            else if (line.Length > 7 && line.Substring(0, 7) == "Level: ")
             {
                 line = line.Substring(7);
                 currentSet.Level = int.Parse(line);
-            } else if (line.Length > 11 && line.Substring(0, 11) == "Happiness: ")
+            }
+            else if (line.Length > 11 && line.Substring(0, 11) == "Happiness: ")
             {
                 line = line.Substring(11);
                 currentSet.Happiness = int.Parse(line);
-            } else if (line.Length > 10 && line.Substring(0, 10) == "Pokeball: ")
+            }
+            else if (line.Length > 10 && line.Substring(0, 10) == "Pokeball: ")
             {
                 line = line.Substring(10);
                 currentSet.Pokeball = line;
-            } else if (line.Length > 14 && line.Substring(0, 14) == "Hidden Power: ")
+            }
+            else if (line.Length > 14 && line.Substring(0, 14) == "Hidden Power: ")
             {
                 line = line.Substring(14);
                 currentSet.HiddenPowerType = line;
-            } else if (line.Length > 11 && line.Substring(0, 11) == "Tera Type: ")
+            }
+            else if (line.Length > 11 && line.Substring(0, 11) == "Tera Type: ")
             {
                 line = line.Substring(11);
                 currentSet.TeraType = line;
-            } else if (line.Length > 15 && line.Substring(0, 15) == "Dynamax Level: ")
+            }
+            else if (line.Length > 15 && line.Substring(0, 15) == "Dynamax Level: ")
             {
                 line = line.Substring(15);
                 currentSet.DynamaxLevel = int.Parse(line);
-            } else if (line == "Gigantamax: Yes")
+            }
+            else if (line == "Gigantamax: Yes")
             {
                 currentSet.IsGigantamax = true;
-            } else if (line.Length > 5 && line.Substring(0, 5) == "EVs: ")
+            }
+            else if (line.Length > 5 && line.Substring(0, 5) == "EVs: ")
             {
                 line = line.Substring(5);
                 var evLines = line.Split("/");
@@ -168,7 +181,8 @@ public static class ShowdownTeams
 
                     currentSet.EffortValues[statId] = statVal;
                 }
-            } else if (line.Length > 5 && line.Substring(0, 5) == "IVs: ")
+            }
+            else if (line.Length > 5 && line.Substring(0, 5) == "IVs: ")
             {
                 line = line.Substring(5);
                 var ivLines = line.Split(" / ");
@@ -189,7 +203,7 @@ public static class ShowdownTeams
                     {
                         continue;
                     }
-                    
+
                     var statId = BATTLE_STAT_IDS[ivLine.Substring(spaceIndex + 1)];
                     var statVal = int.Parse(ivLine.Substring(0, spaceIndex));
                     if (string.IsNullOrEmpty(statId))
@@ -199,7 +213,8 @@ public static class ShowdownTeams
 
                     currentSet.IndividualValues[statId] = statVal;
                 }
-            } else if (NATURE_REGEX.IsMatch(line))
+            }
+            else if (NATURE_REGEX.IsMatch(line))
             {
                 var natureIndex = line.IndexOf(" Nature", StringComparison.Ordinal);
                 if (natureIndex == -1)
@@ -217,7 +232,8 @@ public static class ShowdownTeams
                 {
                     currentSet.Nature = line;
                 }
-            } else if (line.Length > 0 && line.Substring(0, 1) == "-" || line.Substring(0, 1) == "~")
+            }
+            else if (line.Length > 0 && line.Substring(0, 1) == "-" || line.Substring(0, 1) == "~")
             {
                 line = line.Substring(1);
                 if (line.Substring(0, 1) == " ")
@@ -229,13 +245,13 @@ public static class ShowdownTeams
                 {
                     currentSet.Moves = new List<string>();
                 }
-                
+
                 // TODO: hidden power
 
                 currentSet.Moves.Add(line);
             }
         }
-        
+
         return team;
     }
 
@@ -365,6 +381,7 @@ public static class ShowdownTeams
                 builder.Append($"{set.IndividualValues[key]} {value}");
             }
         }
+
         if (!firstIv)
         {
             builder.AppendLine();

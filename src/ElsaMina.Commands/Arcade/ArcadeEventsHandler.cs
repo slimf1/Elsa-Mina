@@ -15,7 +15,10 @@ public class ArcadeEventsHandler : Handler
     private const string WEBHOOK_AVATAR_URL = "https://play.pokemonshowdown.com/sprites/trainers/lusamine.png";
     private const string NOTIFICATION_TITLE = "Notif Event";
     private const int NOTIFICATION_COLOR = 3066993;
-    private static readonly Regex EVENT_REGEX = new("""<div class="broadcast-blue"><b>The "(.*?)" roomevent has started!</b></div>""");
+
+    private static readonly Regex EVENT_REGEX =
+        new("""<div class="broadcast-blue"><b>The "(.*?)" roomevent has started!</b></div>""", RegexOptions.Compiled,
+            Constants.REGEX_MATCH_TIMEOUT);
 
     private readonly IHttpService _httpService;
     private readonly IConfigurationManager _configurationManager;

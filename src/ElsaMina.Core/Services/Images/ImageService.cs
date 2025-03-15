@@ -7,7 +7,7 @@ namespace ElsaMina.Core.Services.Images;
 public class ImageService : IImageService
 {
     private static readonly Regex IMAGE_LINK_REGEX = new("(http)?s?:(//[^\"']*.(?:png|jpg|jpeg|gif|png|svg))",
-        RegexOptions.Compiled, TimeSpan.FromSeconds(1));
+        RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
 
     private readonly IHttpService _httpService;
 

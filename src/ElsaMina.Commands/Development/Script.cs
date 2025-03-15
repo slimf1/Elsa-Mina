@@ -20,10 +20,8 @@ public class Script : DevelopmentCommand
     // ReSharper disable once MemberCanBePrivate.Global
     public class Globals
     {
-        // ReSharper disable once NotAccessedField.Global
-        public IContext Context;
-        // ReSharper disable once NotAccessedField.Global
-        public IDependencyContainerService Container;
+        public IContext Context { get; set; }
+        public IDependencyContainerService Container { get; set; }
     }
 
     public override async Task Run(IContext context)

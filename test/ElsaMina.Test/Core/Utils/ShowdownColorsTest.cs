@@ -26,7 +26,7 @@ public class ShowdownColorsTests
     }
 
     [Test]
-    public void ToColor_ShouldGenerateConsistentColor_ForSameString()
+    public void Test_ToColor_ShouldGenerateConsistentColor_ForSameString()
     {
         // Arrange
         const string input = "consistent";
@@ -40,7 +40,7 @@ public class ShowdownColorsTests
     }
 
     [Test]
-    public void ToHexString_ShouldReturnCorrectFormat_WhenCalled()
+    public void Test_ToHexString_ShouldReturnCorrectFormat_WhenCalled()
     {
         // Arrange
         var color = Color.FromArgb(255, 128, 64);
@@ -53,7 +53,7 @@ public class ShowdownColorsTests
     }
 
     [Test]
-    public void ToHslString_ShouldReturnCorrectHslString_WhenCalled()
+    public void Test_ToHslString_ShouldReturnCorrectHslString_WhenCalled()
     {
         // Arrange
         var color = Color.FromArgb(255, 128, 64);
@@ -62,11 +62,11 @@ public class ShowdownColorsTests
         var hslString = color.ToHslString();
 
         // Assert
-        Assert.That(hslString.StartsWith("HSL("), Is.True); // Rough structure check
+        Assert.That(hslString, Does.StartWith("HSL("));
     }
 
     [Test]
-    public void ToRgbString_ShouldReturnCorrectRgbString_WhenCalled()
+    public void Test_ToRgbString_ShouldReturnCorrectRgbString_WhenCalled()
     {
         // Arrange
         var color = Color.FromArgb(255, 128, 64);
@@ -79,7 +79,7 @@ public class ShowdownColorsTests
     }
 
     [Test]
-    public void ToColorHexCodeWithCustoms_ShouldUseCustomColor_WhenCustomColorExists()
+    public void Test_ToColorHexCodeWithCustoms_ShouldUseCustomColor_WhenCustomColorExists()
     {
         // Arrange
         var userName = "customUser";
@@ -95,7 +95,7 @@ public class ShowdownColorsTests
     }
 
     [Test]
-    public void ToColorHexCodeWithCustoms_ShouldFallbackToGeneratedColor_WhenNoCustomColorExists()
+    public void Test_ToColorHexCodeWithCustoms_ShouldFallbackToGeneratedColor_WhenNoCustomColorExists()
     {
         // Arrange
         var userName = "fallbackUser";
@@ -106,6 +106,6 @@ public class ShowdownColorsTests
         var result = userName.ToColorHexCodeWithCustoms();
 
         // Assert
-        Assert.That(result.StartsWith("#"), Is.True); // Check it generates a valid hex code
+        Assert.That(result, Does.StartWith("#"));
     }
 }
