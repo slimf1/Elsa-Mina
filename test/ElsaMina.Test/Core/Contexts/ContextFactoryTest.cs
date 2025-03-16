@@ -73,10 +73,13 @@ public class ContextFactoryTest
         var result = _contextFactory.TryBuildContextFromReceivedMessage(parts, "room1");
 
         // Assert
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.InstanceOf<RoomContext>());
-        Assert.That(((RoomContext)result).Command, Is.EqualTo("test"));
-        Assert.That(((RoomContext)result).Target, Is.EqualTo("arg"));
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<RoomContext>());
+            Assert.That(((RoomContext)result).Command, Is.EqualTo("test"));
+            Assert.That(((RoomContext)result).Target, Is.EqualTo("arg"));
+        });
     }
 
     [Test]
@@ -93,10 +96,13 @@ public class ContextFactoryTest
         var result = _contextFactory.TryBuildContextFromReceivedMessage(parts);
 
         // Assert
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.InstanceOf<PmContext>());
-        Assert.That(((PmContext)result).Command, Is.EqualTo("test"));
-        Assert.That(((PmContext)result).Target, Is.EqualTo("arg"));
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<PmContext>());
+            Assert.That(((PmContext)result).Command, Is.EqualTo("test"));
+            Assert.That(((PmContext)result).Target, Is.EqualTo("arg"));
+        });
     }
 
     [Test]
@@ -113,10 +119,13 @@ public class ContextFactoryTest
             ?.Invoke(_contextFactory, new object[] { message });
 
         // Assert
-        Assert.That(result, Is.Not.Null);
-        var (target, command) = ((string, string))result;
-        Assert.That(target, Is.EqualTo("arg"));
-        Assert.That(command, Is.EqualTo("command"));
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.Not.Null);
+            var (target, command) = ((string, string))result;
+            Assert.That(target, Is.EqualTo("arg"));
+            Assert.That(command, Is.EqualTo("command"));
+        });
     }
 
     [Test]
@@ -133,9 +142,12 @@ public class ContextFactoryTest
             ?.Invoke(_contextFactory, [message]);
 
         // Assert
-        Assert.That(result, Is.Not.Null);
-        var (target, command) = ((string, string))result;
-        Assert.That(target, Is.Null);
-        Assert.That(command, Is.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.Not.Null);
+            var (target, command) = ((string, string))result;
+            Assert.That(target, Is.Null);
+            Assert.That(command, Is.Null);
+        });
     }
 }
