@@ -21,39 +21,9 @@ public abstract class Command : ICommand
     public virtual bool IsHidden => false;
     public virtual IEnumerable<string> RoomRestriction => [];
 
-    public void ReplyLocalizedHelpMessage(IContext context, params object[] formatArguments)
+    public void ReplyLocalizedHelpMessage(IContext context)
     {
-        context.Reply(context.GetString(HelpMessageKey, formatArguments));
-    }
-
-    public async Task Call(IContext context)
-    {
-        if (IsPrivateMessageOnly && !context.IsPrivateMessage)
-        {
-            return;
-        }
-
-        if (context.IsPrivateMessage && !(IsAllowedInPrivateMessage || IsPrivateMessageOnly))
-        {
-            return;
-        }
-
-        if (IsWhitelistOnly && !context.IsSenderWhitelisted)
-        {
-            return;
-        }
-
-        if (!context.HasSufficientRank(RequiredRank))
-        {
-            return;
-        }
-
-        if (RoomRestriction.Any() && !RoomRestriction.Contains(context.RoomId))
-        {
-            return;
-        }
-
-        await Run(context);
+        context.Reply(context.GetString(HelpMessageKey));
     }
 
     public abstract Task Run(IContext context);

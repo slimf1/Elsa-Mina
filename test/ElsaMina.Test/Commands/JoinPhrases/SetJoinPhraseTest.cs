@@ -48,7 +48,7 @@ public class SetJoinPhraseTest
         await _command.Run(context);
 
         // Assert
-        context.Received(1).GetString(_command.HelpMessageKey, []);
+        context.Received(1).GetString(_command.HelpMessageKey);
     }
 
     [Test]

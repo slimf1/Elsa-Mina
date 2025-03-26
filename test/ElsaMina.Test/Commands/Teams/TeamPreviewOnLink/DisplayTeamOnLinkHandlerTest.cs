@@ -20,7 +20,7 @@ public class DisplayTeamOnLinkHandlerTest
     private ITeamLinkMatchFactory _teamLinkMatchFactory;
     private ITemplatesManager _templatesManager;
     private IRoomsManager _roomsManager;
-    private IConfigurationManager _configurationManager;
+    private IConfiguration _configuration;
     private IContextFactory _contextFactory;
     private IContext _context;
 
@@ -31,11 +31,11 @@ public class DisplayTeamOnLinkHandlerTest
         _teamLinkMatchFactory = Substitute.For<ITeamLinkMatchFactory>();
         _templatesManager = Substitute.For<ITemplatesManager>();
         _roomsManager = Substitute.For<IRoomsManager>();
-        _configurationManager = Substitute.For<IConfigurationManager>();
+        _configuration = Substitute.For<IConfiguration>();
         _contextFactory = Substitute.For<IContextFactory>();
 
         _handler = new DisplayTeamOnLinkHandler(_contextFactory, _clockService, _teamLinkMatchFactory,
-            _templatesManager, _roomsManager, _configurationManager);
+            _templatesManager, _roomsManager, _configuration);
         _context = Substitute.For<IContext>();
         _contextFactory.TryBuildContextFromReceivedMessage(Arg.Any<string[]>(), Arg.Any<string>())
             .Returns(_context);
@@ -45,7 +45,7 @@ public class DisplayTeamOnLinkHandlerTest
     public async Task Test_HandleMessage_ShouldNotProceed_WhenMessageStartsWithTrigger()
     {
         // Arrange
-        _configurationManager.Configuration.Trigger.Returns("!");
+        _configuration.Trigger.Returns("!");
         _context.Message.Returns("!triggered");
 
         // Act
@@ -59,7 +59,7 @@ public class DisplayTeamOnLinkHandlerTest
     public async Task Test_HandleMessage_ShouldNotProceed_WhenSenderIsBot()
     {
         // Arrange
-        _configurationManager.Configuration.Name.Returns("BotName");
+        _configuration.Name.Returns("BotName");
         _context.Sender.UserId.Returns("botname");
         _context.Message.Returns("some message");
 
@@ -127,7 +127,8 @@ public class DisplayTeamOnLinkHandlerTest
         _roomsManager.GetRoomBotConfigurationParameterValue(
             "roomId", RoomParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW).Returns("true");
         _teamLinkMatchFactory.FindTeamLinkMatch("team link").Returns(teamLinkMatch);
-        _configurationManager.Configuration.Returns(new Configuration { Trigger = "-", Name = "Bot" });
+        _configuration.Trigger.Returns("-");
+        _configuration.Name.Returns("Bot");
 
         var expectedHtml = "<div>Team Preview HTML</div>";
         _templatesManager.GetTemplate("Teams/TeamPreview", Arg.Any<TeamPreviewViewModel>())

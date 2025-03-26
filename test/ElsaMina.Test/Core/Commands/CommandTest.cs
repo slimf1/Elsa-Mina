@@ -18,91 +18,13 @@ public class CommandTest
         _testCommand = new TestCommand(_action);
         _context = Substitute.For<IContext>();
     }
-
+    
     [Test]
-    public async Task Test_Call_ShouldNotRun_WhenIsPrivateMessageOnlyAndContextNotPrivateMessage()
+    public void Test_Constructor_ShouldInitializePropertiesFromAttribute()
     {
-        // Arrange
-        _context.IsPrivateMessage.Returns(false);
-        _testCommand.CommandIsPrivateMessageOnly = true;
-
-        // Act
-        await _testCommand.Call(_context);
-
         // Assert
-        _action.DidNotReceive().Invoke();
-    }
-
-    [Test]
-    public async Task Test_Call_ShouldRun_WhenIsPrivateMessageOnlyAndContextIsPrivateMessage()
-    {
-        // Arrange
-        _context.IsPrivateMessage.Returns(true);
-        _context.HasSufficientRank(Arg.Any<Rank>()).Returns(true);
-        _testCommand.CommandIsPrivateMessageOnly = true;
-
-        // Act
-        await _testCommand.Call(_context);
-
-        // Assert
-        _action.Received(1).Invoke();
-    }
-
-    [Test]
-    public async Task Test_Call_ShouldNotRun_WhenIsWhitelistOnlyAndSenderNotWhitelisted()
-    {
-        // Arrange
-        _context.IsSenderWhitelisted.Returns(false);
-        _testCommand.CommandIsWhitelistOnly = true;
-
-        // Act
-        await _testCommand.Call(_context);
-
-        // Assert
-        _action.DidNotReceive().Invoke();
-    }
-
-    [Test]
-    public async Task Test_Call_ShouldRun_WhenIsWhitelistOnlyAndSenderIsWhitelisted()
-    {
-        // Arrange
-        _context.IsSenderWhitelisted.Returns(true);
-        _context.HasSufficientRank(Arg.Any<Rank>()).Returns(true);
-        _testCommand.CommandIsWhitelistOnly = true;
-
-        // Act
-        await _testCommand.Call(_context);
-
-        // Assert
-        _action.Received(1).Invoke();
-    }
-
-    [Test]
-    public async Task Test_Call_ShouldNotRun_WhenInsufficientRank()
-    {
-        // Arrange
-        _context.HasSufficientRank(Arg.Any<Rank>()).Returns(false);
-        _testCommand.CommandRequiredRank = Rank.Admin;
-
-        // Act
-        await _testCommand.Call(_context);
-
-        // Assert
-        _action.DidNotReceive().Invoke();
-    }
-
-    [Test]
-    public async Task Test_Call_ShouldRun_WhenSufficientRank()
-    {
-        // Arrange
-        _context.HasSufficientRank(Arg.Any<Rank>()).Returns(true);
-        _testCommand.CommandRequiredRank = Rank.Admin;
-
-        // Act
-        await _testCommand.Call(_context);
-
-        // Assert
-        _action.Received(1).Invoke();
+        Assert.That(_testCommand.Name, Is.EqualTo("test-command"));
+        Assert.That(_testCommand.Aliases, Is.EquivalentTo(new[] { "alias1", "alias2" }));
     }
 
     [Test]
@@ -110,7 +32,7 @@ public class CommandTest
     {
         // Arrange
         _testCommand.CommandHelpMessageKey = "Help.Key";
-        _context.GetString("Help.Key", Arg.Any<object[]>()).Returns("Localized Help Message");
+        _context.GetString("Help.Key").Returns("Localized Help Message");
 
         // Act
         _testCommand.ReplyLocalizedHelpMessage(_context);
@@ -119,6 +41,7 @@ public class CommandTest
         _context.Received(1).Reply("Localized Help Message");
     }
 
+    [NamedCommand("test-command", "alias1", "alias2")]
     private class TestCommand : Command
     {
         private readonly Action _action;
@@ -127,15 +50,9 @@ public class CommandTest
         {
             _action = action;
         }
-
-        public bool CommandIsPrivateMessageOnly { get; set; }
-        public bool CommandIsWhitelistOnly { get; set; }
-        public Rank CommandRequiredRank { get; set; }
+        
         public string CommandHelpMessageKey { get; set; }
-
-        public override bool IsWhitelistOnly => CommandIsWhitelistOnly;
-        public override bool IsPrivateMessageOnly => CommandIsPrivateMessageOnly;
-        public override Rank RequiredRank => CommandRequiredRank;
+        
         public override string HelpMessageKey => CommandHelpMessageKey;
 
         public override Task Run(IContext context)

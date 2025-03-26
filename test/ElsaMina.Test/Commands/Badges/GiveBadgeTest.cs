@@ -28,7 +28,7 @@ public class GiveBadgeTest
     public async Task Test_Run_ShouldReplyWithHelpMessage_WhenInvalidArguments()
     {
         // Arrange
-        _context.GetString("badge_give_help_message", Arg.Any<object[]>()).Returns("myMessage");
+        _context.GetString("badge_give_help_message").Returns("myMessage");
         _context.Target.Returns("invalid");
         _context.RoomId.Returns("roomId");
 

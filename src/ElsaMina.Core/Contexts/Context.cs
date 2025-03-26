@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Net;
 using ElsaMina.Core.Models;
 
 namespace ElsaMina.Core.Contexts;
@@ -52,15 +51,16 @@ public abstract class Context : IContext
     {
         Reply(GetString(key, formatArguments), rankAware: true);
     }
-    
+
     public void HandleError(Exception exception)
     {
         if (!IsAllowingErrorMessages)
         {
             return;
         }
-        Reply(_contextProvider.GetString("command_execution_error", Culture));
-        Reply($"!code {WebUtility.HtmlEncode(exception.GetType().FullName)}: {WebUtility.HtmlEncode(exception.Message)}\n{WebUtility.HtmlEncode(exception.StackTrace)}");
+
+        ReplyLocalizedMessage("command_execution_error");
+        Reply($"!code {exception.GetType().FullName}: {exception.Message}\n{exception.StackTrace}");
     }
 
     public abstract string RoomId { get; }

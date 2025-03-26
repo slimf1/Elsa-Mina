@@ -1,4 +1,4 @@
-﻿using ElsaMina.Core.Services.Config;
+﻿using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Http;
 
 namespace ElsaMina.Core.Services.Login;
@@ -8,12 +8,12 @@ public class LoginService : ILoginService
     public const string LOGIN_URL = "https://play.pokemonshowdown.com/action.php";
 
     private readonly IHttpService _httpService;
-    private readonly IConfigurationManager _configurationManager;
+    private readonly IConfiguration _configuration;
 
-    public LoginService(IHttpService httpService, IConfigurationManager configurationManager)
+    public LoginService(IHttpService httpService, IConfiguration configuration)
     {
         _httpService = httpService;
-        _configurationManager = configurationManager;
+        _configuration = configuration;
     }
 
     public async Task<LoginResponseDto> Login(string challstr)
@@ -21,8 +21,8 @@ public class LoginService : ILoginService
         var form = new Dictionary<string, string>
         {
             ["challstr"] = challstr,
-            ["name"] = _configurationManager.Configuration.Name,
-            ["pass"] = _configurationManager.Configuration.Password,
+            ["name"] = _configuration.Name,
+            ["pass"] = _configuration.Password,
             ["act"] = "login"
         };
 

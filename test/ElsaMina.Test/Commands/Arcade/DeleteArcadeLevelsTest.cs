@@ -29,7 +29,7 @@ public class DeleteArcadeLevelTests
         await _command.Run(context);
 
         // Assert
-        context.Received(1).GetString("arcade_level_delete_help", Arg.Any<object[]>());
+        context.Received(1).GetString("arcade_level_delete_help");
     }
 
     [Test]

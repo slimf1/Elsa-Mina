@@ -5,7 +5,7 @@ using NSubstitute;
 
 namespace ElsaMina.Test.Core.Services.UserDetails;
 
-public class UserDetailsManagerTest
+public class  UserDetailsManagerTest
 {
     private IClient _client;
     private ISystemService _systemService;

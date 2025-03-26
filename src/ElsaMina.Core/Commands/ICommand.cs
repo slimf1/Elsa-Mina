@@ -15,6 +15,6 @@ public interface ICommand : IBotLifecycleHandler
     public bool IsHidden { get; }
     public IEnumerable<string> RoomRestriction { get; }
 
-    void ReplyLocalizedHelpMessage(IContext context, params object[] formatArguments);
-    Task Call(IContext context);
+    void ReplyLocalizedHelpMessage(IContext context);
+    Task Run(IContext context);
 }

@@ -22,6 +22,7 @@ public class TeamList : Command
     }
 
     public override bool IsAllowedInPrivateMessage => true;
+    public override Rank RequiredRank => Rank.Regular;
 
     public override async Task Run(IContext context)
     {

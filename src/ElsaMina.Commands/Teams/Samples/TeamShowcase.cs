@@ -1,5 +1,6 @@
 ﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Repositories;
@@ -18,6 +19,8 @@ public class TeamShowcase : Command
         _teamRepository = teamRepository;
         _templatesManager = templatesManager;
     }
+
+    public override Rank RequiredRank => Rank.Regular;
 
     public override async Task Run(IContext context)
     {

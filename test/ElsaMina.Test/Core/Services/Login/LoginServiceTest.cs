@@ -11,15 +11,15 @@ namespace ElsaMina.Test.Core.Services.Login;
 public class LoginServiceTest
 {
     private IHttpService _httpService;
-    private IConfigurationManager _configurationManager;
+    private IConfiguration _configuration;
     private LoginService _loginService;
 
     [SetUp]
     public void SetUp()
     {
         _httpService = Substitute.For<IHttpService>();
-        _configurationManager = Substitute.For<IConfigurationManager>();
-        _loginService = new LoginService(_httpService, _configurationManager);
+        _configuration = Substitute.For<IConfiguration>();
+        _loginService = new LoginService(_httpService, _configuration);
     }
 
     [Test]
@@ -29,8 +29,8 @@ public class LoginServiceTest
         var challstr = "sampleChallstr";
         var expectedResponse = new LoginResponseDto { /* set expected properties */ };
         var loginResponse = new HttpResponse<LoginResponseDto> { Data = expectedResponse };
-        var config = new Configuration { Name = "user", Password = "password" };
-        _configurationManager.Configuration.Returns(config);
+        _configuration.Name.Returns("user");
+        _configuration.Password.Returns("password");
 
         _httpService
             .PostUrlEncodedFormAsync<LoginResponseDto>(Arg.Is(LoginService.LOGIN_URL), Arg.Any<Dictionary<string, string>>(), true)
@@ -49,8 +49,8 @@ public class LoginServiceTest
     {
         // Arrange
         var challstr = "sampleChallstr";
-        var config = new Configuration { Name = "user", Password = "password" };
-        _configurationManager.Configuration.Returns(config);
+        _configuration.Name.Returns("user");
+        _configuration.Password.Returns("password");
 
         _httpService
             .PostUrlEncodedFormAsync<LoginResponseDto>(Arg.Is(LoginService.LOGIN_URL), Arg.Any<Dictionary<string, string>>(), true)
@@ -68,8 +68,8 @@ public class LoginServiceTest
     {
         // Arrange
         var challstr = "sampleChallstr";
-        var config = new Configuration { Name = "user", Password = "password" };
-        _configurationManager.Configuration.Returns(config);
+        _configuration.Name.Returns("user");
+        _configuration.Password.Returns("password");
 
         _httpService
             .PostUrlEncodedFormAsync<LoginResponseDto>(Arg.Is(LoginService.LOGIN_URL), Arg.Any<Dictionary<string, string>>(), true)
@@ -87,13 +87,13 @@ public class LoginServiceTest
     {
         // Arrange
         var challstr = "sampleChallstr";
-        var config = new Configuration { Name = "user", Password = "password" };
-        _configurationManager.Configuration.Returns(config);
+        _configuration.Name.Returns("user");
+        _configuration.Password.Returns("password");
         var expectedForm = new Dictionary<string, string>
         {
             ["challstr"] = challstr,
-            ["name"] = config.Name,
-            ["pass"] = config.Password,
+            ["name"] = "user",
+            ["pass"] = "password",
             ["act"] = "login"
         };
 

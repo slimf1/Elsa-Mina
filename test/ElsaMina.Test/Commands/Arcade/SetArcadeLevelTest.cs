@@ -24,7 +24,7 @@ public class SetArcadeLevelTests
         // Arrange
         var context = Substitute.For<IContext>();
         context.Target.Returns("invalid_input");
-        context.GetString("arcade_level_help", Arg.Any<object[]>()).Returns("help_msg");
+        context.GetString("arcade_level_help").Returns("help_msg");
 
         // Act
         await _command.Run(context);

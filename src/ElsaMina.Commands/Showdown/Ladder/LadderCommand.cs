@@ -1,6 +1,7 @@
 using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Templates;
@@ -30,6 +31,7 @@ public class LadderCommand : Command
     public override bool IsAllowedInPrivateMessage => true;
 
     public override string HelpMessageKey => "ladder_help";
+    public override Rank RequiredRank => Rank.Regular;
 
     public override async Task Run(IContext context)
     {

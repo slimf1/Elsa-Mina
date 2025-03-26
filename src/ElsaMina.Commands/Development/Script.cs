@@ -1,3 +1,4 @@
+using System.Reflection;
 using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
@@ -29,7 +30,7 @@ public class Script : DevelopmentCommand
         try
         {
             var options = ScriptOptions.Default.WithReferences(typeof(Bot).Assembly)
-                .WithReferences(typeof(Script).Assembly)
+                .WithReferences(Assembly.GetCallingAssembly())
                 .WithImports("ElsaMina.Core");
             var globals = new Globals { Context = context, Container = _dependencyContainerService };
             var result = await CSharpScript.EvaluateAsync(context.Target, options, globals: globals);

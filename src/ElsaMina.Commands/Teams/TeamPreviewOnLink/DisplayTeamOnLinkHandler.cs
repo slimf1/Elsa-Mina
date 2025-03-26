@@ -2,6 +2,7 @@
 using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Handlers.DefaultHandlers;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms;
@@ -20,28 +21,28 @@ public class DisplayTeamOnLinkHandler : ChatMessageHandler
     private readonly ITeamLinkMatchFactory _teamLinkMatchFactory;
     private readonly ITemplatesManager _templatesManager;
     private readonly IRoomsManager _roomsManager;
-    private readonly IConfigurationManager _configurationManager;
+    private readonly IConfiguration _configuration;
 
     public DisplayTeamOnLinkHandler(IContextFactory contextFactory,
         IClockService clockService,
         ITeamLinkMatchFactory teamLinkMatchFactory,
         ITemplatesManager templatesManager,
         IRoomsManager roomManager,
-        IConfigurationManager configurationManager)
+        IConfiguration configuration)
         : base(contextFactory)
     {
         _clockService = clockService;
         _teamLinkMatchFactory = teamLinkMatchFactory;
         _templatesManager = templatesManager;
         _roomsManager = roomManager;
-        _configurationManager = configurationManager;
+        _configuration = configuration;
     }
 
     public override async Task HandleMessage(IContext context)
     {
-        if (context.Message.StartsWith(_configurationManager.Configuration.Trigger)
+        if (context.Message.StartsWith(_configuration.Trigger)
             || context.Message.StartsWith("/raw")
-            || context.Sender.UserId == _configurationManager.Configuration.Name.ToLowerAlphaNum())
+            || context.Sender.UserId == _configuration.Name.ToLowerAlphaNum())
         {
             return;
         }

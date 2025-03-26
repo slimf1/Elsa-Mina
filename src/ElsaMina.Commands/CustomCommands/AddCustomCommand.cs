@@ -27,7 +27,7 @@ public class AddCustomCommand : Command
         _clockService = clockService;
     }
     
-    public override Rank RequiredRank => Rank.Mod;
+    public override Rank RequiredRank => Rank.Driver;
 
     public override async Task Run(IContext context)
     {

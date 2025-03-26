@@ -1,6 +1,7 @@
 using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
@@ -28,6 +29,8 @@ public class RankingCommand : Command
     public override bool IsAllowedInPrivateMessage => true;
 
     public override string HelpMessageKey => "rankcommand_help";
+
+    public override Rank RequiredRank => Rank.Regular;
 
     public override async Task Run(IContext context)
     {

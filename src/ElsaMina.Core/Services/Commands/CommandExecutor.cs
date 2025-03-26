@@ -29,8 +29,14 @@ public class CommandExecutor : ICommandExecutor
         if (_dependencyContainerService.IsRegisteredWithName<ICommand>(commandName))
         {
             Log.Information("Executing {0} as a normal command", commandName);
-            var commandInstance = _dependencyContainerService.ResolveNamed<ICommand>(commandName);
-            await commandInstance.Call(context);
+            var command = _dependencyContainerService.ResolveNamed<ICommand>(commandName);
+
+            if (CanCommandBeRan(context, command))
+            {
+                await command.Run(context);
+                return;
+            }
+
             return;
         }
 
@@ -42,5 +48,35 @@ public class CommandExecutor : ICommandExecutor
         }
 
         Log.Error("Could not find command {0}", commandName);
+    }
+
+    private static bool CanCommandBeRan(IContext context, ICommand command)
+    {
+        if (command.IsPrivateMessageOnly && !context.IsPrivateMessage)
+        {
+            return false;
+        }
+
+        if (context.IsPrivateMessage && !(command.IsAllowedInPrivateMessage || command.IsPrivateMessageOnly))
+        {
+            return false;
+        }
+
+        if (command.IsWhitelistOnly && !context.IsSenderWhitelisted)
+        {
+            return false;
+        }
+
+        if (!context.HasSufficientRank(command.RequiredRank))
+        {
+            return false;
+        }
+
+        if (command.RoomRestriction.Any() && !command.RoomRestriction.Contains(context.RoomId))
+        {
+            return false;
+        }
+
+        return true;
     }
 }
