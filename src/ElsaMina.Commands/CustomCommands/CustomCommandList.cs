@@ -21,7 +21,7 @@ public class CustomCommandList : Command
 
     public override Rank RequiredRank => Rank.Voiced;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var addedCommands = (await _addedCommandRepository.GetAllAsync())
             .Where(command => command.RoomId == context.RoomId)

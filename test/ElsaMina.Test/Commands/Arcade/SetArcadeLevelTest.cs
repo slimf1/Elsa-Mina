@@ -19,7 +19,7 @@ public class SetArcadeLevelTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyHelpMessage_WhenInputIsInvalid()
+    public async Task Test_RunAsync_ShouldReplyHelpMessage_WhenInputIsInvalid()
     {
         // Arrange
         var context = Substitute.For<IContext>();
@@ -27,28 +27,28 @@ public class SetArcadeLevelTests
         context.GetString("arcade_level_help").Returns("help_msg");
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         context.Received(1).Reply("help_msg");
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyError_WhenLevelIsOutOfRange()
+    public async Task Test_RunAsync_ShouldReplyError_WhenLevelIsOutOfRange()
     {
         // Arrange
         var context = Substitute.For<IContext>();
         context.Target.Returns("user,5");
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         context.Received(1).ReplyLocalizedMessage("arcade_level_invalid_value");
     }
 
     [Test]
-    public async Task Test_Run_ShouldAddLevel_WhenUserDoesNotExist()
+    public async Task Test_RunAsync_ShouldAddLevel_WhenUserDoesNotExist()
     {
         // Arrange
         var context = Substitute.For<IContext>();
@@ -56,7 +56,7 @@ public class SetArcadeLevelTests
         _arcadeLevelRepository.GetByIdAsync("user").Returns((ArcadeLevel)null);
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         await _arcadeLevelRepository.Received(1).AddAsync(Arg.Is<ArcadeLevel>(level =>
@@ -65,7 +65,7 @@ public class SetArcadeLevelTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldUpdateLevel_WhenUserExists()
+    public async Task Test_RunAsync_ShouldUpdateLevel_WhenUserExists()
     {
         // Arrange
         var context = Substitute.For<IContext>();
@@ -74,7 +74,7 @@ public class SetArcadeLevelTests
         _arcadeLevelRepository.GetByIdAsync("user").Returns(existingLevel);
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         await _arcadeLevelRepository.Received(1).UpdateAsync(Arg.Is<ArcadeLevel>(level =>
@@ -83,7 +83,7 @@ public class SetArcadeLevelTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldHandleExceptionAndReplyError_WhenRepositoryAddFails()
+    public async Task Test_RunAsync_ShouldHandleExceptionAndReplyError_WhenRepositoryAddFails()
     {
         // Arrange
         var context = Substitute.For<IContext>();
@@ -93,14 +93,14 @@ public class SetArcadeLevelTests
             .Throw(new Exception("Database error"));
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         context.Received(1).ReplyLocalizedMessage("arcade_level_update_error", "Database error");
     }
 
     [Test]
-    public async Task Test_Run_ShouldHandleExceptionAndReplyError_WhenRepositoryUpdateFails()
+    public async Task Test_RunAsync_ShouldHandleExceptionAndReplyError_WhenRepositoryUpdateFails()
     {
         // Arrange
         var context = Substitute.For<IContext>();
@@ -111,7 +111,7 @@ public class SetArcadeLevelTests
         _arcadeLevelRepository.GetByIdAsync("user").Returns(new ArcadeLevel { Id = "user", Level = 3 });
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         context.Received(1).ReplyLocalizedMessage("arcade_level_update_error", "Database error");

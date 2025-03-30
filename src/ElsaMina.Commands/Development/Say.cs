@@ -16,7 +16,7 @@ public class Say : DevelopmentCommand
 
     public override bool IsPrivateMessageOnly => true;
 
-    public override Task Run(IContext context)
+    public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var parts = context.Target.Split(';');
         Log.Information("Say command used: {0}", context.Target);

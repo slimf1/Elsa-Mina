@@ -23,7 +23,7 @@ public class LoginHandler : Handler
         _client = client;
     }
 
-    public override async Task HandleReceivedMessage(string[] parts, string roomId = null)
+    public override async Task HandleReceivedMessageAsync(string[] parts, string roomId = null, CancellationToken cancellationToken = default)
     {
         if (parts.Length <= 2 || parts[1] != "challstr")
         {

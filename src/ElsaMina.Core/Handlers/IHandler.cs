@@ -5,5 +5,5 @@ public interface IHandler : IBotLifecycleHandler
     bool IsEnabled { get; set; }
     string Identifier { get; }
 
-    Task OnMessageReceived(string[] parts, string roomId = null);
+    Task OnMessageReceivedAsync(string[] parts, string roomId = null, CancellationToken cancellationToken = default);
 }

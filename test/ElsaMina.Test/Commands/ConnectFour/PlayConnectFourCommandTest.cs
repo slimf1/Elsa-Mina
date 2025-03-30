@@ -39,7 +39,7 @@ public class PlayConnectFourCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldMakeMove_WhenGameIsConnectFour()
+    public async Task Test_RunAsync_ShouldMakeMove_WhenGameIsConnectFour()
     {
         // Arrange
         _context.Target.Returns("room1, move1");
@@ -47,28 +47,28 @@ public class PlayConnectFourCommandTest
         _room.Game.Returns(_connectFourGame);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _connectFourGame.Received(1).Play(_context.Sender, "move1");
     }
 
     [Test]
-    public async Task Test_Run_ShouldDoNothing_WhenRoomDoesNotExist()
+    public async Task Test_RunAsync_ShouldDoNothing_WhenRoomDoesNotExist()
     {
         // Arrange
         _context.Target.Returns("room1, move1");
         _roomsManager.GetRoom("room1").ReturnsNull();
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _connectFourGame.DidNotReceive().Play(Arg.Any<IUser>(), Arg.Any<string>());
     }
 
     [Test]
-    public async Task Test_Run_ShouldDoNothing_WhenRoomHasNoGame()
+    public async Task Test_RunAsync_ShouldDoNothing_WhenRoomHasNoGame()
     {
         // Arrange
         _context.Target.Returns("room1, move1");
@@ -76,14 +76,14 @@ public class PlayConnectFourCommandTest
         _room.Game.Returns((IGame)null);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _connectFourGame.DidNotReceive().Play(Arg.Any<IUser>(), Arg.Any<string>());
     }
 
     [Test]
-    public async Task Test_Run_ShouldDoNothing_WhenGameIsNotConnectFour()
+    public async Task Test_RunAsync_ShouldDoNothing_WhenGameIsNotConnectFour()
     {
         // Arrange
         _context.Target.Returns("room1, move1");
@@ -91,19 +91,19 @@ public class PlayConnectFourCommandTest
         _room.Game.Returns(Substitute.For<IGame>());
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _connectFourGame.DidNotReceive().Play(Arg.Any<IUser>(), Arg.Any<string>());
     }
 
     [Test]
-    public void Test_Run_ShouldThrowException_WhenTargetIsInvalid()
+    public void Test_RunAsync_ShouldThrowException_WhenTargetIsInvalid()
     {
         // Arrange
         _context.Target.Returns("invalid_input");
 
         // Act & Assert
-        Assert.ThrowsAsync<IndexOutOfRangeException>(() => _command.Run(_context));
+        Assert.ThrowsAsync<IndexOutOfRangeException>(() => _command.RunAsync(_context));
     }
 }

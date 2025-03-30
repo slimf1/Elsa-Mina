@@ -8,7 +8,7 @@ public class PokepasteProvider : ITeamProvider
 {
     private static readonly Regex TEAM_LINK_REGEX = new(@"https:\/\/(pokepast\.es\/[0-9A-Fa-f]{16}\/?)",
         RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
-    
+
     private readonly IHttpService _httpService;
 
     public PokepasteProvider(IHttpService httpService)
@@ -22,11 +22,13 @@ public class PokepasteProvider : ITeamProvider
         return match.Success ? match.Value : null;
     }
 
-    public async Task<SharedTeam> GetTeamExport(string teamLink)
+    public async Task<SharedTeam> GetTeamExport(string teamLink, CancellationToken cancellationToken = default)
     {
         try
         {
-            var response = await _httpService.GetAsync<PokepasteTeam>(teamLink.Trim() + "/json");
+            var response =
+                await _httpService.GetAsync<PokepasteTeam>(teamLink.Trim() + "/json",
+                    cancellationToken: cancellationToken);
             var pokepasteTeam = response.Data;
             return new SharedTeam
             {

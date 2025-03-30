@@ -21,7 +21,7 @@ public class SetArcadeLevel : Command
     public override string[] RoomRestriction => ["arcade", "botdevelopment"];
     public override string HelpMessageKey => "arcade_level_help";
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         string user;
         int level;

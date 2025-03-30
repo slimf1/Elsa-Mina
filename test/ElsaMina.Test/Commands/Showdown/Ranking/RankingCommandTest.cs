@@ -26,7 +26,7 @@ public class RankingCommandTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithNoRatingsMessage_WhenNoRankingsAreFound()
+    public async Task Test_RunAsync_ShouldReplyWithNoRatingsMessage_WhenNoRankingsAreFound()
     {
         // Arrange
         _context.Target.Returns("player1");
@@ -34,14 +34,14 @@ public class RankingCommandTests
             .Returns(new List<RankingDataDto>());
 
         // Act
-        await _rankingCommand.Run(_context);
+        await _rankingCommand.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyRankAwareLocalizedMessage("rankcommand_no_ratings");
     }
 
     [Test]
-    public async Task Test_Run_ShouldSendHtml_WhenRankingsAreFound()
+    public async Task Test_RunAsync_ShouldSendHtml_WhenRankingsAreFound()
     {
         // Arrange
         var rankings = new List<RankingDataDto>
@@ -54,20 +54,20 @@ public class RankingCommandTests
             .Returns(rankings);
         _formatsManager.GetCleanFormat(Arg.Any<string>())
             .Returns(x => x[0]); // Return the same format for simplicity
-        _templatesManager.GetTemplate(Arg.Any<string>(), Arg.Any<RankingShowcaseViewModel>())
+        _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<RankingShowcaseViewModel>())
             .Returns(Task.FromResult("formatted_html"));
 
         // Act
-        await _rankingCommand.Run(_context);
+        await _rankingCommand.RunAsync(_context);
 
         // Assert
         await _templatesManager.Received()
-            .GetTemplate("Showdown/Ranking/RankingShowcase", Arg.Any<RankingShowcaseViewModel>());
+            .GetTemplateAsync("Showdown/Ranking/RankingShowcase", Arg.Any<RankingShowcaseViewModel>());
         _context.Received().SendHtml("formatted_html", rankAware: true);
     }
 
     [Test]
-    public async Task Test_Run_ShouldSendLowestRankings_WhenCommandIsLowestRank()
+    public async Task Test_RunAsync_ShouldSendLowestRankings_WhenCommandIsLowestRank()
     {
         // Arrange
         var rankings = new List<RankingDataDto>
@@ -86,16 +86,16 @@ public class RankingCommandTests
         _context.Command.Returns("lowestrank");
         _showdownRanksProvider.GetRankingDataAsync(Arg.Any<string>())
             .Returns(rankings);
-        _templatesManager.GetTemplate(Arg.Any<string>(), Arg.Any<RankingShowcaseViewModel>())
+        _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<RankingShowcaseViewModel>())
             .Returns(Task.FromResult("formatted_html"));
 
         // Act
-        await _rankingCommand.Run(_context);
+        await _rankingCommand.RunAsync(_context);
 
         // Assert
         string[] expectedFormats = ["gen4ou", "gen5ou", "gen6ou", "gen7ou", "gen8ou"];
         await _templatesManager.Received()
-            .GetTemplate("Showdown/Ranking/RankingShowcase",
+            .GetTemplateAsync("Showdown/Ranking/RankingShowcase",
                 Arg.Is<RankingShowcaseViewModel>(vm =>
                     vm.Rankings.Select(r => r.FormatId)
                         .SequenceEqual(expectedFormats)));
@@ -103,7 +103,7 @@ public class RankingCommandTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithErrorMessage_WhenExceptionOccurs()
+    public async Task Test_RunAsync_ShouldReplyWithErrorMessage_WhenExceptionOccurs()
     {
         // Arrange
         _context.Target.Returns("player1");
@@ -111,7 +111,7 @@ public class RankingCommandTests
             .Throws(new Exception("API failure"));
 
         // Act
-        await _rankingCommand.Run(_context);
+        await _rankingCommand.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyRankAwareLocalizedMessage("rankcommand_error");

@@ -18,7 +18,7 @@ public class StopRepeat : Command
 
     public override Rank RequiredRank => Rank.Voiced;
 
-    public override Task Run(IContext context)
+    public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var ended = _repeatsManager.StopRepeat(context.RoomId, context.Target.ToLowerAlphaNum());
         if (!ended)

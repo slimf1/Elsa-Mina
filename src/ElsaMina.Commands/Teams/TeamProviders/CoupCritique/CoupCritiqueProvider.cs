@@ -10,7 +10,7 @@ public class CoupCritiqueProvider : ITeamProvider
 
     private static readonly Regex TEAM_LINK_REGEX = new(@"https:\/\/(www\.coupcritique\.fr\/entity\/teams\/\d+\/?)",
         RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
-    
+
     private readonly IHttpService _httpService;
 
     public CoupCritiqueProvider(IHttpService httpService)
@@ -24,7 +24,7 @@ public class CoupCritiqueProvider : ITeamProvider
         return match.Success ? match.Value : null;
     }
 
-    public async Task<SharedTeam> GetTeamExport(string teamLink)
+    public async Task<SharedTeam> GetTeamExport(string teamLink, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -35,7 +35,9 @@ public class CoupCritiqueProvider : ITeamProvider
 
             var urlParts = teamLink.Split('/');
             var teamId = urlParts[^1];
-            var response = await _httpService.GetAsync<CoupCritiqueResponse>(string.Format(COUP_CRITIQUE_API_URL, teamId));
+            var response =
+                await _httpService.GetAsync<CoupCritiqueResponse>(string.Format(COUP_CRITIQUE_API_URL, teamId),
+                    cancellationToken: cancellationToken);
             var team = response.Data;
             return new SharedTeam
             {

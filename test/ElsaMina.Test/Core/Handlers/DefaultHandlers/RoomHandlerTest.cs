@@ -23,7 +23,7 @@ public class RoomsHandlerTest
         string[] parts = [""];
 
         // Act
-        await _roomsHandler.HandleReceivedMessage(parts);
+        await _roomsHandler.HandleReceivedMessageAsync(parts);
 
         // Assert
         _roomsManager.DidNotReceive().RemoveRoom(Arg.Any<string>());
@@ -40,7 +40,7 @@ public class RoomsHandlerTest
         string[] parts = ["", "deinit"];
 
         // Act
-        await _roomsHandler.HandleReceivedMessage(parts, roomId);
+        await _roomsHandler.HandleReceivedMessageAsync(parts, roomId);
 
         // Assert
         _roomsManager.Received(1).RemoveRoom(roomId);
@@ -55,7 +55,7 @@ public class RoomsHandlerTest
         string[] parts = ["", "J", userId];
 
         // Act
-        await _roomsHandler.HandleReceivedMessage(parts, roomId);
+        await _roomsHandler.HandleReceivedMessageAsync(parts, roomId);
 
         // Assert
         _roomsManager.Received(1).AddUserToRoom(roomId, userId);
@@ -70,7 +70,7 @@ public class RoomsHandlerTest
         string[] parts = ["", "L", userId];
 
         // Act
-        await _roomsHandler.HandleReceivedMessage(parts, roomId);
+        await _roomsHandler.HandleReceivedMessageAsync(parts, roomId);
 
         // Assert
         _roomsManager.Received(1).RemoveUserFromRoom(roomId, userId);
@@ -86,7 +86,7 @@ public class RoomsHandlerTest
         string[] parts = ["", "N", oldUsername, newUsername];
 
         // Act
-        await _roomsHandler.HandleReceivedMessage(parts, roomId);
+        await _roomsHandler.HandleReceivedMessageAsync(parts, roomId);
 
         // Assert
         _roomsManager.Received(1).RenameUserInRoom(roomId, newUsername, oldUsername);
@@ -100,7 +100,7 @@ public class RoomsHandlerTest
         string[] parts = ["", "noinit", "joinfailed"];
 
         // Act
-        await _roomsHandler.HandleReceivedMessage(parts, roomId);
+        await _roomsHandler.HandleReceivedMessageAsync(parts, roomId);
 
         // Assert
         _roomsManager.DidNotReceive().AddUserToRoom(Arg.Any<string>(), Arg.Any<string>());
@@ -117,7 +117,7 @@ public class RoomsHandlerTest
         string[] parts = ["", "noinit", "nonexistent"];
 
         // Act
-        await _roomsHandler.HandleReceivedMessage(parts, roomId);
+        await _roomsHandler.HandleReceivedMessageAsync(parts, roomId);
 
         // Assert
         _roomsManager.DidNotReceive().AddUserToRoom(Arg.Any<string>(), Arg.Any<string>());
@@ -134,7 +134,7 @@ public class RoomsHandlerTest
         string[] parts = ["", "noinit", "namerequired"];
 
         // Act
-        await _roomsHandler.HandleReceivedMessage(parts, roomId);
+        await _roomsHandler.HandleReceivedMessageAsync(parts, roomId);
 
         // Assert
         _roomsManager.DidNotReceive().AddUserToRoom(Arg.Any<string>(), Arg.Any<string>());
@@ -151,7 +151,7 @@ public class RoomsHandlerTest
         string[] parts = ["", "noinit", "unknownsubcommand"];
 
         // Act
-        await _roomsHandler.HandleReceivedMessage(parts, roomId);
+        await _roomsHandler.HandleReceivedMessageAsync(parts, roomId);
 
         // Assert
         _roomsManager.DidNotReceive().AddUserToRoom(Arg.Any<string>(), Arg.Any<string>());

@@ -4,12 +4,13 @@ public abstract class Handler : IHandler
 {
     public bool IsEnabled { get; set; } = true;
     public string Identifier => GetType().FullName;
+    public virtual int Priority => 0;
 
-    public async Task OnMessageReceived(string[] parts, string roomId = null)
+    public async Task OnMessageReceivedAsync(string[] parts, string roomId = null, CancellationToken cancellationToken = default)
     {
         try
         {
-            await HandleReceivedMessage(parts, roomId);
+            await HandleReceivedMessageAsync(parts, roomId, cancellationToken);
         }
         catch (Exception exception)
         {
@@ -18,7 +19,7 @@ public abstract class Handler : IHandler
         }
     }
 
-    public abstract Task HandleReceivedMessage(string[] parts, string roomId = null);
+    public abstract Task HandleReceivedMessageAsync(string[] parts, string roomId = null, CancellationToken cancellationToken = default);
 
     public virtual void OnStart()
     {

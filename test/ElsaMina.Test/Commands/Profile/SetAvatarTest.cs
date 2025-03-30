@@ -21,14 +21,14 @@ public class SetAvatarTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldSetAvatar_WhenValidParametersProvided()
+    public async Task Test_RunAsync_ShouldSetAvatar_WhenValidParametersProvided()
     {
         // Arrange
         _context.RoomId.Returns("testRoom");
         _context.Target.Returns("user123, https://avatar.url/image.png");
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _roomUserDataService.Received(1).SetUserAvatar("testRoom", "user123", "https://avatar.url/image.png");
@@ -36,13 +36,13 @@ public class SetAvatarTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReturnHelpMessage_WhenIncorrectParameterCount()
+    public async Task Test_RunAsync_ShouldReturnHelpMessage_WhenIncorrectParameterCount()
     {
         // Arrange
         _context.Target.Returns("user123");
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage(_command.HelpMessageKey);
@@ -50,7 +50,7 @@ public class SetAvatarTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldHandleExceptionAndSendFailureMessage_WhenSetAvatarFails()
+    public async Task Test_RunAsync_ShouldHandleExceptionAndSendFailureMessage_WhenSetAvatarFails()
     {
         // Arrange
         _context.RoomId.Returns("testRoom");
@@ -61,7 +61,7 @@ public class SetAvatarTest
             .Do(x => throw new Exception(errorMessage));
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("avatar_failure", errorMessage);

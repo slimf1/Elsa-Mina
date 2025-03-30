@@ -19,9 +19,9 @@ public class DeleteTeam : Command
 
     public override Rank RequiredRank => Rank.Voiced;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        var team = await _teamRepository.GetByIdAsync(context.Target?.ToLowerAlphaNum());
+        var team = await _teamRepository.GetByIdAsync(context.Target?.ToLowerAlphaNum(), cancellationToken);
         if (team == null)
         {
             context.ReplyLocalizedMessage("deleteteam_team_not_found");
@@ -30,7 +30,7 @@ public class DeleteTeam : Command
 
         try
         {
-            await _teamRepository.DeleteByIdAsync(team.Id);
+            await _teamRepository.DeleteByIdAsync(team.Id, cancellationToken);
             context.ReplyLocalizedMessage("deleteteam_team_deleted_successfully");
         }
         catch (Exception exception)

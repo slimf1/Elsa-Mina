@@ -20,13 +20,14 @@ public abstract class Command : ICommand
     public virtual string HelpMessageKey => string.Empty;
     public virtual bool IsHidden => false;
     public virtual IEnumerable<string> RoomRestriction => [];
+    public virtual int Priority => 0;
 
     public void ReplyLocalizedHelpMessage(IContext context)
     {
         context.Reply(context.GetString(HelpMessageKey));
     }
 
-    public abstract Task Run(IContext context);
+    public abstract Task RunAsync(IContext context, CancellationToken cancellationToken = default);
 
     private void InitializeNameAndAliasesFromAttribute()
     {

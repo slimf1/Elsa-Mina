@@ -21,34 +21,34 @@ public class AddTeamToRoomTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithNoArgMessage_WhenTeamIdIsEmpty()
+    public async Task Test_RunAsync_ShouldReplyWithNoArgMessage_WhenTeamIdIsEmpty()
     {
         // Arrange
         _context.Target.Returns(string.Empty);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("add_team_to_room_no_arg");
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithNoTeamMessage_WhenTeamNotFound()
+    public async Task Test_RunAsync_ShouldReplyWithNoTeamMessage_WhenTeamNotFound()
     {
         // Arrange
         _context.Target.Returns("teamId");
         _teamRepository.GetByIdAsync("teamid").Returns(Task.FromResult<Team>(null));
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("add_team_to_room_no_team");
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithAlreadyInRoomMessage_WhenTeamAlreadyInRoom()
+    public async Task Test_RunAsync_ShouldReplyWithAlreadyInRoomMessage_WhenTeamAlreadyInRoom()
     {
         // Arrange
         _context.Target.Returns("teamId");
@@ -62,14 +62,14 @@ public class AddTeamToRoomTests
         _teamRepository.GetByIdAsync("teamid").Returns(team);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("add_team_to_room_team_already_in_room");
     }
 
     [Test]
-    public async Task Test_Run_ShouldAddRoomAndReplyWithSuccess_WhenTeamIsValidAndNotInRoom()
+    public async Task Test_RunAsync_ShouldAddRoomAndReplyWithSuccess_WhenTeamIsValidAndNotInRoom()
     {
         // Arrange
         _context.Target.Returns("teamId");
@@ -83,7 +83,7 @@ public class AddTeamToRoomTests
         _teamRepository.GetByIdAsync("teamid").Returns(team);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         Assert.That(team.Rooms.Any(roomTeam => roomTeam.RoomId == "roomId" && roomTeam.TeamId == "teamid"), Is.True);
@@ -92,7 +92,7 @@ public class AddTeamToRoomTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithFailureMessage_WhenRepositoryUpdateThrowsException()
+    public async Task Test_RunAsync_ShouldReplyWithFailureMessage_WhenRepositoryUpdateThrowsException()
     {
         // Arrange
         _context.Target.Returns("teamId");
@@ -107,7 +107,7 @@ public class AddTeamToRoomTests
         _teamRepository.When(repo => repo.UpdateAsync(team)).Do(_ => throw new Exception("Update error"));
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("add_team_to_room_failure", "Update error");

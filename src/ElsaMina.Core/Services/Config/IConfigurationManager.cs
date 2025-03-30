@@ -6,5 +6,5 @@ public interface IConfigurationManager
 {
     IConfiguration Configuration { get; }
 
-    Task LoadConfiguration(TextReader textReader);
+    Task LoadConfigurationAsync(TextReader textReader);
 }

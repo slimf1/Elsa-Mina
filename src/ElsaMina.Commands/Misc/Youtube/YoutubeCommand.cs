@@ -33,7 +33,7 @@ public class YoutubeCommand : Command
 
     public override Rank RequiredRank => Rank.Regular;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var keywords = string.Join('+', context.Target.Split(' '));
         var apiKey = _configurationManager.Configuration.YoutubeApiKey;
@@ -52,7 +52,7 @@ public class YoutubeCommand : Command
         };
         try
         {
-            var response = await _httpService.GetAsync<YouTubeSearchResponse>(YOUTUBE_API_URL, queryParams);
+            var response = await _httpService.GetAsync<YouTubeSearchResponse>(YOUTUBE_API_URL, queryParams, cancellationToken: cancellationToken);
             var results = response.Data;
             if (results?.Items == null || results.Items.Count == 0)
             {
@@ -63,7 +63,7 @@ public class YoutubeCommand : Command
 
             var firstVideo = results.Items[0];
             var firstVideoSnippet = firstVideo.Snippet;
-            var template = await _templatesManager.GetTemplate("Misc/Youtube/YoutubeVideoPreview",
+            var template = await _templatesManager.GetTemplateAsync("Misc/Youtube/YoutubeVideoPreview",
                 new YoutubeVideoPreviewViewModel
                 {
                     Culture = context.Culture,

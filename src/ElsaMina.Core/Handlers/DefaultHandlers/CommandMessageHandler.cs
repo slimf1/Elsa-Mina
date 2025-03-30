@@ -21,7 +21,7 @@ public abstract class CommandMessageHandler : MessageHandler
         _commandExecutor = commandExecutor;
     }
 
-    public override async Task HandleMessage(IContext context)
+    public override async Task HandleMessageAsync(IContext context, CancellationToken cancellationToken = default)
     {
         if (context.RoomId == null || !_roomsManager.HasRoom(context.RoomId))
         {
@@ -38,7 +38,7 @@ public abstract class CommandMessageHandler : MessageHandler
         }
         try
         {
-            await _commandExecutor.TryExecuteCommand(context.Command, context);
+            await _commandExecutor.TryExecuteCommandAsync(context.Command, context, cancellationToken);
         }
         catch (Exception exception)
         {

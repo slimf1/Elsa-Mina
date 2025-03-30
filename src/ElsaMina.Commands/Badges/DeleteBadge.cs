@@ -19,11 +19,11 @@ public class DeleteBadge : Command
 
     public override Rank RequiredRank => Rank.Driver;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var badgeId = context.Target.ToLowerAlphaNum();
         var key = Tuple.Create(badgeId, context.RoomId);
-        if (await _badgeRepository.GetByIdAsync(key) == null)
+        if (await _badgeRepository.GetByIdAsync(key, cancellationToken) == null)
         {
             context.ReplyLocalizedMessage("badge_delete_doesnt_exist", badgeId);
             return;
@@ -31,7 +31,7 @@ public class DeleteBadge : Command
 
         try
         {
-            await _badgeRepository.DeleteByIdAsync(key);
+            await _badgeRepository.DeleteByIdAsync(key, cancellationToken);
             context.ReplyLocalizedMessage("badge_delete_success", badgeId);
         }
         catch (Exception exception)

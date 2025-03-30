@@ -6,7 +6,7 @@ namespace ElsaMina.Commands.Development;
 [NamedCommand("fail", "error", "throw")]
 public class FailCommand : DevelopmentCommand
 {
-    public override Task Run(IContext context)
+    public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         throw new Exception("fail command called");
     }

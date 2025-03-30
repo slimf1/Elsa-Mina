@@ -28,47 +28,47 @@ public class AddTeamTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithHelpMessage_WhenTargetIsInvalid()
+    public async Task Test_RunAsync_ShouldReplyWithHelpMessage_WhenTargetIsInvalid()
     {
         // Arrange
         _context.Target.Returns("invalid_target");
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().Reply(Arg.Any<string>());
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithNameTooLongMessage_WhenNameExceedsMaxLength()
+    public async Task Test_RunAsync_ShouldReplyWithNameTooLongMessage_WhenNameExceedsMaxLength()
     {
         // Arrange
         _context.Target.Returns("link, " + new string('a', 71) + ", format");
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("add_team_name_too_long");
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithNoProviderMessage_WhenTeamLinkMatchNotFound()
+    public async Task Test_RunAsync_ShouldReplyWithNoProviderMessage_WhenTeamLinkMatchNotFound()
     {
         // Arrange
         _context.Target.Returns("link, name, format");
         _teamLinkMatchFactory.FindTeamLinkMatch("link").Returns((ITeamLinkMatch)null);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("add_team_no_provider");
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithNoExportErrorMessage_WhenTeamExportIsNull()
+    public async Task Test_RunAsync_ShouldReplyWithNoExportErrorMessage_WhenTeamExportIsNull()
     {
         // Arrange
         _context.Target.Returns("link, name, format");
@@ -77,14 +77,14 @@ public class AddTeamTests
         _teamLinkMatchFactory.FindTeamLinkMatch("link").Returns(teamLinkMatch);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("add_team_no_export_error");
     }
 
     [Test]
-    public async Task Test_Run_ShouldAddTeamToRepository_WhenDataIsValid()
+    public async Task Test_RunAsync_ShouldAddTeamToRepository_WhenDataIsValid()
     {
         // Arrange
         _context.Target.Returns("link, name, format");
@@ -100,7 +100,7 @@ public class AddTeamTests
         _clockService.CurrentUtcDateTime.Returns(currentDateTime);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _teamRepository.Received(1).AddAsync(Arg.Is<Team>(team =>
@@ -119,7 +119,7 @@ public class AddTeamTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldAddTeamToBothRooms_WhenRoomIdIsFrenchOrArcade()
+    public async Task Test_RunAsync_ShouldAddTeamToBothRooms_WhenRoomIdIsFrenchOrArcade()
     {
         // Arrange
         _context.Target.Returns("link, name, format");
@@ -135,7 +135,7 @@ public class AddTeamTests
         _clockService.CurrentUtcDateTime.Returns(currentDateTime);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _teamRepository.Received(1).AddAsync(Arg.Is<Team>(team =>
@@ -146,7 +146,7 @@ public class AddTeamTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithFailureMessage_WhenRepositoryThrowsException()
+    public async Task Test_RunAsync_ShouldReplyWithFailureMessage_WhenRepositoryThrowsException()
     {
         // Arrange
         _context.Target.Returns("link, name, format");
@@ -162,7 +162,7 @@ public class AddTeamTests
             .Do(_ => throw new Exception("Database error"));
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("add_team_failure", "Database error");

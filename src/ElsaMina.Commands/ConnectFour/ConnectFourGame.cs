@@ -60,7 +60,7 @@ public class ConnectFourGame : Game, IConnectFourGame
 
     public async Task DisplayAnnounce()
     {
-        var template = await _templatesManager.GetTemplate("ConnectFour/ConnectFourGamePanel",
+        var template = await _templatesManager.GetTemplateAsync("ConnectFour/ConnectFourGamePanel",
             new ConnectFourGamePanelViewModel
             {
                 Culture = Context.Culture,
@@ -322,7 +322,7 @@ public class ConnectFourGame : Game, IConnectFourGame
 
     private async Task DisplayGrid()
     {
-        var template = await _templatesManager.GetTemplate("ConnectFour/ConnectFourGameTable",
+        var template = await _templatesManager.GetTemplateAsync("ConnectFour/ConnectFourGameTable",
             new ConnectFourGameTableModel
             {
                 Culture = Context.Culture,

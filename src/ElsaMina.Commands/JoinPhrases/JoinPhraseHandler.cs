@@ -25,7 +25,7 @@ public class JoinPhraseHandler : Handler
         _clockService = clockService;
     }
 
-    public override Task HandleReceivedMessage(string[] parts, string roomId = null)
+    public override Task HandleReceivedMessageAsync(string[] parts, string roomId = null, CancellationToken cancellationToken = default)
     {
         if (parts.Length != 3 || parts[1] != "J")
         {

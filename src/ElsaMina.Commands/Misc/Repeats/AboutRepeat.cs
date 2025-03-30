@@ -18,7 +18,7 @@ public class AboutRepeat : Command
 
     public override Rank RequiredRank => Rank.Voiced;
 
-    public override Task Run(IContext context)
+    public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var repeat = _repeatsManager.GetRepeat(context.RoomId, context.Target.ToLowerAlphaNum());
         if (repeat == null)

@@ -32,7 +32,7 @@ public class YoutubeCommandTest
     [Test]
     [TestCase(null)]
     [TestCase("")]
-    public async Task Test_Run_ShouldReturnError_WhenApiKeyIsEmpty(string emptyApiKey)
+    public async Task Test_RunAsync_ShouldReturnError_WhenApiKeyIsEmpty(string emptyApiKey)
     {
         // Arrange
         _configurationManager.Configuration.Returns(new Configuration
@@ -41,7 +41,7 @@ public class YoutubeCommandTest
         });
 
         // Act
-        await _youtubeCommand.Run(_context);
+        await _youtubeCommand.RunAsync(_context);
 
         // Assert
         await _httpService.DidNotReceive()
@@ -49,7 +49,7 @@ public class YoutubeCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReturnError_WhenNoResultsAreFound()
+    public async Task Test_RunAsync_ShouldReturnError_WhenNoResultsAreFound()
     {
         // Arrange
         _configurationManager.Configuration.Returns(new Configuration
@@ -66,14 +66,14 @@ public class YoutubeCommandTest
             });
 
         // Act
-        await _youtubeCommand.Run(_context);
+        await _youtubeCommand.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("youtube_no_results");
     }
 
     [Test]
-    public async Task Test_Run_ShouldSendHtmlResponse_WhenResultsAreFound()
+    public async Task Test_RunAsync_ShouldSendHtmlResponse_WhenResultsAreFound()
     {
         // Arrange
         _configurationManager.Configuration.Returns(new Configuration
@@ -109,10 +109,10 @@ public class YoutubeCommandTest
             .Returns(mockResponse);
 
         // Act
-        await _youtubeCommand.Run(_context);
+        await _youtubeCommand.RunAsync(_context);
 
         // Assert
-        await _templatesManager.Received(1).GetTemplate("Misc/Youtube/YoutubeVideoPreview",
+        await _templatesManager.Received(1).GetTemplateAsync("Misc/Youtube/YoutubeVideoPreview",
             Arg.Is<YoutubeVideoPreviewViewModel>(
                 vm => vm.VideoId == "testVideoId"
                       && vm.ChannelTitle == "Test Channel"
@@ -124,7 +124,7 @@ public class YoutubeCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldLogError_WhenExceptionOccurs()
+    public async Task Test_RunAsync_ShouldLogError_WhenExceptionOccurs()
     {
         // Arrange
         _configurationManager.Configuration.Returns(new Configuration
@@ -135,7 +135,7 @@ public class YoutubeCommandTest
             .Throws(new Exception("Test exception"));
 
         // Act
-        await _youtubeCommand.Run(_context);
+        await _youtubeCommand.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("youtube_error_occurred");

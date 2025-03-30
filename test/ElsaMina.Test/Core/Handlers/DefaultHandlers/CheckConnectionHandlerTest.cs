@@ -38,7 +38,7 @@ public class CheckConnectionHandlerTest
         });
 
         // Act
-        await _handler.HandleReceivedMessage(message);
+        await _handler.HandleReceivedMessageAsync(message);
 
         // Assert
         _client.Received(1).Send("|/join botdev");
@@ -59,7 +59,7 @@ public class CheckConnectionHandlerTest
         });
 
         // Act
-        await _handler.HandleReceivedMessage(message);
+        await _handler.HandleReceivedMessageAsync(message);
 
         // Assert
         _client.DidNotReceive().Send(Arg.Any<string>());

@@ -12,17 +12,17 @@ public class ArcadeLevelRepository : BaseRepository<ArcadeLevel, string>, IArcad
         _dbContext = dbContext;
     }
 
-    public override Task<ArcadeLevel> GetByIdAsync(string key)
+    public override Task<ArcadeLevel> GetByIdAsync(string key, CancellationToken cancellationToken = default)
     {
         return _dbContext.Set<ArcadeLevel>()
             .AsNoTracking()
-            .SingleOrDefaultAsync(x => x.Id == key);
+            .SingleOrDefaultAsync(x => x.Id == key, cancellationToken: cancellationToken);
     }
 
-    public override async Task<IEnumerable<ArcadeLevel>> GetAllAsync()
+    public override async Task<IEnumerable<ArcadeLevel>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<ArcadeLevel>()
             .AsNoTracking()
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 }

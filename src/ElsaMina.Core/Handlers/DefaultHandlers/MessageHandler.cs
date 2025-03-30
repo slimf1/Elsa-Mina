@@ -13,7 +13,7 @@ public abstract class MessageHandler : Handler
 
     protected abstract ContextType HandledContextType { get; }
 
-    public sealed override async Task HandleReceivedMessage(string[] parts, string roomId = null)
+    public sealed override async Task HandleReceivedMessageAsync(string[] parts, string roomId = null, CancellationToken cancellationToken = default)
     {
         var context = _contextFactory.TryBuildContextFromReceivedMessage(parts, roomId);
         if (context == null || HandledContextType != context.Type)
@@ -21,8 +21,8 @@ public abstract class MessageHandler : Handler
             return;
         }
         
-        await HandleMessage(context);
+        await HandleMessageAsync(context, cancellationToken);
     }
 
-    public abstract Task HandleMessage(IContext context);
+    public abstract Task HandleMessageAsync(IContext context, CancellationToken cancellationToken = default);
 }

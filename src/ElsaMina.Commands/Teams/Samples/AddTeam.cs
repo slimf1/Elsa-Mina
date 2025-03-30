@@ -35,7 +35,7 @@ public class AddTeam : Command
 
     public override Rank RequiredRank => Rank.Voiced;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         string link;
         string name;
@@ -107,7 +107,7 @@ public class AddTeam : Command
 
         try
         {
-            await _teamRepository.AddAsync(team);
+            await _teamRepository.AddAsync(team, cancellationToken);
             context.ReplyLocalizedMessage("add_team_success", teamId);
         }
         catch (Exception exception)

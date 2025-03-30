@@ -17,14 +17,14 @@ public class CachedRepository<TRepository, T, TKey> : IRepository<T, TKey>
         _repository = repository;
     }
 
-    public async Task<T> GetByIdAsync(TKey key)
+    public async Task<T> GetByIdAsync(TKey key, CancellationToken cancellationToken = default)
     {
         if (_cache.TryGetValue(key, out var cachedEntity))
         {
             return cachedEntity;
         }
 
-        var entity = await _repository.GetByIdAsync(key);
+        var entity = await _repository.GetByIdAsync(key, cancellationToken);
         if (entity != null)
         {
             _cache[key] = entity;
@@ -33,9 +33,9 @@ public class CachedRepository<TRepository, T, TKey> : IRepository<T, TKey>
         return entity;
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync()
+    public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        var entities = (await _repository.GetAllAsync()).ToList();
+        var entities = (await _repository.GetAllAsync(cancellationToken)).ToList();
         if (_fetchedAll)
         {
             return _cache.Values;
@@ -50,27 +50,27 @@ public class CachedRepository<TRepository, T, TKey> : IRepository<T, TKey>
         return entities;
     }
 
-    public async Task AddAsync(T entity)
+    public async Task AddAsync(T entity, CancellationToken cancellationToken = default)
     {
-        await _repository.AddAsync(entity);
+        await _repository.AddAsync(entity, cancellationToken);
         _cache[entity.Key] = entity;
     }
 
-    public async Task UpdateAsync(T entity)
+    public async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
     {
-        await _repository.UpdateAsync(entity);
+        await _repository.UpdateAsync(entity, cancellationToken);
         _cache[entity.Key] = entity;
     }
 
-    public async Task DeleteAsync(T entity)
+    public async Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
     {
-        await _repository.DeleteAsync(entity);
+        await _repository.DeleteAsync(entity, cancellationToken);
         _cache.Remove(entity.Key);
     }
 
-    public async Task DeleteByIdAsync(TKey key)
+    public async Task DeleteByIdAsync(TKey key, CancellationToken cancellationToken = default)
     {
-        await _repository.DeleteByIdAsync(key);
+        await _repository.DeleteByIdAsync(key, cancellationToken);
         _cache.Remove(key);
     }
 

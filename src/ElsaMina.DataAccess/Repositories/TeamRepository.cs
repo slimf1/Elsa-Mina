@@ -12,42 +12,41 @@ public class TeamRepository : BaseRepository<Team, string>, ITeamRepository
         _dbContext = dbContext;
     }
 
-    public override async Task<Team> GetByIdAsync(string key)
+    public override async Task<Team> GetByIdAsync(string key, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<Team>()
             .AsNoTracking()
             .Include(x => x.Rooms)
             .ThenInclude(x => x.RoomParameters)
-            .FirstOrDefaultAsync(x => x.Id == key);
+            .FirstOrDefaultAsync(x => x.Id == key, cancellationToken: cancellationToken);
     }
 
-    public override async Task<IEnumerable<Team>> GetAllAsync()
+    public override async Task<IEnumerable<Team>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<Team>()
             .AsNoTracking()
             .Include(x => x.Rooms)
             .ThenInclude(x => x.RoomParameters)
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 
-    public async Task<IEnumerable<Team>> GetTeamsFromRoom(string roomId)
+    public async Task<IEnumerable<Team>> GetTeamsFromRoom(string roomId, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<Team>()
             .AsNoTracking()
             .Include(x => x.Rooms)
             .ThenInclude(x => x.RoomParameters)
             .Where(x => x.Rooms.Any(room => room.RoomId == roomId))
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 
-    public async Task<IEnumerable<Team>> GetTeamsFromRoomWithFormat(string roomId, string format)
+    public async Task<IEnumerable<Team>> GetTeamsFromRoomWithFormat(string roomId, string format, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<Team>()
             .AsNoTracking()
             .Include(x => x.Rooms)
             .ThenInclude(x => x.RoomParameters)
-            .Where(x => x.Rooms.Any(room => room.RoomId == roomId))
-            .Where(x => x.Format == format)
-            .ToListAsync();
+            .Where(x => x.Rooms.Any(room => room.RoomId == roomId) && x.Format == format)
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 }

@@ -33,14 +33,15 @@ public class LadderCommand : Command
     public override string HelpMessageKey => "ladder_help";
     public override Rank RequiredRank => Rank.Regular;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         try
         {
             var parts = context.Target.Split(",");
             var tier = parts[0].ToLowerAlphaNum();
             var prefix = parts.Length > 1 ? parts[1].Trim().ToLower() : string.Empty;
-            var response = await _httpService.GetAsync<LadderDto>(string.Format(LADDER_RESOURCE_URL, tier));
+            var response = await _httpService.GetAsync<LadderDto>(string.Format(LADDER_RESOURCE_URL, tier),
+                cancellationToken: cancellationToken);
             var hasPrefix = !string.IsNullOrWhiteSpace(prefix);
 
             if (response?.Data?.TopList == null)
@@ -76,13 +77,14 @@ public class LadderCommand : Command
                 return;
             }
 
-            var template = await _templatesManager.GetTemplate("Showdown/Ladder/LadderTable", new LadderTableViewModel
-            {
-                Culture = context.Culture,
-                ShowInnerRanking = hasPrefix,
-                Format = _formatsManager.GetCleanFormat(response.Data.Format),
-                TopList = players
-            });
+            var template = await _templatesManager.GetTemplateAsync("Showdown/Ladder/LadderTable",
+                new LadderTableViewModel
+                {
+                    Culture = context.Culture,
+                    ShowInnerRanking = hasPrefix,
+                    Format = _formatsManager.GetCleanFormat(response.Data.Format),
+                    TopList = players
+                });
 
             context.SendHtml(template, rankAware: true);
         }

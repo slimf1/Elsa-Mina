@@ -20,7 +20,7 @@ public class DeleteArcadeLevel : Command
     public override string[] RoomRestriction => ["arcade", "botdevelopment"];
     public override string HelpMessageKey => "arcade_level_delete_help";
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(context.Target))
         {

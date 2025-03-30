@@ -2,10 +2,8 @@ using System.Globalization;
 using ElsaMina.Commands.AiChat;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
-using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Resources;
-using ElsaMina.Core.Services.Rooms;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 
@@ -14,7 +12,7 @@ namespace ElsaMina.Test.Commands.AiChat;
 public class AskElsaCommandTest
 {
     private IHttpService _httpService;
-    private IConfigurationManager _configurationManager;
+    private IConfiguration _configuration;
     private IResourcesService _resourcesService;
     private AskElsaCommand _command;
 
@@ -22,9 +20,9 @@ public class AskElsaCommandTest
     public void SetUp()
     {
         _httpService = Substitute.For<IHttpService>();
-        _configurationManager = Substitute.For<IConfigurationManager>();
+        _configuration = Substitute.For<IConfiguration>();
         _resourcesService = Substitute.For<IResourcesService>();
-        _command = new AskElsaCommand(_httpService, _configurationManager, _resourcesService);
+        _command = new AskElsaCommand(_httpService, _configuration, _resourcesService);
     }
 
     [Test]
@@ -34,21 +32,21 @@ public class AskElsaCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldLogError_WhenApiKeyIsMissing()
+    public async Task Test_RunAsync_ShouldLogError_WhenApiKeyIsMissing()
     {
         // Arrange
-        _configurationManager.Configuration.MistralApiKey.Returns(string.Empty);
+        _configuration.MistralApiKey.Returns(string.Empty);
         var context = Substitute.For<IContext>();
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         context.DidNotReceive().Reply(Arg.Any<string>());
     }
 
     [Test]
-    public async Task Test_Run_ShouldSendRequestWithCorrectHeaders_WhenApiKeyIsProvided()
+    public async Task Test_RunAsync_ShouldSendRequestWithCorrectHeaders_WhenApiKeyIsProvided()
     {
         // Arrange
         const string apiKey = "test-api-key";
@@ -56,8 +54,8 @@ public class AskElsaCommandTest
         const string roomName = "RoomName";
         const string prompt = "test-prompt {0} {1} {2} {3} {4}";
 
-        _configurationManager.Configuration.MistralApiKey.Returns(apiKey);
-        _configurationManager.Configuration.Name.Returns("Elsa");
+        _configuration.MistralApiKey.Returns(apiKey);
+        _configuration.Name.Returns("Elsa");
 
         var context = Substitute.For<IContext>();
         context.RoomId.Returns(roomId);
@@ -82,7 +80,7 @@ public class AskElsaCommandTest
             .Returns(new HttpResponse<MistralResponseDto> { Data = response });
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         await _httpService.Received(1).PostJsonAsync<MistralRequestDto, MistralResponseDto>(
@@ -99,10 +97,10 @@ public class AskElsaCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithErrorMessage_WhenResponseChoiceIsNull()
+    public async Task Test_RunAsync_ShouldReplyWithErrorMessage_WhenResponseChoiceIsNull()
     {
         // Arrange
-        _configurationManager.Configuration.MistralApiKey.Returns("valid-api-key");
+        _configuration.MistralApiKey.Returns("valid-api-key");
         var context = Substitute.For<IContext>();
 
         _httpService
@@ -113,17 +111,17 @@ public class AskElsaCommandTest
             .ReturnsNull();
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         context.Received(1).ReplyLocalizedMessage("ask_error");
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithResponseContent_WhenResponseChoiceIsNotNull()
+    public async Task Test_RunAsync_ShouldReplyWithResponseContent_WhenResponseChoiceIsNotNull()
     {
         // Arrange
-        _configurationManager.Configuration.MistralApiKey.Returns("valid-api-key");
+        _configuration.MistralApiKey.Returns("valid-api-key");
         var context = Substitute.For<IContext>();
         var response = new MistralResponseDto
         {
@@ -140,7 +138,7 @@ public class AskElsaCommandTest
             .Returns(new HttpResponse<MistralResponseDto> { Data = response });
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         context.Received(1).Reply("Hello from Mistral");

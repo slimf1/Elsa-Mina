@@ -23,7 +23,7 @@ DependencyContainerService.Current = dependencyContainerService;
 var configurationService = dependencyContainerService.Resolve<IConfigurationManager>();
 using (var streamReader = new StreamReader("config.json"))
 {
-    await configurationService.LoadConfiguration(streamReader);
+    await configurationService.LoadConfigurationAsync(streamReader);
 }
 
 // Subscribe to message event

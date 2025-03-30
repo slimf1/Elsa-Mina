@@ -1,6 +1,5 @@
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Models;
 using NSubstitute;
 
 namespace ElsaMina.Test.Core.Commands;
@@ -55,7 +54,7 @@ public class CommandTest
         
         public override string HelpMessageKey => CommandHelpMessageKey;
 
-        public override Task Run(IContext context)
+        public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)
         {
             _action.Invoke();
             return Task.CompletedTask;

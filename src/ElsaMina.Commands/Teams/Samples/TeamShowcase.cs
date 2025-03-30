@@ -22,7 +22,7 @@ public class TeamShowcase : Command
 
     public override Rank RequiredRank => Rank.Regular;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var team = await _teamRepository.GetByIdAsync(context.Target?.ToLowerAlphaNum());
         if (team == null)
@@ -31,7 +31,7 @@ public class TeamShowcase : Command
             return;
         }
         
-        var template = await _templatesManager.GetTemplate("Teams/SampleTeam", new SampleTeamViewModel
+        var template = await _templatesManager.GetTemplateAsync("Teams/SampleTeam", new SampleTeamViewModel
         {
             Culture = context.Culture,
             Team = team

@@ -26,7 +26,7 @@ public class DisplayArcadeLevels : Command
     public override string HelpMessageKey => "display_paliers_help";
     public override string[] RoomRestriction => ["arcade", "botdevelopment"];
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var levels = new Dictionary<int, List<string>>();
 
@@ -58,7 +58,7 @@ public class DisplayArcadeLevels : Command
             }
         }
 
-        var template = await _templatesManager.GetTemplate("Arcade/ArcadeLevels", new ArcadeLevelsViewModel
+        var template = await _templatesManager.GetTemplateAsync("Arcade/ArcadeLevels", new ArcadeLevelsViewModel
         {
             Culture = context.Culture,
             Levels = levels

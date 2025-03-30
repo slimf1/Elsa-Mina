@@ -10,7 +10,7 @@ public class GuessingGameHandler : ChatMessageHandler
     {
     }
 
-    public override Task HandleMessage(IContext context)
+    public override Task HandleMessageAsync(IContext context, CancellationToken cancellationToken = default)
     {
         if (context.Room?.Game is IGuessingGame guessingGame)
         {

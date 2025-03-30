@@ -19,7 +19,7 @@ public class SetLocale : Command
 
     public override Rank RequiredRank => Rank.RoomOwner;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var arguments = context.Target.Split(",");
         var roomId = arguments[0].Trim();

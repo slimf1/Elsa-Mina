@@ -9,7 +9,7 @@ public class EndGuessingGame : Command
 {
     public override Rank RequiredRank => Rank.Voiced;
 
-    public override Task Run(IContext context)
+    public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         if (context.Room?.Game is IGuessingGame guessingGame)
         {

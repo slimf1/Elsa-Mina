@@ -20,7 +20,7 @@ public class SetTitle : Command
     public override Rank RequiredRank => Rank.Voiced;
     public override string HelpMessageKey => "title_help_message";
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var parts = context.Target.Split(",");
         if (parts.Length != 2)

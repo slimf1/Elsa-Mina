@@ -18,7 +18,7 @@ public class DeleteCustomCommand : Command
     public override Rank RequiredRank => Rank.Driver;
     public override string HelpMessageKey => "deletecommand_help";
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var commandId = context.Target.Trim().ToLower();
         try

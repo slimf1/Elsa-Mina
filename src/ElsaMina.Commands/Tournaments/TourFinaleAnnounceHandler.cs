@@ -21,7 +21,8 @@ public class TourFinaleAnnounceHandler : Handler
         _roomsManager = roomsManager;
     }
 
-    public override Task HandleReceivedMessage(string[] parts, string roomId = null)
+    public override Task HandleReceivedMessageAsync(string[] parts, string roomId = null,
+        CancellationToken cancellationToken = default)
     {
         if (parts.Length < 4 || parts[1] != "tournament" || parts[2] != "update")
         {

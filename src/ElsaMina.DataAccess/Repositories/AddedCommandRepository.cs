@@ -12,18 +12,19 @@ public class AddedCommandRepository : BaseRepository<AddedCommand, Tuple<string,
         _dbContext = context;
     }
     
-    public override async Task<AddedCommand> GetByIdAsync(Tuple<string, string> key)
+    public override async Task<AddedCommand> GetByIdAsync(Tuple<string, string> key,
+        CancellationToken cancellationToken = default)
     {
         var (commandId, roomId) = key;
         return await _dbContext.Set<AddedCommand>()
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == commandId && x.RoomId == roomId);
+            .FirstOrDefaultAsync(x => x.Id == commandId && x.RoomId == roomId, cancellationToken: cancellationToken);
     }
 
-    public override async Task<IEnumerable<AddedCommand>> GetAllAsync()
+    public override async Task<IEnumerable<AddedCommand>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<AddedCommand>()
             .AsNoTracking()
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 }

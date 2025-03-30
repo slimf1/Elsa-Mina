@@ -18,7 +18,7 @@ public class Help : Command
     public override bool IsAllowedInPrivateMessage => true;
     public override Rank RequiredRank => Rank.Regular;
 
-    public override Task Run(IContext context)
+    public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         context.ReplyRankAwareLocalizedMessage("help", _versionProvider.Version);
         return Task.CompletedTask;

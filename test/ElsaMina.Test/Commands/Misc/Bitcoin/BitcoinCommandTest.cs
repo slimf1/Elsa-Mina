@@ -29,7 +29,7 @@ public class BitcoinCommandTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithBitcoinRates_WhenApiCallSucceeds()
+    public async Task Test_RunAsync_ShouldReplyWithBitcoinRates_WhenApiCallSucceeds()
     {
         // Arrange
         var mockResponse = new HttpResponse<IDictionary<string, IDictionary<string, int>>>
@@ -48,21 +48,21 @@ public class BitcoinCommandTests
             .Returns(mockResponse);
 
         // Act
-        await _bitcoinCommand.Run(_context);
+        await _bitcoinCommand.RunAsync(_context);
 
         // Assert
         _context.Received().Reply("1 bitcoin = 40000€ = 42000$", rankAware: true);
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithError_WhenApiCallFails()
+    public async Task Test_RunAsync_ShouldReplyWithError_WhenApiCallFails()
     {
         // Arrange
         _httpService.GetAsync<IDictionary<string, IDictionary<string, int>>>(Arg.Any<string>())
             .Throws(new Exception("API error"));
 
         // Act
-        await _bitcoinCommand.Run(_context);
+        await _bitcoinCommand.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("bitcoin_error");

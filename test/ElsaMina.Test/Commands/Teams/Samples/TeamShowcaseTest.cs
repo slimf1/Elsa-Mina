@@ -27,21 +27,21 @@ public class TeamShowcaseTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithNotFoundMessage_WhenTeamDoesNotExist()
+    public async Task Test_RunAsync_ShouldReplyWithNotFoundMessage_WhenTeamDoesNotExist()
     {
         // Arrange
         _context.Target.Returns("nonexistentTeamId");
         _teamRepository.GetByIdAsync("nonexistentteamid").Returns(Task.FromResult<Team>(null));
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("team_showcase_not_found");
     }
 
     [Test]
-    public async Task Test_Run_ShouldSendHtml_WhenTeamExists()
+    public async Task Test_RunAsync_ShouldSendHtml_WhenTeamExists()
     {
         // Arrange
         var team = new Team { Id = "teamid", Name = "Test Team" };
@@ -50,14 +50,14 @@ public class TeamShowcaseTests
         _teamRepository.GetByIdAsync("teamid").Returns(Task.FromResult(team));
 
         var expectedHtml = "<div>Sample Team HTML</div>";
-        _templatesManager.GetTemplate("Teams/SampleTeam", Arg.Any<SampleTeamViewModel>())
+        _templatesManager.GetTemplateAsync("Teams/SampleTeam", Arg.Any<SampleTeamViewModel>())
             .Returns(Task.FromResult(expectedHtml));
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
-        await _templatesManager.Received(1).GetTemplate("Teams/SampleTeam", Arg.Is<SampleTeamViewModel>(vm =>
+        await _templatesManager.Received(1).GetTemplateAsync("Teams/SampleTeam", Arg.Is<SampleTeamViewModel>(vm =>
             vm.Culture.Name == "fr-FR" && vm.Team == team));
         _context.Received().SendHtml(expectedHtml.RemoveNewlines(), rankAware: true);
     }

@@ -21,11 +21,11 @@ public class GiveBadge : Command
         _badgeRepository = badgeRepository;
         _roomUserDataService = roomUserDataService;
     }
-    
+
     public override Rank RequiredRank => Rank.Driver;
     public override string HelpMessageKey => "badge_give_help_message";
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var parts = context.Target.Split(",");
         if (parts.Length != 2)
@@ -33,13 +33,14 @@ public class GiveBadge : Command
             ReplyLocalizedHelpMessage(context);
             return;
         }
+
         var userId = parts[0].ToLowerAlphaNum();
         var badgeId = parts[1].ToLowerAlphaNum();
 
         Badge badge = null;
         try
         {
-            badge = await _badgeRepository.GetByIdAsync(new(badgeId, context.RoomId));
+            badge = await _badgeRepository.GetByIdAsync(new(badgeId, context.RoomId), cancellationToken);
         }
         catch (Exception exception)
         {

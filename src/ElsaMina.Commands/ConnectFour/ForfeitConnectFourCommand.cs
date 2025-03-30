@@ -17,7 +17,7 @@ public class ForfeitConnectFourCommand : Command
     public override bool IsPrivateMessageOnly => true;
     public override bool IsAllowedInPrivateMessage => true;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var roomId = context.Target.Trim();
         var room = _roomsManager.GetRoom(roomId);

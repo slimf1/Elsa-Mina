@@ -20,7 +20,7 @@ public class TemplatesManager : ITemplatesManager
 
     private readonly ConcurrentDictionary<string, ITemplatePage> _compilationResults = new();
 
-    public async Task<string> GetTemplate(string templateKey, object model)
+    public async Task<string> GetTemplateAsync(string templateKey, object model)
     {
         if (!_compilationResults.TryGetValue(templateKey, out var compiledTemplatePage))
         {

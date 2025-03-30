@@ -24,7 +24,7 @@
 
     <ItemGroup>
         <Content Include="Data\**">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
     

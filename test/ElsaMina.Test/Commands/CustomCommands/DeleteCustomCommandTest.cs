@@ -28,14 +28,14 @@ public class DeleteCustomCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldDeleteCommandAndReplySuccess_WhenCommandExists()
+    public async Task Test_RunAsync_ShouldDeleteCommandAndReplySuccess_WhenCommandExists()
     {
         // Arrange
         _context.Target.Returns("commandToDelete");
         _context.RoomId.Returns("room1");
 
         // Act
-        await _deleteCustomCommand.Run(_context);
+        await _deleteCustomCommand.RunAsync(_context);
 
         // Assert
         await _addedCommandRepository.Received(1)
@@ -44,7 +44,7 @@ public class DeleteCustomCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithFailureMessage_WhenDeleteThrowsException()
+    public async Task Test_RunAsync_ShouldReplyWithFailureMessage_WhenDeleteThrowsException()
     {
         // Arrange
         _context.Target.Returns("commandToDelete");
@@ -56,7 +56,7 @@ public class DeleteCustomCommandTest
             .Do(x => throw new Exception(exceptionMessage));
 
         // Act
-        await _deleteCustomCommand.Run(_context);
+        await _deleteCustomCommand.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("deletecommand_failure", exceptionMessage);

@@ -20,7 +20,7 @@ public class AddTeamToRoom : Command
 
     public override Rank RequiredRank => Rank.Voiced;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var teamId = context.Target.ToLowerAlphaNum();
         if (string.IsNullOrEmpty(teamId))
@@ -29,7 +29,7 @@ public class AddTeamToRoom : Command
             return;
         }
 
-        var team = await _teamRepository.GetByIdAsync(teamId);
+        var team = await _teamRepository.GetByIdAsync(teamId, cancellationToken);
         if (team == null)
         {
             context.ReplyLocalizedMessage("add_team_to_room_no_team");
@@ -51,7 +51,7 @@ public class AddTeamToRoom : Command
 
         try
         {
-            await _teamRepository.UpdateAsync(team);
+            await _teamRepository.UpdateAsync(team, cancellationToken);
             context.ReplyLocalizedMessage("add_team_to_room_success");
         }
         catch (Exception exception)

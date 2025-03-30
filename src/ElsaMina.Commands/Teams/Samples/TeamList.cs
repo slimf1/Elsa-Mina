@@ -24,7 +24,7 @@ public class TeamList : Command
     public override bool IsAllowedInPrivateMessage => true;
     public override Rank RequiredRank => Rank.Regular;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         IEnumerable<Team> teams;
         string roomId;
@@ -33,12 +33,12 @@ public class TeamList : Command
             var arguments = context.Target.Split(",");
             var format = arguments[0].ToLowerAlphaNum();
             roomId = arguments.Length >= 2 ? arguments[1].ToLowerAlphaNum() : context.RoomId;
-            teams = await _teamRepository.GetTeamsFromRoomWithFormat(roomId, format);
+            teams = await _teamRepository.GetTeamsFromRoomWithFormat(roomId, format, cancellationToken);
         }
         else
         {
             roomId = context.RoomId;
-            teams = await _teamRepository.GetTeamsFromRoom(roomId);
+            teams = await _teamRepository.GetTeamsFromRoom(roomId, cancellationToken);
         }
 
         var teamList = teams?.ToList();
@@ -48,7 +48,7 @@ public class TeamList : Command
             return;
         }
 
-        var template = await _templatesManager.GetTemplate("Teams/TeamList", new TeamListViewModel
+        var template = await _templatesManager.GetTemplateAsync("Teams/TeamList", new TeamListViewModel
         {
             Culture = context.Culture,
             Teams = teamList

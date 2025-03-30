@@ -66,7 +66,7 @@ public class CommandExecutorTest
     }
 
     [Test]
-    public async Task Test_TryExecuteCommand_ShouldRunCommand_WhenRegisteredAndAllowed()
+    public async Task Test_TryExecuteCommandAsync_ShouldRunCommand_WhenRegisteredAndAllowed()
     {
         // Arrange
         var commandName = "testCommand";
@@ -77,10 +77,10 @@ public class CommandExecutorTest
         command.IsAllowedInPrivateMessage.Returns(true);
 
         // Act
-        await _commandExecutor.TryExecuteCommand(commandName, _context);
+        await _commandExecutor.TryExecuteCommandAsync(commandName, _context);
 
         // Assert
-        await command.Received(1).Run(_context);
+        await command.Received(1).RunAsync(_context);
     }
 
     [Test]
@@ -88,7 +88,7 @@ public class CommandExecutorTest
     [TestCase("", 0)]
     [TestCase("franais", 1)]
     [TestCase("other", 0)]
-    public async Task Test_TryExecuteCommand_ShouldRunCommand_WhenIsNotInRoomRestriction(string roomId,
+    public async Task Test_TryExecuteCommandAsync_ShouldRunCommand_WhenIsNotInRoomRestriction(string roomId,
         int expectedRunCalls)
     {
         // Arrange
@@ -101,14 +101,14 @@ public class CommandExecutorTest
         _context.RoomId.Returns(roomId);
 
         // Act
-        await _commandExecutor.TryExecuteCommand(commandName, _context);
+        await _commandExecutor.TryExecuteCommandAsync(commandName, _context);
 
         // Assert
-        await command.Received(expectedRunCalls).Run(_context);
+        await command.Received(expectedRunCalls).RunAsync(_context);
     }
 
     [Test]
-    public async Task Test_TryExecuteCommand_ShouldNotRunCommand_WhenNotAllowedByPrivateMessageRestriction()
+    public async Task Test_TryExecuteCommandAsync_ShouldNotRunCommand_WhenNotAllowedByPrivateMessageRestriction()
     {
         // Arrange
         var commandName = "testCommand";
@@ -120,14 +120,14 @@ public class CommandExecutorTest
         command.IsAllowedInPrivateMessage.Returns(false);
 
         // Act
-        await _commandExecutor.TryExecuteCommand(commandName, _context);
+        await _commandExecutor.TryExecuteCommandAsync(commandName, _context);
 
         // Assert
-        await command.DidNotReceive().Run(_context);
+        await command.DidNotReceive().RunAsync(_context);
     }
 
     [Test]
-    public async Task Test_TryExecuteCommand_ShouldNotRunCommand_WhenNotWhitelisted()
+    public async Task Test_TryExecuteCommandAsync_ShouldNotRunCommand_WhenNotWhitelisted()
     {
         // Arrange
         var commandName = "whitelistCommand";
@@ -138,14 +138,14 @@ public class CommandExecutorTest
         _context.IsSenderWhitelisted.Returns(false);
 
         // Act
-        await _commandExecutor.TryExecuteCommand(commandName, _context);
+        await _commandExecutor.TryExecuteCommandAsync(commandName, _context);
 
         // Assert
-        await command.DidNotReceive().Run(_context);
+        await command.DidNotReceive().RunAsync(_context);
     }
 
     [Test]
-    public async Task Test_TryExecuteCommand_ShouldTryAddedCommand_WhenNotRegisteredAndNotPrivateMessage()
+    public async Task Test_TryExecuteCommandAsync_ShouldTryAddedCommand_WhenNotRegisteredAndNotPrivateMessage()
     {
         // Arrange
         var commandName = "customCommand";
@@ -153,14 +153,14 @@ public class CommandExecutorTest
         _context.IsPrivateMessage.Returns(false);
 
         // Act
-        await _commandExecutor.TryExecuteCommand(commandName, _context);
+        await _commandExecutor.TryExecuteCommandAsync(commandName, _context);
 
         // Assert
         await _addedCommandsManager.Received(1).TryExecuteAddedCommand(commandName, _context);
     }
 
     [Test]
-    public async Task Test_TryExecuteCommand_ShouldLogError_WhenCommandNotFoundAndIsPrivateMessage()
+    public async Task Test_TryExecuteCommandAsync_ShouldLogError_WhenCommandNotFoundAndIsPrivateMessage()
     {
         // Arrange
         var commandName = "missingCommand";
@@ -168,7 +168,7 @@ public class CommandExecutorTest
         _context.IsPrivateMessage.Returns(true);
 
         // Act
-        await _commandExecutor.TryExecuteCommand(commandName, _context);
+        await _commandExecutor.TryExecuteCommandAsync(commandName, _context);
 
         // Assert
         await _addedCommandsManager.DidNotReceive().TryExecuteAddedCommand(commandName, _context);
@@ -176,7 +176,7 @@ public class CommandExecutorTest
 
 
     [Test]
-    public async Task Test_TryExecuteCommand_ShouldExecuteAddedCommand_WhenCommandNotRegisteredAndNotPrivateMessage()
+    public async Task Test_TryExecuteCommandAsync_ShouldExecuteAddedCommand_WhenCommandNotRegisteredAndNotPrivateMessage()
     {
         // Arrange
         var commandName = "customCommand";
@@ -185,14 +185,14 @@ public class CommandExecutorTest
         _dependencyContainerService.IsRegisteredWithName<ICommand>(commandName).Returns(false);
 
         // Act
-        await _commandExecutor.TryExecuteCommand(commandName, context);
+        await _commandExecutor.TryExecuteCommandAsync(commandName, context);
 
         // Assert
         await _addedCommandsManager.Received().TryExecuteAddedCommand(commandName, context);
     }
 
     [Test]
-    public async Task Test_TryExecuteCommand_ShouldDoNothing_WhenCommandNotFoundAndIsPrivateMessage()
+    public async Task Test_TryExecuteCommandAsync_ShouldDoNothing_WhenCommandNotFoundAndIsPrivateMessage()
     {
         // Arrange
         var commandName = "nonExistentCommand";
@@ -201,7 +201,7 @@ public class CommandExecutorTest
         _dependencyContainerService.IsRegisteredWithName<ICommand>(commandName).Returns(false);
 
         // Act
-        await _commandExecutor.TryExecuteCommand(commandName, context);
+        await _commandExecutor.TryExecuteCommandAsync(commandName, context);
 
         // Assert
         await _addedCommandsManager.DidNotReceive().TryExecuteAddedCommand(commandName, context);

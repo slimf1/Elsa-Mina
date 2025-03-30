@@ -4,5 +4,5 @@ public interface IHandlerManager
 {
     bool IsInitialized { get; }
     void Initialize();
-    Task HandleMessage(string[] parts, string roomId = null);
+    Task HandleMessageAsync(string[] parts, string roomId = null, CancellationToken cancellationToken = default);
 }

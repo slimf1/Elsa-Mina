@@ -14,13 +14,13 @@ public class ConfigurationServiceTest
     }
 
     [Test]
-    public async Task Test_LoadConfiguration_ShouldLoadConfigurationFromReader()
+    public async Task Test_LoadConfigurationAsync_ShouldLoadConfigurationFromReader()
     {
         // Arrange
         var reader = new StringReader("{\"Name\": \"test\", \"Host\": \"test.server.com\"}");
 
         // Act
-        await _configurationManager.LoadConfiguration(reader);
+        await _configurationManager.LoadConfigurationAsync(reader);
 
         // Assert
         Assert.Multiple(() =>
@@ -32,12 +32,13 @@ public class ConfigurationServiceTest
     }
 
     [Test]
-    public void Test_LoadConfiguration_ShouldThrowException_WhenJsonIsInvalid()
+    public void Test_LoadConfigurationAsync_ShouldThrowException_WhenJsonIsInvalid()
     {
         // Arrange
         var reader = new StringReader("{\"Env\": \"test\", \"Host\": \"test.server.com\"");
 
         // Act & Assert
-        Assert.ThrowsAsync<JsonSerializationException>(async () => await _configurationManager.LoadConfiguration(reader));
+        Assert.ThrowsAsync<JsonSerializationException>(
+            async () => await _configurationManager.LoadConfigurationAsync(reader));
     }
 }

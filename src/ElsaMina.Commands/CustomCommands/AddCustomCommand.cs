@@ -29,7 +29,7 @@ public class AddCustomCommand : Command
     
     public override Rank RequiredRank => Rank.Driver;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var arguments = context.Target.Split(",");
         if (arguments.Length < 2)

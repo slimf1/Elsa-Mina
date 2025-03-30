@@ -49,7 +49,7 @@ public class LoginHandlerTest
         });
 
         // Act
-        await _handler.HandleReceivedMessage(message);
+        await _handler.HandleReceivedMessageAsync(message);
 
         // Assert
         _systemService.DidNotReceive().Kill();
@@ -68,7 +68,7 @@ public class LoginHandlerTest
         _loginService.Login("4|nonce").ReturnsNull();
 
         // Act
-        await _handler.HandleReceivedMessage(message);
+        await _handler.HandleReceivedMessageAsync(message);
 
         // Assert
         _systemService.Received(1).Kill();

@@ -21,14 +21,14 @@ public class SetTitleTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldSetUserTitle_WhenValidParametersProvided()
+    public async Task Test_RunAsync_ShouldSetUserTitle_WhenValidParametersProvided()
     {
         // Arrange
         _context.RoomId.Returns("testRoom");
         _context.Target.Returns("user123, Elite Trainer");
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _roomUserDataService.Received(1).SetUserTitle("testRoom", "user123", "Elite Trainer");
@@ -36,14 +36,14 @@ public class SetTitleTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldReturnHelpMessage_WhenIncorrectParameterCount()
+    public async Task Test_RunAsync_ShouldReturnHelpMessage_WhenIncorrectParameterCount()
     {
         // Arrange
         _context.RoomId.Returns("testRoom");
         _context.Target.Returns("user123");
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage(_command.HelpMessageKey);
@@ -51,7 +51,7 @@ public class SetTitleTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldHandleExceptionAndSendFailureMessage_WhenSetUserTitleFails()
+    public async Task Test_RunAsync_ShouldHandleExceptionAndSendFailureMessage_WhenSetUserTitleFails()
     {
         // Arrange
         _context.RoomId.Returns("testRoom");
@@ -62,7 +62,7 @@ public class SetTitleTests
             .Do(x => throw new Exception(errorMessage));
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("title_failure", errorMessage);

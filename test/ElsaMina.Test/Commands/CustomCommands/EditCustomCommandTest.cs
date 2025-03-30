@@ -30,7 +30,7 @@ public class EditCustomCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithHelpMessage_WhenCommandIsNotFound()
+    public async Task Test_RunAsync_ShouldReplyWithHelpMessage_WhenCommandIsNotFound()
     {
         // Arrange
         _context.Target.Returns("nonexistentcommand, new content");
@@ -40,14 +40,14 @@ public class EditCustomCommandTest
             .ReturnsNull();
 
         // Act
-        await _editCustomCommand.Run(_context);
+        await _editCustomCommand.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage(_editCustomCommand.HelpMessageKey);
     }
 
     [Test]
-    public async Task Test_Run_ShouldUpdateCommandAndReplySuccess_WhenCommandExists()
+    public async Task Test_RunAsync_ShouldUpdateCommandAndReplySuccess_WhenCommandExists()
     {
         // Arrange
         _context.Target.Returns("existingcommand, updated content");
@@ -58,7 +58,7 @@ public class EditCustomCommandTest
             .Returns(existingCommand);
 
         // Act
-        await _editCustomCommand.Run(_context);
+        await _editCustomCommand.RunAsync(_context);
 
         // Assert
         Assert.That(existingCommand.Content, Is.EqualTo("updated content"));
@@ -67,7 +67,7 @@ public class EditCustomCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithFailureMessage_WhenUpdateThrowsException()
+    public async Task Test_RunAsync_ShouldReplyWithFailureMessage_WhenUpdateThrowsException()
     {
         // Arrange
         _context.Target.Returns("existingcommand, new content");
@@ -84,14 +84,14 @@ public class EditCustomCommandTest
             .Do(x => throw new Exception(exceptionMessage));
 
         // Act
-        await _editCustomCommand.Run(_context);
+        await _editCustomCommand.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("editcommand_failure", exceptionMessage);
     }
 
     [Test]
-    public async Task Test_Run_ShouldLogErrorAndReplyWithHelpMessage_WhenGetByIdThrowsException()
+    public async Task Test_RunAsync_ShouldLogErrorAndReplyWithHelpMessage_WhenGetByIdThrowsException()
     {
         // Arrange
         _context.Target.Returns("commandid, new content");
@@ -101,7 +101,7 @@ public class EditCustomCommandTest
             .Do(x => throw new Exception("Some error"));
 
         // Act
-        await _editCustomCommand.Run(_context);
+        await _editCustomCommand.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage(_editCustomCommand.HelpMessageKey);

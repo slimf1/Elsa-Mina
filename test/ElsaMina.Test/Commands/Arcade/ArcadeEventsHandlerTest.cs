@@ -39,7 +39,7 @@ public class ArcadeEventsHandlerTests
         var parts = new[] { "", "raw", "<div class=\"broadcast-blue\"><b>The \"TestEvent\" roomevent has started!</b></div>" };
 
         // Act
-        await _handler.HandleReceivedMessage(parts, "general");
+        await _handler.HandleReceivedMessageAsync(parts, "general");
 
         // Assert
         await _httpService.DidNotReceiveWithAnyArgs().PostJsonAsync<ArcadeEventWebhookBody, object>(default, default);
@@ -52,7 +52,7 @@ public class ArcadeEventsHandlerTests
         var parts = new[] { "", "other" };
 
         // Act
-        await _handler.HandleReceivedMessage(parts, "arcade");
+        await _handler.HandleReceivedMessageAsync(parts, "arcade");
 
         // Assert
         await _httpService.DidNotReceiveWithAnyArgs().PostJsonAsync<ArcadeEventWebhookBody, object>(default, default);
@@ -66,7 +66,7 @@ public class ArcadeEventsHandlerTests
         var parts = new[] { "", "raw", "<div class=\"broadcast-blue\"><b>The \"TestEvent\" roomevent has started!</b></div>" };
 
         // Act
-        await _handler.HandleReceivedMessage(parts, "arcade");
+        await _handler.HandleReceivedMessageAsync(parts, "arcade");
 
         // Assert
         await _httpService.DidNotReceiveWithAnyArgs().PostJsonAsync<ArcadeEventWebhookBody, object>(default, default);
@@ -89,7 +89,7 @@ public class ArcadeEventsHandlerTests
         var parts = new[] { "", "raw", $"<div class=\"broadcast-blue\"><b>The \"{eventName}\" roomevent has started!</b></div>" };
 
         // Act
-        await _handler.HandleReceivedMessage(parts, "arcade");
+        await _handler.HandleReceivedMessageAsync(parts, "arcade");
 
         // Assert
         await _httpService.Received(1).PostJsonAsync<ArcadeEventWebhookBody, object>(webhookUrl, Arg.Is<ArcadeEventWebhookBody>(body =>
@@ -121,7 +121,7 @@ public class ArcadeEventsHandlerTests
             .Throw(new HttpRequestException("Network error"));
 
         // Act
-        await _handler.HandleReceivedMessage(parts, "arcade");
+        await _handler.HandleReceivedMessageAsync(parts, "arcade");
 
         // Assert
         await _httpService.Received(1).PostJsonAsync<ArcadeEventWebhookBody, object>(webhookUrl, Arg.Any<ArcadeEventWebhookBody>());

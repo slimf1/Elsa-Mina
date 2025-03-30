@@ -35,13 +35,13 @@ public class SpeakCommandTest
     [Test]
     [TestCase(null)]
     [TestCase("")]
-    public async Task Test_Run_ShouldDoNothing_WhenApiKeyIsMissing(string key)
+    public async Task Test_RunAsync_ShouldDoNothing_WhenApiKeyIsMissing(string key)
     {
         // Given
         _configuration.ElevenLabsApiKey.Returns(key);
         
         // When
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
         
         // Then
         await _httpService.DidNotReceive().PostStreamAsync(Arg.Any<string>(), Arg.Any<Stream>(),
@@ -51,7 +51,7 @@ public class SpeakCommandTest
     }
     
     [Test]
-    public async Task Test_Run_ShouldFetchStreamAndUploadIt_WhenArgsAreValid()
+    public async Task Test_RunAsync_ShouldFetchStreamAndUploadIt_WhenArgsAreValid()
     {
         // Given
         _configuration.ElevenLabsApiKey.Returns("key");
@@ -66,14 +66,14 @@ public class SpeakCommandTest
 
         
         // When
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
         
         // Then
         _context.Received(1).SendHtml("""<audio src="url" controls></audio>""");
     }
     
     [Test]
-    public async Task Test_Run_ShouldFetchStreamAndUploadIt()
+    public async Task Test_RunAsync_ShouldFetchStreamAndUploadIt()
     {
         // Given
         _configuration.ElevenLabsApiKey.Returns("key");
@@ -87,7 +87,7 @@ public class SpeakCommandTest
             .Returns("url");
 
         // When
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
         
         // Then
         _context.Received(1).SendHtml("""<audio src="url" controls></audio>""");

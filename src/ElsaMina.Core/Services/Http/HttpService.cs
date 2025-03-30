@@ -8,7 +8,8 @@ public class HttpService : IHttpService
     private static readonly HttpClient HTTP_CLIENT = new();
 
     public async Task<IHttpResponse<TResponse>> PostJsonAsync<TRequest, TResponse>(string uri, TRequest dto,
-        bool removeFirstCharacterFromResponse = false, IDictionary<string, string> headers = null)
+        bool removeFirstCharacterFromResponse = false, IDictionary<string, string> headers = null,
+        CancellationToken cancellationToken = default)
     {
         var serializedJson = JsonConvert.SerializeObject(dto);
         var content = new StringContent(serializedJson, Encoding.UTF8, "application/json");
@@ -23,8 +24,8 @@ public class HttpService : IHttpService
             }
         }
 
-        var response = await HTTP_CLIENT.SendAsync(request);
-        var stringContent = await response.Content.ReadAsStringAsync();
+        var response = await HTTP_CLIENT.SendAsync(request, cancellationToken);
+        var stringContent = await response.Content.ReadAsStringAsync(cancellationToken);
         if (!response.IsSuccessStatusCode)
         {
             throw new HttpException(response.StatusCode, stringContent);
@@ -44,11 +45,11 @@ public class HttpService : IHttpService
 
     public async Task<IHttpResponse<TResponse>> PostUrlEncodedFormAsync<TResponse>(string uri,
         IDictionary<string, string> form,
-        bool removeFirstCharacterFromResponse = false)
+        bool removeFirstCharacterFromResponse = false, CancellationToken cancellationToken = default)
     {
         var content = new FormUrlEncodedContent(form);
-        var response = await HTTP_CLIENT.PostAsync(uri, content);
-        var stringContent = await response.Content.ReadAsStringAsync();
+        var response = await HTTP_CLIENT.PostAsync(uri, content, cancellationToken);
+        var stringContent = await response.Content.ReadAsStringAsync(cancellationToken);
         if (!response.IsSuccessStatusCode)
         {
             throw new HttpException(response.StatusCode, stringContent);
@@ -66,7 +67,8 @@ public class HttpService : IHttpService
         };
     }
 
-    public async Task<Stream> PostStreamAsync<TRequest>(string uri, TRequest dto, IDictionary<string, string> headers = null)
+    public async Task<Stream> PostStreamAsync<TRequest>(string uri, TRequest dto,
+        IDictionary<string, string> headers = null, CancellationToken cancellationToken = default)
     {
         var serializedJson = JsonConvert.SerializeObject(dto);
         var content = new StringContent(serializedJson, Encoding.UTF8, "application/json");
@@ -80,14 +82,14 @@ public class HttpService : IHttpService
             }
         }
 
-        var response = await HTTP_CLIENT.SendAsync(request);
-        var stringContent = await response.Content.ReadAsStringAsync();
+        var response = await HTTP_CLIENT.SendAsync(request, cancellationToken);
+        var stringContent = await response.Content.ReadAsStringAsync(cancellationToken);
         if (!response.IsSuccessStatusCode)
         {
             throw new HttpException(response.StatusCode, stringContent);
         }
 
-        return await response.Content.ReadAsStreamAsync();
+        return await response.Content.ReadAsStreamAsync(cancellationToken);
     }
 
     public async Task<IHttpResponse<TResponse>> GetAsync<TResponse>(string uri,
@@ -131,8 +133,8 @@ public class HttpService : IHttpService
         };
     }
 
-    public Task<Stream> GetStreamAsync(string uri)
+    public Task<Stream> GetStreamAsync(string uri, CancellationToken cancellationToken = default)
     {
-        return HTTP_CLIENT.GetStreamAsync(uri);
+        return HTTP_CLIENT.GetStreamAsync(uri, cancellationToken);
     }
 }

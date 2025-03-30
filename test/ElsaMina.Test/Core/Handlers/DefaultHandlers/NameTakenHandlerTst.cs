@@ -23,7 +23,7 @@ public class NameTakenHandlerTest
         string[] parts = ["", "nametaken"];
 
         // Act
-        await _nameTakenHandler.HandleReceivedMessage(parts);
+        await _nameTakenHandler.HandleReceivedMessageAsync(parts);
 
         // Assert
         _systemServiceMock.Received(1).Kill();
@@ -36,7 +36,7 @@ public class NameTakenHandlerTest
         string[] parts = [""];
 
         // Act
-        await _nameTakenHandler.HandleReceivedMessage(parts);
+        await _nameTakenHandler.HandleReceivedMessageAsync(parts);
 
         // Assert
         _systemServiceMock.DidNotReceive().Kill();
@@ -49,7 +49,7 @@ public class NameTakenHandlerTest
         string[] parts = ["", "notnametaken"];
 
         // Act
-        await _nameTakenHandler.HandleReceivedMessage(parts);
+        await _nameTakenHandler.HandleReceivedMessageAsync(parts);
 
         // Assert
         _systemServiceMock.DidNotReceive().Kill();

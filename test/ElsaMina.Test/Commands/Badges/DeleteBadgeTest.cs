@@ -22,7 +22,7 @@ public class DeleteBadgeTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithDoesntExistMessage_WhenNonExistingBadge()
+    public async Task Test_RunAsync_ShouldReplyWithDoesntExistMessage_WhenNonExistingBadge()
     {
         // Arrange
         _context.Target.Returns("nonExistingBadge");
@@ -30,14 +30,14 @@ public class DeleteBadgeTest
         _badgeRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns((Badge)null);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("badge_delete_doesnt_exist", "nonexistingbadge");
     }
 
     [Test]
-    public async Task Test_Run_ShouldDeleteBadgeAndReplyWithSuccessMessage_WhenExistingBadge()
+    public async Task Test_RunAsync_ShouldDeleteBadgeAndReplyWithSuccessMessage_WhenExistingBadge()
     {
         // Arrange
         var existingBadge = new Badge { Id = "existingbadge" };
@@ -46,7 +46,7 @@ public class DeleteBadgeTest
         _badgeRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(existingBadge);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _badgeRepository.Received().DeleteByIdAsync(Arg.Any<Tuple<string, string>>());
@@ -54,7 +54,7 @@ public class DeleteBadgeTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithFailureMessage_WhenExceptionThrown()
+    public async Task Test_RunAsync_ShouldReplyWithFailureMessage_WhenExceptionThrown()
     {
         // Arrange
         var existingBadge = new Badge { Id = "existingbadge" };
@@ -64,7 +64,7 @@ public class DeleteBadgeTest
         _badgeRepository.DeleteByIdAsync(Arg.Any<Tuple<string, string>>()).Throws(new Exception("Some error"));
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("badge_delete_failure", "Some error");

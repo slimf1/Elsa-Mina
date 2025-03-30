@@ -23,20 +23,20 @@ public class AddBadgeTest
     }
     
     [Test]
-    public async Task Test_Run_ShouldReplyWithHelpMessage_WhenArgumentsAreInvalid()
+    public async Task Test_RunAsync_ShouldReplyWithHelpMessage_WhenArgumentsAreInvalid()
     {
         // Arrange
         _context.Target.Returns("invalid");
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("badge_help_message");
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithAlreadyExistMessage_WhenBadgeExists()
+    public async Task Test_RunAsync_ShouldReplyWithAlreadyExistMessage_WhenBadgeExists()
     {
         // Arrange
         _context.Target.Returns("existing, image");
@@ -44,14 +44,14 @@ public class AddBadgeTest
         _badgeRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(new Badge());
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("badge_add_already_exist", "existing");
     }
 
     [Test]
-    public async Task Test_Run_ShouldAddBadgeAndReplyWithSuccessMessage_WhenArgumentsAreValid()
+    public async Task Test_RunAsync_ShouldAddBadgeAndReplyWithSuccessMessage_WhenArgumentsAreValid()
     {
         // Arrange
         _context.Target.Returns("newBadge, image");
@@ -59,7 +59,7 @@ public class AddBadgeTest
         _badgeRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).ReturnsNull();
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _badgeRepository.Received().AddAsync(Arg.Is<Badge>(b =>
@@ -72,7 +72,7 @@ public class AddBadgeTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithFailureMessage_WhenExceptionThrownByRepository()
+    public async Task Test_RunAsync_ShouldReplyWithFailureMessage_WhenExceptionThrownByRepository()
     {
         // Arrange
         _context.Target.Returns("newBadge, image");
@@ -81,7 +81,7 @@ public class AddBadgeTest
         _badgeRepository.AddAsync(Arg.Any<Badge>()).Throws(new Exception("Some error"));
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("badge_add_failure_message", "Some error");

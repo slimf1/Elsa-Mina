@@ -50,7 +50,7 @@ public class ProfileCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReturnUserProfileTemplate_WhenUserIdIsFound()
+    public async Task Test_RunAsync_ShouldReturnUserProfileTemplate_WhenUserIdIsFound()
     {
         // Arrange
         _context.Target.Returns("user1");
@@ -58,29 +58,29 @@ public class ProfileCommandTest
         _userDetailsManager.GetUserDetailsAsync("user1").Returns(Task.FromResult(userDetails));
         _userDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>())
             .Returns(Task.FromResult(new RoomSpecificUserData { Id = "user1", RoomId = "testRoom" }));
-        _templatesManager.GetTemplate("Profile/Profile", Arg.Any<object>())
+        _templatesManager.GetTemplateAsync("Profile/Profile", Arg.Any<object>())
             .Returns(Task.FromResult("<html>Profile template</html>"));
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
-        await _templatesManager.Received(1).GetTemplate("Profile/Profile", Arg.Any<object>());
+        await _templatesManager.Received(1).GetTemplateAsync("Profile/Profile", Arg.Any<object>());
         _context.Received(1).SendHtml("<html>Profile template</html>", rankAware: true);
     }
 
     [Test]
-    public async Task Test_Run_ShouldReturnError_WhenUserDetailsNotFound()
+    public async Task Test_RunAsync_ShouldReturnError_WhenUserDetailsNotFound()
     {
         // Arrange
         _context.Target.Returns("unknownUser");
         _userDetailsManager.GetUserDetailsAsync("unknownUser").Returns(Task.FromResult<UserDetailsDto>(null));
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
-        await _templatesManager.Received(1).GetTemplate("Profile/Profile", Arg.Is<ProfileViewModel>(vm =>
+        await _templatesManager.Received(1).GetTemplateAsync("Profile/Profile", Arg.Is<ProfileViewModel>(vm =>
             vm.Avatar == "https://play.pokemonshowdown.com/sprites/trainers/unknown.png"
             && vm.UserName == "unknownuser"
             && vm.UserId == "unknownuser"
@@ -116,16 +116,16 @@ public class ProfileCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReturnDefaultProfile_WhenUserIdIsNull()
+    public async Task Test_RunAsync_ShouldReturnDefaultProfile_WhenUserIdIsNull()
     {
         // Arrange
         _context.Target.ReturnsNull();
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
-        await _templatesManager.Received(1).GetTemplate("Profile/Profile", Arg.Any<object>());
+        await _templatesManager.Received(1).GetTemplateAsync("Profile/Profile", Arg.Any<object>());
         _context.Received(1).SendHtml(Arg.Any<string>(), rankAware: true);
     }
 }

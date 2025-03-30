@@ -30,7 +30,7 @@ public class AddCustomCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldAddCommandToDatabase_WhenHasValidArguments()
+    public async Task Test_RunAsync_ShouldAddCommandToDatabase_WhenHasValidArguments()
     {
         // Arrange
         var date = new DateTime(2022, 2, 3);
@@ -43,7 +43,7 @@ public class AddCustomCommandTest
         _addedCommandRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).ReturnsNull();
 
         // Act
-        await _addCustomCommand.Run(context);
+        await _addCustomCommand.RunAsync(context);
 
         // Assert
         await _addedCommandRepository.Received(1)
@@ -57,14 +57,14 @@ public class AddCustomCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldNotAddCommandToDatabase_WhenCommandNameIsTooLong()
+    public async Task Test_RunAsync_ShouldNotAddCommandToDatabase_WhenCommandNameIsTooLong()
     {
         // Arrange
         var context = Substitute.For<IContext>();
         context.Target.Returns("very-long-command-name,Test command content");
 
         // Act
-        await _addCustomCommand.Run(context);
+        await _addCustomCommand.RunAsync(context);
 
         // Assert
         context.Received(1).ReplyLocalizedMessage("addcommand_name_too_long");
@@ -72,14 +72,14 @@ public class AddCustomCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldNotAddCommandToDatabase_WhenCommandContentIsTooLong()
+    public async Task Test_RunAsync_ShouldNotAddCommandToDatabase_WhenCommandContentIsTooLong()
     {
         // Arrange
         var context = Substitute.For<IContext>();
         context.Target.Returns("test-command," + new string('a', 301));
 
         // Act
-        await _addCustomCommand.Run(context);
+        await _addCustomCommand.RunAsync(context);
 
         // Assert
         context.Received(1).ReplyLocalizedMessage("addcommand_content_too_long");
@@ -87,7 +87,7 @@ public class AddCustomCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldNotAddCommandToDatabase_WhenCommandContentStartsWithInvalidCharacter()
+    public async Task Test_RunAsync_ShouldNotAddCommandToDatabase_WhenCommandContentStartsWithInvalidCharacter()
     {
         // Arrange
         _configurationManager.Configuration.Trigger.Returns("@");
@@ -95,7 +95,7 @@ public class AddCustomCommandTest
         context.Target.Returns("test-command,@Test command content");
 
         // Act
-        await _addCustomCommand.Run(context);
+        await _addCustomCommand.RunAsync(context);
 
         // Assert
         context.Received(1).ReplyLocalizedMessage("addcommand_bad_first_char");
@@ -103,7 +103,7 @@ public class AddCustomCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldNotAddCommandToDatabase_WhenCommandAlreadyExists()
+    public async Task Test_RunAsync_ShouldNotAddCommandToDatabase_WhenCommandAlreadyExists()
     {
         // Arrange
         _configurationManager.Configuration.Trigger.Returns("@");
@@ -113,7 +113,7 @@ public class AddCustomCommandTest
         context.Target.Returns("existing,Test command content");
 
         // Act
-        await _addCustomCommand.Run(context);
+        await _addCustomCommand.RunAsync(context);
 
         // Assert
         context.Received(1).ReplyLocalizedMessage("addcommand_already_exist");

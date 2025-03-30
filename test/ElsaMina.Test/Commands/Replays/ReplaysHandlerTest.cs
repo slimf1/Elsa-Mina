@@ -36,7 +36,7 @@ public class ReplaysHandlerTest
             .Returns("false");
 
         // Act
-        await _replaysHandler.HandleMessage(_context);
+        await _replaysHandler.HandleMessageAsync(_context);
 
         // Assert
         await _httpService.DidNotReceiveWithAnyArgs().GetAsync<ReplayDto>(default);
@@ -51,7 +51,7 @@ public class ReplaysHandlerTest
         _context.Message.Returns("This is a message without a replay link.");
 
         // Act
-        await _replaysHandler.HandleMessage(_context);
+        await _replaysHandler.HandleMessageAsync(_context);
 
         // Assert
         await _httpService.DidNotReceiveWithAnyArgs().GetAsync<ReplayDto>(default);
@@ -77,11 +77,11 @@ public class ReplaysHandlerTest
         };
 
         _httpService.GetAsync<ReplayDto>(replayUrl + ".json").Returns(new HttpResponse<ReplayDto> { Data = replayData });
-        _templatesManager.GetTemplate("Replays/ReplayPreview", Arg.Any<ReplayPreviewViewModel>())
+        _templatesManager.GetTemplateAsync("Replays/ReplayPreview", Arg.Any<ReplayPreviewViewModel>())
             .Returns("sample-html-template");
 
         // Act
-        await _replaysHandler.HandleMessage(_context);
+        await _replaysHandler.HandleMessageAsync(_context);
 
         // Assert
         await _httpService.Received(1).GetAsync<ReplayDto>(replayUrl + ".json");
@@ -100,7 +100,7 @@ public class ReplaysHandlerTest
         _httpService.GetAsync<ReplayDto>(replayUrl + ".json").Throws(new Exception("Request failed"));
 
         // Act
-        await _replaysHandler.HandleMessage(_context);
+        await _replaysHandler.HandleMessageAsync(_context);
 
         // Assert
         _context.DidNotReceive().SendHtml(Arg.Any<string>());

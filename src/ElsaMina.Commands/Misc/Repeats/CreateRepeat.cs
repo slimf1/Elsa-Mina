@@ -20,7 +20,7 @@ public class CreateRepeat : Command
 
     public override string HelpMessageKey => "aboutrepeat_helpmessage";
 
-    public override Task Run(IContext context)
+    public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         string repeatId;
         string message;

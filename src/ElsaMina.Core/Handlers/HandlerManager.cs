@@ -27,13 +27,13 @@ public class HandlerManager : IHandlerManager
         IsInitialized = true;
     }
 
-    public async Task HandleMessage(string[] parts, string roomId = null)
+    public async Task HandleMessageAsync(string[] parts, string roomId = null, CancellationToken cancellationToken = default)
     {
         await Task.WhenAll(
             _handlers
                 .Values
                 .Where(handler => handler.IsEnabled)
-                .Select(handler => handler.OnMessageReceived(parts, roomId))
+                .Select(handler => handler.OnMessageReceivedAsync(parts, roomId, cancellationToken))
         );
     }
 }

@@ -31,7 +31,7 @@ public class SpeakCommand : Command
     public override bool IsAllowedInPrivateMessage => true;
     public override Rank RequiredRank => Rank.Voiced;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var key = _configuration.ElevenLabsApiKey;
         if (string.IsNullOrWhiteSpace(key))
@@ -53,11 +53,11 @@ public class SpeakCommand : Command
         };
 
         var stream = await _httpService.PostStreamAsync(ELEVEN_LABS_TTS_API_URL,
-            dto, headers);
+            dto, headers, cancellationToken);
 
         var fileName = $"speakcmd_{_clockService.CurrentUtcDateTime:yyyyMMdd_HHmmssfff}.mp3";
         var url = await _fileSharingService.CreateFileAsync(
-            stream, fileName, "Speak command", "audio/mpeg");
+            stream, fileName, "Speak command", "audio/mpeg", cancellationToken);
 
         if (!string.IsNullOrEmpty(url))
         {

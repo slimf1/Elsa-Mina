@@ -36,7 +36,8 @@ public class ArcadeEventsHandler : Handler
         _roomsManager = roomsManager;
     }
 
-    public override async Task HandleReceivedMessage(string[] parts, string roomId = null)
+    public override async Task HandleReceivedMessageAsync(string[] parts, string roomId = null,
+        CancellationToken cancellationToken = default)
     {
         if (roomId != "arcade" || parts.Length < 3 || parts[1] != "raw")
         {
@@ -76,7 +77,9 @@ public class ArcadeEventsHandler : Handler
                     }
                 ]
             };
-            var response = await _httpService.PostJsonAsync<ArcadeEventWebhookBody, object>(webhookUrl, body);
+            var response =
+                await _httpService.PostJsonAsync<ArcadeEventWebhookBody, object>(webhookUrl, body,
+                    cancellationToken: cancellationToken);
             if (response.StatusCode == HttpStatusCode.NoContent)
             {
                 Log.Information("Sent arcade announce via webhook successfully.");

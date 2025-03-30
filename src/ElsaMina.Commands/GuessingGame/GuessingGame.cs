@@ -121,7 +121,7 @@ public abstract class GuessingGame : Game, IGuessingGame
             Culture = Context.Culture,
             Scores = _scores
         };
-        var template = await _templatesManager.GetTemplate("GuessingGame/GuessingGameResult", resultViewModel);
+        var template = await _templatesManager.GetTemplateAsync("GuessingGame/GuessingGameResult", resultViewModel);
         Context.SendHtml(template.RemoveNewlines());
     }
 

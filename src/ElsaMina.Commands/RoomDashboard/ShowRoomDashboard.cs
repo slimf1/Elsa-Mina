@@ -28,7 +28,7 @@ public class ShowRoomDashboard : Command
     public override bool IsWhitelistOnly => true; // todo : seul un mec authed sur la room peut
 
     // TODO : à revoir
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var roomId = context.Target.Trim().ToLower();
         if (string.IsNullOrEmpty(roomId))
@@ -77,7 +77,7 @@ public class ShowRoomDashboard : Command
                         .GetRoomBotConfigurationParameterValue(roomId, roomParameter.Value.Identifier)
                 })
         };
-        var template = await _templatesManager.GetTemplate("RoomDashboard/RoomDashboard", viewModel);
+        var template = await _templatesManager.GetTemplateAsync("RoomDashboard/RoomDashboard", viewModel);
 
         context.SendHtmlPage($"{roomId}dashboard", template.RemoveNewlines());
     }

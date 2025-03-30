@@ -2,7 +2,6 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.DependencyInjection;
-using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.ConnectFour;
 
@@ -18,7 +17,7 @@ public class CreateConnectFourCommand : Command
 
     public override Rank RequiredRank => Rank.Voiced;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var room = context.Room;
         if (room.Game is not null)

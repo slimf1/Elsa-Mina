@@ -34,11 +34,11 @@ public class DisplayTeamsOnTourHandlerTest
     public async Task Test_HandleReceivedMessage_ShouldNotHandle_WhenInvalidParts()
     {
         // Act
-        await _handler.HandleReceivedMessage(["invalid", "message"], "roomId");
+        await _handler.HandleReceivedMessageAsync(["invalid", "message"], "roomId");
 
         // Assert
         await _teamRepository.DidNotReceive().GetTeamsFromRoomWithFormat(Arg.Any<string>(), Arg.Any<string>());
-        await _templatesManager.DidNotReceive().GetTemplate(Arg.Any<string>(), Arg.Any<object>());
+        await _templatesManager.DidNotReceive().GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>());
         _bot.DidNotReceive().Say(Arg.Any<string>(), Arg.Any<string>());
     }
 
@@ -46,11 +46,11 @@ public class DisplayTeamsOnTourHandlerTest
     public async Task Test_HandleReceivedMessage_ShouldNotHandle_WhenFormatContainsRandom()
     {
         // Act
-        await _handler.HandleReceivedMessage(["", "tournament", "create", "randomformat"], "roomId");
+        await _handler.HandleReceivedMessageAsync(["", "tournament", "create", "randomformat"], "roomId");
 
         // Assert
         await _teamRepository.DidNotReceive().GetTeamsFromRoomWithFormat(Arg.Any<string>(), Arg.Any<string>());
-        await _templatesManager.DidNotReceive().GetTemplate(Arg.Any<string>(), Arg.Any<object>());
+        await _templatesManager.DidNotReceive().GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>());
         _bot.DidNotReceive().Say(Arg.Any<string>(), Arg.Any<string>());
     }
 
@@ -66,15 +66,15 @@ public class DisplayTeamsOnTourHandlerTest
         room.Culture.Returns(new CultureInfo("fr-FR"));
         _roomsManager.GetRoom("roomId").Returns(room);
         _teamRepository.GetTeamsFromRoomWithFormat("roomId", "natdex").Returns(teams);
-        _templatesManager.GetTemplate("Teams/TeamList", Arg.Any<TeamListViewModel>())
+        _templatesManager.GetTemplateAsync("Teams/TeamList", Arg.Any<TeamListViewModel>())
             .Returns("renderedTemplate");
 
         // Act
-        await _handler.HandleReceivedMessage(["", "tournament", "create", "gen9nationaldex"], "roomId");
+        await _handler.HandleReceivedMessageAsync(["", "tournament", "create", "gen9nationaldex"], "roomId");
 
         // Assert
         await _teamRepository.Received(1).GetTeamsFromRoomWithFormat("roomId", "natdex");
-        await _templatesManager.Received(1).GetTemplate("Teams/TeamList",
+        await _templatesManager.Received(1).GetTemplateAsync("Teams/TeamList",
             Arg.Is<TeamListViewModel>(vm => vm.Culture.Name == "fr-FR" && vm.Teams.SequenceEqual(teams)));
         _bot.Received(1).Say("roomId", "/addhtmlbox renderedTemplate");
     }
@@ -91,15 +91,15 @@ public class DisplayTeamsOnTourHandlerTest
         room.Culture.Returns(new CultureInfo("fr-FR"));
         _roomsManager.GetRoom("roomId").Returns(room);
         _teamRepository.GetTeamsFromRoomWithFormat("roomId", "aaa").Returns(teams);
-        _templatesManager.GetTemplate("Teams/TeamList", Arg.Any<TeamListViewModel>())
+        _templatesManager.GetTemplateAsync("Teams/TeamList", Arg.Any<TeamListViewModel>())
             .Returns("renderedTemplate");
 
         // Act
-        await _handler.HandleReceivedMessage(["", "tournament", "create", "almostanyability"], "roomId");
+        await _handler.HandleReceivedMessageAsync(["", "tournament", "create", "almostanyability"], "roomId");
 
         // Assert
         await _teamRepository.Received(1).GetTeamsFromRoomWithFormat("roomId", "aaa");
-        await _templatesManager.Received(1).GetTemplate("Teams/TeamList",
+        await _templatesManager.Received(1).GetTemplateAsync("Teams/TeamList",
             Arg.Is<TeamListViewModel>(vm => vm.Culture.Name == "fr-FR" && vm.Teams.SequenceEqual(teams)));
         _bot.Received(1).Say("roomId", "/addhtmlbox renderedTemplate");
     }
@@ -128,15 +128,15 @@ public class DisplayTeamsOnTourHandlerTest
         room.Culture.Returns(new CultureInfo("fr-FR"));
         _roomsManager.GetRoom("roomId").Returns(room);
         _teamRepository.GetTeamsFromRoomWithFormat("roomId", "ag").Returns(teams);
-        _templatesManager.GetTemplate("Teams/TeamList", Arg.Any<TeamListViewModel>())
+        _templatesManager.GetTemplateAsync("Teams/TeamList", Arg.Any<TeamListViewModel>())
             .Returns("renderedTemplate");
 
         // Act
-        await _handler.HandleReceivedMessage(["", "tournament", "create", "anythinggoes"], "roomId");
+        await _handler.HandleReceivedMessageAsync(["", "tournament", "create", "anythinggoes"], "roomId");
 
         // Assert
         await _teamRepository.Received(1).GetTeamsFromRoomWithFormat("roomId", "ag");
-        await _templatesManager.Received(1).GetTemplate("Teams/TeamList",
+        await _templatesManager.Received(1).GetTemplateAsync("Teams/TeamList",
             Arg.Is<TeamListViewModel>(vm => vm.Culture.Name == "fr-FR" && vm.Teams.SequenceEqual(teams)));
         _bot.Received(1).Say("roomId", "/addhtmlbox renderedTemplate");
     }

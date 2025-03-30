@@ -24,7 +24,8 @@ public class CommandExecutor : ICommandExecutor
             .DistinctBy(command => command.Name);
     }
 
-    public async Task TryExecuteCommand(string commandName, IContext context)
+    public async Task TryExecuteCommandAsync(string commandName, IContext context,
+        CancellationToken cancellationToken = default)
     {
         if (_dependencyContainerService.IsRegisteredWithName<ICommand>(commandName))
         {
@@ -33,7 +34,7 @@ public class CommandExecutor : ICommandExecutor
 
             if (CanCommandBeRan(context, command))
             {
-                await command.Run(context);
+                await command.RunAsync(context, cancellationToken);
                 return;
             }
 

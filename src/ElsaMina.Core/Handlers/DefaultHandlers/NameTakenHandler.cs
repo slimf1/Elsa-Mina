@@ -11,7 +11,7 @@ public sealed class NameTakenHandler : Handler
         _systemService = systemService;
     }
 
-    public override Task HandleReceivedMessage(string[] parts, string roomId = null)
+    public override Task HandleReceivedMessageAsync(string[] parts, string roomId = null, CancellationToken cancellationToken = default)
     {
         if (parts.Length >= 2 && parts[1] == "nametaken")
         {

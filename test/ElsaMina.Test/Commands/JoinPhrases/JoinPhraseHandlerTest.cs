@@ -31,7 +31,7 @@ public class JoinPhraseHandlerTest
     public async Task Test_HandleReceivedMessage_ShouldNotHandle_WhenPartsAreInvalid()
     {
         // Act
-        await _handler.HandleReceivedMessage(["invalid", "message"], TEST_ROOM_ID);
+        await _handler.HandleReceivedMessageAsync(["invalid", "message"], TEST_ROOM_ID);
 
         // Assert
         _bot.DidNotReceive().Say(Arg.Any<string>(), Arg.Any<string>());
@@ -41,7 +41,7 @@ public class JoinPhraseHandlerTest
     public async Task Test_HandleReceivedMessage_ShouldNotHandle_WhenMessageTypeIsNotJoin()
     {
         // Act
-        await _handler.HandleReceivedMessage(["", "L", TEST_USER_ID], TEST_ROOM_ID);
+        await _handler.HandleReceivedMessageAsync(["", "L", TEST_USER_ID], TEST_ROOM_ID);
 
         // Assert
         _bot.DidNotReceive().Say(Arg.Any<string>(), Arg.Any<string>());
@@ -54,7 +54,7 @@ public class JoinPhraseHandlerTest
         _roomUserDataService.JoinPhrases.TryGetValue(Arg.Any<Tuple<string, string>>(), out _).Returns(false);
 
         // Act
-        await _handler.HandleReceivedMessage(["", "J", TEST_USER_ID], TEST_ROOM_ID);
+        await _handler.HandleReceivedMessageAsync(["", "J", TEST_USER_ID], TEST_ROOM_ID);
 
         // Assert
         _bot.DidNotReceive().Say(Arg.Any<string>(), Arg.Any<string>());
@@ -73,7 +73,7 @@ public class JoinPhraseHandlerTest
         });
 
         // Act
-        await _handler.HandleReceivedMessage(["", "J", TEST_USER_ID], TEST_ROOM_ID);
+        await _handler.HandleReceivedMessageAsync(["", "J", TEST_USER_ID], TEST_ROOM_ID);
 
         // Assert
         _bot.Received(1).Say(TEST_ROOM_ID, JOIN_PHRASE);

@@ -25,7 +25,7 @@ public class GiveBadgeTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithHelpMessage_WhenInvalidArguments()
+    public async Task Test_RunAsync_ShouldReplyWithHelpMessage_WhenInvalidArguments()
     {
         // Arrange
         _context.GetString("badge_give_help_message").Returns("myMessage");
@@ -33,14 +33,14 @@ public class GiveBadgeTest
         _context.RoomId.Returns("roomId");
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().Reply("myMessage");
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithCouldNotFindBadgeMessage_WhenBadgeNotFound()
+    public async Task Test_RunAsync_ShouldReplyWithCouldNotFindBadgeMessage_WhenBadgeNotFound()
     {
         // Arrange
         _context.Target.Returns("userId,nonExistingBadge");
@@ -48,14 +48,14 @@ public class GiveBadgeTest
         _badgeRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns((Badge)null);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("badge_give_could_not_find_badge", "nonexistingbadge");
     }
 
     [Test]
-    public async Task Test_Run_ShouldGiveBadgeToUserAndReplyWithSuccessMessage_WhenValidArguments()
+    public async Task Test_RunAsync_ShouldGiveBadgeToUserAndReplyWithSuccessMessage_WhenValidArguments()
     {
         // Arrange
         var badgeId = "existingbadge";
@@ -66,7 +66,7 @@ public class GiveBadgeTest
         _badgeRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(existingBadge);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _roomUserDataService.Received().GiveBadgeToUser("roomId", "userid", badgeId);
@@ -74,7 +74,7 @@ public class GiveBadgeTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithErrorMessage_WhenExceptionThrown()
+    public async Task Test_RunAsync_ShouldReplyWithErrorMessage_WhenExceptionThrown()
     {
         // Arrange
         _context.Target.Returns("userId,existingBadge");
@@ -85,7 +85,7 @@ public class GiveBadgeTest
             .Throws(new Exception("Some error"));
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("badge_give_error", "Some error");

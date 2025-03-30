@@ -23,7 +23,7 @@ public class QueryResponseHandlerTest
         string[] parts = ["", "queryresponse", "userdetails", "userDetailsData"];
 
         // Act
-        await _handler.HandleReceivedMessage(parts);
+        await _handler.HandleReceivedMessageAsync(parts);
 
         // Assert
         _userDetailsManager.Received(1).HandleReceivedUserDetails("userDetailsData");
@@ -36,7 +36,7 @@ public class QueryResponseHandlerTest
         string[] parts = ["", "queryresponse", "userdetails"];
 
         // Act
-        await _handler.HandleReceivedMessage(parts);
+        await _handler.HandleReceivedMessageAsync(parts);
 
         // Assert
         _userDetailsManager.DidNotReceive().HandleReceivedUserDetails(Arg.Any<string>());
@@ -49,7 +49,7 @@ public class QueryResponseHandlerTest
         string[] parts = ["", "notqueryresponse", "userdetails", "userDetailsData"];
 
         // Act
-        await _handler.HandleReceivedMessage(parts);
+        await _handler.HandleReceivedMessageAsync(parts);
 
         // Assert
         _userDetailsManager.DidNotReceive().HandleReceivedUserDetails(Arg.Any<string>());
@@ -62,7 +62,7 @@ public class QueryResponseHandlerTest
         string[] parts = ["", "queryresponse", "notuserdetails", "userDetailsData"];
 
         // Act
-        await _handler.HandleReceivedMessage(parts);
+        await _handler.HandleReceivedMessageAsync(parts);
 
         // Assert
         _userDetailsManager.DidNotReceive().HandleReceivedUserDetails(Arg.Any<string>());

@@ -21,9 +21,9 @@ public class AllCommands : Command
 
     public override bool IsAllowedInPrivateMessage => true;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        var template = await _templatesManager.GetTemplate("Development/Commands/CommandList", new CommandListViewModel
+        var template = await _templatesManager.GetTemplateAsync("Development/Commands/CommandList", new CommandListViewModel
         {
             Commands = _commandExecutor.GetAllCommands().Where(command => !command.IsHidden),
             Culture = context.Culture

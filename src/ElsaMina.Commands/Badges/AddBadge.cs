@@ -20,7 +20,7 @@ public class AddBadge : Command
 
     public override Rank RequiredRank => Rank.Driver;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var arguments = context.Target.Split(",");
         if (arguments.Length != 2)
@@ -34,7 +34,8 @@ public class AddBadge : Command
         var isTrophy = context.Command is "add-trophy" or "newtrophy" or "new-trophy";
         var badgeId = name.ToLowerAlphaNum();
 
-        var existingBadge = await _badgeRepository.GetByIdAsync(Tuple.Create(badgeId, context.RoomId));
+        var existingBadge =
+            await _badgeRepository.GetByIdAsync(Tuple.Create(badgeId, context.RoomId), cancellationToken);
         if (existingBadge != null)
         {
             context.ReplyLocalizedMessage("badge_add_already_exist", name);
@@ -50,7 +51,7 @@ public class AddBadge : Command
                 Id = badgeId,
                 IsTrophy = isTrophy,
                 RoomId = context.RoomId
-            });
+            }, cancellationToken);
             context.ReplyLocalizedMessage("badge_add_success_message");
         }
         catch (Exception exception)

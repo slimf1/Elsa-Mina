@@ -38,7 +38,7 @@ public class DisplayTeamOnLinkHandler : ChatMessageHandler
         _configuration = configuration;
     }
 
-    public override async Task HandleMessage(IContext context)
+    public override async Task HandleMessageAsync(IContext context, CancellationToken cancellationToken = default)
     {
         if (context.Message.StartsWith(_configuration.Trigger)
             || context.Message.StartsWith("/raw")
@@ -77,7 +77,7 @@ public class DisplayTeamOnLinkHandler : ChatMessageHandler
             return;
         }
 
-        var template = await _templatesManager.GetTemplate("Teams/TeamPreview", new TeamPreviewViewModel
+        var template = await _templatesManager.GetTemplateAsync("Teams/TeamPreview", new TeamPreviewViewModel
         {
             Author = sharedTeam.Author,
             Culture = context.Culture,

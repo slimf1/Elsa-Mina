@@ -17,7 +17,7 @@ public class PlayConnectFourCommand : Command
     public override bool IsPrivateMessageOnly => true;
     public override bool IsAllowedInPrivateMessage => true;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var parts = context.Target.Split(',');
         var roomId = parts[0].Trim();

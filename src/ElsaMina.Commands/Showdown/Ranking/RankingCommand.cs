@@ -32,7 +32,7 @@ public class RankingCommand : Command
 
     public override Rank RequiredRank => Rank.Regular;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var username = string.IsNullOrWhiteSpace(context.Target)
             ? context.Sender.Name
@@ -41,7 +41,8 @@ public class RankingCommand : Command
 
         try
         {
-            var result = await _showdownRanksProvider.GetRankingDataAsync(username.ToLowerAlphaNum());
+            var result =
+                await _showdownRanksProvider.GetRankingDataAsync(username.ToLowerAlphaNum(), cancellationToken);
             var sortedRankings = result.OrderByDescending(rankingDto => rankingDto.Gxe).ToList();
 
             sortedRankings.ForEach(rankingDto =>
@@ -53,7 +54,7 @@ public class RankingCommand : Command
                 return;
             }
 
-            var template = await _templatesManager.GetTemplate("Showdown/Ranking/RankingShowcase",
+            var template = await _templatesManager.GetTemplateAsync("Showdown/Ranking/RankingShowcase",
                 new RankingShowcaseViewModel
                 {
                     Culture = context.Culture,

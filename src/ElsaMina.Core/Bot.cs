@@ -3,6 +3,7 @@ using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Start;
 using ElsaMina.Core.Services.System;
+using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Core;
 
@@ -10,6 +11,7 @@ public class Bot : IBot
 {
     private const int MESSAGE_LENGTH_LIMIT = 125_000;
     private static readonly TimeSpan SAME_MESSAGE_COOLDOWN = TimeSpan.FromSeconds(3);
+    private static readonly TimeSpan SEND_MESSAGE_COOLDOWN = TimeSpan.FromMilliseconds(250);
 
     private readonly IClient _client;
     private readonly IClockService _clockService;
@@ -20,6 +22,7 @@ public class Bot : IBot
     private readonly IBotLifecycleManager _lifecycleManager;
 
     private readonly SemaphoreSlim _initializeRoomSemaphore = new(1, 1);
+    private readonly CancellationTokenSource _cancellationTokenSource = new();
     private string _currentRoom;
     private string _lastMessage;
     private DateTime _lastMessageTime;
@@ -114,8 +117,8 @@ public class Bot : IBot
         {
             _handlerManager.Initialize();
         }
-
-        await _handlerManager.HandleMessage(parts, roomId);
+        
+        await _handlerManager.HandleMessageAsync(parts, roomId, _cancellationTokenSource.Token);
     }
 
     public void Send(string message)
@@ -132,7 +135,7 @@ public class Bot : IBot
         _client.Send(message);
         _lastMessage = message;
         _lastMessageTime = now;
-        _systemService.Sleep(TimeSpan.FromMilliseconds(250));
+        _systemService.Sleep(SEND_MESSAGE_COOLDOWN);
     }
 
     public void Say(string roomId, string message)
@@ -155,6 +158,8 @@ public class Bot : IBot
 
         if (disposing)
         {
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource.Dispose();
             _client.Dispose();
         }
 

@@ -10,7 +10,7 @@ public class JoinRoomOnInviteHandler : PrivateMessageHandler
     {
     }
 
-    public override Task HandleMessage(IContext context)
+    public override Task HandleMessageAsync(IContext context, CancellationToken cancellationToken = default)
     {
         if (!context.Message.StartsWith("/invite ") || !context.IsSenderWhitelisted)
         {

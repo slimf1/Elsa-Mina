@@ -17,7 +17,7 @@ public class JoinConnectFourCommand : Command
     public override bool IsAllowedInPrivateMessage => true;
     public override bool IsPrivateMessageOnly => true;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var room = _roomsManager.GetRoom(context.Target);
         if (room?.Game is not IConnectFourGame connectFour)

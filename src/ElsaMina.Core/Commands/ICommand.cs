@@ -16,5 +16,5 @@ public interface ICommand : IBotLifecycleHandler
     public IEnumerable<string> RoomRestriction { get; }
 
     void ReplyLocalizedHelpMessage(IContext context);
-    Task Run(IContext context);
+    Task RunAsync(IContext context, CancellationToken cancellationToken = default);
 }

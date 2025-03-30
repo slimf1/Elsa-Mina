@@ -12,22 +12,23 @@ public class BadgeRepository : BaseRepository<Badge, Tuple<string, string>>, IBa
         _dbContext = dbContext;
     }
 
-    public override async Task<Badge> GetByIdAsync(Tuple<string, string> key)
+    public override async Task<Badge> GetByIdAsync(Tuple<string, string> key,
+        CancellationToken cancellationToken = default)
     {
         var (badgeId, roomId) = key;
         return await _dbContext.Set<Badge>()
             .AsNoTracking()
             .Include(x => x.BadgeHolders)
             .ThenInclude(x => x.RoomSpecificUserData)
-            .FirstOrDefaultAsync(x => x.Id == badgeId && x.RoomId == roomId);
+            .FirstOrDefaultAsync(x => x.Id == badgeId && x.RoomId == roomId, cancellationToken: cancellationToken);
     }
 
-    public override async Task<IEnumerable<Badge>> GetAllAsync()
+    public override async Task<IEnumerable<Badge>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<Badge>()
             .AsNoTracking()
             .Include(x => x.BadgeHolders)
             .ThenInclude(x => x.RoomSpecificUserData)
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 }

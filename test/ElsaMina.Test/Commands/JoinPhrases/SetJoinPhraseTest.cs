@@ -38,21 +38,21 @@ public class SetJoinPhraseTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyHelpMessage_WhenArgumentsAreInvalid()
+    public async Task Test_RunAsync_ShouldReplyHelpMessage_WhenArgumentsAreInvalid()
     {
         // Arrange
         var context = Substitute.For<IContext>();
         context.Target.Returns("invalidInput");
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         context.Received(1).GetString(_command.HelpMessageKey);
     }
 
     [Test]
-    public async Task Test_Run_ShouldSetJoinPhrase_WhenArgumentsAreValid()
+    public async Task Test_RunAsync_ShouldSetJoinPhrase_WhenArgumentsAreValid()
     {
         // Arrange
         var context = Substitute.For<IContext>();
@@ -60,7 +60,7 @@ public class SetJoinPhraseTest
         context.RoomId.Returns(TEST_ROOM_ID);
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         await _roomUserDataService.Received(1).SetUserJoinPhrase(TEST_ROOM_ID, TEST_USER_ID, JOIN_PHRASE);
@@ -68,7 +68,7 @@ public class SetJoinPhraseTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyFailureMessage_WhenExceptionOccurs()
+    public async Task Test_RunAsync_ShouldReplyFailureMessage_WhenExceptionOccurs()
     {
         // Arrange
         var context = Substitute.For<IContext>();
@@ -79,7 +79,7 @@ public class SetJoinPhraseTest
         _roomUserDataService.SetUserJoinPhrase(TEST_ROOM_ID, TEST_USER_ID, JOIN_PHRASE).Throws(exception);
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         context.Received(1).ReplyLocalizedMessage("setjoinphrase_failure", exception.Message);

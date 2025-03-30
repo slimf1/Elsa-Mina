@@ -29,7 +29,7 @@ public class FactsCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithFact_WhenApiCallSucceeds()
+    public async Task Test_RunAsync_ShouldReplyWithFact_WhenApiCallSucceeds()
     {
         // Arrange
         var mockResponse = new HttpResponse<FactDto>
@@ -43,14 +43,14 @@ public class FactsCommandTest
         _context.Command.Returns("fact");
 
         // Act
-        await _factsCommand.Run(_context);
+        await _factsCommand.RunAsync(_context);
 
         // Assert
         _context.Received().Reply("**Fact**: Bananas are berries, but strawberries are not!", rankAware: true);
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithGermanFact_WhenCommandIsFactDe()
+    public async Task Test_RunAsync_ShouldReplyWithGermanFact_WhenCommandIsFactDe()
     {
         // Arrange
         var mockResponse = new HttpResponse<FactDto>
@@ -64,21 +64,21 @@ public class FactsCommandTest
         _context.Command.Returns("factde");
 
         // Act
-        await _factsCommand.Run(_context);
+        await _factsCommand.RunAsync(_context);
 
         // Assert
         _context.Received().Reply("**Fact**: Die Banane ist eine Beere, die Erdbeere jedoch nicht.", rankAware: true);
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithError_WhenApiCallFails()
+    public async Task Test_RunAsync_ShouldReplyWithError_WhenApiCallFails()
     {
         // Arrange
         _httpService.GetAsync<FactDto>(Arg.Any<string>())
             .Throws(new Exception("API error"));
 
         // Act
-        await _factsCommand.Run(_context);
+        await _factsCommand.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("fact_error");

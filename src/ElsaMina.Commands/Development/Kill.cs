@@ -15,7 +15,7 @@ public class Kill : DevelopmentCommand
         _systemService = systemService;
     }
 
-    public override Task Run(IContext context)
+    public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         Log.Information("Killing bot : {0}", context);
         _systemService.Kill();

@@ -19,21 +19,21 @@ public class DeleteArcadeLevelTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyHelpMessage_WhenTargetIsNullOrWhitespace()
+    public async Task Test_RunAsync_ShouldReplyHelpMessage_WhenTargetIsNullOrWhitespace()
     {
         // Arrange
         var context = Substitute.For<IContext>();
         context.Target.Returns(string.Empty);
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         context.Received(1).GetString("arcade_level_delete_help");
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyNotFound_WhenArcadeLevelDoesNotExist()
+    public async Task Test_RunAsync_ShouldReplyNotFound_WhenArcadeLevelDoesNotExist()
     {
         // Arrange
         var context = Substitute.For<IContext>();
@@ -41,14 +41,14 @@ public class DeleteArcadeLevelTests
         _arcadeLevelRepository.GetByIdAsync("nonexistentuser").Returns((ArcadeLevel)null);
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         context.Received(1).ReplyLocalizedMessage("arcade_level_delete_not_found");
     }
 
     [Test]
-    public async Task Test_Run_ShouldDeleteArcadeLevel_WhenArcadeLevelExists()
+    public async Task Test_RunAsync_ShouldDeleteArcadeLevel_WhenArcadeLevelExists()
     {
         // Arrange
         var context = Substitute.For<IContext>();
@@ -56,7 +56,7 @@ public class DeleteArcadeLevelTests
         _arcadeLevelRepository.GetByIdAsync("existinguser").Returns(new ArcadeLevel { Id = "existing_user" });
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         await _arcadeLevelRepository.Received(1).DeleteByIdAsync("existinguser");
@@ -64,7 +64,7 @@ public class DeleteArcadeLevelTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldHandleExceptionAndReplyError_WhenDeleteFails()
+    public async Task Test_RunAsync_ShouldHandleExceptionAndReplyError_WhenDeleteFails()
     {
         // Arrange
         var context = Substitute.For<IContext>();
@@ -75,7 +75,7 @@ public class DeleteArcadeLevelTests
             .Throw(new Exception("Database error"));
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         context.Received(1).ReplyLocalizedMessage("arcade_level_delete_failure", "Database error");

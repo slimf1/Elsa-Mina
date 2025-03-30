@@ -31,7 +31,7 @@ public class NameColorInfoTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldSendHtml_WhenColorIsResolvedFromCustomMapping()
+    public async Task Test_RunAsync_ShouldSendHtml_WhenColorIsResolvedFromCustomMapping()
     {
         // Arrange
         _context.Target.Returns("customUser");
@@ -39,33 +39,33 @@ public class NameColorInfoTests
         {
             { "customUser", "otherUser" }
         });
-        _templatesManager.GetTemplate(Arg.Any<string>(), Arg.Any<NameColorInfoViewModel>())
+        _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<NameColorInfoViewModel>())
             .Returns(Task.FromResult("formatted_html"));
 
         // Act
-        await _nameColorInfo.Run(_context);
+        await _nameColorInfo.RunAsync(_context);
 
         // Assert
         await _templatesManager.Received()
-            .GetTemplate("Misc/Colors/NameColorInfo", Arg.Is<NameColorInfoViewModel>(vm => vm.Color == "otherUser".ToColor()));
+            .GetTemplateAsync("Misc/Colors/NameColorInfo", Arg.Is<NameColorInfoViewModel>(vm => vm.Color == "otherUser".ToColor()));
         _context.Received().SendHtml("formatted_html", rankAware: true);
     }
 
     [Test]
-    public async Task Test_Run_ShouldSendHtml_WhenColorIsResolvedFromTargetDirectly()
+    public async Task Test_RunAsync_ShouldSendHtml_WhenColorIsResolvedFromTargetDirectly()
     {
         // Arrange
         _context.Target.Returns("mec");
         _customColorsManager.CustomColorsMapping.Returns(new Dictionary<string, string>());
-        _templatesManager.GetTemplate(Arg.Any<string>(), Arg.Any<NameColorInfoViewModel>())
+        _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<NameColorInfoViewModel>())
             .Returns(Task.FromResult("formatted_html"));
 
         // Act
-        await _nameColorInfo.Run(_context);
+        await _nameColorInfo.RunAsync(_context);
 
         // Assert
         await _templatesManager.Received()
-            .GetTemplate("Misc/Colors/NameColorInfo", Arg.Is<NameColorInfoViewModel>(vm => vm.Color == "mec".ToColor()));
+            .GetTemplateAsync("Misc/Colors/NameColorInfo", Arg.Is<NameColorInfoViewModel>(vm => vm.Color == "mec".ToColor()));
         _context.Received().SendHtml("formatted_html", rankAware: true);
     }
 }

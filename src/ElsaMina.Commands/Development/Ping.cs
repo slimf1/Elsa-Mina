@@ -8,7 +8,7 @@ public class Ping : Command
 {
     public override bool IsAllowedInPrivateMessage => true;
 
-    public override Task Run(IContext context)
+    public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         context.Reply("pong", rankAware: true);
         return Task.CompletedTask;

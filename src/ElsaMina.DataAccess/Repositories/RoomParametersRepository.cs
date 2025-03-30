@@ -12,19 +12,19 @@ public class RoomParametersRepository : BaseRepository<RoomParameters, string>, 
         _dbContext = dbContext;
     }
 
-    public override async Task<RoomParameters> GetByIdAsync(string key)
+    public override async Task<RoomParameters> GetByIdAsync(string key, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<RoomParameters>()
             .AsNoTracking()
             .Include(x => x.Teams)
             .Include(x => x.ParameterValues)
-            .FirstOrDefaultAsync(x => x.Id == key);
+            .FirstOrDefaultAsync(x => x.Id == key, cancellationToken: cancellationToken);
     }
 
-    public override async Task<IEnumerable<RoomParameters>> GetAllAsync()
+    public override async Task<IEnumerable<RoomParameters>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<RoomParameters>()
             .AsNoTracking()
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 }

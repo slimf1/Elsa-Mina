@@ -16,7 +16,7 @@ public class UserDataService : IUserDataService
         _httpService = httpService;
     }
 
-    public async Task<UserDataDto> GetUserData(string userName)
+    public async Task<UserDataDto> GetUserData(string userName, CancellationToken cancellationToken = default)
     {
         var userId = userName.ToLowerAlphaNum();
         if (_userDataCache.TryGetValue(userId, out var cachedUserData))
@@ -26,7 +26,7 @@ public class UserDataService : IUserDataService
         var uri = string.Format(USER_DATA_URL, userId);
         try
         {
-            var response = await _httpService.GetAsync<UserDataDto>(uri);
+            var response = await _httpService.GetAsync<UserDataDto>(uri, cancellationToken: cancellationToken);
             var userData = response.Data;
             _userDataCache[userId] = userData;
             return userData;
@@ -38,9 +38,10 @@ public class UserDataService : IUserDataService
         }
     }
 
-    public async Task<DateTimeOffset> GetRegisterDateAsync(string userName)
+    public async Task<DateTimeOffset> GetRegisterDateAsync(string userName,
+        CancellationToken cancellationToken = default)
     {
-        var userData = await GetUserData(userName); // todo : cache validity
+        var userData = await GetUserData(userName, cancellationToken); // todo : cache validity
         return userData == null
             ? DateTimeOffset.MinValue
             : DateTimeOffset.FromUnixTimeSeconds(userData.RegisterTime);

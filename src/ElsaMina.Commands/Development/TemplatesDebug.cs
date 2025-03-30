@@ -18,7 +18,7 @@ public class TemplatesDebug : DevelopmentCommand
         _templatesManager = templatesManager;
     }
     
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var parts = context.Target.Split(",");
         var templateName = parts[0].Trim();
@@ -45,7 +45,7 @@ public class TemplatesDebug : DevelopmentCommand
             _ => null
         };
         
-        var template = await _templatesManager.GetTemplate(templateName, model);
+        var template = await _templatesManager.GetTemplateAsync(templateName, model);
         context.SendHtmlPage($"debug-template-{templateName}", template.RemoveNewlines());
     }
 }

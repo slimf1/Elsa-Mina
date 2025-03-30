@@ -42,26 +42,26 @@ public class CreateConnectFourCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldAnnounceGameStart_WhenNoGameAlreadyExists()
+    public async Task Test_RunAsync_ShouldAnnounceGameStart_WhenNoGameAlreadyExists()
     {
         // Arrange
         _room.Game = null;
         _configurationManager.Configuration.Trigger.Returns("!");
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _dependencyContainerService.Received(1).Resolve<ConnectFourGame>();
-        await _templatesManager.GetTemplate("ConnectFour/ConnectFourGamePanel", Arg.Any<object>());
+        await _templatesManager.GetTemplateAsync("ConnectFour/ConnectFourGamePanel", Arg.Any<object>());
         Assert.That(_room.Game, Is.SameAs(_game));
     }
 
     [Test]
-    public async Task Test_Run_ShouldNotStartGame_WhenGameAlreadyExists()
+    public async Task Test_RunAsync_ShouldNotStartGame_WhenGameAlreadyExists()
     {
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("c4_game_start_already_exist");

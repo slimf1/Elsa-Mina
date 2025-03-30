@@ -40,24 +40,25 @@ public class ProfileCommand : Command
         _showdownRanksProvider = showdownRanksProvider;
         _formatsManager = formatsManager;
     }
-    
+
     public override bool IsAllowedInPrivateMessage => true;
     public override Rank RequiredRank => Rank.Regular;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var userId = string.IsNullOrEmpty(context.Target)
-            ? context.Sender.UserId : context.Target.ToLowerAlphaNum();
+            ? context.Sender.UserId
+            : context.Target.ToLowerAlphaNum();
 
         if (userId == null)
         {
             return;
         }
 
-        var userDataTask = _userDataRepository.GetByIdAsync(Tuple.Create(userId, context.RoomId));
-        var userDetailsTask = _userDetailsManager.GetUserDetailsAsync(userId);
-        var registerDateTask = _userDataService.GetRegisterDateAsync(userId);
-        var ranksTask = _showdownRanksProvider.GetRankingDataAsync(userId);
+        var userDataTask = _userDataRepository.GetByIdAsync(Tuple.Create(userId, context.RoomId), cancellationToken);
+        var userDetailsTask = _userDetailsManager.GetUserDetailsAsync(userId, cancellationToken);
+        var registerDateTask = _userDataService.GetRegisterDateAsync(userId, cancellationToken);
+        var ranksTask = _showdownRanksProvider.GetRankingDataAsync(userId, cancellationToken);
         await Task.WhenAll(userDataTask, userDetailsTask, registerDateTask, ranksTask);
 
         var storedUserData = userDataTask.Result;
@@ -68,7 +69,7 @@ public class ProfileCommand : Command
         var status = GetStatus(showdownUserDetails);
         var avatarUrl = GetAvatar(storedUserData, showdownUserDetails);
         var userRoomRank = GetUserRoomRank(context, showdownUserDetails);
-        var bestRanking = ranksTask.Result?.OrderBy(ranking => -ranking.Elo).FirstOrDefault();
+        var bestRanking = ranksTask.Result?.OrderByDescending(ranking => ranking.Elo).FirstOrDefault();
 
         if (bestRanking != null)
         {
@@ -88,7 +89,7 @@ public class ProfileCommand : Command
             RegisterDate = registerDate,
             BestRanking = bestRanking
         };
-        var template = await _templatesManager.GetTemplate("Profile/Profile", viewModel);
+        var template = await _templatesManager.GetTemplateAsync("Profile/Profile", viewModel);
         context.SendHtml(template.RemoveNewlines(), rankAware: true);
     }
 
@@ -115,19 +116,21 @@ public class ProfileCommand : Command
             {
                 avatarId = avatarName;
             }
+
             var avatarBaseUrl = AVATAR_URL;
             if (avatarId.StartsWith('#'))
             {
                 avatarId = avatarId[1..];
                 avatarBaseUrl = AVATAR_CUSTOM_URL;
             }
+
             avatarUrl = string.Format(avatarBaseUrl, avatarId);
         }
 
         return avatarUrl;
     }
 
-    public static string GetStatus(UserDetailsDto showdownUserDetails)
+    private static string GetStatus(UserDetailsDto showdownUserDetails)
     {
         var status = showdownUserDetails?.Status;
         if (status?.StartsWith('!') == true)

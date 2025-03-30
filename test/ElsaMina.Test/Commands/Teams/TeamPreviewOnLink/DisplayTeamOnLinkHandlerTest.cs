@@ -49,7 +49,7 @@ public class DisplayTeamOnLinkHandlerTest
         _context.Message.Returns("!triggered");
 
         // Act
-        await _handler.OnMessageReceived(null);
+        await _handler.OnMessageReceivedAsync(null);
 
         // Assert
         _teamLinkMatchFactory.DidNotReceive().FindTeamLinkMatch(Arg.Any<string>());
@@ -64,7 +64,7 @@ public class DisplayTeamOnLinkHandlerTest
         _context.Message.Returns("some message");
 
         // Act
-        await _handler.OnMessageReceived(null);
+        await _handler.OnMessageReceivedAsync(null);
 
         // Assert
         _teamLinkMatchFactory.DidNotReceive().FindTeamLinkMatch(Arg.Any<string>());
@@ -78,7 +78,7 @@ public class DisplayTeamOnLinkHandlerTest
             .Returns("false");
 
         // Act
-        await _handler.OnMessageReceived(null);
+        await _handler.OnMessageReceivedAsync(null);
 
         // Assert
         _teamLinkMatchFactory.DidNotReceive().FindTeamLinkMatch(Arg.Any<string>());
@@ -92,7 +92,7 @@ public class DisplayTeamOnLinkHandlerTest
         _context.Sender.UserId.Returns("user1");
 
         // Act
-        await _handler.OnMessageReceived(null);
+        await _handler.OnMessageReceivedAsync(null);
 
         // Assert
         _teamLinkMatchFactory.DidNotReceive().FindTeamLinkMatch(Arg.Any<string>());
@@ -106,10 +106,10 @@ public class DisplayTeamOnLinkHandlerTest
         _teamLinkMatchFactory.FindTeamLinkMatch("some message").Returns((ITeamLinkMatch)null);
 
         // Act
-        await _handler.OnMessageReceived(null);
+        await _handler.OnMessageReceivedAsync(null);
 
         // Assert
-        await _templatesManager.DidNotReceive().GetTemplate(Arg.Any<string>(), Arg.Any<TeamPreviewViewModel>());
+        await _templatesManager.DidNotReceive().GetTemplateAsync(Arg.Any<string>(), Arg.Any<TeamPreviewViewModel>());
     }
 
     [Test]
@@ -131,14 +131,14 @@ public class DisplayTeamOnLinkHandlerTest
         _configuration.Name.Returns("Bot");
 
         var expectedHtml = "<div>Team Preview HTML</div>";
-        _templatesManager.GetTemplate("Teams/TeamPreview", Arg.Any<TeamPreviewViewModel>())
+        _templatesManager.GetTemplateAsync("Teams/TeamPreview", Arg.Any<TeamPreviewViewModel>())
             .Returns(Task.FromResult(expectedHtml));
 
         // Act
-        await _handler.OnMessageReceived(null);
+        await _handler.OnMessageReceivedAsync(null);
 
         // Assert
-        await _templatesManager.Received(1).GetTemplate("Teams/TeamPreview", Arg.Is<TeamPreviewViewModel>(vm =>
+        await _templatesManager.Received(1).GetTemplateAsync("Teams/TeamPreview", Arg.Is<TeamPreviewViewModel>(vm =>
             vm.Author == "Author" && vm.Culture.Name == "en-US" && vm.Sender == "User" && vm.Team != null));
         _context.Received().SendHtml(expectedHtml.RemoveNewlines());
     }

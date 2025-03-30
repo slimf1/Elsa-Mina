@@ -25,7 +25,7 @@ public class DisplayArcadeLevelsTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldSendHtml_WhenLevelsArePresent()
+    public async Task Test_RunAsync_ShouldSendHtml_WhenLevelsArePresent()
     {
         // Arrange
         var context = Substitute.For<IContext>();
@@ -41,7 +41,7 @@ public class DisplayArcadeLevelsTests
         _arcadeLevelRepository.GetAllAsync().Returns(levels);
 
         var expectedTemplate = "<html>Rendered Content</html>";
-        _templatesManager.GetTemplate(
+        _templatesManager.GetTemplateAsync(
             "Arcade/ArcadeLevels",
             Arg.Is<ArcadeLevelsViewModel>(vm =>
                 vm.Culture == culture &&
@@ -50,35 +50,35 @@ public class DisplayArcadeLevelsTests
             .Returns(Task.FromResult(expectedTemplate));
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         context.Received(1).SendHtml(expectedTemplate.RemoveNewlines(), rankAware: true);
     }
 
     [Test]
-    public async Task Test_Run_ShouldSendEmptyMessage_WhenNoLevelsArePresent()
+    public async Task Test_RunAsync_ShouldSendEmptyMessage_WhenNoLevelsArePresent()
     {
         // Arrange
         var context = Substitute.For<IContext>();
         _arcadeLevelRepository.GetAllAsync().Returns(new List<ArcadeLevel>());
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         context.Received(1).ReplyLocalizedMessage("arcade_level_no_users");
     }
 
     [Test]
-    public async Task Test_Run_ShouldHandleException_WhenRepositoryThrowsError()
+    public async Task Test_RunAsync_ShouldHandleException_WhenRepositoryThrowsError()
     {
         // Arrange
         var context = Substitute.For<IContext>();
         _arcadeLevelRepository.GetAllAsync().Throws(new Exception("Database error"));
 
         // Act
-        await _command.Run(context);
+        await _command.RunAsync(context);
 
         // Assert
         context.Received(1).ReplyLocalizedMessage("arcade_level_no_users");

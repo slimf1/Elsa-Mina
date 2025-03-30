@@ -6,5 +6,5 @@ namespace ElsaMina.Core.Services.Commands;
 public interface ICommandExecutor
 {
     IEnumerable<ICommand> GetAllCommands();
-    Task TryExecuteCommand(string commandName, IContext context);
+    Task TryExecuteCommandAsync(string commandName, IContext context, CancellationToken cancellationToken = default);
 }

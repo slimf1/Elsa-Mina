@@ -25,7 +25,7 @@ public class JoinConnectFourCommandTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldJoinGame_WhenRoomExistsAndHasConnectFourGame()
+    public async Task Test_RunAsync_ShouldJoinGame_WhenRoomExistsAndHasConnectFourGame()
     {
         // Arrange
         var roomId = "room1";
@@ -37,14 +37,14 @@ public class JoinConnectFourCommandTests
         _context.Sender.Returns(sender);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _connectFourGame.Received(1).JoinGame(sender);
     }
 
     [Test]
-    public async Task Test_Run_ShouldNotJoinGame_WhenRoomDoesNotExist()
+    public async Task Test_RunAsync_ShouldNotJoinGame_WhenRoomDoesNotExist()
     {
         // Arrange
         var roomId = "room1";
@@ -55,7 +55,7 @@ public class JoinConnectFourCommandTests
         _context.Sender.Returns(UserFixtures.AdminUser("player1"));
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _connectFourGame.DidNotReceive().JoinGame(_context.Sender);
@@ -64,7 +64,7 @@ public class JoinConnectFourCommandTests
     [Test]
     [TestCase(false, 1)]
     [TestCase(true, 0)]
-    public async Task Test_Run_ShouldDisplayAnnounce_WhenGameIsNotStarted(bool isStarted, int expectedAnnounces)
+    public async Task Test_RunAsync_ShouldDisplayAnnounce_WhenGameIsNotStarted(bool isStarted, int expectedAnnounces)
     {
         // Arrange
         var roomId = "room1";
@@ -76,7 +76,7 @@ public class JoinConnectFourCommandTests
         _connectFourGame.IsStarted.Returns(isStarted);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _connectFourGame.Received(expectedAnnounces).DisplayAnnounce();

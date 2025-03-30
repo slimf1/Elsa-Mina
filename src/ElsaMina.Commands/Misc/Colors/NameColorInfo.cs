@@ -23,7 +23,7 @@ public class NameColorInfo : Command
     public override string HelpMessageKey => "name_color_help";
     public override Rank RequiredRank => Rank.Regular;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(context.Target))
         {
@@ -34,7 +34,7 @@ public class NameColorInfo : Command
         var color = _customColorsManager.CustomColorsMapping.TryGetValue(context.Target, out var customColorName)
             ? customColorName.ToColor()
             : context.Target.ToColor();
-        var template = await _templatesManager.GetTemplate("Misc/Colors/NameColorInfo", new NameColorInfoViewModel
+        var template = await _templatesManager.GetTemplateAsync("Misc/Colors/NameColorInfo", new NameColorInfoViewModel
         {
             Culture = context.Culture,
             Name = context.Target,

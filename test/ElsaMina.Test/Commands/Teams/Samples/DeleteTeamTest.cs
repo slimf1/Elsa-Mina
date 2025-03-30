@@ -21,21 +21,21 @@ public class DeleteTeamTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithTeamNotFound_WhenTeamDoesNotExist()
+    public async Task Test_RunAsync_ShouldReplyWithTeamNotFound_WhenTeamDoesNotExist()
     {
         // Arrange
         _context.Target.Returns("nonexistentTeamId");
         _teamRepository.GetByIdAsync("nonexistentteamid").Returns(Task.FromResult<Team>(null));
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("deleteteam_team_not_found");
     }
 
     [Test]
-    public async Task Test_Run_ShouldDeleteTeamAndReplyWithSuccess_WhenTeamExists()
+    public async Task Test_RunAsync_ShouldDeleteTeamAndReplyWithSuccess_WhenTeamExists()
     {
         // Arrange
         var team = new Team { Id = "teamid" };
@@ -43,7 +43,7 @@ public class DeleteTeamTests
         _teamRepository.GetByIdAsync("teamid").Returns(Task.FromResult(team));
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _teamRepository.Received(1).DeleteByIdAsync("teamid");
@@ -51,7 +51,7 @@ public class DeleteTeamTests
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithDeletionError_WhenRepositoryThrowsException()
+    public async Task Test_RunAsync_ShouldReplyWithDeletionError_WhenRepositoryThrowsException()
     {
         // Arrange
         var team = new Team { Id = "teamid" };
@@ -60,7 +60,7 @@ public class DeleteTeamTests
         _teamRepository.When(repo => repo.DeleteByIdAsync("teamid")).Do(_ => throw new Exception("Deletion error"));
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("deleteteam_team_deletion_error", "Deletion error");

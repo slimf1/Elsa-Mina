@@ -29,7 +29,7 @@ public class ReplaysHandler : ChatMessageHandler
         _roomsManager = roomsManager;
     }
 
-    public override async Task HandleMessage(IContext context)
+    public override async Task HandleMessageAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var isReplayPreviewEnabled = _roomsManager.GetRoomBotConfigurationParameterValue(
             context.RoomId, RoomParametersConstants.IS_SHOWING_REPLAYS_PREVIEW).ToBoolean();
@@ -49,16 +49,17 @@ public class ReplaysHandler : ChatMessageHandler
         {
             replayLink = replayLink[..^1];
         }
+
         replayLink += ".json";
 
         // risqué ?
         try
         {
             Log.Information("Fetching replay info from : {0}", replayLink);
-            var response = await _httpService.GetAsync<ReplayDto>(replayLink);
+            var response = await _httpService.GetAsync<ReplayDto>(replayLink, cancellationToken: cancellationToken);
             var replayInfo = response.Data;
             var teams = ReplaysHelper.GetTeamsFromLog(replayInfo.Log);
-            var template = await _templatesManager.GetTemplate("Replays/ReplayPreview", new ReplayPreviewViewModel
+            var template = await _templatesManager.GetTemplateAsync("Replays/ReplayPreview", new ReplayPreviewViewModel
             {
                 Culture = context.Culture,
                 Format = replayInfo.Format,

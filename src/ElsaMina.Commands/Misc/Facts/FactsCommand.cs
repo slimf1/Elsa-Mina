@@ -21,7 +21,7 @@ public class FactsCommand : Command
     public override bool IsAllowedInPrivateMessage => true;
     public override Rank RequiredRank => Rank.Regular;
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var language = context.Command == "factde" ? "de" : "en";
         try

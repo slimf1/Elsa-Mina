@@ -38,21 +38,21 @@ public class ForfeitConnectFourCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldNotCallForfeit_WhenRoomDoesNotExist()
+    public async Task Test_RunAsync_ShouldNotCallForfeit_WhenRoomDoesNotExist()
     {
         // Arrange
         _context.Target.Returns("room1");
         _roomsManager.GetRoom("room1").Returns((IRoom)null);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _connectFourGame.DidNotReceive().Forfeit(Arg.Any<IUser>());
     }
 
     [Test]
-    public async Task Test_Run_ShouldNotCallForfeit_WhenRoomHasNoGame()
+    public async Task Test_RunAsync_ShouldNotCallForfeit_WhenRoomHasNoGame()
     {
         // Arrange
         _context.Target.Returns("room1");
@@ -60,14 +60,14 @@ public class ForfeitConnectFourCommandTest
         _roomsManager.GetRoom("room1").Returns(_room);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _connectFourGame.DidNotReceive().Forfeit(Arg.Any<IUser>());
     }
 
     [Test]
-    public async Task Test_Run_ShouldNotCallForfeit_WhenGameIsNotConnectFour()
+    public async Task Test_RunAsync_ShouldNotCallForfeit_WhenGameIsNotConnectFour()
     {
         // Arrange
         var otherGame = Substitute.For<IGame>(); // Not IConnectFourGame
@@ -76,14 +76,14 @@ public class ForfeitConnectFourCommandTest
         _roomsManager.GetRoom("room1").Returns(_room);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _connectFourGame.DidNotReceive().Forfeit(Arg.Any<IUser>());
     }
 
     [Test]
-    public async Task Test_Run_ShouldCallForfeit_WhenGameIsConnectFour()
+    public async Task Test_RunAsync_ShouldCallForfeit_WhenGameIsConnectFour()
     {
         // Arrange
         _context.Target.Returns("room1");
@@ -93,7 +93,7 @@ public class ForfeitConnectFourCommandTest
         _context.Sender.Returns(sender);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _connectFourGame.Received(1).Forfeit(sender);

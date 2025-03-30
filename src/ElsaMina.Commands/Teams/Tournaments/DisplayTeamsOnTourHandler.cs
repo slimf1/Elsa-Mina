@@ -25,7 +25,7 @@ public class DisplayTeamsOnTourHandler : Handler
         _bot = bot;
     }
 
-    public override async Task HandleReceivedMessage(string[] parts, string roomId = null)
+    public override async Task HandleReceivedMessageAsync(string[] parts, string roomId = null, CancellationToken cancellationToken = default)
     {
         if (parts.Length < 4 || parts[1] != "tournament" || parts[2] != "create")
         {
@@ -58,7 +58,7 @@ public class DisplayTeamsOnTourHandler : Handler
             return;
         }
         var room = _roomsManager.GetRoom(roomId);
-        var template = await _templatesManager.GetTemplate("Teams/TeamList", new TeamListViewModel
+        var template = await _templatesManager.GetTemplateAsync("Teams/TeamList", new TeamListViewModel
         {
             Culture = room.Culture,
             Teams = teams

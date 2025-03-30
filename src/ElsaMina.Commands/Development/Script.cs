@@ -25,7 +25,7 @@ public class Script : DevelopmentCommand
         public IDependencyContainerService Container { get; set; }
     }
 
-    public override async Task Run(IContext context)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -33,7 +33,8 @@ public class Script : DevelopmentCommand
                 .WithReferences(Assembly.GetCallingAssembly())
                 .WithImports("ElsaMina.Core");
             var globals = new Globals { Context = context, Container = _dependencyContainerService };
-            var result = await CSharpScript.EvaluateAsync(context.Target, options, globals: globals);
+            var result = await CSharpScript.EvaluateAsync(context.Target, options, globals: globals,
+                cancellationToken: cancellationToken);
             if (result != null)
             {
                 context.Reply(result.ToString());

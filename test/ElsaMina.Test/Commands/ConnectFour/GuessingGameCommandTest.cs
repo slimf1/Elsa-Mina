@@ -25,33 +25,33 @@ public class GuessingGameCommandTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplySpecifyMessage_WhenTurnsCountIsInvalid()
+    public async Task Test_RunAsync_ShouldReplySpecifyMessage_WhenTurnsCountIsInvalid()
     {
         // Arrange
         _context.Target.Returns("invalid");
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("guessing_game_specify");
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyInvalidTurnsMessage_WhenTurnsCountIsOutOfRange()
+    public async Task Test_RunAsync_ShouldReplyInvalidTurnsMessage_WhenTurnsCountIsOutOfRange()
     {
         // Arrange
         _context.Target.Returns("25");
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("guessing_game_invalid_number_turns", 20);
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyOngoingGameMessage_WhenGameIsAlreadyRunning()
+    public async Task Test_RunAsync_ShouldReplyOngoingGameMessage_WhenGameIsAlreadyRunning()
     {
         // Arrange
         _context.Target.Returns("10");
@@ -59,14 +59,14 @@ public class GuessingGameCommandTest
         _room.Game.Returns(Substitute.For<IGame>());
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("guessing_game_currently_ongoing");
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyInvalidCommand_WhenCommandIsUnknown()
+    public async Task Test_RunAsync_ShouldReplyInvalidCommand_WhenCommandIsUnknown()
     {
         // Arrange
         _context.Target.Returns("5");
@@ -75,7 +75,7 @@ public class GuessingGameCommandTest
         _context.Room.Returns(_room);
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("guessing_game_invalid_command");

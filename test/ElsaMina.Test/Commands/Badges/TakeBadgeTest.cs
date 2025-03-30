@@ -21,21 +21,21 @@ public class TakeBadgeTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithHelpMessage_WhenInvalidArguments()
+    public async Task Test_RunAsync_ShouldReplyWithHelpMessage_WhenInvalidArguments()
     {
         // Arrange
         _context.Target.Returns("invalid");
         _context.RoomId.Returns("roomId");
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("takebadge_help_message");
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithBadgeDoesntExistMessage_WhenBadgeNotFound()
+    public async Task Test_RunAsync_ShouldReplyWithBadgeDoesntExistMessage_WhenBadgeNotFound()
     {
         // Arrange
         _context.Target.Returns("userId,nonExistingBadge");
@@ -45,21 +45,21 @@ public class TakeBadgeTest
             .Throws(new ArgumentException());
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("takebadge_badge_doesnt_exist", "userid", "nonexistingbadge");
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithSuccessMessage_WhenBadgeSuccessfullyTaken()
+    public async Task Test_RunAsync_ShouldReplyWithSuccessMessage_WhenBadgeSuccessfullyTaken()
     {
         // Arrange
         _context.Target.Returns("userId,existingBadge");
         _context.RoomId.Returns("roomId");
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         await _roomUserDataService.Received().TakeBadgeFromUser("roomId", "userid", "existingbadge");
@@ -67,7 +67,7 @@ public class TakeBadgeTest
     }
 
     [Test]
-    public async Task Test_Run_ShouldReplyWithErrorMessage_WhenExceptionThrown()
+    public async Task Test_RunAsync_ShouldReplyWithErrorMessage_WhenExceptionThrown()
     {
         // Arrange
         _context.Target.Returns("userId,existingBadge");
@@ -77,7 +77,7 @@ public class TakeBadgeTest
             .Throws(new Exception("Some error"));
 
         // Act
-        await _command.Run(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received().ReplyLocalizedMessage("takebadge_failure", "Some error");
