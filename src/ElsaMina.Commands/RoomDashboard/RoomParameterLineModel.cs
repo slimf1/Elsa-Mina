@@ -5,6 +5,6 @@ namespace ElsaMina.Commands.RoomDashboard;
 
 public class RoomParameterLineModel : LocalizableViewModel
 {
-    public IRoomBotConfigurationParameter RoomParameter { get; set; }
-    public string CurrentValue { get; set; }
+    public IRoomBotConfigurationParameter RoomParameter { get; init; }
+    public string CurrentValue { get; init; }
 }

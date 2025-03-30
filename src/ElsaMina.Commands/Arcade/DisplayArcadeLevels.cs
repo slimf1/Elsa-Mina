@@ -33,7 +33,7 @@ public class DisplayArcadeLevels : Command
         List<ArcadeLevel> arcadeLevels = [];
         try
         {
-            arcadeLevels = (await _arcadeLevelRepository.GetAllAsync()).ToList();
+            arcadeLevels = (await _arcadeLevelRepository.GetAllAsync(cancellationToken)).ToList();
         }
         catch (Exception e)
         {

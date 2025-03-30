@@ -43,7 +43,7 @@ public class SetArcadeLevel : Command
             return;
         }
         
-        var arcadeLevel = await _arcadeLevelRepository.GetByIdAsync(user);
+        var arcadeLevel = await _arcadeLevelRepository.GetByIdAsync(user, cancellationToken);
         if (arcadeLevel == null)
         {
             try
@@ -52,7 +52,7 @@ public class SetArcadeLevel : Command
                 {
                     Id = user,
                     Level = level
-                });
+                }, cancellationToken);
                 context.ReplyLocalizedMessage("arcade_level_add", user, level);
             }
             catch (Exception e)
@@ -65,7 +65,7 @@ public class SetArcadeLevel : Command
             arcadeLevel.Level = level;
             try
             {
-                await _arcadeLevelRepository.UpdateAsync(arcadeLevel);
+                await _arcadeLevelRepository.UpdateAsync(arcadeLevel, cancellationToken);
                 context.ReplyLocalizedMessage("arcade_level_update", user, level);
             }
             catch (Exception e)

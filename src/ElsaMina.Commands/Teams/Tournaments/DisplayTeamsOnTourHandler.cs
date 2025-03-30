@@ -25,7 +25,8 @@ public class DisplayTeamsOnTourHandler : Handler
         _bot = bot;
     }
 
-    public override async Task HandleReceivedMessageAsync(string[] parts, string roomId = null, CancellationToken cancellationToken = default)
+    public override async Task HandleReceivedMessageAsync(string[] parts, string roomId = null,
+        CancellationToken cancellationToken = default)
     {
         if (parts.Length < 4 || parts[1] != "tournament" || parts[2] != "create")
         {
@@ -52,11 +53,12 @@ public class DisplayTeamsOnTourHandler : Handler
             _ => format
         };
 
-        var teams = (await _teamRepository.GetTeamsFromRoomWithFormat(roomId, format))?.ToList();
+        var teams = (await _teamRepository.GetTeamsFromRoomWithFormat(roomId, format, cancellationToken))?.ToList();
         if (teams == null || teams.Count == 0)
         {
             return;
         }
+
         var room = _roomsManager.GetRoom(roomId);
         var template = await _templatesManager.GetTemplateAsync("Teams/TeamList", new TeamListViewModel
         {

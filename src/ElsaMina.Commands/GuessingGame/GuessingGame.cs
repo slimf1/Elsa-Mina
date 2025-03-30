@@ -128,11 +128,12 @@ public abstract class GuessingGame : Game, IGuessingGame
     public void Cancel()
     {
         OnEnd();
-        if (_cancellationTokenSource != null)
+        if (_cancellationTokenSource == null)
         {
-            _cancellationTokenSource.Cancel();
-            _cancellationTokenSource.Dispose();
+            return;
         }
+        _cancellationTokenSource.Cancel();
+        _cancellationTokenSource.Dispose();
     }
 
     protected abstract void OnGameStart();

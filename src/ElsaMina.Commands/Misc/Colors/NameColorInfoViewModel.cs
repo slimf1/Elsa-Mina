@@ -5,6 +5,6 @@ namespace ElsaMina.Commands.Misc.Colors;
 
 public class NameColorInfoViewModel : LocalizableViewModel
 {
-    public string Name { get; set; }
-    public Color Color { get; set; }
+    public string Name { get; init; }
+    public Color Color { get; init; }
 }

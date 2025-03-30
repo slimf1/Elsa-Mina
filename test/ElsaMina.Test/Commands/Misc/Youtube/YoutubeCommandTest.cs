@@ -1,4 +1,3 @@
-using System.Globalization;
 using ElsaMina.Commands.Misc.Youtube;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;

@@ -3,22 +3,22 @@
 @inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.ConnectFour.ConnectFourGameTableModel>
 
 @{
-    const string CELL_STYLE = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};";
-    const string CELL_STYLE_WITH_BG = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR}; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
+    const string cellStyle = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};";
+    const string cellStyleWithBg = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR}; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
 }
 <table
     style="border-collapse: collapse; width: 100%">
     <tr>
-        <th style="@CELL_STYLE_WITH_BG">
+        <th style="@cellStyleWithBg">
             Grille
         </th>
-        <th style="@CELL_STYLE_WITH_BG">
+        <th style="@cellStyleWithBg">
             Infos
         </th>
     </tr>
 
     <tr>
-        <td style="@CELL_STYLE">
+        <td style="@cellStyle">
             @{ await IncludeAsync("ConnectFour/ConnectFourGrid", new ConnectFourGridModel
                {
                    Culture = Model.Culture,
@@ -28,7 +28,7 @@
                    RoomId = Model.RoomId
                }); }
         </td>
-        <td style="padding: 20px; @CELL_STYLE">
+        <td style="padding: 20px; @cellStyle">
             <span style="font-weight: bold;">@GetString("c4_game_name")</span><br />
             <span>@GetString("c4_game_rules", ConnectFourConstants.WINNING_LENGTH)</span><br />
             <span>@GetString("c4_game_current_turn", Model.CurrentGame.PlayerCurrentlyPlaying.Name, Model.CurrentGame.CurrentPlayerSymbol)</span><br />

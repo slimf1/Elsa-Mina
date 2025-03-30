@@ -35,7 +35,7 @@ public class PokeCriesGame : GuessingGame
             Message =
                 "<audio controls src=\"https://www.myinstants.com/media/sounds/sardoche-mais-voila-mais-cetait-sur-en-fait_s9qhFsx.mp3\"></audio>",
             Answers = ["Sardoche"]
-        },
+        }
     ];
 
     private readonly IRandomService _randomService;

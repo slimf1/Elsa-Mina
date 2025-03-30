@@ -240,11 +240,12 @@ public class ConnectFourGame : Game, IConnectFourGame
 
                     currentIndices.Add((row, col));
 
-                    if (Grid[row, col] != symbol)
+                    if (Grid[row, col] == symbol)
                     {
-                        currentIndices.Clear();
-                        break;
+                        continue;
                     }
+                    currentIndices.Clear();
+                    break;
                 }
 
                 if (currentIndices.Count == ConnectFourConstants.WINNING_LENGTH)

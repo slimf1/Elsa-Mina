@@ -4,7 +4,6 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Handlers.DefaultHandlers;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Clock;
-using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;

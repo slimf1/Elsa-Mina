@@ -24,13 +24,13 @@ public class TeamShowcase : Command
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        var team = await _teamRepository.GetByIdAsync(context.Target?.ToLowerAlphaNum());
+        var team = await _teamRepository.GetByIdAsync(context.Target?.ToLowerAlphaNum(), cancellationToken);
         if (team == null)
         {
             context.ReplyLocalizedMessage("team_showcase_not_found");
             return;
         }
-        
+
         var template = await _templatesManager.GetTemplateAsync("Teams/SampleTeam", new SampleTeamViewModel
         {
             Culture = context.Culture,

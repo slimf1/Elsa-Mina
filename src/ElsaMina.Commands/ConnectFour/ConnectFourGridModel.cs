@@ -4,8 +4,8 @@ namespace ElsaMina.Commands.ConnectFour;
 
 public class ConnectFourGridModel : LocalizableViewModel
 {
-    public IConnectFourGame CurrentGame { get; set; }
-    public string BotName { get; set; }
-    public string Trigger { get; set; }
-    public string RoomId { get; set; }
+    public IConnectFourGame CurrentGame { get; init; }
+    public string BotName { get; init; }
+    public string Trigger { get; init; }
+    public string RoomId { get; init; }
 }

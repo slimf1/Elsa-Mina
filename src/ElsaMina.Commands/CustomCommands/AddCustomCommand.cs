@@ -13,11 +13,11 @@ public class AddCustomCommand : Command
 {
     private const int MAX_COMMAND_NAME_LENGTH = 18;
     private const int MAX_CONTENT_LENGTH = 300;
-    
+
     private readonly IAddedCommandRepository _addedCommandRepository;
     private readonly IConfigurationManager _configurationManager;
     private readonly IClockService _clockService;
-    
+
     public AddCustomCommand(IAddedCommandRepository addedCommandRepository,
         IConfigurationManager configurationManager,
         IClockService clockService)
@@ -26,7 +26,7 @@ public class AddCustomCommand : Command
         _configurationManager = configurationManager;
         _clockService = clockService;
     }
-    
+
     public override Rank RequiredRank => Rank.Driver;
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
@@ -60,7 +60,7 @@ public class AddCustomCommand : Command
         }
 
         var existingCommand = await _addedCommandRepository.GetByIdAsync(Tuple.Create(
-            command, context.RoomId));
+            command, context.RoomId), cancellationToken);
         if (existingCommand != null)
         {
             context.ReplyLocalizedMessage("addcommand_already_exist");
@@ -74,8 +74,8 @@ public class AddCustomCommand : Command
             RoomId = context.RoomId,
             CreationDate = _clockService.CurrentUtcDateTime,
             Id = command
-        });
-        
+        }, cancellationToken);
+
         context.ReplyLocalizedMessage("addcommand_success", command);
     }
 }

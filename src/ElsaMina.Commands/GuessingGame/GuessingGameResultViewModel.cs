@@ -4,5 +4,5 @@ namespace ElsaMina.Commands.GuessingGame;
 
 public class GuessingGameResultViewModel : LocalizableViewModel
 {
-    public IDictionary<string, int> Scores { get; set; }
+    public IDictionary<string, int> Scores { get; init; }
 }

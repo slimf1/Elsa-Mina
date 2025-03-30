@@ -23,7 +23,7 @@ public class CustomCommandList : Command
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        var addedCommands = (await _addedCommandRepository.GetAllAsync())
+        var addedCommands = (await _addedCommandRepository.GetAllAsync(cancellationToken))
             .Where(command => command.RoomId == context.RoomId)
             .Select(command => command.Id);
         context.Reply($"**Commands**: {string.Join(", ", addedCommands)}");

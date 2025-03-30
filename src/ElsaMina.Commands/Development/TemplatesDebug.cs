@@ -39,7 +39,7 @@ public class TemplatesDebug : DevelopmentCommand
                     ["speks"] = 14,
                     ["morsay"] = 12,
                     ["thylane"] = 7,
-                    ["lionyx"] = 1,
+                    ["lionyx"] = 1
                 }
             },
             _ => null

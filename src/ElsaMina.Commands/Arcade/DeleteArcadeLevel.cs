@@ -29,7 +29,7 @@ public class DeleteArcadeLevel : Command
         }
 
         var id = context.Target.ToLowerAlphaNum();
-        var arcadeLevel = await _arcadeLevelRepository.GetByIdAsync(id);
+        var arcadeLevel = await _arcadeLevelRepository.GetByIdAsync(id, cancellationToken);
         if (arcadeLevel == null)
         {
             context.ReplyLocalizedMessage("arcade_level_delete_not_found");
@@ -38,7 +38,7 @@ public class DeleteArcadeLevel : Command
         {
             try
             {
-                await _arcadeLevelRepository.DeleteByIdAsync(id);
+                await _arcadeLevelRepository.DeleteByIdAsync(id, cancellationToken);
                 context.ReplyLocalizedMessage("arcade_level_delete_success");
             }
             catch (Exception e)

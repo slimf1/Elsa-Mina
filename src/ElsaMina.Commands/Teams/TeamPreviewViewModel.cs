@@ -5,7 +5,7 @@ namespace ElsaMina.Commands.Teams;
 
 public class TeamPreviewViewModel : LocalizableViewModel
 {
-    public IEnumerable<PokemonSet> Team { get; set; }
-    public string Sender { get; set; }
-    public string Author { get; set; }
+    public IEnumerable<PokemonSet> Team { get; init; }
+    public string Sender { get; init; }
+    public string Author { get; init; }
 }

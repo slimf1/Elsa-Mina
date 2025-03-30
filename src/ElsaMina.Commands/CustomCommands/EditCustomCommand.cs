@@ -28,7 +28,8 @@ public class EditCustomCommand : Command
         AddedCommand command = null;
         try
         {
-            command = await _addedCommandsRepository.GetByIdAsync(Tuple.Create(commandId, context.RoomId));
+            command = await _addedCommandsRepository.GetByIdAsync(Tuple.Create(commandId, context.RoomId),
+                cancellationToken);
         }
         catch (Exception exception)
         {
@@ -45,7 +46,7 @@ public class EditCustomCommand : Command
 
         try
         {
-            await _addedCommandsRepository.UpdateAsync(command);
+            await _addedCommandsRepository.UpdateAsync(command, cancellationToken);
             context.ReplyLocalizedMessage("editcommand_success", commandId);
         }
         catch (Exception exception)

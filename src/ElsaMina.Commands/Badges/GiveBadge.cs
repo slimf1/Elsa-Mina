@@ -40,7 +40,7 @@ public class GiveBadge : Command
         Badge badge = null;
         try
         {
-            badge = await _badgeRepository.GetByIdAsync(new(badgeId, context.RoomId), cancellationToken);
+            badge = await _badgeRepository.GetByIdAsync(Tuple.Create(badgeId, context.RoomId), cancellationToken);
         }
         catch (Exception exception)
         {

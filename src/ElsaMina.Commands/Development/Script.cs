@@ -21,7 +21,9 @@ public class Script : DevelopmentCommand
     // ReSharper disable once MemberCanBePrivate.Global
     public class Globals
     {
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public IContext Context { get; set; }
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public IDependencyContainerService Container { get; set; }
     }
 
