@@ -1,0 +1,32 @@
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Repeats.List.RepeatsListViewModel>
+
+<table>
+    <thead>
+    <tr>
+        <th>Message</th>
+        <th>Delay (hours)</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var repeat in Model.Repeats)
+    {
+        <tr>
+            <td>
+                @repeat.Message
+            </td>
+            <td>
+                @repeat.Interval.TotalHours
+            </td>
+            <td>
+                <button
+                    class="button"
+                    name="send"
+                    value="/w @Model.BotName,@(Model.Trigger)stoprepeat @repeat.RepeatId">
+                    Stop
+                </button>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

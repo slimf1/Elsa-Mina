@@ -85,7 +85,7 @@ public class Bot : IBot
             try
             {
                 await _initializeRoomSemaphore.WaitAsync();
-                await _roomsManager.InitializeRoom(room, lines);
+                await _roomsManager.InitializeRoomAsync(room, lines, _cancellationTokenSource.Token);
             }
             finally
             {

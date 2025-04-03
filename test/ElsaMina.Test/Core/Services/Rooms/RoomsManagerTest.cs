@@ -56,8 +56,8 @@ public class RoomsManagerTest
             "|users|4,&Teclis,!Lionyx,@Earth, Mec"
         ];
 
-        await _roomsManager.InitializeRoom(roomId1, linesRoom1);
-        await _roomsManager.InitializeRoom(roomId2, linesRoom2);
+        await _roomsManager.InitializeRoomAsync(roomId1, linesRoom1);
+        await _roomsManager.InitializeRoomAsync(roomId2, linesRoom2);
     }
 
     [Test]
@@ -71,7 +71,7 @@ public class RoomsManagerTest
         _roomParametersRepository.GetByIdAsync("franais").ReturnsNull();
 
         // Act
-        await _roomsManager.InitializeRoom("franais", []);
+        await _roomsManager.InitializeRoomAsync("franais", []);
 
         // Assert
         Assert.That(_roomsManager.GetRoom("franais").Culture.Name, Is.EqualTo("zh-CN"));
@@ -95,7 +95,7 @@ public class RoomsManagerTest
         });
 
         // Act
-        await _roomsManager.InitializeRoom("franais", []);
+        await _roomsManager.InitializeRoomAsync("franais", []);
 
         // Assert
         Assert.That(_roomsManager.GetRoom("franais").Culture.Name, Is.EqualTo("fr-FR"));

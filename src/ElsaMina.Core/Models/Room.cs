@@ -7,9 +7,10 @@ namespace ElsaMina.Core.Models;
 public class Room : IRoom
 {
     private const int MESSAGE_QUEUE_LENGTH = 30;
-    
+
     private readonly Dictionary<string, DateTime> _joinDateTimes = [];
     private readonly Queue<Tuple<string, string>> _lastMessages = new(MESSAGE_QUEUE_LENGTH);
+    private readonly Dictionary<string, IUser> _users = new();
     private IGame _game;
 
     public Room(string roomTitle, string roomId, CultureInfo culture)
@@ -21,7 +22,7 @@ public class Room : IRoom
 
     public string RoomId { get; }
     public string Name { get; }
-    public IDictionary<string, IUser> Users { get; } = new Dictionary<string, IUser>();
+    public IReadOnlyDictionary<string, IUser> Users => _users;
     public CultureInfo Culture { get; set; }
 
     public IGame Game
@@ -49,7 +50,7 @@ public class Room : IRoom
             .TakeLast(MESSAGE_QUEUE_LENGTH)
             .Select(line => line.Split("|"))
             .Select(messageParts => (messageParts[3], messageParts[4]));
-        
+
         foreach (var (user, message) in filteredMessages)
         {
             _lastMessages.Enqueue(Tuple.Create(user, message));
@@ -59,14 +60,14 @@ public class Room : IRoom
     public void AddUser(string username)
     {
         var user = User.FromUsername(username);
-        Users[user.UserId] = user;
+        _users[user.UserId] = user;
         _joinDateTimes[user.UserId] = DateTime.UtcNow;
     }
 
     public void RemoveUser(string username)
     {
         var userId = username.ToLowerAlphaNum();
-        Users.Remove(userId);
+        _users.Remove(userId);
         _joinDateTimes.Remove(userId);
     }
 
@@ -74,6 +75,14 @@ public class Room : IRoom
     {
         RemoveUser(oldName);
         AddUser(newName);
+    }
+
+    public void AddUsers(IEnumerable<string> users)
+    {
+        foreach (var user in users)
+        {
+            AddUser(user);
+        }
     }
 
     public DateTime GetUserJoinDate(string username)

@@ -1,5 +1,4 @@
-﻿#nullable enable
-using ElsaMina.Core.Contexts;
+﻿using ElsaMina.Core.Contexts;
 
 namespace ElsaMina.Core.Services.Repeats;
 
@@ -7,53 +6,37 @@ public class RepeatsManager : IRepeatsManager
 {
     private readonly HashSet<Repeat> _repeats = new();
 
-    public Repeat? StartRepeat(IContext context, string repeatId, string message, uint intervalInMinutes)
+    public bool StartRepeat(IContext context, string message, TimeSpan interval)
     {
-        var repeat = new Repeat
+        var repeat = new Repeat(context, Guid.NewGuid(), context.RoomId, message, interval);
+        if (!_repeats.Add(repeat))
         {
-            RoomId = context.RoomId,
-            Interval = intervalInMinutes,
-            RepeatId = repeatId
-        };
-
-        if (_repeats.Contains(repeat))
-        {
-            return null;
+            return false;
         }
 
-        var prefix = message.StartsWith("/wall") || message.StartsWith("/announce") ? string.Empty : "[[]]";
-        var timer = new Timer(_ =>
-        {
-            // Prevent command injection
-            context.Reply($"{prefix}{message}");
-        }, null, TimeSpan.Zero, TimeSpan.FromMinutes(intervalInMinutes));
-        repeat.Timer = timer;
-
-        _repeats.Add(repeat);
-
-        return repeat;
+        repeat.Start();
+        return true;
     }
 
-    public Repeat? GetRepeat(string roomId, string repeatId)
+    public IRepeat GetRepeat(string roomId, Guid repeatId)
     {
         return _repeats.FirstOrDefault(repeat => repeat.RepeatId == repeatId
                                                  && repeat.RoomId == roomId);
     }
 
-    public IEnumerable<Repeat> GetRepeatsFromRoom(string roomId)
+    public IEnumerable<IRepeat> GetRepeats(string roomId)
     {
         return _repeats.Where(repeat => repeat.RoomId == roomId);
     }
 
-    public bool StopRepeat(string roomId, string repeatId)
+    public bool StopRepeat(string roomId, Guid repeatId)
     {
-        var repeat = GetRepeat(roomId, repeatId);
-        if (repeat == null)
+        if (GetRepeat(roomId, repeatId) is not Repeat repeat)
         {
             return false;
         }
 
-        repeat.Timer.Dispose();
+        repeat.Stop();
         _repeats.Remove(repeat);
         return true;
     }

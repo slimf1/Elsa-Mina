@@ -2,7 +2,7 @@
 
 namespace ElsaMina.Test.Core.Utils;
 
-public class TextUtilsTest
+public class TextTest
 {
     [Test]
     [TestCase("Test! 123", ExpectedResult = "test123")]

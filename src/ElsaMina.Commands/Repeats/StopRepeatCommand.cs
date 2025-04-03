@@ -2,16 +2,15 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Repeats;
-using ElsaMina.Core.Utils;
 
-namespace ElsaMina.Commands.Misc.Repeats;
+namespace ElsaMina.Commands.Repeats;
 
 [NamedCommand("stop-repeat", Aliases = ["end-repeat", "cancel-repeat", "stoprepeat", "endrepeat"])]
-public class StopRepeat : Command
+public class StopRepeatCommand : Command
 {
     private readonly IRepeatsManager _repeatsManager;
 
-    public StopRepeat(IRepeatsManager repeatsManager)
+    public StopRepeatCommand(IRepeatsManager repeatsManager)
     {
         _repeatsManager = repeatsManager;
     }
@@ -20,7 +19,13 @@ public class StopRepeat : Command
 
     public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        var ended = _repeatsManager.StopRepeat(context.RoomId, context.Target.ToLowerAlphaNum());
+        if (!Guid.TryParse(context.Target, out var guid))
+        {
+            context.Reply("ID invalide");
+            return Task.CompletedTask;
+        }
+
+        var ended = _repeatsManager.StopRepeat(context.RoomId, guid);
         if (!ended)
         {
             context.Reply("Le repeat n'a pas pu être terminé.");

@@ -16,7 +16,7 @@ public class CustomColorsManager : ICustomColorsManager
     public IReadOnlyDictionary<string, string> CustomColorsMapping { get; private set; }
         = new Dictionary<string, string>();
     
-    public async Task FetchCustomColors()
+    public async Task FetchCustomColorsAsync()
     {
         try
         {

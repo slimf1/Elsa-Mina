@@ -65,7 +65,7 @@ public class RoomContextTest
         CreateRoomContext("", "", "test-command", 1);
         _sender.UserId.Returns("wl-dude");
         _sender.Rank.Returns(userRank);
-        _contextProvider.CurrentWhitelist.Returns(["wl-dude"]);
+        _contextProvider.IsUserWhitelisted("wl-dude").Returns(true);
 
         // Act
         var value = _roomContext.HasSufficientRank(requiredRank);

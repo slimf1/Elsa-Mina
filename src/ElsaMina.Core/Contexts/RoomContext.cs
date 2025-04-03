@@ -68,6 +68,11 @@ public class RoomContext : Context
         Bot.Say(RoomId, $"/addhtmlbox {html}");
     }
 
+    public override void SendHtmlTo(string userId, string html, string roomId = null)
+    {
+        Bot.Say(RoomId, $"/sendprivatehtmlbox {userId}, {html}");
+    }
+
     public override void SendUpdatableHtml(string htmlId, string html, bool isChanging)
     {
         var command = isChanging ? "changeuhtml" : "adduhtml";

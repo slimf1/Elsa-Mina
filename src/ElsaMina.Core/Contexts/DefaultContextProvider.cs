@@ -8,22 +8,26 @@ namespace ElsaMina.Core.Contexts;
 
 public class DefaultContextProvider : IContextProvider
 {
-    private readonly IConfigurationManager _configurationManager;
+    private readonly IConfiguration _configuration;
     private readonly IResourcesService _resourcesService;
     private readonly IRoomsManager _roomsManager;
 
-    public DefaultContextProvider(IConfigurationManager configurationManager,
+    public DefaultContextProvider(IConfiguration configuration,
         IResourcesService resourcesService,
         IRoomsManager roomsManager)
     {
-        _configurationManager = configurationManager;
+        _configuration = configuration;
         _resourcesService = resourcesService;
         _roomsManager = roomsManager;
     }
 
-    public IEnumerable<string> CurrentWhitelist => _configurationManager.Configuration.Whitelist;
-    public string DefaultRoom => _configurationManager.Configuration.DefaultRoom;
-    public CultureInfo DefaultCulture => new(_configurationManager.Configuration.DefaultLocaleCode);
+    public string DefaultRoom => _configuration.DefaultRoom;
+    public CultureInfo DefaultCulture => new(_configuration.DefaultLocaleCode);
+
+    public bool IsUserWhitelisted(string userId)
+    {
+        return _configuration.Whitelist.Contains(userId);
+    }
 
     public string GetString(string key, CultureInfo culture)
     {

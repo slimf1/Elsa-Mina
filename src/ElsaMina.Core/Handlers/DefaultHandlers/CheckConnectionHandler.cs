@@ -1,18 +1,20 @@
-using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.System;
 
 namespace ElsaMina.Core.Handlers.DefaultHandlers;
 
 public class CheckConnectionHandler : Handler
 {
-    private readonly IConfigurationManager _configurationManager;
+    private static readonly TimeSpan ROOM_JOIN_DELAY = TimeSpan.FromMilliseconds(250);
+    
+    private readonly IConfiguration _configuration;
     private readonly IClient _client;
     private readonly ISystemService _systemService;
 
-    public CheckConnectionHandler(IConfigurationManager configurationManager, IClient client,
+    public CheckConnectionHandler(IConfiguration configuration, IClient client,
         ISystemService systemService)
     {
-        _configurationManager = configurationManager;
+        _configuration = configuration;
         _client = client;
         _systemService = systemService;
     }
@@ -34,15 +36,15 @@ public class CheckConnectionHandler : Handler
 
             Log.Information("Connected as : {0}", name);
 
-            foreach (var roomIdToJoin in _configurationManager.Configuration.Rooms)
+            foreach (var roomIdToJoin in _configuration.Rooms)
             {
-                if (_configurationManager.Configuration.RoomBlacklist.Contains(roomIdToJoin))
+                if (_configuration.RoomBlacklist.Contains(roomIdToJoin))
                 {
                     continue;
                 }
 
                 _client.Send($"|/join {roomIdToJoin}");
-                await _systemService.SleepAsync(TimeSpan.FromMilliseconds(250));
+                await _systemService.SleepAsync(ROOM_JOIN_DELAY, cancellationToken);
             }
         }
     }

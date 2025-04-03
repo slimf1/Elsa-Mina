@@ -20,7 +20,6 @@ public abstract class Command : ICommand
     public virtual string HelpMessageKey => string.Empty;
     public virtual bool IsHidden => false;
     public virtual IEnumerable<string> RoomRestriction => [];
-    public virtual int Priority => 0;
 
     public void ReplyLocalizedHelpMessage(IContext context)
     {
@@ -34,17 +33,5 @@ public abstract class Command : ICommand
         var commandAttribute = GetType().GetCommandAttribute();
         Name = commandAttribute?.Name ?? string.Empty;
         Aliases = commandAttribute?.Aliases ?? [];
-    }
-
-    public virtual void OnStart()
-    {
-    }
-
-    public virtual void OnReconnect()
-    {
-    }
-
-    public virtual void OnDisconnect()
-    {
     }
 }

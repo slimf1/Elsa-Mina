@@ -9,7 +9,7 @@ namespace ElsaMina.Test.Core.Handlers.DefaultHandlers;
 
 public class CheckConnectionHandlerTest
 {
-    private IConfigurationManager _configurationManager;
+    private IConfiguration _configuration;
     private IClient _client;
     private ISystemService _systemService;
 
@@ -18,11 +18,11 @@ public class CheckConnectionHandlerTest
     [SetUp]
     public void SetUp()
     {
-        _configurationManager = Substitute.For<IConfigurationManager>();
+        _configuration = Substitute.For<IConfiguration>();
         _client = Substitute.For<IClient>();
         _systemService = Substitute.For<ISystemService>();
         
-        _handler = new CheckConnectionHandler(_configurationManager, _client, _systemService);
+        _handler = new CheckConnectionHandler(_configuration, _client, _systemService);
     }
     
     [Test]
@@ -30,12 +30,9 @@ public class CheckConnectionHandlerTest
     {
         // Arrange
         string[] message = ["", "updateuser", "+LeBot", "1", "1", "{}"];
-        _configurationManager.Configuration.Returns(new Configuration
-        {
-            Name = "LeBot",
-            Rooms = ["botdev", "franais", "lobby"],
-            RoomBlacklist = ["lobby"]
-        });
+        _configuration.Name.Returns("LeBot");
+        _configuration.Rooms.Returns(["botdev", "franais", "lobby"]);
+        _configuration.RoomBlacklist.Returns(["lobby"]);
 
         // Act
         await _handler.HandleReceivedMessageAsync(message);
@@ -51,12 +48,9 @@ public class CheckConnectionHandlerTest
     {
         // Arrange
         string[] message = ["", "updateuser", " Guest 123", "1", "1", "{}"];
-        _configurationManager.Configuration.Returns(new Configuration
-        {
-            Name = "LeBot",
-            Rooms = ["botdev", "franais", "lobby"],
-            RoomBlacklist = ["lobby"]
-        });
+        _configuration.Name.Returns("LeBot");
+        _configuration.Rooms.Returns(["botdev", "franais", "lobby"]);
+        _configuration.RoomBlacklist.Returns(["lobby"]);
 
         // Act
         await _handler.HandleReceivedMessageAsync(message);

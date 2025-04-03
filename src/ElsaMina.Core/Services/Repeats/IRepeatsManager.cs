@@ -4,7 +4,8 @@ namespace ElsaMina.Core.Services.Repeats;
 
 public interface IRepeatsManager
 {
-    Repeat StartRepeat(IContext context, string repeatId, string message, uint intervalInMinutes);
-    Repeat GetRepeat(string roomId, string repeatId);
-    bool StopRepeat(string roomId, string repeatId);
+    bool StartRepeat(IContext context, string message, TimeSpan interval);
+    IRepeat GetRepeat(string roomId, Guid repeatId);
+    IEnumerable<IRepeat> GetRepeats(string roomId);
+    bool StopRepeat(string roomId, Guid repeatId);
 }

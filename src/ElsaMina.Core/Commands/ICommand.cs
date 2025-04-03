@@ -3,7 +3,7 @@ using ElsaMina.Core.Models;
 
 namespace ElsaMina.Core.Commands;
 
-public interface ICommand : IBotLifecycleHandler
+public interface ICommand
 {
     public string Name { get; }
     public IEnumerable<string> Aliases { get; }

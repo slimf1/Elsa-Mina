@@ -17,7 +17,7 @@ public class ConnectFourGameTest
         private ConnectFourGame _game;
         private IRandomService _mockRandomService;
         private ITemplatesManager _mockTemplatesManager;
-        private IConfigurationManager _mockConfigurationManager;
+        private IConfiguration _configuration;
         private IDependencyContainerService _dependencyContainerService;
         private IBot _bot;
         private IContext _context;
@@ -29,17 +29,18 @@ public class ConnectFourGameTest
         {
             _mockRandomService = Substitute.For<IRandomService>();
             _mockTemplatesManager = Substitute.For<ITemplatesManager>();
-            _mockConfigurationManager = Substitute.For<IConfigurationManager>();
+            _configuration = Substitute.For<IConfiguration>();
             _context = Substitute.For<IContext>();
             _bot = Substitute.For<IBot>();
             _dependencyContainerService = Substitute.For<IDependencyContainerService>();
 
             DependencyContainerService.Current = _dependencyContainerService;
 
-            var config = new Configuration { Name = "Bot", Trigger = "!", DefaultLocaleCode = "fr-FR" };
-            _mockConfigurationManager.Configuration.Returns(config);
+            _configuration.Name.Returns("Bot");
+            _configuration.Trigger.Returns("!");
+            _configuration.DefaultLocaleCode.Returns("fr-FR");
 
-            _game = new ConnectFourGame(_mockRandomService, _mockTemplatesManager, _mockConfigurationManager, _bot);
+            _game = new ConnectFourGame(_mockRandomService, _mockTemplatesManager, _configuration, _bot);
             _game.Context = _context;
 
             _mockUser1 = Substitute.For<IUser>();

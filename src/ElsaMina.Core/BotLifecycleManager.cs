@@ -15,7 +15,7 @@ public class BotLifecycleManager : IBotLifecycleManager
     private IEnumerable<IBotLifecycleHandler> Handlers =>
         _handlers ??= _dependencyContainerService
             .Resolve<IEnumerable<IBotLifecycleHandler>>()
-            .OrderBy(handler => handler.Priority);
+            .OrderByDescending(handler => handler.Priority);
 
     public void OnStart()
     {

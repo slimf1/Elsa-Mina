@@ -70,7 +70,7 @@ public class RoomUserDataServiceTest
         _roomSpecificUserDataRepository.GetAllAsync().Returns(userDataList);
 
         // Act
-        await _service.InitializeJoinPhrases();
+        await _service.InitializeJoinPhrasesAsync();
 
         // Assert
         Assert.Multiple(() =>

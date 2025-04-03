@@ -31,7 +31,7 @@ public class RoomUserDataService : IRoomUserDataService
         return await GetUserAndCreateIfDoesntExist(roomId, userId);
     }
 
-    public async Task InitializeJoinPhrases()
+    public async Task InitializeJoinPhrasesAsync()
     {
         var fullUserData = await _roomSpecificUserDataRepository.GetAllAsync();
         foreach (var userData in fullUserData)

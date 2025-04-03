@@ -47,7 +47,8 @@ public class RoomsManager : IRoomsManager
         return _rooms.ContainsKey(roomId);
     }
 
-    public async Task InitializeRoom(string roomId, IEnumerable<string> lines)
+    public async Task InitializeRoomAsync(string roomId, IEnumerable<string> lines,
+        CancellationToken cancellationToken = default)
     {
         var receivedLines = lines.ToArray();
         var roomTitle = receivedLines
@@ -59,7 +60,7 @@ public class RoomsManager : IRoomsManager
             .Split(",")[1..];
 
         Log.Information("Initializing {0}...", roomTitle);
-        var roomParameters = await _roomParametersRepository.GetByIdAsync(roomId);
+        var roomParameters = await _roomParametersRepository.GetByIdAsync(roomId, cancellationToken);
         if (roomParameters == null)
         {
             Log.Information("Could not find room parameters, inserting in db...");
@@ -67,7 +68,7 @@ public class RoomsManager : IRoomsManager
             {
                 Id = roomId
             };
-            await _roomParametersRepository.AddAsync(roomParameters);
+            await _roomParametersRepository.AddAsync(roomParameters, cancellationToken);
             Log.Information("Inserted room parameters for room {0} in db", roomId);
         }
 
@@ -79,10 +80,7 @@ public class RoomsManager : IRoomsManager
             Parameters = roomParameters
         };
 
-        foreach (var userId in users ?? [])
-        {
-            room.AddUser(userId);
-        }
+        room.AddUsers(users ?? []);
 
         _rooms[room.RoomId] = room;
         room.InitializeMessageQueueFromLogs(receivedLines);

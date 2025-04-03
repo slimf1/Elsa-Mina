@@ -1,6 +1,6 @@
 ﻿using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Commands;
-using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Core.Handlers.DefaultHandlers;
@@ -8,16 +8,16 @@ namespace ElsaMina.Core.Handlers.DefaultHandlers;
 public abstract class CommandMessageHandler : MessageHandler
 {
     private readonly IRoomsManager _roomsManager;
-    private readonly IConfigurationManager _configurationManager;
+    private readonly IConfiguration _configuration;
     private readonly ICommandExecutor _commandExecutor;
     
     protected CommandMessageHandler(IContextFactory contextFactory,
         IRoomsManager roomsManager,
-        IConfigurationManager configurationManager,
+        IConfiguration configuration,
         ICommandExecutor commandExecutor) : base(contextFactory)
     {
         _roomsManager = roomsManager;
-        _configurationManager = configurationManager;
+        _configuration = configuration;
         _commandExecutor = commandExecutor;
     }
 
@@ -27,7 +27,7 @@ public abstract class CommandMessageHandler : MessageHandler
         {
             return;
         }
-        if (_configurationManager.Configuration.RoomBlacklist.Contains(context.RoomId))
+        if (_configuration.RoomBlacklist.Contains(context.RoomId))
         {
             return;
         }

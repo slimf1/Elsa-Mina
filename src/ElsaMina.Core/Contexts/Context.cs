@@ -29,7 +29,7 @@ public abstract class Context : IContext
     public IUser Sender { get; }
     public IRoom Room => _contextProvider.GetRoom(RoomId);
     public string Command { get; }
-    public bool IsSenderWhitelisted => _contextProvider.CurrentWhitelist.Contains(Sender.UserId);
+    public bool IsSenderWhitelisted => _contextProvider.IsUserWhitelisted(Sender.UserId);
 
     public void SendHtmlPage(string pageName, string html)
     {
@@ -72,5 +72,6 @@ public abstract class Context : IContext
     public abstract bool HasSufficientRank(Rank requiredRank);
     public abstract void Reply(string message, bool rankAware = false);
     public abstract void SendHtml(string html, string roomId = null, bool rankAware = false);
+    public abstract void SendHtmlTo(string userId, string html, string roomId = null);
     public abstract void SendUpdatableHtml(string htmlId, string html, bool isChanging);
 }

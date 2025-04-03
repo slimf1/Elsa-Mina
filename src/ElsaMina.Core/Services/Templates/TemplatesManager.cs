@@ -31,15 +31,15 @@ public class TemplatesManager : ITemplatesManager
         return template.RemoveNewlines().RemoveWhitespacesBetweenTags();
     }
 
-    public async Task CompileTemplates()
+    public async Task CompileTemplatesAsync()
     {
         var compilationTasks = FileSystem
             .GetFilesFromDirectoryRecursively(TEMPLATES_DIRECTORY_PATH)
-            .Select(CompileTemplate);
+            .Select(CompileTemplateAsync);
         await Task.WhenAll(compilationTasks);
     }
 
-    private async Task CompileTemplate(string templatePath)
+    private async Task CompileTemplateAsync(string templatePath)
     {
         Log.Information("Compiling template {0}...", templatePath);
         var templateKey = GetTemplateKeyFromPath(templatePath);

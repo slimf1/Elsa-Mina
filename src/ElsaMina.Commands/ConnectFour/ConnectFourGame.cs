@@ -1,9 +1,11 @@
-﻿using ElsaMina.Core;
+﻿using System.Timers;
+using ElsaMina.Core;
+using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
-using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
+using Timer = System.Timers.Timer;
 
 namespace ElsaMina.Commands.ConnectFour;
 
@@ -16,19 +18,19 @@ public class ConnectFourGame : Game, IConnectFourGame
 
     private readonly IRandomService _randomService;
     private readonly ITemplatesManager _templatesManager;
-    private readonly IConfigurationManager _configurationManager;
+    private readonly IConfiguration _configuration;
     private readonly IBot _bot;
 
-    private CancellationTokenSource _cancellationTokenSource;
+    private Timer _timer;
 
     public ConnectFourGame(IRandomService randomService,
         ITemplatesManager templatesManager,
-        IConfigurationManager configurationManager,
+        IConfiguration configuration,
         IBot bot)
     {
         _randomService = randomService;
         _templatesManager = templatesManager;
-        _configurationManager = configurationManager;
+        _configuration = configuration;
         _bot = bot;
 
         GameId++;
@@ -53,6 +55,8 @@ public class ConnectFourGame : Game, IConnectFourGame
     public override string Identifier => nameof(ConnectFourGame);
 
     public string PlayerNames => string.Join(", ", Players.Select(player => player.Name));
+    
+    public IContext Context { get; set; }
 
     #endregion
 
@@ -64,10 +68,10 @@ public class ConnectFourGame : Game, IConnectFourGame
             new ConnectFourGamePanelViewModel
             {
                 Culture = Context.Culture,
-                BotName = _configurationManager.Configuration.Name,
+                BotName = _configuration.Name,
                 ConnectFourGame = this,
                 RoomId = Context.RoomId,
-                Trigger = _configurationManager.Configuration.Trigger
+                Trigger = _configuration.Trigger
             });
 
         Context.SendUpdatableHtml(AnnounceId, template.RemoveNewlines(), true);
@@ -171,7 +175,7 @@ public class ConnectFourGame : Game, IConnectFourGame
     public void Cancel()
     {
         OnEnd();
-        _cancellationTokenSource?.Cancel();
+        CancelTimer();
     }
 
     #endregion
@@ -244,6 +248,7 @@ public class ConnectFourGame : Game, IConnectFourGame
                     {
                         continue;
                     }
+
                     currentIndices.Clear();
                     break;
                 }
@@ -283,27 +288,27 @@ public class ConnectFourGame : Game, IConnectFourGame
         CurrentPlayerSymbol = ConnectFourConstants.SYMBOLS[Players.IndexOf(PlayerCurrentlyPlaying)];
         await DisplayGrid();
 
-        if (_cancellationTokenSource != null)
-        {
-            await _cancellationTokenSource.CancelAsync();
-            _cancellationTokenSource.Dispose();
-        }
+        CancelTimer();
 
-        _cancellationTokenSource = new CancellationTokenSource();
-        var token = _cancellationTokenSource.Token;
-        _ = Task.Run(async () =>
+        _timer = new Timer(ConnectFourConstants.TIMEOUT_DELAY);
+        _timer.AutoReset = false;
+        _timer.Elapsed += HandleTimerElapsed;
+    }
+
+    private void CancelTimer()
+    {
+        if (_timer == null)
         {
-            try
-            {
-                await Task.Delay(ConnectFourConstants.TIMEOUT_DELAY, token);
-                token.ThrowIfCancellationRequested();
-                await OnTimeout();
-            }
-            catch (OperationCanceledException)
-            {
-                // Do nothing
-            }
-        }, token);
+            return;
+        } 
+        _timer.Elapsed -= HandleTimerElapsed;
+        _timer.Dispose();
+    }
+
+    private async void HandleTimerElapsed(object sender, ElapsedEventArgs e)
+    {
+        await OnTimeout();
+        CancelTimer();
     }
 
     private async Task OnWin(IUser winner)
@@ -329,8 +334,8 @@ public class ConnectFourGame : Game, IConnectFourGame
                 Culture = Context.Culture,
                 RoomId = Context.RoomId,
                 CurrentGame = this,
-                BotName = _configurationManager.Configuration.Name,
-                Trigger = _configurationManager.Configuration.Trigger
+                BotName = _configuration.Name,
+                Trigger = _configuration.Trigger
             });
 
         var pageName = $"c4-game-{Context.RoomId}-{GameId}";

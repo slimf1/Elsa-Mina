@@ -19,9 +19,9 @@ public class Configuration : IConfiguration
     public string ArcadeWebhookUrl { get; set; }
     public string MistralApiKey { get; set; }
     public string ElevenLabsApiKey { get; set; }
-    public string S3BucketName { get; set; }
-    public string S3EndpointUrl { get; set; }
-    public string S3AccessKey { get; set; }
-    public string S3SecretKey { get; set; }
-    public string S3BaseUrl { get; set; }
+    public string S3BucketName { get; set; } = string.Empty;
+    public string S3EndpointUrl { get; set; } = string.Empty;
+    public string S3AccessKey { get; set; } = string.Empty;
+    public string S3SecretKey { get; set; } = string.Empty;
+    public string S3BaseUrl { get; set; } = string.Empty;
 }

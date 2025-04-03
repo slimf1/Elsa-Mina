@@ -1,7 +1,10 @@
-﻿using ElsaMina.Core.Models;
+﻿using System.Timers;
+using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
+using Timer = System.Timers.Timer;
 
 namespace ElsaMina.Commands.GuessingGame;
 
@@ -13,7 +16,7 @@ public abstract class GuessingGame : Game, IGuessingGame
 
     private readonly ITemplatesManager _templatesManager;
     private readonly IConfigurationManager _configurationManager;
-    private CancellationTokenSource _cancellationTokenSource;
+    private Timer _timer;
 
     private readonly Dictionary<string, int> _scores = new();
     private int _currentTurn;
@@ -29,6 +32,8 @@ public abstract class GuessingGame : Game, IGuessingGame
     protected IEnumerable<string> CurrentValidAnswers { get; set; } = [];
 
     public int TurnsCount { get; set; } = DEFAULT_TURNS_COUNT;
+    
+    public IContext Context { get; set; }
 
     public async Task Start()
     {
@@ -44,27 +49,30 @@ public abstract class GuessingGame : Game, IGuessingGame
         await OnTurnStart();
         _hasRoundBeenWon = false;
 
-        if (_cancellationTokenSource != null)
+        CancelTimer();
+        _timer = new Timer(TURN_COOLDOWN)
         {
-            await _cancellationTokenSource.CancelAsync();
-            _cancellationTokenSource.Dispose();
-        }
+            AutoReset = false
+        };
+        _timer.Elapsed += HandleTimerElapsed;
+        _timer.Start();
+    }
 
-        _cancellationTokenSource = new CancellationTokenSource();
-        var token = _cancellationTokenSource.Token;
-        _ = Task.Run(async () =>
+    private void CancelTimer()
+    {
+        if (_timer == null)
         {
-            try
-            {
-                await Task.Delay(TURN_COOLDOWN, token);
-                token.ThrowIfCancellationRequested();
-                await OnTurnEnd();
-            }
-            catch (OperationCanceledException)
-            {
-                // Do nothing
-            }
-        }, token);
+            return;
+        }
+        
+        _timer.Elapsed -= HandleTimerElapsed;
+        _timer.Dispose();
+        _timer = null;
+    }
+
+    private async void HandleTimerElapsed(object sender, ElapsedEventArgs e)
+    {
+        await OnTurnEnd();
     }
 
     private async Task OnTurnEnd()
@@ -128,12 +136,7 @@ public abstract class GuessingGame : Game, IGuessingGame
     public void Cancel()
     {
         OnEnd();
-        if (_cancellationTokenSource == null)
-        {
-            return;
-        }
-        _cancellationTokenSource.Cancel();
-        _cancellationTokenSource.Dispose();
+        CancelTimer();
     }
 
     protected abstract void OnGameStart();

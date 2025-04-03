@@ -13,7 +13,7 @@ namespace ElsaMina.Test.Commands.ConnectFour;
 public class CreateConnectFourCommandTest
 {
     private IDependencyContainerService _dependencyContainerService;
-    private IConfigurationManager _configurationManager;
+    private IConfiguration _configuration;
     private CreateConnectFourCommand _command;
     private IContext _context;
     private IRoom _room;
@@ -25,7 +25,7 @@ public class CreateConnectFourCommandTest
     public void SetUp()
     {
         _dependencyContainerService = Substitute.For<IDependencyContainerService>();
-        _configurationManager = Substitute.For<IConfigurationManager>();
+        _configuration = Substitute.For<IConfiguration>();
         _templatesManager = Substitute.For<ITemplatesManager>();
         _bot = Substitute.For<IBot>();
         _command = new CreateConnectFourCommand(_dependencyContainerService);
@@ -34,7 +34,7 @@ public class CreateConnectFourCommandTest
         _room = Substitute.For<IRoom>();
         _room.RoomId.Returns("room-id");
         _game = new ConnectFourGame(Substitute.For<IRandomService>(), _templatesManager,
-            _configurationManager, _bot);
+            _configuration, _bot);
 
         _context.RoomId.Returns("room-id");
         _context.Room.Returns(_room);
@@ -46,7 +46,7 @@ public class CreateConnectFourCommandTest
     {
         // Arrange
         _room.Game = null;
-        _configurationManager.Configuration.Trigger.Returns("!");
+        _configuration.Trigger.Returns("!");
 
         // Act
         await _command.RunAsync(_context);

@@ -79,8 +79,8 @@ public class BotTest
         // Assert
         string[] expectedLines =
             [">room", "|init|chat", "|title|Room Title", "|users|5,*Bot,@Mod, Regular,#Ro User,+Voiced"];
-        await _roomsManager.Received(1).InitializeRoom("room",
-            Arg.Is<IEnumerable<string>>(users => users.SequenceEqual(expectedLines)));
+        await _roomsManager.Received(1).InitializeRoomAsync("room",
+            Arg.Is<IEnumerable<string>>(users => users.SequenceEqual(expectedLines)), Arg.Any<CancellationToken>());
     }
 
     [Test]

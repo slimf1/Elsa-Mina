@@ -50,7 +50,7 @@ public class RoomParametersTest
             "|title|Français",
             "|users|4,&Teclis,!Lionyx,@Earth, Mec"
         ];
-        await _roomsManager.InitializeRoom("franais", lines);
+        await _roomsManager.InitializeRoomAsync("franais", lines);
     }
 
     [TearDown]

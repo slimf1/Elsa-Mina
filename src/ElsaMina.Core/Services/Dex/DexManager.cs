@@ -15,11 +15,11 @@ public class DexManager : IDexManager
 
     public IReadOnlyList<Pokemon> Pokedex { get; private set; } = [];
 
-    public async Task LoadDex()
+    public async Task LoadDexAsync(CancellationToken cancellationToken = default)
     {
         try
         {
-            var response = await _httpService.GetAsync<List<Pokemon>>(DEX_URL);
+            var response = await _httpService.GetAsync<List<Pokemon>>(DEX_URL, cancellationToken: cancellationToken);
             Pokedex = response.Data;
             Log.Information("Dex : Fetched {0} entries", Pokedex.Count);
         }

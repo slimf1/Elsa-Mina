@@ -5,9 +5,9 @@ namespace ElsaMina.Core.Contexts;
 
 public interface IContextProvider
 {
-    IEnumerable<string> CurrentWhitelist { get; }
     string DefaultRoom { get; }
     CultureInfo DefaultCulture { get; }
+    bool IsUserWhitelisted(string userId);
     string GetString(string key, CultureInfo culture);
     IRoom GetRoom(string roomId);
     string GetRoomParameterValue(string roomId, string key);

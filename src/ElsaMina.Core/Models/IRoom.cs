@@ -7,7 +7,7 @@ public interface IRoom
 {
     string RoomId { get; }
     string Name { get; }
-    IDictionary<string, IUser> Users { get; }
+    IReadOnlyDictionary<string, IUser> Users { get; }
     CultureInfo Culture { get; set; }
     IGame Game { get; set; }
     RoomParameters Parameters { get; }

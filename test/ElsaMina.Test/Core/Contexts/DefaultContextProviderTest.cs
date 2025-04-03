@@ -1,7 +1,6 @@
 using System.Globalization;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Models;
-using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using NSubstitute;
@@ -11,32 +10,36 @@ namespace ElsaMina.Test.Core.Contexts;
 public class DefaultContextProviderTest
 {
     private DefaultContextProvider _contextProvider;
-    private IConfigurationManager _configurationManager;
+    private IConfiguration _configuration;
     private IResourcesService _resourcesService;
     private IRoomsManager _roomsManager;
 
     [SetUp]
     public void SetUp()
     {
-        _configurationManager = Substitute.For<IConfigurationManager>();
+        _configuration = Substitute.For<IConfiguration>();
         _resourcesService = Substitute.For<IResourcesService>();
         _roomsManager = Substitute.For<IRoomsManager>();
 
-        _contextProvider = new DefaultContextProvider(_configurationManager, _resourcesService, _roomsManager);
+        _contextProvider = new DefaultContextProvider(_configuration, _resourcesService, _roomsManager);
     }
 
     [Test]
-    public void Test_CurrentWhitelist_ShouldReturnWhitelistFromConfiguration()
+    [TestCase(null, ExpectedResult = false)]
+    [TestCase("", ExpectedResult = false)]
+    [TestCase("s", ExpectedResult = false)]
+    [TestCase("speks", ExpectedResult = true)]
+    public bool Test_CurrentWhitelist_ShouldReturnWhitelistFromConfiguration(string userId)
     {
         // Arrange
-        var expectedWhitelist = new[] { "room1", "room2" };
-        _configurationManager.Configuration.Whitelist.Returns(expectedWhitelist);
+        var expectedWhitelist = new[] { "speks", "corentin" };
+        _configuration.Whitelist.Returns(expectedWhitelist);
 
         // Act
-        var result = _contextProvider.CurrentWhitelist;
+        var result = _contextProvider.IsUserWhitelisted(userId);
 
         // Assert
-        Assert.That(result, Is.EqualTo(expectedWhitelist));
+        return result;
     }
 
     [Test]
@@ -44,7 +47,7 @@ public class DefaultContextProviderTest
     {
         // Arrange
         var expectedRoom = "mainRoom";
-        _configurationManager.Configuration.DefaultRoom.Returns(expectedRoom);
+        _configuration.DefaultRoom.Returns(expectedRoom);
 
         // Act
         var result = _contextProvider.DefaultRoom;
@@ -58,7 +61,7 @@ public class DefaultContextProviderTest
     {
         // Arrange
         var expectedLocale = "fr-FR";
-        _configurationManager.Configuration.DefaultLocaleCode.Returns(expectedLocale);
+        _configuration.DefaultLocaleCode.Returns(expectedLocale);
 
         // Act
         var result = _contextProvider.DefaultCulture;

@@ -15,9 +15,11 @@ using ElsaMina.Commands.JoinPhrases;
 using ElsaMina.Commands.Misc.Bitcoin;
 using ElsaMina.Commands.Misc.Colors;
 using ElsaMina.Commands.Misc.Facts;
-using ElsaMina.Commands.Misc.Repeats;
 using ElsaMina.Commands.Misc.Youtube;
 using ElsaMina.Commands.Profile;
+using ElsaMina.Commands.Repeats;
+using ElsaMina.Commands.Repeats.Form;
+using ElsaMina.Commands.Repeats.List;
 using ElsaMina.Commands.Replays;
 using ElsaMina.Commands.RoomDashboard;
 using ElsaMina.Commands.Showdown.Ladder;
@@ -68,9 +70,6 @@ public class CommandModule : Module
         builder.RegisterCommand<TeamShowcase>();
         builder.RegisterCommand<TeamList>();
         builder.RegisterCommand<DeleteTeam>();
-        builder.RegisterCommand<AboutRepeat>();
-        builder.RegisterCommand<CreateRepeat>();
-        builder.RegisterCommand<StopRepeat>();
         builder.RegisterCommand<Say>();
         builder.RegisterCommand<NameColorInfo>();
         builder.RegisterCommand<FactsCommand>();
@@ -90,6 +89,10 @@ public class CommandModule : Module
         builder.RegisterCommand<RankingCommand>();
         builder.RegisterCommand<LadderCommand>();
         builder.RegisterCommand<FailCommand>();
+        builder.RegisterCommand<RepeatFormCommand>();
+        builder.RegisterCommand<StartRepeatCommand>();
+        builder.RegisterCommand<StopRepeatCommand>();
+        builder.RegisterCommand<RepeatsListCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();

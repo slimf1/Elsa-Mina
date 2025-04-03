@@ -1,4 +1,5 @@
 ﻿using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms;
@@ -9,8 +10,8 @@ public sealed class PrivateMessageCommandHandler : CommandMessageHandler
 {
     public PrivateMessageCommandHandler(IContextFactory contextFactory,
         IRoomsManager roomsManager,
-        IConfigurationManager configurationManager,
-        ICommandExecutor commandExecutor) : base(contextFactory, roomsManager, configurationManager, commandExecutor)
+        IConfiguration configuration,
+        ICommandExecutor commandExecutor) : base(contextFactory, roomsManager, configuration, commandExecutor)
     {
     }
 

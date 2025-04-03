@@ -27,10 +27,10 @@ public class StartManager : IStartManager
     {
         // Static data / referentials
         await Task.WhenAll(
-            _templatesManager.CompileTemplates(),
-            _customColorsManager.FetchCustomColors(),
-            _roomUserDataService.InitializeJoinPhrases(),
-            _dexManager.LoadDex()
+            _templatesManager.CompileTemplatesAsync(),
+            _customColorsManager.FetchCustomColorsAsync(),
+            _roomUserDataService.InitializeJoinPhrasesAsync(),
+            _dexManager.LoadDexAsync()
         );
     }
 }

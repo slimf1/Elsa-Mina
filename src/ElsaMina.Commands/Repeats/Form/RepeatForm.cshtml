@@ -1,0 +1,19 @@
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Repeats.Form.RepeatFormViewModel>
+
+<form data-submitsend="@Model.Command">
+    <h4>Ajouter un Repeat</h4>
+
+    <div>
+        <label for="delay">Délai (heures)</label>
+        <input type="number" id="delay" name="delay" min="1" max="24" class="textbox searchinput" required>
+    </div>
+
+    <div>
+        <label for="message">Message</label>
+        <input type="text" id="message" name="message" class="textbox searchinput" required>
+    </div>
+
+    <button type="submit" class="button">
+        @GetString("submit")
+    </button>
+</form>

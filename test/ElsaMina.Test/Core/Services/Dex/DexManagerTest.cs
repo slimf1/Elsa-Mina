@@ -30,7 +30,7 @@ public class DexManagerTest
         _httpService.GetAsync<List<Pokemon>>(Arg.Is(DexManager.DEX_URL)).Returns(response);
 
         // Act
-        await _dexManager.LoadDex();
+        await _dexManager.LoadDexAsync();
 
         // Assert
         Assert.That(_dexManager.Pokedex, Is.Not.Null);
@@ -47,7 +47,7 @@ public class DexManagerTest
         _httpService.GetAsync<List<Pokemon>>(Arg.Is(DexManager.DEX_URL)).Returns(response);
 
         // Act
-        await _dexManager.LoadDex();
+        await _dexManager.LoadDexAsync();
 
         // Assert
         Assert.That(_dexManager.Pokedex, Has.Count.EqualTo(1));
@@ -61,7 +61,7 @@ public class DexManagerTest
         _httpService.GetAsync<List<Pokemon>>(Arg.Is(DexManager.DEX_URL)).Throws(new Exception("Network error"));
 
         // Act
-        await _dexManager.LoadDex();
+        await _dexManager.LoadDexAsync();
 
         // Assert
         Assert.That(_dexManager.Pokedex, Is.Empty);
@@ -74,6 +74,6 @@ public class DexManagerTest
         _httpService.GetAsync<List<Pokemon>>(Arg.Is(DexManager.DEX_URL)).Throws(new Exception("Network error"));
 
         // Act & Assert
-        Assert.DoesNotThrowAsync(async () => await _dexManager.LoadDex());
+        Assert.DoesNotThrowAsync(async () => await _dexManager.LoadDexAsync());
     }
 }

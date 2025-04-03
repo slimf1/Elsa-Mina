@@ -30,7 +30,7 @@ public class CustomColorsManagerTest
         _httpService.GetAsync<Dictionary<string, string>>(Arg.Is(CustomColorsManager.CUSTOM_COLORS_FILE_URL)).Returns(response);
 
         // Act
-        await _customColorsManager.FetchCustomColors();
+        await _customColorsManager.FetchCustomColorsAsync();
 
         // Assert
         Assert.That(_customColorsManager.CustomColorsMapping, Is.Not.Null);
@@ -47,7 +47,7 @@ public class CustomColorsManagerTest
         _httpService.GetAsync<Dictionary<string, string>>(Arg.Is(CustomColorsManager.CUSTOM_COLORS_FILE_URL)).Returns(response);
 
         // Act
-        await _customColorsManager.FetchCustomColors();
+        await _customColorsManager.FetchCustomColorsAsync();
 
         // Assert
         Assert.That(_customColorsManager.CustomColorsMapping, Has.Count.EqualTo(1));
@@ -61,7 +61,7 @@ public class CustomColorsManagerTest
         _httpService.GetAsync<Dictionary<string, string>>(Arg.Is(CustomColorsManager.CUSTOM_COLORS_FILE_URL)).Throws(new Exception("Network error"));
 
         // Act
-        await _customColorsManager.FetchCustomColors();
+        await _customColorsManager.FetchCustomColorsAsync();
 
         // Assert
         Assert.That(_customColorsManager.CustomColorsMapping, Is.Empty);
@@ -74,6 +74,6 @@ public class CustomColorsManagerTest
         _httpService.GetAsync<Dictionary<string, string>>(Arg.Is(CustomColorsManager.CUSTOM_COLORS_FILE_URL)).Throws(new Exception("Network error"));
 
         // Act & Assert
-        Assert.DoesNotThrowAsync(async () => await _customColorsManager.FetchCustomColors());
+        Assert.DoesNotThrowAsync(async () => await _customColorsManager.FetchCustomColorsAsync());
     }
 }
