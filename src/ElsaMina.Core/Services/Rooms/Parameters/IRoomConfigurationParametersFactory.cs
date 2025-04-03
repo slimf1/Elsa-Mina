@@ -1,6 +1,4 @@
-using ElsaMina.Core.Models;
-
-namespace ElsaMina.Core.Services.Rooms;
+namespace ElsaMina.Core.Services.Rooms.Parameters;
 
 public interface IRoomConfigurationParametersFactory
 {

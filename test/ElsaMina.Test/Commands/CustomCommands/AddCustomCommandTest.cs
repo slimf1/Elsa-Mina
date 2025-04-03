@@ -1,6 +1,5 @@
 ﻿using ElsaMina.Commands.CustomCommands;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.DataAccess.Models;

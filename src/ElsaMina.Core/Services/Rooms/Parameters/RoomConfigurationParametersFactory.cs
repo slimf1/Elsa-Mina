@@ -1,10 +1,9 @@
 ﻿using System.Globalization;
-using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Utils;
 
-namespace ElsaMina.Core.Services.Rooms;
+namespace ElsaMina.Core.Services.Rooms.Parameters;
 
 public class RoomConfigurationParametersFactory : IRoomConfigurationParametersFactory
 {

@@ -1,4 +1,4 @@
-using ElsaMina.Core.Models;
+using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.System;
 
 namespace ElsaMina.Core.Handlers.DefaultHandlers;

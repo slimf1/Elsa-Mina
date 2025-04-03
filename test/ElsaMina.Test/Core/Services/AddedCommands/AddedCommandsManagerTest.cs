@@ -1,14 +1,14 @@
 using System.Globalization;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.Images;
 using ElsaMina.Core.Services.Probabilities;
+using ElsaMina.Core.Services.Rooms;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
-using User = ElsaMina.Core.Models.User;
+using User = ElsaMina.Core.Services.Rooms.User;
 
 namespace ElsaMina.Test.Core.Services.AddedCommands;
 

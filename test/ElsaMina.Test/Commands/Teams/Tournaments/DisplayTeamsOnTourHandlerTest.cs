@@ -2,7 +2,6 @@ using System.Globalization;
 using ElsaMina.Commands.Teams;
 using ElsaMina.Commands.Teams.Tournaments;
 using ElsaMina.Core;
-using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.DataAccess.Models;

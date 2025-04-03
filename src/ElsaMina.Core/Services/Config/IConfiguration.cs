@@ -1,6 +1,6 @@
 ﻿using ElsaMina.FileSharing.S3;
 
-namespace ElsaMina.Core.Models;
+namespace ElsaMina.Core.Services.Config;
 
 public interface IConfiguration : IS3CredentialsProvider
 {

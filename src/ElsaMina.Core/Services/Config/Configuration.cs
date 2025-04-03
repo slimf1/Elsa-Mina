@@ -1,4 +1,4 @@
-﻿namespace ElsaMina.Core.Models;
+﻿namespace ElsaMina.Core.Services.Config;
 
 public class Configuration : IConfiguration
 {

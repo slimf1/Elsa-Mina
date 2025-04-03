@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.Rooms.Parameters;
 
 namespace ElsaMina.Commands.RoomDashboard;
 

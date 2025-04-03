@@ -1,4 +1,4 @@
-namespace ElsaMina.Core.Models;
+namespace ElsaMina.Core.Services.Rooms;
 
 public enum Rank
 {

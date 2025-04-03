@@ -1,6 +1,6 @@
 using ElsaMina.Commands.JoinPhrases;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Models;
+using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.RoomUserData;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;

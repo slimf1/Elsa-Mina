@@ -1,6 +1,5 @@
 ﻿using System.Net.WebSockets;
 using System.Reactive.Linq;
-using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using Websocket.Client;
 

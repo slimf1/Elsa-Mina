@@ -2,7 +2,6 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Handlers;
 using ElsaMina.Core.Handlers.DefaultHandlers;
-using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Commands;
@@ -19,6 +18,7 @@ using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Repeats;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.Rooms.Parameters;
 using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.Core.Services.Start;
 using ElsaMina.Core.Services.System;

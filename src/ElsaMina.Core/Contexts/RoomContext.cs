@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
-using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.Rooms.Parameters;
 using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Core.Contexts;

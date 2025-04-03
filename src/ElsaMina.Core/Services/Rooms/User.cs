@@ -1,6 +1,6 @@
 ﻿using ElsaMina.Core.Utils;
 
-namespace ElsaMina.Core.Models;
+namespace ElsaMina.Core.Services.Rooms;
 
 public sealed class User : IUser, IEquatable<User>
 {

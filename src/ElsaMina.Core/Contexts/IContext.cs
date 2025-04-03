@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-using ElsaMina.Core.Models;
+using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Core.Contexts;
 

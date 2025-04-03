@@ -1,7 +1,7 @@
 using System.Globalization;
 using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Models;
+using ElsaMina.Core.Services.Rooms;
 using NSubstitute;
 
 namespace ElsaMina.Test.Core.Contexts;

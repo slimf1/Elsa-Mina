@@ -1,7 +1,6 @@
 using System.Reflection;
 using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.PrivateMessages;
 using ElsaMina.Core.Services.Rooms;

@@ -1,6 +1,4 @@
-﻿using ElsaMina.Core.Contexts;
-
-namespace ElsaMina.Core.Models;
+﻿namespace ElsaMina.Core.Services.Rooms;
 
 public abstract class Game : IGame
 {

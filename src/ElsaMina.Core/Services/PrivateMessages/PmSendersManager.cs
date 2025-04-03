@@ -1,4 +1,4 @@
-﻿using ElsaMina.Core.Models;
+﻿using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Core.Services.PrivateMessages;

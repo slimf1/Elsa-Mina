@@ -1,7 +1,7 @@
 using System.Globalization;
 using ElsaMina.DataAccess.Models;
 
-namespace ElsaMina.Core.Models;
+namespace ElsaMina.Core.Services.Rooms;
 
 public interface IRoom
 {

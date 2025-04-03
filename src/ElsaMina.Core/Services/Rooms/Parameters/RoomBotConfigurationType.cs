@@ -1,4 +1,4 @@
-﻿namespace ElsaMina.Core.Models;
+﻿namespace ElsaMina.Core.Services.Rooms.Parameters;
 
 public enum RoomBotConfigurationType
 {

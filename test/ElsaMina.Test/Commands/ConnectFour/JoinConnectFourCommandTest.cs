@@ -1,6 +1,5 @@
 using ElsaMina.Commands.ConnectFour;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Test.Fixtures;
 using NSubstitute;

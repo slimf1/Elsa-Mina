@@ -1,7 +1,7 @@
-﻿using ElsaMina.Core.Models;
-using ElsaMina.Core.Services.Clock;
+﻿using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.Rooms.Parameters;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 using NSubstitute;

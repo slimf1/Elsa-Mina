@@ -1,6 +1,5 @@
 using ElsaMina.Core;
 using ElsaMina.Core.Handlers.DefaultHandlers;
-using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Login;
 using ElsaMina.Core.Services.System;

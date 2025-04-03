@@ -1,8 +1,8 @@
 using ElsaMina.Commands.Showdown.Ranking;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Formats;
+using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Services.UserData;
 using ElsaMina.Core.Services.UserDetails;

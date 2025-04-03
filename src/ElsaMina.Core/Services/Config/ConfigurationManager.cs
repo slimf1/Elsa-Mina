@@ -1,5 +1,4 @@
-﻿using ElsaMina.Core.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace ElsaMina.Core.Services.Config;
 

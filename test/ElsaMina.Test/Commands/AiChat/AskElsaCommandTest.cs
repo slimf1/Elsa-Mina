@@ -1,9 +1,10 @@
 using System.Globalization;
 using ElsaMina.Commands.AiChat;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Models;
+using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Resources;
+using ElsaMina.Core.Services.Rooms;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 

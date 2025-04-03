@@ -1,6 +1,6 @@
 using ElsaMina.Commands.CustomCommands;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Models;
+using ElsaMina.Core.Services.Rooms;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 using NSubstitute;

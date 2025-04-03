@@ -2,7 +2,7 @@
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 
-namespace ElsaMina.Core.Models;
+namespace ElsaMina.Core.Services.Rooms;
 
 public class Room : IRoom
 {

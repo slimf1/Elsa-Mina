@@ -1,4 +1,4 @@
-﻿using ElsaMina.Core.Models;
+﻿using ElsaMina.Core.Services.Rooms.Parameters;
 
 namespace ElsaMina.Core.Services.Rooms;
 

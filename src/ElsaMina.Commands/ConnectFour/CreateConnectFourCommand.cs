@@ -1,7 +1,7 @@
 ﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.DependencyInjection;
+using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.ConnectFour;
 

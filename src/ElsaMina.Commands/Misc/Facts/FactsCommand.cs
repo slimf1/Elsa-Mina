@@ -1,8 +1,8 @@
 using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.Http;
+using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.Misc.Facts;
 

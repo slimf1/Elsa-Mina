@@ -1,7 +1,7 @@
 using ElsaMina.Commands.GuessingGame;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Models;
 using ElsaMina.Core.Services.DependencyInjection;
+using ElsaMina.Core.Services.Rooms;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 

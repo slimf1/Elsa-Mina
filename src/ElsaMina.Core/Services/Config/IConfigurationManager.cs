@@ -1,6 +1,4 @@
-﻿using ElsaMina.Core.Models;
-
-namespace ElsaMina.Core.Services.Config;
+﻿namespace ElsaMina.Core.Services.Config;
 
 public interface IConfigurationManager
 {

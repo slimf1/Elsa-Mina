@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ElsaMina.Core.Models;
+namespace ElsaMina.Core.Utils;
 
 public class PokemonSet
 {
