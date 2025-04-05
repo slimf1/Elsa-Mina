@@ -7,21 +7,22 @@ namespace ElsaMina.Core;
 
 public class Client : IClient
 {
-    private readonly IConfigurationManager _configurationManager;
-
+    private static readonly TimeSpan RECONNECT_TIMEOUT = TimeSpan.FromSeconds(30);
+    private readonly IConfiguration _configuration;
     private readonly WebsocketClient _websocketClient;
     private bool _disposed;
 
-    public Client(IConfigurationManager configurationManager)
+    public Client(IConfiguration configuration)
     {
-        _configurationManager = configurationManager;
+        _configuration = configuration;
 
-        _websocketClient = new WebsocketClient(new Uri($"wss://{Conf.Host}:{Conf.Port}/showdown/websocket"));
+        _websocketClient = new WebsocketClient(Uri);
         _websocketClient.IsReconnectionEnabled = true;
-        _websocketClient.ErrorReconnectTimeout = TimeSpan.FromSeconds(30);
+        _websocketClient.ErrorReconnectTimeout = RECONNECT_TIMEOUT;
+        _websocketClient.LostReconnectTimeout = RECONNECT_TIMEOUT;
     }
 
-    private IConfiguration Conf => _configurationManager.Configuration;
+    private Uri Uri => new($"wss://{_configuration.Host}:{_configuration.Port}/showdown/websocket");
 
     public IObservable<string> MessageReceived => _websocketClient
         .MessageReceived

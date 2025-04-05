@@ -2,5 +2,5 @@ namespace ElsaMina.Core.Services.Start;
 
 public interface IStartManager
 {
-    Task OnStart();
+    Task LoadStaticDataAsync(CancellationToken cancellationToken = default);
 }

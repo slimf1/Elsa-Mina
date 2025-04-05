@@ -23,14 +23,13 @@ public class StartManager : IStartManager
         _dexManager = dexManager;
     }
 
-    public async Task OnStart()
+    public async Task LoadStaticDataAsync(CancellationToken cancellationToken = default)
     {
-        // Static data / referentials
         await Task.WhenAll(
             _templatesManager.CompileTemplatesAsync(),
-            _customColorsManager.FetchCustomColorsAsync(),
-            _roomUserDataService.InitializeJoinPhrasesAsync(),
-            _dexManager.LoadDexAsync()
+            _customColorsManager.FetchCustomColorsAsync(cancellationToken),
+            _roomUserDataService.InitializeJoinPhrasesAsync(cancellationToken),
+            _dexManager.LoadDexAsync(cancellationToken)
         );
     }
 }

@@ -6,7 +6,8 @@ public abstract class Handler : IHandler
     public string Identifier => GetType().FullName;
     public virtual int Priority => 0;
 
-    public async Task OnMessageReceivedAsync(string[] parts, string roomId = null, CancellationToken cancellationToken = default)
+    public async Task OnMessageReceivedAsync(string[] parts, string roomId = null,
+        CancellationToken cancellationToken = default)
     {
         try
         {
@@ -19,7 +20,8 @@ public abstract class Handler : IHandler
         }
     }
 
-    public abstract Task HandleReceivedMessageAsync(string[] parts, string roomId = null, CancellationToken cancellationToken = default);
+    public abstract Task HandleReceivedMessageAsync(string[] parts, string roomId = null,
+        CancellationToken cancellationToken = default);
 
     public virtual void OnStart()
     {

@@ -43,7 +43,7 @@ public class BotTest
 
         // Assert
         _lifecycleManager.Received(1).OnStart();
-        await _startManager.Received(1).OnStart();
+        await _startManager.Received(1).LoadStaticDataAsync();
         await _client.Received(1).Connect();
     }
 

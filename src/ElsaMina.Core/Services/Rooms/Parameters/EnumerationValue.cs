@@ -1,4 +1,4 @@
-namespace ElsaMina.Core.Services.Rooms;
+namespace ElsaMina.Core.Services.Rooms.Parameters;
 
 public class EnumerationValue
 {

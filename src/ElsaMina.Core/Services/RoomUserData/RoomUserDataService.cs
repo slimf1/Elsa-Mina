@@ -31,9 +31,9 @@ public class RoomUserDataService : IRoomUserDataService
         return await GetUserAndCreateIfDoesntExist(roomId, userId);
     }
 
-    public async Task InitializeJoinPhrasesAsync()
+    public async Task InitializeJoinPhrasesAsync(CancellationToken cancellationToken = default)
     {
-        var fullUserData = await _roomSpecificUserDataRepository.GetAllAsync();
+        var fullUserData = await _roomSpecificUserDataRepository.GetAllAsync(cancellationToken);
         foreach (var userData in fullUserData)
         {
             if (string.IsNullOrEmpty(userData.JoinPhrase))

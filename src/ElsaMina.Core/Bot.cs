@@ -48,7 +48,7 @@ public class Bot : IBot
     public async Task Start()
     {
         _lifecycleManager.OnStart();
-        await _startManager.OnStart();
+        await _startManager.LoadStaticDataAsync(_cancellationTokenSource.Token);
         await _client.Connect();
     }
 

@@ -8,6 +8,7 @@ namespace ElsaMina.Core.Services.Resources;
 public class ResourcesService : IResourcesService
 {
     private readonly CultureInfo _defaultCulture;
+
     private readonly Lazy<ResourceManager> _resourceManager =
         new(() => new ResourceManager("ElsaMina.Core.Resources.Resources", Assembly.GetExecutingAssembly()));
 
@@ -17,16 +18,22 @@ public class ResourcesService : IResourcesService
     {
         _defaultCulture = new CultureInfo(configurationManager.Configuration.DefaultLocaleCode);
     }
-    
+
     public IEnumerable<CultureInfo> SupportedLocales => _supportedCultures ??= GetSupportedCultures();
 
     public string GetString(string key, CultureInfo cultureInfo = null)
     {
-        return string.IsNullOrEmpty(key)
-            ? string.Empty
-            : _resourceManager.Value.GetString(key, cultureInfo ?? _defaultCulture);
+        try
+        {
+            return _resourceManager.Value.GetString(key, cultureInfo ?? _defaultCulture) ?? key;
+        }
+        catch (MissingManifestResourceException)
+        {
+            // If the resource is not found, return the key itself
+            return key;
+        }
     }
-    
+
     private List<CultureInfo> GetSupportedCultures()
     {
         var supportedLocales = new List<CultureInfo>();
@@ -39,6 +46,7 @@ public class ResourcesService : IResourcesService
                 {
                     continue;
                 }
+
                 supportedLocales.Add(cultureInfo);
             }
             catch (CultureNotFoundException)
@@ -46,6 +54,7 @@ public class ResourcesService : IResourcesService
                 // Do nothing
             }
         }
+
         return supportedLocales;
     }
 }
