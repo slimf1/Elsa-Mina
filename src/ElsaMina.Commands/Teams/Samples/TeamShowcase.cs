@@ -37,6 +37,6 @@ public class TeamShowcase : Command
             Team = team
         });
 
-        context.SendHtml(template.RemoveNewlines(), rankAware: true);
+        context.ReplyHtml(template.RemoveNewlines(), rankAware: true);
     }
 }

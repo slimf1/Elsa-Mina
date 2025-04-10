@@ -79,6 +79,6 @@ public class ShowRoomDashboard : Command
         };
         var template = await _templatesManager.GetTemplateAsync("RoomDashboard/RoomDashboard", viewModel);
 
-        context.SendHtmlPage($"{roomId}dashboard", template.RemoveNewlines());
+        context.ReplyHtmlPage($"{roomId}dashboard", template.RemoveNewlines());
     }
 }

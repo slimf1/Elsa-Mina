@@ -42,21 +42,21 @@ public class DisplayTeamOnLinkHandlerTest
     }
 
     [Test]
-    public async Task Test_HandleMessage_ShouldNotProceed_WhenMessageStartsWithTrigger()
+    public async Task Test_HandleReceivedMessageAsync_ShouldNotProceed_WhenMessageStartsWithTrigger()
     {
         // Arrange
         _configuration.Trigger.Returns("!");
         _context.Message.Returns("!triggered");
 
         // Act
-        await _handler.OnMessageReceivedAsync(null);
+        await _handler.HandleReceivedMessageAsync(null);
 
         // Assert
         _teamLinkMatchFactory.DidNotReceive().FindTeamLinkMatch(Arg.Any<string>());
     }
 
     [Test]
-    public async Task Test_HandleMessage_ShouldNotProceed_WhenSenderIsBot()
+    public async Task Test_HandleReceivedMessageAsync_ShouldNotProceed_WhenSenderIsBot()
     {
         // Arrange
         _configuration.Name.Returns("BotName");
@@ -64,56 +64,56 @@ public class DisplayTeamOnLinkHandlerTest
         _context.Message.Returns("some message");
 
         // Act
-        await _handler.OnMessageReceivedAsync(null);
+        await _handler.HandleReceivedMessageAsync(null);
 
         // Assert
         _teamLinkMatchFactory.DidNotReceive().FindTeamLinkMatch(Arg.Any<string>());
     }
 
     [Test]
-    public async Task Test_HandleMessage_ShouldNotProceed_WhenTeamLinksPreviewDisabled()
+    public async Task Test_HandleReceivedMessageAsync_ShouldNotProceed_WhenTeamLinksPreviewDisabled()
     {
         // Arrange
         _roomsManager.GetRoomBotConfigurationParameterValue(Arg.Any<string>(), RoomParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW)
             .Returns("false");
 
         // Act
-        await _handler.OnMessageReceivedAsync(null);
+        await _handler.HandleReceivedMessageAsync(null);
 
         // Assert
         _teamLinkMatchFactory.DidNotReceive().FindTeamLinkMatch(Arg.Any<string>());
     }
 
     [Test]
-    public async Task Test_HandleMessage_ShouldThrottleUser_WhenCalledTooSoon()
+    public async Task Test_HandleReceivedMessageAsync_ShouldThrottleUser_WhenCalledTooSoon()
     {
         // Arrange
         _clockService.CurrentUtcDateTime.Returns(DateTime.UtcNow);
         _context.Sender.UserId.Returns("user1");
 
         // Act
-        await _handler.OnMessageReceivedAsync(null);
+        await _handler.HandleReceivedMessageAsync(null);
 
         // Assert
         _teamLinkMatchFactory.DidNotReceive().FindTeamLinkMatch(Arg.Any<string>());
     }
 
     [Test]
-    public async Task Test_HandleMessage_ShouldNotProceed_WhenTeamLinkNotMatched()
+    public async Task Test_HandleReceivedMessageAsync_ShouldNotProceed_WhenTeamLinkNotMatched()
     {
         // Arrange
         _context.Message.Returns("some message");
         _teamLinkMatchFactory.FindTeamLinkMatch("some message").Returns((ITeamLinkMatch)null);
 
         // Act
-        await _handler.OnMessageReceivedAsync(null);
+        await _handler.HandleReceivedMessageAsync(null);
 
         // Assert
         await _templatesManager.DidNotReceive().GetTemplateAsync(Arg.Any<string>(), Arg.Any<TeamPreviewViewModel>());
     }
 
     [Test]
-    public async Task Test_HandleMessage_ShouldSendHtml_WhenTeamLinkMatched()
+    public async Task Test_HandleReceivedMessageAsync_ShouldSendHtml_WhenTeamLinkMatched()
     {
         // Arrange
         _context.Message.Returns("team link");
@@ -135,11 +135,11 @@ public class DisplayTeamOnLinkHandlerTest
             .Returns(Task.FromResult(expectedHtml));
 
         // Act
-        await _handler.OnMessageReceivedAsync(null);
+        await _handler.HandleReceivedMessageAsync(null);
 
         // Assert
         await _templatesManager.Received(1).GetTemplateAsync("Teams/TeamPreview", Arg.Is<TeamPreviewViewModel>(vm =>
             vm.Author == "Author" && vm.Culture.Name == "en-US" && vm.Sender == "User" && vm.Team != null));
-        _context.Received().SendHtml(expectedHtml.RemoveNewlines());
+        _context.Received().ReplyHtml(expectedHtml.RemoveNewlines());
     }
 }

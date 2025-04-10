@@ -65,7 +65,7 @@ public class ProfileCommandTest
 
         // Assert
         await _templatesManager.Received(1).GetTemplateAsync("Profile/Profile", Arg.Any<object>());
-        _context.Received(1).SendHtml("<html>Profile template</html>", rankAware: true);
+        _context.Received(1).ReplyHtml("<html>Profile template</html>", rankAware: true);
     }
 
     [Test]
@@ -125,6 +125,6 @@ public class ProfileCommandTest
 
         // Assert
         await _templatesManager.Received(1).GetTemplateAsync("Profile/Profile", Arg.Any<object>());
-        _context.Received(1).SendHtml(Arg.Any<string>(), rankAware: true);
+        _context.Received(1).ReplyHtml(Arg.Any<string>(), rankAware: true);
     }
 }

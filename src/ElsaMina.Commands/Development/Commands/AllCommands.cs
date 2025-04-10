@@ -29,6 +29,6 @@ public class AllCommands : Command
             Culture = context.Culture
         });
 
-        context.SendHtmlPage("all-commands", template.RemoveNewlines());
+        context.ReplyHtmlPage("all-commands", template.RemoveNewlines());
     }
 }

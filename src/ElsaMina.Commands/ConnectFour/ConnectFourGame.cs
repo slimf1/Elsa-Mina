@@ -75,7 +75,7 @@ public class ConnectFourGame : Game, IConnectFourGame
                 Trigger = _configuration.Trigger
             });
 
-        Context.SendUpdatableHtml(AnnounceId, template.RemoveNewlines(), true);
+        Context.ReplyUpdatableHtml(AnnounceId, template.RemoveNewlines(), true);
     }
 
     public async Task JoinGame(IUser user)
@@ -267,7 +267,7 @@ public class ConnectFourGame : Game, IConnectFourGame
     private async Task StartGame()
     {
         var ongoingGameMessage = Context.GetString("c4_panel_ongoing_game", PlayerNames);
-        Context.SendUpdatableHtml(AnnounceId, ongoingGameMessage, true);
+        Context.ReplyUpdatableHtml(AnnounceId, ongoingGameMessage, true);
 
         for (var i = 0; i < ConnectFourConstants.GRID_HEIGHT; i++)
         {

@@ -130,7 +130,7 @@ public abstract class GuessingGame : Game, IGuessingGame
             Scores = _scores
         };
         var template = await _templatesManager.GetTemplateAsync("GuessingGame/GuessingGameResult", resultViewModel);
-        Context.SendHtml(template.RemoveNewlines());
+        Context.ReplyHtml(template.RemoveNewlines());
     }
 
     public void Cancel()

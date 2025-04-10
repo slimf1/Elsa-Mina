@@ -58,11 +58,11 @@ public class TeamList : Command
         if (context.HasSufficientRank(Rank.Voiced))
         {
             var message = $"""<div style="overflow-y: auto; max-height: 230px;">{html}</div>""";
-            context.SendHtml(message, roomId: roomId);
+            context.ReplyHtml(message, roomId: roomId);
         }
         else
         {
-            context.SendHtmlPage($"teams-{context.RoomId}", html);
+            context.ReplyHtmlPage($"teams-{context.RoomId}", html);
         }
     }
 }

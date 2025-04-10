@@ -43,6 +43,6 @@ public class RepeatsListCommand : Command
             Trigger = _configuration.Trigger
         });
 
-        context.SendHtmlPage($"repeats-{context.RoomId}", template.RemoveNewlines());
+        context.ReplyHtmlPage($"repeats-{context.RoomId}", template.RemoveNewlines());
     }
 }

@@ -46,10 +46,9 @@ public class SpeakCommand : Command
             ["xi-api-key"] = key
         };
 
-        var text = context.Target;
         var dto = new ElevenLabsRequestDto
         {
-            Text = text,
+            Text = context.Target,
             ModelId = "eleven_multilingual_v2"
         };
 
@@ -62,7 +61,7 @@ public class SpeakCommand : Command
 
         if (!string.IsNullOrEmpty(url))
         {
-            context.SendHtml($"""<audio src="{url}" controls></audio>""");
+            context.ReplyHtml($"""<audio src="{url}" controls></audio>""");
         }
     }
 }

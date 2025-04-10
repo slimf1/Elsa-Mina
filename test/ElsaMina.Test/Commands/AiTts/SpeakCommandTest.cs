@@ -69,7 +69,7 @@ public class SpeakCommandTest
         await _command.RunAsync(_context);
         
         // Then
-        _context.Received(1).SendHtml("""<audio src="url" controls></audio>""");
+        _context.Received(1).ReplyHtml("""<audio src="url" controls></audio>""");
     }
     
     [Test]
@@ -90,6 +90,6 @@ public class SpeakCommandTest
         await _command.RunAsync(_context);
         
         // Then
-        _context.Received(1).SendHtml("""<audio src="url" controls></audio>""");
+        _context.Received(1).ReplyHtml("""<audio src="url" controls></audio>""");
     }
 }

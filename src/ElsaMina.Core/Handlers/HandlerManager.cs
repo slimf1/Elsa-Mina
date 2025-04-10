@@ -33,7 +33,20 @@ public class HandlerManager : IHandlerManager
             _handlers
                 .Values
                 .Where(handler => handler.IsEnabled)
-                .Select(handler => handler.OnMessageReceivedAsync(parts, roomId, cancellationToken))
+                .Select(handler => TryHandleMessageAsync(parts, roomId, cancellationToken, handler))
         );
+    }
+
+    private static Task TryHandleMessageAsync(string[] parts, string roomId, CancellationToken cancellationToken, IHandler handler)
+    {
+        try
+        {
+            return handler.HandleReceivedMessageAsync(parts, roomId, cancellationToken);
+        }
+        catch (Exception exception)
+        {
+            Log.Error(exception, "Error while handling message in handler {Handler}", handler.Identifier);
+            throw;
+        }
     }
 }

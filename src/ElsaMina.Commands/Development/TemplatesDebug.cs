@@ -46,6 +46,6 @@ public class TemplatesDebug : DevelopmentCommand
         };
         
         var template = await _templatesManager.GetTemplateAsync(templateName, model);
-        context.SendHtmlPage($"debug-template-{templateName}", template.RemoveNewlines());
+        context.ReplyHtmlPage($"debug-template-{templateName}", template.RemoveNewlines());
     }
 }

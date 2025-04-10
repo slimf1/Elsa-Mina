@@ -100,47 +100,47 @@ public class RoomContextTest
     }
 
     [Test]
-    public void Test_SendHtml_ShouldSendPmInfobox_WhenRankAwareAndInsufficientRank()
+    public void Test_ReplyHtml_ShouldSendPmInfobox_WhenRankAwareAndInsufficientRank()
     {
         // Arrange
         CreateRoomContext("", "", null, 1);
         _sender.Rank.Returns(Rank.Regular);
 
         // Act
-        _roomContext.SendHtml("HTML content", rankAware: true);
+        _roomContext.ReplyHtml("HTML content", rankAware: true);
 
         // Assert
         _bot.Received(1).Say(TEST_ROOM_ID, $"/pminfobox {TEST_USER_ID}, HTML content");
     }
 
     [Test]
-    public void Test_SendHtml_ShouldSendHtmlToRoom_WhenNotRankAware()
+    public void Test_ReplyHtml_ShouldSendHtmlToRoom_WhenNotRankAware()
     {
         // Act
         CreateRoomContext("", "", null, 1);
-        _roomContext.SendHtml("HTML content", rankAware: false);
+        _roomContext.ReplyHtml("HTML content", rankAware: false);
 
         // Assert
         _bot.Received(1).Say(TEST_ROOM_ID, "/addhtmlbox HTML content");
     }
 
     [Test]
-    public void Test_SendUpdatableHtml_ShouldSendChangeCommand_WhenIsChangingIsTrue()
+    public void Test_ReplyUpdatableHtml_ShouldSendChangeCommand_WhenIsChangingIsTrue()
     {
         // Act
         CreateRoomContext("", "", null, 1);
-        _roomContext.SendUpdatableHtml("htmlId", "HTML content", isChanging: true);
+        _roomContext.ReplyUpdatableHtml("htmlId", "HTML content", isChanging: true);
 
         // Assert
         _bot.Received(1).Say(TEST_ROOM_ID, "/changeuhtml htmlId, HTML content");
     }
 
     [Test]
-    public void Test_SendUpdatableHtml_ShouldSendAddCommand_WhenIsChangingIsFalse()
+    public void Test_ReplyUpdatableHtml_ShouldSendAddCommand_WhenIsChangingIsFalse()
     {
         // Act
         CreateRoomContext("", "", null, 1);
-        _roomContext.SendUpdatableHtml("htmlId", "HTML content", isChanging: false);
+        _roomContext.ReplyUpdatableHtml("htmlId", "HTML content", isChanging: false);
 
         // Assert
         _bot.Received(1).Say(TEST_ROOM_ID, "/adduhtml htmlId, HTML content");

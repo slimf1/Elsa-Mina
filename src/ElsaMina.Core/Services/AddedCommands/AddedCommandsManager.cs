@@ -45,7 +45,7 @@ public class AddedCommandsManager : IAddedCommandsManager
         {
             var (width, height) = await _imageService.GetRemoteImageDimensions(content);
             (width, height) = _imageService.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);
-            context.SendHtml($"""<img src="{content}" width="{width}" height="{height}" />""", rankAware: true);
+            context.ReplyHtml($"""<img src="{content}" width="{width}" height="{height}" />""", rankAware: true);
             return;
         }
 
@@ -62,8 +62,8 @@ public class AddedCommandsManager : IAddedCommandsManager
         var matches = EXPRESSION_IDENTIFIER.Matches(content);
         foreach (Match match in matches)
         {
-            var expression = match.Groups[1].Value;
-            var result = EvaluateExpression(new Expression(expression));
+            var rawExpression = match.Groups[1].Value;
+            var result = EvaluateExpression(new Expression(rawExpression));
             content = content.Replace(match.Value, result.ToString());
         }
 

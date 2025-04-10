@@ -63,7 +63,7 @@ public class RankingCommandTests
         // Assert
         await _templatesManager.Received()
             .GetTemplateAsync("Showdown/Ranking/RankingShowcase", Arg.Any<RankingShowcaseViewModel>());
-        _context.Received().SendHtml("formatted_html", rankAware: true);
+        _context.Received().ReplyHtml("formatted_html", rankAware: true);
     }
 
     [Test]
@@ -99,7 +99,7 @@ public class RankingCommandTests
                 Arg.Is<RankingShowcaseViewModel>(vm =>
                     vm.Rankings.Select(r => r.FormatId)
                         .SequenceEqual(expectedFormats)));
-        _context.Received().SendHtml("formatted_html", rankAware: true);
+        _context.Received().ReplyHtml("formatted_html", rankAware: true);
     }
 
     [Test]

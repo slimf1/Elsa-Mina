@@ -40,6 +40,6 @@ public class NameColorInfo : Command
             Name = context.Target,
             Color = color
         });
-        context.SendHtml(template.RemoveNewlines(), rankAware: true);
+        context.ReplyHtml(template.RemoveNewlines(), rankAware: true);
     }
 }

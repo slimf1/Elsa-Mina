@@ -76,8 +76,8 @@ public class HandlerManagerTests
         await _handlerManager.HandleMessageAsync(parts, roomId);
 
         // Assert
-        await handler1.Received(1).OnMessageReceivedAsync(parts, roomId);
-        await handler2.DidNotReceive().OnMessageReceivedAsync(Arg.Any<string[]>(), Arg.Any<string>());
-        await handler3.Received(1).OnMessageReceivedAsync(parts, roomId);
+        await handler1.Received(1).HandleReceivedMessageAsync(parts, roomId);
+        await handler2.DidNotReceive().HandleReceivedMessageAsync(Arg.Any<string[]>(), Arg.Any<string>());
+        await handler3.Received(1).HandleReceivedMessageAsync(parts, roomId);
     }
 }
