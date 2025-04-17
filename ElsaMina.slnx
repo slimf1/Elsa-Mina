@@ -1,0 +1,35 @@
+﻿<Solution>
+  <Folder Name="/Build/">
+    <File Path=".dockerignore" />
+    <File Path="Dockerfile" />
+    <File Path="GitVersion.yml" />
+  </Folder>
+  <Folder Name="/Docs/">
+    <File Path="README.md" />
+    <File Path="TODO.md" />
+  </Folder>
+  <Folder Name="/Scripts/">
+    <File Path="scripts\build.sh" />
+    <File Path="scripts\publish.sh" />
+    <File Path="scripts\shared.sh" />
+    <File Path="scripts\restore.sh" />
+    <File Path="scripts\test.sh" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src\ElsaMina.Commands\ElsaMina.Commands.csproj" Type="Classic C#" />
+    <Project Path="src\ElsaMina.Console\ElsaMina.Console.csproj" Type="Classic C#" />
+    <Project Path="src\ElsaMina.Core\ElsaMina.Core.csproj" Type="Classic C#" />
+    <Project Path="src\ElsaMina.DataAccess\ElsaMina.DataAccess.csproj" Type="Classic C#" />
+    <Project Path="src\ElsaMina.FileSharing\ElsaMina.FileSharing.csproj" Type="Classic C#" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test\ElsaMina.IntegrationTests\ElsaMina.IntegrationTests.csproj" Type="Classic C#" />
+    <Project Path="test\ElsaMina.Test\ElsaMina.Test.csproj" Type="Classic C#" />
+  </Folder>
+  <Folder Name="/Workflows/">
+    <File Path=".github\workflows\deploy.yml" />
+    <File Path=".github\workflows\pr.yml" />
+    <File Path=".github\workflows\test.yml" />
+    <File Path=".github\workflows\sonar.yml" />
+  </Folder>
+</Solution>

@@ -1,9 +1,10 @@
-﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+﻿FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 
 WORKDIR /app
 
 COPY *.sln .
 
+COPY scripts/*.sh /app/scripts/
 COPY src/ElsaMina.Console/*.csproj /app/src/ElsaMina.Console/
 COPY src/ElsaMina.Core/*.csproj /app/src/ElsaMina.Core/
 COPY src/ElsaMina.Commands/*.csproj /app/src/ElsaMina.Commands/
@@ -14,11 +15,13 @@ RUN dotnet restore
 
 COPY . .
 
-RUN dotnet build --no-restore --configuration Release
-RUN dotnet publish --no-restore --no-build --configuration Release --output /app/dist /app/src/ElsaMina.Console/ElsaMina.Console.csproj
+RUN chmod +x /app/scripts/*.sh
+RUN /app/scripts/restore.sh
+RUN /app/scripts/build.sh
+RUN /app/scripts/publish.sh
 
-FROM mcr.microsoft.com/dotnet/runtime:8.0 AS runtime
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS aspnet
+FROM mcr.microsoft.com/dotnet/runtime:9.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS aspnet
 
 COPY --from=build /app/dist .
 
