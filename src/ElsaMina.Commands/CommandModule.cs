@@ -1,6 +1,7 @@
 ﻿using Autofac;
-using ElsaMina.Commands.AiChat;
-using ElsaMina.Commands.AiTts;
+using ElsaMina.Commands.Ai;
+using ElsaMina.Commands.Ai.Chat;
+using ElsaMina.Commands.Ai.Tts;
 using ElsaMina.Commands.Arcade;
 using ElsaMina.Commands.Badges;
 using ElsaMina.Commands.ConnectFour;
@@ -108,9 +109,10 @@ public class CommandModule : Module
         builder.RegisterType<PokeDescGame>().AsSelf();
         builder.RegisterType<PokeCriesGame>().AsSelf();
 
+        builder.RegisterType<MistralLlmProvider>().As<ILlmProvider>().SingleInstance();
         builder.RegisterType<ShowdownRanksProvider>().As<IShowdownRanksProvider>().SingleInstance();
-        builder.RegisterType<PokepasteProvider>().As<ITeamProvider>();
-        builder.RegisterType<CoupCritiqueProvider>().As<ITeamProvider>();
+        builder.RegisterType<PokepasteProvider>().As<ITeamProvider>().SingleInstance();
+        builder.RegisterType<CoupCritiqueProvider>().As<ITeamProvider>().SingleInstance();
         builder.RegisterType<TeamLinkMatchFactory>().As<ITeamLinkMatchFactory>().SingleInstance();
         builder.RegisterType<DataManager>().As<IDataManager>().SingleInstance().OnActivating(e =>
         {

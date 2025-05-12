@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace ElsaMina.Commands.AiTts;
+namespace ElsaMina.Commands.Ai.Tts;
 
 public class ElevenLabsRequestDto
 {

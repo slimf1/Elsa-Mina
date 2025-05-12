@@ -15,7 +15,7 @@ public abstract class BaseRepository<T, TKey> : IRepository<T, TKey> where T : c
 
     public abstract Task<T> GetByIdAsync(TKey key, CancellationToken cancellationToken = default);
     public abstract Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken = default);
-    
+
     public async Task AddAsync(T entity, CancellationToken cancellationToken = default)
     {
         await _dbContext.Set<T>().AddAsync(entity, cancellationToken);
@@ -42,13 +42,19 @@ public abstract class BaseRepository<T, TKey> : IRepository<T, TKey> where T : c
         _dbContext.Set<T>().Remove(entity);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
-    
+
+    public Task SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        return _dbContext.SaveChangesAsync(cancellationToken);
+    }
+
     private void Dispose(bool disposing)
     {
         if (!disposing || _disposed)
         {
             return;
         }
+
         _dbContext?.Dispose();
         _disposed = true;
     }

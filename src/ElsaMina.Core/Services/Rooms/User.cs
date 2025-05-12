@@ -16,6 +16,11 @@ public sealed class User : IUser, IEquatable<User>
         ['~'] = Rank.Admin
     };
     
+    public static Rank GetRankFromCharacter(char character)
+    {
+        return RANK_MAPPING.TryGetValue(character, out var rank) ? rank : Rank.Regular;
+    }
+    
     public static IUser FromUsername(string username)
     {
         var rank = RANK_MAPPING.TryGetValue(username[0], out var rankValue) ? rankValue : Rank.Regular;

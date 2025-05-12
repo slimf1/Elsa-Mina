@@ -62,6 +62,12 @@ public class Client : IClient
         _websocketClient.Send(message);
     }
 
+    public async Task SendAsync(string message, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        await _websocketClient.SendInstant(message).WaitAsync(cancellationToken);
+    }
+
     public void Dispose()
     {
         Dispose(true);

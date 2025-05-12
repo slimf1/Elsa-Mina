@@ -33,8 +33,7 @@ public class AddedCommandsManager : IAddedCommandsManager
 
     public async Task TryExecuteAddedCommand(string commandName, IContext context)
     {
-        var command =
-            await _addedCommandRepository.GetByIdAsync(Tuple.Create(commandName, context.RoomId));
+        var command = await _addedCommandRepository.GetByIdAsync(Tuple.Create(commandName, context.RoomId));
         if (command == null)
         {
             return;
@@ -43,14 +42,19 @@ public class AddedCommandsManager : IAddedCommandsManager
         var content = command.Content;
         if (_imageService.IsImageLink(content))
         {
-            var (width, height) = await _imageService.GetRemoteImageDimensions(content);
-            (width, height) = _imageService.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);
-            context.ReplyHtml($"""<img src="{content}" width="{width}" height="{height}" />""", rankAware: true);
+            await DisplayRemoteImage(context, content);
             return;
         }
 
         content = EvaluateContent(content, context);
         context.Reply(content, rankAware: true);
+    }
+
+    private async Task DisplayRemoteImage(IContext context, string content)
+    {
+        var (width, height) = await _imageService.GetRemoteImageDimensions(content);
+        (width, height) = _imageService.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);
+        context.ReplyHtml($"""<img src="{content}" width="{width}" height="{height}" />""", rankAware: true);
     }
 
     #region Content Expression Parsing

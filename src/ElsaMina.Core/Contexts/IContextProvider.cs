@@ -11,4 +11,5 @@ public interface IContextProvider
     string GetString(string key, CultureInfo culture);
     IRoom GetRoom(string roomId);
     string GetRoomParameterValue(string roomId, string key);
+    Task<Rank> GetUserRankInRoom(string roomId, string userId, CancellationToken cancellationToken);
 }

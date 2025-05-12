@@ -111,6 +111,6 @@ public class PmContextTests
         var context = new PmContext(_contextProvider, _bot, _message, _target, _sender, _command);
 
         // Assert
-        Assert.That(context.HasSufficientRank(rank), Is.True);
+        Assert.That(context.HasRankOrHigher(rank), Is.True);
     }
 }

@@ -3,9 +3,9 @@
 <table>
     <thead>
     <tr>
-        <th>Message</th>
-        <th>Delay (hours)</th>
-        <th>Actions</th>
+        <th>@GetString("repeat_message")</th>
+        <th>@GetString("repeat_delay")</th>
+        <th>@GetString("repeat_actions")</th>
     </tr>
     </thead>
     <tbody>
@@ -16,14 +16,14 @@
                 @repeat.Message
             </td>
             <td>
-                @repeat.Interval.TotalHours
+                @repeat.Interval.TotalMinutes
             </td>
             <td>
                 <button
                     class="button"
                     name="send"
                     value="/w @Model.BotName,@(Model.Trigger)stoprepeat @repeat.RepeatId">
-                    Stop
+                    <i class="fa fa-trash"></i>&nbsp; @GetString("repeat_stop")
                 </button>
             </td>
         </tr>

@@ -15,24 +15,37 @@ public class StopRepeatCommand : Command
         _repeatsManager = repeatsManager;
     }
 
-    public override Rank RequiredRank => Rank.Voiced;
+    public override bool IsAllowedInPrivateMessage => true;
+    public override bool IsPrivateMessageOnly => true;
 
-    public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         if (!Guid.TryParse(context.Target, out var guid))
         {
-            context.Reply("ID invalide");
-            return Task.CompletedTask;
+            context.ReplyLocalizedMessage("repeat_stop_invalid_id");
+            return;
+        }
+        
+        var repeat = _repeatsManager.GetRepeat(guid);
+        if (repeat == null)
+        {
+            context.ReplyLocalizedMessage("repeat_stop_doesntexist");
+            return;
+        }
+        
+        if (!await context.HasSufficientRankInRoom(repeat.RoomId, Rank.Driver, cancellationToken))
+        {
+            context.ReplyLocalizedMessage("repeat_stop_rights");
+            return;
         }
 
-        var ended = _repeatsManager.StopRepeat(context.RoomId, guid);
+        var ended = _repeatsManager.StopRepeat(guid);
         if (!ended)
         {
-            context.Reply("Le repeat n'a pas pu être terminé.");
-            return Task.CompletedTask;
+            context.ReplyLocalizedMessage("repeat_stop_error");
+            return;
         }
 
-        context.Reply("Le repeat a été terminé.");
-        return Task.CompletedTask;
+        context.ReplyLocalizedMessage("repeat_stop_success");
     }
 }

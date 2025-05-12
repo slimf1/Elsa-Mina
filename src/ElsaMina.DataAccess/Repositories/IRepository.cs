@@ -10,4 +10,5 @@ public interface IRepository<T, in TKey> : IDisposable where T : IKeyed<TKey>
     Task UpdateAsync(T entity, CancellationToken cancellationToken = default);
     Task DeleteAsync(T entity, CancellationToken cancellationToken = default);
     Task DeleteByIdAsync(TKey key, CancellationToken cancellationToken = default);
+    Task SaveChangesAsync(CancellationToken cancellationToken = default);
 }

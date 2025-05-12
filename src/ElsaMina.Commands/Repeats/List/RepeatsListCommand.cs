@@ -24,7 +24,7 @@ public class RepeatsListCommand : Command
         _configuration = configuration;
     }
 
-    public override Rank RequiredRank => Rank.Voiced;
+    public override Rank RequiredRank => Rank.Driver;
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {

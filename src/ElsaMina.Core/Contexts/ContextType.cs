@@ -3,5 +3,6 @@
 public enum ContextType
 {
     Room,
-    Pm
+    Pm,
+    Battle
 }

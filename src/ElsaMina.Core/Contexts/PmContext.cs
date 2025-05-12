@@ -24,7 +24,7 @@ public class PmContext : Context
 
     public override ContextType Type => ContextType.Pm;
 
-    public override bool HasSufficientRank(Rank requiredRank) => true;
+    public override bool HasRankOrHigher(Rank requiredRank) => true;
 
     protected override bool IsAllowingErrorMessages => true;
 

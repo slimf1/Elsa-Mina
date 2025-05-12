@@ -7,7 +7,7 @@ using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.FileSharing;
 
-namespace ElsaMina.Commands.AiTts;
+namespace ElsaMina.Commands.Ai.Tts;
 
 [NamedCommand("speak", "aispeak", "ai-speak")]
 public class SpeakCommand : Command

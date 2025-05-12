@@ -55,7 +55,7 @@ public class TeamList : Command
         });
 
         var html = template.RemoveNewlines();
-        if (context.HasSufficientRank(Rank.Voiced))
+        if (context.HasRankOrHigher(Rank.Voiced))
         {
             var message = $"""<div style="overflow-y: auto; max-height: 230px;">{html}</div>""";
             context.ReplyHtml(message, roomId: roomId);

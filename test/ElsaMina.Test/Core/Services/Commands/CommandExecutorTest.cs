@@ -73,7 +73,7 @@ public class CommandExecutorTest
         var command = Substitute.For<ICommand>();
         _dependencyContainerService.IsRegisteredWithName<ICommand>(commandName).Returns(true);
         _dependencyContainerService.ResolveNamed<ICommand>(commandName).Returns(command);
-        _context.HasSufficientRank(command.RequiredRank).Returns(true);
+        _context.HasRankOrHigher(command.RequiredRank).Returns(true);
         command.IsAllowedInPrivateMessage.Returns(true);
 
         // Act
@@ -96,7 +96,7 @@ public class CommandExecutorTest
         var command = Substitute.For<ICommand>();
         _dependencyContainerService.IsRegisteredWithName<ICommand>(commandName).Returns(true);
         _dependencyContainerService.ResolveNamed<ICommand>(commandName).Returns(command);
-        _context.HasSufficientRank(command.RequiredRank).Returns(true);
+        _context.HasRankOrHigher(command.RequiredRank).Returns(true);
         command.RoomRestriction.Returns(["franais"]);
         _context.RoomId.Returns(roomId);
 

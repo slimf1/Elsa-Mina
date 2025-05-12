@@ -41,14 +41,14 @@ public class RoomContext : Context
     protected override bool IsAllowingErrorMessages => _contextProvider
         .GetRoomParameterValue(RoomId, RoomParametersConstants.IS_SHOWING_ERROR_MESSAGES).ToBoolean();
 
-    public override bool HasSufficientRank(Rank requiredRank)
+    public override bool HasRankOrHigher(Rank requiredRank)
     {
-        return IsSenderWhitelisted || (int)Sender.Rank >= (int)requiredRank;
+        return IsSenderWhitelisted || Sender.Rank >= requiredRank;
     }
 
     public override void Reply(string message, bool rankAware = false)
     {
-        if (rankAware && !HasSufficientRank(Rank.Voiced))
+        if (rankAware && !HasRankOrHigher(Rank.Voiced))
         {
             Bot.Say(RoomId, $"/pm {Sender.UserId}, {message}");
             return;
@@ -59,7 +59,7 @@ public class RoomContext : Context
 
     public override void ReplyHtml(string html, string roomId = null, bool rankAware = false)
     {
-        if (rankAware && !HasSufficientRank(Rank.Voiced))
+        if (rankAware && !HasRankOrHigher(Rank.Voiced))
         {
             Bot.Say(RoomId, $"/pminfobox {Sender.UserId}, {html}");
             return;

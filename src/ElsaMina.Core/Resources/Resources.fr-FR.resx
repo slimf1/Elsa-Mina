@@ -304,7 +304,7 @@
         <value>L'équipe est introuvable.</value>
     </data>
     <data name="aboutrepeat_not_found" xml:space="preserve">
-        <value>Impossible de trouver le repeat.</value>
+        <value>Impossible de trouver un repeat.</value>
     </data>
     <data name="aboutrepeat_helpmessage" xml:space="preserve">
         <value>Syntaxe: -repeat &lt;id&gt;, &lt;message&gt;, &lt;durée en minutes&gt;</value>
@@ -587,5 +587,44 @@
     </data>
     <data name="command_execution_error" xml:space="preserve">
         <value>L'exécution de la commande a soulevé une erreur.</value>
+    </data>
+    <data name="repeat_start_error" xml:space="preserve">
+        <value>Le repeat n'a pas pu être lancé</value>
+    </data>
+    <data name="repeat_start_rank" xml:space="preserve">
+        <value>Vous n'avez pas le droit de faire ça ici</value>
+    </data>
+    <data name="repeat_start_success" xml:space="preserve">
+        <value>Repeat lancé.</value>
+    </data>
+    <data name="repeat_stop" xml:space="preserve">
+        <value>Arrêter</value>
+    </data>
+    <data name="repeat_message" xml:space="preserve">
+        <value>Message</value>
+    </data>
+    <data name="repeat_delay" xml:space="preserve">
+        <value>Délai (minutes)</value>
+    </data>
+    <data name="repeat_actions" xml:space="preserve">
+        <value>Actions</value>
+    </data>
+    <data name="repeat_add" xml:space="preserve">
+        <value>Ajouter un repeat</value>
+    </data>
+    <data name="repeat_stop_invalid_id" xml:space="preserve">
+        <value>Identifiant invalide.</value>
+    </data>
+    <data name="repeat_stop_doesntexist" xml:space="preserve">
+        <value>Le repeat n'existe pas.</value>
+    </data>
+    <data name="repeat_stop_rights" xml:space="preserve">
+        <value>Vous n'avez pas le droit de faire ça ici.</value>
+    </data>
+    <data name="repeat_stop_error" xml:space="preserve">
+        <value>Le repeat n'a pas pu être termié</value>
+    </data>
+    <data name="repeat_stop_success" xml:space="preserve">
+        <value>Repeat terminé.</value>
     </data>
 </root>

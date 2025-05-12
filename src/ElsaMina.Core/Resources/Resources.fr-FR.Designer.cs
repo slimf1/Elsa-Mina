@@ -1184,5 +1184,83 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("command_execution_error", resourceCulture);
             }
         }
+        
+        internal static string repeat_start_error {
+            get {
+                return ResourceManager.GetString("repeat_start_error", resourceCulture);
+            }
+        }
+        
+        internal static string repeat_start_rank {
+            get {
+                return ResourceManager.GetString("repeat_start_rank", resourceCulture);
+            }
+        }
+        
+        internal static string repeat_start_success {
+            get {
+                return ResourceManager.GetString("repeat_start_success", resourceCulture);
+            }
+        }
+        
+        internal static string repeat_stop {
+            get {
+                return ResourceManager.GetString("repeat_stop", resourceCulture);
+            }
+        }
+        
+        internal static string repeat_message {
+            get {
+                return ResourceManager.GetString("repeat_message", resourceCulture);
+            }
+        }
+        
+        internal static string repeat_delay {
+            get {
+                return ResourceManager.GetString("repeat_delay", resourceCulture);
+            }
+        }
+        
+        internal static string repeat_actions {
+            get {
+                return ResourceManager.GetString("repeat_actions", resourceCulture);
+            }
+        }
+        
+        internal static string repeat_add {
+            get {
+                return ResourceManager.GetString("repeat_add", resourceCulture);
+            }
+        }
+        
+        internal static string repeat_stop_invalid_id {
+            get {
+                return ResourceManager.GetString("repeat_stop_invalid_id", resourceCulture);
+            }
+        }
+        
+        internal static string repeat_stop_doesntexist {
+            get {
+                return ResourceManager.GetString("repeat_stop_doesntexist", resourceCulture);
+            }
+        }
+        
+        internal static string repeat_stop_rights {
+            get {
+                return ResourceManager.GetString("repeat_stop_rights", resourceCulture);
+            }
+        }
+        
+        internal static string repeat_stop_error {
+            get {
+                return ResourceManager.GetString("repeat_stop_error", resourceCulture);
+            }
+        }
+        
+        internal static string repeat_stop_success {
+            get {
+                return ResourceManager.GetString("repeat_stop_success", resourceCulture);
+            }
+        }
     }
 }

@@ -53,7 +53,7 @@ public class RoomContextTest
         _sender.Rank.Returns(userRank);
 
         // Act & Assert
-        return _roomContext.HasSufficientRank(Rank.Mod);
+        return _roomContext.HasRankOrHigher(Rank.Mod);
     }
 
     [Test]
@@ -68,7 +68,7 @@ public class RoomContextTest
         _contextProvider.IsUserWhitelisted("wl-dude").Returns(true);
 
         // Act
-        var value = _roomContext.HasSufficientRank(requiredRank);
+        var value = _roomContext.HasRankOrHigher(requiredRank);
 
         // Assert
         Assert.That(value, Is.True);

@@ -4,40 +4,34 @@ namespace ElsaMina.Core.Services.Repeats;
 
 public class RepeatsManager : IRepeatsManager
 {
-    private readonly HashSet<Repeat> _repeats = new();
+    private readonly Dictionary<Guid, Repeat> _repeats = new();
 
-    public bool StartRepeat(IContext context, string message, TimeSpan interval)
+    public void StartRepeat(IContext context, string roomId, string message, TimeSpan interval)
     {
-        var repeat = new Repeat(context, Guid.NewGuid(), context.RoomId, message, interval);
-        if (!_repeats.Add(repeat))
-        {
-            return false;
-        }
-
+        var repeat = new Repeat(context, Guid.NewGuid(), roomId, message, interval);
+        _repeats[repeat.RepeatId] = repeat;
         repeat.Start();
-        return true;
     }
 
-    public IRepeat GetRepeat(string roomId, Guid repeatId)
+    public IRepeat GetRepeat(Guid repeatId)
     {
-        return _repeats.FirstOrDefault(repeat => repeat.RepeatId == repeatId
-                                                 && repeat.RoomId == roomId);
+        return _repeats.GetValueOrDefault(repeatId);
     }
 
     public IEnumerable<IRepeat> GetRepeats(string roomId)
     {
-        return _repeats.Where(repeat => repeat.RoomId == roomId);
+        return _repeats.Values.Where(repeat => repeat.RoomId == roomId);
     }
 
-    public bool StopRepeat(string roomId, Guid repeatId)
+    public bool StopRepeat(Guid repeatId)
     {
-        if (GetRepeat(roomId, repeatId) is not Repeat repeat)
+        if (!_repeats.TryGetValue(repeatId, out var repeat))
         {
             return false;
         }
 
         repeat.Stop();
-        _repeats.Remove(repeat);
+        _repeats.Remove(repeatId);
         return true;
     }
 }

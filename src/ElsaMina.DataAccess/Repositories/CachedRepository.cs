@@ -74,6 +74,11 @@ public class CachedRepository<TRepository, T, TKey> : IRepository<T, TKey>
         _cache.Remove(key);
     }
 
+    public Task SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        return _repository.SaveChangesAsync(cancellationToken);
+    }
+
     public void Dispose()
     {
         Dispose(true);

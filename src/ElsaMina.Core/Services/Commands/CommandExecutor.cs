@@ -32,12 +32,12 @@ public class CommandExecutor : ICommandExecutor
             Log.Information("Executing {0} as a normal command", commandName);
             var command = _dependencyContainerService.ResolveNamed<ICommand>(commandName);
 
-            if (CanCommandBeRan(context, command))
+            if (!CanCommandBeRan(context, command))
             {
-                await command.RunAsync(context, cancellationToken);
                 return;
             }
 
+            await command.RunAsync(context, cancellationToken);
             return;
         }
 
@@ -68,7 +68,7 @@ public class CommandExecutor : ICommandExecutor
             return false;
         }
 
-        if (!context.HasSufficientRank(command.RequiredRank))
+        if (!context.HasRankOrHigher(command.RequiredRank))
         {
             return false;
         }

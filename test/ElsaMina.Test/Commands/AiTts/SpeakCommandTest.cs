@@ -1,4 +1,4 @@
-using ElsaMina.Commands.AiTts;
+using ElsaMina.Commands.Ai.Tts;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;

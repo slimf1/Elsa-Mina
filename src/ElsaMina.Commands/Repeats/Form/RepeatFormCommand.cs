@@ -20,7 +20,7 @@ public class RepeatFormCommand : Command
         _configuration = configuration;
     }
 
-    public override Rank RequiredRank => Rank.Voiced;
+    public override Rank RequiredRank => Rank.Driver;
 
     public override string HelpMessageKey => "aboutrepeat_helpmessage";
 
@@ -29,7 +29,7 @@ public class RepeatFormCommand : Command
         var template = await _templatesManager.GetTemplateAsync("Repeats/Form/RepeatForm", new RepeatFormViewModel
         {
             Culture = context.Culture,
-            Command = $"/w {_configuration.Name},{_configuration.Trigger}startrepeat {{message}}, {{delay}}"
+            Command = $"/w {_configuration.Name},{_configuration.Trigger}startrepeat {context.RoomId}, {{message}}, {{delay}}"
         });
 
         context.SendHtmlTo(context.Sender.UserId, template.RemoveNewlines());

@@ -37,6 +37,11 @@ public abstract class Context : IContext
             $"/sendhtmlpage {Sender.UserId}, {pageName}, {html}");
     }
 
+    public void SendMessageIn(string roomId, string message)
+    {
+        Bot.Say(roomId, message);
+    }
+
     public void SendHtmlPageTo(string userId, string pageName, string html)
     {
         Bot.Say(_contextProvider.DefaultRoom, $"/sendhtmlpage {userId}, {pageName}, {html}");
@@ -68,13 +73,30 @@ public abstract class Context : IContext
         Reply($"!code {exception.GetType().FullName}: {exception.Message}\n{exception.StackTrace}");
     }
 
+    public Task<Rank> GetUserRankInRoom(string roomId, CancellationToken cancellationToken = default)
+    {
+        return _contextProvider.GetUserRankInRoom(roomId, Sender.UserId, cancellationToken);
+    }
+
+    public async Task<bool> HasSufficientRankInRoom(string roomId, Rank requiredRank,
+        CancellationToken cancellationToken = default)
+    {
+        if (IsSenderWhitelisted)
+        {
+            return true;
+        }
+
+        var rank = await GetUserRankInRoom(roomId, cancellationToken);
+        return rank >= requiredRank;
+    }
+
     public abstract string RoomId { get; }
     public abstract bool IsPrivateMessage { get; }
     public abstract CultureInfo Culture { get; set; }
     public abstract ContextType Type { get; }
     protected abstract bool IsAllowingErrorMessages { get; }
 
-    public abstract bool HasSufficientRank(Rank requiredRank);
+    public abstract bool HasRankOrHigher(Rank requiredRank);
     public abstract void Reply(string message, bool rankAware = false);
     public abstract void ReplyHtml(string html, string roomId = null, bool rankAware = false);
     public abstract void SendHtmlTo(string userId, string html, string roomId = null);
