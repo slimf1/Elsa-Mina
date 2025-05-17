@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Text;
+﻿using System.Text;
 using Newtonsoft.Json;
 
 namespace ElsaMina.Core.Services.Http;

@@ -1,6 +1,6 @@
 using System.Globalization;
-using ElsaMina.Commands.Ai;
 using ElsaMina.Commands.Ai.Chat;
+using ElsaMina.Commands.Ai.LanguageModel;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
@@ -13,7 +13,7 @@ public class AskElsaCommandTests
 {
     private IConfiguration _configuration;
     private IResourcesService _resourcesService;
-    private ILlmProvider _llmProvider;
+    private ILanguageModelProvider _languageModelProvider;
     private AskElsaCommand _command;
 
     [SetUp]
@@ -21,8 +21,8 @@ public class AskElsaCommandTests
     {
         _configuration = Substitute.For<IConfiguration>();
         _resourcesService = Substitute.For<IResourcesService>();
-        _llmProvider = Substitute.For<ILlmProvider>();
-        _command = new AskElsaCommand(_configuration, _resourcesService, _llmProvider);
+        _languageModelProvider = Substitute.For<ILanguageModelProvider>();
+        _command = new AskElsaCommand(_configuration, _resourcesService, _languageModelProvider);
     }
 
     [Test]
@@ -71,7 +71,7 @@ public class AskElsaCommandTests
         await _command.RunAsync(context);
 
         // Assert
-        await _llmProvider.Received(1).AskLlmAsync(expectedPrompt, Arg.Any<CancellationToken>());
+        await _languageModelProvider.Received(1).AskLanguageModelAsync(expectedPrompt, Arg.Any<CancellationToken>());
     }
 
     [Test]
@@ -80,8 +80,7 @@ public class AskElsaCommandTests
         // Arrange
         _configuration.MistralApiKey.Returns("valid-api-key");
         var context = Substitute.For<IContext>();
-
-        _llmProvider.AskLlmAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns((string)null);
+        _languageModelProvider.AskLanguageModelAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns((string)null);
 
         // Act
         await _command.RunAsync(context);
@@ -98,7 +97,7 @@ public class AskElsaCommandTests
         var context = Substitute.For<IContext>();
         const string response = "Hello from AI";
 
-        _llmProvider.AskLlmAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(response);
+        _languageModelProvider.AskLanguageModelAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(response);
 
         // Act
         await _command.RunAsync(context);

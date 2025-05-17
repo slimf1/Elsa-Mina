@@ -627,4 +627,7 @@
     <data name="repeat_stop_success" xml:space="preserve">
         <value>Repeat ended.</value>
     </data>
+    <data name="speak_error" xml:space="preserve">
+        <value>An error occurred !</value>
+    </data>
 </root>

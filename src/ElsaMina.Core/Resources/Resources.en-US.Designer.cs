@@ -1262,5 +1262,11 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("repeat_stop_success", resourceCulture);
             }
         }
+        
+        internal static string speak_error {
+            get {
+                return ResourceManager.GetString("speak_error", resourceCulture);
+            }
+        }
     }
 }

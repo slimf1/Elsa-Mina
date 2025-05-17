@@ -1,27 +1,24 @@
-namespace ElsaMina.Test.Commands.Ai;
-
-using System.Threading;
-using System.Threading.Tasks;
-using ElsaMina.Commands.Ai;
 using ElsaMina.Commands.Ai.Chat;
+using ElsaMina.Commands.Ai.LanguageModel;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using NSubstitute;
-using NUnit.Framework;
+
+namespace ElsaMina.Test.Commands.Ai.LanguageModel;
 
 [TestFixture]
-public class MistralLlmProviderTest
+public class MistralLanguageModelProviderTest
 {
     private IHttpService _httpService;
     private IConfiguration _configuration;
-    private MistralLlmProvider _llmProvider;
+    private MistralLanguageModelProvider _languageModelProvider;
 
     [SetUp]
     public void SetUp()
     {
         _httpService = Substitute.For<IHttpService>();
         _configuration = Substitute.For<IConfiguration>();
-        _llmProvider = new MistralLlmProvider(_httpService, _configuration);
+        _languageModelProvider = new MistralLanguageModelProvider(_httpService, _configuration);
     }
 
     [Test]
@@ -31,7 +28,7 @@ public class MistralLlmProviderTest
         _configuration.MistralApiKey.Returns(string.Empty);
 
         // Act
-        var result = await _llmProvider.AskLlmAsync("test prompt");
+        var result = await _languageModelProvider.AskLanguageModelAsync("test prompt");
 
         // Assert
         Assert.IsNull(result);
@@ -71,7 +68,7 @@ public class MistralLlmProviderTest
             .Returns(new HttpResponse<MistralResponseDto> { Data = mistralResponse });
 
         // Act
-        var result = await _llmProvider.AskLlmAsync(prompt);
+        var result = await _languageModelProvider.AskLanguageModelAsync(prompt);
 
         // Assert
         Assert.AreEqual(expectedResponse, result);
@@ -97,7 +94,7 @@ public class MistralLlmProviderTest
             .Returns((HttpResponse<MistralResponseDto>)null);
 
         // Act
-        var result = await _llmProvider.AskLlmAsync("test prompt");
+        var result = await _languageModelProvider.AskLanguageModelAsync("test prompt");
 
         // Assert
         Assert.IsNull(result);
@@ -120,7 +117,7 @@ public class MistralLlmProviderTest
             .Returns(new HttpResponse<MistralResponseDto> { Data = mistralResponse });
 
         // Act
-        var result = await _llmProvider.AskLlmAsync("test prompt");
+        var result = await _languageModelProvider.AskLanguageModelAsync("test prompt");
 
         // Assert
         Assert.IsNull(result);

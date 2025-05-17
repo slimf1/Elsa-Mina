@@ -1,3 +1,4 @@
+using ElsaMina.Commands.Ai.LanguageModel;
 using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
@@ -12,15 +13,15 @@ public class AskElsaCommand : Command
 {
     private readonly IConfiguration _configuration;
     private readonly IResourcesService _resourcesService;
-    private readonly ILlmProvider _llmProvider;
+    private readonly ILanguageModelProvider _languageModelProvider;
 
     public AskElsaCommand(IConfiguration configuration,
         IResourcesService resourcesService,
-        ILlmProvider llmProvider)
+        ILanguageModelProvider languageModelProvider)
     {
         _configuration = configuration;
         _resourcesService = resourcesService;
-        _llmProvider = llmProvider;
+        _languageModelProvider = languageModelProvider;
     }
 
     public override Rank RequiredRank => Rank.Voiced;
@@ -43,7 +44,7 @@ public class AskElsaCommand : Command
             room.Name,
             string.Join(", ", room.LastMessages.Select(pair => $"{pair.Item1}: {pair.Item2}")));
 
-        var response = await _llmProvider.AskLlmAsync(prompt, cancellationToken);
+        var response = await _languageModelProvider.AskLanguageModelAsync(prompt, cancellationToken);
         if (response == null)
         {
             context.ReplyLocalizedMessage("ask_error");
