@@ -1268,5 +1268,11 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("speak_error", resourceCulture);
             }
         }
+        
+        internal static string replay_preview_title {
+            get {
+                return ResourceManager.GetString("replay_preview_title", resourceCulture);
+            }
+        }
     }
 }

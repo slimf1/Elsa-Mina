@@ -17,13 +17,16 @@ public class CommandTest
         _testCommand = new TestCommand(_action);
         _context = Substitute.For<IContext>();
     }
-    
+
     [Test]
     public void Test_Constructor_ShouldInitializePropertiesFromAttribute()
     {
         // Assert
-        Assert.That(_testCommand.Name, Is.EqualTo("test-command"));
-        Assert.That(_testCommand.Aliases, Is.EquivalentTo(new[] { "alias1", "alias2" }));
+        Assert.Multiple(() =>
+        {
+            Assert.That(_testCommand.Name, Is.EqualTo("test-command"));
+            Assert.That(_testCommand.Aliases, Is.EquivalentTo(new List<string> { "alias1", "alias2" }));
+        });
     }
 
     [Test]
@@ -49,9 +52,9 @@ public class CommandTest
         {
             _action = action;
         }
-        
+
         public string CommandHelpMessageKey { get; set; }
-        
+
         public override string HelpMessageKey => CommandHelpMessageKey;
 
         public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)

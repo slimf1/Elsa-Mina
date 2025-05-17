@@ -9,4 +9,5 @@ public class ReplayPreviewViewModel : LocalizableViewModel
     public string Format { get; set; } 
     public DateTime Date { get; set; }
     public int Views { get; set; }
+    public string Sender { get; set; }
 }

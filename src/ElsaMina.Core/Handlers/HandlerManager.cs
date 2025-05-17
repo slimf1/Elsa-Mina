@@ -33,11 +33,11 @@ public class HandlerManager : IHandlerManager
             _handlers
                 .Values
                 .Where(handler => handler.IsEnabled)
-                .Select(handler => TryHandleMessageAsync(parts, roomId, cancellationToken, handler))
+                .Select(handler => TryHandleMessageAsync(parts, roomId, handler, cancellationToken))
         );
     }
 
-    private static Task TryHandleMessageAsync(string[] parts, string roomId, CancellationToken cancellationToken, IHandler handler)
+    private static Task TryHandleMessageAsync(string[] parts, string roomId, IHandler handler, CancellationToken cancellationToken)
     {
         try
         {

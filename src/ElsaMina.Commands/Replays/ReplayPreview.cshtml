@@ -1,13 +1,21 @@
+@using ElsaMina.Core.Templates
 @inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Replays.ReplayPreviewViewModel>;
 
-<table style="width: 100%; table-layout: fixed;">
+<table style="width: 100%; text-align: left; border: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; border-radius: 12px; padding: 4px">
+    <thead>
+    <tr>
+        <th colspan="2" style="text-align: center;">
+            @GetString("replay_preview_title", Model.Sender)
+        </th>
+    </tr>
+    </thead>
     <tbody>
     @for (var i = 0; i < Model.Players.Count; i += 2)
     {
         var p1 = Model.Players[i];
         var p2 = i + 1 < Model.Players.Count ? Model.Players[i + 1] : null;
-        <tr>
 
+        <tr>
             <td style="text-align: left;">
                 <i>@p1.Name</i>
             </td>
@@ -19,13 +27,13 @@
             </td>
         </tr>
         <tr>
-            <td>
+            <td style="text-align: start;">
                 @foreach (var species in p1.Team)
                 {
                     <psicon style="float: left;" pokemon="@species"/>
                 }
             </td>
-            <td>
+            <td style="text-align: end;">
                 @if (p2 != null)
                 {
                     @foreach (var species in p2.Team)
@@ -39,12 +47,12 @@
     <tr>
         <td colspan="2">
             <span>
-                <b>@GetString("format"):</b> @Model.Format
-                <b>@GetString("date"):</b> @Model.Date.ToString("d", Model.Culture)
-                <b>@GetString("views"):</b> @Model.Views
+                <b>@GetString("format"):&nbsp;</b> @Model.Format &nbsp;
+                <b>@GetString("date"):&nbsp;</b> @Model.Date.ToString("d", Model.Culture) &nbsp;
+                <b>@GetString("views"):&nbsp;</b> @Model.Views &nbsp;
                 @if (Model.Rating != 0)
                 {
-                    <b>@GetString("rating"):</b> @Model.Rating
+                    <b>@GetString("rating"):&nbsp;</b> @Model.Rating
                 }
             </span>
         </td>

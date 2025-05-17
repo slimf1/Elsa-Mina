@@ -31,7 +31,7 @@ public class MistralLanguageModelProviderTest
         var result = await _languageModelProvider.AskLanguageModelAsync("test prompt");
 
         // Assert
-        Assert.IsNull(result);
+        Assert.That(result, Is.Null);
         await _httpService.DidNotReceiveWithAnyArgs().PostJsonAsync<MistralRequestDto, MistralResponseDto>(default, default, default, default);
     }
 
@@ -71,7 +71,7 @@ public class MistralLanguageModelProviderTest
         var result = await _languageModelProvider.AskLanguageModelAsync(prompt);
 
         // Assert
-        Assert.AreEqual(expectedResponse, result);
+        Assert.That(result, Is.EqualTo(expectedResponse));
         await _httpService.Received(1).PostJsonAsync<MistralRequestDto, MistralResponseDto>(
             Arg.Is<string>(url => url == "https://api.mistral.ai/v1/chat/completions"),
             Arg.Is<MistralRequestDto>(dto => dto.Messages[0].Content == prompt),
@@ -97,7 +97,7 @@ public class MistralLanguageModelProviderTest
         var result = await _languageModelProvider.AskLanguageModelAsync("test prompt");
 
         // Assert
-        Assert.IsNull(result);
+        Assert.That(result, Is.Null);
     }
 
     [Test]
@@ -120,6 +120,6 @@ public class MistralLanguageModelProviderTest
         var result = await _languageModelProvider.AskLanguageModelAsync("test prompt");
 
         // Assert
-        Assert.IsNull(result);
+        Assert.That(result, Is.Null);
     }
 }

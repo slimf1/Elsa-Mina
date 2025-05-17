@@ -71,7 +71,8 @@ public class ReplaysHandler : ChatMessageHandler
                     Team = team.Value
                 }).ToList(),
                 Date = Time.GetDateTimeFromUnixTime(replayInfo.UploadTime),
-                Views = replayInfo.Views
+                Views = replayInfo.Views,
+                Sender = context.Sender.Name
             });
 
             context.ReplyHtml(template.RemoveNewlines());
