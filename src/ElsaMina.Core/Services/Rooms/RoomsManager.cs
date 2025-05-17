@@ -116,7 +116,7 @@ public class RoomsManager : IRoomsManager
         GetRoom(roomId)?.RenameUser(formerName, newName);
     }
 
-    public string GetRoomBotConfigurationParameterValue(string roomId, string roomBotParameterId)
+    public string GetRoomConfigurationParameter(string roomId, string roomBotParameterId)
     {
         var roomParameters = GetRoom(roomId)?.Parameters?.ParameterValues;
         if (roomParameters == null || !RoomBotConfigurationParameters
@@ -129,7 +129,7 @@ public class RoomsManager : IRoomsManager
         return roomBotParameterValue?.Value ?? roomBotConfigurationParameter.DefaultValue;
     }
 
-    public async Task<bool> SetRoomBotConfigurationParameterValue(string roomId, string roomBotParameterId,
+    public async Task<bool> SetRoomConfigurationParameter(string roomId, string roomBotParameterId,
         string value)
     {
         var room = GetRoom(roomId);

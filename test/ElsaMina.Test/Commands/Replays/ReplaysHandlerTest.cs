@@ -32,7 +32,7 @@ public class ReplaysHandlerTest
     public async Task Test_HandleMessage_ShouldNotProcess_WhenReplayPreviewDisabled()
     {
         // Arrange
-        _roomsManager.GetRoomBotConfigurationParameterValue(Arg.Any<string>(), Arg.Any<string>())
+        _roomsManager.GetRoomConfigurationParameter(Arg.Any<string>(), Arg.Any<string>())
             .Returns("false");
 
         // Act
@@ -46,7 +46,7 @@ public class ReplaysHandlerTest
     public async Task Test_HandleMessage_ShouldNotProcess_WhenNoReplayLinkFound()
     {
         // Arrange
-        _roomsManager.GetRoomBotConfigurationParameterValue(Arg.Any<string>(), Arg.Any<string>())
+        _roomsManager.GetRoomConfigurationParameter(Arg.Any<string>(), Arg.Any<string>())
             .Returns("true");
         _context.Message.Returns("This is a message without a replay link.");
 
@@ -62,7 +62,7 @@ public class ReplaysHandlerTest
     {
         // Arrange
         var replayUrl = "https://replay.pokemonshowdown.com/gen8ou-123456789";
-        _roomsManager.GetRoomBotConfigurationParameterValue(Arg.Any<string>(), Arg.Any<string>())
+        _roomsManager.GetRoomConfigurationParameter(Arg.Any<string>(), Arg.Any<string>())
             .Returns("true");
         _context.Message.Returns(replayUrl);
 
@@ -93,7 +93,7 @@ public class ReplaysHandlerTest
     {
         // Arrange
         var replayUrl = "https://replay.pokemonshowdown.com/gen8ou-123456789";
-        _roomsManager.GetRoomBotConfigurationParameterValue(Arg.Any<string>(), Arg.Any<string>())
+        _roomsManager.GetRoomConfigurationParameter(Arg.Any<string>(), Arg.Any<string>())
             .Returns("true");
         _context.Message.Returns(replayUrl);
 

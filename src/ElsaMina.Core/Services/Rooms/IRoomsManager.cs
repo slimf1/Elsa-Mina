@@ -12,7 +12,7 @@ public interface IRoomsManager
     void AddUserToRoom(string roomId, string username);
     void RemoveUserFromRoom(string roomId, string username);
     void RenameUserInRoom(string roomId, string formerName, string newName);
-    string GetRoomBotConfigurationParameterValue(string roomId, string roomBotParameterId);
-    Task<bool> SetRoomBotConfigurationParameterValue(string roomId, string roomBotParameterId, string value);
+    string GetRoomConfigurationParameter(string roomId, string roomBotParameterId);
+    Task<bool> SetRoomConfigurationParameter(string roomId, string roomBotParameterId, string value);
     void Clear();
 }

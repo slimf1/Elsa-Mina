@@ -38,7 +38,7 @@ public class RoomConfig : Command
                 var items = pair.Split('=');
                 var parameterId = items[0];
                 var value = items[1];
-                await _roomsManager.SetRoomBotConfigurationParameterValue(roomId, parameterId, value);
+                await _roomsManager.SetRoomConfigurationParameter(roomId, parameterId, value);
             }
 
             context.ReplyLocalizedMessage("room_config_success", roomId);

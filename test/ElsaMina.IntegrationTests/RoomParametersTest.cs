@@ -65,23 +65,23 @@ public class RoomParametersTest
     {
         // Get default value
         Assert.That(_roomsManager
-                .GetRoomBotConfigurationParameterValue("franais", RoomParametersConstants.LOCALE),
+                .GetRoomConfigurationParameter("franais", RoomParametersConstants.LOCALE),
             Is.EqualTo("fr-FR"));
         
         // Modify value
         var result = await _roomsManager
-            .SetRoomBotConfigurationParameterValue("franais", RoomParametersConstants.LOCALE, "en-US");
+            .SetRoomConfigurationParameter("franais", RoomParametersConstants.LOCALE, "en-US");
         Assert.Multiple(() =>
         {
             Assert.That(result, Is.True);
             Assert.That(_roomsManager
-                    .GetRoomBotConfigurationParameterValue("franais", RoomParametersConstants.LOCALE),
+                    .GetRoomConfigurationParameter("franais", RoomParametersConstants.LOCALE),
                 Is.EqualTo("en-US"));
         });
-        await _roomsManager.SetRoomBotConfigurationParameterValue("franais",
+        await _roomsManager.SetRoomConfigurationParameter("franais",
             RoomParametersConstants.HAS_COMMAND_AUTO_CORRECT, false.ToString());
         Assert.That(_roomsManager
-                .GetRoomBotConfigurationParameterValue("franais", RoomParametersConstants.HAS_COMMAND_AUTO_CORRECT).ToBoolean(),
+                .GetRoomConfigurationParameter("franais", RoomParametersConstants.HAS_COMMAND_AUTO_CORRECT).ToBoolean(),
             Is.False);
     }
 }
