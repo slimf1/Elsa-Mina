@@ -155,7 +155,7 @@ public class DefaultContextProviderTest
         var roomId = "room1";
         var key = "setting";
         var expectedValue = "enabled";
-        _roomsManager.GetRoomConfigurationParameter(roomId, key).Returns(expectedValue);
+        _roomsManager.GetRoomParameter(roomId, key).Returns(expectedValue);
 
         // Act
         var result = _contextProvider.GetRoomParameterValue(roomId, key);
@@ -170,7 +170,7 @@ public class DefaultContextProviderTest
         // Arrange
         var roomId = "room1";
         var key = "invalid_setting";
-        _roomsManager.GetRoomConfigurationParameter(roomId, key).Returns((string)null);
+        _roomsManager.GetRoomParameter(roomId, key).Returns((string)null);
 
         // Act
         var result = _contextProvider.GetRoomParameterValue(roomId, key);

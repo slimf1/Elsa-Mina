@@ -47,7 +47,7 @@ public class DisplayTeamOnLinkHandler : ChatMessageHandler
             return;
         }
 
-        var isShowingTeamLinksPreviewEnabled = _roomsManager.GetRoomConfigurationParameter(
+        var isShowingTeamLinksPreviewEnabled = _roomsManager.GetRoomParameter(
             context.RoomId, RoomParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW).ToBoolean();
         if (!isShowingTeamLinksPreviewEnabled)
         {

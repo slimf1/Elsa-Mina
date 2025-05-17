@@ -116,34 +116,34 @@ public class RoomsManager : IRoomsManager
         GetRoom(roomId)?.RenameUser(formerName, newName);
     }
 
-    public string GetRoomConfigurationParameter(string roomId, string roomBotParameterId)
+    public string GetRoomParameter(string roomId, string parameterId)
     {
         var roomParameters = GetRoom(roomId)?.Parameters?.ParameterValues;
         if (roomParameters == null || !RoomBotConfigurationParameters
-                .TryGetValue(roomBotParameterId, out var roomBotConfigurationParameter))
+                .TryGetValue(parameterId, out var parameter))
         {
             return default;
         }
 
-        var roomBotParameterValue = roomParameters.FirstOrDefault(v => v.ParameterId == roomBotParameterId);
-        return roomBotParameterValue?.Value ?? roomBotConfigurationParameter.DefaultValue;
+        var parameterValue = roomParameters.FirstOrDefault(v => v.ParameterId == parameterId);
+        return parameterValue?.Value ?? parameter.DefaultValue;
     }
 
-    public async Task<bool> SetRoomConfigurationParameter(string roomId, string roomBotParameterId,
+    public async Task<bool> SetRoomParameter(string roomId, string parameterId,
         string value)
     {
         var room = GetRoom(roomId);
         var roomParameters = room.Parameters;
-        var roomBotConfigurationParameter = RoomBotConfigurationParameters[roomBotParameterId];
+        var parameter = RoomBotConfigurationParameters[parameterId];
         var parameterValue = roomParameters.ParameterValues
-            .FirstOrDefault(parameterValue => parameterValue.ParameterId == roomBotParameterId);
+            .FirstOrDefault(parameterValue => parameterValue.ParameterId == parameterId);
         try
         {
             if (parameterValue == null)
             {
                 parameterValue = new RoomBotParameterValue
                 {
-                    ParameterId = roomBotParameterId,
+                    ParameterId = parameterId,
                     RoomId = roomId,
                     Value = value
                 };
@@ -157,15 +157,15 @@ public class RoomsManager : IRoomsManager
                 await _roomBotParameterValueRepository.UpdateAsync(parameterValue);
             }
 
-            roomBotConfigurationParameter.OnUpdateAction?.Invoke(room, value);
+            parameter.OnUpdateAction?.Invoke(room, value);
             Log.Information("Saved room parameter: '{0}' = '{1}' for room '{2}'",
-                roomBotParameterId, value, roomId);
+                parameterId, value, roomId);
             return true;
         }
         catch (Exception exception)
         {
             Log.Error(exception, "Room parameter save failed: '{0}' = '{1}' for room '{2}'",
-                roomBotParameterId, value, roomId);
+                parameterId, value, roomId);
             return false;
         }
     }

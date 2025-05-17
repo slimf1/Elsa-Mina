@@ -74,7 +74,7 @@ public class ShowRoomDashboard : Command
                     Culture = context.Culture,
                     RoomParameter = roomParameter.Value,
                     CurrentValue = _roomsManager
-                        .GetRoomConfigurationParameter(roomId, roomParameter.Value.Identifier)
+                        .GetRoomParameter(roomId, roomParameter.Value.Identifier)
                 })
         };
         var template = await _templatesManager.GetTemplateAsync("RoomDashboard/RoomDashboard", viewModel);
