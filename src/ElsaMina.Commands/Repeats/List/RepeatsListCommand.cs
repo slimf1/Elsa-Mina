@@ -29,7 +29,7 @@ public class RepeatsListCommand : Command
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var repeats = _repeatsManager.GetRepeats(context.RoomId)?.ToList();
-        if (repeats == null || !repeats.Any())
+        if (repeats == null || repeats.Count == 0)
         {
             context.ReplyLocalizedMessage("aboutrepeat_not_found");
             return;

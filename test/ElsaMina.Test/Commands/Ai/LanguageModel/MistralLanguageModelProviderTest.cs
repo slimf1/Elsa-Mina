@@ -22,7 +22,7 @@ public class MistralLanguageModelProviderTest
     }
 
     [Test]
-    public async Task Test_AskLlmAsync_ShouldReturnNull_WhenApiKeyIsMissing()
+    public async Task Test_AskLanguageModelAsync_ShouldReturnNull_WhenApiKeyIsMissing()
     {
         // Arrange
         _configuration.MistralApiKey.Returns(string.Empty);
@@ -36,7 +36,7 @@ public class MistralLanguageModelProviderTest
     }
 
     [Test]
-    public async Task Test_AskLlmAsync_ShouldCallHttpService_WithCorrectParameters()
+    public async Task Test_AskLanguageModelAsync_ShouldCallHttpService_WithCorrectParameters()
     {
         // Arrange
         const string apiKey = "test-api-key";
@@ -80,7 +80,7 @@ public class MistralLanguageModelProviderTest
     }
 
     [Test]
-    public async Task Test_AskLlmAsync_ShouldReturnNull_WhenHttpResponseIsNull()
+    public async Task Test_AskLanguageModelAsync_ShouldReturnNull_WhenHttpResponseIsNull()
     {
         // Arrange
         _configuration.MistralApiKey.Returns("test-api-key");
@@ -101,7 +101,7 @@ public class MistralLanguageModelProviderTest
     }
 
     [Test]
-    public async Task Test_AskLlmAsync_ShouldReturnNull_WhenNoChoicesArePresent()
+    public async Task Test_AskLanguageModelAsync_ShouldReturnNull_WhenNoChoicesArePresent()
     {
         // Arrange
         _configuration.MistralApiKey.Returns("test-api-key");
