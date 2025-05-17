@@ -29,7 +29,7 @@ public class ElevenLabsAiTextToSpeechProviderTest
         var result = await _provider.GetTextToSpeechAudioStreamAsync("Test text");
     
         // Assert
-        Assert.IsNull(result);
+        Assert.That(result, Is.Null);
     }
     
     [Test]
@@ -48,8 +48,8 @@ public class ElevenLabsAiTextToSpeechProviderTest
         var result = await _provider.GetTextToSpeechAudioStreamAsync("Test text");
     
         // Assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual(mockStream, result);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.EqualTo(mockStream));
     }
     
     [Test]
@@ -63,9 +63,8 @@ public class ElevenLabsAiTextToSpeechProviderTest
             Arg.Any<object>(),
             Arg.Any<Dictionary<string, string>>(),
             Arg.Any<CancellationToken>()).Returns(mockStream);
-    
         var cancellationToken = new CancellationToken();
-        var text = "Test text";
+        const string text = "Test text";
     
         // Act
         await _provider.GetTextToSpeechAudioStreamAsync(text, cancellationToken);
