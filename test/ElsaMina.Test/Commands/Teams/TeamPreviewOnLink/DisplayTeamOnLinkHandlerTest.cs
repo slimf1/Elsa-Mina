@@ -74,7 +74,7 @@ public class DisplayTeamOnLinkHandlerTest
     public async Task Test_HandleReceivedMessageAsync_ShouldNotProceed_WhenTeamLinksPreviewDisabled()
     {
         // Arrange
-        _roomsManager.GetRoomParameter(Arg.Any<string>(), RoomParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW)
+        _roomsManager.GetRoomParameter(Arg.Any<string>(), ParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW)
             .Returns("false");
 
         // Act
@@ -125,7 +125,7 @@ public class DisplayTeamOnLinkHandlerTest
         var sharedTeam = new SharedTeam { Author = "Author", TeamExport = "Export" };
         teamLinkMatch.GetTeamExport().Returns(Task.FromResult(sharedTeam));
         _roomsManager.GetRoomParameter(
-            "roomId", RoomParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW).Returns("true");
+            "roomId", ParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW).Returns("true");
         _teamLinkMatchFactory.FindTeamLinkMatch("team link").Returns(teamLinkMatch);
         _configuration.Trigger.Returns("-");
         _configuration.Name.Returns("Bot");

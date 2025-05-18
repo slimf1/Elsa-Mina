@@ -35,7 +35,7 @@ public class SetLocale : Command
         }
 
         var success = await _roomsManager.SetRoomParameter(roomId,
-            RoomParametersConstants.LOCALE, locale);
+            ParametersConstants.LOCALE, locale);
         context.Culture = cultureInfo;
         context.Reply(success ? $"Updated locale of room {roomId} to : {locale}" : "An error occurred.");
     }

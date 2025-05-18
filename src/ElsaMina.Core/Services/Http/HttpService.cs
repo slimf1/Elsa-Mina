@@ -5,17 +5,10 @@ namespace ElsaMina.Core.Services.Http;
 
 public class HttpService : IHttpService
 {
-    private static readonly HttpClient HTTP_CLIENT = CreateHttpClient();
-
-    private static HttpClient CreateHttpClient()
+    private readonly HttpClient _httpClient = new()
     {
-        var httpClient = new HttpClient
-        {
-            Timeout = TimeSpan.FromSeconds(30)
-        };
-
-        return httpClient;
-    }
+        Timeout = TimeSpan.FromSeconds(30)
+    };
 
     public async Task<IHttpResponse<TResponse>> PostJsonAsync<TRequest, TResponse>(
         string uri,
@@ -73,7 +66,7 @@ public class HttpService : IHttpService
 
     public Task<Stream> GetStreamAsync(string uri, CancellationToken cancellationToken = default)
     {
-        return HTTP_CLIENT.GetStreamAsync(uri, cancellationToken);
+        return _httpClient.GetStreamAsync(uri, cancellationToken);
     }
 
     private static StringContent CreateJsonContent<T>(T dto)
@@ -88,6 +81,7 @@ public class HttpService : IHttpService
         {
             return;
         }
+
         foreach (var header in headers)
         {
             request.Headers.Add(header.Key, header.Value);
@@ -106,7 +100,7 @@ public class HttpService : IHttpService
         request.Content = content;
         AddHeaders(request, headers);
 
-        var response = await HTTP_CLIENT.SendAsync(request, cancellationToken);
+        var response = await _httpClient.SendAsync(request, cancellationToken);
         var stringContent = await response.Content.ReadAsStringAsync(cancellationToken);
 
         if (!response.IsSuccessStatusCode)
@@ -126,7 +120,7 @@ public class HttpService : IHttpService
         };
     }
 
-    private static async Task<HttpResponseMessage> SendRequestAsync(
+    private async Task<HttpResponseMessage> SendRequestAsync(
         HttpMethod method,
         string uri,
         HttpContent content,
@@ -137,7 +131,7 @@ public class HttpService : IHttpService
         request.Content = content;
         AddHeaders(request, headers);
 
-        var response = await HTTP_CLIENT.SendAsync(request, cancellationToken);
+        var response = await _httpClient.SendAsync(request, cancellationToken);
         if (!response.IsSuccessStatusCode)
         {
             var stringContent = await response.Content.ReadAsStringAsync(cancellationToken);

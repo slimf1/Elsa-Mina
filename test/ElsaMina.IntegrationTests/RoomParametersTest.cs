@@ -37,11 +37,11 @@ public class RoomParametersTest
         });
         var resourcesService = Substitute.For<IResourcesService>();
         resourcesService.SupportedLocales.Returns([new CultureInfo("fr-FR")]);
-        var roomConfigurationParametersFactory = new RoomConfigurationParametersFactory(configurationManager,
+        var parametersFactory = new ParametersFactory(configurationManager,
             resourcesService);
         var roomParametersRepository = new RoomParametersRepository(_context);
         var roomBotParameterValueRepository = new RoomBotParameterValueRepository(_context);
-        _roomsManager = new RoomsManager(configurationManager, roomConfigurationParametersFactory,
+        _roomsManager = new RoomsManager(configurationManager, parametersFactory,
             roomParametersRepository, roomBotParameterValueRepository, _userPlayTimeRepository, _clockService);
         string[] lines =
         [
@@ -65,23 +65,23 @@ public class RoomParametersTest
     {
         // Get default value
         Assert.That(_roomsManager
-                .GetRoomParameter("franais", RoomParametersConstants.LOCALE),
+                .GetRoomParameter("franais", ParametersConstants.LOCALE),
             Is.EqualTo("fr-FR"));
         
         // Modify value
         var result = await _roomsManager
-            .SetRoomParameter("franais", RoomParametersConstants.LOCALE, "en-US");
+            .SetRoomParameter("franais", ParametersConstants.LOCALE, "en-US");
         Assert.Multiple(() =>
         {
             Assert.That(result, Is.True);
             Assert.That(_roomsManager
-                    .GetRoomParameter("franais", RoomParametersConstants.LOCALE),
+                    .GetRoomParameter("franais", ParametersConstants.LOCALE),
                 Is.EqualTo("en-US"));
         });
         await _roomsManager.SetRoomParameter("franais",
-            RoomParametersConstants.HAS_COMMAND_AUTO_CORRECT, false.ToString());
+            ParametersConstants.HAS_COMMAND_AUTO_CORRECT, false.ToString());
         Assert.That(_roomsManager
-                .GetRoomParameter("franais", RoomParametersConstants.HAS_COMMAND_AUTO_CORRECT).ToBoolean(),
+                .GetRoomParameter("franais", ParametersConstants.HAS_COMMAND_AUTO_CORRECT).ToBoolean(),
             Is.False);
     }
 }

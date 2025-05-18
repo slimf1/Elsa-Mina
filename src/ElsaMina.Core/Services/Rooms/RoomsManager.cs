@@ -20,7 +20,7 @@ public class RoomsManager : IRoomsManager
     private readonly TaskQueue _taskQueue = new();
 
     public RoomsManager(IConfigurationManager configurationManager,
-        IRoomConfigurationParametersFactory roomConfigurationParametersFactory,
+        IParametersFactory parametersFactory,
         IRoomParametersRepository roomParametersRepository,
         IRoomBotParameterValueRepository roomBotParameterValueRepository,
         IUserPlayTimeRepository userPlayTimeRepository,
@@ -32,10 +32,10 @@ public class RoomsManager : IRoomsManager
         _userPlayTimeRepository = userPlayTimeRepository;
         _clockService = clockService;
 
-        RoomBotConfigurationParameters = roomConfigurationParametersFactory.GetParameters();
+        RoomParameters = parametersFactory.GetParameters();
     }
 
-    public IReadOnlyDictionary<string, IRoomBotConfigurationParameter> RoomBotConfigurationParameters { get; }
+    public IReadOnlyDictionary<string, IParameter> RoomParameters { get; }
 
     public IRoom GetRoom(string roomId)
     {
@@ -73,7 +73,7 @@ public class RoomsManager : IRoomsManager
         }
 
         var localeParameterValue = roomParameters.ParameterValues?
-            .FirstOrDefault(parameter => parameter.ParameterId == RoomParametersConstants.LOCALE);
+            .FirstOrDefault(parameter => parameter.ParameterId == ParametersConstants.LOCALE);
         var defaultLocale = localeParameterValue?.Value ?? _configurationManager.Configuration.DefaultLocaleCode;
         var room = new Room(roomTitle ?? roomId, roomId, new CultureInfo(defaultLocale))
         {
@@ -119,7 +119,7 @@ public class RoomsManager : IRoomsManager
     public string GetRoomParameter(string roomId, string parameterId)
     {
         var roomParameters = GetRoom(roomId)?.Parameters?.ParameterValues;
-        if (roomParameters == null || !RoomBotConfigurationParameters
+        if (roomParameters == null || !RoomParameters
                 .TryGetValue(parameterId, out var parameter))
         {
             return default;
@@ -134,7 +134,7 @@ public class RoomsManager : IRoomsManager
     {
         var room = GetRoom(roomId);
         var roomParameters = room.Parameters;
-        var parameter = RoomBotConfigurationParameters[parameterId];
+        var parameter = RoomParameters[parameterId];
         var parameterValue = roomParameters.ParameterValues
             .FirstOrDefault(parameterValue => parameterValue.ParameterId == parameterId);
         try

@@ -1,6 +1,6 @@
 ﻿namespace ElsaMina.Core.Services.Rooms.Parameters;
 
-public class RoomBotConfigurationParameter : IRoomBotConfigurationParameter
+public class Parameter : IParameter
 {
     public required string Identifier { get; set; }
     public required string NameKey { get; set; }

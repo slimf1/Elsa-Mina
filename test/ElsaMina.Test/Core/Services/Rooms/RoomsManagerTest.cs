@@ -13,7 +13,7 @@ public class RoomsManagerTest
 {
     private IConfigurationManager _configurationManager;
     private IRoomParametersRepository _roomParametersRepository;
-    private IRoomConfigurationParametersFactory _roomConfigurationParametersFactory;
+    private IParametersFactory _parametersFactory;
     private IRoomBotParameterValueRepository _roomBotParameterValueRepository;
     private IUserPlayTimeRepository _userPlayTimeRepository;
     private IClockService _clockService;
@@ -25,12 +25,12 @@ public class RoomsManagerTest
     {
         _configurationManager = Substitute.For<IConfigurationManager>();
         _roomParametersRepository = Substitute.For<IRoomParametersRepository>();
-        _roomConfigurationParametersFactory = Substitute.For<IRoomConfigurationParametersFactory>();
+        _parametersFactory = Substitute.For<IParametersFactory>();
         _roomBotParameterValueRepository = Substitute.For<IRoomBotParameterValueRepository>();
         _userPlayTimeRepository = Substitute.For<IUserPlayTimeRepository>();
         _clockService = Substitute.For<IClockService>();
 
-        _roomsManager = new RoomsManager(_configurationManager, _roomConfigurationParametersFactory,
+        _roomsManager = new RoomsManager(_configurationManager, _parametersFactory,
             _roomParametersRepository, _roomBotParameterValueRepository, _userPlayTimeRepository, _clockService);
     }
 
@@ -88,7 +88,7 @@ public class RoomsManagerTest
             {
                 new()
                 {
-                    ParameterId = RoomParametersConstants.LOCALE,
+                    ParameterId = ParametersConstants.LOCALE,
                     Value = "fr-FR"
                 }
             }

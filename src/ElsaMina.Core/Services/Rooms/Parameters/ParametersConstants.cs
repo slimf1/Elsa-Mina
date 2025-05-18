@@ -1,6 +1,6 @@
 namespace ElsaMina.Core.Services.Rooms.Parameters;
 
-public static class RoomParametersConstants
+public static class ParametersConstants
 {
     public const string LOCALE = "locale";
     public const string HAS_COMMAND_AUTO_CORRECT = "autocorrect";

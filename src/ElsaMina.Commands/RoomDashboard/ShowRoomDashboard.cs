@@ -57,7 +57,8 @@ public class ShowRoomDashboard : Command
         configurationCommandBuilder.Append(roomId);
         configurationCommandBuilder.Append(',');
         configurationCommandBuilder.AppendJoin(',', _roomsManager
-            .RoomBotConfigurationParameters.Values
+            .RoomParameters
+            .Values
             .Select(parameter => $"{parameter.Identifier}={{{parameter.Identifier}}}"));
 
         var viewModel = new RoomDashboardViewModel
@@ -68,7 +69,7 @@ public class ShowRoomDashboard : Command
             Command = configurationCommandBuilder.ToString(),
             RoomName = room.Name,
             Culture = context.Culture,
-            RoomParameterLines = _roomsManager.RoomBotConfigurationParameters
+            RoomParameterLines = _roomsManager.RoomParameters
                 .Select(roomParameter => new RoomParameterLineModel
                 {
                     Culture = context.Culture,

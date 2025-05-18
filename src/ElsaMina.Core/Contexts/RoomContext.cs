@@ -39,7 +39,7 @@ public class RoomContext : Context
     public override ContextType Type => ContextType.Room;
 
     protected override bool IsAllowingErrorMessages => _contextProvider
-        .GetRoomParameterValue(RoomId, RoomParametersConstants.IS_SHOWING_ERROR_MESSAGES).ToBoolean();
+        .GetRoomParameterValue(RoomId, ParametersConstants.IS_SHOWING_ERROR_MESSAGES).ToBoolean();
 
     public override bool HasRankOrHigher(Rank requiredRank)
     {

@@ -5,24 +5,24 @@ using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Core.Services.Rooms.Parameters;
 
-public class RoomConfigurationParametersFactory : IRoomConfigurationParametersFactory
+public class ParametersFactory : IParametersFactory
 {
     private readonly IConfigurationManager _configurationManager;
     private readonly IResourcesService _resourcesService;
     
-    public RoomConfigurationParametersFactory(IConfigurationManager configurationManager,
+    public ParametersFactory(IConfigurationManager configurationManager,
         IResourcesService resourcesService)
     {
         _configurationManager = configurationManager;
         _resourcesService = resourcesService;
     }
 
-    public IReadOnlyDictionary<string, IRoomBotConfigurationParameter> GetParameters() =>
-        new Dictionary<string, IRoomBotConfigurationParameter>
+    public IReadOnlyDictionary<string, IParameter> GetParameters() =>
+        new Dictionary<string, IParameter>
         {
-            [RoomParametersConstants.LOCALE] = new RoomBotConfigurationParameter
+            [ParametersConstants.LOCALE] = new Parameter
             {
-                Identifier = RoomParametersConstants.LOCALE,
+                Identifier = ParametersConstants.LOCALE,
                 NameKey = "parameter_name_locale",
                 DescriptionKey = "parameter_description_locale",
                 Type = RoomBotConfigurationType.Enumeration,
@@ -34,33 +34,33 @@ public class RoomConfigurationParametersFactory : IRoomConfigurationParametersFa
                 }),
                 OnUpdateAction = (room, newValue) => room.Culture = new CultureInfo(newValue)
             },
-            [RoomParametersConstants.HAS_COMMAND_AUTO_CORRECT] = new RoomBotConfigurationParameter
+            [ParametersConstants.HAS_COMMAND_AUTO_CORRECT] = new Parameter
             {
-                Identifier = RoomParametersConstants.HAS_COMMAND_AUTO_CORRECT,
+                Identifier = ParametersConstants.HAS_COMMAND_AUTO_CORRECT,
                 NameKey = "parameter_name_has_command_auto_correct",
                 DescriptionKey = "parameter_description_has_command_auto_correct",
                 Type = RoomBotConfigurationType.Boolean,
                 DefaultValue = true.ToString()
             },
-            [RoomParametersConstants.IS_SHOWING_ERROR_MESSAGES] = new RoomBotConfigurationParameter
+            [ParametersConstants.IS_SHOWING_ERROR_MESSAGES] = new Parameter
             {
-                Identifier = RoomParametersConstants.IS_SHOWING_ERROR_MESSAGES,
+                Identifier = ParametersConstants.IS_SHOWING_ERROR_MESSAGES,
                 NameKey = "parameter_name_is_showing_error_messages",
                 DescriptionKey = "parameter_description_is_showing_error_messages",
                 Type = RoomBotConfigurationType.Boolean,
                 DefaultValue = true.ToString()
             },
-            [RoomParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW] = new RoomBotConfigurationParameter
+            [ParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW] = new Parameter
             {
-                Identifier = RoomParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW,
+                Identifier = ParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW,
                 NameKey = "parameter_name_is_showing_team_links_preview",
                 DescriptionKey = "parameter_description_is_showing_team_links_preview",
                 Type = RoomBotConfigurationType.Boolean,
                 DefaultValue = true.ToString()
             },
-            [RoomParametersConstants.IS_SHOWING_REPLAYS_PREVIEW] = new RoomBotConfigurationParameter
+            [ParametersConstants.IS_SHOWING_REPLAYS_PREVIEW] = new Parameter
             {
-                Identifier = RoomParametersConstants.IS_SHOWING_REPLAYS_PREVIEW,
+                Identifier = ParametersConstants.IS_SHOWING_REPLAYS_PREVIEW,
                 NameKey = "parameter_name_is_showing_replays_preview",
                 DescriptionKey = "parameter_description_is_showing_replays_preview",
                 Type = RoomBotConfigurationType.Boolean,
