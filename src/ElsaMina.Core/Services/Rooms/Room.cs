@@ -31,7 +31,7 @@ public class Room : IRoom
         set => OnGameChanged(_game, value);
     }
 
-    public RoomParameters Parameters { get; set; }
+    public RoomInfo Info { get; set; }
     public IEnumerable<Tuple<string, string>> LastMessages => _lastMessages.Reverse();
 
     public void UpdateMessageQueue(string user, string message)

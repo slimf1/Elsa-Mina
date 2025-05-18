@@ -9,8 +9,6 @@ namespace ElsaMina.Test.Commands.Ai.TextToSpeech;
 
 public class SpeakCommandTest
 {
-    private IFileSharingService _fileSharingService;
-    private IClockService _clockService;
     private IAiTextToSpeechProvider _textToSpeechProvider;
     private IContext _context;
 
@@ -19,14 +17,12 @@ public class SpeakCommandTest
     [SetUp]
     public void SetUp()
     {
-        _fileSharingService = Substitute.For<IFileSharingService>();
-        _clockService = Substitute.For<IClockService>();
         _textToSpeechProvider = Substitute.For<IAiTextToSpeechProvider>();
         _context = Substitute.For<IContext>();
-        
-        _command = new SpeakCommand(_fileSharingService, _clockService, _textToSpeechProvider);
+
+        _command = new SpeakCommand(_textToSpeechProvider);
     }
-    
+
     [Test]
     [TestCase(null)]
     [TestCase("")]
@@ -34,58 +30,60 @@ public class SpeakCommandTest
     {
         // Given
         _textToSpeechProvider
-            .GetTextToSpeechAudioStreamAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .GetTextToSpeechAudioUrlAsync(Arg.Any<string>(), Arg.Any<VoiceType>(), Arg.Any<CancellationToken>())
             .ReturnsNull();
-        
+
         // When
         await _command.RunAsync(_context);
-        
+
         // Then
         _context.Received(1).ReplyLocalizedMessage("speak_error");
     }
-    
-    [Test]
-    [TestCase(null)]
-    [TestCase("")]
-    public async Task Test_RunAsync_ShouldReturnError_WhenFileUploadFailed(string key)
-    {
-        // Given
-        _textToSpeechProvider
-            .GetTextToSpeechAudioStreamAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(new MemoryStream([1, 2, 3]));
-        _clockService.CurrentUtcDateTime.Returns(new DateTime(2020, 5, 3, 10, 30, 45, 300));
-        _fileSharingService
-            .CreateFileAsync(Arg.Any<Stream>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(),
-                Arg.Any<CancellationToken>())
-            .ReturnsNull();
-        
-        // When
-        await _command.RunAsync(_context);
-        
-        // Then
-        _context.Received(1).ReplyLocalizedMessage("speak_error");
-    }
-    
+
     [Test]
     public async Task Test_RunAsync_ShouldFetchStreamAndUploadIt_WhenTtsAndFileUploadSucceeds()
     {
         // Given
         _textToSpeechProvider
-            .GetTextToSpeechAudioStreamAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(new MemoryStream([1, 2, 3]));
-        _clockService.CurrentUtcDateTime.Returns(new DateTime(2020, 5, 3, 10, 30, 45, 300));
-        _fileSharingService
-            .CreateFileAsync(Arg.Any<Stream>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(),
-                Arg.Any<CancellationToken>())
-            .ReturnsNull();
-        _fileSharingService.CreateFileAsync(Arg.Any<Stream>(), "speakcmd_20200503_103045300.mp3",
-                "Speak command", "audio/mpeg")
-            .Returns("url");
+            .GetTextToSpeechAudioUrlAsync(Arg.Any<string>(), Arg.Any<VoiceType>(), Arg.Any<CancellationToken>())
+            .Returns("https://ovh.net/s3/myaudio.mp3");
 
         // When
         await _command.RunAsync(_context);
-        
+
         // Then
-        _context.Received(1).ReplyHtml("""<audio src="url" controls></audio>""");
+        _context.Received(1).ReplyHtml("""<audio src="https://ovh.net/s3/myaudio.mp3" controls></audio>""");
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldFetchStreamAndUploadIt_WhenVoiceTypeIsDefined([Values] VoiceType voiceType)
+    {
+        // Given
+        _context.Target.Returns($"text;; {voiceType}");
+        _textToSpeechProvider
+            .GetTextToSpeechAudioUrlAsync("text", voiceType, Arg.Any<CancellationToken>())
+            .Returns("https://ovh.net/s3/myaudio.mp3");
+
+        // When
+        await _command.RunAsync(_context);
+
+        // Then
+        _context.Received(1).ReplyHtml("""<audio src="https://ovh.net/s3/myaudio.mp3" controls></audio>""");
+    }
+    
+    [Test]
+    public async Task Test_RunAsync_ShouldFetchStreamAndUploadIt()
+    {
+        // Given
+        _context.Target.Returns("text value, stuff, doing stuff");
+        _textToSpeechProvider
+            .GetTextToSpeechAudioUrlAsync("text value, stuff, doing stuff", VoiceType.Female, Arg.Any<CancellationToken>())
+            .Returns("https://ovh.net/s3/myaudio.mp3");
+
+        // When
+        await _command.RunAsync(_context);
+
+        // Then
+        _context.Received(1).ReplyHtml("""<audio src="https://ovh.net/s3/myaudio.mp3" controls></audio>""");
     }
 }

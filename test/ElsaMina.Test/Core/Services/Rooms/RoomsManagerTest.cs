@@ -12,7 +12,7 @@ namespace ElsaMina.Test.Core.Services.Rooms;
 public class RoomsManagerTest
 {
     private IConfigurationManager _configurationManager;
-    private IRoomParametersRepository _roomParametersRepository;
+    private IRoomInfoRepository _roomInfoRepository;
     private IParametersFactory _parametersFactory;
     private IRoomBotParameterValueRepository _roomBotParameterValueRepository;
     private IUserPlayTimeRepository _userPlayTimeRepository;
@@ -24,14 +24,14 @@ public class RoomsManagerTest
     public void SetUp()
     {
         _configurationManager = Substitute.For<IConfigurationManager>();
-        _roomParametersRepository = Substitute.For<IRoomParametersRepository>();
+        _roomInfoRepository = Substitute.For<IRoomInfoRepository>();
         _parametersFactory = Substitute.For<IParametersFactory>();
         _roomBotParameterValueRepository = Substitute.For<IRoomBotParameterValueRepository>();
         _userPlayTimeRepository = Substitute.For<IUserPlayTimeRepository>();
         _clockService = Substitute.For<IClockService>();
 
         _roomsManager = new RoomsManager(_configurationManager, _parametersFactory,
-            _roomParametersRepository, _roomBotParameterValueRepository, _userPlayTimeRepository, _clockService);
+            _roomInfoRepository, _roomBotParameterValueRepository, _userPlayTimeRepository, _clockService);
     }
 
     private async Task InitializeFakeRooms()
@@ -68,7 +68,7 @@ public class RoomsManagerTest
         {
             DefaultLocaleCode = "zh-CN"
         });
-        _roomParametersRepository.GetByIdAsync("franais").ReturnsNull();
+        _roomInfoRepository.GetByIdAsync("franais").ReturnsNull();
 
         // Act
         await _roomsManager.InitializeRoomAsync("franais", []);
@@ -81,7 +81,7 @@ public class RoomsManagerTest
     public async Task Test_InitializeRoom_ShouldUserLocaleStoredInDb_WhenRoomParametersExist()
     {
         // Arrange
-        _roomParametersRepository.GetByIdAsync("franais").Returns(new RoomParameters
+        _roomInfoRepository.GetByIdAsync("franais").Returns(new RoomInfo
         {
             Id = "franais",
             ParameterValues = new List<RoomBotParameterValue>

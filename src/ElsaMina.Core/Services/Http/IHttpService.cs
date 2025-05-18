@@ -6,7 +6,7 @@ public interface IHttpService // TODO : refactor this shit
         bool removeFirstCharacterFromResponse = false, IDictionary<string, string> headers = null,
         CancellationToken cancellationToken = default);
 
-    public Task<Stream> PostStreamAsync<TRequest>(string uri, TRequest dto, IDictionary<string, string> headers = null,
+    public Task<Stream> DownloadContentWithPostAsync<TRequest>(string uri, TRequest dto, IDictionary<string, string> headers = null,
         CancellationToken cancellationToken = default);
 
     public Task<IHttpResponse<TResponse>> PostUrlEncodedFormAsync<TResponse>(string uri,

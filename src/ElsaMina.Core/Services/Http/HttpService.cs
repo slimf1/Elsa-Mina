@@ -35,7 +35,7 @@ public class HttpService : IHttpService
         return response;
     }
 
-    public async Task<Stream> PostStreamAsync<TRequest>(
+    public async Task<Stream> DownloadContentWithPostAsync<TRequest>(
         string uri,
         TRequest dto,
         IDictionary<string, string> headers = null,

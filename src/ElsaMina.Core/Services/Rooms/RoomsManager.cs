@@ -11,7 +11,7 @@ namespace ElsaMina.Core.Services.Rooms;
 public class RoomsManager : IRoomsManager
 {
     private readonly IConfigurationManager _configurationManager;
-    private readonly IRoomParametersRepository _roomParametersRepository;
+    private readonly IRoomInfoRepository _roomInfoRepository;
     private readonly IRoomBotParameterValueRepository _roomBotParameterValueRepository;
     private readonly IUserPlayTimeRepository _userPlayTimeRepository;
     private readonly IClockService _clockService;
@@ -21,13 +21,13 @@ public class RoomsManager : IRoomsManager
 
     public RoomsManager(IConfigurationManager configurationManager,
         IParametersFactory parametersFactory,
-        IRoomParametersRepository roomParametersRepository,
+        IRoomInfoRepository roomInfoRepository,
         IRoomBotParameterValueRepository roomBotParameterValueRepository,
         IUserPlayTimeRepository userPlayTimeRepository,
         IClockService clockService)
     {
         _configurationManager = configurationManager;
-        _roomParametersRepository = roomParametersRepository;
+        _roomInfoRepository = roomInfoRepository;
         _roomBotParameterValueRepository = roomBotParameterValueRepository;
         _userPlayTimeRepository = userPlayTimeRepository;
         _clockService = clockService;
@@ -60,15 +60,15 @@ public class RoomsManager : IRoomsManager
             .Split(",")[1..];
 
         Log.Information("Initializing {0}...", roomTitle);
-        var roomParameters = await _roomParametersRepository.GetByIdAsync(roomId, cancellationToken);
+        var roomParameters = await _roomInfoRepository.GetByIdAsync(roomId, cancellationToken);
         if (roomParameters == null)
         {
             Log.Information("Could not find room parameters, inserting in db...");
-            roomParameters = new RoomParameters
+            roomParameters = new RoomInfo
             {
                 Id = roomId
             };
-            await _roomParametersRepository.AddAsync(roomParameters, cancellationToken);
+            await _roomInfoRepository.AddAsync(roomParameters, cancellationToken);
             Log.Information("Inserted room parameters for room {0} in db", roomId);
         }
 
@@ -77,7 +77,7 @@ public class RoomsManager : IRoomsManager
         var defaultLocale = localeParameterValue?.Value ?? _configurationManager.Configuration.DefaultLocaleCode;
         var room = new Room(roomTitle ?? roomId, roomId, new CultureInfo(defaultLocale))
         {
-            Parameters = roomParameters
+            Info = roomParameters
         };
 
         room.AddUsers(users ?? []);
@@ -118,7 +118,7 @@ public class RoomsManager : IRoomsManager
 
     public string GetRoomParameter(string roomId, string parameterId)
     {
-        var roomParameters = GetRoom(roomId)?.Parameters?.ParameterValues;
+        var roomParameters = GetRoom(roomId)?.Info?.ParameterValues;
         if (roomParameters == null || !RoomParameters
                 .TryGetValue(parameterId, out var parameter))
         {
@@ -133,7 +133,7 @@ public class RoomsManager : IRoomsManager
         string value)
     {
         var room = GetRoom(roomId);
-        var roomParameters = room.Parameters;
+        var roomParameters = room.Info;
         var parameter = RoomParameters[parameterId];
         var parameterValue = roomParameters.ParameterValues
             .FirstOrDefault(parameterValue => parameterValue.ParameterId == parameterId);

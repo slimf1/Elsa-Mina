@@ -32,7 +32,8 @@ public class MistralLanguageModelProviderTest
 
         // Assert
         Assert.That(result, Is.Null);
-        await _httpService.DidNotReceiveWithAnyArgs().PostJsonAsync<MistralRequestDto, MistralResponseDto>(default, default, default, default);
+        await _httpService.DidNotReceiveWithAnyArgs()
+            .PostJsonAsync<MistralRequestDto, MistralResponseDto>(default, default, default, default);
     }
 
     [Test]

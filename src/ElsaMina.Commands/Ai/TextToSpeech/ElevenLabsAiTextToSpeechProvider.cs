@@ -1,30 +1,42 @@
 using ElsaMina.Core;
+using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
+using ElsaMina.FileSharing;
 
 namespace ElsaMina.Commands.Ai.TextToSpeech;
 
 public class ElevenLabsAiTextToSpeechProvider : IAiTextToSpeechProvider
 {
-    private const string VOICE_ID = "Qrl71rx6Yg8RvyPYRGCQ";
-    private const string ELEVEN_LABS_TTS_API_URL = $"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}";
-    
+   // private const string FEMALE_VOICE_ID = "EXAVITQu4vr4xnSDxMaL";
+    private const string FEMALE_VOICE_ID = "9BWtsMINqrJLrRacOk9x";
+    private const string MALE_VOICE_ID = "Qrl71rx6Yg8RvyPYRGCQ";
+    private const string ELEVEN_LABS_TTS_API_URL = "https://api.elevenlabs.io/v1/text-to-speech/{0}";
+
     private readonly IConfiguration _configuration;
     private readonly IHttpService _httpService;
+    private readonly IFileSharingService _fileSharingService;
+    private readonly IClockService _clockService;
 
-    public ElevenLabsAiTextToSpeechProvider(IConfiguration configuration, IHttpService httpService)
+    public ElevenLabsAiTextToSpeechProvider(IConfiguration configuration,
+        IHttpService httpService,
+        IFileSharingService fileSharingService,
+        IClockService clockService)
     {
         _configuration = configuration;
         _httpService = httpService;
+        _fileSharingService = fileSharingService;
+        _clockService = clockService;
     }
 
-    public Task<Stream> GetTextToSpeechAudioStreamAsync(string text, CancellationToken cancellationToken = default)
+    public async Task<string> GetTextToSpeechAudioUrlAsync(string text, VoiceType voiceType,
+        CancellationToken cancellationToken = default)
     {
         var key = _configuration.ElevenLabsApiKey;
         if (string.IsNullOrWhiteSpace(key))
         {
             Log.Error("Missing Eleven Labs API key");
-            return Task.FromResult<Stream>(null);
+            return null;
         }
 
         var headers = new Dictionary<string, string>
@@ -38,10 +50,34 @@ public class ElevenLabsAiTextToSpeechProvider : IAiTextToSpeechProvider
             ModelId = "eleven_multilingual_v1"
         };
 
-        return _httpService.PostStreamAsync(
-            ELEVEN_LABS_TTS_API_URL,
+        var voiceId = voiceType switch
+        {
+            VoiceType.Male => MALE_VOICE_ID,
+            VoiceType.Female => FEMALE_VOICE_ID,
+            _ => FEMALE_VOICE_ID
+        };
+
+        var stream = await _httpService.DownloadContentWithPostAsync(
+            string.Format(ELEVEN_LABS_TTS_API_URL, voiceId),
             dto,
             headers: headers,
             cancellationToken: cancellationToken);
+
+        if (stream == null)
+        {
+            Log.Error("Failed to get TTS audio stream");
+            return null;
+        }
+
+        var fileName = $"tts_{_clockService.CurrentUtcDateTime:yyyyMMdd_HHmmssfff}.mp3";
+        var url = await _fileSharingService.CreateFileAsync(
+            stream, fileName, "Text to Speech", "audio/mpeg", cancellationToken);
+        if (string.IsNullOrEmpty(url))
+        {
+            Log.Error("Failed to upload audio file");
+            return null;
+        }
+
+        return url;
     }
 }

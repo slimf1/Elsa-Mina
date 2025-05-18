@@ -1,4 +1,5 @@
 using ElsaMina.Commands.Ai.LanguageModel;
+using ElsaMina.Commands.Ai.TextToSpeech;
 using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
@@ -8,26 +9,31 @@ using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.Ai.Chat;
 
-[NamedCommand("ask-elsa", "ask", "ai", "aichat", "ai-chat")]
+[NamedCommand("ask-elsa", "ask", "ai", "aichat", "ai-chat", "askaudio", "askelsaaudio", "ask-elsa-audio",
+    "ai-chat-audio", "aiaudio", "ai-audio")]
 public class AskElsaCommand : Command
 {
     private readonly IConfiguration _configuration;
     private readonly IResourcesService _resourcesService;
     private readonly ILanguageModelProvider _languageModelProvider;
+    private readonly IAiTextToSpeechProvider _textToSpeechProvider;
 
     public AskElsaCommand(IConfiguration configuration,
         IResourcesService resourcesService,
-        ILanguageModelProvider languageModelProvider)
+        ILanguageModelProvider languageModelProvider,
+        IAiTextToSpeechProvider textToSpeechProvider)
     {
         _configuration = configuration;
         _resourcesService = resourcesService;
         _languageModelProvider = languageModelProvider;
+        _textToSpeechProvider = textToSpeechProvider;
     }
 
     public override Rank RequiredRank => Rank.Voiced;
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
+        var withAudio = context.Command.Contains("audio");
         var key = _configuration.MistralApiKey;
         if (string.IsNullOrWhiteSpace(key))
         {
@@ -50,6 +56,22 @@ public class AskElsaCommand : Command
             context.ReplyLocalizedMessage("ask_error");
             return;
         }
+
+        if (withAudio)
+        {
+            var url = await _textToSpeechProvider.GetTextToSpeechAudioUrlAsync(response, VoiceType.Female,
+                cancellationToken);
+            if (string.IsNullOrEmpty(url))
+            {
+                context.ReplyLocalizedMessage("ask_error");
+                Log.Error("Failed to upload audio file");
+                return;
+            }
+
+            context.ReplyHtml($"""<audio src="{url}" controls aria-label="{response}"></audio>""");
+            return;
+        }
+
         context.Reply(response);
     }
 }

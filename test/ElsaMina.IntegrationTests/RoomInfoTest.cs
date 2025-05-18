@@ -13,7 +13,7 @@ using NSubstitute;
 
 namespace ElsaMina.IntegrationTests;
 
-public class RoomParametersTest
+public class RoomInfoTest
 {
     private BotDbContext _context;
     private RoomsManager _roomsManager;
@@ -39,7 +39,7 @@ public class RoomParametersTest
         resourcesService.SupportedLocales.Returns([new CultureInfo("fr-FR")]);
         var parametersFactory = new ParametersFactory(configurationManager,
             resourcesService);
-        var roomParametersRepository = new RoomParametersRepository(_context);
+        var roomParametersRepository = new RoomInfoRepository(_context);
         var roomBotParameterValueRepository = new RoomBotParameterValueRepository(_context);
         _roomsManager = new RoomsManager(configurationManager, parametersFactory,
             roomParametersRepository, roomBotParameterValueRepository, _userPlayTimeRepository, _clockService);

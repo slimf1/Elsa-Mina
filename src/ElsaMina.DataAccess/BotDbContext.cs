@@ -17,7 +17,7 @@ public class BotDbContext : DbContext
     public DbSet<RoomSpecificUserData> UserData { get; set; }
     public DbSet<Badge> Badges { get; set; }
     public DbSet<AddedCommand> AddedCommands { get; set; }
-    public DbSet<RoomParameters> RoomParameters { get; set; }
+    public DbSet<RoomInfo> RoomInfo { get; set; }
     public DbSet<BadgeHolding> BadgeHoldings { get; set; }
     public DbSet<Team> Teams { get; set; }
     public DbSet<RoomTeam> RoomTeams { get; set; }
@@ -58,7 +58,7 @@ public class BotDbContext : DbContext
             .HasKey(roomTeam => new { roomTeam.TeamId, roomTeam.RoomId });
 
         modelBuilder.Entity<RoomTeam>()
-            .HasOne(roomTeam => roomTeam.RoomParameters)
+            .HasOne(roomTeam => roomTeam.RoomInfo)
             .WithMany(roomParameters => roomParameters.Teams)
             .HasForeignKey(roomTeam => roomTeam.RoomId);
 
@@ -77,7 +77,7 @@ public class BotDbContext : DbContext
             .HasKey(roomBotParameterValue => new { roomBotParameterValue.RoomId, roomBotParameterValue.ParameterId });
 
         modelBuilder.Entity<RoomBotParameterValue>()
-            .HasOne(roomBotParameterValue => roomBotParameterValue.RoomParameters)
+            .HasOne(roomBotParameterValue => roomBotParameterValue.RoomInfo)
             .WithMany(roomsParameters => roomsParameters.ParameterValues)
             .HasForeignKey(roomBotParameterValue => roomBotParameterValue.RoomId);
     }

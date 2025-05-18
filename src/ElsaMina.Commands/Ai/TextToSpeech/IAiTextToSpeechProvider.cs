@@ -2,5 +2,5 @@ namespace ElsaMina.Commands.Ai.TextToSpeech;
 
 public interface IAiTextToSpeechProvider
 {
-    Task<Stream> GetTextToSpeechAudioStreamAsync(string text, CancellationToken cancellationToken = default);
+    Task<string> GetTextToSpeechAudioUrlAsync(string text, VoiceType voiceType, CancellationToken cancellationToken = default);
 }

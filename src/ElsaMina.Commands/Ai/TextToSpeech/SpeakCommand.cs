@@ -1,24 +1,18 @@
 using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Rooms;
-using ElsaMina.FileSharing;
+using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.Ai.TextToSpeech;
 
-[NamedCommand("speak", "aispeak", "ai-speak")]
+[NamedCommand("speak", "aispeak", "ai-speak", "tts", "texttospeech", "text-to-speech")]
 public class SpeakCommand : Command
 {
-    private readonly IFileSharingService _fileSharingService;
-    private readonly IClockService _clockService;
     private readonly IAiTextToSpeechProvider _textToSpeechProvider;
 
-    public SpeakCommand(IFileSharingService fileSharingService, IClockService clockService,
-        IAiTextToSpeechProvider textToSpeechProvider)
+    public SpeakCommand(IAiTextToSpeechProvider textToSpeechProvider)
     {
-        _fileSharingService = fileSharingService;
-        _clockService = clockService;
         _textToSpeechProvider = textToSpeechProvider;
     }
 
@@ -27,18 +21,21 @@ public class SpeakCommand : Command
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        var stream = await _textToSpeechProvider.GetTextToSpeechAudioStreamAsync(context.Target, cancellationToken);
-
-        if (stream == null)
+        string text;
+        VoiceType voiceType;
+        try
         {
-            context.ReplyLocalizedMessage("speak_error");
-            Log.Error("Failed to get TTS audio stream");
-            return;
+            var args = context.Target.Split(";;");
+            text = args[0];
+            voiceType = Enum.Parse<VoiceType>(args[1].Trim(), ignoreCase: true);
+        }
+        catch (Exception)
+        {
+            text = context.Target;
+            voiceType = VoiceType.Female;
         }
 
-        var fileName = $"speakcmd_{_clockService.CurrentUtcDateTime:yyyyMMdd_HHmmssfff}.mp3";
-        var url = await _fileSharingService.CreateFileAsync(
-            stream, fileName, "Speak command", "audio/mpeg", cancellationToken);
+        var url = await _textToSpeechProvider.GetTextToSpeechAudioUrlAsync(text, voiceType, cancellationToken);
 
         if (string.IsNullOrEmpty(url))
         {
@@ -47,6 +44,6 @@ public class SpeakCommand : Command
             return;
         }
 
-        context.ReplyHtml($"""<audio src="{url}" controls></audio>""");
+        context.ReplyHtml($"""<audio src="{url}" controls aria-label="{text}"></audio>""");
     }
 }

@@ -19,7 +19,7 @@ public class DataAccessModule : Module
         builder.RegisterType<AddedCommandRepository>().As<IAddedCommandRepository>();
         builder.RegisterType<BadgeRepository>().As<IBadgeRepository>();
         builder.RegisterType<RoomSpecificUserDataRepository>().As<IRoomSpecificUserDataRepository>();
-        builder.RegisterType<RoomParametersRepository>().As<IRoomParametersRepository>();
+        builder.RegisterType<RoomInfoRepository>().As<IRoomInfoRepository>();
         builder.RegisterType<BadgeHoldingRepository>().As<IBadgeHoldingRepository>();
         builder.RegisterType<TeamRepository>().As<ITeamRepository>();
         builder.RegisterType<RoomBotParameterValueRepository>().As<IRoomBotParameterValueRepository>();

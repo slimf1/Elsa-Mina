@@ -1,6 +1,7 @@
 using System.Globalization;
 using ElsaMina.Commands.Ai.Chat;
 using ElsaMina.Commands.Ai.LanguageModel;
+using ElsaMina.Commands.Ai.TextToSpeech;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
@@ -9,22 +10,30 @@ using NSubstitute;
 
 namespace ElsaMina.Test.Commands.Ai.Chat;
 
-public class AskElsaCommandTests
+public class AskElsaCommandTest
 {
-    private IConfiguration _configuration;
-    private IResourcesService _resourcesService;
-    private ILanguageModelProvider _languageModelProvider;
+    private IConfiguration _mockConfiguration;
+    private IResourcesService _mockResourcesService;
+    private ILanguageModelProvider _mockLanguageModelProvider;
+    private IAiTextToSpeechProvider _mockTextToSpeechProvider;
     private AskElsaCommand _command;
 
     [SetUp]
     public void SetUp()
     {
-        _configuration = Substitute.For<IConfiguration>();
-        _resourcesService = Substitute.For<IResourcesService>();
-        _languageModelProvider = Substitute.For<ILanguageModelProvider>();
-        _command = new AskElsaCommand(_configuration, _resourcesService, _languageModelProvider);
-    }
+        _mockConfiguration = Substitute.For<IConfiguration>();
+        _mockResourcesService = Substitute.For<IResourcesService>();
+        _mockLanguageModelProvider = Substitute.For<ILanguageModelProvider>();
+        _mockTextToSpeechProvider = Substitute.For<IAiTextToSpeechProvider>();
 
+        _command = new AskElsaCommand(
+            _mockConfiguration,
+            _mockResourcesService,
+            _mockLanguageModelProvider,
+            _mockTextToSpeechProvider
+        );
+    }
+    
     [Test]
     public void Test_RequiredRank_ShouldBeVoiced()
     {
@@ -32,77 +41,89 @@ public class AskElsaCommandTests
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldLogError_WhenApiKeyIsMissing()
+    public async Task RunAsync_ShouldLogError_WhenApiKeyIsMissing()
     {
         // Arrange
-        _configuration.MistralApiKey.Returns(string.Empty);
-        var context = Substitute.For<IContext>();
+        _mockConfiguration.MistralApiKey.Returns(string.Empty);
+        var mockContext = Substitute.For<IContext>();
 
         // Act
-        await _command.RunAsync(context);
+        await _command.RunAsync(mockContext);
 
         // Assert
-        context.DidNotReceive().Reply(Arg.Any<string>());
+        mockContext.DidNotReceive().Reply(Arg.Any<string>());
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldGeneratePromptCorrectly()
+    public async Task RunAsync_ShouldReplyWithText_WhenAudioIsNotRequested()
     {
         // Arrange
-        const string apiKey = "test-api-key";
-        const string roomName = "TestRoom";
-        const string senderName = "User123";
-        const string botName = "Elsa";
-        const string target = "Hello";
-        const string promptTemplate = "Prompt: {0}, {1}, {2}, {3}, {4}";
-        const string expectedPrompt = "Prompt: Hello, User123, Elsa, TestRoom, Alice: Hi, Bob: Hello";
-
-        _configuration.MistralApiKey.Returns(apiKey);
-        _configuration.Name.Returns(botName);
-        _resourcesService.GetString("ask_prompt", Arg.Any<CultureInfo>()).Returns(promptTemplate);
-
-        var context = Substitute.For<IContext>();
-        context.Target.Returns(target);
-        context.Sender.Name.Returns(senderName);
-        context.Room.Name.Returns(roomName);
-        context.Room.LastMessages.Returns(new[] { Tuple.Create("Alice", "Hi"), Tuple.Create("Bob", "Hello") });
+        _mockConfiguration.MistralApiKey.Returns("valid-api-key");
+        var mockContext = Substitute.For<IContext>();
+        mockContext.Command.Returns("ask");
+        mockContext.Target.Returns("What is the weather?");
+        mockContext.Sender.Name.Returns("User");
+        mockContext.Room.Name.Returns("Room1");
+        mockContext.Room.LastMessages.Returns(new List<Tuple<string, string>>());
+        _mockResourcesService.GetString("ask_prompt", Arg.Any<CultureInfo>())
+            .Returns("{0} asked by {1} in {3}");
+        _mockLanguageModelProvider.AskLanguageModelAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns("It's sunny.");
 
         // Act
-        await _command.RunAsync(context);
+        await _command.RunAsync(mockContext);
 
         // Assert
-        await _languageModelProvider.Received(1).AskLanguageModelAsync(expectedPrompt, Arg.Any<CancellationToken>());
+        mockContext.Received(1).Reply("It's sunny.");
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldReplyWithErrorMessage_WhenResponseIsNull()
+    public async Task RunAsync_ShouldReplyWithAudio_WhenAudioIsRequested()
     {
         // Arrange
-        _configuration.MistralApiKey.Returns("valid-api-key");
-        var context = Substitute.For<IContext>();
-        _languageModelProvider.AskLanguageModelAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns((string)null);
+        _mockConfiguration.MistralApiKey.Returns("valid-api-key");
+        var mockContext = Substitute.For<IContext>();
+        mockContext.Command.Returns("askaudio");
+        mockContext.Target.Returns("What is the weather?");
+        mockContext.Sender.Name.Returns("User");
+        mockContext.Room.Name.Returns("Room1");
+        mockContext.Room.LastMessages.Returns(new List<Tuple<string, string>>());
+        _mockResourcesService.GetString("ask_prompt", Arg.Any<CultureInfo>())
+            .Returns("{0} asked by {1} in {3}");
+        _mockLanguageModelProvider.AskLanguageModelAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns("It's sunny.");
+        _mockTextToSpeechProvider.GetTextToSpeechAudioUrlAsync(Arg.Any<string>(), Arg.Any<VoiceType>(), Arg.Any<CancellationToken>())
+            .Returns("https://example.com/audio.mp3");
 
         // Act
-        await _command.RunAsync(context);
+        await _command.RunAsync(mockContext);
 
         // Assert
-        context.Received(1).ReplyLocalizedMessage("ask_error");
+        mockContext.Received(1).ReplyHtml("""<audio src="https://example.com/audio.mp3" controls></audio>""");
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldReplyWithResponse_WhenResponseIsNotNull()
+    public async Task RunAsync_ShouldLogError_WhenAudioGenerationFails()
     {
         // Arrange
-        _configuration.MistralApiKey.Returns("valid-api-key");
-        var context = Substitute.For<IContext>();
-        const string response = "Hello from AI";
-
-        _languageModelProvider.AskLanguageModelAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(response);
+        _mockConfiguration.MistralApiKey.Returns("valid-api-key");
+        var mockContext = Substitute.For<IContext>();
+        mockContext.Command.Returns("askaudio");
+        mockContext.Target.Returns("What is the weather?");
+        mockContext.Sender.Name.Returns("User");
+        mockContext.Room.Name.Returns("Room1");
+        mockContext.Room.LastMessages.Returns(new List<Tuple<string, string>>());
+        _mockResourcesService.GetString("ask_prompt", Arg.Any<CultureInfo>())
+            .Returns("{0} asked by {1} in {3}");
+        _mockLanguageModelProvider.AskLanguageModelAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns("It's sunny.");
+        _mockTextToSpeechProvider.GetTextToSpeechAudioUrlAsync(Arg.Any<string>(), Arg.Any<VoiceType>(), Arg.Any<CancellationToken>())
+            .Returns((string)null);
 
         // Act
-        await _command.RunAsync(context);
+        await _command.RunAsync(mockContext);
 
         // Assert
-        context.Received(1).Reply(response);
+        mockContext.Received(1).ReplyLocalizedMessage("ask_error");
     }
 }

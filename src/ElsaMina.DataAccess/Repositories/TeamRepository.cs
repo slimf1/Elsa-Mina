@@ -17,7 +17,7 @@ public class TeamRepository : BaseRepository<Team, string>, ITeamRepository
         return await _dbContext.Set<Team>()
             .AsNoTracking()
             .Include(x => x.Rooms)
-            .ThenInclude(x => x.RoomParameters)
+            .ThenInclude(x => x.RoomInfo)
             .FirstOrDefaultAsync(x => x.Id == key, cancellationToken: cancellationToken);
     }
 
@@ -26,7 +26,7 @@ public class TeamRepository : BaseRepository<Team, string>, ITeamRepository
         return await _dbContext.Set<Team>()
             .AsNoTracking()
             .Include(x => x.Rooms)
-            .ThenInclude(x => x.RoomParameters)
+            .ThenInclude(x => x.RoomInfo)
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
@@ -35,7 +35,7 @@ public class TeamRepository : BaseRepository<Team, string>, ITeamRepository
         return await _dbContext.Set<Team>()
             .AsNoTracking()
             .Include(x => x.Rooms)
-            .ThenInclude(x => x.RoomParameters)
+            .ThenInclude(x => x.RoomInfo)
             .Where(x => x.Rooms.Any(room => room.RoomId == roomId))
             .ToListAsync(cancellationToken: cancellationToken);
     }
@@ -45,7 +45,7 @@ public class TeamRepository : BaseRepository<Team, string>, ITeamRepository
         return await _dbContext.Set<Team>()
             .AsNoTracking()
             .Include(x => x.Rooms)
-            .ThenInclude(x => x.RoomParameters)
+            .ThenInclude(x => x.RoomInfo)
             .Where(x => x.Rooms.Any(room => room.RoomId == roomId) && x.Format == format)
             .ToListAsync(cancellationToken: cancellationToken);
     }

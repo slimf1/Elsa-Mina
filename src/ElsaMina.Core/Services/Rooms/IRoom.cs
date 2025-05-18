@@ -10,7 +10,7 @@ public interface IRoom
     IReadOnlyDictionary<string, IUser> Users { get; }
     CultureInfo Culture { get; set; }
     IGame Game { get; set; }
-    RoomParameters Parameters { get; }
+    RoomInfo Info { get; }
     IEnumerable<Tuple<string, string>> LastMessages { get; }
 
     void AddUser(string username);
