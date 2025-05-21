@@ -8,6 +8,6 @@ public class FailCommand : DevelopmentCommand
 {
     public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        throw new Exception("fail command called");
+        throw new ArgumentException("fail command called");
     }
 }

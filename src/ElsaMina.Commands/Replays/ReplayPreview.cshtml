@@ -1,14 +1,9 @@
 @using ElsaMina.Core.Templates
 @inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Replays.ReplayPreviewViewModel>;
 
-<table style="width: 100%; text-align: left; border: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; border-radius: 12px; padding: 4px">
-    <thead>
-    <tr>
-        <th colspan="2" style="text-align: center;">
-            @GetString("replay_preview_title", Model.Sender)
-        </th>
-    </tr>
-    </thead>
+<table
+    role="presentation"
+    style="width: 100%; text-align: left; border: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; border-radius: 12px;">
     <tbody>
     @for (var i = 0; i < Model.Players.Count; i += 2)
     {
@@ -52,7 +47,8 @@
                 <b>@GetString("views"):&nbsp;</b> @Model.Views &nbsp;
                 @if (Model.Rating != 0)
                 {
-                    <b>@GetString("rating"):&nbsp;</b> @Model.Rating
+                    <b>@GetString("rating"):&nbsp;</b>
+                    @Model.Rating
                 }
             </span>
         </td>

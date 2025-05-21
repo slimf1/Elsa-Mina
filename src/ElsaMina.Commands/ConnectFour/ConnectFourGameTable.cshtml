@@ -8,6 +8,7 @@
 }
 <table
     style="border-collapse: collapse; width: 100%">
+    <thead>
     <tr>
         <th style="@cellStyleWithBg">
             Grille
@@ -16,7 +17,9 @@
             Infos
         </th>
     </tr>
+    </thead>
 
+    <tbody>
     <tr>
         <td style="@cellStyle">
             @{ await IncludeAsync("ConnectFour/ConnectFourGrid", new ConnectFourGridModel
@@ -29,18 +32,18 @@
                }); }
         </td>
         <td style="padding: 20px; @cellStyle">
-            <span style="font-weight: bold;">@GetString("c4_game_name")</span><br />
-            <span>@GetString("c4_game_rules", ConnectFourConstants.WINNING_LENGTH)</span><br />
-            <span>@GetString("c4_game_current_turn", Model.CurrentGame.PlayerCurrentlyPlaying.Name, Model.CurrentGame.CurrentPlayerSymbol)</span><br />
-            <span>@GetString("c4_game_how_to_play")</span><br />
-            <span>@GetString("c4_game_timeout", ConnectFourConstants.TIMEOUT_DELAY.Seconds)</span><br />
-            <span>@GetString("c4_game_players", Model.CurrentGame.PlayerNames)</span><br />
-            <span>@GetString("c4_game_turn", Model.CurrentGame.TurnCount)</span><br />
+            <span style="font-weight: bold;">@GetString("c4_game_name")</span><br/>
+            <span>@GetString("c4_game_rules", ConnectFourConstants.WINNING_LENGTH)</span><br/>
+            <span>@GetString("c4_game_current_turn", Model.CurrentGame.PlayerCurrentlyPlaying.Name, Model.CurrentGame.CurrentPlayerSymbol)</span><br/>
+            <span>@GetString("c4_game_how_to_play")</span><br/>
+            <span>@GetString("c4_game_timeout", ConnectFourConstants.TIMEOUT_DELAY.Seconds)</span><br/>
+            <span>@GetString("c4_game_players", Model.CurrentGame.PlayerNames)</span><br/>
+            <span>@GetString("c4_game_turn", Model.CurrentGame.TurnCount)</span><br/>
             <span>@GetString("c4_game_party_id", ConnectFourGame.GameId)</span>
-            <br /><br />
+            <br/><br/>
             <details>
                 <summary>@GetString("c4_game_options")</summary>
-                <br />
+                <br/>
                 <button
                     class="button"
                     value="/pm @Model.BotName,@(Model.Trigger)c4ff @Model.RoomId"
@@ -50,4 +53,5 @@
             </details>
         </td>
     </tr>
+    </tbody>
 </table>
