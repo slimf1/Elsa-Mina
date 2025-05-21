@@ -99,7 +99,7 @@ public class AskElsaCommandTest
         await _command.RunAsync(mockContext);
 
         // Assert
-        mockContext.Received(1).ReplyHtml("""<audio src="https://example.com/audio.mp3" controls></audio>""");
+        mockContext.Received(1).ReplyHtml("""<audio src="https://example.com/audio.mp3" controls aria-label="It's sunny."></audio>""");
     }
 
     [Test]
