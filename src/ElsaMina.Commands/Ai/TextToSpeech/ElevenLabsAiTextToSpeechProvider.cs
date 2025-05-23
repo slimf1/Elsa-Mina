@@ -8,8 +8,7 @@ namespace ElsaMina.Commands.Ai.TextToSpeech;
 
 public class ElevenLabsAiTextToSpeechProvider : IAiTextToSpeechProvider
 {
-   // private const string FEMALE_VOICE_ID = "EXAVITQu4vr4xnSDxMaL";
-    private const string FEMALE_VOICE_ID = "9BWtsMINqrJLrRacOk9x";
+    private const string FEMALE_VOICE_ID = "EXAVITQu4vr4xnSDxMaL";
     private const string MALE_VOICE_ID = "Qrl71rx6Yg8RvyPYRGCQ";
     private const string ELEVEN_LABS_TTS_API_URL = "https://api.elevenlabs.io/v1/text-to-speech/{0}";
 

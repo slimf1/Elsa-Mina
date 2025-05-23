@@ -69,7 +69,7 @@ public class ProfileCommand : Command
         var status = GetStatus(showdownUserDetails);
         var avatarUrl = GetAvatar(storedUserData, showdownUserDetails);
         var userRoomRank = GetUserRoomRank(context, showdownUserDetails);
-        var bestRanking = ranksTask.Result?.OrderByDescending(ranking => ranking.Elo).FirstOrDefault();
+        var bestRanking = ranksTask.Result?.MaxBy(ranking => ranking.Elo);
 
         if (bestRanking != null)
         {

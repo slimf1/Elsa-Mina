@@ -18,7 +18,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var (level, players) in Model.Levels.OrderBy(pair => -pair.Key))
+    @foreach (var (level, players) in Model.Levels.OrderByDescending(pair => pair.Key))
     {
         <tr>
             <td style="@cellStyle">
