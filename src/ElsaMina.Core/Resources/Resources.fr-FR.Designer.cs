@@ -1274,5 +1274,17 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("replay_preview_title", resourceCulture);
             }
         }
+        
+        internal static string wiki_page_not_found {
+            get {
+                return ResourceManager.GetString("wiki_page_not_found", resourceCulture);
+            }
+        }
+        
+        internal static string wiki_error {
+            get {
+                return ResourceManager.GetString("wiki_error", resourceCulture);
+            }
+        }
     }
 }

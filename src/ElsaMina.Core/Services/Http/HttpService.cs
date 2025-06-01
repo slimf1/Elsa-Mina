@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net.Http.Headers;
+using System.Text;
 using Newtonsoft.Json;
 
 namespace ElsaMina.Core.Services.Http;
@@ -7,7 +8,12 @@ public class HttpService : IHttpService
 {
     private readonly HttpClient _httpClient = new()
     {
-        Timeout = TimeSpan.FromSeconds(30)
+        Timeout = TimeSpan.FromSeconds(30),
+        // User agent
+        DefaultRequestHeaders =
+        {
+            UserAgent = { new ProductInfoHeaderValue("ElsaMina", "1.0") }
+        }
     };
 
     public async Task<IHttpResponse<TResponse>> PostJsonAsync<TRequest, TResponse>(

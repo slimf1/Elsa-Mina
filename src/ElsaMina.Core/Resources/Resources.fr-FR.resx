@@ -633,4 +633,10 @@
     <data name="replay_preview_title" xml:space="preserve">
         <value>Replay de {0}</value>
     </data>
+    <data name="wiki_page_not_found" xml:space="preserve">
+        <value>Aucune page n'a été trouvée.</value>
+    </data>
+    <data name="wiki_error" xml:space="preserve">
+        <value>Une erreur est survenue en cherchant la page : {0}</value>
+    </data>
 </root>

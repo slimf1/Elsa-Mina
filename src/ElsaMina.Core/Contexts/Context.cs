@@ -49,8 +49,14 @@ public abstract class Context : IContext
 
     public string GetString(string key) => _contextProvider.GetString(key, Culture);
 
-    public string GetString(string key, params object[] formatArguments) =>
-        string.Format(GetString(key), formatArguments);
+    public string GetString(string key, params object[] formatArguments)
+    {
+        if (formatArguments == null || formatArguments.Length == 0)
+        {
+            return GetString(key);
+        }
+        return string.Format(GetString(key), formatArguments);
+    }
 
     public void ReplyLocalizedMessage(string key, params object[] formatArguments)
     {
