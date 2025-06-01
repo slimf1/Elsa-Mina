@@ -639,4 +639,7 @@
     <data name="wiki_error" xml:space="preserve">
         <value>An error occurred while fetching page : {0}</value>
     </data>
+    <data name="pokemon_name_required" xml:space="preserve">
+        <value>Please provide a Pokemon name.</value>
+    </data>
 </root>
