@@ -26,5 +26,6 @@ public class DataAccessModule : Module
         builder.RegisterType<ArcadeLevelRepository>().As<IArcadeLevelRepository>();
         builder.RegisterType<PollSuggestionRepository>().As<IPollSuggestionRepository>();
         builder.RegisterType<UserPlayTimeRepository>().As<IUserPlayTimeRepository>();
+        builder.RegisterType<SavedPollRepository>().As<ISavedPollRepository>();
     }
 }

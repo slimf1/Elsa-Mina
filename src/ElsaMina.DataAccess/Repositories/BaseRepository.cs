@@ -16,6 +16,8 @@ public abstract class BaseRepository<T, TKey> : IRepository<T, TKey> where T : c
     public abstract Task<T> GetByIdAsync(TKey key, CancellationToken cancellationToken = default);
     public abstract Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken = default);
 
+    protected DbSet<T> DbSet => _dbContext.Set<T>();
+
     public async Task AddAsync(T entity, CancellationToken cancellationToken = default)
     {
         await _dbContext.Set<T>().AddAsync(entity, cancellationToken);

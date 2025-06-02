@@ -19,6 +19,7 @@ using ElsaMina.Commands.Misc.Facts;
 using ElsaMina.Commands.Misc.Pokemon;
 using ElsaMina.Commands.Misc.Wiki;
 using ElsaMina.Commands.Misc.Youtube;
+using ElsaMina.Commands.Polls;
 using ElsaMina.Commands.Profile;
 using ElsaMina.Commands.Repeats;
 using ElsaMina.Commands.Repeats.Form;
@@ -107,6 +108,7 @@ public class CommandModule : Module
         builder.RegisterHandler<DisplayTeamsOnTourHandler>();
         builder.RegisterHandler<TourFinaleAnnounceHandler>();
         builder.RegisterHandler<ArcadeEventsHandler>();
+        builder.RegisterHandler<PollEndHandler>();
 
         builder.RegisterType<CountriesGame>().AsSelf();
         builder.RegisterType<ConnectFourGame>().AsSelf();

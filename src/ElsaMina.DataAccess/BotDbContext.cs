@@ -25,6 +25,7 @@ public class BotDbContext : DbContext
     public DbSet<ArcadeLevel> ArcadeLevels { get; set; }
     public DbSet<PollSuggestion> PollSuggestions { get; set; }
     public DbSet<UserPlayTime> UserPlayTimes { get; set; }
+    public DbSet<SavedPoll> SavedPolls { get; set; }
 
     public string ConnectionString { get; set; }
 
