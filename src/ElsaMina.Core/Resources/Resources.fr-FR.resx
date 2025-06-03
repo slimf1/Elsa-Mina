@@ -642,4 +642,19 @@
     <data name="pokemon_name_required" xml:space="preserve">
         <value>Veuillez fournir un nom de Pokémon.</value>
     </data>
+    <data name="show_polls_history_entry" xml:space="preserve">
+        <value>Poll ID: {0} Terminé le: {1} &lt;br/&gt;{2}&lt;br/&gt;</value>
+    </data>
+    <data name="show_polls_history_header" xml:space="preserve">
+        <value>L'historique des sondages pour: {0}&lt;br&gt;</value>
+    </data>
+    <data name="show_polls_history_sent" xml:space="preserve">
+        <value>Historique des sondages envoyé.</value>
+    </data>
+    <data name="show_polls_no_polls" xml:space="preserve">
+        <value>Aucun sondage n'a été trouvé.</value>
+    </data>
+    <data name="show_polls_room_not_exist" xml:space="preserve">
+        <value>La salle {0} n'existe pas</value>
+    </data>
 </root>

@@ -1286,5 +1286,41 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("wiki_error", resourceCulture);
             }
         }
+        
+        internal static string pokemon_name_required {
+            get {
+                return ResourceManager.GetString("pokemon_name_required", resourceCulture);
+            }
+        }
+        
+        internal static string show_polls_history_entry {
+            get {
+                return ResourceManager.GetString("show_polls_history_entry", resourceCulture);
+            }
+        }
+        
+        internal static string show_polls_history_header {
+            get {
+                return ResourceManager.GetString("show_polls_history_header", resourceCulture);
+            }
+        }
+        
+        internal static string show_polls_history_sent {
+            get {
+                return ResourceManager.GetString("show_polls_history_sent", resourceCulture);
+            }
+        }
+        
+        internal static string show_polls_no_polls {
+            get {
+                return ResourceManager.GetString("show_polls_no_polls", resourceCulture);
+            }
+        }
+        
+        internal static string show_polls_room_not_exist {
+            get {
+                return ResourceManager.GetString("show_polls_room_not_exist", resourceCulture);
+            }
+        }
     }
 }

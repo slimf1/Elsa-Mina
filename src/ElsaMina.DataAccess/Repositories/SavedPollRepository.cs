@@ -24,4 +24,13 @@ public class SavedPollRepository : BaseRepository<SavedPoll, int>, ISavedPollRep
             .Include(poll => poll.RoomInfo)
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<IEnumerable<SavedPoll>> GetPollsByRoomIdAsync(string roomId, CancellationToken cancellationToken = default)
+    {
+        return await DbSet
+            .AsNoTracking()
+            .Include(poll => poll.RoomInfo)
+            .Where(poll => poll.RoomId == roomId)
+            .ToListAsync(cancellationToken);
+    }
 }

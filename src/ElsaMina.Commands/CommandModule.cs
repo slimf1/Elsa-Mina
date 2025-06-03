@@ -99,6 +99,7 @@ public class CommandModule : Module
         builder.RegisterCommand<RepeatsListCommand>();
         builder.RegisterCommand<WikipediaSearchCommand>();
         builder.RegisterCommand<AfdSpriteCommand>();
+        builder.RegisterCommand<ShowPollsCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();
