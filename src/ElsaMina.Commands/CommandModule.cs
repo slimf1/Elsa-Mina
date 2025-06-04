@@ -16,6 +16,7 @@ using ElsaMina.Commands.JoinPhrases;
 using ElsaMina.Commands.Misc.Bitcoin;
 using ElsaMina.Commands.Misc.Colors;
 using ElsaMina.Commands.Misc.Facts;
+using ElsaMina.Commands.Misc.Pairings;
 using ElsaMina.Commands.Misc.Pokemon;
 using ElsaMina.Commands.Misc.Wiki;
 using ElsaMina.Commands.Misc.Youtube;
@@ -100,6 +101,7 @@ public class CommandModule : Module
         builder.RegisterCommand<WikipediaSearchCommand>();
         builder.RegisterCommand<AfdSpriteCommand>();
         builder.RegisterCommand<ShowPollsCommand>();
+        builder.RegisterCommand<PairingsCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();

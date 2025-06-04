@@ -21,11 +21,12 @@ public class HttpService : IHttpService
         TRequest dto,
         bool removeFirstCharacterFromResponse = false,
         IDictionary<string, string> headers = null,
+        bool isRaw = false,
         CancellationToken cancellationToken = default)
     {
         var content = CreateJsonContent(dto);
         var response = await SendRequestAsync<TResponse>(HttpMethod.Post, uri, content, headers,
-            removeFirstCharacterFromResponse, cancellationToken);
+            removeFirstCharacterFromResponse, isRaw, cancellationToken);
         return response;
     }
 
@@ -33,11 +34,12 @@ public class HttpService : IHttpService
         string uri,
         IDictionary<string, string> form,
         bool removeFirstCharacterFromResponse = false,
+        bool isRaw = false,
         CancellationToken cancellationToken = default)
     {
         var content = new FormUrlEncodedContent(form);
         var response = await SendRequestAsync<TResponse>(HttpMethod.Post, uri, content, null,
-            removeFirstCharacterFromResponse, cancellationToken);
+            removeFirstCharacterFromResponse, isRaw, cancellationToken);
         return response;
     }
 
@@ -57,6 +59,7 @@ public class HttpService : IHttpService
         IDictionary<string, string> queryParams = null,
         IDictionary<string, string> headers = null,
         bool removeFirstCharacterFromResponse = false,
+        bool isRaw = false,
         CancellationToken cancellationToken = default)
     {
         if (queryParams != null && queryParams.Count > 0)
@@ -66,7 +69,7 @@ public class HttpService : IHttpService
         }
 
         var response = await SendRequestAsync<TResponse>(HttpMethod.Get, uri, null, headers,
-            removeFirstCharacterFromResponse, cancellationToken);
+            removeFirstCharacterFromResponse, isRaw, cancellationToken);
         return response;
     }
 
@@ -100,6 +103,7 @@ public class HttpService : IHttpService
         HttpContent content,
         IDictionary<string, string> headers,
         bool removeFirstCharacterFromResponse,
+        bool isRaw,
         CancellationToken cancellationToken)
     {
         using var request = new HttpRequestMessage(method, uri);
@@ -122,7 +126,7 @@ public class HttpService : IHttpService
         return new HttpResponse<TResponse>
         {
             StatusCode = response.StatusCode,
-            Data = JsonConvert.DeserializeObject<TResponse>(stringContent)
+            Data = isRaw ? (TResponse)(object)stringContent : JsonConvert.DeserializeObject<TResponse>(stringContent)
         };
     }
 
