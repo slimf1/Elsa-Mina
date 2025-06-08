@@ -3,6 +3,7 @@
     <File Path=".dockerignore" />
     <File Path="Dockerfile" />
     <File Path="GitVersion.yml" />
+    <File Path="sonar-project.properties" />
   </Folder>
   <Folder Name="/Docs/">
     <File Path="README.md" />

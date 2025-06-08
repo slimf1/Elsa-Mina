@@ -52,7 +52,7 @@ public class WikipediaSearchCommand : Command
             }
 
             var box =
-                $"""{imageTag}{line} <a href="https://{languageCode}.wikipedia.org/wiki/{HttpUtility.UrlEncode(page.Title)}">{page.Title}</a><br>""";
+                $"""{imageTag}{line} <a href="https://{languageCode}.wikipedia.org/wiki/{page.Title}">{page.Title}</a><br>""";
             context.ReplyHtml(box, rankAware: true);
         }
         catch (Exception ex)
@@ -106,7 +106,7 @@ public class WikipediaSearchCommand : Command
         var page = pages
             .Values
             .OrderBy(page => page.Index)
-            .FirstOrDefault(page => page.PageProps == null || !page.PageProps.Keys.Contains("disambiguation"));
+            .FirstOrDefault(page => page.PageProps == null || !page.PageProps.ContainsKey("disambiguation"));
         return page;
     }
 }
