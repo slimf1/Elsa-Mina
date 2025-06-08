@@ -25,16 +25,16 @@ public static class DependencyInjection
         }
 
         Log.Information("Command '{0}' was registered", commandName);
-        builder.RegisterType<TCommand>().AsSelf().Named<ICommand>(commandName);
+        builder.RegisterType<TCommand>().Named<ICommand>(commandName);
         foreach (var commandAlias in commandAttribute.Aliases ?? Enumerable.Empty<string>())
         {
             Log.Information("Alias '{0}' of command '{1}' was registered", commandAlias, commandName);
-            builder.RegisterType<TCommand>().AsSelf().Named<ICommand>(commandAlias);
+            builder.RegisterType<TCommand>().Named<ICommand>(commandAlias);
         }
     }
 
     public static void RegisterHandler<THandler>(this ContainerBuilder builder) where THandler : IHandler
     {
-        builder.RegisterType<THandler>().As<IHandler>().As<IBotLifecycleHandler>().SingleInstance();
+        builder.RegisterType<THandler>().As<IHandler>().SingleInstance();
     }
 }

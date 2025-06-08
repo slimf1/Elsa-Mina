@@ -1,6 +1,6 @@
 ﻿namespace ElsaMina.Core.Handlers;
 
-public interface IHandler : IBotLifecycleHandler
+public interface IHandler
 {
     bool IsEnabled { get; set; }
     string Identifier { get; }

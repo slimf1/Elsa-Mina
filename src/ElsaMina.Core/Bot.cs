@@ -19,7 +19,6 @@ public class Bot : IBot
     private readonly IHandlerManager _handlerManager;
     private readonly ISystemService _systemService;
     private readonly IStartManager _startManager;
-    private readonly IBotLifecycleManager _lifecycleManager;
 
     private readonly SemaphoreSlim _initializeRoomSemaphore = new(1, 1);
     private readonly CancellationTokenSource _cancellationTokenSource = new();
@@ -33,8 +32,7 @@ public class Bot : IBot
         IRoomsManager roomsManager,
         IHandlerManager handlerManager,
         ISystemService systemService,
-        IStartManager startManager,
-        IBotLifecycleManager lifecycleManager)
+        IStartManager startManager)
     {
         _client = client;
         _clockService = clockService;
@@ -42,26 +40,21 @@ public class Bot : IBot
         _handlerManager = handlerManager;
         _systemService = systemService;
         _startManager = startManager;
-        _lifecycleManager = lifecycleManager;
     }
 
     public async Task Start()
     {
-        _lifecycleManager.OnStart();
         await _startManager.LoadStaticDataAsync(_cancellationTokenSource.Token);
         await _client.Connect();
     }
 
     public void OnReconnect()
     {
-        // On connect / reconnect
-        _lifecycleManager.OnReconnect();
+        // Empty
     }
 
     public void OnDisconnect()
     {
-        // On disconnect
-        _lifecycleManager.OnDisconnect();
         _roomsManager.Clear();
     }
 

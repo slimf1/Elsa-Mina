@@ -48,7 +48,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="ElsaMina.Test"/>
+        <InternalsVisibleTo Include="ElsaMina.UnitTests"/>
     </ItemGroup>
 
 </Project>

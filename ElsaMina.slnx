@@ -24,7 +24,7 @@
   </Folder>
   <Folder Name="/test/">
     <Project Path="test\ElsaMina.IntegrationTests\ElsaMina.IntegrationTests.csproj" Type="Classic C#" />
-    <Project Path="test\ElsaMina.Test\ElsaMina.Test.csproj" Type="Classic C#" />
+    <Project Path="test\ElsaMina.UnitTests\ElsaMina.UnitTests.csproj" Type="Classic C#" />
   </Folder>
   <Folder Name="/Workflows/">
     <File Path=".github\workflows\deploy.yml" />

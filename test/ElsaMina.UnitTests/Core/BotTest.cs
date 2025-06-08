@@ -1,0 +1,107 @@
+﻿using ElsaMina.Core;
+using ElsaMina.Core.Handlers;
+using ElsaMina.Core.Services.Clock;
+using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.Start;
+using ElsaMina.Core.Services.System;
+using NSubstitute;
+
+namespace ElsaMina.UnitTests.Core;
+
+public class BotTest
+{
+    private IClient _client;
+    private IClockService _clockService;
+    private IRoomsManager _roomsManager;
+    private IHandlerManager _handlerManager;
+    private ISystemService _systemService;
+    private IStartManager _startManager;
+
+    private Bot _bot;
+
+    [SetUp]
+    public void SetUp()
+    {
+        _client = Substitute.For<IClient>();
+        _clockService = Substitute.For<IClockService>();
+        _roomsManager = Substitute.For<IRoomsManager>();
+        _handlerManager = Substitute.For<IHandlerManager>();
+        _systemService = Substitute.For<ISystemService>();
+        _startManager = Substitute.For<IStartManager>();
+
+        _bot = new Bot(_client, _clockService, _roomsManager, _handlerManager, _systemService, _startManager);
+    }
+
+    [Test]
+    public async Task Test_Start_ShouldConnectAndCallLifecycleHandler()
+    {
+        // Act
+        await _bot.Start();
+
+        // Assert
+        await _startManager.Received(1).LoadStaticDataAsync(Arg.Any<CancellationToken>());
+        await _client.Received(1).Connect();
+    }
+
+    [Test]
+    public void Test_OnDisconnect_ShouldCallLifecycleHandler()
+    {
+        // Act
+        _bot.OnDisconnect();
+
+        // Assert
+        _roomsManager.Received(1).Clear();
+    }
+
+    [Test]
+    public async Task Test_HandleReceivedMessage_ShouldInitializeRooms_WhenARoomIsReceived()
+    {
+        // Arrange
+        const string message = ">room\n|init|chat\n|title|Room Title\n|users|5,*Bot,@Mod, Regular,#Ro User,+Voiced\n";
+
+        // Act
+        await _bot.HandleReceivedMessage(message);
+
+        // Assert
+        string[] expectedLines =
+            [">room", "|init|chat", "|title|Room Title", "|users|5,*Bot,@Mod, Regular,#Ro User,+Voiced"];
+        await _roomsManager.Received(1).InitializeRoomAsync("room",
+            Arg.Is<IEnumerable<string>>(users => users.SequenceEqual(expectedLines)), Arg.Any<CancellationToken>());
+    }
+
+    [Test]
+    public async Task Test_HandleReceivedMessage_ShouldInitializeHandlers_WhenHandlersAreNotInitialized()
+    {
+        // Arrange
+        const string message = "|c:|1|%Earth|test";
+        _handlerManager.IsInitialized.Returns(false);
+
+        // Act
+        await _bot.HandleReceivedMessage(message);
+
+        // Assert
+        _handlerManager.Received(1).Initialize();
+        string[] expectedParts = ["", "c:", "1", "%Earth", "test"];
+        await _handlerManager.Received(1)
+            .HandleMessageAsync(Arg.Is<string[]>(parts => parts.SequenceEqual(expectedParts)),
+                cancellationToken: Arg.Any<CancellationToken>());
+    }
+
+    [Test]
+    public async Task Test_HandleReceivedMessage_ShouldCallHandlers_WhenHandlersAreInitialized()
+    {
+        // Arrange
+        const string message = "|c:|1|%Earth|test";
+        _handlerManager.IsInitialized.Returns(true);
+
+        // Act
+        await _bot.HandleReceivedMessage(message);
+
+        // Assert
+        _handlerManager.DidNotReceive().Initialize();
+        string[] expectedParts = ["", "c:", "1", "%Earth", "test"];
+        await _handlerManager.Received(1).HandleMessageAsync(
+            Arg.Is<string[]>(parts => parts.SequenceEqual(expectedParts)),
+            cancellationToken: Arg.Any<CancellationToken>());
+    }
+}
