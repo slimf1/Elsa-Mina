@@ -70,6 +70,8 @@ jobs:
           script: |
             cd ./ElsaV2/output
             echo $CONFIG_FILE > config.json
-            pkill -f "ElsaMina.Console" && pkill -fi "ElsaMina.Console"
+            if pgrep -f "ElsaMina.Console"; then
+              pkill -fi "ElsaMina.Console"
+            fi
             chmod u+x ElsaMina.Console
             nohup ./ElsaMina.Console &> /dev/null &
