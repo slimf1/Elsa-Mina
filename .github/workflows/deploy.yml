@@ -68,12 +68,16 @@ jobs:
           passphrase: ${{ secrets.SERVER_KEY_PASSPHRASE }}
           envs: CONFIG_FILE
           script: |
-            cd ./ElsaV2/output
-            echo "Writing config file"
-            echo $CONFIG_FILE > config.json
-            echo "Killing existing instances of ElsaMina.Console"
-            pgrep -f "ElsaMina.Console" && pkill -fi "ElsaMina.Console"
-            echo "Setting permissions"
-            chmod u+x ElsaMina.Console
-            echo "Starting ElsaMina.Console"
-            nohup ./ElsaMina.Console &> /dev/null &
+            bash -c '
+              cd ./ElsaV2/output
+              echo "Writing config file"
+              echo "$CONFIG_FILE" > config.json
+              echo "Killing existing instances of ElsaMina.Console"
+              pkill -x ElsaMina.Console || true
+              sleep 1
+              echo "Setting permissions"
+              chmod u+x ElsaMina.Console
+              echo "Starting ElsaMina.Console"
+              nohup ./ElsaMina.Console > elsa.log 2>&1 &
+              exit 0
+            '
