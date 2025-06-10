@@ -69,7 +69,11 @@ jobs:
           envs: CONFIG_FILE
           script: |
             cd ./ElsaV2/output
+            echo "Writing config file"
             echo $CONFIG_FILE > config.json
+            echo "Killing existing instances of ElsaMina.Console"
             pgrep -f "ElsaMina.Console" && pkill -fi "ElsaMina.Console"
+            echo "Setting permissions"
             chmod u+x ElsaMina.Console
+            echo "Starting ElsaMina.Console"
             nohup ./ElsaMina.Console &> /dev/null &
