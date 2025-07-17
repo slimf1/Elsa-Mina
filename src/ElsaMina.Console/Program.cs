@@ -30,7 +30,7 @@ using (var streamReader = new StreamReader("config.json"))
 var bot = dependencyContainerService.Resolve<IBot>();
 var client = dependencyContainerService.Resolve<IClient>();
 client.MessageReceived
-    .Select(message => bot.HandleReceivedMessage(message).ToObservable())
+    .Select(message => bot.HandleReceivedMessageAsync(message).ToObservable())
     .Concat()
     .Catch((Exception exception) =>
     {
@@ -53,7 +53,12 @@ client.ReconnectionHappened.Subscribe(info =>
     bot.OnReconnect();
 });
 
+Console.CancelKeyPress += (sender, eventArgs) =>
+{
+    bot.OnExit();
+};
+
 // Start
-await bot.Start();
+await bot.StartAsync();
 var exitEvent = new ManualResetEvent(false);
 exitEvent.WaitOne();

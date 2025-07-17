@@ -3,7 +3,6 @@ using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Start;
 using ElsaMina.Core.Services.System;
-using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Core;
 
@@ -42,7 +41,7 @@ public class Bot : IBot
         _startManager = startManager;
     }
 
-    public async Task Start()
+    public async Task StartAsync()
     {
         await _startManager.LoadStaticDataAsync(_cancellationTokenSource.Token);
         await _client.Connect();
@@ -57,8 +56,14 @@ public class Bot : IBot
     {
         _roomsManager.Clear();
     }
+    
+    public void OnExit()
+    {
+        Log.Information("Exiting bot...");
+        _roomsManager.ProcessPendingPlayTimeUpdates();
+    }
 
-    public async Task HandleReceivedMessage(string message)
+    public async Task HandleReceivedMessageAsync(string message)
     {
         var lines = message.Split("\n").Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
         if (lines.Length == 0)

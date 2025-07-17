@@ -2,10 +2,11 @@
 
 public interface IBot : IDisposable
 {
-    Task HandleReceivedMessage(string message);
+    Task HandleReceivedMessageAsync(string message);
     void Send(string message);
     void Say(string roomId, string message);
-    Task Start();
+    Task StartAsync();
     void OnReconnect();
     void OnDisconnect();
+    void OnExit();
 }

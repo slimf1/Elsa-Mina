@@ -33,10 +33,10 @@ public class BotTest
     }
 
     [Test]
-    public async Task Test_Start_ShouldConnectAndCallLifecycleHandler()
+    public async Task Test_StartAsync_ShouldConnectAndCallLifecycleHandler()
     {
         // Act
-        await _bot.Start();
+        await _bot.StartAsync();
 
         // Assert
         await _startManager.Received(1).LoadStaticDataAsync(Arg.Any<CancellationToken>());
@@ -54,13 +54,13 @@ public class BotTest
     }
 
     [Test]
-    public async Task Test_HandleReceivedMessage_ShouldInitializeRooms_WhenARoomIsReceived()
+    public async Task Test_HandleReceivedMessageAsync_ShouldInitializeRooms_WhenARoomIsReceived()
     {
         // Arrange
         const string message = ">room\n|init|chat\n|title|Room Title\n|users|5,*Bot,@Mod, Regular,#Ro User,+Voiced\n";
 
         // Act
-        await _bot.HandleReceivedMessage(message);
+        await _bot.HandleReceivedMessageAsync(message);
 
         // Assert
         string[] expectedLines =
@@ -70,14 +70,14 @@ public class BotTest
     }
 
     [Test]
-    public async Task Test_HandleReceivedMessage_ShouldInitializeHandlers_WhenHandlersAreNotInitialized()
+    public async Task Test_HandleReceivedMessageAsync_ShouldInitializeHandlers_WhenHandlersAreNotInitialized()
     {
         // Arrange
         const string message = "|c:|1|%Earth|test";
         _handlerManager.IsInitialized.Returns(false);
 
         // Act
-        await _bot.HandleReceivedMessage(message);
+        await _bot.HandleReceivedMessageAsync(message);
 
         // Assert
         _handlerManager.Received(1).Initialize();
@@ -88,14 +88,14 @@ public class BotTest
     }
 
     [Test]
-    public async Task Test_HandleReceivedMessage_ShouldCallHandlers_WhenHandlersAreInitialized()
+    public async Task Test_HandleReceivedMessageAsync_ShouldCallHandlers_WhenHandlersAreInitialized()
     {
         // Arrange
         const string message = "|c:|1|%Earth|test";
         _handlerManager.IsInitialized.Returns(true);
 
         // Act
-        await _bot.HandleReceivedMessage(message);
+        await _bot.HandleReceivedMessageAsync(message);
 
         // Assert
         _handlerManager.DidNotReceive().Initialize();
