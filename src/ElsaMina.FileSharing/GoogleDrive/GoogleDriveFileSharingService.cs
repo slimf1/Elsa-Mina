@@ -28,13 +28,13 @@ public class GoogleDriveFileSharingService : IFileSharingService
         });
     }
 
-    public async Task<string?> CreateFileAsync(Stream? fileStream = default,
+    public async Task<string?> CreateFileAsync(Stream? fileContent = default,
         string? fileName = default,
         string? description = default,
         string? mimeType = default,
         CancellationToken cancellationToken = default)
     {
-        if (_driveService == null)
+        if (_driveService == null || fileContent == null || fileName == null)
         {
             return null;
         }
@@ -45,7 +45,7 @@ public class GoogleDriveFileSharingService : IFileSharingService
             Description = description
         };
 
-        var request = _driveService.Files.Create(fileMetadata, fileStream, mimeType);
+        var request = _driveService.Files.Create(fileMetadata, fileContent, mimeType);
         request.Fields = "id";
         await request.UploadAsync(cancellationToken);
 
@@ -53,6 +53,17 @@ public class GoogleDriveFileSharingService : IFileSharingService
         ShareFile(file);
         return GetFileUrlFromId(file.Id);
     }
+    
+    public Task<string?> CreateFileAsync(byte[]? fileContent = default,
+            string? fileName = default,
+            string? description = default,
+            string? mimeType = default,
+            CancellationToken cancellationToken = default)
+        {
+            return CreateFileAsync(
+                fileContent != null ? new MemoryStream(fileContent) : null,
+                fileName, description, mimeType, cancellationToken);
+        }
 
     private void ShareFile(Google.Apis.Drive.v3.Data.File file)
     {

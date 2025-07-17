@@ -34,13 +34,6 @@ public class AskElsaCommand : Command
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var withAudio = context.Command.Contains("audio");
-        var key = _configuration.MistralApiKey;
-        if (string.IsNullOrWhiteSpace(key))
-        {
-            Log.Error("Missing Mistral API key");
-            return;
-        }
-
         var room = context.Room;
         var prompt = string.Format(
             _resourcesService.GetString("ask_prompt", context.Culture),

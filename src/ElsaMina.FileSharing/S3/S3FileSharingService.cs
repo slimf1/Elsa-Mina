@@ -28,24 +28,32 @@ public class S3FileSharingService : IFileSharingService
         return Task.CompletedTask;
     }
 
-    public async Task<string?> CreateFileAsync(Stream? fileStream = default, string? fileName = default,
+    public Task<string?> CreateFileAsync(byte[]? fileContent = default, string? fileName = default,
         string? description = default,
         string? mimeType = default, CancellationToken cancellationToken = default)
     {
-        if (_client == null || fileName == null || fileStream == null)
+        return CreateFileAsync(fileContent != null ? new MemoryStream(fileContent) : null,
+            fileName, description, mimeType, cancellationToken);
+    }
+
+    public async Task<string?> CreateFileAsync(Stream? fileContent = default, string? fileName = default,
+        string? description = default,
+        string? mimeType = default, CancellationToken cancellationToken = default)
+    {
+        if (_client == null || fileName == null || fileContent == null)
         {
             return null;
         }
 
-        var sha256 = ComputeSha256(fileStream);
+        var sha256 = ComputeSha256(fileContent);
         var request = new PutObjectRequest
         {
             BucketName = _credentialsProvider.S3BucketName,
             Key = fileName,
-            InputStream = fileStream,
+            InputStream = fileContent,
             ContentType = mimeType,
             ChecksumSHA256 = sha256,
-            CannedACL = S3CannedACL.PublicRead // Makes the object publicly accessible
+            CannedACL = S3CannedACL.PublicRead
         };
         request.Metadata.Add("description", description);
 
@@ -66,12 +74,19 @@ public class S3FileSharingService : IFileSharingService
         return new Uri(baseUrl, objectName).AbsoluteUri;
     }
 
-    private static string ComputeSha256(Stream stream)
+    private static string ComputeSha256(byte[] bytes)
     {
         using var sha256 = SHA256.Create();
-        var hashBytes = sha256.ComputeHash(stream);
-        stream.Position = 0;
-        return Convert.ToHexStringLower(hashBytes).Replace("-", "").ToLower(); // Convert to hex string
+        var hashBytes = sha256.ComputeHash(bytes);
+        return Convert.ToBase64String(hashBytes);
+    }
+    
+    private static string ComputeSha256(Stream bytes)
+    {
+        using var sha256 = SHA256.Create();
+        var hashBytes = sha256.ComputeHash(bytes);
+        bytes.Seek(0, SeekOrigin.Begin);
+        return Convert.ToBase64String(hashBytes);
     }
 
     public void Dispose()

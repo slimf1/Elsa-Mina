@@ -8,7 +8,7 @@ namespace ElsaMina.Commands.Ai.LanguageModel;
 public class MistralLanguageModelProvider : ILanguageModelProvider
 {
     private const string MISTRAL_AUTOCOMPLETE_API_URL = "https://api.mistral.ai/v1/chat/completions";
-    private const string DEFAULT_MODEL = "mistral-large-latest";
+    private const string DEFAULT_MODEL = "mistral-medium-latest";
     private const string DEFAULT_ROLE = "user";
 
     private readonly IHttpService _httpService;
