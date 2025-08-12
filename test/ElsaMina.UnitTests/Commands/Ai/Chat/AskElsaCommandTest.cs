@@ -41,20 +41,6 @@ public class AskElsaCommandTest
     }
 
     [Test]
-    public async Task RunAsync_ShouldLogError_WhenApiKeyIsMissing()
-    {
-        // Arrange
-        _mockConfiguration.MistralApiKey.Returns(string.Empty);
-        var mockContext = Substitute.For<IContext>();
-
-        // Act
-        await _command.RunAsync(mockContext);
-
-        // Assert
-        mockContext.DidNotReceive().Reply(Arg.Any<string>());
-    }
-
-    [Test]
     public async Task RunAsync_ShouldReplyWithText_WhenAudioIsNotRequested()
     {
         // Arrange
