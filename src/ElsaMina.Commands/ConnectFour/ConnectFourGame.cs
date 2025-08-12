@@ -294,6 +294,7 @@ public class ConnectFourGame : Game, IConnectFourGame
         _timer = new Timer(ConnectFourConstants.TIMEOUT_DELAY);
         _timer.AutoReset = false;
         _timer.Elapsed += HandleTimerElapsed;
+        _timer.Start();
     }
 
     private void CancelTimer()

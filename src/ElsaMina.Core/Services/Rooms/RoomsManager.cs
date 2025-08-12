@@ -1,38 +1,47 @@
-﻿using System.Globalization;
-using ElsaMina.Core.Services.Clock;
+﻿using System.Collections.Concurrent;
+using System.Globalization;
+using System.Timers;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms.Parameters;
-using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
+using Timer = System.Timers.Timer;
 
 namespace ElsaMina.Core.Services.Rooms;
 
-public class RoomsManager : IRoomsManager
+public class RoomsManager : IRoomsManager, IDisposable
 {
-    private readonly IConfigurationManager _configurationManager;
+    private readonly IConfiguration _configuration;
     private readonly IRoomInfoRepository _roomInfoRepository;
     private readonly IRoomBotParameterValueRepository _roomBotParameterValueRepository;
     private readonly IUserPlayTimeRepository _userPlayTimeRepository;
-    private readonly IClockService _clockService;
+    
+    private readonly ConcurrentDictionary<string, IRoom> _rooms = new();
+    private readonly SemaphoreSlim _playTimeUpdateSemaphoreSlim = new(1, 1);
+    private Timer _processPlayTimeUpdatesTimer;
+    private bool _disposed;
 
-    private readonly Dictionary<string, IRoom> _rooms = new();
-    private readonly TaskQueue _taskQueue = new();
-
-    public RoomsManager(IConfigurationManager configurationManager,
+    public RoomsManager(IConfiguration configuration,
         IParametersFactory parametersFactory,
         IRoomInfoRepository roomInfoRepository,
         IRoomBotParameterValueRepository roomBotParameterValueRepository,
-        IUserPlayTimeRepository userPlayTimeRepository,
-        IClockService clockService)
+        IUserPlayTimeRepository userPlayTimeRepository)
     {
-        _configurationManager = configurationManager;
+        _configuration = configuration;
         _roomInfoRepository = roomInfoRepository;
         _roomBotParameterValueRepository = roomBotParameterValueRepository;
         _userPlayTimeRepository = userPlayTimeRepository;
-        _clockService = clockService;
 
         RoomParameters = parametersFactory.GetParameters();
+        StartPlayTimeUpdatesTimer();
+    }
+
+    private void StartPlayTimeUpdatesTimer()
+    {
+        _processPlayTimeUpdatesTimer = new Timer(_configuration.PlayTimeUpdatesInterval);
+        _processPlayTimeUpdatesTimer.AutoReset = true;
+        _processPlayTimeUpdatesTimer.Elapsed += ProcessPlayTimeUpdatesTimerElapsed;
+        _processPlayTimeUpdatesTimer.Start();
     }
 
     public IReadOnlyDictionary<string, IParameter> RoomParameters { get; }
@@ -74,7 +83,7 @@ public class RoomsManager : IRoomsManager
 
         var localeParameterValue = roomParameters.ParameterValues?
             .FirstOrDefault(parameter => parameter.ParameterId == ParametersConstants.LOCALE);
-        var defaultLocale = localeParameterValue?.Value ?? _configurationManager.Configuration.DefaultLocaleCode;
+        var defaultLocale = localeParameterValue?.Value ?? _configuration.DefaultLocaleCode;
         var room = new Room(roomTitle ?? roomId, roomId, new CultureInfo(defaultLocale))
         {
             Info = roomParameters
@@ -90,7 +99,7 @@ public class RoomsManager : IRoomsManager
     public void RemoveRoom(string roomId)
     {
         Log.Information("Removing room : {0}", roomId);
-        _rooms.Remove(roomId);
+        _rooms.Remove(roomId, out _);
     }
 
     public void AddUserToRoom(string roomId, string username)
@@ -100,15 +109,44 @@ public class RoomsManager : IRoomsManager
 
     public void RemoveUserFromRoom(string roomId, string username)
     {
-        var room = GetRoom(roomId);
-        if (room == null)
-        {
-            return;
-        }
+        GetRoom(roomId)?.RemoveUser(username);
+    }
 
-        var joinDate = room.GetUserJoinDate(username);
-        room.RemoveUser(username);
-        _taskQueue.Enqueue(async () => await AddPlayTimeForUser(room, username, joinDate));
+    public async Task ProcessPendingPlayTimeUpdates()
+    {
+
+        try
+        {
+            await _playTimeUpdateSemaphoreSlim.WaitAsync();
+
+            Log.Information("Processing play time updates...");
+            foreach (var room in _rooms.Values)
+            {
+                var playTimeUpdates = room.PendingPlayTimeUpdates.ToList();
+                foreach (var (updateUsername, updatePlayTime) in playTimeUpdates)
+                {
+                    try
+                    {
+                        await UpdateUserPlayTime(room, updateUsername, updatePlayTime);
+                        room.PendingPlayTimeUpdates.Remove(updateUsername);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex, "Failed to update play time for user {0} in room {1}", updateUsername,
+                            room.RoomId);
+                    }
+                }
+            }
+        }
+        finally
+        {
+            _playTimeUpdateSemaphoreSlim.Release();
+        }
+    }
+
+    private async void ProcessPlayTimeUpdatesTimerElapsed(object sender, ElapsedEventArgs e)
+    {
+        await ProcessPendingPlayTimeUpdates();
     }
 
     public void RenameUserInRoom(string roomId, string formerName, string newName)
@@ -170,25 +208,6 @@ public class RoomsManager : IRoomsManager
         }
     }
 
-    public async Task AddPlayTimeForUser(IRoom room, string username, DateTime joinDate)
-    {
-        var userId = username.ToLowerAlphaNum();
-        if (joinDate == DateTime.MinValue)
-        {
-            return;
-        }
-
-        var timeSpan = _clockService.CurrentUtcDateTime - joinDate;
-        try
-        {
-            await UpdateUserPlayTime(room, userId, timeSpan);
-        }
-        catch (Exception exception)
-        {
-            Log.Error(exception, "An error occurred while updating playtime");
-        }
-    }
-
     public void Clear()
     {
         _rooms.Clear();
@@ -218,5 +237,29 @@ public class RoomsManager : IRoomsManager
             Log.Information("Updated user play time for user {0} in {1} : +{2}", userId, room.RoomId,
                 additionalPlayTime.TotalSeconds);
         }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    private void Dispose(bool disposing)
+    {
+        if (!disposing || _disposed)
+        {
+            return;
+        }
+
+        _processPlayTimeUpdatesTimer?.Stop();
+        _processPlayTimeUpdatesTimer?.Dispose();
+        _playTimeUpdateSemaphoreSlim?.Dispose();
+        _disposed = true;
+    }
+    
+    ~RoomsManager()
+    {
+        Dispose(false);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Concurrent;
+using System.Globalization;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 
@@ -8,9 +9,10 @@ public class Room : IRoom
 {
     private const int MESSAGE_QUEUE_LENGTH = 30;
 
-    private readonly Dictionary<string, DateTime> _joinDateTimes = [];
+    private readonly ConcurrentDictionary<string, DateTime> _joinDateTimes = [];
+    private readonly ConcurrentDictionary<string, TimeSpan> _pendingPlayTimeUpdates = [];
     private readonly Queue<Tuple<string, string>> _lastMessages = new(MESSAGE_QUEUE_LENGTH);
-    private readonly Dictionary<string, IUser> _users = new();
+    private readonly ConcurrentDictionary<string, IUser> _users = new();
     private IGame _game;
 
     public Room(string roomTitle, string roomId, CultureInfo culture)
@@ -33,6 +35,7 @@ public class Room : IRoom
 
     public RoomInfo Info { get; set; }
     public IEnumerable<Tuple<string, string>> LastMessages => _lastMessages.Reverse();
+    public IDictionary<string, TimeSpan> PendingPlayTimeUpdates => _pendingPlayTimeUpdates;
 
     public void UpdateMessageQueue(string user, string message)
     {
@@ -67,8 +70,18 @@ public class Room : IRoom
     public void RemoveUser(string username)
     {
         var userId = username.ToLowerAlphaNum();
-        _users.Remove(userId);
-        _joinDateTimes.Remove(userId);
+        _users.Remove(userId, out _);
+
+        if (!_joinDateTimes.Remove(userId, out var joinTime))
+        {
+            return;
+        }
+
+        var playTime = DateTime.UtcNow - joinTime;
+        if (!_pendingPlayTimeUpdates.TryAdd(userId, playTime))
+        {
+            _pendingPlayTimeUpdates[userId] += playTime;
+        }
     }
 
     public void RenameUser(string oldName, string newName)
@@ -84,14 +97,7 @@ public class Room : IRoom
             AddUser(user);
         }
     }
-
-    public DateTime GetUserJoinDate(string username)
-    {
-        return _joinDateTimes.TryGetValue(username.ToLowerAlphaNum(), out var joinDate)
-            ? joinDate
-            : DateTime.MinValue;
-    }
-
+    
     private void OnGameChanged(IGame oldGame, IGame newGame)
     {
         if (oldGame != null)

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace ElsaMina.Commands.Ai.Chat;
+namespace ElsaMina.Commands.Ai.LanguageModel;
 
 public class MistralResponseDto
 {

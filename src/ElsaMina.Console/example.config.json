@@ -16,6 +16,7 @@
   "ArcadeWebhookUrl": "",
   "MistralApiKey": "",
   "ElevenLabsApiKey": "",
+  "PlayTimeUpdatesInterval": "01:00:00",
   "S3BucketName": "",
   "S3EndpointUrl": "",
   "S3AccessKey": "",

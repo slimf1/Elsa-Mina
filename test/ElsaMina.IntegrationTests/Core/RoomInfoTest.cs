@@ -18,7 +18,6 @@ public class RoomInfoTest
     private BotDbContext _context;
     private RoomsManager _roomsManager;
     private IUserPlayTimeRepository _userPlayTimeRepository;
-    private IClockService _clockService;
     
     [SetUp]
     public async Task SetUp()
@@ -29,20 +28,16 @@ public class RoomInfoTest
             .Options;
         _context = new BotDbContext(opts);
         _userPlayTimeRepository = Substitute.For<IUserPlayTimeRepository>();
-        _clockService = Substitute.For<IClockService>();
-        var configurationManager = Substitute.For<IConfigurationManager>();
-        configurationManager.Configuration.Returns(new Configuration
-        {
-            DefaultLocaleCode = "fr-FR"
-        });
+        var configuration = Substitute.For<IConfiguration>();
+        configuration.DefaultLocaleCode.Returns("fr-FR");
         var resourcesService = Substitute.For<IResourcesService>();
         resourcesService.SupportedLocales.Returns([new CultureInfo("fr-FR")]);
-        var parametersFactory = new ParametersFactory(configurationManager,
+        var parametersFactory = new ParametersFactory(configuration,
             resourcesService);
         var roomParametersRepository = new RoomInfoRepository(_context);
         var roomBotParameterValueRepository = new RoomBotParameterValueRepository(_context);
-        _roomsManager = new RoomsManager(configurationManager, parametersFactory,
-            roomParametersRepository, roomBotParameterValueRepository, _userPlayTimeRepository, _clockService);
+        _roomsManager = new RoomsManager(configuration, parametersFactory,
+            roomParametersRepository, roomBotParameterValueRepository, _userPlayTimeRepository);
         string[] lines =
         [
             ">franais",

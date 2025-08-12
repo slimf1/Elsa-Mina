@@ -11,7 +11,7 @@ namespace ElsaMina.UnitTests.Core.Services.Rooms;
 
 public class RoomsManagerTest
 {
-    private IConfigurationManager _configurationManager;
+    private IConfiguration _configuration;
     private IRoomInfoRepository _roomInfoRepository;
     private IParametersFactory _parametersFactory;
     private IRoomBotParameterValueRepository _roomBotParameterValueRepository;
@@ -23,15 +23,22 @@ public class RoomsManagerTest
     [SetUp]
     public void SetUp()
     {
-        _configurationManager = Substitute.For<IConfigurationManager>();
+        _configuration = Substitute.For<IConfiguration>();
         _roomInfoRepository = Substitute.For<IRoomInfoRepository>();
         _parametersFactory = Substitute.For<IParametersFactory>();
         _roomBotParameterValueRepository = Substitute.For<IRoomBotParameterValueRepository>();
         _userPlayTimeRepository = Substitute.For<IUserPlayTimeRepository>();
         _clockService = Substitute.For<IClockService>();
 
-        _roomsManager = new RoomsManager(_configurationManager, _parametersFactory,
-            _roomInfoRepository, _roomBotParameterValueRepository, _userPlayTimeRepository, _clockService);
+        _configuration.PlayTimeUpdatesInterval.Returns(TimeSpan.FromDays(1));
+        _roomsManager = new RoomsManager(_configuration, _parametersFactory,
+            _roomInfoRepository, _roomBotParameterValueRepository, _userPlayTimeRepository);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _roomsManager.Dispose();
     }
 
     private async Task InitializeFakeRooms()
@@ -64,10 +71,7 @@ public class RoomsManagerTest
     public async Task Test_InitializeRoom_ShouldUseDefaultLocale_WhenRoomParametersDoesntExist()
     {
         // Arrange
-        _configurationManager.Configuration.Returns(new Configuration
-        {
-            DefaultLocaleCode = "zh-CN"
-        });
+        _configuration.DefaultLocaleCode.Returns("zh-CN");
         _roomInfoRepository.GetByIdAsync("franais").ReturnsNull();
 
         // Act
@@ -256,30 +260,14 @@ public class RoomsManagerTest
         Assert.That(_roomsManager.GetRoom("my-room").Users, Has.Count.EqualTo(3));
         Assert.That(_roomsManager.GetRoom("my-room").Users["james"].IsIdle, Is.False);
     }
-
-    [Test]
-    public async Task Test_AddPlayTimeForUser_ShouldAddPlayTime_WhenPlayTimeDoesNotExist()
-    {
-        // Arrange
-        var room = Substitute.For<IRoom>();
-        room.RoomId.Returns("myRoom");
-        var joinDate = new DateTime(2022, 10, 1, 20, 30, 0, DateTimeKind.Utc);
-        _clockService.CurrentUtcDateTime.Returns(new DateTime(2022, 10, 1, 22, 00, 0, DateTimeKind.Utc));
-
-        // Act
-        await _roomsManager.AddPlayTimeForUser(room, "speks", joinDate);
-        
-        // Assert
-        await _userPlayTimeRepository.Received(1).AddAsync(Arg.Is<UserPlayTime>(playTime => Math.Abs(playTime.PlayTime.TotalHours - 1.5) < 1e-3
-            && playTime.UserId == "speks"
-            && playTime.RoomId == "myRoom"));
-    }
     
     [Test]
-    public async Task Test_AddPlayTimeForUser_ShouldUpdatePlayTime_WhenPlayTimeDoesExist()
+    public async Task Test_ProcessPendingPlayTimeUpdates_ShouldUpdatePlayTime_WhenPlayTimeDoesExist()
     {
         // Arrange
-        var room = Substitute.For<IRoom>();
+        await _roomsManager.InitializeRoomAsync("myRoom", []);
+        var room = _roomsManager.GetRoom("myRoom");
+        room.PendingPlayTimeUpdates["speks"] = TimeSpan.FromMinutes(90);
         room.RoomId.Returns("myRoom");
         _userPlayTimeRepository.GetByIdAsync(Tuple.Create("speks", "myRoom")).Returns(new UserPlayTime
         {
@@ -287,15 +275,96 @@ public class RoomsManagerTest
             UserId = "speks",
             RoomId = "myRoom"
         });
-        var joinDate = new DateTime(2022, 10, 1, 20, 30, 0, DateTimeKind.Utc);
         _clockService.CurrentUtcDateTime.Returns(new DateTime(2022, 10, 1, 22, 00, 0, DateTimeKind.Utc));
 
         // Act
-        await _roomsManager.AddPlayTimeForUser(room, "speks", joinDate);
+        await _roomsManager.ProcessPendingPlayTimeUpdates();
         
         // Assert
         await _userPlayTimeRepository.Received(1).UpdateAsync(Arg.Is<UserPlayTime>(playTime => Math.Abs(playTime.PlayTime.TotalHours - 12) < 1e-3
             && playTime.UserId == "speks"
             && playTime.RoomId == "myRoom"));
     }
+    
+    [Test]
+public async Task Test_ProcessPendingPlayTimeUpdates_ShouldAddPlayTime_WhenNoExistingRecord()
+{
+    // Arrange
+    await _roomsManager.InitializeRoomAsync("room1", []);
+
+    var room = _roomsManager.GetRoom("room1");
+    room.PendingPlayTimeUpdates["user1"] = TimeSpan.FromMinutes(90);
+
+    _userPlayTimeRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>())
+        .ReturnsNull();
+
+    // Act
+    await _roomsManager.ProcessPendingPlayTimeUpdates();
+
+    // Assert
+    await _userPlayTimeRepository.Received(1).AddAsync(Arg.Is<UserPlayTime>(pt =>
+        pt.UserId == "user1" &&
+        pt.RoomId == "room1" &&
+        Math.Abs(pt.PlayTime.TotalMinutes - 90) < 1e-3), Arg.Any<CancellationToken>());
+    Assert.That(room.PendingPlayTimeUpdates.ContainsKey("user1"), Is.False);
+}
+
+[Test]
+public async Task Test_ProcessPendingPlayTimeUpdates_ShouldUpdatePlayTime_WhenExistingRecordFound()
+{
+    // Arrange
+    await _roomsManager.InitializeRoomAsync("room2", []);
+
+    var room = _roomsManager.GetRoom("room2");
+    room.PendingPlayTimeUpdates["user2"] = TimeSpan.FromMinutes(30);
+
+    var existing = new UserPlayTime
+    {
+        UserId = "user2",
+        RoomId = "room2",
+        PlayTime = TimeSpan.FromMinutes(10)
+    };
+    _userPlayTimeRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>())
+        .Returns(existing);
+
+    // Act
+    await _roomsManager.ProcessPendingPlayTimeUpdates();
+
+    // Assert
+    await _userPlayTimeRepository.Received(1).UpdateAsync(Arg.Is<UserPlayTime>(pt =>
+        Math.Abs(pt.PlayTime.TotalMinutes - 40) < 1e-3));
+    Assert.That(room.PendingPlayTimeUpdates.ContainsKey("user2"), Is.False);
+}
+
+[Test]
+public async Task Test_ProcessPendingPlayTimeUpdates_ShouldContinue_WhenUpdateThrowsException()
+{
+    // Arrange
+    await _roomsManager.InitializeRoomAsync("room3", []);
+
+    var room = _roomsManager.GetRoom("room3");
+    room.PendingPlayTimeUpdates["user3"] = TimeSpan.FromMinutes(15);
+
+    _userPlayTimeRepository
+        .When(r => r.GetByIdAsync(Arg.Any<Tuple<string, string>>()))
+        .Do(_ => throw new InvalidOperationException("Boom"));
+
+    // Act & Assert
+    Assert.DoesNotThrowAsync(() => _roomsManager.ProcessPendingPlayTimeUpdates());
+    Assert.That(room.PendingPlayTimeUpdates.ContainsKey("user3"), Is.True);
+}
+
+[Test]
+public async Task Test_ProcessPendingPlayTimeUpdates_ShouldDoNothing_WhenNoRooms()
+{
+    // Arrange
+    // No initialization — _rooms stays empty
+
+    // Act
+    await _roomsManager.ProcessPendingPlayTimeUpdates();
+
+    // Assert
+    await _userPlayTimeRepository.DidNotReceiveWithAnyArgs().AddAsync(default!);
+    await _userPlayTimeRepository.DidNotReceiveWithAnyArgs().UpdateAsync(default!);
+}
 }

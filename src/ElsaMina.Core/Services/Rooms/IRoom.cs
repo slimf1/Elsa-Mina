@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Globalization;
 using ElsaMina.DataAccess.Models;
 
@@ -12,10 +13,10 @@ public interface IRoom
     IGame Game { get; set; }
     RoomInfo Info { get; }
     IEnumerable<Tuple<string, string>> LastMessages { get; }
+    IDictionary<string, TimeSpan> PendingPlayTimeUpdates { get; }
 
     void AddUser(string username);
     void RemoveUser(string username);
     void RenameUser(string oldName, string newName);
-    DateTime GetUserJoinDate(string username);
     void UpdateMessageQueue(string user, string message);
 }

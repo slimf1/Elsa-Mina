@@ -21,4 +21,5 @@ public interface IConfiguration : IS3CredentialsProvider
     string ArcadeWebhookUrl { get; }
     string MistralApiKey { get; }
     string ElevenLabsApiKey { get; }
+    TimeSpan PlayTimeUpdatesInterval { get; set; }
 }

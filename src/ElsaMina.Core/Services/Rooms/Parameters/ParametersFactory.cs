@@ -7,13 +7,13 @@ namespace ElsaMina.Core.Services.Rooms.Parameters;
 
 public class ParametersFactory : IParametersFactory
 {
-    private readonly IConfigurationManager _configurationManager;
+    private readonly IConfiguration _configuration;
     private readonly IResourcesService _resourcesService;
     
-    public ParametersFactory(IConfigurationManager configurationManager,
+    public ParametersFactory(IConfiguration configuration,
         IResourcesService resourcesService)
     {
-        _configurationManager = configurationManager;
+        _configuration = configuration;
         _resourcesService = resourcesService;
     }
 
@@ -26,7 +26,7 @@ public class ParametersFactory : IParametersFactory
                 NameKey = "parameter_name_locale",
                 DescriptionKey = "parameter_description_locale",
                 Type = RoomBotConfigurationType.Enumeration,
-                DefaultValue = _configurationManager.Configuration.DefaultLocaleCode,
+                DefaultValue = _configuration.DefaultLocaleCode,
                 PossibleValues = _resourcesService.SupportedLocales.Select(culture => new EnumerationValue
                 {
                     DisplayedValue = culture.NativeName.Capitalize(),

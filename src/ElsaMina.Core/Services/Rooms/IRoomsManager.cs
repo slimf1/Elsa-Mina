@@ -14,5 +14,6 @@ public interface IRoomsManager
     void RenameUserInRoom(string roomId, string formerName, string newName);
     string GetRoomParameter(string roomId, string parameterId);
     Task<bool> SetRoomParameter(string roomId, string parameterId, string value);
+    Task ProcessPendingPlayTimeUpdates();
     void Clear();
 }

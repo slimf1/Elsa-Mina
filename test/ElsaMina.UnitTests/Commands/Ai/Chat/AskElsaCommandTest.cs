@@ -58,7 +58,6 @@ public class AskElsaCommandTest
     public async Task RunAsync_ShouldReplyWithText_WhenAudioIsNotRequested()
     {
         // Arrange
-        _mockConfiguration.MistralApiKey.Returns("valid-api-key");
         var mockContext = Substitute.For<IContext>();
         mockContext.Command.Returns("ask");
         mockContext.Target.Returns("What is the weather?");
@@ -81,7 +80,6 @@ public class AskElsaCommandTest
     public async Task RunAsync_ShouldReplyWithAudio_WhenAudioIsRequested()
     {
         // Arrange
-        _mockConfiguration.MistralApiKey.Returns("valid-api-key");
         var mockContext = Substitute.For<IContext>();
         mockContext.Command.Returns("askaudio");
         mockContext.Target.Returns("What is the weather?");
@@ -106,7 +104,6 @@ public class AskElsaCommandTest
     public async Task RunAsync_ShouldLogError_WhenAudioGenerationFails()
     {
         // Arrange
-        _mockConfiguration.MistralApiKey.Returns("valid-api-key");
         var mockContext = Substitute.For<IContext>();
         mockContext.Command.Returns("askaudio");
         mockContext.Target.Returns("What is the weather?");
