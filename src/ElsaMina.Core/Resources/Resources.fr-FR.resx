@@ -657,4 +657,7 @@
     <data name="show_polls_room_not_exist" xml:space="preserve">
         <value>La salle {0} n'existe pas</value>
     </data>
+    <data name="countries_game_turn_ending_soon" xml:space="preserve">
+        <value>Le temps presse ! Il reste {0} secondes.</value>
+    </data>
 </root>

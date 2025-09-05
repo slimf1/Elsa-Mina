@@ -29,6 +29,7 @@ public class RoomInfoTest
         _context = new BotDbContext(opts);
         _userPlayTimeRepository = Substitute.For<IUserPlayTimeRepository>();
         var configuration = Substitute.For<IConfiguration>();
+        configuration.PlayTimeUpdatesInterval.Returns(TimeSpan.MaxValue);
         configuration.DefaultLocaleCode.Returns("fr-FR");
         var resourcesService = Substitute.For<IResourcesService>();
         resourcesService.SupportedLocales.Returns([new CultureInfo("fr-FR")]);
@@ -51,6 +52,7 @@ public class RoomInfoTest
     [TearDown]
     public void TearDown()
     {
+        _roomsManager.Dispose();
         _context.Dispose();
         _userPlayTimeRepository.Dispose();
     }

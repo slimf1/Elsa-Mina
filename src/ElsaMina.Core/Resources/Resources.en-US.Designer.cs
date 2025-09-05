@@ -1322,5 +1322,11 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("show_polls_room_not_exist", resourceCulture);
             }
         }
+        
+        internal static string countries_game_turn_ending_soon {
+            get {
+                return ResourceManager.GetString("countries_game_turn_ending_soon", resourceCulture);
+            }
+        }
     }
 }

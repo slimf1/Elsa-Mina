@@ -12,11 +12,13 @@ public abstract class GuessingGame : Game, IGuessingGame
 {
     private const int DEFAULT_TURNS_COUNT = 10;
     private const int MIN_LENGTH_FOR_AUTOCORRECT = 8;
+    private const int TIME_WARNING_THRESHOLD = 5;
     private static readonly TimeSpan TURN_COOLDOWN = TimeSpan.FromSeconds(15);
 
     private readonly ITemplatesManager _templatesManager;
     private readonly IConfigurationManager _configurationManager;
     private Timer _timer;
+    private int _elapsedSeconds;
 
     private readonly Dictionary<string, int> _scores = new();
     private int _currentTurn;
@@ -50,9 +52,10 @@ public abstract class GuessingGame : Game, IGuessingGame
         _hasRoundBeenWon = false;
 
         CancelTimer();
-        _timer = new Timer(TURN_COOLDOWN)
+        _elapsedSeconds = 0;
+        _timer = new Timer(TimeSpan.FromSeconds(1))
         {
-            AutoReset = false
+            AutoReset = true
         };
         _timer.Elapsed += HandleTimerElapsed;
         _timer.Start();
@@ -72,6 +75,15 @@ public abstract class GuessingGame : Game, IGuessingGame
 
     private async void HandleTimerElapsed(object sender, ElapsedEventArgs e)
     {
+        _elapsedSeconds++;
+        var remainingTime = TURN_COOLDOWN - TimeSpan.FromSeconds(_elapsedSeconds);
+        OnTimerCountdown(remainingTime);
+        if (remainingTime > TimeSpan.Zero)
+        {
+            return;
+        }
+        CancelTimer();
+        
         await OnTurnEnd();
     }
 
@@ -122,7 +134,7 @@ public abstract class GuessingGame : Game, IGuessingGame
 
     private async Task EndGame()
     {
-        Cancel();
+        StopGame();
 
         var resultViewModel = new GuessingGameResultViewModel
         {
@@ -133,10 +145,18 @@ public abstract class GuessingGame : Game, IGuessingGame
         Context.ReplyHtml(template.RemoveNewlines());
     }
 
-    public void Cancel()
+    public void StopGame()
     {
         OnEnd();
         CancelTimer();
+    }
+    
+    protected virtual void OnTimerCountdown(TimeSpan remainingTime)
+    {
+        if (remainingTime.TotalSeconds.IsApproximatelyEqualTo(TIME_WARNING_THRESHOLD) && !_hasRoundBeenWon)
+        {
+            Context.ReplyLocalizedMessage("countries_game_turn_ending_soon", remainingTime.Seconds);
+        }
     }
 
     protected abstract void OnGameStart();

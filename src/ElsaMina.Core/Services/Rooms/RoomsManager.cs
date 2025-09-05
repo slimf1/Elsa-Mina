@@ -15,7 +15,7 @@ public class RoomsManager : IRoomsManager, IDisposable
     private readonly IRoomInfoRepository _roomInfoRepository;
     private readonly IRoomBotParameterValueRepository _roomBotParameterValueRepository;
     private readonly IUserPlayTimeRepository _userPlayTimeRepository;
-    
+
     private readonly ConcurrentDictionary<string, IRoom> _rooms = new();
     private readonly SemaphoreSlim _playTimeUpdateSemaphoreSlim = new(1, 1);
     private Timer _processPlayTimeUpdatesTimer;
@@ -114,7 +114,6 @@ public class RoomsManager : IRoomsManager, IDisposable
 
     public async Task ProcessPendingPlayTimeUpdates()
     {
-
         try
         {
             await _playTimeUpdateSemaphoreSlim.WaitAsync();
@@ -132,8 +131,8 @@ public class RoomsManager : IRoomsManager, IDisposable
                     }
                     catch (Exception ex)
                     {
-                        Log.Error(ex, "Failed to update play time for user {0} in room {1}", updateUsername,
-                            room.RoomId);
+                        Log.Error(ex, "Failed to update play time for user {0} in room {1}",
+                            updateUsername, room.RoomId);
                     }
                 }
             }
@@ -257,7 +256,7 @@ public class RoomsManager : IRoomsManager, IDisposable
         _playTimeUpdateSemaphoreSlim?.Dispose();
         _disposed = true;
     }
-    
+
     ~RoomsManager()
     {
         Dispose(false);

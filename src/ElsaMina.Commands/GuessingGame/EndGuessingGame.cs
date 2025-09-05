@@ -13,7 +13,7 @@ public class EndGuessingGame : Command
     {
         if (context.Room?.Game is IGuessingGame guessingGame)
         {
-            guessingGame.Cancel();
+            guessingGame.StopGame();
             context.ReplyLocalizedMessage("end_guessing_game_success");
             return Task.CompletedTask;
         }
