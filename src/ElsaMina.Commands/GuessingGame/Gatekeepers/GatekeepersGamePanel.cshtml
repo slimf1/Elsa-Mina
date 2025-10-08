@@ -1,8 +1,22 @@
-@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Arcade.ArcadeLevelsViewModel>
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.GuessingGame.Gatekeepers.GatekeepersGamePanelViewModel>
 <table>
     <tbody>
-    <td>
-        
-    </td>
+    <tr>
+        <td rowspan="2">
+            <img src="@Model.FootprintSprite" width="128" height="128" alt="Footprint Sprite"/>
+            
+        </td>
+        <td>
+            show portraits = @Model.ShowPortraits
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="2">
+            show silhouettes = @Model.ShowSilhouettes
+        </td>
+        <td>
+
+        </td>
+    </tr>
     </tbody>
 </table>

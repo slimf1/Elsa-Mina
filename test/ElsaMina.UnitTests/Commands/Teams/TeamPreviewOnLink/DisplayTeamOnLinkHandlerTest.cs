@@ -140,6 +140,6 @@ public class DisplayTeamOnLinkHandlerTest
         // Assert
         await _templatesManager.Received(1).GetTemplateAsync("Teams/TeamPreview", Arg.Is<TeamPreviewViewModel>(vm =>
             vm.Author == "Author" && vm.Culture.Name == "en-US" && vm.Sender == "User" && vm.Team != null));
-        _context.Received().ReplyHtml(expectedHtml.RemoveNewlines());
+        _context.Received().SendHtmlIn(expectedHtml.RemoveNewlines());
     }
 }

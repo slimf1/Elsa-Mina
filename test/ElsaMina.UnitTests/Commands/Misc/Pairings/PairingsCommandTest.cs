@@ -61,7 +61,7 @@ public class PairingsCommandTest
 
         // Assert
         _randomService.Received(1).ShuffleInPlace(Arg.Any<List<string>>());
-        _context.Received(1).ReplyHtml(Arg.Is<string>(s => 
+        _context.Received(1).SendHtmlIn(Arg.Is<string>(s => 
             s.Contains(" vs. ") && 
             s.Contains("Player1") && 
             s.Contains("Player2") && 
@@ -108,7 +108,7 @@ public class PairingsCommandTest
             true, 
             Arg.Any<CancellationToken>());
         _randomService.Received(1).ShuffleInPlace(Arg.Any<List<string>>());
-        _context.Received(1).ReplyHtml(Arg.Is<string>(s => 
+        _context.Received(1).SendHtmlIn(Arg.Is<string>(s => 
             s.Contains(" vs. ") && 
             s.Contains("Player1") && 
             s.Contains("Player2") && 
@@ -139,7 +139,7 @@ public class PairingsCommandTest
 
         // Assert
         _randomService.Received(1).ShuffleInPlace(Arg.Any<List<string>>());
-        _context.Received(1).ReplyHtml(Arg.Is<string>(s => 
+        _context.Received(1).SendHtmlIn(Arg.Is<string>(s => 
             s.Contains(" vs. ") && 
             s.Contains("Player1") && 
             s.Contains("Player2") && 
@@ -159,7 +159,7 @@ public class PairingsCommandTest
 
         // Assert
         _randomService.DidNotReceive().ShuffleInPlace(Arg.Any<List<string>>());
-        _context.Received(1).ReplyHtml(Arg.Is<string>(s => s == ""), rankAware: true);
+        _context.Received(1).SendHtmlIn(Arg.Is<string>(s => s == ""), rankAware: true);
     }
 
     [Test]
@@ -173,7 +173,7 @@ public class PairingsCommandTest
 
         // Assert
         _randomService.DidNotReceive().ShuffleInPlace(Arg.Any<List<string>>());
-        _context.Received(1).ReplyHtml(Arg.Is<string>(s => s == ""), rankAware: true);
+        _context.Received(1).SendHtmlIn(Arg.Is<string>(s => s == ""), rankAware: true);
     }
 
     [Test]
@@ -195,6 +195,6 @@ public class PairingsCommandTest
 
         // Assert
         _randomService.DidNotReceive().ShuffleInPlace(Arg.Any<List<string>>());
-        _context.Received(1).ReplyHtml(Arg.Is<string>(s => s == ""), rankAware: true);
+        _context.Received(1).SendHtmlIn(Arg.Is<string>(s => s == ""), rankAware: true);
     }
 } 

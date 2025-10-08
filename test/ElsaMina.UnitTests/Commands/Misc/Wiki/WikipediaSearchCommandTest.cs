@@ -59,7 +59,7 @@ public class WikipediaSearchCommandTest
         await _command.RunAsync(context);
 
         // Assert
-        context.Received(1).ReplyHtml(Arg.Is<string>(s => s.Contains("Test Page") && s.Contains("Summary line.")), rankAware: true);
+        context.Received(1).SendHtmlIn(Arg.Is<string>(s => s.Contains("Test Page") && s.Contains("Summary line.")), rankAware: true);
     }
 
     [Test]

@@ -57,7 +57,7 @@ public class RoomContext : Context
         Bot.Say(RoomId, message);
     }
 
-    public override void ReplyHtml(string html, string roomId = null, bool rankAware = false)
+    public override void SendHtmlIn(string html, string roomId = null, bool rankAware = false)
     {
         if (rankAware && !HasRankOrHigher(Rank.Voiced))
         {
@@ -73,7 +73,7 @@ public class RoomContext : Context
         Bot.Say(RoomId, $"/sendprivatehtmlbox {userId}, {html}");
     }
 
-    public override void ReplyUpdatableHtml(string htmlId, string html, bool isChanging)
+    public override void SendUpdatableHtml(string htmlId, string html, bool isChanging)
     {
         var command = isChanging ? "changeuhtml" : "adduhtml";
         Bot.Say(RoomId, $"/{command} {htmlId}, {html}");

@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Images;
 using ElsaMina.Core.Services.Probabilities;
+using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Repositories;
 using NCalc;
 
@@ -40,7 +41,7 @@ public class AddedCommandsManager : IAddedCommandsManager
         }
 
         var content = command.Content;
-        if (_imageService.IsImageLink(content))
+        if (content.IsValidImageLink())
         {
             await DisplayRemoteImage(context, content);
             return;
@@ -54,7 +55,7 @@ public class AddedCommandsManager : IAddedCommandsManager
     {
         var (width, height) = await _imageService.GetRemoteImageDimensions(content);
         (width, height) = _imageService.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);
-        context.ReplyHtml($"""<img src="{content}" width="{width}" height="{height}" />""", rankAware: true);
+        context.SendHtmlIn($"""<img src="{content}" width="{width}" height="{height}" />""", rankAware: true);
     }
 
     #region Content Expression Parsing

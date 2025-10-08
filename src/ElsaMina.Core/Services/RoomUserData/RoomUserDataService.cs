@@ -1,4 +1,8 @@
-using ElsaMina.Core.Services.Images;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 
@@ -11,17 +15,14 @@ public class RoomUserDataService : IRoomUserDataService
 
     private readonly IRoomSpecificUserDataRepository _roomSpecificUserDataRepository;
     private readonly IBadgeHoldingRepository _badgeHoldingRepository;
-    private readonly IImageService _imageService;
 
     private readonly Dictionary<Tuple<string, string>, string> _joinPhrases = new();
 
     public RoomUserDataService(IRoomSpecificUserDataRepository roomSpecificUserDataRepository,
-        IBadgeHoldingRepository badgeHoldingRepository,
-        IImageService imageService)
+        IBadgeHoldingRepository badgeHoldingRepository)
     {
         _roomSpecificUserDataRepository = roomSpecificUserDataRepository;
         _badgeHoldingRepository = badgeHoldingRepository;
-        _imageService = imageService;
     }
 
     public IReadOnlyDictionary<Tuple<string, string>, string> JoinPhrases => _joinPhrases;
@@ -99,7 +100,7 @@ public class RoomUserDataService : IRoomUserDataService
 
     public async Task SetUserAvatar(string roomId, string userId, string avatar)
     {
-        if (avatar != null && !_imageService.IsImageLink(avatar))
+        if (avatar != null && !avatar.IsValidImageLink())
         {
             throw new ArgumentException("Invalid URL");
         }

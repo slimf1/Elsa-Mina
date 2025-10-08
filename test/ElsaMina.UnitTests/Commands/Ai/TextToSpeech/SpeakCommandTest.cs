@@ -52,7 +52,7 @@ public class SpeakCommandTest
         await _command.RunAsync(_context);
 
         // Then
-        _context.Received(1).ReplyHtml("""<audio src="https://ovh.net/s3/myaudio.mp3" controls aria-label=""></audio>""");
+        _context.Received(1).SendHtmlIn("""<audio src="https://ovh.net/s3/myaudio.mp3" controls aria-label=""></audio>""");
     }
 
     [Test]
@@ -68,7 +68,7 @@ public class SpeakCommandTest
         await _command.RunAsync(_context);
 
         // Then
-        _context.Received(1).ReplyHtml("""<audio src="https://ovh.net/s3/myaudio.mp3" controls aria-label="text"></audio>""");
+        _context.Received(1).SendHtmlIn("""<audio src="https://ovh.net/s3/myaudio.mp3" controls aria-label="text"></audio>""");
     }
     
     [Test]
@@ -84,6 +84,6 @@ public class SpeakCommandTest
         await _command.RunAsync(_context);
 
         // Then
-        _context.Received(1).ReplyHtml("""<audio src="https://ovh.net/s3/myaudio.mp3" controls aria-label="text value, stuff, doing stuff"></audio>""");
+        _context.Received(1).SendHtmlIn("""<audio src="https://ovh.net/s3/myaudio.mp3" controls aria-label="text value, stuff, doing stuff"></audio>""");
     }
 }

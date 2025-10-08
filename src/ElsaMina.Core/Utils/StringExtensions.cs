@@ -11,7 +11,9 @@ public static class StringExtensions
 
     private static readonly Regex WHITESPACE_BETWEEN_TAGS_REGEX =
         new(@"\s*(<[^>]+>)\s*", RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
-
+    
+    private static readonly Regex IMAGE_LINK_REGEX = new("(http)?s?:(//[^\"']*.(?:png|jpg|jpeg|gif|png|svg))",
+        RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
 
     public static string ToLowerAlphaNum(this string text)
     {
@@ -88,4 +90,7 @@ public static class StringExtensions
 
         return stringBuilder.ToString();
     }
+
+    public static bool IsValidImageLink(this string link) =>
+        !string.IsNullOrWhiteSpace(link) && IMAGE_LINK_REGEX.IsMatch(link);
 }

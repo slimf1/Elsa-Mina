@@ -13,7 +13,7 @@ public abstract class GuessingGame : Game, IGuessingGame
     private const int DEFAULT_TURNS_COUNT = 10;
     private const int MIN_LENGTH_FOR_AUTOCORRECT = 8;
     private const int TIME_WARNING_THRESHOLD = 5;
-    private static readonly TimeSpan TURN_COOLDOWN = TimeSpan.FromSeconds(15);
+    private static readonly TimeSpan DEFAULT_TURN_COOLDOWN = TimeSpan.FromSeconds(15);
 
     private readonly ITemplatesManager _templatesManager;
     private readonly IConfigurationManager _configurationManager;
@@ -30,6 +30,10 @@ public abstract class GuessingGame : Game, IGuessingGame
         _templatesManager = templatesManager;
         _configurationManager = configurationManager;
     }
+    
+    protected IReadOnlyDictionary<string, int> Scores => _scores;
+    
+    protected int CurrentTurn => _currentTurn;
 
     protected IEnumerable<string> CurrentValidAnswers { get; set; } = [];
 
@@ -76,7 +80,7 @@ public abstract class GuessingGame : Game, IGuessingGame
     private async void HandleTimerElapsed(object sender, ElapsedEventArgs e)
     {
         _elapsedSeconds++;
-        var remainingTime = TURN_COOLDOWN - TimeSpan.FromSeconds(_elapsedSeconds);
+        var remainingTime = DEFAULT_TURN_COOLDOWN - TimeSpan.FromSeconds(_elapsedSeconds);
         OnTimerCountdown(remainingTime);
         if (remainingTime > TimeSpan.Zero)
         {
@@ -142,7 +146,7 @@ public abstract class GuessingGame : Game, IGuessingGame
             Scores = _scores
         };
         var template = await _templatesManager.GetTemplateAsync("GuessingGame/GuessingGameResult", resultViewModel);
-        Context.ReplyHtml(template.RemoveNewlines());
+        Context.SendHtmlIn(template.RemoveNewlines());
     }
 
     public void StopGame()

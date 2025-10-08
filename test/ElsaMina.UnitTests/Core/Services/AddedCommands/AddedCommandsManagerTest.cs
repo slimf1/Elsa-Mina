@@ -40,7 +40,7 @@ public class AddedCommandsManagerTest
         await _addedCommandsManager.TryExecuteAddedCommand(commandName, context);
 
         // Assert
-        context.DidNotReceive().ReplyHtml(Arg.Any<string>(),  rankAware: Arg.Any<bool>());
+        context.DidNotReceive().SendHtmlIn(Arg.Any<string>(),  rankAware: Arg.Any<bool>());
         context.DidNotReceive().Reply(Arg.Any<string>(), rankAware: Arg.Any<bool>());
     }
 
@@ -54,7 +54,6 @@ public class AddedCommandsManagerTest
         {
             Content = "https://example.com/image.png"
         };
-        _imageService.IsImageLink("https://example.com/image.png").Returns(true);
         _addedCommandRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(command);
         _imageService.GetRemoteImageDimensions(Arg.Any<string>()).Returns(Task.FromResult((400, 300)));
         _imageService.ResizeWithSameAspectRatio(400, 300, Arg.Any<int>(), Arg.Any<int>()).Returns((400, 300));
@@ -63,7 +62,7 @@ public class AddedCommandsManagerTest
         await _addedCommandsManager.TryExecuteAddedCommand(commandName, context);
 
         // Assert
-        context.Received().ReplyHtml(Arg.Is<string>(s => s.Contains("https://example.com/image.png")), rankAware: Arg.Any<bool>());
+        context.Received().SendHtmlIn(Arg.Is<string>(s => s.Contains("https://example.com/image.png")), rankAware: Arg.Any<bool>());
     }
 
     [Test]
@@ -95,7 +94,6 @@ public class AddedCommandsManagerTest
         {
             Content = "https://example.com/largeimage.png"
         };
-        _imageService.IsImageLink("https://example.com/largeimage.png").Returns(true);
         _addedCommandRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(command);
         _imageService.GetRemoteImageDimensions(Arg.Any<string>()).Returns(Task.FromResult((800, 600)));
         _imageService.ResizeWithSameAspectRatio(800, 600, 400, 300).Returns((400, 300));
@@ -104,7 +102,7 @@ public class AddedCommandsManagerTest
         await _addedCommandsManager.TryExecuteAddedCommand(commandName, context);
 
         // Assert
-        context.Received().ReplyHtml(Arg.Is<string>(s => s.Contains("width=\"400\" height=\"300\"")), rankAware: Arg.Any<bool>());
+        context.Received().SendHtmlIn(Arg.Is<string>(s => s.Contains("width=\"400\" height=\"300\"")), rankAware: Arg.Any<bool>());
     }
 
     [Test]
@@ -117,7 +115,6 @@ public class AddedCommandsManagerTest
         {
             Content = "https://example.com/smallimage.png"
         };
-        _imageService.IsImageLink("https://example.com/smallimage.png").Returns(true);
         _addedCommandRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(command);
         _imageService.GetRemoteImageDimensions(Arg.Any<string>()).Returns(Task.FromResult((200, 150)));
         _imageService.ResizeWithSameAspectRatio(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>()).Returns((200, 150));
@@ -126,7 +123,7 @@ public class AddedCommandsManagerTest
         await _addedCommandsManager.TryExecuteAddedCommand(commandName, context);
 
         // Assert
-        context.Received().ReplyHtml(Arg.Is<string>(s => s.Contains("width=\"200\" height=\"150\"")), rankAware: Arg.Any<bool>());
+        context.Received().SendHtmlIn(Arg.Is<string>(s => s.Contains("width=\"200\" height=\"150\"")), rankAware: Arg.Any<bool>());
     }
     
     [Test]

@@ -23,7 +23,7 @@ public class AfdSpriteCommand : Command
         var spriteType = isBackSprite ? "back" : "front";
 
         var imgHtml = $"""<img src="{spriteUrl}" width="80" height="80" alt="{pokemonName} {spriteType} sprite">""";
-        context.ReplyHtml(imgHtml, null, true);
+        context.SendHtmlIn(imgHtml, null, true);
         
         return Task.CompletedTask;
     }

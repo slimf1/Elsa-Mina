@@ -83,7 +83,7 @@ public class PmContextTests
         var htmlContent = "<div>Test HTML</div>";
 
         // Act
-        context.ReplyHtml(htmlContent);
+        context.SendHtmlIn(htmlContent);
 
         // Assert
         _bot.Received().Say("TestRoom", $"/pminfobox {_sender.UserId}, {htmlContent}");
@@ -98,7 +98,7 @@ public class PmContextTests
         var htmlContent = "<div>Updatable HTML</div>";
 
         // Act
-        context.ReplyUpdatableHtml(htmlId, htmlContent, true);
+        context.SendUpdatableHtml(htmlId, htmlContent, true);
 
         // Assert
         _bot.Received().Say("TestRoom", $"/pmchangeuhtml {_sender.UserId}, {htmlId}, {htmlContent}");

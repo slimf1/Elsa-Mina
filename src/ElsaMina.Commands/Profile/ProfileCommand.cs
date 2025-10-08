@@ -90,7 +90,7 @@ public class ProfileCommand : Command
             BestRanking = bestRanking
         };
         var template = await _templatesManager.GetTemplateAsync("Profile/Profile", viewModel);
-        context.ReplyHtml(template.RemoveNewlines(), rankAware: true);
+        context.SendHtmlIn(template.RemoveNewlines(), rankAware: true);
     }
 
     private static char GetUserRoomRank(IContext context, UserDetailsDto showdownUserDetails)

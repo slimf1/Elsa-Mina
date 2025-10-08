@@ -53,7 +53,7 @@ public class DisplayArcadeLevelsTests
         await _command.RunAsync(context);
 
         // Assert
-        context.Received(1).ReplyHtml(expectedTemplate.RemoveNewlines(), rankAware: true);
+        context.Received(1).SendHtmlIn(expectedTemplate.RemoveNewlines(), rankAware: true);
     }
 
     [Test]

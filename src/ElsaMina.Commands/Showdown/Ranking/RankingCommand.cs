@@ -65,7 +65,7 @@ public class RankingCommand : Command
                 }
             );
 
-            context.ReplyHtml(template.RemoveNewlines(), rankAware: true);
+            context.SendHtmlIn(template.RemoveNewlines(), rankAware: true);
         }
         catch (Exception exception)
         {

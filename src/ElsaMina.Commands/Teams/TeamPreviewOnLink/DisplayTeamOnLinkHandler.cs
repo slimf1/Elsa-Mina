@@ -85,6 +85,6 @@ public class DisplayTeamOnLinkHandler : ChatMessageHandler
             Team = ShowdownTeams.DeserializeTeamExport(sharedTeam.TeamExport)
         });
 
-        context.ReplyHtml(template.RemoveNewlines());
+        context.SendHtmlIn(template.RemoveNewlines());
     }
 }

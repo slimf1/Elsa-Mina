@@ -44,6 +44,6 @@ public class SpeakCommand : Command
             return;
         }
 
-        context.ReplyHtml($"""<audio src="{url}" controls aria-label="{text}"></audio>""");
+        context.SendHtmlIn($"""<audio src="{url}" controls aria-label="{text}"></audio>""");
     }
 }

@@ -33,7 +33,6 @@ public class RoomsManager : IRoomsManager, IDisposable
         _userPlayTimeRepository = userPlayTimeRepository;
 
         RoomParameters = parametersFactory.GetParameters();
-        StartPlayTimeUpdatesTimer();
     }
 
     private void StartPlayTimeUpdatesTimer()
@@ -45,6 +44,11 @@ public class RoomsManager : IRoomsManager, IDisposable
     }
 
     public IReadOnlyDictionary<string, IParameter> RoomParameters { get; }
+
+    public void Initialize()
+    {
+        StartPlayTimeUpdatesTimer();
+    }
 
     public IRoom GetRoom(string roomId)
     {

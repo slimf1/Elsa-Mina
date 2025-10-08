@@ -10,6 +10,23 @@ public class RandomService : IRandomService
         return list[_rng.Next(0, list.Count)];
     }
 
+    public IEnumerable<T> RandomSample<T>(IEnumerable<T> enumerable, int count)
+    {
+        var list = enumerable.ToList();
+        if (count >= list.Count)
+        {
+            return list;
+        }
+
+        var selectedIndices = new HashSet<int>();
+        while (selectedIndices.Count < count)
+        {
+            selectedIndices.Add(_rng.Next(0, list.Count));
+        }
+
+        return selectedIndices.Select(i => list[i]);
+    }
+
     public void ShuffleInPlace<T>(IList<T> list)
     {
         var n = list.Count;

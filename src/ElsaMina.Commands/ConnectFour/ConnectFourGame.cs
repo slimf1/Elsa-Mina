@@ -14,13 +14,13 @@ public class ConnectFourGame : Game, IConnectFourGame
 {
     private const char DEFAULT_CHARACTER = '_';
 
-    public static int GameId { get; private set; }
-    private static string AnnounceId => $"c4-announce-{GameId}";
+    private static int NextGameId { get; set; } = 1;
 
     private readonly IRandomService _randomService;
     private readonly ITemplatesManager _templatesManager;
     private readonly IConfiguration _configuration;
     private readonly IBot _bot;
+    private readonly int _gameId;
 
     private Timer _timer;
 
@@ -34,7 +34,7 @@ public class ConnectFourGame : Game, IConnectFourGame
         _configuration = configuration;
         _bot = bot;
 
-        GameId++;
+        _gameId = NextGameId++;
     }
 
     #region Properties
@@ -56,8 +56,11 @@ public class ConnectFourGame : Game, IConnectFourGame
     public override string Identifier => nameof(ConnectFourGame);
 
     public string PlayerNames => string.Join(", ", Players.Select(player => player.Name));
-    
+    public int GameId => _gameId;
+
     public IContext Context { get; set; }
+    
+    private string AnnounceId => $"c4-announce-{_gameId}";
 
     #endregion
 
@@ -75,7 +78,7 @@ public class ConnectFourGame : Game, IConnectFourGame
                 Trigger = _configuration.Trigger
             });
 
-        Context.ReplyUpdatableHtml(AnnounceId, template.RemoveNewlines(), true);
+        Context.SendUpdatableHtml(AnnounceId, template.RemoveNewlines(), true);
     }
 
     public async Task JoinGame(IUser user)
@@ -267,7 +270,7 @@ public class ConnectFourGame : Game, IConnectFourGame
     private async Task StartGame()
     {
         var ongoingGameMessage = Context.GetString("c4_panel_ongoing_game", PlayerNames);
-        Context.ReplyUpdatableHtml(AnnounceId, ongoingGameMessage, true);
+        Context.SendUpdatableHtml(AnnounceId, ongoingGameMessage, true);
 
         for (var i = 0; i < ConnectFourConstants.GRID_HEIGHT; i++)
         {
@@ -340,7 +343,7 @@ public class ConnectFourGame : Game, IConnectFourGame
                 Trigger = _configuration.Trigger
             });
 
-        var pageName = $"c4-game-{Context.RoomId}-{GameId}";
+        var pageName = $"c4-game-{Context.RoomId}-{_gameId}";
         var sanitizedTemplate = template.RemoveNewlines();
         foreach (var player in Players)
         {

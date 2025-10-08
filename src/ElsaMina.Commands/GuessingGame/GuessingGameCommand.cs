@@ -1,4 +1,5 @@
 ﻿using ElsaMina.Commands.GuessingGame.Countries;
+using ElsaMina.Commands.GuessingGame.Gatekeepers;
 using ElsaMina.Commands.GuessingGame.PokeCries;
 using ElsaMina.Commands.GuessingGame.PokeDesc;
 using ElsaMina.Core.Commands;
@@ -8,7 +9,7 @@ using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.GuessingGame;
 
-[NamedCommand("guessinggame", Aliases = ["countriesgame", "pokedesc", "pokecries"])]
+[NamedCommand("guessinggame", Aliases = ["countriesgame", "pokedesc", "pokecries", "gatekeepers"])]
 public class GuessingGameCommand : Command
 {
     private const int MAX_TURNS_COUNT = 20;
@@ -48,6 +49,7 @@ public class GuessingGameCommand : Command
             "countriesgame" => _dependencyContainerService.Resolve<CountriesGame>(),
             "pokedesc" => _dependencyContainerService.Resolve<PokeDescGame>(),
             "pokecries" => _dependencyContainerService.Resolve<PokeCriesGame>(),
+            "gatekeepers" => _dependencyContainerService.Resolve<GatekeepersGame>(),
             _ => null
         };
         if (game == null)

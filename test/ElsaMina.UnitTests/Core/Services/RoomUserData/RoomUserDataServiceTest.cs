@@ -11,15 +11,13 @@ public class RoomUserDataServiceTest
     private IRoomSpecificUserDataRepository _roomSpecificUserDataRepository;
     private IBadgeHoldingRepository _badgeHoldingRepository;
     private RoomUserDataService _service;
-    private IImageService _imageService;
 
     [SetUp]
     public void SetUp()
     {
         _roomSpecificUserDataRepository = Substitute.For<IRoomSpecificUserDataRepository>();
         _badgeHoldingRepository = Substitute.For<IBadgeHoldingRepository>();
-        _imageService = Substitute.For<IImageService>();
-        _service = new RoomUserDataService(_roomSpecificUserDataRepository, _badgeHoldingRepository, _imageService);
+        _service = new RoomUserDataService(_roomSpecificUserDataRepository, _badgeHoldingRepository);
     }
 
     [Test]
@@ -163,7 +161,6 @@ public class RoomUserDataServiceTest
         var roomId = "room1";
         var userId = "user1";
         var invalidAvatar = "invalid_url";
-        _imageService.IsImageLink(invalidAvatar).Returns(false);
 
         // Act & Assert
         Assert.ThrowsAsync<ArgumentException>(async () => await _service.SetUserAvatar(roomId, userId, invalidAvatar));
@@ -176,7 +173,6 @@ public class RoomUserDataServiceTest
         var roomId = "room1";
         var userId = "user1";
         var avatar = "https://valid.url/image.jpg";
-        _imageService.IsImageLink(avatar).Returns(true);
         var userData = new RoomSpecificUserData { Id = userId, RoomId = roomId };
         _roomSpecificUserDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(userData);
 

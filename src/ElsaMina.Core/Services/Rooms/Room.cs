@@ -7,7 +7,7 @@ namespace ElsaMina.Core.Services.Rooms;
 
 public class Room : IRoom
 {
-    private const int MESSAGE_QUEUE_LENGTH = 30;
+    private const int MESSAGE_QUEUE_LENGTH = 10;
 
     private readonly ConcurrentDictionary<string, DateTime> _joinDateTimes = [];
     private readonly ConcurrentDictionary<string, TimeSpan> _pendingPlayTimeUpdates = [];

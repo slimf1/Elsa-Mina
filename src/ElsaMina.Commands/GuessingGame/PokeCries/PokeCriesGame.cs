@@ -63,7 +63,7 @@ public class PokeCriesGame : GuessingGame
         {
             var chosenEasterEgg = _randomService.RandomElement(EASTER_EGGS);
             CurrentValidAnswers = chosenEasterEgg.Answers;
-            Context.ReplyHtml(chosenEasterEgg.Message);
+            Context.SendHtmlIn(chosenEasterEgg.Message);
 
             return Task.CompletedTask;
         }
@@ -74,7 +74,7 @@ public class PokeCriesGame : GuessingGame
         {
             var pokemon = _dexManager.Pokedex[monId];
             CurrentValidAnswers = [pokemon.Name.French, pokemon.Name.English, pokemon.Name.Japanese];
-            Context.ReplyHtml(message);
+            Context.SendHtmlIn(message);
         }
 
         return Task.CompletedTask;

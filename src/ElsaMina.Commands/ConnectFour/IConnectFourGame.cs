@@ -11,6 +11,7 @@ public interface IConnectFourGame : IGame
     (int, int) LastPlayIndices { get; }
     char[,] Grid { get; }
     string PlayerNames { get; }
+    int GameId { get; }
     Task DisplayAnnounce();
     Task JoinGame(IUser user);
     Task Play(IUser user, string playedColumn);

@@ -31,7 +31,7 @@ public class AfdSpriteCommandTest
         await _command.RunAsync(_context);
 
         // Assert
-        _context.Received(1).ReplyHtml(expectedHtml, null, true);
+        _context.Received(1).SendHtmlIn(expectedHtml, null, true);
         _context.DidNotReceive().ReplyLocalizedMessage(Arg.Any<string>());
     }
 
@@ -47,7 +47,7 @@ public class AfdSpriteCommandTest
         await _command.RunAsync(_context);
 
         // Assert
-        _context.Received(1).ReplyHtml(expectedHtml, null, true);
+        _context.Received(1).SendHtmlIn(expectedHtml, null, true);
         _context.DidNotReceive().ReplyLocalizedMessage(Arg.Any<string>());
     }
 
@@ -63,6 +63,6 @@ public class AfdSpriteCommandTest
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("pokemon_name_required");
-        _context.DidNotReceive().ReplyHtml(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<bool>());
+        _context.DidNotReceive().SendHtmlIn(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<bool>());
     }
 } 
