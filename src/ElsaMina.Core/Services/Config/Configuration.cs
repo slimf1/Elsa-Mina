@@ -18,6 +18,7 @@ public class Configuration : IConfiguration
     public string RiotApiKey { get; set; }
     public string ArcadeWebhookUrl { get; set; }
     public string MistralApiKey { get; set; }
+    public string ChatGptApiKey { get; set; }
     public string ElevenLabsApiKey { get; set; }
     public TimeSpan PlayTimeUpdatesInterval { get; set; }
     public string S3BucketName { get; set; } = string.Empty;

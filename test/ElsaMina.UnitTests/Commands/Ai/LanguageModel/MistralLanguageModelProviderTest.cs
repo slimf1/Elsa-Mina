@@ -1,5 +1,4 @@
-using ElsaMina.Commands.Ai.Chat;
-using ElsaMina.Commands.Ai.LanguageModel;
+using ElsaMina.Commands.Ai.LanguageModel.Mistral;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using NSubstitute;

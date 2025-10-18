@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using ElsaMina.Commands.Ai.Chat;
 using ElsaMina.Commands.Ai.LanguageModel;
+using ElsaMina.Commands.Ai.LanguageModel.Mistral;
+using ElsaMina.Commands.Ai.LanguageModel.OpenAi;
 using ElsaMina.Commands.Ai.TextToSpeech;
 using ElsaMina.Commands.Arcade;
 using ElsaMina.Commands.Badges;
@@ -121,7 +123,8 @@ public class CommandModule : Module
         builder.RegisterType<GatekeepersGame>().AsSelf();
 
         builder.RegisterType<ElevenLabsAiTextToSpeechProvider>().As<IAiTextToSpeechProvider>().SingleInstance();
-        builder.RegisterType<MistralLanguageModelProvider>().As<ILanguageModelProvider>().SingleInstance();
+        //builder.RegisterType<MistralLanguageModelProvider>().As<ILanguageModelProvider>().SingleInstance();
+        builder.RegisterType<GptLanguageModelProvider>().As<ILanguageModelProvider>().SingleInstance();
         builder.RegisterType<ShowdownRanksProvider>().As<IShowdownRanksProvider>().SingleInstance();
         builder.RegisterType<PokepasteProvider>().As<ITeamProvider>().SingleInstance();
         builder.RegisterType<CoupCritiqueProvider>().As<ITeamProvider>().SingleInstance();

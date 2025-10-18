@@ -20,6 +20,7 @@ public interface IConfiguration : IS3CredentialsProvider
     string RiotApiKey { get; }
     string ArcadeWebhookUrl { get; }
     string MistralApiKey { get; }
+    string ChatGptApiKey { get; set; }
     string ElevenLabsApiKey { get; }
     TimeSpan PlayTimeUpdatesInterval { get; set; }
 }

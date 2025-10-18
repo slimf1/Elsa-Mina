@@ -1,9 +1,8 @@
-using ElsaMina.Commands.Ai.Chat;
 using ElsaMina.Core;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 
-namespace ElsaMina.Commands.Ai.LanguageModel;
+namespace ElsaMina.Commands.Ai.LanguageModel.Mistral;
 
 public class MistralLanguageModelProvider : ILanguageModelProvider
 {

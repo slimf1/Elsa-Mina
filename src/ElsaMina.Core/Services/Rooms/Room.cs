@@ -7,7 +7,7 @@ namespace ElsaMina.Core.Services.Rooms;
 
 public class Room : IRoom
 {
-    private const int MESSAGE_QUEUE_LENGTH = 10;
+    private const int MESSAGE_QUEUE_LENGTH = 8;
 
     private readonly ConcurrentDictionary<string, DateTime> _joinDateTimes = [];
     private readonly ConcurrentDictionary<string, TimeSpan> _pendingPlayTimeUpdates = [];
@@ -52,8 +52,9 @@ public class Room : IRoom
             .Where(line => line.StartsWith("|c:|"))
             .TakeLast(MESSAGE_QUEUE_LENGTH)
             .Select(line => line.Split("|"))
+            .Where(messageParts => !messageParts[4].StartsWith("/raw"))
             .Select(messageParts => (messageParts[3], messageParts[4]));
-
+            
         foreach (var (user, message) in filteredMessages)
         {
             _lastMessages.Enqueue(Tuple.Create(user, message));
