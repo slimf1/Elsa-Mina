@@ -1,5 +1,4 @@
 using System.Globalization;
-using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
@@ -11,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using NSubstitute;
 
-namespace ElsaMina.IntegrationTests;
+namespace ElsaMina.IntegrationTests.Core.Services.Rooms;
 
 public class RoomInfoTest
 {

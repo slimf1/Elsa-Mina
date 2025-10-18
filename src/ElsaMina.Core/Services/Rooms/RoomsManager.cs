@@ -35,14 +35,6 @@ public class RoomsManager : IRoomsManager, IDisposable
         RoomParameters = parametersFactory.GetParameters();
     }
 
-    private void StartPlayTimeUpdatesTimer()
-    {
-        _processPlayTimeUpdatesTimer = new Timer(_configuration.PlayTimeUpdatesInterval);
-        _processPlayTimeUpdatesTimer.AutoReset = true;
-        _processPlayTimeUpdatesTimer.Elapsed += ProcessPlayTimeUpdatesTimerElapsed;
-        _processPlayTimeUpdatesTimer.Start();
-    }
-
     public IReadOnlyDictionary<string, IParameter> RoomParameters { get; }
 
     public void Initialize()
@@ -214,6 +206,14 @@ public class RoomsManager : IRoomsManager, IDisposable
     public void Clear()
     {
         _rooms.Clear();
+    }
+
+    private void StartPlayTimeUpdatesTimer()
+    {
+        _processPlayTimeUpdatesTimer = new Timer(_configuration.PlayTimeUpdatesInterval);
+        _processPlayTimeUpdatesTimer.AutoReset = true;
+        _processPlayTimeUpdatesTimer.Elapsed += ProcessPlayTimeUpdatesTimerElapsed;
+        _processPlayTimeUpdatesTimer.Start();
     }
 
     private async Task UpdateUserPlayTime(IRoom room, string userId, TimeSpan additionalPlayTime)

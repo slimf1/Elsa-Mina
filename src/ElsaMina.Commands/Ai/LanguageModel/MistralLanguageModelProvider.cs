@@ -9,7 +9,7 @@ public class MistralLanguageModelProvider : ILanguageModelProvider
 {
     private const string MISTRAL_AUTOCOMPLETE_API_URL = "https://api.mistral.ai/v1/chat/completions";
     private const string DEFAULT_MODEL = "mistral-medium-latest";
-    private const string DEFAULT_ROLE = "user";
+    private const string USER_ROLE = "user";
 
     private readonly IHttpService _httpService;
     private readonly IConfiguration _configuration;
@@ -41,7 +41,7 @@ public class MistralLanguageModelProvider : ILanguageModelProvider
             [
                 new MistralRequestMessageDto
                 {
-                    Role = DEFAULT_ROLE,
+                    Role = USER_ROLE,
                     Content = prompt
                 }
             ]
