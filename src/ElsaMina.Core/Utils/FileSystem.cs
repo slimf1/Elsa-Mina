@@ -29,10 +29,4 @@ public static class FileSystem
         return Uri.UnescapeDataString(referenceUri.MakeRelativeUri(fileUri).ToString())
             .Replace(Path.PathSeparator, Path.DirectorySeparatorChar);
     }
-
-    public static string RemoveExtension(this string fileName)
-    {
-        var extension = Path.GetExtension(fileName);
-        return fileName[..^extension.Length];
-    }
 }

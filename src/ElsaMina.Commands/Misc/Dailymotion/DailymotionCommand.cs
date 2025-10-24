@@ -26,6 +26,12 @@ public class DailymotionCommand : Command
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
+        if (string.IsNullOrEmpty(context.Target))
+        {
+            context.ReplyLocalizedMessage("dailymotion_no_video_found");
+            return;
+        }
+        
         var keywords = string.Join('+', context.Target.Split(' ', StringSplitOptions.RemoveEmptyEntries));
         var queryParams = new Dictionary<string, string>
         {
@@ -46,17 +52,11 @@ public class DailymotionCommand : Command
             }
 
             var videos = result.Data.List.OrderByDescending(video => video.ViewsTotal).ToList();
-            var video = videos[0];
-            while (video.Explicit)
+            var video = videos.FirstOrDefault(video => !video.Explicit);
+            if (video == null)
             {
-                videos.RemoveAt(0);
-                if (videos.Count == 0)
-                {
-                    context.ReplyLocalizedMessage("dailymotion_no_video_found");
-                    return;
-                }
-
-                video = videos[0];
+                context.ReplyLocalizedMessage("dailymotion_no_video_found");
+                return;
             }
 
             var videoUrl = $"https://www.dailymotion.com/video/{HttpUtility.UrlEncode(video.Id)}";

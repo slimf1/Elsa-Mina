@@ -30,15 +30,15 @@ public abstract class GuessingGame : Game, IGuessingGame
         _templatesManager = templatesManager;
         _configurationManager = configurationManager;
     }
-    
+
     protected IReadOnlyDictionary<string, int> Scores => _scores;
-    
+
     protected int CurrentTurn => _currentTurn;
 
     protected IEnumerable<string> CurrentValidAnswers { get; set; } = [];
 
     public int TurnsCount { get; set; } = DEFAULT_TURNS_COUNT;
-    
+
     public IContext Context { get; set; }
 
     public async Task Start()
@@ -71,7 +71,7 @@ public abstract class GuessingGame : Game, IGuessingGame
         {
             return;
         }
-        
+
         _timer.Elapsed -= HandleTimerElapsed;
         _timer.Dispose();
         _timer = null;
@@ -86,8 +86,9 @@ public abstract class GuessingGame : Game, IGuessingGame
         {
             return;
         }
+
         CancelTimer();
-        
+
         await OnTurnEnd();
     }
 
@@ -120,7 +121,7 @@ public abstract class GuessingGame : Game, IGuessingGame
         var userId = userName.ToLowerAlphaNum();
         var maxLevenshteinDistance = answer.Length > MIN_LENGTH_FOR_AUTOCORRECT ? 1 : 0;
         if (!CurrentValidAnswers.Any(validAnswer =>
-                Text.LevenshteinDistance(validAnswer.ToLowerAlphaNum(), answer.ToLowerAlphaNum()) <=
+                validAnswer.ToLowerAlphaNum().LevenshteinDistance(answer.ToLowerAlphaNum()) <=
                 maxLevenshteinDistance))
         {
             return;
@@ -154,7 +155,7 @@ public abstract class GuessingGame : Game, IGuessingGame
         OnEnd();
         CancelTimer();
     }
-    
+
     protected virtual void OnTimerCountdown(TimeSpan remainingTime)
     {
         if (remainingTime.TotalSeconds.IsApproximatelyEqualTo(TIME_WARNING_THRESHOLD) && !_hasRoundBeenWon)

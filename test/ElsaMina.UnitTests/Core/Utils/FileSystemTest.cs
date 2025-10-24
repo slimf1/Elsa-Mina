@@ -16,17 +16,4 @@ public class FileSystemTest
         // Assert
         Assert.That(result, Is.EqualTo("Lol/Test/Stuff.png"));
     }
-    
-    [Test]
-    public void Test_RemoveExtension_ShouldRemoveExtension()
-    {
-        // Arrange
-        const string fileName = "Stuff.png";
-
-        // Act
-        var result = fileName.RemoveExtension();
-        
-        // Assert
-        Assert.That(result, Is.EqualTo("Stuff"));
-    }
 }
