@@ -32,11 +32,16 @@ public class NameColorInfo : Command
             return;
         }
 
-        Color color = context.Target.ToColor();
+        Color color;
         Color? originalColor = null;
         if (_customColorsManager.CustomColorsMapping.TryGetValue(context.Target, out var customColorName))
         {
-            originalColor = customColorName.ToColor();
+            color = customColorName.ToColor();
+            originalColor = context.Target.ToColor();
+        }
+        else
+        {
+            color = context.Target.ToColor();
         }
         var template = await _templatesManager.GetTemplateAsync("Misc/Colors/NameColorInfo", new NameColorInfoViewModel
         {
