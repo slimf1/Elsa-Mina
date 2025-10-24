@@ -1,3 +1,4 @@
+using System.Drawing;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.CustomColors;
@@ -30,15 +31,19 @@ public class NameColorInfo : Command
             ReplyLocalizedHelpMessage(context);
             return;
         }
-        
-        var color = _customColorsManager.CustomColorsMapping.TryGetValue(context.Target, out var customColorName)
-            ? customColorName.ToColor()
-            : context.Target.ToColor();
+
+        Color color = context.Target.ToColor();
+        Color? originalColor = null;
+        if (_customColorsManager.CustomColorsMapping.TryGetValue(context.Target, out var customColorName))
+        {
+            originalColor = customColorName.ToColor();
+        }
         var template = await _templatesManager.GetTemplateAsync("Misc/Colors/NameColorInfo", new NameColorInfoViewModel
         {
             Culture = context.Culture,
             Name = context.Target,
-            Color = color
+            Color = color,
+            OriginalColor = originalColor
         });
         context.SendHtmlIn(template.RemoveNewlines(), rankAware: true);
     }

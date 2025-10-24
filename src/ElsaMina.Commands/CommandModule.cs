@@ -16,8 +16,10 @@ using ElsaMina.Commands.GuessingGame.Gatekeepers;
 using ElsaMina.Commands.GuessingGame.PokeCries;
 using ElsaMina.Commands.GuessingGame.PokeDesc;
 using ElsaMina.Commands.JoinPhrases;
+using ElsaMina.Commands.Misc;
 using ElsaMina.Commands.Misc.Bitcoin;
 using ElsaMina.Commands.Misc.Colors;
+using ElsaMina.Commands.Misc.Dailymotion;
 using ElsaMina.Commands.Misc.Facts;
 using ElsaMina.Commands.Misc.Pairings;
 using ElsaMina.Commands.Misc.Pokemon;
@@ -105,6 +107,8 @@ public class CommandModule : Module
         builder.RegisterCommand<AfdSpriteCommand>();
         builder.RegisterCommand<ShowPollsCommand>();
         builder.RegisterCommand<PairingsCommand>();
+        builder.RegisterCommand<EvroMakerCommand>();
+        builder.RegisterCommand<DailymotionCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();

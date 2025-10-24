@@ -1328,5 +1328,23 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("countries_game_turn_ending_soon", resourceCulture);
             }
         }
+        
+        internal static string dailymotion_watch_video {
+            get {
+                return ResourceManager.GetString("dailymotion_watch_video", resourceCulture);
+            }
+        }
+        
+        internal static string dailymotion_no_video_found {
+            get {
+                return ResourceManager.GetString("dailymotion_no_video_found", resourceCulture);
+            }
+        }
+        
+        internal static string dailymotion_fetch_error {
+            get {
+                return ResourceManager.GetString("dailymotion_fetch_error", resourceCulture);
+            }
+        }
     }
 }

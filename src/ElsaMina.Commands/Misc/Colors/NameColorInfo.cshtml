@@ -5,6 +5,23 @@
 <span style="color: @Model.Color.ToHexString(); font-weight: bold;">
     @Model.Name
 </span>
+&nbsp;
 <span>
     | @Model.Color.ToHexString() | @Model.Color.ToRgbString() | @Model.Color.ToHslString()
 </span>
+@if (Model.OriginalColor != null)
+{
+    <br/>
+    <span>
+        @{
+            var ogColor = Model.OriginalColor.Value;
+        }
+        (Original:&nbsp;
+        <span style="color: @ogColor.ToHexString(); font-weight: bold;">
+            @Model.Name
+        </span>&nbsp;
+        <span>
+            | @ogColor.ToHexString() | @ogColor.ToRgbString() | @ogColor.ToHslString()
+        </span>
+    </span>
+}

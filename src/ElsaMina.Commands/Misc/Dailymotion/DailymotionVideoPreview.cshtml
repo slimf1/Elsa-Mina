@@ -1,0 +1,24 @@
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Misc.Dailymotion.DailymotionVideoPreviewViewModel>
+
+<img src="@Model.ThumbnailUrl"
+     alt="@Model.Title Thumbnail"
+     width="120"
+     height="67"
+     style="float: left; padding: 4px;" />
+<b>
+    @Model.Title
+</b>
+<br />
+<i class="fa fa-eye" title="Views"></i>
+<span title="Views">
+    &nbsp; @Model.ViewsTotal.ToString("N0", Model.Culture) &nbsp;
+</span>
+<i class="fa fa-thumbs-up"></i>
+<span title="Likes">
+    &nbsp; @Model.LikesTotal.ToString("N0", Model.Culture) &nbsp;
+</span>
+<br />
+<a href="@Model.VideoUrl" target="_blank" rel="noopener noreferrer">
+    @GetString("dailymotion_watch_video")
+</a>
+

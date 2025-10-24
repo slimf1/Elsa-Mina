@@ -47,4 +47,9 @@ public class RandomService : IRandomService
     {
         return _rng.Next(lowerBound, upperBound);
     }
+    
+    public int NextInt(int upperBound)
+    {
+        return _rng.Next(upperBound);
+    }
 }

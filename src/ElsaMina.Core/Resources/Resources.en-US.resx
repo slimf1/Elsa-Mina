@@ -660,4 +660,13 @@
     <data name="countries_game_turn_ending_soon" xml:space="preserve">
         <value>Time is running out ! {0} seconds left.</value>
     </data>
+    <data name="dailymotion_watch_video" xml:space="preserve">
+        <value>Watch on Dailymotion</value>
+    </data>
+    <data name="dailymotion_no_video_found" xml:space="preserve">
+        <value>No videos were found</value>
+    </data>
+    <data name="dailymotion_fetch_error" xml:space="preserve">
+        <value>An error occurred while fetching video : {0}</value>
+    </data>
 </root>
