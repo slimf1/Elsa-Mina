@@ -44,7 +44,7 @@ public class EvroMakerCommand : Command
     {
         if (string.IsNullOrWhiteSpace(context.Target))
         {
-            return null;
+            return Task.CompletedTask;
         }
 
         var words = context.Target.Split(' ')
@@ -54,7 +54,7 @@ public class EvroMakerCommand : Command
 
         if (words.Length < 2)
         {
-            return null;
+            return Task.CompletedTask;
         }
 
         var count = 0;
