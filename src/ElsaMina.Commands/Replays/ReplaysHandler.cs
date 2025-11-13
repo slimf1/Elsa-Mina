@@ -7,6 +7,7 @@ using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Rooms.Parameters;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Replays;
 

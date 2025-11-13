@@ -1,8 +1,9 @@
 ﻿using ElsaMina.FileSharing.S3;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Core.Services.Config;
 
-public interface IConfiguration : IS3CredentialsProvider
+public interface IConfiguration : IS3CredentialsProvider, ILoggingConfiguration
 {
     string Host { get; }
     string Port { get; }
@@ -15,9 +16,12 @@ public interface IConfiguration : IS3CredentialsProvider
     string DefaultRoom { get; }
     string DefaultLocaleCode { get; }
     string ConnectionString { get; }
+    int DatabaseMaxRetries { get; set; }
+    TimeSpan DatabaseRetryDelay { get; set; }
     string YoutubeApiKey { get; }
     string DictionaryApiKey { get; }
     string RiotApiKey { get; }
+    string GeniusApiKey { get; }
     string ArcadeWebhookUrl { get; }
     string MistralApiKey { get; }
     string ChatGptApiKey { get; set; }

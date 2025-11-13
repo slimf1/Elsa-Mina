@@ -1,4 +1,5 @@
 using ElsaMina.Core.Services.Http;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Core.Services.Dex;
 

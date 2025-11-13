@@ -6,10 +6,10 @@ public interface IRoomUserDataService
 {
     IReadOnlyDictionary<Tuple<string, string>, string> JoinPhrases { get; }
     Task InitializeJoinPhrasesAsync(CancellationToken cancellationToken = default);
-    Task<RoomSpecificUserData> GetUserData(string roomId, string userId);
-    Task GiveBadgeToUser(string roomId, string userId, string badgeId);
-    Task TakeBadgeFromUser(string roomId, string userId, string badgeId);
-    Task SetUserTitle(string roomId, string userId, string title);
-    Task SetUserAvatar(string roomId, string userId, string avatar);
-    Task SetUserJoinPhrase(string roomId, string userId, string joinPhrase);
+    Task<RoomSpecificUserData> GetUserData(string roomId, string userId, CancellationToken cancellationToken = default);
+    Task GiveBadgeToUserAsync(string roomId, string userId, string badgeId, CancellationToken cancellationToken = default);
+    Task TakeBadgeFromUserAsync(string roomId, string userId, string badgeId, CancellationToken cancellationToken = default);
+    Task SetUserTitleAsync(string roomId, string userId, string title, CancellationToken cancellationToken = default);
+    Task SetUserAvatarAsync(string roomId, string userId, string avatar, CancellationToken cancellationToken = default);
+    Task SetUserJoinPhraseAsync(string roomId, string userId, string joinPhrase, CancellationToken cancellationToken = default);
 }

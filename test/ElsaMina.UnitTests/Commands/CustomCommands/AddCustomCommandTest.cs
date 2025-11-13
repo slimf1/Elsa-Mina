@@ -13,7 +13,7 @@ namespace ElsaMina.UnitTests.Commands.CustomCommands;
 public class AddCustomCommandTest
 {
     private IAddedCommandRepository _addedCommandRepository;
-    private IConfigurationManager _configurationManager;
+    private IConfiguration _configuration;
     private IClockService _clockService;
 
     private AddCustomCommand _addCustomCommand;
@@ -22,10 +22,10 @@ public class AddCustomCommandTest
     public void SetUp()
     {
         _addedCommandRepository = Substitute.For<IAddedCommandRepository>();
-        _configurationManager = Substitute.For<IConfigurationManager>();
+        _configuration = Substitute.For<IConfiguration>();
         _clockService = Substitute.For<IClockService>();
 
-        _addCustomCommand = new AddCustomCommand(_addedCommandRepository, _configurationManager, _clockService);
+        _addCustomCommand = new AddCustomCommand(_addedCommandRepository, _configuration, _clockService);
     }
 
     [Test]
@@ -38,7 +38,7 @@ public class AddCustomCommandTest
         context.Target.Returns("test-command,Test command content");
         context.Sender.Returns(UserFixtures.VoicedUser("John"));
         context.RoomId.Returns("room-1");
-        _configurationManager.Configuration.Returns(new Configuration { Trigger = "+" });
+        _configuration.Trigger.Returns("+");
         _addedCommandRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).ReturnsNull();
 
         // Act
@@ -89,7 +89,7 @@ public class AddCustomCommandTest
     public async Task Test_RunAsync_ShouldNotAddCommandToDatabase_WhenCommandContentStartsWithInvalidCharacter()
     {
         // Arrange
-        _configurationManager.Configuration.Trigger.Returns("@");
+        _configuration.Trigger.Returns("@");
         var context = Substitute.For<IContext>();
         context.Target.Returns("test-command,@Test command content");
 
@@ -105,7 +105,7 @@ public class AddCustomCommandTest
     public async Task Test_RunAsync_ShouldNotAddCommandToDatabase_WhenCommandAlreadyExists()
     {
         // Arrange
-        _configurationManager.Configuration.Trigger.Returns("@");
+        _configuration.Trigger.Returns("@");
         var existingCommand = new AddedCommand { Id = "existing", RoomId = "room-1" };
         _addedCommandRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(existingCommand);
         var context = Substitute.For<IContext>();

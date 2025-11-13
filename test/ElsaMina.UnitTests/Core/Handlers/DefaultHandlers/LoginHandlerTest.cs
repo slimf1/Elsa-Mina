@@ -11,7 +11,7 @@ namespace ElsaMina.UnitTests.Core.Handlers.DefaultHandlers;
 public class LoginHandlerTest
 {
     private ILoginService _loginService;
-    private IConfigurationManager _configurationManager;
+    private IConfiguration _configuration;
     private IClient _client;
     private ISystemService _systemService;
     private LoginHandler _handler;
@@ -20,11 +20,11 @@ public class LoginHandlerTest
     public void SetUp()
     {
         _loginService = Substitute.For<ILoginService>();
-        _configurationManager = Substitute.For<IConfigurationManager>();
+        _configuration = Substitute.For<IConfiguration>();
         _client = Substitute.For<IClient>();
         _systemService = Substitute.For<ISystemService>();
 
-        _handler = new LoginHandler(_loginService, _configurationManager, _systemService, _client);
+        _handler = new LoginHandler(_loginService, _configuration, _systemService, _client);
     }
 
     [Test]
@@ -32,10 +32,7 @@ public class LoginHandlerTest
     {
         // Arrange
         string[] message = ["", "challstr", "4", "nonce"];
-        _configurationManager.Configuration.Returns(new Configuration
-        {
-            Name = "LeBot"
-        });
+        _configuration.Name.Returns("LeBot");
         _loginService.Login("4|nonce").Returns(new LoginResponseDto
         {
             Assertion = "assertion",
@@ -60,10 +57,7 @@ public class LoginHandlerTest
     {
         // Arrange
         string[] message = ["", "challstr", "4", "nonce"];
-        _configurationManager.Configuration.Returns(new Configuration
-        {
-            Name = "LeBot"
-        });
+        _configuration.Name.Returns("LeBot");
         _loginService.Login("4|nonce").ReturnsNull();
 
         // Act

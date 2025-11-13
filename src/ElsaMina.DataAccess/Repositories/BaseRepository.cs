@@ -21,28 +21,24 @@ public abstract class BaseRepository<T, TKey> : IRepository<T, TKey> where T : c
     public async Task AddAsync(T entity, CancellationToken cancellationToken = default)
     {
         await _dbContext.Set<T>().AddAsync(entity, cancellationToken);
-        await _dbContext.SaveChangesAsync(cancellationToken);
-        _dbContext.Entry(entity).State = EntityState.Detached;
     }
 
-    public async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
+    public Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
     {
         _dbContext.Set<T>().Update(entity);
-        await _dbContext.SaveChangesAsync(cancellationToken);
-        _dbContext.Entry(entity).State = EntityState.Detached;
+        return Task.CompletedTask;
     }
 
-    public async Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
+    public Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
     {
         _dbContext.Set<T>().Remove(entity);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        return Task.CompletedTask;
     }
 
     public async Task DeleteByIdAsync(TKey key, CancellationToken cancellationToken = default)
     {
         var entity = await GetByIdAsync(key, cancellationToken);
         _dbContext.Set<T>().Remove(entity);
-        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
     public Task SaveChangesAsync(CancellationToken cancellationToken = default)

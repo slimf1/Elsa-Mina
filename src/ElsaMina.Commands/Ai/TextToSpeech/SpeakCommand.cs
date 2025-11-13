@@ -3,6 +3,7 @@ using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Ai.TextToSpeech;
 

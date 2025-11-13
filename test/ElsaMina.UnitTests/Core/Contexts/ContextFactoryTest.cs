@@ -14,7 +14,7 @@ public class ContextFactoryTest
     private IContextProvider _contextProvider;
     private IBot _bot;
     private IRoomsManager _roomsManager;
-    private IConfigurationManager _configurationManager;
+    private IConfiguration _configuration;
     private IPmSendersManager _pmSendersManager;
 
     [SetUp]
@@ -23,10 +23,10 @@ public class ContextFactoryTest
         _contextProvider = Substitute.For<IContextProvider>();
         _bot = Substitute.For<IBot>();
         _roomsManager = Substitute.For<IRoomsManager>();
-        _configurationManager = Substitute.For<IConfigurationManager>();
+        _configuration = Substitute.For<IConfiguration>();
         _pmSendersManager = Substitute.For<IPmSendersManager>();
 
-        _contextFactory = new ContextFactory(_contextProvider, _bot, _roomsManager, _configurationManager, _pmSendersManager);
+        _contextFactory = new ContextFactory(_contextProvider, _bot, _roomsManager, _configuration, _pmSendersManager);
     }
 
     [Test]
@@ -66,7 +66,7 @@ public class ContextFactoryTest
 
         mockRoom.Users["user1"].Returns(mockUser);
         _roomsManager.GetRoom("room1").Returns(mockRoom);
-        _configurationManager.Configuration.Trigger.Returns("!");
+        _configuration.Trigger.Returns("!");
         
         // Act
         var result = _contextFactory.TryBuildContextFromReceivedMessage(parts, "room1");
@@ -89,7 +89,7 @@ public class ContextFactoryTest
         var mockUser = Substitute.For<IUser>();
 
         _pmSendersManager.GetUser("user1").Returns(mockUser);
-        _configurationManager.Configuration.Trigger.Returns("!");
+        _configuration.Trigger.Returns("!");
 
         // Act
         var result = _contextFactory.TryBuildContextFromReceivedMessage(parts);
@@ -109,7 +109,7 @@ public class ContextFactoryTest
     {
         // Arrange
         var trigger = "!";
-        _configurationManager.Configuration.Trigger.Returns(trigger);
+        _configuration.Trigger.Returns(trigger);
         var message = "!command arg";
 
         // Act
@@ -132,7 +132,7 @@ public class ContextFactoryTest
     {
         // Arrange
         var trigger = "!";
-        _configurationManager.Configuration.Trigger.Returns(trigger);
+        _configuration.Trigger.Returns(trigger);
         var message = "command arg";
 
         // Act

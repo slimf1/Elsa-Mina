@@ -54,6 +54,7 @@ public class SetArcadeLevel : Command
                     Level = level
                 }, cancellationToken);
                 context.ReplyLocalizedMessage("arcade_level_add", user, level);
+                await _arcadeLevelRepository.SaveChangesAsync(cancellationToken);
             }
             catch (Exception e)
             {
@@ -65,7 +66,7 @@ public class SetArcadeLevel : Command
             arcadeLevel.Level = level;
             try
             {
-                await _arcadeLevelRepository.UpdateAsync(arcadeLevel, cancellationToken);
+                await _arcadeLevelRepository.SaveChangesAsync(cancellationToken);
                 context.ReplyLocalizedMessage("arcade_level_update", user, level);
             }
             catch (Exception e)

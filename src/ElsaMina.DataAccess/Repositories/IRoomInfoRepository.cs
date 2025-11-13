@@ -2,7 +2,4 @@
 
 namespace ElsaMina.DataAccess.Repositories;
 
-public interface IRoomInfoRepository : IRepository<RoomInfo, string>
-{
-    
-}
+public interface IRoomInfoRepository : IRepository<RoomInfo, string>;

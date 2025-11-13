@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Templates;
 using ElsaMina.Core.Utils;
+using ElsaMina.Logging;
 using RazorLight;
 
 namespace ElsaMina.Core.Services.Templates;
@@ -28,7 +29,7 @@ public class TemplatesManager : ITemplatesManager
         }
 
         var template = await RAZOR_ENGINE.RenderTemplateAsync(compiledTemplatePage, model);
-        return template.RemoveNewlines().RemoveWhitespacesBetweenTags();
+        return template.RemoveNewlines();
     }
 
     public async Task CompileTemplatesAsync()

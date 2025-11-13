@@ -8,6 +8,7 @@ using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Teams.Samples;
 
@@ -108,6 +109,7 @@ public class AddTeam : Command
         try
         {
             await _teamRepository.AddAsync(team, cancellationToken);
+            await _teamRepository.SaveChangesAsync(cancellationToken);
             context.ReplyLocalizedMessage("add_team_success", teamId);
         }
         catch (Exception exception)

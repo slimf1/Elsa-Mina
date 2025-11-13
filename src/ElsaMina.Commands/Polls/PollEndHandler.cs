@@ -34,6 +34,7 @@ public class PollEndHandler : Handler
                 EndedAt = _clockService.CurrentUtcDateTime
             };
             await _savedPollRepository.AddAsync(poll, cancellationToken);
+            await _savedPollRepository.SaveChangesAsync(cancellationToken);
         }
     }
 }

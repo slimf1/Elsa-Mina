@@ -15,15 +15,15 @@ public class AddCustomCommand : Command
     private const int MAX_CONTENT_LENGTH = 300;
 
     private readonly IAddedCommandRepository _addedCommandRepository;
-    private readonly IConfigurationManager _configurationManager;
+    private readonly IConfiguration _configuration;
     private readonly IClockService _clockService;
 
     public AddCustomCommand(IAddedCommandRepository addedCommandRepository,
-        IConfigurationManager configurationManager,
+        IConfiguration configuration,
         IClockService clockService)
     {
         _addedCommandRepository = addedCommandRepository;
-        _configurationManager = configurationManager;
+        _configuration = configuration;
         _clockService = clockService;
     }
 
@@ -52,7 +52,7 @@ public class AddCustomCommand : Command
             return;
         }
 
-        if (content.StartsWith(_configurationManager.Configuration.Trigger) || content.StartsWith('/') ||
+        if (content.StartsWith(_configuration.Trigger) || content.StartsWith('/') ||
             content.StartsWith('!'))
         {
             context.ReplyLocalizedMessage("addcommand_bad_first_char");
@@ -75,6 +75,7 @@ public class AddCustomCommand : Command
             CreationDate = _clockService.CurrentUtcDateTime,
             Id = command
         }, cancellationToken);
+        await _addedCommandRepository.SaveChangesAsync(cancellationToken);
 
         context.ReplyLocalizedMessage("addcommand_success", command);
     }

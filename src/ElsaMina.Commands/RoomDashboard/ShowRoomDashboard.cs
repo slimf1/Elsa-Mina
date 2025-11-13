@@ -11,15 +11,15 @@ namespace ElsaMina.Commands.RoomDashboard;
 [NamedCommand("room-dashboard")]
 public class ShowRoomDashboard : Command
 {
-    private readonly IConfigurationManager _configurationManager;
+    private readonly IConfiguration _configuration;
     private readonly IRoomsManager _roomsManager;
     private readonly ITemplatesManager _templatesManager;
 
-    public ShowRoomDashboard(IConfigurationManager configurationManager,
+    public ShowRoomDashboard(IConfiguration configuration,
         IRoomsManager roomsManager,
         ITemplatesManager templatesManager)
     {
-        _configurationManager = configurationManager;
+        _configuration = configuration;
         _roomsManager = roomsManager;
         _templatesManager = templatesManager;
     }
@@ -50,9 +50,9 @@ public class ShowRoomDashboard : Command
         }
 
         var configurationCommandBuilder = new StringBuilder("/w ");
-        configurationCommandBuilder.Append(_configurationManager.Configuration.Name);
+        configurationCommandBuilder.Append(_configuration.Name);
         configurationCommandBuilder.Append(',');
-        configurationCommandBuilder.Append(_configurationManager.Configuration.Trigger);
+        configurationCommandBuilder.Append(_configuration.Trigger);
         configurationCommandBuilder.Append("rc ");
         configurationCommandBuilder.Append(roomId);
         configurationCommandBuilder.Append(',');
@@ -63,8 +63,8 @@ public class ShowRoomDashboard : Command
 
         var viewModel = new RoomDashboardViewModel
         {
-            BotName = _configurationManager.Configuration.Name,
-            Trigger = _configurationManager.Configuration.Trigger,
+            BotName = _configuration.Name,
+            Trigger = _configuration.Trigger,
             RoomId = roomId,
             Command = configurationCommandBuilder.ToString(),
             RoomName = room.Name,

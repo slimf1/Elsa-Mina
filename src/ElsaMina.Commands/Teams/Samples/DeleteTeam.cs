@@ -4,6 +4,7 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Repositories;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Teams.Samples;
 
@@ -30,7 +31,8 @@ public class DeleteTeam : Command
 
         try
         {
-            await _teamRepository.DeleteByIdAsync(team.Id, cancellationToken);
+            await _teamRepository.DeleteAsync(team, cancellationToken);
+            await _teamRepository.SaveChangesAsync(cancellationToken);
             context.ReplyLocalizedMessage("deleteteam_team_deleted_successfully");
         }
         catch (Exception exception)

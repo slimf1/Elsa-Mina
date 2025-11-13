@@ -3,6 +3,7 @@ using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Start;
 using ElsaMina.Core.Services.System;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Core;
 
@@ -109,7 +110,7 @@ public class Bot : IBot
 
         var roomId = room ?? _currentRoom;
 
-        Log.Information("[Received] ({0}) {1}", room, line);
+        Log.Debug("[Received] ({0}) {1}", room, line);
 
         if (!_handlerManager.IsInitialized)
         {
@@ -128,7 +129,7 @@ public class Bot : IBot
             return;
         }
 
-        Log.Information("[Sending] {0}", message);
+        Log.Debug("[Sending] {0}", message);
 
         _client.Send(message);
         _lastMessage = message;

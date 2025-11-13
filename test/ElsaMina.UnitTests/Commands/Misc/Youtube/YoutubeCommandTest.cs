@@ -11,7 +11,7 @@ namespace ElsaMina.UnitTests.Commands.Misc.Youtube;
 public class YoutubeCommandTest
 {
     private IHttpService _httpService;
-    private IConfigurationManager _configurationManager;
+    private IConfiguration _configuration;
     private ITemplatesManager _templatesManager;
     private YoutubeCommand _youtubeCommand;
     private IContext _context;
@@ -20,11 +20,11 @@ public class YoutubeCommandTest
     public void SetUp()
     {
         _httpService = Substitute.For<IHttpService>();
-        _configurationManager = Substitute.For<IConfigurationManager>();
+        _configuration = Substitute.For<IConfiguration>();
         _templatesManager = Substitute.For<ITemplatesManager>();
         _context = Substitute.For<IContext>();
 
-        _youtubeCommand = new YoutubeCommand(_httpService, _configurationManager, _templatesManager);
+        _youtubeCommand = new YoutubeCommand(_httpService, _configuration, _templatesManager);
     }
 
     [Test]
@@ -33,10 +33,7 @@ public class YoutubeCommandTest
     public async Task Test_RunAsync_ShouldReturnError_WhenApiKeyIsEmpty(string emptyApiKey)
     {
         // Arrange
-        _configurationManager.Configuration.Returns(new Configuration
-        {
-            YoutubeApiKey = emptyApiKey
-        });
+        _configuration.YoutubeApiKey.Returns(emptyApiKey);
 
         // Act
         await _youtubeCommand.RunAsync(_context);
@@ -50,10 +47,7 @@ public class YoutubeCommandTest
     public async Task Test_RunAsync_ShouldReturnError_WhenNoResultsAreFound()
     {
         // Arrange
-        _configurationManager.Configuration.Returns(new Configuration
-        {
-            YoutubeApiKey = "fakeApiKey"
-        });
+        _configuration.YoutubeApiKey.Returns("fakeApiKey");
         _httpService.GetAsync<YouTubeSearchResponse>(Arg.Any<string>(), Arg.Any<Dictionary<string, string>>())
             .Returns(new HttpResponse<YouTubeSearchResponse>
             {
@@ -74,10 +68,7 @@ public class YoutubeCommandTest
     public async Task Test_RunAsync_ShouldSendHtmlResponse_WhenResultsAreFound()
     {
         // Arrange
-        _configurationManager.Configuration.Returns(new Configuration
-        {
-            YoutubeApiKey = "fakeApiKey"
-        });
+        _configuration.YoutubeApiKey.Returns("fakeApiKey");
         var mockResponse = new HttpResponse<YouTubeSearchResponse>
         {
             Data = new YouTubeSearchResponse
@@ -125,10 +116,7 @@ public class YoutubeCommandTest
     public async Task Test_RunAsync_ShouldLogError_WhenExceptionOccurs()
     {
         // Arrange
-        _configurationManager.Configuration.Returns(new Configuration
-        {
-            YoutubeApiKey = "fakeApiKey"
-        });
+        _configuration.YoutubeApiKey.Returns("fakeApiKey");
         _httpService.GetAsync<YouTubeSearchResponse>(Arg.Any<string>(), Arg.Any<Dictionary<string, string>>())
             .Throws(new Exception("Test exception"));
 

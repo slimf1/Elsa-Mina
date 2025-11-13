@@ -4,6 +4,7 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.Core.Utils;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.JoinPhrases;
 
@@ -33,7 +34,7 @@ public class SetJoinPhrase : Command
         var joinPhrase = parts[1].Trim();
         try
         {
-            await _roomUserDataService.SetUserJoinPhrase(context.RoomId, userId, joinPhrase);
+            await _roomUserDataService.SetUserJoinPhraseAsync(context.RoomId, userId, joinPhrase, cancellationToken);
             context.ReplyLocalizedMessage("setjoinphrase_success");
         }
         catch (Exception exception)

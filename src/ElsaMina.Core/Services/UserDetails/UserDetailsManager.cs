@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using ElsaMina.Core.Services.System;
+using ElsaMina.Logging;
 using Newtonsoft.Json;
 
 namespace ElsaMina.Core.Services.UserDetails;

@@ -30,7 +30,7 @@ public class AddedCommandRepositoryTests
     }
 
     [Test]
-    public async Task Test_AddAsync_ShouldAddCommand()
+    public async Task Test_SaveChangesAsync_ShouldAddCommandAfterAddMethod()
     {
         // Arrange
         var command = new AddedCommand
@@ -39,29 +39,30 @@ public class AddedCommandRepositoryTests
             RoomId = "room1",
             Content = "Hello there!"
         };
+        await _repository.AddAsync(command);
 
         // Act
-        await _repository.AddAsync(command);
-        var saved = await _repository.GetByIdAsync(Tuple.Create("cmd1", "room1"));
-
+        await _repository.SaveChangesAsync();
+        
         // Assert
+        var saved = await _repository.GetByIdAsync(Tuple.Create("cmd1", "room1"));
         Assert.That(saved, Is.Not.Null);
         Assert.That(saved.Content, Is.EqualTo("Hello there!"));
     }
 
     [Test]
-    public async Task Test_UpdateAsync_ShouldUpdateCommand()
+    public async Task Test_SaveChangesAsync_ShouldUpdateCommand()
     {
         // Arrange
         var command = new AddedCommand { Id = "cmd1", RoomId = "room1", Content = "Hi" };
         await _repository.AddAsync(command);
+        command.Content = "Updated";
 
         // Act
-        command.Content = "Updated";
-        await _repository.UpdateAsync(command);
-        var updated = await _repository.GetByIdAsync(Tuple.Create("cmd1", "room1"));
+        await _repository.SaveChangesAsync();
 
         // Assert
+        var updated = await _repository.GetByIdAsync(Tuple.Create("cmd1", "room1"));
         Assert.That(updated.Content, Is.EqualTo("Updated"));
     }
 
@@ -71,12 +72,13 @@ public class AddedCommandRepositoryTests
         // Arrange
         var command = new AddedCommand { Id = "cmd1", RoomId = "room1", Content = "To remove" };
         await _repository.AddAsync(command);
+        await _repository.DeleteAsync(command);
 
         // Act
-        await _repository.DeleteAsync(command);
-        var result = await _repository.GetByIdAsync(Tuple.Create("cmd1", "room1"));
+        await _repository.SaveChangesAsync();
 
         // Assert
+        var result = await _repository.GetByIdAsync(Tuple.Create("cmd1", "room1"));
         Assert.That(result, Is.Null);
     }
 
@@ -86,6 +88,7 @@ public class AddedCommandRepositoryTests
         // Arrange
         var command = new AddedCommand { Id = "cmd1", RoomId = "room1", Content = "Exact match" };
         await _repository.AddAsync(command);
+        await _repository.SaveChangesAsync();
 
         // Act
         var result = await _repository.GetByIdAsync(Tuple.Create("cmd1", "room1"));
@@ -102,6 +105,7 @@ public class AddedCommandRepositoryTests
         // Arrange
         await _repository.AddAsync(new AddedCommand { Id = "cmd1", RoomId = "room1", Content = "Resp 1" });
         await _repository.AddAsync(new AddedCommand { Id = "cmd2", RoomId = "room2", Content = "Resp 2" });
+        await _repository.SaveChangesAsync();
 
         // Act
         var all = (await _repository.GetAllAsync()).ToList();

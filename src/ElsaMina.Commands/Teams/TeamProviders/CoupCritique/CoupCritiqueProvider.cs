@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using ElsaMina.Core;
 using ElsaMina.Core.Services.Http;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
 

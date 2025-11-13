@@ -5,6 +5,7 @@ using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms.Parameters;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
+using ElsaMina.Logging;
 using Timer = System.Timers.Timer;
 
 namespace ElsaMina.Core.Services.Rooms;
@@ -132,6 +133,8 @@ public class RoomsManager : IRoomsManager, IDisposable
                     }
                 }
             }
+
+            await _userPlayTimeRepository.SaveChangesAsync();
         }
         finally
         {
@@ -187,9 +190,9 @@ public class RoomsManager : IRoomsManager, IDisposable
             else
             {
                 parameterValue.Value = value;
-                await _roomBotParameterValueRepository.UpdateAsync(parameterValue);
             }
 
+            await _roomBotParameterValueRepository.SaveChangesAsync();
             parameter.OnUpdateAction?.Invoke(room, value);
             Log.Information("Saved room parameter: '{0}' = '{1}' for room '{2}'",
                 parameterId, value, roomId);
@@ -236,7 +239,6 @@ public class RoomsManager : IRoomsManager, IDisposable
         else
         {
             savedPlayTime.PlayTime += additionalPlayTime;
-            await _userPlayTimeRepository.UpdateAsync(savedPlayTime);
             Log.Information("Updated user play time for user {0} in {1} : +{2}", userId, room.RoomId,
                 additionalPlayTime.TotalSeconds);
         }

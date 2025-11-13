@@ -41,7 +41,7 @@ public class TakeBadgeTest
         _context.Target.Returns("userId,nonExistingBadge");
         _context.RoomId.Returns("roomId");
         _roomUserDataService
-            .TakeBadgeFromUser("roomId", "userid", "nonexistingbadge")
+            .TakeBadgeFromUserAsync("roomId", "userid", "nonexistingbadge")
             .Throws(new ArgumentException());
 
         // Act
@@ -62,7 +62,7 @@ public class TakeBadgeTest
         await _command.RunAsync(_context);
 
         // Assert
-        await _roomUserDataService.Received().TakeBadgeFromUser("roomId", "userid", "existingbadge");
+        await _roomUserDataService.Received().TakeBadgeFromUserAsync("roomId", "userid", "existingbadge");
         _context.Received().ReplyLocalizedMessage("takebadge_success", "userid", "existingbadge");
     }
 
@@ -73,7 +73,7 @@ public class TakeBadgeTest
         _context.Target.Returns("userId,existingBadge");
         _context.RoomId.Returns("roomId");
         _roomUserDataService
-            .TakeBadgeFromUser("roomId", "userid", "existingbadge")
+            .TakeBadgeFromUserAsync("roomId", "userid", "existingbadge")
             .Throws(new Exception("Some error"));
 
         // Act

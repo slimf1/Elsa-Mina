@@ -6,9 +6,9 @@ using NSubstitute;
 
 namespace ElsaMina.UnitTests.Commands.Profile;
 
-public class SetAvatarTest
+public class SetAvatarCommandTest
 {
-    private SetAvatar _command;
+    private SetAvatarCommand _command;
     private IRoomUserDataService _roomUserDataService;
     private IContext _context;
 
@@ -16,7 +16,7 @@ public class SetAvatarTest
     public void SetUp()
     {
         _roomUserDataService = Substitute.For<IRoomUserDataService>();
-        _command = new SetAvatar(_roomUserDataService);
+        _command = new SetAvatarCommand(_roomUserDataService);
         _context = Substitute.For<IContext>();
     }
 
@@ -31,7 +31,7 @@ public class SetAvatarTest
         await _command.RunAsync(_context);
 
         // Assert
-        await _roomUserDataService.Received(1).SetUserAvatar("testRoom", "user123", "https://avatar.url/image.png");
+        await _roomUserDataService.Received(1).SetUserAvatarAsync("testRoom", "user123", "https://avatar.url/image.png");
         _context.Received(1).ReplyLocalizedMessage("avatar_success");
     }
 
@@ -46,7 +46,7 @@ public class SetAvatarTest
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage(_command.HelpMessageKey);
-        await _roomUserDataService.DidNotReceiveWithAnyArgs().SetUserAvatar(default, default, default);
+        await _roomUserDataService.DidNotReceiveWithAnyArgs().SetUserAvatarAsync(default, default, default);
     }
 
     [Test]
@@ -57,7 +57,7 @@ public class SetAvatarTest
         _context.Target.Returns("user123, https://avatar.url/image.png");
         var errorMessage = "Database error";
         _roomUserDataService
-            .When(x => x.SetUserAvatar("testRoom", "user123", "https://avatar.url/image.png"))
+            .When(x => x.SetUserAvatarAsync("testRoom", "user123", "https://avatar.url/image.png"))
             .Do(x => throw new Exception(errorMessage));
 
         // Act

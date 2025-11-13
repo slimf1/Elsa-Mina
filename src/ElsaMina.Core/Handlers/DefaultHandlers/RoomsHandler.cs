@@ -1,5 +1,6 @@
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Core.Handlers.DefaultHandlers;
 

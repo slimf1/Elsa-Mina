@@ -42,9 +42,9 @@ public class PokeCriesGame : GuessingGame
     private readonly IDexManager _dexManager;
 
     public PokeCriesGame(ITemplatesManager templatesManager,
-        IConfigurationManager configurationManager,
+        IConfiguration configuration,
         IRandomService randomService,
-        IDexManager dexManager) : base(templatesManager, configurationManager)
+        IDexManager dexManager) : base(templatesManager, configuration)
     {
         _randomService = randomService;
         _dexManager = dexManager;

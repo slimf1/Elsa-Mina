@@ -2,6 +2,7 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.DependencyInjection;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Core.Services.Commands;
 

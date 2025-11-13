@@ -1,10 +1,10 @@
-﻿using ElsaMina.Core;
-using ElsaMina.Core.Commands;
+﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Badges;
 
@@ -52,6 +52,7 @@ public class AddBadge : Command
                 IsTrophy = isTrophy,
                 RoomId = context.RoomId
             }, cancellationToken);
+            await _badgeRepository.SaveChangesAsync(cancellationToken);
             context.ReplyLocalizedMessage("badge_add_success_message");
         }
         catch (Exception exception)

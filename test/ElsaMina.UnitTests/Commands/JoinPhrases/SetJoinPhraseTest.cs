@@ -63,7 +63,7 @@ public class SetJoinPhraseTest
         await _command.RunAsync(context);
 
         // Assert
-        await _roomUserDataService.Received(1).SetUserJoinPhrase(TEST_ROOM_ID, TEST_USER_ID, JOIN_PHRASE);
+        await _roomUserDataService.Received(1).SetUserJoinPhraseAsync(TEST_ROOM_ID, TEST_USER_ID, JOIN_PHRASE);
         context.Received(1).ReplyLocalizedMessage("setjoinphrase_success");
     }
 
@@ -76,7 +76,7 @@ public class SetJoinPhraseTest
         context.RoomId.Returns(TEST_ROOM_ID);
         
         var exception = new Exception("Database error");
-        _roomUserDataService.SetUserJoinPhrase(TEST_ROOM_ID, TEST_USER_ID, JOIN_PHRASE).Throws(exception);
+        _roomUserDataService.SetUserJoinPhraseAsync(TEST_ROOM_ID, TEST_USER_ID, JOIN_PHRASE).Throws(exception);
 
         // Act
         await _command.RunAsync(context);

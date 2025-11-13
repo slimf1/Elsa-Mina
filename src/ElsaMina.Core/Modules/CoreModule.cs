@@ -40,9 +40,6 @@ public class CoreModule : Module
         builder.RegisterModule<DataAccessModule>();
 
         builder.RegisterType<DependencyContainerService>().As<IDependencyContainerService>().SingleInstance();
-        builder.RegisterType<ConfigurationManager>().As<IConfigurationManager>().SingleInstance();
-        builder.Register(e => e.Resolve<IConfigurationManager>().Configuration).As<IConfiguration>()
-            .As<IS3CredentialsProvider>().SingleInstance();
         builder.RegisterType<HttpService>().As<IHttpService>().SingleInstance();
         builder.RegisterType<ClockService>().As<IClockService>().SingleInstance();
         builder.RegisterType<ContextFactory>().As<IContextFactory>().SingleInstance();

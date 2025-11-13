@@ -6,6 +6,7 @@ using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Badges;
 
@@ -55,7 +56,7 @@ public class GiveBadge : Command
 
         try
         {
-            await _roomUserDataService.GiveBadgeToUser(context.RoomId, userId, badgeId);
+            await _roomUserDataService.GiveBadgeToUserAsync(context.RoomId, userId, badgeId);
             context.ReplyLocalizedMessage("badge_give_success", userId, badge.Name);
         }
         catch (Exception exception)

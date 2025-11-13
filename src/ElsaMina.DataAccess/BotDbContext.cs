@@ -1,5 +1,6 @@
 ﻿using ElsaMina.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace ElsaMina.DataAccess;
 
@@ -26,8 +27,11 @@ public class BotDbContext : DbContext
     public DbSet<PollSuggestion> PollSuggestions { get; set; }
     public DbSet<UserPlayTime> UserPlayTimes { get; set; }
     public DbSet<SavedPoll> SavedPolls { get; set; }
+    //public DbSet<TournamentRecord> TournamentRecords { get; set; } // todo : migration
 
     public string ConnectionString { get; set; }
+    public int MaxRetries { get; set; }
+    public TimeSpan RetryDelay { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -81,6 +85,9 @@ public class BotDbContext : DbContext
             .HasOne(roomBotParameterValue => roomBotParameterValue.RoomInfo)
             .WithMany(roomsParameters => roomsParameters.ParameterValues)
             .HasForeignKey(roomBotParameterValue => roomBotParameterValue.RoomId);
+
+        //modelBuilder.Entity<TournamentRecord>()
+        //    .HasKey(record => new { record.UserId, record.RoomId });
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -92,7 +99,15 @@ public class BotDbContext : DbContext
             return;
         }
 
-        optionsBuilder.UseNpgsql(ConnectionString,
-            builder => { builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null); });
+#if DEBUG
+        optionsBuilder
+            .UseNpgsql(ConnectionString, builder => builder.EnableRetryOnFailure(MaxRetries, RetryDelay, null))
+            .LogTo(Console.WriteLine, LogLevel.Information)
+            .EnableSensitiveDataLogging()
+            .EnableDetailedErrors();
+#else
+        optionsBuilder
+            .UseNpgsql(ConnectionString, builder => builder.EnableRetryOnFailure(MaxRetries, RetryDelay, null));
+#endif
     }
 }

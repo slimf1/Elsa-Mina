@@ -24,6 +24,7 @@ public class DeleteCustomCommand : Command
         try
         {
             await _addedCommandRepository.DeleteByIdAsync(Tuple.Create(commandId, context.RoomId), cancellationToken);
+            await _addedCommandRepository.SaveChangesAsync(cancellationToken);
             context.ReplyLocalizedMessage("deletecommand_success", commandId);
         }
         catch (Exception exception)

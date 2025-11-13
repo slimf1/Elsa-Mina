@@ -88,7 +88,7 @@ public class RoomUserDataServiceTest
         var badgeId = "badge1";
 
         // Act
-        await _service.GiveBadgeToUser(roomId, userId, badgeId);
+        await _service.GiveBadgeToUserAsync(roomId, userId, badgeId);
 
         // Assert
         await _badgeHoldingRepository.Received().AddAsync(Arg.Is<BadgeHolding>(b => b.BadgeId == badgeId && b.RoomId == roomId && b.UserId == userId));
@@ -104,7 +104,7 @@ public class RoomUserDataServiceTest
         _badgeHoldingRepository.GetByIdAsync(Arg.Any<Tuple<string, string, string>>()).Returns((BadgeHolding)null);
 
         // Act & Assert
-        Assert.ThrowsAsync<ArgumentException>(async () => await _service.TakeBadgeFromUser(roomId, userId, badgeId));
+        Assert.ThrowsAsync<ArgumentException>(async () => await _service.TakeBadgeFromUserAsync(roomId, userId, badgeId));
     }
 
     [Test]
@@ -118,10 +118,10 @@ public class RoomUserDataServiceTest
         _badgeHoldingRepository.GetByIdAsync(Arg.Any<Tuple<string, string, string>>()).Returns(badgeHolding);
 
         // Act
-        await _service.TakeBadgeFromUser(roomId, userId, badgeId);
+        await _service.TakeBadgeFromUserAsync(roomId, userId, badgeId);
 
         // Assert
-        await _badgeHoldingRepository.Received().DeleteByIdAsync(Arg.Any<Tuple<string, string, string>>());
+        await _badgeHoldingRepository.Received().DeleteAsync(badgeHolding);
     }
 
     [Test]
@@ -133,7 +133,7 @@ public class RoomUserDataServiceTest
         var title = new string('a', 451);
 
         // Act & Assert
-        Assert.ThrowsAsync<ArgumentException>(async () => await _service.SetUserTitle(roomId, userId, title));
+        Assert.ThrowsAsync<ArgumentException>(async () => await _service.SetUserTitleAsync(roomId, userId, title));
     }
 
     [Test]
@@ -147,11 +147,11 @@ public class RoomUserDataServiceTest
         _roomSpecificUserDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(userData);
 
         // Act
-        await _service.SetUserTitle(roomId, userId, title);
+        await _service.SetUserTitleAsync(roomId, userId, title);
 
         // Assert
         Assert.That(userData.Title, Is.EqualTo(title));
-        await _roomSpecificUserDataRepository.Received().UpdateAsync(userData);
+        await _roomSpecificUserDataRepository.Received().SaveChangesAsync();
     }
 
     [Test]
@@ -163,7 +163,7 @@ public class RoomUserDataServiceTest
         var invalidAvatar = "invalid_url";
 
         // Act & Assert
-        Assert.ThrowsAsync<ArgumentException>(async () => await _service.SetUserAvatar(roomId, userId, invalidAvatar));
+        Assert.ThrowsAsync<ArgumentException>(async () => await _service.SetUserAvatarAsync(roomId, userId, invalidAvatar));
     }
 
     [Test]
@@ -177,11 +177,11 @@ public class RoomUserDataServiceTest
         _roomSpecificUserDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(userData);
 
         // Act
-        await _service.SetUserAvatar(roomId, userId, avatar);
+        await _service.SetUserAvatarAsync(roomId, userId, avatar);
 
         // Assert
         Assert.That(userData.Avatar, Is.EqualTo(avatar));
-        await _roomSpecificUserDataRepository.Received().UpdateAsync(userData);
+        await _roomSpecificUserDataRepository.Received().SaveChangesAsync();
     }
 
     [Test]
@@ -193,7 +193,7 @@ public class RoomUserDataServiceTest
         var joinPhrase = new string('a', 301);
 
         // Act & Assert
-        Assert.ThrowsAsync<ArgumentException>(async () => await _service.SetUserJoinPhrase(roomId, userId, joinPhrase));
+        Assert.ThrowsAsync<ArgumentException>(async () => await _service.SetUserJoinPhraseAsync(roomId, userId, joinPhrase));
     }
 
     [Test]
@@ -207,11 +207,11 @@ public class RoomUserDataServiceTest
         _roomSpecificUserDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(userData);
 
         // Act
-        await _service.SetUserJoinPhrase(roomId, userId, joinPhrase);
+        await _service.SetUserJoinPhraseAsync(roomId, userId, joinPhrase);
 
         // Assert
         Assert.That(userData.JoinPhrase, Is.EqualTo(joinPhrase));
-        await _roomSpecificUserDataRepository.Received().UpdateAsync(userData);
+        await _roomSpecificUserDataRepository.Received().SaveChangesAsync();
         Assert.That(_service.JoinPhrases[Tuple.Create(userId, roomId)], Is.EqualTo(joinPhrase));
     }
 }

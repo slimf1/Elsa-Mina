@@ -3,6 +3,7 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 
 namespace ElsaMina.UnitTests.Commands.Teams.Samples;
 
@@ -87,7 +88,7 @@ public class AddTeamToRoomTests
 
         // Assert
         Assert.That(team.Rooms.Any(roomTeam => roomTeam.RoomId == "roomId" && roomTeam.TeamId == "teamid"), Is.True);
-        await _teamRepository.Received(1).UpdateAsync(team);
+        await _teamRepository.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
         _context.Received().ReplyLocalizedMessage("add_team_to_room_success");
     }
 
@@ -104,7 +105,8 @@ public class AddTeamToRoomTests
             Rooms = new List<RoomTeam>()
         };
         _teamRepository.GetByIdAsync("teamid").Returns(team);
-        _teamRepository.When(repo => repo.UpdateAsync(team)).Do(_ => throw new Exception("Update error"));
+        _teamRepository.SaveChangesAsync(Arg.Any<CancellationToken>())
+            .Throws(new Exception("Update error"));
 
         // Act
         await _command.RunAsync(_context);

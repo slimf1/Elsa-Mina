@@ -10,6 +10,8 @@
   "DefaultRoom": "default",
   "DefaultLocaleCode": "en-US",
   "ConnectionString": "",
+  "DatabaseMaxRetries": 5,
+  "DatabaseRetryDelay": "00:00:10",
   "YoutubeApiKey": "",
   "DictionaryApiKey": "",
   "RiotApiKey": "",

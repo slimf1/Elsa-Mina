@@ -18,7 +18,6 @@ public class RoomSpecificUserDataRepository : BaseRepository<RoomSpecificUserDat
     {
         var (userId, roomId) = key;
         return await _dbContext.Set<RoomSpecificUserData>()
-            .AsNoTracking()
             .Include(x => x.Badges)
             .ThenInclude(x => x.Badge)
             .FirstOrDefaultAsync(x => x.Id == userId && x.RoomId == roomId, cancellationToken: cancellationToken);
@@ -28,7 +27,6 @@ public class RoomSpecificUserDataRepository : BaseRepository<RoomSpecificUserDat
         CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<RoomSpecificUserData>()
-            .AsNoTracking()
             .Include(x => x.Badges)
             .ThenInclude(x => x.Badge)
             .ToListAsync(cancellationToken: cancellationToken);

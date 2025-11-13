@@ -15,14 +15,12 @@ public class PollSuggestionRepository : BaseRepository<PollSuggestion, int>, IPo
     public override async Task<PollSuggestion> GetByIdAsync(int key, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<PollSuggestion>()
-            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == key, cancellationToken: cancellationToken);
     }
 
     public override async Task<IEnumerable<PollSuggestion>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<PollSuggestion>()
-            .AsNoTracking()
             .ToListAsync(cancellationToken: cancellationToken);
     }
 }

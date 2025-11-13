@@ -1,5 +1,6 @@
 ﻿using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Utils;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Core.Services.UserData;
 

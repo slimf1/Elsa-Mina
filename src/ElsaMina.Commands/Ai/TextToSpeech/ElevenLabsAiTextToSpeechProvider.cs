@@ -3,6 +3,7 @@ using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.FileSharing;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Ai.TextToSpeech;
 

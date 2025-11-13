@@ -4,6 +4,7 @@ using ElsaMina.Core.Services.Rooms;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using NSubstitute.ReturnsExtensions;
 
 namespace ElsaMina.UnitTests.Commands.CustomCommands;
@@ -62,7 +63,7 @@ public class EditCustomCommandTest
 
         // Assert
         Assert.That(existingCommand.Content, Is.EqualTo("updated content"));
-        await _addedCommandRepository.Received(1).UpdateAsync(existingCommand);
+        await _addedCommandRepository.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
         _context.Received(1).ReplyLocalizedMessage("editcommand_success", "existingcommand");
     }
 
@@ -78,10 +79,9 @@ public class EditCustomCommandTest
             .GetByIdAsync(Arg.Any<Tuple<string, string>>())
             .Returns(existingCommand);
 
-        var exceptionMessage = "Database error";
-        _addedCommandRepository
-            .When(repo => repo.UpdateAsync(existingCommand))
-            .Do(x => throw new Exception(exceptionMessage));
+        const string exceptionMessage = "Database error";
+        _addedCommandRepository.SaveChangesAsync(Arg.Any<CancellationToken>())
+            .Throws(new Exception(exceptionMessage));
 
         // Act
         await _editCustomCommand.RunAsync(_context);

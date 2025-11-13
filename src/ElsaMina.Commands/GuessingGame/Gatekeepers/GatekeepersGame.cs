@@ -24,9 +24,9 @@ public class GatekeepersGame : GuessingGame
     private readonly List<Pokemon> _currentOptions = [];
     private Pokemon _currentValidAnswer;
     
-    public GatekeepersGame(ITemplatesManager templatesManager, IConfigurationManager configurationManager,
+    public GatekeepersGame(ITemplatesManager templatesManager, IConfiguration configuration,
         IDexManager dexManager, IRandomService randomService)
-        : base(templatesManager, configurationManager)
+        : base(templatesManager, configuration)
     {
         _templatesManager = templatesManager;
         _dexManager = dexManager;

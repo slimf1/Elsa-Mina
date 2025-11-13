@@ -1,5 +1,6 @@
 ﻿using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Core.Services.Login;
 

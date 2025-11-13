@@ -1,4 +1,5 @@
 using ElsaMina.Core.Services.Http;
+using ElsaMina.Logging;
 using SixLabors.ImageSharp;
 
 namespace ElsaMina.Core.Services.Images;

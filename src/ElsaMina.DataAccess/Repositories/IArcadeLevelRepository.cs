@@ -2,7 +2,4 @@ using ElsaMina.DataAccess.Models;
 
 namespace ElsaMina.DataAccess.Repositories;
 
-public interface IArcadeLevelRepository : IRepository<ArcadeLevel, string>
-{
-    
-}
+public interface IArcadeLevelRepository : IRepository<ArcadeLevel, string>;

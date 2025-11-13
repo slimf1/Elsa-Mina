@@ -13,9 +13,12 @@ public class Configuration : IConfiguration
     public string DefaultRoom { get; set; }
     public string DefaultLocaleCode { get; set; }
     public string ConnectionString { get; set; }
+    public int DatabaseMaxRetries { get; set; }
+    public TimeSpan DatabaseRetryDelay { get; set; }
     public string YoutubeApiKey { get; set; }
     public string DictionaryApiKey { get; set; }
     public string RiotApiKey { get; set; }
+    public string GeniusApiKey { get; set; }
     public string ArcadeWebhookUrl { get; set; }
     public string MistralApiKey { get; set; }
     public string ChatGptApiKey { get; set; }
@@ -26,4 +29,7 @@ public class Configuration : IConfiguration
     public string S3AccessKey { get; set; } = string.Empty;
     public string S3SecretKey { get; set; } = string.Empty;
     public string S3BaseUrl { get; set; } = string.Empty;
+    public string LokiUrl { get; set; } = string.Empty;
+    public string LoginUser { get; set; } = string.Empty;
+    public string LokiApiKey { get; set; } = string.Empty;
 }

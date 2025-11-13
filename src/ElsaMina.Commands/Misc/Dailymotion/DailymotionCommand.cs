@@ -7,6 +7,7 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Misc.Dailymotion;
 
@@ -51,8 +52,9 @@ public class DailymotionCommand : Command
                 return;
             }
 
-            var videos = result.Data.List.OrderByDescending(video => video.ViewsTotal).ToList();
-            var video = videos.FirstOrDefault(video => !video.Explicit);
+            var video = result.Data.List
+                .OrderByDescending(video => video.ViewsTotal)
+                .FirstOrDefault(video => !video.Explicit);
             if (video == null)
             {
                 context.ReplyLocalizedMessage("dailymotion_no_video_found");

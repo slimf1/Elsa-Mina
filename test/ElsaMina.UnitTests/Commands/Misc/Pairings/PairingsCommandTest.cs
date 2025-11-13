@@ -49,7 +49,7 @@ public class PairingsCommandTest
             {
                 var list = (List<string>)x[0];
                 // Don't clear the list, just verify it has the right contents
-                Assert.That(list.Count, Is.EqualTo(4));
+                Assert.That(list, Has.Count.EqualTo(4));
                 Assert.That(list, Does.Contain("Player1"));
                 Assert.That(list, Does.Contain("Player2"));
                 Assert.That(list, Does.Contain("Player3"));
@@ -88,8 +88,7 @@ public class PairingsCommandTest
             .Do(x => 
             {
                 var list = (List<string>)x[0];
-                // Don't clear the list, just verify it has the right contents
-                Assert.That(list.Count, Is.EqualTo(4));
+                Assert.That(list, Has.Count.EqualTo(4));
                 Assert.That(list, Does.Contain("Player1"));
                 Assert.That(list, Does.Contain("Player2"));
                 Assert.That(list, Does.Contain("Player3"));
@@ -127,8 +126,7 @@ public class PairingsCommandTest
             .Do(x => 
             {
                 var list = (List<string>)x[0];
-                // Don't clear the list, just verify it has the right contents
-                Assert.That(list.Count, Is.EqualTo(3));
+                Assert.That(list, Has.Count.EqualTo(3));
                 Assert.That(list, Does.Contain("Player1"));
                 Assert.That(list, Does.Contain("Player2"));
                 Assert.That(list, Does.Contain("Player3"));

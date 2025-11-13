@@ -1,8 +1,8 @@
 ﻿using Autofac;
+using ElsaMina.Core.Services.Config;
 using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
-using IConfigurationManager = ElsaMina.Core.Services.Config.IConfigurationManager;
 
 namespace ElsaMina.Core.Modules;
 
@@ -14,7 +14,10 @@ public class DataAccessModule : Module
 
         builder.RegisterType<BotDbContext>().As<DbContext>().OnActivating(e =>
         {
-            e.Instance.ConnectionString = e.Context.Resolve<IConfigurationManager>().Configuration.ConnectionString;
+            var configuration = e.Context.Resolve<IConfiguration>();
+            e.Instance.MaxRetries = configuration.DatabaseMaxRetries;
+            e.Instance.ConnectionString = configuration.ConnectionString;
+            e.Instance.RetryDelay = configuration.DatabaseRetryDelay;
         });
         builder.RegisterType<AddedCommandRepository>().As<IAddedCommandRepository>();
         builder.RegisterType<BadgeRepository>().As<IBadgeRepository>();

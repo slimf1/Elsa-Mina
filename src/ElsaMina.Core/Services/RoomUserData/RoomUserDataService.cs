@@ -23,9 +23,10 @@ public class RoomUserDataService : IRoomUserDataService
 
     public IReadOnlyDictionary<Tuple<string, string>, string> JoinPhrases => _joinPhrases;
 
-    public async Task<RoomSpecificUserData> GetUserData(string roomId, string userId)
+    public async Task<RoomSpecificUserData> GetUserData(string roomId, string userId,
+        CancellationToken cancellationToken = default)
     {
-        return await GetUserAndCreateIfDoesntExist(roomId, userId);
+        return await GetUserAndCreateIfDoesntExistAsync(roomId, userId, cancellationToken);
     }
 
     public async Task InitializeJoinPhrasesAsync(CancellationToken cancellationToken = default)
@@ -42,9 +43,11 @@ public class RoomUserDataService : IRoomUserDataService
         }
     }
 
-    private async Task<RoomSpecificUserData> GetUserAndCreateIfDoesntExist(string roomId, string userId)
+    private async Task<RoomSpecificUserData> GetUserAndCreateIfDoesntExistAsync(string roomId, string userId,
+        CancellationToken cancellationToken = default)
     {
-        var existingUserData = await _roomSpecificUserDataRepository.GetByIdAsync(new(userId, roomId));
+        var existingUserData = await _roomSpecificUserDataRepository
+            .GetByIdAsync(new Tuple<string, string>(userId, roomId), cancellationToken);
         if (existingUserData != null)
         {
             return existingUserData;
@@ -55,65 +58,68 @@ public class RoomUserDataService : IRoomUserDataService
             Id = userId,
             RoomId = roomId
         };
-        await _roomSpecificUserDataRepository.AddAsync(userData);
-
+        await _roomSpecificUserDataRepository.AddAsync(userData, cancellationToken);
         return userData;
     }
 
-    public async Task GiveBadgeToUser(string roomId, string userId, string badgeId)
+    public async Task GiveBadgeToUserAsync(string roomId, string userId, string badgeId, CancellationToken cancellationToken = default)
     {
-        await GetUserAndCreateIfDoesntExist(roomId, userId);
+        await GetUserAndCreateIfDoesntExistAsync(roomId, userId, cancellationToken);
         await _badgeHoldingRepository.AddAsync(new BadgeHolding
         {
             BadgeId = badgeId,
             RoomId = roomId,
             UserId = userId
-        });
+        }, cancellationToken);
+        await _badgeHoldingRepository.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task TakeBadgeFromUser(string roomId, string userId, string badgeId)
+    public async Task TakeBadgeFromUserAsync(string roomId, string userId, string badgeId, CancellationToken cancellationToken = default)
     {
         var key = Tuple.Create(badgeId, userId, roomId);
-        if (await _badgeHoldingRepository.GetByIdAsync(key) == null)
+        var badgeHolding = await _badgeHoldingRepository.GetByIdAsync(key, cancellationToken);
+        if (badgeHolding == null)
         {
             throw new ArgumentException("Badge not found");
         }
 
-        await _badgeHoldingRepository.DeleteByIdAsync(key);
+        await _badgeHoldingRepository.DeleteAsync(badgeHolding, cancellationToken);
+        await _badgeHoldingRepository.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task SetUserTitle(string roomId, string userId, string title)
+    public async Task SetUserTitleAsync(string roomId, string userId, string title,
+        CancellationToken cancellationToken = default)
     {
         if (title != null && title.Length > TITLE_MAX_LENGTH)
         {
             throw new ArgumentException("Title too long");
         }
 
-        var userData = await GetUserAndCreateIfDoesntExist(roomId, userId);
+        var userData = await GetUserAndCreateIfDoesntExistAsync(roomId, userId, cancellationToken);
         userData.Title = title;
-        await _roomSpecificUserDataRepository.UpdateAsync(userData);
+        await _roomSpecificUserDataRepository.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task SetUserAvatar(string roomId, string userId, string avatar)
+    public async Task SetUserAvatarAsync(string roomId, string userId, string avatar, CancellationToken cancellationToken = default)
     {
         if (avatar != null && !avatar.IsValidImageLink())
         {
             throw new ArgumentException("Invalid URL");
         }
 
-        var userData = await GetUserAndCreateIfDoesntExist(roomId, userId);
+        var userData = await GetUserAndCreateIfDoesntExistAsync(roomId, userId, cancellationToken);
         userData.Avatar = avatar;
-        await _roomSpecificUserDataRepository.UpdateAsync(userData);
+        await _roomSpecificUserDataRepository.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task SetUserJoinPhrase(string roomId, string userId, string joinPhrase)
+    public async Task SetUserJoinPhraseAsync(string roomId, string userId, string joinPhrase, CancellationToken cancellationToken = default)
     {
         if (joinPhrase != null && joinPhrase.Length > JOIN_PHRASE_MAX_LENGTH)
         {
             throw new ArgumentException("Join phrase too long");
         }
 
-        var userData = await GetUserAndCreateIfDoesntExist(roomId, userId);
+        var userData = await GetUserAndCreateIfDoesntExistAsync(roomId, userId, cancellationToken);
         userData.JoinPhrase = joinPhrase;
         var key = Tuple.Create(userData.Id, userData.RoomId);
 
@@ -126,6 +132,6 @@ public class RoomUserDataService : IRoomUserDataService
             _joinPhrases[key] = userData.JoinPhrase;
         }
 
-        await _roomSpecificUserDataRepository.UpdateAsync(userData);
+        await _roomSpecificUserDataRepository.SaveChangesAsync(cancellationToken);
     }
 }

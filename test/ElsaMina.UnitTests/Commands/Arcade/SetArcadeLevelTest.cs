@@ -3,6 +3,7 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 
 namespace ElsaMina.UnitTests.Commands.Arcade;
 
@@ -77,8 +78,8 @@ public class SetArcadeLevelTests
         await _command.RunAsync(context);
 
         // Assert
-        await _arcadeLevelRepository.Received(1).UpdateAsync(Arg.Is<ArcadeLevel>(level =>
-            level.Id == "user" && level.Level == 2));
+        Assert.That(existingLevel.Level, Is.EqualTo(2));
+        await _arcadeLevelRepository.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
         context.Received(1).ReplyLocalizedMessage("arcade_level_update", "user", 2);
     }
 
@@ -105,9 +106,8 @@ public class SetArcadeLevelTests
         // Arrange
         var context = Substitute.For<IContext>();
         context.Target.Returns("user,3");
-        _arcadeLevelRepository
-            .When(x => x.UpdateAsync(Arg.Any<ArcadeLevel>()))
-            .Throw(new Exception("Database error"));
+        _arcadeLevelRepository.SaveChangesAsync(Arg.Any<CancellationToken>())
+            .Throws(new Exception("Database error"));
         _arcadeLevelRepository.GetByIdAsync("user").Returns(new ArcadeLevel { Id = "user", Level = 3 });
 
         // Act

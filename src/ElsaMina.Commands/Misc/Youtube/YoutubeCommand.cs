@@ -7,6 +7,7 @@ using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Misc.Youtube;
 
@@ -19,15 +20,15 @@ public class YoutubeCommand : Command
     public const int DESCRIPTION_MAX_LENGTH = 100;
 
     private readonly IHttpService _httpService;
-    private readonly IConfigurationManager _configurationManager;
+    private readonly IConfiguration _configuration;
     private readonly ITemplatesManager _templatesManager;
 
     public YoutubeCommand(IHttpService httpService,
-        IConfigurationManager configurationManager,
+        IConfiguration configuration,
         ITemplatesManager templatesManager)
     {
         _httpService = httpService;
-        _configurationManager = configurationManager;
+        _configuration = configuration;
         _templatesManager = templatesManager;
     }
 
@@ -36,7 +37,7 @@ public class YoutubeCommand : Command
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var keywords = string.Join('+', context.Target.Split(' '));
-        var apiKey = _configurationManager.Configuration.YoutubeApiKey;
+        var apiKey = _configuration.YoutubeApiKey;
         if (string.IsNullOrWhiteSpace(apiKey))
         {
             Log.Error("Youtube API key is empty.");

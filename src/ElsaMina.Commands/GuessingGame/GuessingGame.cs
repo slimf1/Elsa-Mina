@@ -16,7 +16,7 @@ public abstract class GuessingGame : Game, IGuessingGame
     private static readonly TimeSpan DEFAULT_TURN_COOLDOWN = TimeSpan.FromSeconds(15);
 
     private readonly ITemplatesManager _templatesManager;
-    private readonly IConfigurationManager _configurationManager;
+    private readonly IConfiguration _configuration;
     private Timer _timer;
     private int _elapsedSeconds;
 
@@ -25,10 +25,10 @@ public abstract class GuessingGame : Game, IGuessingGame
     private bool _hasRoundBeenWon;
 
     protected GuessingGame(ITemplatesManager templatesManager,
-        IConfigurationManager configurationManager)
+        IConfiguration configuration)
     {
         _templatesManager = templatesManager;
-        _configurationManager = configurationManager;
+        _configuration = configuration;
     }
 
     protected IReadOnlyDictionary<string, int> Scores => _scores;
@@ -113,7 +113,7 @@ public abstract class GuessingGame : Game, IGuessingGame
     public void OnAnswer(string userName, string answer)
     {
         if (_hasRoundBeenWon ||
-            userName.ToLowerAlphaNum() == _configurationManager.Configuration.Name.ToLowerAlphaNum())
+            userName.ToLowerAlphaNum() == _configuration.Name.ToLowerAlphaNum())
         {
             return;
         }

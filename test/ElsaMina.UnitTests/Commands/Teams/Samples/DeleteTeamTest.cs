@@ -3,6 +3,7 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 
 namespace ElsaMina.UnitTests.Commands.Teams.Samples;
 
@@ -46,7 +47,8 @@ public class DeleteTeamTests
         await _command.RunAsync(_context);
 
         // Assert
-        await _teamRepository.Received(1).DeleteByIdAsync("teamid");
+        await _teamRepository.Received(1).DeleteAsync(team, Arg.Any<CancellationToken>());
+        await _teamRepository.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
         _context.Received().ReplyLocalizedMessage("deleteteam_team_deleted_successfully");
     }
 
@@ -57,7 +59,7 @@ public class DeleteTeamTests
         var team = new Team { Id = "teamid" };
         _context.Target.Returns("teamId");
         _teamRepository.GetByIdAsync("teamid").Returns(Task.FromResult(team));
-        _teamRepository.When(repo => repo.DeleteByIdAsync("teamid")).Do(_ => throw new Exception("Deletion error"));
+        _teamRepository.DeleteAsync(team, Arg.Any<CancellationToken>()).Throws(new Exception("Deletion error"));
 
         // Act
         await _command.RunAsync(_context);

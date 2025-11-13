@@ -12,7 +12,7 @@ public class ArcadeEventsHandlerTests
 {
     private ArcadeEventsHandler _handler;
     private IHttpService _httpService;
-    private IConfigurationManager _configurationManager;
+    private IConfiguration _configuration;
     private IResourcesService _resourcesService;
     private IRoomsManager _roomsManager;
 
@@ -20,13 +20,13 @@ public class ArcadeEventsHandlerTests
     public void SetUp()
     {
         _httpService = Substitute.For<IHttpService>();
-        _configurationManager = Substitute.For<IConfigurationManager>();
+        _configuration = Substitute.For<IConfiguration>();
         _resourcesService = Substitute.For<IResourcesService>();
         _roomsManager = Substitute.For<IRoomsManager>();
 
         _handler = new ArcadeEventsHandler(
             _httpService,
-            _configurationManager,
+            _configuration,
             _resourcesService,
             _roomsManager);
     }
@@ -61,7 +61,7 @@ public class ArcadeEventsHandlerTests
     public async Task Test_HandleReceivedMessage_ShouldLogError_WhenWebhookUrlIsMissing()
     {
         // Arrange
-        _configurationManager.Configuration.ArcadeWebhookUrl.Returns(string.Empty);
+        _configuration.ArcadeWebhookUrl.Returns(string.Empty);
         var parts = new[] { "", "raw", "<div class=\"broadcast-blue\"><b>The \"TestEvent\" roomevent has started!</b></div>" };
 
         // Act
@@ -77,7 +77,7 @@ public class ArcadeEventsHandlerTests
         // Arrange
         var webhookUrl = "http://webhook.url";
         var culture = new CultureInfo("en-US");
-        _configurationManager.Configuration.ArcadeWebhookUrl.Returns(webhookUrl);
+        _configuration.ArcadeWebhookUrl.Returns(webhookUrl);
         var room = Substitute.For<IRoom>();
         room.Culture.Returns(culture);
         _roomsManager.GetRoom("arcade").Returns(room);
@@ -104,7 +104,7 @@ public class ArcadeEventsHandlerTests
     {
         // Arrange
         var webhookUrl = "http://webhook.url";
-        _configurationManager.Configuration.ArcadeWebhookUrl.Returns(webhookUrl);
+        _configuration.ArcadeWebhookUrl.Returns(webhookUrl);
         var room = Substitute.For<IRoom>();
         var culture = new CultureInfo("en-US");
         room.Culture.Returns(culture);

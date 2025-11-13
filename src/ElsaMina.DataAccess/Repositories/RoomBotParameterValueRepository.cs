@@ -18,7 +18,6 @@ public class RoomBotParameterValueRepository : BaseRepository<RoomBotParameterVa
     {
         var (roomId, parameterId) = key;
         return await _dbContext.Set<RoomBotParameterValue>()
-            .AsNoTracking()
             .Include(x => x.RoomInfo)
             .ThenInclude(x => x.ParameterValues)
             .FirstOrDefaultAsync(x => x.RoomId == roomId && x.ParameterId == parameterId,
@@ -29,7 +28,6 @@ public class RoomBotParameterValueRepository : BaseRepository<RoomBotParameterVa
         CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<RoomBotParameterValue>()
-            .AsNoTracking()
             .Include(x => x.RoomInfo)
             .ThenInclude(x => x.ParameterValues)
             .ToListAsync(cancellationToken: cancellationToken);

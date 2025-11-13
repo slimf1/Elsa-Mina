@@ -39,6 +39,7 @@ public class DeleteArcadeLevel : Command
             try
             {
                 await _arcadeLevelRepository.DeleteByIdAsync(id, cancellationToken);
+                await _arcadeLevelRepository.SaveChangesAsync(cancellationToken);
                 context.ReplyLocalizedMessage("arcade_level_delete_success");
             }
             catch (Exception e)

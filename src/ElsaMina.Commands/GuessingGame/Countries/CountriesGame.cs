@@ -16,9 +16,9 @@ public class CountriesGame : GuessingGame
 
     public CountriesGame(ITemplatesManager templatesManager,
         IRandomService randomService,
-        IConfigurationManager configurationManager,
+        IConfiguration configuration,
         IImageService imageService,
-        IDataManager dataManager) : base(templatesManager, configurationManager)
+        IDataManager dataManager) : base(templatesManager, configuration)
     {
         _randomService = randomService;
         _imageService = imageService;

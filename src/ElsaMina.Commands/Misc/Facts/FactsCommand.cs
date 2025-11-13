@@ -3,6 +3,7 @@ using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Misc.Facts;
 

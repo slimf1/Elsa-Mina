@@ -2,7 +2,4 @@
 
 namespace ElsaMina.DataAccess.Repositories;
 
-public interface IBadgeHoldingRepository : IRepository<BadgeHolding, Tuple<string, string, string>>
-{
-    
-}
+public interface IBadgeHoldingRepository : IRepository<BadgeHolding, Tuple<string, string, string>>;

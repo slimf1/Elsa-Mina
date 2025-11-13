@@ -18,7 +18,6 @@ public class BadgeHoldingRepository : BaseRepository<BadgeHolding, Tuple<string,
     {
         var (badgeId, userId, roomId) = key;
         return await _dbContext.Set<BadgeHolding>()
-            .AsNoTracking()
             .Include(x => x.Badge)
             .Include(x => x.RoomSpecificUserData)
             .FirstOrDefaultAsync(x => x.BadgeId == badgeId
@@ -29,7 +28,6 @@ public class BadgeHoldingRepository : BaseRepository<BadgeHolding, Tuple<string,
     public override async Task<IEnumerable<BadgeHolding>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<BadgeHolding>()
-            .AsNoTracking()
             .Include(x => x.Badge)
             .Include(x => x.RoomSpecificUserData)
             .ToListAsync(cancellationToken: cancellationToken);

@@ -12,7 +12,6 @@ public class RoomInfoRepository : BaseRepository<RoomInfo, string>, IRoomInfoRep
     public override async Task<RoomInfo> GetByIdAsync(string key, CancellationToken cancellationToken = default)
     {
         return await DbSet
-            .AsNoTracking()
             .Include(x => x.Teams)
             .Include(x => x.ParameterValues)
             .Include(x => x.PollHistory)
@@ -22,7 +21,6 @@ public class RoomInfoRepository : BaseRepository<RoomInfo, string>, IRoomInfoRep
     public override async Task<IEnumerable<RoomInfo>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await DbSet
-            .AsNoTracking()
             .Include(x => x.Teams)
             .Include(x => x.ParameterValues)
             .Include(x => x.PollHistory)

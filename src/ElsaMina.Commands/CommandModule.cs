@@ -70,8 +70,8 @@ public class CommandModule : Module
         builder.RegisterCommand<ProfileCommand>();
         builder.RegisterCommand<DeleteBadge>();
         builder.RegisterCommand<TakeBadge>();
-        builder.RegisterCommand<SetAvatar>();
-        builder.RegisterCommand<SetTitle>();
+        builder.RegisterCommand<SetAvatarCommand>();
+        builder.RegisterCommand<SetTitleCommand>();
         builder.RegisterCommand<AllCommands>();
         builder.RegisterCommand<GuessingGameCommand>();
         builder.RegisterCommand<EndGuessingGame>();

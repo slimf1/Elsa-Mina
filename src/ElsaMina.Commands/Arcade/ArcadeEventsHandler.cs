@@ -6,6 +6,7 @@ using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Arcade;
 
@@ -21,17 +22,17 @@ public class ArcadeEventsHandler : Handler
             Constants.REGEX_MATCH_TIMEOUT);
 
     private readonly IHttpService _httpService;
-    private readonly IConfigurationManager _configurationManager;
+    private readonly IConfiguration _configuration;
     private readonly IResourcesService _resourcesService;
     private readonly IRoomsManager _roomsManager;
 
     public ArcadeEventsHandler(IHttpService httpService,
-        IConfigurationManager configurationManager,
+        IConfiguration configuration,
         IResourcesService resourcesService,
         IRoomsManager roomsManager)
     {
         _httpService = httpService;
-        _configurationManager = configurationManager;
+        _configuration = configuration;
         _resourcesService = resourcesService;
         _roomsManager = roomsManager;
     }
@@ -45,7 +46,7 @@ public class ArcadeEventsHandler : Handler
         }
 
         var rawMessage = parts[2].Trim();
-        var webhookUrl = _configurationManager.Configuration.ArcadeWebhookUrl;
+        var webhookUrl = _configuration.ArcadeWebhookUrl;
         var match = EVENT_REGEX.Match(rawMessage);
         if (!match.Success)
         {

@@ -6,9 +6,9 @@ using NSubstitute;
 
 namespace ElsaMina.UnitTests.Commands.Profile;
 
-public class SetTitleTests
+public class SetTitleCommandTests
 {
-    private SetTitle _command;
+    private SetTitleCommand _command;
     private IRoomUserDataService _roomUserDataService;
     private IContext _context;
 
@@ -16,7 +16,7 @@ public class SetTitleTests
     public void SetUp()
     {
         _roomUserDataService = Substitute.For<IRoomUserDataService>();
-        _command = new SetTitle(_roomUserDataService);
+        _command = new SetTitleCommand(_roomUserDataService);
         _context = Substitute.For<IContext>();
     }
 
@@ -31,7 +31,7 @@ public class SetTitleTests
         await _command.RunAsync(_context);
 
         // Assert
-        await _roomUserDataService.Received(1).SetUserTitle("testRoom", "user123", "Elite Trainer");
+        await _roomUserDataService.Received(1).SetUserTitleAsync("testRoom", "user123", "Elite Trainer");
         _context.Received(1).ReplyLocalizedMessage("title_success");
     }
 
@@ -47,7 +47,7 @@ public class SetTitleTests
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage(_command.HelpMessageKey);
-        await _roomUserDataService.DidNotReceiveWithAnyArgs().SetUserTitle(default, default, default);
+        await _roomUserDataService.DidNotReceiveWithAnyArgs().SetUserTitleAsync(default, default, default);
     }
 
     [Test]
@@ -58,7 +58,7 @@ public class SetTitleTests
         _context.Target.Returns("user123, Elite Trainer");
         var errorMessage = "Database error";
         _roomUserDataService
-            .When(x => x.SetUserTitle("testRoom", "user123", "Elite Trainer"))
+            .When(x => x.SetUserTitleAsync("testRoom", "user123", "Elite Trainer"))
             .Do(x => throw new Exception(errorMessage));
 
         // Act

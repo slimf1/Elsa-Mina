@@ -14,9 +14,9 @@ public class ResourcesService : IResourcesService
 
     private IEnumerable<CultureInfo> _supportedCultures;
 
-    public ResourcesService(IConfigurationManager configurationManager)
+    public ResourcesService(IConfiguration configuration)
     {
-        _defaultCulture = new CultureInfo(configurationManager.Configuration.DefaultLocaleCode);
+        _defaultCulture = new CultureInfo(configuration.DefaultLocaleCode);
     }
 
     public IEnumerable<CultureInfo> SupportedLocales => _supportedCultures ??= GetSupportedCultures();

@@ -1,11 +1,11 @@
 using ElsaMina.Commands.Ai.LanguageModel;
 using ElsaMina.Commands.Ai.TextToSpeech;
-using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Ai.Chat;
 

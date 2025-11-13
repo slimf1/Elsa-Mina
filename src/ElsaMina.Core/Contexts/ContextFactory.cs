@@ -10,19 +10,19 @@ public class ContextFactory : IContextFactory
     private readonly IContextProvider _contextProvider;
     private readonly IBot _bot;
     private readonly IRoomsManager _roomsManager;
-    private readonly IConfigurationManager _configurationManager;
+    private readonly IConfiguration _configuration;
     private readonly IPmSendersManager _pmSendersManager;
 
     public ContextFactory(IContextProvider contextProvider,
         IBot bot,
         IRoomsManager roomsManager,
-        IConfigurationManager configurationManager,
+        IConfiguration configuration,
         IPmSendersManager pmSendersManager)
     {
         _contextProvider = contextProvider;
         _bot = bot;
         _roomsManager = roomsManager;
-        _configurationManager = configurationManager;
+        _configuration = configuration;
         _pmSendersManager = pmSendersManager;
     }
 
@@ -57,7 +57,7 @@ public class ContextFactory : IContextFactory
 
     private (string, string) GetTargetAndCommand(string message)
     {
-        var trigger = _configurationManager.Configuration.Trigger;
+        var trigger = _configuration.Trigger;
         return message.StartsWith(trigger)
             ? Parsing.ParseMessage(message, trigger)
             : (null, null);

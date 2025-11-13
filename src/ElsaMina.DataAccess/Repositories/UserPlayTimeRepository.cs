@@ -17,14 +17,12 @@ public class UserPlayTimeRepository : BaseRepository<UserPlayTime, Tuple<string,
     {
         var (userId, roomId) = key;
         return await _dbContext.Set<UserPlayTime>()
-            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.UserId == userId && x.RoomId == roomId, cancellationToken: cancellationToken);
     }
 
     public override async Task<IEnumerable<UserPlayTime>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<UserPlayTime>()
-            .AsNoTracking()
             .ToListAsync(cancellationToken: cancellationToken);
     }
 }

@@ -17,14 +17,12 @@ public class AddedCommandRepository : BaseRepository<AddedCommand, Tuple<string,
     {
         var (commandId, roomId) = key;
         return await _dbContext.Set<AddedCommand>()
-            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == commandId && x.RoomId == roomId, cancellationToken: cancellationToken);
     }
 
     public override async Task<IEnumerable<AddedCommand>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<AddedCommand>()
-            .AsNoTracking()
             .ToListAsync(cancellationToken: cancellationToken);
     }
 }

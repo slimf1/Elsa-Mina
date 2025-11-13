@@ -8,9 +8,22 @@ using ElsaMina.Core;
 using ElsaMina.Core.Modules;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.DependencyInjection;
+using ElsaMina.FileSharing.S3;
+using ElsaMina.Logging;
+using Newtonsoft.Json;
+
+// Configuration
+Configuration configuration;
+using (var streamReader = new StreamReader("config.json"))
+{
+    var json = await streamReader.ReadToEndAsync();
+    configuration = JsonConvert.DeserializeObject<Configuration>(json);
+}
+Log.Configuration = configuration;
 
 // DI 
 var builder = new ContainerBuilder();
+builder.RegisterInstance(configuration).As<IConfiguration>().As<IS3CredentialsProvider>().SingleInstance();
 builder.RegisterModule<CoreModule>();
 builder.RegisterModule<CommandModule>();
 builder.RegisterType<VersionProvider>().As<IVersionProvider>();
@@ -18,13 +31,6 @@ var container = builder.Build();
 var dependencyContainerService = container.Resolve<IDependencyContainerService>();
 dependencyContainerService.SetContainer(container);
 DependencyContainerService.Current = dependencyContainerService;
-
-// Load configuration file
-var configurationService = dependencyContainerService.Resolve<IConfigurationManager>();
-using (var streamReader = new StreamReader("config.json"))
-{
-    await configurationService.LoadConfigurationAsync(streamReader);
-}
 
 // Subscribe to message event
 var bot = dependencyContainerService.Resolve<IBot>();
@@ -53,7 +59,7 @@ client.ReconnectionHappened.Subscribe(info =>
     bot.OnReconnect();
 });
 
-Console.CancelKeyPress += (sender, eventArgs) =>
+Console.CancelKeyPress += (_, _) =>
 {
     bot.OnExit();
 };

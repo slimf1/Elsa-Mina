@@ -17,7 +17,6 @@ public class BadgeRepository : BaseRepository<Badge, Tuple<string, string>>, IBa
     {
         var (badgeId, roomId) = key;
         return await _dbContext.Set<Badge>()
-            .AsNoTracking()
             .Include(x => x.BadgeHolders)
             .ThenInclude(x => x.RoomSpecificUserData)
             .FirstOrDefaultAsync(x => x.Id == badgeId && x.RoomId == roomId, cancellationToken: cancellationToken);
@@ -26,7 +25,6 @@ public class BadgeRepository : BaseRepository<Badge, Tuple<string, string>>, IBa
     public override async Task<IEnumerable<Badge>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<Badge>()
-            .AsNoTracking()
             .Include(x => x.BadgeHolders)
             .ThenInclude(x => x.RoomSpecificUserData)
             .ToListAsync(cancellationToken: cancellationToken);

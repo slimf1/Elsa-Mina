@@ -69,7 +69,7 @@ public class GiveBadgeTest
         await _command.RunAsync(_context);
 
         // Assert
-        await _roomUserDataService.Received().GiveBadgeToUser("roomId", "userid", badgeId);
+        await _roomUserDataService.Received().GiveBadgeToUserAsync("roomId", "userid", badgeId);
         _context.Received().ReplyLocalizedMessage("badge_give_success", "userid", badgeName);
     }
 
@@ -81,7 +81,7 @@ public class GiveBadgeTest
         _context.RoomId.Returns("roomId");
         var existingBadge = new Badge { Id = "existingbadge" };
         _badgeRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(existingBadge);
-        _roomUserDataService.GiveBadgeToUser("roomId", "userid", "existingbadge")
+        _roomUserDataService.GiveBadgeToUserAsync("roomId", "userid", "existingbadge")
             .Throws(new Exception("Some error"));
 
         // Act

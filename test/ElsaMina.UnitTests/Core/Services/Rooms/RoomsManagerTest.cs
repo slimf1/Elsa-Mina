@@ -2,6 +2,7 @@
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Rooms.Parameters;
+using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 using NSubstitute;
@@ -269,21 +270,21 @@ public class RoomsManagerTest
         var room = _roomsManager.GetRoom("myRoom");
         room.PendingPlayTimeUpdates["speks"] = TimeSpan.FromMinutes(90);
         room.RoomId.Returns("myRoom");
-        _userPlayTimeRepository.GetByIdAsync(Tuple.Create("speks", "myRoom")).Returns(new UserPlayTime
+        var playTime = new UserPlayTime
         {
             PlayTime = new TimeSpan(10, 30, 0),
             UserId = "speks",
             RoomId = "myRoom"
-        });
+        };
+        _userPlayTimeRepository.GetByIdAsync(Tuple.Create("speks", "myRoom")).Returns(playTime);
         _clockService.CurrentUtcDateTime.Returns(new DateTime(2022, 10, 1, 22, 00, 0, DateTimeKind.Utc));
 
         // Act
         await _roomsManager.ProcessPendingPlayTimeUpdates();
         
         // Assert
-        await _userPlayTimeRepository.Received(1).UpdateAsync(Arg.Is<UserPlayTime>(playTime => Math.Abs(playTime.PlayTime.TotalHours - 12) < 1e-3
-            && playTime.UserId == "speks"
-            && playTime.RoomId == "myRoom"));
+        Assert.That(playTime.PlayTime.TotalHours.IsApproximatelyEqualTo(12), Is.True);
+        await _userPlayTimeRepository.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
     }
     
     [Test]
@@ -331,8 +332,8 @@ public async Task Test_ProcessPendingPlayTimeUpdates_ShouldUpdatePlayTime_WhenEx
     await _roomsManager.ProcessPendingPlayTimeUpdates();
 
     // Assert
-    await _userPlayTimeRepository.Received(1).UpdateAsync(Arg.Is<UserPlayTime>(pt =>
-        Math.Abs(pt.PlayTime.TotalMinutes - 40) < 1e-3));
+    Assert.That(existing.PlayTime.TotalMinutes.IsApproximatelyEqualTo(40));
+    await _userPlayTimeRepository.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
     Assert.That(room.PendingPlayTimeUpdates.ContainsKey("user2"), Is.False);
 }
 

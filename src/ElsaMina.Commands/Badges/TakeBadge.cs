@@ -4,6 +4,7 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.Core.Utils;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Badges;
 
@@ -34,7 +35,7 @@ public class TakeBadge : Command
 
         try
         {
-            await _roomUserDataService.TakeBadgeFromUser(context.RoomId, userId, badgeId);
+            await _roomUserDataService.TakeBadgeFromUserAsync(context.RoomId, userId, badgeId);
             context.ReplyLocalizedMessage("takebadge_success", userId, badgeId);
         }
         catch (ArgumentException)

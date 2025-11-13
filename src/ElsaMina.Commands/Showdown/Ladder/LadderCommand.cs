@@ -6,6 +6,7 @@ using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Showdown.Ladder;
 

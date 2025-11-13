@@ -10,9 +10,9 @@ public class PokeDescGame : GuessingGame
     private readonly IDataManager _dataManager;
 
     public PokeDescGame(ITemplatesManager templatesManager,
-        IConfigurationManager configurationManager,
+        IConfiguration configuration,
         IRandomService randomService,
-        IDataManager dataManager) : base(templatesManager, configurationManager)
+        IDataManager dataManager) : base(templatesManager, configuration)
     {
         _randomService = randomService;
         _dataManager = dataManager;

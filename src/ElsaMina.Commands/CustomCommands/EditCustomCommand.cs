@@ -4,6 +4,7 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.CustomCommands;
 
@@ -46,7 +47,7 @@ public class EditCustomCommand : Command
 
         try
         {
-            await _addedCommandsRepository.UpdateAsync(command, cancellationToken);
+            await _addedCommandsRepository.SaveChangesAsync(cancellationToken);
             context.ReplyLocalizedMessage("editcommand_success", commandId);
         }
         catch (Exception exception)
