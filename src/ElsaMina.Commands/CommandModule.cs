@@ -109,6 +109,8 @@ public class CommandModule : Module
         builder.RegisterCommand<PairingsCommand>();
         builder.RegisterCommand<EvroMakerCommand>();
         builder.RegisterCommand<DailymotionCommand>();
+        builder.RegisterCommand<MemoryUsageCommand>();
+        builder.RegisterCommand<UptimeCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();

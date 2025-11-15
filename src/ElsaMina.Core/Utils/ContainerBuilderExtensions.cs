@@ -5,7 +5,7 @@ using ElsaMina.Logging;
 
 namespace ElsaMina.Core.Utils;
 
-public static class DependencyInjection
+public static class ContainerBuilderExtensions
 {
     public static void RegisterCommand<TCommand>(this ContainerBuilder builder) where TCommand : ICommand
     {

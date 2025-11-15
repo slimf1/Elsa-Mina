@@ -69,7 +69,7 @@
             @if (Model.RegisterDate > DateTimeOffset.MinValue)
             {
                 <span style="text-decoration: underline">@GetString("profile_register_date")</span>
-                <span>: @Model.RegisterDate.ToString("d", Model.Culture)</span>
+                <span>: @Model.RegisterDate.ToLocalTime().ToString("d", Model.Culture)</span>
                 <br />
             }
             @if (Model.BestRanking != null)

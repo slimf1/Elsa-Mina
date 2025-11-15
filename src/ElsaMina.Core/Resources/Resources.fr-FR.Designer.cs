@@ -1346,5 +1346,11 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("dailymotion_fetch_error", resourceCulture);
             }
         }
+        
+        internal static string uptime {
+            get {
+                return ResourceManager.GetString("uptime", resourceCulture);
+            }
+        }
     }
 }

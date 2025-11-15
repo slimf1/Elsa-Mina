@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Handlers.DefaultHandlers;
+using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Rooms.Parameters;
@@ -24,7 +25,8 @@ public class ReplaysHandler : ChatMessageHandler
     public ReplaysHandler(IContextFactory contextFactory,
         IHttpService httpService,
         ITemplatesManager templatesManager,
-        IRoomsManager roomsManager) : base(contextFactory)
+        IRoomsManager roomsManager,
+        IConfiguration configuration) : base(contextFactory)
     {
         _httpService = httpService;
         _templatesManager = templatesManager;
@@ -61,6 +63,7 @@ public class ReplaysHandler : ChatMessageHandler
             var response = await _httpService.GetAsync<ReplayDto>(replayLink, cancellationToken: cancellationToken);
             var replayInfo = response.Data;
             var teams = ReplaysHelper.GetTeamsFromLog(replayInfo.Log);
+
             var template = await _templatesManager.GetTemplateAsync("Replays/ReplayPreview", new ReplayPreviewViewModel
             {
                 Culture = context.Culture,
@@ -71,7 +74,7 @@ public class ReplaysHandler : ChatMessageHandler
                     Name = replayInfo.Players[index],
                     Team = team.Value
                 }).ToList(),
-                Date = Time.GetDateTimeFromUnixTime(replayInfo.UploadTime),
+                Date = DateTimeOffset.FromUnixTimeSeconds(replayInfo.UploadTime).ToLocalTime(),
                 Views = replayInfo.Views
             });
 

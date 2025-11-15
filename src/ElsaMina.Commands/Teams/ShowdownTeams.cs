@@ -1,8 +1,10 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using ElsaMina.Core;
+using ElsaMina.Core.Utils;
 using Newtonsoft.Json;
 
-namespace ElsaMina.Core.Utils;
+namespace ElsaMina.Commands.Teams;
 
 public static class ShowdownTeams
 {

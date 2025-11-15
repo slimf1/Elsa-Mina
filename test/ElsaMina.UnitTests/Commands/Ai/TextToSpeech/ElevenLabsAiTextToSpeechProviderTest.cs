@@ -90,7 +90,7 @@ public class ElevenLabsAiTextToSpeechProviderTest
         // Assert
         await _mockHttpService.Received(1).DownloadContentWithPostAsync(
             "https://api.elevenlabs.io/v1/text-to-speech/Qrl71rx6Yg8RvyPYRGCQ",
-            Arg.Is<ElevenLabsRequestDto>(dto => dto.Text == text && dto.ModelId == "eleven_multilingual_v1"),
+            Arg.Is<ElevenLabsRequestDto>(dto => dto.Text == text && dto.ModelId == "eleven_multilingual_v2"),
             Arg.Is<Dictionary<string, string>>(headers => headers["xi-api-key"] == "valid-api-key"),
             cancellationToken);
     }

@@ -1,5 +1,4 @@
 ﻿using ElsaMina.Commands.Teams.TeamProviders;
-using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Handlers.DefaultHandlers;
 using ElsaMina.Core.Services.Clock;

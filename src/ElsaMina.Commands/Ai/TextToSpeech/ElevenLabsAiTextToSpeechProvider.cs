@@ -47,7 +47,7 @@ public class ElevenLabsAiTextToSpeechProvider : IAiTextToSpeechProvider
         var dto = new ElevenLabsRequestDto
         {
             Text = text,
-            ModelId = "eleven_multilingual_v1"
+            ModelId = "eleven_multilingual_v2"
         };
 
         var voiceId = voiceType switch

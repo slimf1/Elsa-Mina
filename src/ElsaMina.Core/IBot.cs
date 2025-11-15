@@ -9,4 +9,5 @@ public interface IBot : IDisposable
     void OnReconnect();
     void OnDisconnect();
     void OnExit();
+    TimeSpan UpTime { get; }
 }

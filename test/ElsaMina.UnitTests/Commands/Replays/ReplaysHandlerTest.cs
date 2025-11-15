@@ -1,5 +1,6 @@
 using ElsaMina.Commands.Replays;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
@@ -15,6 +16,7 @@ public class ReplaysHandlerTest
     private ITemplatesManager _templatesManager;
     private IRoomsManager _roomsManager;
     private IContext _context;
+    private IConfiguration _configuration;
 
     [SetUp]
     public void SetUp()
@@ -24,8 +26,10 @@ public class ReplaysHandlerTest
         _templatesManager = Substitute.For<ITemplatesManager>();
         _roomsManager = Substitute.For<IRoomsManager>();
         _context = Substitute.For<IContext>();
+        _configuration = Substitute.For<IConfiguration>();
 
-        _replaysHandler = new ReplaysHandler(contextFactory, _httpService, _templatesManager, _roomsManager);
+        _replaysHandler =
+            new ReplaysHandler(contextFactory, _httpService, _templatesManager, _roomsManager, _configuration);
     }
 
     [Test]
@@ -65,7 +69,6 @@ public class ReplaysHandlerTest
         _roomsManager.GetRoomParameter(Arg.Any<string>(), Arg.Any<string>())
             .Returns("true");
         _context.Message.Returns(replayUrl);
-
         var replayData = new ReplayDto
         {
             Format = "gen8ou",
@@ -76,7 +79,8 @@ public class ReplaysHandlerTest
             Log = "sample-log-data"
         };
 
-        _httpService.GetAsync<ReplayDto>(replayUrl + ".json").Returns(new HttpResponse<ReplayDto> { Data = replayData });
+        _httpService.GetAsync<ReplayDto>(replayUrl + ".json")
+            .Returns(new HttpResponse<ReplayDto> { Data = replayData });
         _templatesManager.GetTemplateAsync("Replays/ReplayPreview", Arg.Any<ReplayPreviewViewModel>())
             .Returns("sample-html-template");
 

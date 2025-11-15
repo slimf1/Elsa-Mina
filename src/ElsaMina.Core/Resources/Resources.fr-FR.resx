@@ -669,4 +669,7 @@
     <data name="dailymotion_fetch_error" xml:space="preserve">
         <value>Une erreur est survenue au chargement de la vidéo : {0}</value>
     </data>
+    <data name="uptime" xml:space="preserve">
+        <value>Temps de fonctionnement : {0}</value>
+    </data>
 </root>

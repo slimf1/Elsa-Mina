@@ -1,5 +1,4 @@
 ﻿using ElsaMina.Core.Templates;
-using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.Teams;
 

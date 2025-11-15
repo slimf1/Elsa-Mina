@@ -3,6 +3,8 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
+using NSubstitute.ReturnsExtensions;
 
 namespace ElsaMina.UnitTests.Commands.Arcade;
 
@@ -38,7 +40,7 @@ public class DeleteArcadeLevelTests
         // Arrange
         var context = Substitute.For<IContext>();
         context.Target.Returns("nonexistentuser");
-        _arcadeLevelRepository.GetByIdAsync("nonexistentuser").Returns((ArcadeLevel)null);
+        _arcadeLevelRepository.GetByIdAsync("nonexistentuser").ReturnsNull();
 
         // Act
         await _command.RunAsync(context);
@@ -52,14 +54,15 @@ public class DeleteArcadeLevelTests
     {
         // Arrange
         var context = Substitute.For<IContext>();
+        var existing = new ArcadeLevel { Id = "existing_user" };
         context.Target.Returns("existinguser");
-        _arcadeLevelRepository.GetByIdAsync("existinguser").Returns(new ArcadeLevel { Id = "existing_user" });
+        _arcadeLevelRepository.GetByIdAsync("existinguser").Returns(existing);
 
         // Act
         await _command.RunAsync(context);
 
         // Assert
-        await _arcadeLevelRepository.Received(1).DeleteByIdAsync("existinguser");
+        await _arcadeLevelRepository.Received(1).DeleteAsync(existing);
         context.Received(1).ReplyLocalizedMessage("arcade_level_delete_success");
     }
 
@@ -67,12 +70,13 @@ public class DeleteArcadeLevelTests
     public async Task Test_RunAsync_ShouldHandleExceptionAndReplyError_WhenDeleteFails()
     {
         // Arrange
+        const string userId = "usertodelete";
         var context = Substitute.For<IContext>();
-        context.Target.Returns("usertodelete");
-        _arcadeLevelRepository.GetByIdAsync("usertodelete").Returns(new ArcadeLevel { Id = "usertodelete" });
-        _arcadeLevelRepository
-            .When(repo => repo.DeleteByIdAsync("usertodelete"))
-            .Throw(new Exception("Database error"));
+        context.Target.Returns(userId);
+        var existing = new ArcadeLevel { Id = userId };
+        _arcadeLevelRepository.GetByIdAsync(userId).Returns(existing);
+        _arcadeLevelRepository.DeleteAsync(existing)
+            .Throws(new Exception("Database error"));
 
         // Act
         await _command.RunAsync(context);

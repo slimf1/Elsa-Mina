@@ -24,7 +24,8 @@ public class Bot : IBot
     private readonly CancellationTokenSource _cancellationTokenSource = new();
     private string _currentRoom;
     private string _lastMessage;
-    private DateTime _lastMessageTime;
+    private DateTimeOffset _lastMessageTime;
+    private DateTimeOffset _connectionTime;
     private bool _disposed;
 
     public Bot(IClient client,
@@ -46,11 +47,12 @@ public class Bot : IBot
     {
         await _startManager.LoadStaticDataAsync(_cancellationTokenSource.Token);
         await _client.Connect();
+        _connectionTime = _clockService.CurrentUtcDateTimeOffset;
     }
 
     public void OnReconnect()
     {
-        // Empty
+        _connectionTime = _clockService.CurrentUtcDateTimeOffset;
     }
 
     public void OnDisconnect()
@@ -63,6 +65,8 @@ public class Bot : IBot
         Log.Information("Exiting bot...");
         _roomsManager.ProcessPendingPlayTimeUpdates();
     }
+
+    public TimeSpan UpTime => _clockService.CurrentUtcDateTimeOffset - _connectionTime;
 
     public async Task HandleReceivedMessageAsync(string message)
     {
@@ -122,7 +126,7 @@ public class Bot : IBot
 
     public void Send(string message)
     {
-        var now = _clockService.CurrentUtcDateTime;
+        var now = _clockService.CurrentUtcDateTimeOffset;
         if ((_lastMessage == message && now - _lastMessageTime < SAME_MESSAGE_COOLDOWN)
             || message.Length > MESSAGE_LENGTH_LIMIT)
         {
