@@ -38,11 +38,11 @@ public class TemplatesManager : ITemplatesManager
             .GetFilesFromDirectoryRecursively(TEMPLATES_DIRECTORY_PATH)
             .Select(CompileTemplateAsync);
         await Task.WhenAll(compilationTasks);
+        Log.Information("Done compiling templates");
     }
 
     private async Task CompileTemplateAsync(string templatePath)
     {
-        Log.Information("Compiling template {0}...", templatePath);
         var templateKey = GetTemplateKeyFromPath(templatePath);
         _compilationResults[templateKey] = await RAZOR_ENGINE.CompileTemplateAsync(templatePath);
     }

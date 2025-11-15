@@ -8,7 +8,7 @@ public static class Log
 {
     private static readonly Lazy<Logger> LOGGER = new(CreateLogger, isThreadSafe: true);
 
-    private static ILogger Instance => LOGGER.Value;
+    private static Logger Instance => LOGGER.Value;
     
     public static ILoggingConfiguration Configuration { get; set; }
 
@@ -18,7 +18,8 @@ public static class Log
             .Enrich.FromLogContext()
             .MinimumLevel.Debug()
             .WriteTo.Console();
-
+//temp
+        Serilog.Debugging.SelfLog.Enable(msg => Console.WriteLine("SERILOG SELFLOG: " + msg));
 #if !DEBUG
         config.MinimumLevel.Information()
               .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day);

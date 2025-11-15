@@ -2,7 +2,7 @@ using ElsaMina.Core.Commands;
 
 namespace ElsaMina.Core.Utils;
 
-public static class Reflection
+public static class TypeExtensions
 {
     public static NamedCommandAttribute GetCommandAttribute(this Type type)
     {

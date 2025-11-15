@@ -233,14 +233,12 @@ public class RoomsManager : IRoomsManager, IDisposable
                 RoomId = room.RoomId,
                 PlayTime = additionalPlayTime
             });
-            Log.Information("Added user play time for user {0} in {1} : {2}", userId, room.RoomId,
-                additionalPlayTime.TotalSeconds);
+            Log.Information("Added playtime");
         }
         else
         {
             savedPlayTime.PlayTime += additionalPlayTime;
-            Log.Information("Updated user play time for user {0} in {1} : +{2}", userId, room.RoomId,
-                additionalPlayTime.TotalSeconds);
+            Log.Information("Updated playtime");
         }
     }
 
