@@ -37,7 +37,7 @@ public class SetArcadeLevel : Command
             return;
         }
 
-        if (level is < 2 or > 4)
+        if (level is < 1 or > 50)
         {
             context.ReplyLocalizedMessage("arcade_level_invalid_value");
             return;

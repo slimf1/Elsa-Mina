@@ -1,9 +1,9 @@
 using System.Globalization;
-using System.Net;
 using ElsaMina.Commands.Misc.Wiki;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Images;
+using ElsaMina.Core.Services.Rooms;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 
@@ -21,6 +21,17 @@ public class WikipediaSearchCommandTest
         _mockHttpService = Substitute.For<IHttpService>();
         _imageService = Substitute.For<IImageService>();
         _command = new WikipediaSearchCommand(_mockHttpService, _imageService);
+    }
+
+    [Test]
+    public void Test_Constructor_ShouldSetProperties()
+    {
+        // Act & Assert
+        Assert.Multiple(() =>
+        {
+            Assert.That(_command.RequiredRank, Is.EqualTo(Rank.Regular));
+            Assert.That(_command.IsAllowedInPrivateMessage, Is.True);
+        });
     }
 
     [Test]

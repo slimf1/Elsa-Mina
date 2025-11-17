@@ -3,6 +3,7 @@ using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Images;
+using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.Misc.Wiki;
 
@@ -19,6 +20,9 @@ public class WikipediaSearchCommand : Command
         _httpService = httpService;
         _imageService = imageService;
     }
+
+    public override bool IsAllowedInPrivateMessage => true;
+    public override Rank RequiredRank => Rank.Regular;
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {

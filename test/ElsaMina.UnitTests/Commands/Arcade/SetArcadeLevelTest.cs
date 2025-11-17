@@ -35,11 +35,15 @@ public class SetArcadeLevelTests
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldReplyError_WhenLevelIsOutOfRange()
+    [TestCase("-1")]
+    [TestCase("0")]
+    [TestCase("51")]
+    [TestCase("100")]
+    public async Task Test_RunAsync_ShouldReplyError_WhenLevelIsOutOfRange(string invalidValue)
     {
         // Arrange
         var context = Substitute.For<IContext>();
-        context.Target.Returns("user,5");
+        context.Target.Returns($"user,{invalidValue}");
 
         // Act
         await _command.RunAsync(context);
