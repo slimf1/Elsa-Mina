@@ -8,5 +8,5 @@ public interface IDependencyContainerService
     T Resolve<T>() where T : notnull;
     T ResolveNamed<T>(string name);
     bool IsRegisteredWithName<T>(string name);
-    IEnumerable<T> GetAllRegistrations<T>() where T : class;
+    IEnumerable<T> GetAllNamedRegistrations<T>() where T : class;
 }

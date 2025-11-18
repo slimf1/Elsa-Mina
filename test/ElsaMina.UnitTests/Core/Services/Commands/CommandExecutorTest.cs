@@ -34,7 +34,7 @@ public class CommandExecutorTest
         };
         expectedCommands.ElementAt(0).Name.Returns("1");
         expectedCommands.ElementAt(1).Name.Returns("2");
-        _dependencyContainerService.GetAllRegistrations<ICommand>().Returns(expectedCommands);
+        _dependencyContainerService.GetAllNamedRegistrations<ICommand>().Returns(expectedCommands);
 
         // Act
         var result = _commandExecutor.GetAllCommands();
@@ -53,7 +53,7 @@ public class CommandExecutorTest
         command2.Name.Returns("cmd2");
         var duplicateCommand = Substitute.For<ICommand>();
         duplicateCommand.Name.Returns("cmd1");
-        _dependencyContainerService.GetAllRegistrations<ICommand>()
+        _dependencyContainerService.GetAllNamedRegistrations<ICommand>()
             .Returns([command1, command2, duplicateCommand]);
 
         // Act

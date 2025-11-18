@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Core;
 using ElsaMina.Core.Commands;
 
 namespace ElsaMina.Core.Services.DependencyInjection;
@@ -29,16 +30,24 @@ public class DependencyContainerService : IDependencyContainerService
         return _container?.IsRegisteredWithName<T>(name) ?? false;
     }
 
-    public IEnumerable<T> GetAllRegistrations<T>() where T : class
+    public IEnumerable<T> GetAllNamedRegistrations<T>() where T : class
     {
         if (_container is null)
         {
             return [];
         }
+        var results = new List<T>();
+        foreach (var registration in _container.ComponentRegistry.Registrations)
+        {
+            foreach (var keyedService in registration.Services.OfType<KeyedService>())
+            {
+                if (keyedService.ServiceType == typeof(T) && keyedService.ServiceKey is string name)
+                {
+                    results.Add(_container.ResolveNamed<T>(name));
+                }
+            }
+        }
 
-        return _container.ComponentRegistry.Registrations
-            .Where(r => typeof(T).IsAssignableFrom(r.Activator.LimitType))
-            .Select(r => r.Activator.LimitType)
-            .Select(type => _container.Resolve(type) as T);
+        return results;
     }
 }

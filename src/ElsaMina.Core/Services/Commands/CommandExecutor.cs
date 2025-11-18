@@ -21,7 +21,7 @@ public class CommandExecutor : ICommandExecutor
     public IEnumerable<ICommand> GetAllCommands()
     {
         return _dependencyContainerService
-            .GetAllRegistrations<ICommand>()
+            .GetAllNamedRegistrations<ICommand>()
             .DistinctBy(command => command.Name);
     }
 

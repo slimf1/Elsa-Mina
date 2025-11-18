@@ -18,8 +18,6 @@ public static class Log
             .Enrich.FromLogContext()
             .MinimumLevel.Debug()
             .WriteTo.Console();
-//temp
-        Serilog.Debugging.SelfLog.Enable(msg => Console.WriteLine("SERILOG SELFLOG: " + msg));
 #if !DEBUG
         config.MinimumLevel.Information()
               .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day);

@@ -124,7 +124,7 @@ public class DependencyContainerServiceTest
         _service.SetContainer(null);
 
         // Act
-        var result = _service.GetAllRegistrations<object>();
+        var result = _service.GetAllNamedRegistrations<object>();
 
         // Assert
         Assert.That(result, Is.Empty);
