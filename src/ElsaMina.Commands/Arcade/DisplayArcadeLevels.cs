@@ -64,6 +64,6 @@ public class DisplayArcadeLevels : Command
             Levels = levels
         });
 
-        context.SendHtmlIn(template.RemoveNewlines(), rankAware: true);
+        context.ReplyHtml(template.RemoveNewlines(), rankAware: true);
     }
 }

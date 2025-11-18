@@ -58,7 +58,7 @@ public class TeamList : Command
         if (context.HasRankOrHigher(Rank.Voiced))
         {
             var message = $"""<div style="overflow-y: auto; max-height: 230px;">{html}</div>""";
-            context.SendHtmlIn(message, roomId: roomId);
+            context.ReplyHtml(message, roomId: roomId);
         }
         else
         {

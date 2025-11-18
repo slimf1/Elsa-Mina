@@ -59,6 +59,6 @@ public class TeamShowcaseTests
         // Assert
         await _templatesManager.Received(1).GetTemplateAsync("Teams/SampleTeam", Arg.Is<SampleTeamViewModel>(vm =>
             vm.Culture.Name == "fr-FR" && vm.Team == team));
-        _context.Received().SendHtmlIn(expectedHtml.RemoveNewlines(), rankAware: true);
+        _context.Received().ReplyHtml(expectedHtml.RemoveNewlines(), rankAware: true);
     }
 }

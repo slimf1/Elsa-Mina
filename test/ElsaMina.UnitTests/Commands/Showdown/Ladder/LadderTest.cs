@@ -94,7 +94,7 @@ public class LadderCommandTest
         // Assert
         await _templatesManager.Received().GetTemplateAsync("Showdown/Ladder/LadderTable",
             Arg.Is<LadderTableViewModel>(vm => vm.Format == "[Gen 8] OU"));
-        _context.Received().SendHtmlIn("formatted_html", rankAware: true);
+        _context.Received().ReplyHtml("formatted_html", rankAware: true);
     }
 
     [Test]

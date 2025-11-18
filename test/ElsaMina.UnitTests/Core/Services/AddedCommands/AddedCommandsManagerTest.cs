@@ -40,7 +40,7 @@ public class AddedCommandsManagerTest
         await _addedCommandsManager.TryExecuteAddedCommand(commandName, context);
 
         // Assert
-        context.DidNotReceive().SendHtmlIn(Arg.Any<string>(),  rankAware: Arg.Any<bool>());
+        context.DidNotReceive().ReplyHtml(Arg.Any<string>(),  rankAware: Arg.Any<bool>());
         context.DidNotReceive().Reply(Arg.Any<string>(), rankAware: Arg.Any<bool>());
     }
 
@@ -62,7 +62,7 @@ public class AddedCommandsManagerTest
         await _addedCommandsManager.TryExecuteAddedCommand(commandName, context);
 
         // Assert
-        context.Received().SendHtmlIn(Arg.Is<string>(s => s.Contains("https://example.com/image.png")), rankAware: Arg.Any<bool>());
+        context.Received().ReplyHtml(Arg.Is<string>(s => s.Contains("https://example.com/image.png")), rankAware: Arg.Any<bool>());
     }
 
     [Test]
@@ -102,7 +102,7 @@ public class AddedCommandsManagerTest
         await _addedCommandsManager.TryExecuteAddedCommand(commandName, context);
 
         // Assert
-        context.Received().SendHtmlIn(Arg.Is<string>(s => s.Contains("width=\"400\" height=\"300\"")), rankAware: Arg.Any<bool>());
+        context.Received().ReplyHtml(Arg.Is<string>(s => s.Contains("width=\"400\" height=\"300\"")), rankAware: Arg.Any<bool>());
     }
 
     [Test]
@@ -123,7 +123,7 @@ public class AddedCommandsManagerTest
         await _addedCommandsManager.TryExecuteAddedCommand(commandName, context);
 
         // Assert
-        context.Received().SendHtmlIn(Arg.Is<string>(s => s.Contains("width=\"200\" height=\"150\"")), rankAware: Arg.Any<bool>());
+        context.Received().ReplyHtml(Arg.Is<string>(s => s.Contains("width=\"200\" height=\"150\"")), rankAware: Arg.Any<bool>());
     }
     
     [Test]

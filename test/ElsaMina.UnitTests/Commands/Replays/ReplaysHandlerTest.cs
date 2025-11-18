@@ -89,7 +89,7 @@ public class ReplaysHandlerTest
 
         // Assert
         await _httpService.Received(1).GetAsync<ReplayDto>(replayUrl + ".json");
-        _context.Received(1).SendHtmlIn("sample-html-template");
+        _context.Received(1).ReplyHtml("sample-html-template");
     }
 
     [Test]
@@ -107,6 +107,6 @@ public class ReplaysHandlerTest
         await _replaysHandler.HandleMessageAsync(_context);
 
         // Assert
-        _context.DidNotReceive().SendHtmlIn(Arg.Any<string>());
+        _context.DidNotReceive().ReplyHtml(Arg.Any<string>());
     }
 }

@@ -78,7 +78,7 @@ public class ReplaysHandler : ChatMessageHandler
                 Views = replayInfo.Views
             });
 
-            context.SendHtmlIn(template.RemoveNewlines());
+            context.ReplyHtml(template.RemoveNewlines());
         }
         catch (Exception exception)
         {

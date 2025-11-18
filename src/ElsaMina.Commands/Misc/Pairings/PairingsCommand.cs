@@ -57,7 +57,7 @@ public class PairingsCommand : Command
         
         if (playerNames.Count == 0)
         {
-            context.SendHtmlIn("", rankAware: true);
+            context.ReplyHtml("", rankAware: true);
             return;
         }
         
@@ -82,6 +82,6 @@ public class PairingsCommand : Command
             matches.Add($"{player1} vs. {player2}");
         }
 
-        context.SendHtmlIn(string.Join("<br />", matches), rankAware: true);
+        context.ReplyHtml(string.Join("<br />", matches), rankAware: true);
     }
 } 

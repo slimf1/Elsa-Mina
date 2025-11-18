@@ -84,7 +84,7 @@ public class YoutubeCommand : Command
                     ThumbnailHeight = THUMBNAIL_HEIGHT
                 });
 
-            context.SendHtmlIn(template.RemoveNewlines(), rankAware: true);
+            context.ReplyHtml(template.RemoveNewlines(), rankAware: true);
         }
         catch (Exception ex)
         {

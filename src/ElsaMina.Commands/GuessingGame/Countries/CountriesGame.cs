@@ -41,6 +41,6 @@ public class CountriesGame : GuessingGame
         CurrentValidAnswers = [nextCountry.EnglishName, nextCountry.FrenchName];
         var (width, height) = await _imageService.GetRemoteImageDimensions(image);
         (width, height) = _imageService.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);
-        Context.SendHtmlIn($"""<img src="{image}" width="{width}" height="{height}" />""");
+        Context.ReplyHtml($"""<img src="{image}" width="{width}" height="{height}" />""");
     }
 }

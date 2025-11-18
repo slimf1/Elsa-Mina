@@ -31,7 +31,7 @@ public class PmContext : Context
     public override void Reply(string message, bool rankAware = false)
         => Bot.Send($"|/pm {Sender.UserId}, {message}");
 
-    public override void SendHtmlIn(string html, string roomId = null, bool rankAware = false)
+    public override void ReplyHtml(string html, string roomId = null, bool rankAware = false)
         => Bot.Say(roomId ?? RoomId, $"/pminfobox {Sender.UserId}, {html}");
 
     public override void SendHtmlTo(string userId, string html, string roomId = null) =>

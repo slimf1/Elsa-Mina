@@ -72,7 +72,7 @@ public class DailymotionCommand : Command
                     ViewsTotal = video.ViewsTotal,
                     LikesTotal = video.LikesTotal
                 });
-            context.SendHtmlIn(template.RemoveNewlines(), rankAware: true);
+            context.ReplyHtml(template.RemoveNewlines(), rankAware: true);
         }
         catch (Exception exception)
         {

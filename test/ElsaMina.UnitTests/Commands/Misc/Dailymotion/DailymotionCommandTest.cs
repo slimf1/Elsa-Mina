@@ -42,7 +42,7 @@ public class DailymotionCommandTests
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("dailymotion_no_video_found");
-        _context.DidNotReceive().SendHtmlIn(Arg.Any<string>(), rankAware: Arg.Any<bool>());
+        _context.DidNotReceive().ReplyHtml(Arg.Any<string>(), rankAware: Arg.Any<bool>());
     }
 
     [Test]
@@ -78,7 +78,7 @@ public class DailymotionCommandTests
 
         // Assert
         await _templatesManager.Received(1).GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>());
-        _context.Received(1).SendHtmlIn(Arg.Is<string>(s => s.Contains("preview")), rankAware: Arg.Any<bool>());
+        _context.Received(1).ReplyHtml(Arg.Is<string>(s => s.Contains("preview")), rankAware: Arg.Any<bool>());
         _context.DidNotReceive().ReplyLocalizedMessage("dailymotion_no_video_found");
     }
 
@@ -111,7 +111,7 @@ public class DailymotionCommandTests
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("dailymotion_no_video_found");
-        _context.DidNotReceive().SendHtmlIn(Arg.Any<string>(), rankAware: Arg.Any<bool>());
+        _context.DidNotReceive().ReplyHtml(Arg.Any<string>(), rankAware: Arg.Any<bool>());
     }
 
     [Test]
@@ -130,6 +130,6 @@ public class DailymotionCommandTests
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("dailymotion_fetch_error", Arg.Any<object>());
-        _context.DidNotReceive().SendHtmlIn(Arg.Any<string>(), rankAware: Arg.Any<bool>());
+        _context.DidNotReceive().ReplyHtml(Arg.Any<string>(), rankAware: Arg.Any<bool>());
     }
 }

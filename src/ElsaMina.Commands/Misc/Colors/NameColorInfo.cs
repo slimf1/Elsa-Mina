@@ -50,6 +50,6 @@ public class NameColorInfo : Command
             Color = color,
             OriginalColor = originalColor
         });
-        context.SendHtmlIn(template.RemoveNewlines(), rankAware: true);
+        context.ReplyHtml(template.RemoveNewlines(), rankAware: true);
     }
 }

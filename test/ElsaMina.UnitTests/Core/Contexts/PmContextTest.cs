@@ -83,7 +83,7 @@ public class PmContextTests
         var htmlContent = "<div>Test HTML</div>";
 
         // Act
-        context.SendHtmlIn(htmlContent);
+        context.ReplyHtml(htmlContent);
 
         // Assert
         _bot.Received().Say("TestRoom", $"/pminfobox {_sender.UserId}, {htmlContent}");

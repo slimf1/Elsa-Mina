@@ -107,7 +107,7 @@ public class RoomContextTest
         _sender.Rank.Returns(Rank.Regular);
 
         // Act
-        _roomContext.SendHtmlIn("HTML content", rankAware: true);
+        _roomContext.ReplyHtml("HTML content", rankAware: true);
 
         // Assert
         _bot.Received(1).Say(TEST_ROOM_ID, $"/pminfobox {TEST_USER_ID}, HTML content");
@@ -118,7 +118,7 @@ public class RoomContextTest
     {
         // Act
         CreateRoomContext("", "", null, 1);
-        _roomContext.SendHtmlIn("HTML content", rankAware: false);
+        _roomContext.ReplyHtml("HTML content", rankAware: false);
 
         // Assert
         _bot.Received(1).Say(TEST_ROOM_ID, "/addhtmlbox HTML content");

@@ -55,7 +55,7 @@ public class AddedCommandsManager : IAddedCommandsManager
     {
         var (width, height) = await _imageService.GetRemoteImageDimensions(content);
         (width, height) = _imageService.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);
-        context.SendHtmlIn($"""<img src="{content}" width="{width}" height="{height}" />""", rankAware: true);
+        context.ReplyHtml($"""<img src="{content}" width="{width}" height="{height}" />""", rankAware: true);
     }
 
     #region Content Expression Parsing

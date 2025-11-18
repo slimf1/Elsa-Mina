@@ -38,6 +38,8 @@ public class RoomContext : Context
 
     public override ContextType Type => ContextType.Room;
 
+    public DateTimeOffset Timestamp => DateTimeOffset.FromUnixTimeSeconds(_timestamp);
+
     protected override bool IsAllowingErrorMessages => _contextProvider
         .GetRoomParameterValue(RoomId, ParametersConstants.IS_SHOWING_ERROR_MESSAGES).ToBoolean();
 
@@ -57,7 +59,7 @@ public class RoomContext : Context
         Bot.Say(RoomId, message);
     }
 
-    public override void SendHtmlIn(string html, string roomId = null, bool rankAware = false)
+    public override void ReplyHtml(string html, string roomId = null, bool rankAware = false)
     {
         if (rankAware && !HasRankOrHigher(Rank.Voiced))
         {

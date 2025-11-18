@@ -104,7 +104,7 @@ public abstract class Context : IContext
 
     public abstract bool HasRankOrHigher(Rank requiredRank);
     public abstract void Reply(string message, bool rankAware = false);
-    public abstract void SendHtmlIn(string html, string roomId = null, bool rankAware = false);
+    public abstract void ReplyHtml(string html, string roomId = null, bool rankAware = false);
     public abstract void SendHtmlTo(string userId, string html, string roomId = null);
     public abstract void SendUpdatableHtml(string htmlId, string html, bool isChanging);
 }

@@ -57,7 +57,7 @@ public class WikipediaSearchCommand : Command
 
             var box =
                 $"""{imageTag}{line} <a href="https://{languageCode}.wikipedia.org/wiki/{page.Title}">{page.Title}</a><br>""";
-            context.SendHtmlIn(box, rankAware: true);
+            context.ReplyHtml(box, rankAware: true);
         }
         catch (Exception ex)
         {

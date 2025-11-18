@@ -87,7 +87,7 @@ public class LadderCommand : Command
                     TopList = players
                 });
 
-            context.SendHtmlIn(template, rankAware: true);
+            context.ReplyHtml(template, rankAware: true);
         }
         catch (Exception exception)
         {

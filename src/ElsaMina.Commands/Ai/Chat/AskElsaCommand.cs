@@ -61,7 +61,7 @@ public class AskElsaCommand : Command
                 return;
             }
 
-            context.SendHtmlIn($"""<audio src="{url}" controls aria-label="{response}"></audio>""");
+            context.ReplyHtml($"""<audio src="{url}" controls aria-label="{response}"></audio>""");
             return;
         }
 

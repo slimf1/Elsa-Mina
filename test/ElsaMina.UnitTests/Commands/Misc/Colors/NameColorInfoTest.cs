@@ -48,7 +48,7 @@ public class NameColorInfoTests
         // Assert
         await _templatesManager.Received()
             .GetTemplateAsync("Misc/Colors/NameColorInfo", Arg.Is<NameColorInfoViewModel>(vm => vm.Color == "otherUser".ToColor() && vm.OriginalColor == "customUser".ToColor()));
-        _context.Received().SendHtmlIn("formatted_html", rankAware: true);
+        _context.Received().ReplyHtml("formatted_html", rankAware: true);
     }
 
     [Test]
@@ -66,6 +66,6 @@ public class NameColorInfoTests
         // Assert
         await _templatesManager.Received()
             .GetTemplateAsync("Misc/Colors/NameColorInfo", Arg.Is<NameColorInfoViewModel>(vm => vm.Color == "mec".ToColor()));
-        _context.Received().SendHtmlIn("formatted_html", rankAware: true);
+        _context.Received().ReplyHtml("formatted_html", rankAware: true);
     }
 }
