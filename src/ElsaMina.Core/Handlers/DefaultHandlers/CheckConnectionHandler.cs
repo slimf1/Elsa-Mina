@@ -47,6 +47,12 @@ public class CheckConnectionHandler : Handler
                 _client.Send($"|/join {roomIdToJoin}");
                 await _systemService.SleepAsync(ROOM_JOIN_DELAY, cancellationToken);
             }
+
+            var avatar = _configuration.Avatar;
+            if (!string.IsNullOrEmpty(avatar))
+            {
+                _client.Send($"|/avatar {avatar}");
+            }
         }
     }
 }

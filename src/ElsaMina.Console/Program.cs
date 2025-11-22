@@ -62,6 +62,7 @@ client.ReconnectionHappened.Subscribe(info =>
 Console.CancelKeyPress += (_, _) =>
 {
     bot.OnExit();
+    Log.CloseAndFlush();
 };
 
 // Start

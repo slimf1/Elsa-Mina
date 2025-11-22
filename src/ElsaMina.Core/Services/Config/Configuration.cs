@@ -10,6 +10,7 @@ public class Configuration : IConfiguration
     public IEnumerable<string> Rooms { get; set; }
     public IEnumerable<string> RoomBlacklist { get; set; }
     public IEnumerable<string> Whitelist { get; set; }
+    public string Avatar { get; set; }
     public string DefaultRoom { get; set; }
     public string DefaultLocaleCode { get; set; }
     public string ConnectionString { get; set; }
@@ -24,6 +25,8 @@ public class Configuration : IConfiguration
     public string ChatGptApiKey { get; set; }
     public string ElevenLabsApiKey { get; set; }
     public TimeSpan PlayTimeUpdatesInterval { get; set; }
+
+    public IReadOnlyDictionary<string, IEnumerable<string>> TourAnnounces { get; set; }
     public string S3BucketName { get; set; } = string.Empty;
     public string S3EndpointUrl { get; set; } = string.Empty;
     public string S3AccessKey { get; set; } = string.Empty;

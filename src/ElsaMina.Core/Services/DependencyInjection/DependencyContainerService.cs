@@ -36,18 +36,12 @@ public class DependencyContainerService : IDependencyContainerService
         {
             return [];
         }
-        var results = new List<T>();
-        foreach (var registration in _container.ComponentRegistry.Registrations)
-        {
-            foreach (var keyedService in registration.Services.OfType<KeyedService>())
-            {
-                if (keyedService.ServiceType == typeof(T) && keyedService.ServiceKey is string name)
-                {
-                    results.Add(_container.ResolveNamed<T>(name));
-                }
-            }
-        }
 
-        return results;
+        return _container.ComponentRegistry.Registrations
+            .SelectMany(registration => registration.Services.OfType<KeyedService>()
+                .Where(service => service.ServiceType == typeof(T) && service.ServiceKey is string)
+                .Select(service => service.ServiceKey as string))
+            .Select(name => _container.ResolveNamed<T>(name))
+            .ToList();
     }
 }

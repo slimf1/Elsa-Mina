@@ -7,6 +7,7 @@
   "Rooms": ["room"],
   "RoomBlacklist": ["lobby"],
   "Whitelist": ["panur"],
+  "Avatar": "",
   "DefaultRoom": "default",
   "DefaultLocaleCode": "en-US",
   "ConnectionString": "",
@@ -28,5 +29,8 @@
   "S3BaseUrl": "",
   "LokiUrl": "",
   "LoginUser": "",
-  "LokiApiKey": ""
+  "LokiApiKey": "",
+  "TourAnnounces": {
+    "": [""]
+  }
 }

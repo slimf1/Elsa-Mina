@@ -50,7 +50,7 @@ public class RoomsManagerTest
         [
             ">" + roomId1,
             "|init|chat",
-            "|title|"+ roomTitle1,
+            "|title|" + roomTitle1,
             "|users|3,&Test,+James@!, Dude"
         ];
 
@@ -60,7 +60,7 @@ public class RoomsManagerTest
         [
             ">" + roomId2,
             "|init|chat",
-            "|title|"+ roomTitle2,
+            "|title|" + roomTitle2,
             "|users|4,&Teclis,!Lionyx,@Earth, Mec"
         ];
 
@@ -165,7 +165,6 @@ public class RoomsManagerTest
         _roomsManager.AddUserToRoom("espaol", "&speks");
         Assert.Multiple(() =>
         {
-
             // Assert
             Assert.That(_roomsManager.GetRoom("espaol"), Is.Null);
             Assert.That(_roomsManager.GetRoom("franais").Users, Has.Count.EqualTo(4));
@@ -261,7 +260,7 @@ public class RoomsManagerTest
         Assert.That(_roomsManager.GetRoom("my-room").Users, Has.Count.EqualTo(3));
         Assert.That(_roomsManager.GetRoom("my-room").Users["james"].IsIdle, Is.False);
     }
-    
+
     [Test]
     public async Task Test_ProcessPendingPlayTimeUpdates_ShouldUpdatePlayTime_WhenPlayTimeDoesExist()
     {
@@ -281,91 +280,101 @@ public class RoomsManagerTest
 
         // Act
         await _roomsManager.ProcessPendingPlayTimeUpdates();
-        
+
         // Assert
         Assert.That(playTime.PlayTime.TotalHours.IsApproximatelyEqualTo(12), Is.True);
         await _userPlayTimeRepository.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
     }
-    
+
     [Test]
-public async Task Test_ProcessPendingPlayTimeUpdates_ShouldAddPlayTime_WhenNoExistingRecord()
-{
-    // Arrange
-    await _roomsManager.InitializeRoomAsync("room1", []);
-
-    var room = _roomsManager.GetRoom("room1");
-    room.PendingPlayTimeUpdates["user1"] = TimeSpan.FromMinutes(90);
-
-    _userPlayTimeRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>())
-        .ReturnsNull();
-
-    // Act
-    await _roomsManager.ProcessPendingPlayTimeUpdates();
-
-    // Assert
-    await _userPlayTimeRepository.Received(1).AddAsync(Arg.Is<UserPlayTime>(pt =>
-        pt.UserId == "user1" &&
-        pt.RoomId == "room1" &&
-        Math.Abs(pt.PlayTime.TotalMinutes - 90) < 1e-3), Arg.Any<CancellationToken>());
-    Assert.That(room.PendingPlayTimeUpdates.ContainsKey("user1"), Is.False);
-}
-
-[Test]
-public async Task Test_ProcessPendingPlayTimeUpdates_ShouldUpdatePlayTime_WhenExistingRecordFound()
-{
-    // Arrange
-    await _roomsManager.InitializeRoomAsync("room2", []);
-
-    var room = _roomsManager.GetRoom("room2");
-    room.PendingPlayTimeUpdates["user2"] = TimeSpan.FromMinutes(30);
-
-    var existing = new UserPlayTime
+    public async Task Test_ProcessPendingPlayTimeUpdates_ShouldAddPlayTime_WhenNoExistingRecord()
     {
-        UserId = "user2",
-        RoomId = "room2",
-        PlayTime = TimeSpan.FromMinutes(10)
-    };
-    _userPlayTimeRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>())
-        .Returns(existing);
+        // Arrange
+        await _roomsManager.InitializeRoomAsync("room1", []);
 
-    // Act
-    await _roomsManager.ProcessPendingPlayTimeUpdates();
+        var room = _roomsManager.GetRoom("room1");
+        room.PendingPlayTimeUpdates["user1"] = TimeSpan.FromMinutes(90);
 
-    // Assert
-    Assert.That(existing.PlayTime.TotalMinutes.IsApproximatelyEqualTo(40));
-    await _userPlayTimeRepository.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
-    Assert.That(room.PendingPlayTimeUpdates.ContainsKey("user2"), Is.False);
-}
+        _userPlayTimeRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>())
+            .ReturnsNull();
 
-[Test]
-public async Task Test_ProcessPendingPlayTimeUpdates_ShouldContinue_WhenUpdateThrowsException()
-{
-    // Arrange
-    await _roomsManager.InitializeRoomAsync("room3", []);
+        // Act
+        await _roomsManager.ProcessPendingPlayTimeUpdates();
 
-    var room = _roomsManager.GetRoom("room3");
-    room.PendingPlayTimeUpdates["user3"] = TimeSpan.FromMinutes(15);
+        // Assert
+        await _userPlayTimeRepository.Received(1).AddAsync(Arg.Is<UserPlayTime>(pt =>
+            pt.UserId == "user1" &&
+            pt.RoomId == "room1" &&
+            Math.Abs(pt.PlayTime.TotalMinutes - 90) < 1e-3), Arg.Any<CancellationToken>());
+        Assert.That(room.PendingPlayTimeUpdates.ContainsKey("user1"), Is.False);
+    }
 
-    _userPlayTimeRepository
-        .When(r => r.GetByIdAsync(Arg.Any<Tuple<string, string>>()))
-        .Do(_ => throw new InvalidOperationException("Boom"));
+    [Test]
+    public async Task Test_ProcessPendingPlayTimeUpdates_ShouldUpdatePlayTime_WhenExistingRecordFound()
+    {
+        // Arrange
+        await _roomsManager.InitializeRoomAsync("room2", []);
 
-    // Act & Assert
-    Assert.DoesNotThrowAsync(() => _roomsManager.ProcessPendingPlayTimeUpdates());
-    Assert.That(room.PendingPlayTimeUpdates.ContainsKey("user3"), Is.True);
-}
+        var room = _roomsManager.GetRoom("room2");
+        room.PendingPlayTimeUpdates["user2"] = TimeSpan.FromMinutes(30);
 
-[Test]
-public async Task Test_ProcessPendingPlayTimeUpdates_ShouldDoNothing_WhenNoRooms()
-{
-    // Arrange
-    // No initialization — _rooms stays empty
+        var existing = new UserPlayTime
+        {
+            UserId = "user2",
+            RoomId = "room2",
+            PlayTime = TimeSpan.FromMinutes(10)
+        };
+        _userPlayTimeRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>())
+            .Returns(existing);
 
-    // Act
-    await _roomsManager.ProcessPendingPlayTimeUpdates();
+        // Act
+        await _roomsManager.ProcessPendingPlayTimeUpdates();
 
-    // Assert
-    await _userPlayTimeRepository.DidNotReceiveWithAnyArgs().AddAsync(default!);
-    await _userPlayTimeRepository.DidNotReceiveWithAnyArgs().UpdateAsync(default!);
-}
+        // Assert
+        Assert.That(existing.PlayTime.TotalMinutes.IsApproximatelyEqualTo(40));
+        await _userPlayTimeRepository.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
+        Assert.That(room.PendingPlayTimeUpdates.ContainsKey("user2"), Is.False);
+    }
+
+    [Test]
+    public async Task Test_ProcessPendingPlayTimeUpdates_ShouldContinue_WhenUpdateThrowsException()
+    {
+        // Arrange
+        await _roomsManager.InitializeRoomAsync("room3", []);
+
+        var room = _roomsManager.GetRoom("room3");
+        room.PendingPlayTimeUpdates["user3"] = TimeSpan.FromMinutes(15);
+
+        _userPlayTimeRepository
+            .When(r => r.GetByIdAsync(Arg.Any<Tuple<string, string>>()))
+            .Do(_ => throw new InvalidOperationException("Boom"));
+
+        // Act & Assert
+        Assert.DoesNotThrowAsync(() => _roomsManager.ProcessPendingPlayTimeUpdates());
+        Assert.That(room.PendingPlayTimeUpdates.ContainsKey("user3"), Is.True);
+    }
+
+    [Test]
+    public async Task Test_ProcessPendingPlayTimeUpdates_ShouldDoNothing_WhenNoRooms()
+    {
+        // Arrange
+        // No initialization — _rooms stays empty
+
+        // Act
+        await _roomsManager.ProcessPendingPlayTimeUpdates();
+
+        // Assert
+        await _userPlayTimeRepository.DidNotReceiveWithAnyArgs().AddAsync(default!);
+        await _userPlayTimeRepository.DidNotReceiveWithAnyArgs().UpdateAsync(default!);
+    }
+
+    [Test]
+    public async Task Test_SetRoomParameter_ShouldReturnFalse_WhenRoomDoesNotExist()
+    {
+        // Act
+        var result = await _roomsManager.SetRoomParameter("doesnt exist", ParametersConstants.LOCALE, "fr-fr");
+        
+        // Assert
+        Assert.That(result, Is.False);
+    }
 }

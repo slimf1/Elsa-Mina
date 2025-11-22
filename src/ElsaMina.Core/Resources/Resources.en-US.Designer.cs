@@ -1352,5 +1352,11 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("uptime", resourceCulture);
             }
         }
+        
+        internal static string tour_announce_message {
+            get {
+                return ResourceManager.GetString("tour_announce_message", resourceCulture);
+            }
+        }
     }
 }

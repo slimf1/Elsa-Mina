@@ -672,4 +672,7 @@
     <data name="uptime" xml:space="preserve">
         <value>Uptime : {0}</value>
     </data>
+    <data name="tour_announce_message" xml:space="preserve">
+        <value>A {0} tournament started in room &lt;&lt;{1}&gt;&gt;</value>
+    </data>
 </root>

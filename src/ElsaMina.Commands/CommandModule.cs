@@ -111,6 +111,9 @@ public class CommandModule : Module
         builder.RegisterCommand<DailymotionCommand>();
         builder.RegisterCommand<MemoryUsageCommand>();
         builder.RegisterCommand<UptimeCommand>();
+        builder.RegisterCommand<BadgeDisplayCommand>();
+        builder.RegisterCommand<BadgeHoldersCommand>();
+        builder.RegisterCommand<HallOfFameCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();
@@ -121,6 +124,7 @@ public class CommandModule : Module
         builder.RegisterHandler<TourFinaleAnnounceHandler>();
         builder.RegisterHandler<ArcadeEventsHandler>();
         builder.RegisterHandler<PollEndHandler>();
+        builder.RegisterHandler<OtherRoomTournamentAnnounceHandler>();
 
         builder.RegisterType<CountriesGame>().AsSelf();
         builder.RegisterType<ConnectFourGame>().AsSelf();

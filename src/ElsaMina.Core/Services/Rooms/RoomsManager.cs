@@ -169,6 +169,11 @@ public class RoomsManager : IRoomsManager, IDisposable
         string value)
     {
         var room = GetRoom(roomId);
+        if (room == null)
+        {
+            return false;
+        }
+
         var roomParameters = room.Info;
         var parameter = RoomParameters[parameterId];
         var parameterValue = roomParameters.ParameterValues

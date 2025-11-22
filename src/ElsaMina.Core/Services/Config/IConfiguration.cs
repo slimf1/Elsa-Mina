@@ -13,18 +13,20 @@ public interface IConfiguration : IS3CredentialsProvider, ILoggingConfiguration
     IEnumerable<string> Rooms { get; }
     IEnumerable<string> RoomBlacklist { get; }
     IEnumerable<string> Whitelist { get; }
+    string Avatar { get; }
     string DefaultRoom { get; }
     string DefaultLocaleCode { get; }
     string ConnectionString { get; }
-    int DatabaseMaxRetries { get; set; }
-    TimeSpan DatabaseRetryDelay { get; set; }
+    int DatabaseMaxRetries { get; }
+    TimeSpan DatabaseRetryDelay { get; }
     string YoutubeApiKey { get; }
     string DictionaryApiKey { get; }
     string RiotApiKey { get; }
     string GeniusApiKey { get; }
     string ArcadeWebhookUrl { get; }
     string MistralApiKey { get; }
-    string ChatGptApiKey { get; set; }
+    string ChatGptApiKey { get; }
     string ElevenLabsApiKey { get; }
-    TimeSpan PlayTimeUpdatesInterval { get; set; }
+    TimeSpan PlayTimeUpdatesInterval { get; }
+    IReadOnlyDictionary<string, IEnumerable<string>> TourAnnounces { get; }
 }

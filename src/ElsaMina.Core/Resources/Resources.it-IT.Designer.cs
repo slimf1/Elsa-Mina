@@ -14,21 +14,21 @@ namespace ElsaMina.Core.Resources {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources_fr_FR {
+    internal class Resources_it_IT {
         
         private static System.Resources.ResourceManager resourceMan;
         
         private static System.Globalization.CultureInfo resourceCulture;
         
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources_fr_FR() {
+        internal Resources_it_IT() {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.Equals(null, resourceMan)) {
-                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("ElsaMina.Core.Resources.Resources_fr_FR", typeof(Resources_fr_FR).Assembly);
+                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("ElsaMina.Core.Resources.Resources_it_IT", typeof(Resources_it_IT).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

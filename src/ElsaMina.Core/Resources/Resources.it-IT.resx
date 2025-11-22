@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <root>
     <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
@@ -7,535 +7,535 @@
         </xsd:element>
     </xsd:schema>
     <resheader name="resmimetype">
-        <value>text/microsoft-resx</value>
+            <value>text/microsoft-resx</value>
     </resheader>
     <resheader name="version">
-        <value>1.3</value>
+            <value>1.3</value>
     </resheader>
     <resheader name="reader">
-        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+            <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <resheader name="writer">
-        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+            <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="help" xml:space="preserve">
-        <value>Elsa-Mina v{0} : Bot en développement</value>
+        <value>Elsa-Mina v{0} : Bot in sviluppo</value>
     </data>
     <data name="badge_help_message" xml:space="preserve">
-        <value>Ajoute un nouveau badge. Syntaxe : -add-badge &lt;nom&gt;, &lt;image&gt;. Utiliser -add-trophy pour ajouter un trophée.</value>
+        <value>Aggiunge un nuovo badge. Sintassi: -add-badge &lt;nome&gt;, &lt;immagine&gt;. Usa -add-trophy per aggiungere un trofeo.</value>
     </data>
     <data name="badge_add_success_message" xml:space="preserve">
-        <value>Badge ajouté avec succès.</value>
+        <value>Badge aggiunto con successo.</value>
     </data>
     <data name="badge_add_failure_message" xml:space="preserve">
-        <value>Une erreur est survenue en ajoutant le badge : {0}</value>
+        <value>Si è verificato un errore aggiungendo il badge: {0}</value>
     </data>
     <data name="addcommand_name_too_long" xml:space="preserve">
-        <value>Le nom de la commande est trop long.</value>
+        <value>Il nome del comando è troppo lungo.</value>
     </data>
     <data name="addcommand_content_too_long" xml:space="preserve">
-        <value>Le contenu de la commande est trop long.</value>
+        <value>Il contenuto del comando è troppo lungo.</value>
     </data>
     <data name="addcommand_bad_first_char" xml:space="preserve">
-        <value>Le contenu de la commande ne peut pas débuter par ce caractère.</value>
+        <value>Il contenuto del comando non può iniziare con questo carattere.</value>
     </data>
     <data name="addcommand_already_exist" xml:space="preserve">
-        <value>La commande existe déjà.</value>
+        <value>Il comando esiste già.</value>
     </data>
     <data name="addcommand_success" xml:space="preserve">
-        <value>La commande **{0}** a été ajoutée avec succès.</value>
+        <value>Il comando **{0}** è stato aggiunto con successo.</value>
     </data>
     <data name="room_dashboard" xml:space="preserve">
-        <value>Panneau d'administration de {0}</value>
+        <value>Pannello di amministrazione di {0}</value>
     </data>
     <data name="submit" xml:space="preserve">
-        <value>Valider</value>
+        <value>Conferma</value>
     </data>
     <data name="dashboard_room_doesnt_exist" xml:space="preserve">
-        <value>Salle {0} introuvable.</value>
+        <value>Sala {0} non trovata.</value>
     </data>
     <data name="dashboard_locale_name" xml:space="preserve">
-        <value>Langue</value>
+        <value>Lingua</value>
     </data>
     <data name="dashboard_locale_description" xml:space="preserve">
-        <value>La langue du bot dans la salle.</value>
+        <value>La lingua del bot nella sala.</value>
     </data>
     <data name="dashboard_errors_name" xml:space="preserve">
-        <value>Afficher les erreurs des commandes</value>
+        <value>Mostra gli errori dei comandi</value>
     </data>
     <data name="dashboard_errors_description" xml:space="preserve">
-        <value>Affiche la stacktrace d'une commande qui aurait crash.</value>
+        <value>Mostra la stacktrace di un comando che è andato in crash.</value>
     </data>
     <data name="dashboard_autocorrect_name" xml:space="preserve">
-        <value>Affiche les commandes suggérées</value>
+        <value>Mostra i comandi suggeriti</value>
     </data>
     <data name="dashboard_autocorrect_description" xml:space="preserve">
-        <value>Affiche des commandes suggérées lorsque quelqu'un essaye d'utiliser une commande qui n'existe pas.</value>
+        <value>Mostra suggerimenti quando qualcuno tenta di usare un comando inesistente.</value>
     </data>
     <data name="room_config_success" xml:space="preserve">
-        <value>La configuration de la salle {0} a été mise à jour.</value>
+        <value>La configurazione della sala {0} è stata aggiornata.</value>
     </data>
     <data name="room_config_failure" xml:space="preserve">
-        <value>Une erreur est survenue lors de la mise à jour de la configuration : {0}</value>
+        <value>Si è verificato un errore durante l'aggiornamento della configurazione: {0}</value>
     </data>
     <data name="room_config_room_not_found" xml:space="preserve">
-        <value>Impossible de trouver la salle '{0}'</value>
+        <value>Impossibile trovare la sala '{0}'</value>
     </data>
     <data name="room_config_locale_not_found" xml:space="preserve">
-        <value>Impossible de trouver la langue '{0}'</value>
+        <value>Impossibile trovare la lingua '{0}'</value>
     </data>
     <data name="editcommand_help" xml:space="preserve">
-        <value>Modifie une commande ajoutée. Syntaxe : -editcommand &lt;nom&gt;, &lt;contenu&gt;</value>
+        <value>Modifica un comando aggiunto. Sintassi: -editcommand &lt;nome&gt;, &lt;contenuto&gt;</value>
     </data>
     <data name="editcommand_success" xml:space="preserve">
-        <value>La commande {0} a été mise à jour</value>
+        <value>Il comando {0} è stato aggiornato</value>
     </data>
     <data name="editcommand_failure" xml:space="preserve">
-        <value>Impossible de mettre à jour la commande : {0}</value>
+        <value>Impossibile aggiornare il comando: {0}</value>
     </data>
     <data name="deletecommand_help" xml:space="preserve">
-        <value>Supprime une commande ajoutée. Syntaxe : -deletecommand &lt;commande&gt;</value>
+        <value>Elimina un comando aggiunto. Sintassi: -deletecommand &lt;comando&gt;</value>
     </data>
     <data name="deletecommand_failure" xml:space="preserve">
-        <value>Impossible de supprimer la commande : {0}</value>
+        <value>Impossibile eliminare il comando: {0}</value>
     </data>
     <data name="deletecommand_success" xml:space="preserve">
-        <value>La commande {0} a été supprimée</value>
+        <value>Il comando {0} è stato eliminato</value>
     </data>
     <data name="badge_add_already_exist" xml:space="preserve">
-        <value>Le badge {0} existe déjà.</value>
+        <value>Il badge {0} esiste già.</value>
     </data>
     <data name="badge_give_help_message" xml:space="preserve">
-        <value>Donne un badge à quelqu'un. Syntaxe : -givebadge &lt;utilisateur&gt;, &lt;badge&gt;</value>
+        <value>Dà un badge a qualcuno. Sintassi: -givebadge &lt;utente&gt;, &lt;badge&gt;</value>
     </data>
     <data name="badge_give_could_not_find_badge" xml:space="preserve">
-        <value>Impossible de trouver le badge {0}</value>
+        <value>Impossibile trovare il badge {0}</value>
     </data>
     <data name="badge_give_error" xml:space="preserve">
-        <value>Une erreur est survenue en ajoutant le badge : {0}</value>
+        <value>Si è verificato un errore aggiungendo il badge: {0}</value>
     </data>
     <data name="badge_give_success" xml:space="preserve">
-        <value>"{0}" a reçu le badge "{1}"</value>
+        <value>"{0}" ha ricevuto il badge "{1}"</value>
     </data>
     <data name="rank_owner" xml:space="preserve">
-        <value>Administrateur</value>
+        <value>Amministratore</value>
     </data>
     <data name="rank_bot" xml:space="preserve">
         <value>Bot</value>
     </data>
     <data name="rank_mod" xml:space="preserve">
-        <value>Modérateur</value>
+        <value>Moderatore</value>
     </data>
     <data name="rank_driver" xml:space="preserve">
         <value>Driver</value>
     </data>
     <data name="rank_prizewinner" xml:space="preserve">
-        <value>Vainqueur de tournoi</value>
+        <value>Vincitore del torneo</value>
     </data>
     <data name="rank_voice" xml:space="preserve">
         <value>Voice</value>
     </data>
     <data name="profile_status" xml:space="preserve">
-        <value>Statut</value>
+        <value>Status</value>
     </data>
     <data name="rank_host" xml:space="preserve">
-        <value>Propriétaire</value>
+        <value>Proprietario</value>
     </data>
     <data name="badge_delete_doesnt_exist" xml:space="preserve">
-        <value>Le badge "{0}" n'existe pas.</value>
+        <value>Il badge "{0}" non esiste.</value>
     </data>
     <data name="badge_delete_success" xml:space="preserve">
-        <value>Le badge "{0}" a été supprimé.</value>
+        <value>Il badge "{0}" è stato eliminato.</value>
     </data>
     <data name="badge_delete_failure" xml:space="preserve">
-        <value>Une erreur est survenue pendant la suppression du badge : {0}</value>
+        <value>Si è verificato un errore eliminando il badge: {0}</value>
     </data>
     <data name="takebadge_help_message" xml:space="preserve">
-        <value>Retire le badge d'un utilisateur. Syntaxe : -takebadge &lt;utilisateur&gt;, &lt;badge&gt;</value>
+        <value>Rimuove il badge da un utente. Sintassi: -takebadge &lt;utente&gt;, &lt;badge&gt;</value>
     </data>
     <data name="takebadge_success" xml:space="preserve">
-        <value>Le badge "{1}" a été retiré de l'utilisateur "{0}"</value>
+        <value>Il badge "{1}" è stato rimosso dall'utente "{0}"</value>
     </data>
     <data name="takebadge_failure" xml:space="preserve">
-        <value>Une erreur est survenue en retirant le badge : {0}</value>
+        <value>Si è verificato un errore rimuovendo il badge: {0}</value>
     </data>
     <data name="takebadge_badge_doesnt_exist" xml:space="preserve">
-        <value>L'utilisateur "{0}" n'a pas le badge "{1}"</value>
+        <value>L'utente "{0}" non ha il badge "{1}"</value>
     </data>
     <data name="avatar_help_message" xml:space="preserve">
-        <value>Met à jour l'avatar d'un utilisateur. Syntaxe : -avatar &lt;nom&gt;, &lt;URL de l'avatar&gt;</value>
+        <value>Aggiorna l'avatar di un utente. Sintassi: -avatar &lt;nome&gt;, &lt;URL dell'avatar&gt;</value>
     </data>
     <data name="avatar_success" xml:space="preserve">
-        <value>L'avatar a été mis à jour.</value>
+        <value>L'avatar è stato aggiornato.</value>
     </data>
     <data name="avatar_failure" xml:space="preserve">
-        <value>Une erreur est survenue lors de la mise à jour d'un avatar : {0}</value>
+        <value>Si è verificato un errore aggiornando l'avatar: {0}</value>
     </data>
     <data name="title_help_message" xml:space="preserve">
-        <value>Met à jour la bio d'un utilisateur. Syntaxe : -title &lt;utilisateur&gt;, &lt;bio&gt;</value>
+        <value>Aggiorna la bio di un utente. Sintassi: -title &lt;utente&gt;, &lt;bio&gt;</value>
     </data>
     <data name="title_success" xml:space="preserve">
-        <value>La bio a été mise à jour.</value>
+        <value>La bio è stata aggiornata.</value>
     </data>
     <data name="title_failure" xml:space="preserve">
-        <value>Une erreur est survenue lors de la mise à jour de la bio : {0}</value>
+        <value>Si è verificato un errore aggiornando la bio: {0}</value>
     </data>
     <data name="profile_no_title" xml:space="preserve">
-        <value>Pas de bio</value>
+        <value>Nessuna bio</value>
     </data>
     <data name="profile_no_badge" xml:space="preserve">
-        <value>Pas de badge</value>
+        <value>Nessun badge</value>
     </data>
     <data name="allcommands_alias" xml:space="preserve">
-        <value>Autres noms</value>
+        <value>Altri nomi</value>
     </data>
     <data name="allcommands_allowed_in_pm" xml:space="preserve">
-        <value>Autorisé en message privé</value>
+        <value>Consentito in messaggio privato</value>
     </data>
     <data name="allcommands_wl_only" xml:space="preserve">
-        <value>Reservé whitelist</value>
+        <value>Riservato alla whitelist</value>
     </data>
     <data name="allcommands_pm_only" xml:space="preserve">
-        <value>Uniquement en message privé</value>
+        <value>Solo in messaggio privato</value>
     </data>
     <data name="allcommands_required_rank" xml:space="preserve">
-        <value>Rang requis</value>
+        <value>Rango richiesto</value>
     </data>
     <data name="profile_register_date" xml:space="preserve">
-        <value>Enregistré le</value>
+        <value>Registrato il</value>
     </data>
     <data name="profile_title" xml:space="preserve">
         <value>Bio</value>
     </data>
     <data name="guessing_game_game_ended" xml:space="preserve">
-        <value>Fin du temps imparti ! La réponse était : {0}</value>
+        <value>Tempo scaduto! La risposta era: {0}</value>
     </data>
     <data name="guessing_game_point" xml:space="preserve">
-        <value>Point</value>
+        <value>Punto</value>
     </data>
     <data name="guessing_game_final_scores" xml:space="preserve">
-        <value>Scores finaux</value>
+        <value>Punteggi finali</value>
     </data>
     <data name="guessing_game_turn_count" xml:space="preserve">
-        <value>**Tour {0}**</value>
+        <value>**Turno {0}**</value>
     </data>
     <data name="guessing_game_answer_not_found" xml:space="preserve">
-        <value>Personne n'a trouvé la réponse à temps ! La réponse était: {0}</value>
+        <value>Nessuno ha trovato la risposta in tempo! La risposta era: {0}</value>
     </data>
     <data name="guessing_game_round_won" xml:space="preserve">
-        <value>{0} gagne ce round ! Ils ont maintenant {1} point{2}</value>
+        <value>{0} vince il round! Ora ha {1} punto{2}</value>
     </data>
     <data name="guessing_game_result_ended" xml:space="preserve">
-        <value>La partie est terminée!</value>
+        <value>La partita è terminata!</value>
     </data>
     <data name="countries_game_start" xml:space="preserve">
-        <value>Un countriesgame a été lancé! Écrivez directement le nom du pays dans le chat.</value>
+        <value>È iniziata una partita di CountriesGame! Scrivi direttamente il nome del paese nella chat.</value>
     </data>
     <data name="end_guessing_game_no_game" xml:space="preserve">
-        <value>Il n'y a pas de partie en cours dans cette salle.</value>
+        <value>Non c'è alcuna partita in corso in questa sala.</value>
     </data>
     <data name="end_guessing_game_success" xml:space="preserve">
-        <value>La partie a été terminée prématurément.</value>
+        <value>La partita è stata terminata prematuramente.</value>
     </data>
     <data name="team_preview_author" xml:space="preserve">
-        <value>(Créée par {0})</value>
+        <value>(Creata da {0})</value>
     </data>
     <data name="team_preview_title" xml:space="preserve">
-        <value>L'équipe de {0}</value>
+        <value>La squadra di {0}</value>
     </data>
     <data name="team_preview_click_icons" xml:space="preserve">
-        <value>Cliquez sur les icônes pour l'import de l'équipe</value>
+        <value>Clicca sulle icone per importare la squadra</value>
     </data>
     <data name="dashboard_team_previews_name" xml:space="preserve">
-        <value>Preview d'équipe</value>
+        <value>Anteprima squadra</value>
     </data>
     <data name="dashboard_team_previews_description" xml:space="preserve">
-        <value>Affiche l'équipe d'un lien Pokepaste ou CoupCritique</value>
+        <value>Mostra la squadra da un link Pokepaste o CoupCritique</value>
     </data>
     <data name="add_team_help_message" xml:space="preserve">
-        <value>Ajoute une team aux samples. Syntaxe: -add-team &lt;lien&gt;, &lt;nom&gt;, &lt;tier&gt;</value>
+        <value>Aggiunge una squadra ai samples. Sintassi: -add-team &lt;link&gt;, &lt;nome&gt;, &lt;tier&gt;</value>
     </data>
     <data name="add_team_name_too_long" xml:space="preserve">
-        <value>Le nom de l'équipe est trop long.</value>
+        <value>Il nome della squadra è troppo lungo.</value>
     </data>
     <data name="add_team_no_provider" xml:space="preserve">
-        <value>Impossible de trouver l'équipe depuis le lien. Veuillez fournir un lien Pokepaste ou CoupCritique.</value>
+        <value>Impossibile trovare la squadra dal link. Fornisci un link Pokepaste o CoupCritique.</value>
     </data>
     <data name="add_team_no_export_error" xml:space="preserve">
-        <value>Pas d'export trouvé.</value>
+        <value>Nessun export trovato.</value>
     </data>
     <data name="add_team_success" xml:space="preserve">
-        <value>L'équipe a été ajoutée avec l'identifiant "{0}"</value>
+        <value>La squadra è stata aggiunta con l'identificativo "{0}"</value>
     </data>
     <data name="add_team_failure" xml:space="preserve">
-        <value>Une erreur est survenue lors de l'ajout de l'équipe : {0}</value>
+        <value>Si è verificato un errore aggiungendo la squadra: {0}</value>
     </data>
     <data name="add_team_to_room_no_arg" xml:space="preserve">
-        <value>Veuillez spécifier l'identifiant de l'équipe</value>
+        <value>Specificare l'identificativo della squadra.</value>
     </data>
     <data name="add_team_to_room_no_team" xml:space="preserve">
-        <value>Impossible de trouver cette équipe</value>
+        <value>Impossibile trovare questa squadra.</value>
     </data>
     <data name="add_team_to_room_team_already_in_room" xml:space="preserve">
-        <value>Cette équipe est déjà dans cette salle</value>
+        <value>Questa squadra è già in questa sala.</value>
     </data>
     <data name="add_team_to_room_success" xml:space="preserve">
-        <value>La salle a été ajoutée à l'équipe.</value>
+        <value>La sala è stata aggiunta alla squadra.</value>
     </data>
     <data name="add_team_to_room_failure" xml:space="preserve">
-        <value>Une erreur est survenue en ajoutant cette salle à l'équipe : {0}</value>
+        <value>Si è verificato un errore aggiungendo la sala alla squadra: {0}</value>
     </data>
     <data name="sample_team_description" xml:space="preserve">
-        <value>Ajoutée par {0} le {1}</value>
+        <value>Aggiunta da {0} il {1}</value>
     </data>
     <data name="sample_team_info" xml:space="preserve">
-        <value>Salles: {0}, Format: {1}</value>
+        <value>Salle: {0}, Formato: {1}</value>
     </data>
     <data name="deleteteam_team_not_found" xml:space="preserve">
-        <value>L'équipe n'a pas été trouvée.</value>
+        <value>La squadra non è stata trovata.</value>
     </data>
     <data name="deleteteam_team_deleted_successfully" xml:space="preserve">
-        <value>L'équipe a été supprimée.</value>
+        <value>La squadra è stata eliminata.</value>
     </data>
     <data name="deleteteam_team_deletion_error" xml:space="preserve">
-        <value>Une erreur est survenue lors de la suppression de l'équipe : {0}</value>
+        <value>Si è verificato un errore eliminando la squadra: {0}</value>
     </data>
     <data name="team_showcase_not_found" xml:space="preserve">
-        <value>L'équipe est introuvable.</value>
+        <value>La squadra è introvabile.</value>
     </data>
     <data name="aboutrepeat_not_found" xml:space="preserve">
-        <value>Impossible de trouver un repeat.</value>
+        <value>Impossibile trovare un repeat.</value>
     </data>
     <data name="aboutrepeat_helpmessage" xml:space="preserve">
-        <value>Syntaxe: -repeat &lt;id&gt;, &lt;message&gt;, &lt;durée en minutes&gt;</value>
+        <value>Sintassi: -repeat &lt;id&gt;, &lt;messaggio&gt;, &lt;durata in minuti&gt;</value>
     </data>
     <data name="parameter_name_locale" xml:space="preserve">
-        <value>Langue</value>
+        <value>Lingua</value>
     </data>
     <data name="parameter_name_is_showing_team_links_preview" xml:space="preserve">
-        <value>Affichage des équipes à partir des liens</value>
+        <value>Mostra anteprima delle squadre dai link</value>
     </data>
     <data name="parameter_name_is_showing_error_messages" xml:space="preserve">
-        <value>Affichage des messages d'erreur</value>
+        <value>Mostra i messaggi di errore</value>
     </data>
     <data name="parameter_name_has_command_auto_correct" xml:space="preserve">
-        <value>Correction orthographique des commandes</value>
+        <value>Correzione automatica dei comandi</value>
     </data>
     <data name="parameter_description_has_command_auto_correct" xml:space="preserve">
-        <value>Affiche des suggestions lorsqu'une commande essayée est proche d'une commande existante</value>
+        <value>Mostra suggerimenti quando un comando inserito è simile a uno esistente</value>
     </data>
     <data name="parameter_description_is_showing_error_messages" xml:space="preserve">
-        <value>Affiche le message d'erreur et la trace d'appels lorsque l'exécution d'une commande échoue</value>
+        <value>Mostra il messaggio d'errore e la trace quando un comando fallisce</value>
     </data>
     <data name="parameter_description_is_showing_team_links_preview" xml:space="preserve">
-        <value>Affiche un aperçu d'une équipe lorsqu'un lien Pokepaste ou CoupCritique est partagé dans le chat</value>
+        <value>Mostra un'anteprima di una squadra quando viene condiviso un link Pokepaste o CoupCritique</value>
     </data>
     <data name="parameter_description_locale" xml:space="preserve">
-        <value>La langue utilisée pour les commandes</value>
+        <value>La lingua utilizzata per i comandi</value>
     </data>
     <data name="c4_game_name" xml:space="preserve">
-        <value>Puissance 4</value>
+        <value>Forza 4</value>
     </data>
     <data name="c4_game_rules" xml:space="preserve">
-        <value>Faites une ligne de {0} pour gagner la partie!</value>
+        <value>Fai una linea di {0} per vincere la partita!</value>
     </data>
     <data name="c4_game_current_turn" xml:space="preserve">
-        <value>C'est au tour de {0} ({1}) !</value>
+        <value>È il turno di {0} ({1})!</value>
     </data>
     <data name="c4_game_how_to_play" xml:space="preserve">
-        <value>Cliquez sur les cases pour jouer</value>
+        <value>Clicca sulle caselle per giocare</value>
     </data>
     <data name="c4_game_timeout" xml:space="preserve">
-        <value>(Vous avez {0} secondes pour jouer)</value>
+        <value>(Hai {0} secondi per giocare)</value>
     </data>
     <data name="c4_game_players" xml:space="preserve">
-        <value>Joueurs: {0}</value>
+        <value>Giocatori: {0}</value>
     </data>
     <data name="vs" xml:space="preserve">
-        <value>Contre</value>
+        <value>Contro</value>
     </data>
     <data name="c4_game_turn" xml:space="preserve">
-        <value>Tour: {0}</value>
+        <value>Turno: {0}</value>
     </data>
     <data name="c4_game_party_id" xml:space="preserve">
-        <value>Partie: {0}</value>
+        <value>Partita: {0}</value>
     </data>
     <data name="c4_game_tie_end" xml:space="preserve">
-        <value>Match nul.</value>
+        <value>Pareggio.</value>
     </data>
     <data name="c4_game_win_message" xml:space="preserve">
-        <value>{0} a gagné la partie!</value>
+        <value>{0} ha vinto la partita!</value>
     </data>
     <data name="team_list_empty" xml:space="preserve">
-        <value>Aucune équipe trouvée.</value>
+        <value>Nessuna squadra trovata.</value>
     </data>
     <data name="name_color_help" xml:space="preserve">
-        <value>Donne la couleur associée à un pseudo.</value>
+        <value>Mostra il colore associato a un nickname.</value>
     </data>
     <data name="setjoinphrase_help_message" xml:space="preserve">
-        <value>Ajoute un message d'entrée pour la salle courante. Syntaxe : -setjoinphrase &lt;utilisateur&gt;, &lt;message&gt;</value>
+        <value>Aggiunge un messaggio di ingresso per la sala corrente. Sintassi: -setjoinphrase &lt;utente&gt;, &lt;messaggio&gt;</value>
     </data>
     <data name="setjoinphrase_success" xml:space="preserve">
-        <value>Le message d'entrée a été ajouté avec succès.</value>
+        <value>Messaggio di ingresso aggiunto con successo.</value>
     </data>
     <data name="setjoinphrase_failure" xml:space="preserve">
-        <value>Impossible d'ajouter le message d'entrée : {0}</value>
+        <value>Impossibile aggiungere il messaggio di ingresso: {0}</value>
     </data>
     <data name="replay_preview_watch" xml:space="preserve">
-        <value>Regarder le replay</value>
+        <value>Guarda il replay</value>
     </data>
     <data name="format" xml:space="preserve">
-        <value>Format</value>
+        <value>Formato</value>
     </data>
     <data name="date" xml:space="preserve">
-        <value>Date</value>
+        <value>Data</value>
     </data>
     <data name="views" xml:space="preserve">
-        <value>Vues</value>
+        <value>Visualizzazioni</value>
     </data>
     <data name="rating" xml:space="preserve">
-        <value>Classement</value>
+        <value>Classifica</value>
     </data>
     <data name="parameter_name_is_showing_replays_preview" xml:space="preserve">
-        <value>Affichage des infos d'un replay</value>
+        <value>Mostra informazioni del replay</value>
     </data>
     <data name="parameter_description_is_showing_replays_preview" xml:space="preserve">
-        <value>Affiche les joueurs et les équipes d'un replay</value>
+        <value>Mostra i giocatori e le squadre di un replay</value>
     </data>
     <data name="guessing_game_specify" xml:space="preserve">
-        <value>Merci de préciser le nombre de tours.</value>
+        <value>Specifica il numero di turni.</value>
     </data>
     <data name="c4_game_on_timeout" xml:space="preserve">
-        <value>{0} a été disqualifié(e) parce qu'ils n'ont pas pu jouer à temps.</value>
+        <value>{0} è stato squalificato perché non ha giocato in tempo.</value>
     </data>
     <data name="c4_game_start_already_exist" xml:space="preserve">
-        <value>Une partie est en cours.</value>
+        <value>Una partita è già in corso.</value>
     </data>
     <data name="c4_game_start_announce" xml:space="preserve">
-        <value>Une partie de puissance 4 a été créée. Utilisez {0}c4j pour rejoindre.</value>
+        <value>È stata creata una partita di Forza 4. Usa {0}c4j per partecipare.</value>
     </data>
     <data name="c4_game_cancelled" xml:space="preserve">
-        <value>La partie a été terminée.</value>
+        <value>La partita è stata terminata.</value>
     </data>
     <data name="c4_game_ongoing_game" xml:space="preserve">
-        <value>Il n'y a pas de partie en cours.</value>
+        <value>Non c’è nessuna partita in corso.</value>
     </data>
     <data name="guessing_game_invalid_number_turns" xml:space="preserve">
-        <value>Nombre de tours invalide : Doit être entre 1 et {0}</value>
+        <value>Numero di turni non valido: deve essere tra 1 e {0}</value>
     </data>
     <data name="guessing_game_currently_ongoing" xml:space="preserve">
-        <value>Une autre partie est en cours.</value>
+        <value>Un'altra partita è già in corso.</value>
     </data>
     <data name="guessing_game_invalid_command" xml:space="preserve">
-        <value>Commande invalide.</value>
+        <value>Comando non valido.</value>
     </data>
     <data name="pokedesc_start" xml:space="preserve">
-        <value>Une partie de PokeDesc a été lancée ! Donnez le nom du Pokémon correspondant directement dans le chat.</value>
+        <value>È iniziata una partita di PokeDesc! Scrivi direttamente il nome del Pokémon nella chat.</value>
     </data>
     <data name="pokecries_started" xml:space="preserve">
-        <value>Une partie de PokeCries a été lancée ! Écrivez directement le nom du Pokémon correspondant dans le chat.</value>
+        <value>È iniziata una partita di PokeCries! Scrivi direttamente il nome del Pokémon nella chat.</value>
     </data>
     <data name="youtube_no_results" xml:space="preserve">
-        <value>Aucune vidéo trouvée.</value>
+        <value>Nessun video trovato.</value>
     </data>
     <data name="youtube_watch" xml:space="preserve">
-        <value>Regarder sur YouTube</value>
+        <value>Guarda su YouTube</value>
     </data>
     <data name="youtube_video_info" xml:space="preserve">
-        <value>Mise en ligne par {0} le {1}</value>
+        <value>Caricato da {0} il {1}</value>
     </data>
     <data name="youtube_error_occurred" xml:space="preserve">
-        <value>Une erreur est survenue.</value>
+        <value>Si è verificato un errore.</value>
     </data>
     <data name="bitcoin_error" xml:space="preserve">
-        <value>Une erreur est survenue.</value>
+        <value>Si è verificato un errore.</value>
     </data>
     <data name="fact_error" xml:space="preserve">
-        <value>Une erreur est survenue.</value>
+        <value>Si è verificato un errore.</value>
     </data>
     <data name="c4_panel_title" xml:space="preserve">
-        <value>Une partie de puissance 4 a été lancée !</value>
+        <value>È iniziata una partita di Forza 4!</value>
     </data>
     <data name="c4_panel_players" xml:space="preserve">
-        <value>Joueurs inscrits: {0}</value>
+        <value>Giocatori iscritti: {0}</value>
     </data>
     <data name="c4_panel_join" xml:space="preserve">
-        <value>Rejoindre la partie</value>
+        <value>Partecipa alla partita</value>
     </data>
     <data name="c4_panel_ongoing_game" xml:space="preserve">
-        <value>Une partie de puissance 4 est en cours... Joueurs: {0}</value>
+        <value>Una partita di Forza 4 è in corso... Giocatori: {0}</value>
     </data>
     <data name="tour_finale_announce_message" xml:space="preserve">
-        <value>Regardez la finale du tournoi : &lt;&lt;{0}&gt;&gt;</value>
+        <value>Guarda la finale del torneo: &lt;&lt;{0}&gt;&gt;</value>
     </data>
     <data name="arcade_level_invalid_value" xml:space="preserve">
-        <value>Palier invalide. Veuillez utiliser 2, 3 ou 4.</value>
+        <value>Valore non valido. Usa 2, 3 o 4.</value>
     </data>
     <data name="arcade_level_add" xml:space="preserve">
-        <value>Ajout du niveau de {0} = {1}</value>
+        <value>Aggiunta soglia di {0} = {1}</value>
     </data>
     <data name="arcade_level_update" xml:space="preserve">
-        <value>Mise à jour du niveau de {0} = {1}</value>
+        <value>Aggiornamento soglia di {0} = {1}</value>
     </data>
     <data name="arcade_level_help" xml:space="preserve">
-        <value>Syntaxe: addpalier (utilisateur), (palier)</value>
+        <value>Sintassi: addpalier (utente), (soglia)</value>
     </data>
     <data name="arcade_levels_level" xml:space="preserve">
-        <value>Palier</value>
+        <value>Soglia</value>
     </data>
     <data name="arcade_levels_players" xml:space="preserve">
-        <value>Joueurs</value>
+        <value>Giocatori</value>
     </data>
     <data name="display_paliers_help" xml:space="preserve">
-        <value>Affiche les paliers d'arcade.</value>
+        <value>Mostra le soglie arcade.</value>
     </data>
     <data name="arcade_level_delete_help" xml:space="preserve">
-        <value>Supprime un utilisateur des paliers d'arcade.</value>
+        <value>Rimuove un utente dalle soglie arcade.</value>
     </data>
     <data name="arcade_level_delete_not_found" xml:space="preserve">
-        <value>Le joueur n'a pas été trouvé.</value>
+        <value>Giocatore non trovato.</value>
     </data>
     <data name="arcade_level_delete_success" xml:space="preserve">
-        <value>Le joueur a été supprimé.</value>
+        <value>Giocatore rimosso.</value>
     </data>
     <data name="c4_game_player_forfeited" xml:space="preserve">
-        <value>{0} a abandonné.</value>
+        <value>{0} ha abbandonato.</value>
     </data>
     <data name="c4_game_forfeit" xml:space="preserve">
-        <value>Abandonner</value>
+        <value>Abbandona</value>
     </data>
     <data name="c4_game_options" xml:space="preserve">
-        <value>Options</value>
+        <value>Opzioni</value>
     </data>
     <data name="arcade_level_update_error" xml:space="preserve">
-        <value>Une erreur est survenue lors de la mise à jour du palier : {0}</value>
+        <value>Si è verificato un errore aggiornando la soglia: {0}</value>
     </data>
     <data name="arcade_level_no_users" xml:space="preserve">
-        <value>Aucun palier trouvé.</value>
+        <value>Nessuna soglia trovata.</value>
     </data>
     <data name="arcade_level_delete_failure" xml:space="preserve">
-        <value>Une erreur est survenue à la suppression du palier : {0}</value>
+        <value>Si è verificato un errore rimuovendo la soglia: {0}</value>
     </data>
     <data name="ask_error" xml:space="preserve">
-        <value>Une erreur est survenue lors de la réponse !</value>
+        <value>Si è verificato un errore durante la risposta!</value>
     </data>
     <data name="ask_prompt" xml:space="preserve">
-        <value>Tu es un chatbot dans un salon français sur un simulateur de combat Pokémon en ligne (Pokémon Showdown). Tu dois répondre au message suivant : "{0}", venant de l'utilisateur "{1}". La réponse ne doit pas dépasser 300 caractères et tu dois n'envoyer qu'une ligne. Ton nom est : "{2}". Nous sommes dans le salon "{3}". Les messages précédents du salon sont : "{4}". Tu n'as pas besoin de préfixer tes messages par ton nom. N'utilise pas de formattage, sauf ** pour le gras, `` pour le code et __ pour l'italique.</value>
+        <value>Sei un chatbot in una stanza francese su un simulatore di lotte Pokémon online (Pokémon Showdown). Devi rispondere al messaggio seguente: "{0}", inviato dall'utente "{1}". La risposta non deve superare i 300 caratteri e deve essere su una sola riga. Il tuo nome è: "{2}". Ci troviamo nella stanza "{3}". I messaggi precedenti della stanza sono: "{4}". Non devi prefissare i tuoi messaggi col tuo nome. Non usare formattazione, tranne ** per il grassetto, `` per il codice e __ per l'italico.</value>
     </data>
     <data name="allcommands_room_restriction" xml:space="preserve">
-        <value>Disponible dans les salles : {0}</value>
+        <value>Disponibile nelle sale: {0}</value>
     </data>
     <data name="rankcommand_help" xml:space="preserve">
-        <value>Affiche les 5 meilleurs tiers d'un joueur en fonction du GXE. Syntaxe: -rank &lt;utilisateur&gt;. Utilisez -lowestrank pour les 5 pires tiers.</value>
+        <value>Mostra i 5 migliori tier di un giocatore in base al GXE. Sintassi: -rank &lt;utente&gt;. Usa -lowestrank per i 5 peggiori tier.</value>
     </data>
     <data name="rankcommand_no_ratings" xml:space="preserve">
-        <value>Ce joueur n'a pas encore participé à une partie classée.</value>
+        <value>Questo giocatore non ha ancora partecipato a partite classificate.</value>
     </data>
     <data name="rankcommand_error" xml:space="preserve">
-        <value>Une erreur est survenue.</value>
+        <value>Si è verificato un errore.</value>
     </data>
     <data name="rankcommand_title" xml:space="preserve">
-        <value>Classements de {0}</value>
+        <value>Classifiche di {0}</value>
     </data>
     <data name="rankcommand_elo" xml:space="preserve">
         <value>Elo</value>
@@ -547,22 +547,22 @@
         <value>V</value>
     </data>
     <data name="rankcommand_losses" xml:space="preserve">
-        <value>D</value>
+        <value>S</value>
     </data>
     <data name="rankcommand_wr" xml:space="preserve">
         <value>WR</value>
     </data>
     <data name="rankcommand_format" xml:space="preserve">
-        <value>Format</value>
+        <value>Formato</value>
     </data>
     <data name="profile_best_rank" xml:space="preserve">
-        <value>Meilleur format</value>
+        <value>Miglior formato</value>
     </data>
     <data name="ladder_title" xml:space="preserve">
-        <value>Classements {0}</value>
+        <value>Classifiche {0}</value>
     </data>
     <data name="ladder_username" xml:space="preserve">
-        <value>Joueur</value>
+        <value>Giocatore</value>
     </data>
     <data name="ladder_elo" xml:space="preserve">
         <value>Elo</value>
@@ -574,105 +574,105 @@
         <value>V</value>
     </data>
     <data name="ladder_losses" xml:space="preserve">
-        <value>D</value>
+        <value>S</value>
     </data>
     <data name="ladder_wr" xml:space="preserve">
         <value>WR</value>
     </data>
     <data name="ladder_help" xml:space="preserve">
-        <value>Affiche le classement d'un tier. Syntaxe: -ladder &lt;tier&gt;, &lt;prefixe (opt)&gt;</value>
+        <value>Mostra la classifica di un tier. Sintassi: -ladder &lt;tier&gt;, &lt;prefisso (opt)&gt;</value>
     </data>
     <data name="ladder_no_players" xml:space="preserve">
-        <value>Aucun joueur trouvé.</value>
+        <value>Nessun giocatore trovato.</value>
     </data>
     <data name="command_execution_error" xml:space="preserve">
-        <value>L'exécution de la commande a soulevé une erreur.</value>
+        <value>L'esecuzione del comando ha generato un errore.</value>
     </data>
     <data name="repeat_start_error" xml:space="preserve">
-        <value>Le repeat n'a pas pu être lancé</value>
+        <value>Il repeat non ha potuto essere avviato</value>
     </data>
     <data name="repeat_start_rank" xml:space="preserve">
-        <value>Vous n'avez pas le droit de faire ça ici</value>
+        <value>Non hai il permesso di farlo qui</value>
     </data>
     <data name="repeat_start_success" xml:space="preserve">
-        <value>Repeat lancé.</value>
+        <value>Repeat avviato.</value>
     </data>
     <data name="repeat_stop" xml:space="preserve">
-        <value>Arrêter</value>
+        <value>Ferma</value>
     </data>
     <data name="repeat_message" xml:space="preserve">
-        <value>Message</value>
+        <value>Messaggio</value>
     </data>
     <data name="repeat_delay" xml:space="preserve">
-        <value>Délai (minutes)</value>
+        <value>Ritardo (minuti)</value>
     </data>
     <data name="repeat_actions" xml:space="preserve">
-        <value>Actions</value>
+        <value>Azioni</value>
     </data>
     <data name="repeat_add" xml:space="preserve">
-        <value>Ajouter un repeat</value>
+        <value>Aggiungi un repeat</value>
     </data>
     <data name="repeat_stop_invalid_id" xml:space="preserve">
-        <value>Identifiant invalide.</value>
+        <value>ID non valido.</value>
     </data>
     <data name="repeat_stop_doesntexist" xml:space="preserve">
-        <value>Le repeat n'existe pas.</value>
+        <value>Il repeat non esiste.</value>
     </data>
     <data name="repeat_stop_rights" xml:space="preserve">
-        <value>Vous n'avez pas le droit de faire ça ici.</value>
+        <value>Non hai il permesso di farlo qui.</value>
     </data>
     <data name="repeat_stop_error" xml:space="preserve">
-        <value>Le repeat n'a pas pu être termié</value>
+        <value>Il repeat non ha potuto essere terminato</value>
     </data>
     <data name="repeat_stop_success" xml:space="preserve">
-        <value>Repeat terminé.</value>
+        <value>Repeat terminato.</value>
     </data>
     <data name="speak_error" xml:space="preserve">
-        <value>Une erreur est survenue !</value>
+        <value>Si è verificato un errore!</value>
     </data>
     <data name="replay_preview_title" xml:space="preserve">
-        <value>Replay de {0}</value>
+        <value>Replay di {0}</value>
     </data>
     <data name="wiki_page_not_found" xml:space="preserve">
-        <value>Aucune page n'a été trouvée.</value>
+        <value>Nessuna pagina trovata.</value>
     </data>
     <data name="wiki_error" xml:space="preserve">
-        <value>Une erreur est survenue en cherchant la page : {0}</value>
+        <value>Si è verificato un errore cercando la pagina: {0}</value>
     </data>
     <data name="pokemon_name_required" xml:space="preserve">
-        <value>Veuillez fournir un nom de Pokémon.</value>
+        <value>Fornisci un nome di Pokémon.</value>
     </data>
     <data name="show_polls_history_entry" xml:space="preserve">
-        <value>Poll ID: {0} Terminé le: {1} &lt;br/&gt;{2}&lt;br/&gt;</value>
+        <value>Poll ID: {0} Terminato il: {1} &lt;br/&gt;{2}&lt;br/&gt;</value>
     </data>
     <data name="show_polls_history_header" xml:space="preserve">
-        <value>L'historique des sondages pour: {0}&lt;br&gt;</value>
+        <value>Storico dei sondaggi per: {0}&lt;br&gt;</value>
     </data>
     <data name="show_polls_history_sent" xml:space="preserve">
-        <value>Historique des sondages envoyé.</value>
+        <value>Storico dei sondaggi inviato.</value>
     </data>
     <data name="show_polls_no_polls" xml:space="preserve">
-        <value>Aucun sondage n'a été trouvé.</value>
+        <value>Nessun sondaggio trovato.</value>
     </data>
     <data name="show_polls_room_not_exist" xml:space="preserve">
-        <value>La salle {0} n'existe pas</value>
+        <value>La sala {0} non esiste</value>
     </data>
     <data name="countries_game_turn_ending_soon" xml:space="preserve">
-        <value>Le temps presse ! Il reste {0} secondes.</value>
+        <value>Il tempo stringe! Restano {0} secondi.</value>
     </data>
     <data name="dailymotion_watch_video" xml:space="preserve">
-        <value>Regarder sur Dailymotion</value>
+        <value>Guarda su Dailymotion</value>
     </data>
     <data name="dailymotion_no_video_found" xml:space="preserve">
-        <value>Aucune vidéo n'a été trouvée</value>
+        <value>Nessun video trovato</value>
     </data>
     <data name="dailymotion_fetch_error" xml:space="preserve">
-        <value>Une erreur est survenue au chargement de la vidéo : {0}</value>
+        <value>Si è verificato un errore caricando il video: {0}</value>
     </data>
     <data name="uptime" xml:space="preserve">
-        <value>Temps de fonctionnement : {0}</value>
+        <value>Tempo di attività: {0}</value>
     </data>
     <data name="tour_announce_message" xml:space="preserve">
-        <value>Un tournoi {0} a été créé dans la salle &lt;&lt;{1}&gt;&gt;</value>
+        <value>È stato creato un torneo {0} nella sala &lt;&lt;{1}&gt;&gt;</value>
     </data>
 </root>
