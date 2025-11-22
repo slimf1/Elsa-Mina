@@ -26,7 +26,7 @@ public class RoomUserDataServiceTest
         // Arrange
         var roomId = "room1";
         var userId = "user1";
-        var existingUserData = new RoomSpecificUserData { Id = userId, RoomId = roomId };
+        var existingUserData = new RoomUser { Id = userId, RoomId = roomId };
         _roomSpecificUserDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(existingUserData);
 
         // Act
@@ -42,13 +42,13 @@ public class RoomUserDataServiceTest
         // Arrange
         var roomId = "room1";
         var userId = "user1";
-        _roomSpecificUserDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns((RoomSpecificUserData)null);
+        _roomSpecificUserDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns((RoomUser)null);
 
         // Act
         var result = await _service.GetUserData(roomId, userId);
 
         // Assert
-        await _roomSpecificUserDataRepository.Received().AddAsync(Arg.Is<RoomSpecificUserData>(u => u.Id == userId && u.RoomId == roomId));
+        await _roomSpecificUserDataRepository.Received().AddAsync(Arg.Is<RoomUser>(u => u.Id == userId && u.RoomId == roomId));
         Assert.Multiple(() =>
         {
             Assert.That(result.Id, Is.EqualTo(userId));
@@ -60,10 +60,10 @@ public class RoomUserDataServiceTest
     public async Task Test_InitializeJoinPhrases_ShouldPopulateJoinPhrasesDictionary()
     {
         // Arrange
-        var userDataList = new List<RoomSpecificUserData>
+        var userDataList = new List<RoomUser>
         {
-            new RoomSpecificUserData { Id = "user1", RoomId = "room1", JoinPhrase = "Hello" },
-            new RoomSpecificUserData { Id = "user2", RoomId = "room2", JoinPhrase = "Welcome" }
+            new RoomUser { Id = "user1", RoomId = "room1", JoinPhrase = "Hello" },
+            new RoomUser { Id = "user2", RoomId = "room2", JoinPhrase = "Welcome" }
         };
         _roomSpecificUserDataRepository.GetAllAsync().Returns(userDataList);
 
@@ -143,7 +143,7 @@ public class RoomUserDataServiceTest
         var roomId = "room1";
         var userId = "user1";
         var title = "Valid Title";
-        var userData = new RoomSpecificUserData { Id = userId, RoomId = roomId };
+        var userData = new RoomUser { Id = userId, RoomId = roomId };
         _roomSpecificUserDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(userData);
 
         // Act
@@ -173,7 +173,7 @@ public class RoomUserDataServiceTest
         var roomId = "room1";
         var userId = "user1";
         var avatar = "https://valid.url/image.jpg";
-        var userData = new RoomSpecificUserData { Id = userId, RoomId = roomId };
+        var userData = new RoomUser { Id = userId, RoomId = roomId };
         _roomSpecificUserDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(userData);
 
         // Act
@@ -203,7 +203,7 @@ public class RoomUserDataServiceTest
         var roomId = "room1";
         var userId = "user1";
         var joinPhrase = "Welcome!";
-        var userData = new RoomSpecificUserData { Id = userId, RoomId = roomId };
+        var userData = new RoomUser { Id = userId, RoomId = roomId };
         _roomSpecificUserDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(userData);
 
         // Act

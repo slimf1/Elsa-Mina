@@ -102,12 +102,12 @@ public class ProfileCommand : Command
         return userRoom != null ? userRoom[0] : ' ';
     }
 
-    public static string GetAvatar(RoomSpecificUserData storedUserData, UserDetailsDto showdownUserDetails)
+    public static string GetAvatar(RoomUser storedRoomUserData, UserDetailsDto showdownUserDetails)
     {
         string avatarUrl;
-        if (!string.IsNullOrEmpty(storedUserData?.Avatar))
+        if (!string.IsNullOrEmpty(storedRoomUserData?.Avatar))
         {
-            avatarUrl = storedUserData.Avatar;
+            avatarUrl = storedRoomUserData.Avatar;
         }
         else
         {

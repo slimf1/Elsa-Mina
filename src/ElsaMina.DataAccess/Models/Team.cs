@@ -3,10 +3,8 @@
 namespace ElsaMina.DataAccess.Models;
 
 [Table("Teams")]
-public class Team : IKeyed<string>
+public class Team
 {
-    public string Key => Id;
-
     public string Id { get; set; }
     public string Name { get; set; }
     public string Author { get; set; }

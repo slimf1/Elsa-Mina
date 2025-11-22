@@ -33,12 +33,12 @@ public class SavedPollRepositoryTests
     public async Task Test_AddAsync_ShouldAddPoll()
     {
         // Arrange
-        var roomInfo = new RoomInfo { Id = "room1" };
+        var roomInfo = new Room { Id = "room1" };
         var poll = new SavedPoll
         {
             Id = 1,
             RoomId = "room1",
-            RoomInfo = roomInfo,
+            Room = roomInfo,
             Content = "Poll content",
             EndedAt = DateTimeOffset.UnixEpoch
         };
@@ -62,7 +62,7 @@ public class SavedPollRepositoryTests
         {
             Id = 1,
             RoomId = "room1",
-            RoomInfo = new RoomInfo { Id = "room1" },
+            Room = new Room { Id = "room1" },
             Content = "Old content",
             EndedAt = DateTimeOffset.UnixEpoch
         };
@@ -85,7 +85,7 @@ public class SavedPollRepositoryTests
         {
             Id = 1,
             RoomId = "room1",
-            RoomInfo = new RoomInfo { Id = "room1" },
+            Room = new Room { Id = "room1" },
             Content = "Poll content",
             EndedAt = DateTimeOffset.UtcNow
         };
@@ -108,7 +108,7 @@ public class SavedPollRepositoryTests
         {
             Id = 1,
             RoomId = "room1",
-            RoomInfo = new RoomInfo { Id = "room1" },
+            Room = new Room { Id = "room1" },
             Content = "Poll content",
             EndedAt = DateTimeOffset.UtcNow
         };
@@ -128,8 +128,8 @@ public class SavedPollRepositoryTests
     public async Task Test_GetAllAsync_ShouldReturnAllPolls()
     {
         // Arrange
-        await _repository.AddAsync(new SavedPoll { Id = 1, RoomId = "room1", RoomInfo = new RoomInfo { Id = "room1" }, Content = "Poll 1", EndedAt = DateTimeOffset.UtcNow });
-        await _repository.AddAsync(new SavedPoll { Id = 2, RoomId = "room2", RoomInfo = new RoomInfo { Id = "room2" }, Content = "Poll 2", EndedAt = DateTimeOffset.UtcNow });
+        await _repository.AddAsync(new SavedPoll { Id = 1, RoomId = "room1", Room = new Room { Id = "room1" }, Content = "Poll 1", EndedAt = DateTimeOffset.UtcNow });
+        await _repository.AddAsync(new SavedPoll { Id = 2, RoomId = "room2", Room = new Room { Id = "room2" }, Content = "Poll 2", EndedAt = DateTimeOffset.UtcNow });
         await _repository.SaveChangesAsync();
         
         // Act
@@ -143,8 +143,8 @@ public class SavedPollRepositoryTests
     public async Task Test_GetPollsByRoomIdAsync_ShouldReturnMatchingPolls()
     {
         // Arrange
-        await _repository.AddAsync(new SavedPoll { Id = 1, RoomId = "room1", RoomInfo = new RoomInfo { Id = "room1" }, Content = "Poll A", EndedAt = DateTimeOffset.UtcNow });
-        await _repository.AddAsync(new SavedPoll { Id = 2, RoomId = "room2", RoomInfo = new RoomInfo { Id = "room2" }, Content = "Poll B", EndedAt = DateTimeOffset.UtcNow });
+        await _repository.AddAsync(new SavedPoll { Id = 1, RoomId = "room1", Room = new Room { Id = "room1" }, Content = "Poll A", EndedAt = DateTimeOffset.UtcNow });
+        await _repository.AddAsync(new SavedPoll { Id = 2, RoomId = "room2", Room = new Room { Id = "room2" }, Content = "Poll B", EndedAt = DateTimeOffset.UtcNow });
         await _repository.SaveChangesAsync();
         
         // Act

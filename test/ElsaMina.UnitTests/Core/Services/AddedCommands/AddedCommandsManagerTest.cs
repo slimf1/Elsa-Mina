@@ -8,6 +8,7 @@ using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
+using Room = ElsaMina.Core.Services.Rooms.Room;
 using User = ElsaMina.Core.Services.Rooms.User;
 
 namespace ElsaMina.UnitTests.Core.Services.AddedCommands;

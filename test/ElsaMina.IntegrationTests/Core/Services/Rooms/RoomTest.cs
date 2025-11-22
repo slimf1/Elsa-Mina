@@ -12,7 +12,7 @@ using NSubstitute;
 
 namespace ElsaMina.IntegrationTests.Core.Services.Rooms;
 
-public class RoomInfoTest
+public class RoomTest
 {
     private BotDbContext _context;
     private RoomsManager _roomsManager;

@@ -70,7 +70,7 @@ public class RoomsManager : IRoomsManager, IDisposable
         if (roomParameters == null)
         {
             Log.Information("Could not find room parameters, inserting in db...");
-            roomParameters = new RoomInfo
+            roomParameters = new DataAccess.Models.Room
             {
                 Id = roomId
             };
@@ -196,7 +196,7 @@ public class RoomsManager : IRoomsManager, IDisposable
             {
                 parameterValue.Value = value;
             }
-
+            
             await _roomBotParameterValueRepository.SaveChangesAsync();
             parameter.OnUpdateAction?.Invoke(room, value);
             Log.Information("Saved room parameter: '{0}' = '{1}' for room '{2}'",

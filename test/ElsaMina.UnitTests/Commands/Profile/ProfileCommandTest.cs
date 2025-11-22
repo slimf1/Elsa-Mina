@@ -56,7 +56,7 @@ public class ProfileCommandTest
         var userDetails = new UserDetailsDto { Name = "User One", Avatar = "1" };
         _userDetailsManager.GetUserDetailsAsync("user1").Returns(Task.FromResult(userDetails));
         _userDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>())
-            .Returns(Task.FromResult(new RoomSpecificUserData { Id = "user1", RoomId = "testRoom" }));
+            .Returns(Task.FromResult(new RoomUser { Id = "user1", RoomId = "testRoom" }));
         _templatesManager.GetTemplateAsync("Profile/Profile", Arg.Any<object>())
             .Returns(Task.FromResult("<html>Profile template</html>"));
 
@@ -92,7 +92,7 @@ public class ProfileCommandTest
     public void Test_GetAvatar_ShouldReturnCustomAvatar_WhenUserHasCustomAvatar()
     {
         // Arrange
-        var userData = new RoomSpecificUserData { Avatar = "https://custom.avatar/url" };
+        var userData = new RoomUser { Avatar = "https://custom.avatar/url" };
 
         // Act
         var avatar = ProfileCommand.GetAvatar(userData, null);

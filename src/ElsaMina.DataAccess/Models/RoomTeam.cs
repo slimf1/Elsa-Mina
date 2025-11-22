@@ -9,5 +9,5 @@ public class RoomTeam
     public Team Team { get; set; }
     
     public string RoomId { get; set; }
-    public RoomInfo RoomInfo { get; set; }
+    public Room Room { get; set; }
 }

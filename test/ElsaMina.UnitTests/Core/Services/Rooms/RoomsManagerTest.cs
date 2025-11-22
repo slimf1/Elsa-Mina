@@ -7,6 +7,7 @@ using ElsaMina.DataAccess.Models;
 using ElsaMina.DataAccess.Repositories;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
+using Room = ElsaMina.DataAccess.Models.Room;
 
 namespace ElsaMina.UnitTests.Core.Services.Rooms;
 
@@ -86,7 +87,7 @@ public class RoomsManagerTest
     public async Task Test_InitializeRoom_ShouldUserLocaleStoredInDb_WhenRoomParametersExist()
     {
         // Arrange
-        _roomInfoRepository.GetByIdAsync("franais").Returns(new RoomInfo
+        _roomInfoRepository.GetByIdAsync("franais").Returns(new Room
         {
             Id = "franais",
             ParameterValues = new List<RoomBotParameterValue>

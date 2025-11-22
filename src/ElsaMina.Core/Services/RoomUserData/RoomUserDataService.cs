@@ -23,7 +23,7 @@ public class RoomUserDataService : IRoomUserDataService
 
     public IReadOnlyDictionary<Tuple<string, string>, string> JoinPhrases => _joinPhrases;
 
-    public async Task<RoomSpecificUserData> GetUserData(string roomId, string userId,
+    public async Task<RoomUser> GetUserData(string roomId, string userId,
         CancellationToken cancellationToken = default)
     {
         return await GetUserAndCreateIfDoesntExistAsync(roomId, userId, cancellationToken);
@@ -43,7 +43,7 @@ public class RoomUserDataService : IRoomUserDataService
         }
     }
 
-    private async Task<RoomSpecificUserData> GetUserAndCreateIfDoesntExistAsync(string roomId, string userId,
+    private async Task<RoomUser> GetUserAndCreateIfDoesntExistAsync(string roomId, string userId,
         CancellationToken cancellationToken = default)
     {
         var existingUserData = await _roomSpecificUserDataRepository
@@ -53,7 +53,7 @@ public class RoomUserDataService : IRoomUserDataService
             return existingUserData;
         }
 
-        var userData = new RoomSpecificUserData
+        var userData = new RoomUser
         {
             Id = userId,
             RoomId = roomId

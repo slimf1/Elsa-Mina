@@ -33,7 +33,7 @@ public class Room : IRoom
         set => OnGameChanged(_game, value);
     }
 
-    public RoomInfo Info { get; set; }
+    public DataAccess.Models.Room Info { get; set; }
     public IEnumerable<Tuple<string, string>> LastMessages => _lastMessages.Reverse();
     public IDictionary<string, TimeSpan> PendingPlayTimeUpdates => _pendingPlayTimeUpdates;
 

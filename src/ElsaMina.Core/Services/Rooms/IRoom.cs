@@ -11,7 +11,7 @@ public interface IRoom
     IReadOnlyDictionary<string, IUser> Users { get; }
     CultureInfo Culture { get; set; }
     IGame Game { get; set; }
-    RoomInfo Info { get; }
+    DataAccess.Models.Room Info { get; }
     IEnumerable<Tuple<string, string>> LastMessages { get; }
     IDictionary<string, TimeSpan> PendingPlayTimeUpdates { get; }
 
