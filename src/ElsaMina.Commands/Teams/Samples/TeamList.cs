@@ -3,22 +3,22 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
+using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.Commands.Teams.Samples;
 
 [NamedCommand("team-list", Aliases = ["teams"])]
 public class TeamList : Command
 {
-    private readonly ITeamRepository _teamRepository;
     private readonly ITemplatesManager _templatesManager;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
-    public TeamList(ITeamRepository teamRepository,
-        ITemplatesManager templatesManager)
+    public TeamList(ITemplatesManager templatesManager, IBotDbContextFactory dbContextFactory)
     {
-        _teamRepository = teamRepository;
         _templatesManager = templatesManager;
+        _dbContextFactory = dbContextFactory;
     }
 
     public override bool IsAllowedInPrivateMessage => true;
@@ -26,23 +26,30 @@ public class TeamList : Command
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        IEnumerable<Team> teams;
+        List<Team> teams;
         string roomId;
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
         if (!string.IsNullOrEmpty(context.Target))
         {
             var arguments = context.Target.Split(",");
             var format = arguments[0].ToLowerAlphaNum();
             roomId = arguments.Length >= 2 ? arguments[1].ToLowerAlphaNum() : context.RoomId;
-            teams = await _teamRepository.GetTeamsFromRoomWithFormat(roomId, format, cancellationToken);
+            teams = await dbContext.Teams
+                .Include(team => team.Rooms)
+                .Where(team => team.Rooms != null && team.Rooms.Any(roomTeam => roomTeam.RoomId == roomId) &&
+                               team.Format == format)
+                .ToListAsync(cancellationToken);
         }
         else
         {
             roomId = context.RoomId;
-            teams = await _teamRepository.GetTeamsFromRoom(roomId, cancellationToken);
+            teams = await dbContext.Teams
+                .Include(team => team.Rooms)
+                .Where(team => team.Rooms != null && team.Rooms.Any(roomTeam => roomTeam.RoomId == roomId))
+                .ToListAsync(cancellationToken);
         }
 
-        var teamList = teams?.ToList();
-        if (teamList == null || teamList.Count == 0)
+        if (teams.Count == 0)
         {
             context.ReplyLocalizedMessage("team_list_empty");
             return;
@@ -51,7 +58,7 @@ public class TeamList : Command
         var template = await _templatesManager.GetTemplateAsync("Teams/TeamList", new TeamListViewModel
         {
             Culture = context.Culture,
-            Teams = teamList
+            Teams = teams
         });
 
         var html = template.RemoveNewlines();

@@ -675,4 +675,7 @@
     <data name="tour_announce_message" xml:space="preserve">
         <value>Un tournoi {0} a été créé dans la salle &lt;&lt;{1}&gt;&gt;</value>
     </data>
+    <data name="deletecommand_not_found" xml:space="preserve">
+        <value>Impossible de trouver une commande avec l'identifiant '{0}'</value>
+    </data>
 </root>

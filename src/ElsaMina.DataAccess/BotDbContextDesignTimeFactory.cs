@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace ElsaMina.DataAccess;
 
+/// <summary>
+/// Needed to let EF Core know that I'm using PGSQL
+/// </summary>
 [UsedImplicitly]
 public class BotDbContextDesignTimeFactory : IDesignTimeDbContextFactory<BotDbContext>
 {
     public BotDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<BotDbContext>();
-        
-        // Use a hardcoded or environment-based connection string for migrations
         optionsBuilder.UseNpgsql();
-        
         return new BotDbContext(optionsBuilder.Options);
     }
 }

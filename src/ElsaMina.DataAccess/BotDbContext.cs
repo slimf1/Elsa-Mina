@@ -5,10 +5,6 @@ namespace ElsaMina.DataAccess;
 
 public class BotDbContext : DbContext
 {
-    public BotDbContext()
-    {
-    }
-
     public BotDbContext(DbContextOptions<BotDbContext> options) : base(options)
     {
     }
@@ -22,6 +18,7 @@ public class BotDbContext : DbContext
     public DbSet<RoomTeam> RoomTeams { get; set; }
     public DbSet<ArcadeLevel> ArcadeLevels { get; set; }
     public DbSet<SavedPoll> SavedPolls { get; set; }
+    public DbSet<RoomBotParameterValue> RoomBotParameterValues { get; set; }
     public DbSet<TournamentRecord> TournamentRecords { get; set; } // todo : migration
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -3,23 +3,23 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
+using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
 using ElsaMina.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.Commands.Arcade;
 
 [NamedCommand("displaypaliers", "displaypalier", "paliers", "arcadelevels")]
 public class DisplayArcadeLevels : Command
 {
-    private readonly IArcadeLevelRepository _arcadeLevelRepository;
     private readonly ITemplatesManager _templatesManager;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
-    public DisplayArcadeLevels(IArcadeLevelRepository arcadeLevelRepository,
-        ITemplatesManager templatesManager)
+    public DisplayArcadeLevels(ITemplatesManager templatesManager, IBotDbContextFactory dbContextFactory)
     {
-        _arcadeLevelRepository = arcadeLevelRepository;
         _templatesManager = templatesManager;
+        _dbContextFactory = dbContextFactory;
     }
 
     public override Rank RequiredRank => Rank.Regular;
@@ -31,9 +31,10 @@ public class DisplayArcadeLevels : Command
         var levels = new Dictionary<int, List<string>>();
 
         List<ArcadeLevel> arcadeLevels = [];
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
         try
         {
-            arcadeLevels = (await _arcadeLevelRepository.GetAllAsync(cancellationToken)).ToList();
+            arcadeLevels = await dbContext.ArcadeLevels.ToListAsync(cancellationToken);
         }
         catch (Exception e)
         {

@@ -1358,5 +1358,11 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("tour_announce_message", resourceCulture);
             }
         }
+        
+        internal static string deletecommand_not_found {
+            get {
+                return ResourceManager.GetString("deletecommand_not_found", resourceCulture);
+            }
+        }
     }
 }

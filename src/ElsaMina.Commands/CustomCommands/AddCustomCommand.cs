@@ -3,8 +3,8 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.CustomCommands;
 
@@ -14,17 +14,16 @@ public class AddCustomCommand : Command
     private const int MAX_COMMAND_NAME_LENGTH = 18;
     private const int MAX_CONTENT_LENGTH = 300;
 
-    private readonly IAddedCommandRepository _addedCommandRepository;
     private readonly IConfiguration _configuration;
     private readonly IClockService _clockService;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
-    public AddCustomCommand(IAddedCommandRepository addedCommandRepository,
-        IConfiguration configuration,
-        IClockService clockService)
+    public AddCustomCommand(IConfiguration configuration,
+        IClockService clockService, IBotDbContextFactory dbContextFactory)
     {
-        _addedCommandRepository = addedCommandRepository;
         _configuration = configuration;
         _clockService = clockService;
+        _dbContextFactory = dbContextFactory;
     }
 
     public override Rank RequiredRank => Rank.Driver;
@@ -59,15 +58,16 @@ public class AddCustomCommand : Command
             return;
         }
 
-        var existingCommand = await _addedCommandRepository.GetByIdAsync(Tuple.Create(
-            command, context.RoomId), cancellationToken);
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+        var existingCommand = await dbContext.AddedCommands.FindAsync(
+            [command, context.RoomId], cancellationToken: cancellationToken);
         if (existingCommand != null)
         {
             context.ReplyLocalizedMessage("addcommand_already_exist");
             return;
         }
 
-        await _addedCommandRepository.AddAsync(new AddedCommand
+        await dbContext.AddedCommands.AddAsync(new AddedCommand
         {
             Author = context.Sender.Name,
             Content = content,
@@ -75,7 +75,7 @@ public class AddCustomCommand : Command
             CreationDate = _clockService.CurrentUtcDateTime,
             Id = command
         }, cancellationToken);
-        await _addedCommandRepository.SaveChangesAsync(cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
 
         context.ReplyLocalizedMessage("addcommand_success", command);
     }

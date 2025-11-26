@@ -1,11 +1,10 @@
-using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.Core.Utils;
+using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
 using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Badges;
@@ -13,14 +12,13 @@ namespace ElsaMina.Commands.Badges;
 [NamedCommand("givebadge", Aliases = ["give-badge"])]
 public class GiveBadge : Command
 {
-    private readonly IBadgeRepository _badgeRepository;
     private readonly IRoomUserDataService _roomUserDataService;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
-    public GiveBadge(IBadgeRepository badgeRepository,
-        IRoomUserDataService roomUserDataService)
+    public GiveBadge(IRoomUserDataService roomUserDataService, IBotDbContextFactory dbContextFactory)
     {
-        _badgeRepository = badgeRepository;
         _roomUserDataService = roomUserDataService;
+        _dbContextFactory = dbContextFactory;
     }
 
     public override Rank RequiredRank => Rank.Driver;
@@ -39,9 +37,10 @@ public class GiveBadge : Command
         var badgeId = parts[1].ToLowerAlphaNum();
 
         Badge badge = null;
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
         try
         {
-            badge = await _badgeRepository.GetByIdAsync(Tuple.Create(badgeId, context.RoomId), cancellationToken);
+            badge = await dbContext.Badges.FindAsync([badgeId, context.RoomId], cancellationToken);
         }
         catch (Exception exception)
         {

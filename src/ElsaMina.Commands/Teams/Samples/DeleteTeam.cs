@@ -1,9 +1,8 @@
-﻿using ElsaMina.Core;
-using ElsaMina.Core.Commands;
+﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
-using ElsaMina.DataAccess.Repositories;
+using ElsaMina.DataAccess;
 using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Teams.Samples;
@@ -11,18 +10,19 @@ namespace ElsaMina.Commands.Teams.Samples;
 [NamedCommand("delete-team", Aliases = ["deleteteam"])]
 public class DeleteTeam : Command
 {
-    private readonly ITeamRepository _teamRepository;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
-    public DeleteTeam(ITeamRepository teamRepository)
+    public DeleteTeam(IBotDbContextFactory dbContextFactory)
     {
-        _teamRepository = teamRepository;
+        _dbContextFactory = dbContextFactory;
     }
 
     public override Rank RequiredRank => Rank.Voiced;
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        var team = await _teamRepository.GetByIdAsync(context.Target?.ToLowerAlphaNum(), cancellationToken);
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+        var team = await dbContext.Teams.FindAsync([context.Target?.ToLowerAlphaNum()], cancellationToken);
         if (team == null)
         {
             context.ReplyLocalizedMessage("deleteteam_team_not_found");
@@ -31,8 +31,8 @@ public class DeleteTeam : Command
 
         try
         {
-            await _teamRepository.DeleteAsync(team, cancellationToken);
-            await _teamRepository.SaveChangesAsync(cancellationToken);
+            dbContext.Remove(team);
+            await dbContext.SaveChangesAsync(cancellationToken);
             context.ReplyLocalizedMessage("deleteteam_team_deleted_successfully");
         }
         catch (Exception exception)

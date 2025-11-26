@@ -2,19 +2,19 @@ using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
+using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.Arcade;
 
 [NamedCommand("addpalier", "setpalier")]
 public class SetArcadeLevel : Command
 {
-    private readonly IArcadeLevelRepository _arcadeLevelRepository;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
-    public SetArcadeLevel(IArcadeLevelRepository arcadeLevelRepository)
+    public SetArcadeLevel(IBotDbContextFactory dbContextFactory)
     {
-        _arcadeLevelRepository = arcadeLevelRepository;
+        _dbContextFactory = dbContextFactory;
     }
 
     public override Rank RequiredRank => Rank.Driver;
@@ -43,18 +43,19 @@ public class SetArcadeLevel : Command
             return;
         }
         
-        var arcadeLevel = await _arcadeLevelRepository.GetByIdAsync(user, cancellationToken);
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+        var arcadeLevel = await dbContext.ArcadeLevels.FindAsync([user], cancellationToken);
         if (arcadeLevel == null)
         {
             try
             {
-                await _arcadeLevelRepository.AddAsync(new ArcadeLevel
+                await dbContext.ArcadeLevels.AddAsync(new ArcadeLevel
                 {
                     Id = user,
                     Level = level
                 }, cancellationToken);
                 context.ReplyLocalizedMessage("arcade_level_add", user, level);
-                await _arcadeLevelRepository.SaveChangesAsync(cancellationToken);
+                await dbContext.SaveChangesAsync(cancellationToken);
             }
             catch (Exception e)
             {
@@ -66,7 +67,7 @@ public class SetArcadeLevel : Command
             arcadeLevel.Level = level;
             try
             {
-                await _arcadeLevelRepository.SaveChangesAsync(cancellationToken);
+                await dbContext.SaveChangesAsync(cancellationToken);
                 context.ReplyLocalizedMessage("arcade_level_update", user, level);
             }
             catch (Exception e)

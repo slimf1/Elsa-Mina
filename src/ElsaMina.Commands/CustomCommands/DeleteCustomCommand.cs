@@ -1,18 +1,18 @@
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
-using ElsaMina.DataAccess.Repositories;
+using ElsaMina.DataAccess;
 
 namespace ElsaMina.Commands.CustomCommands;
 
 [NamedCommand("delete-custom-command", Aliases = ["deletecustom", "deletecommand", "delete-custom", "delete-command"])]
 public class DeleteCustomCommand : Command
 {
-    private readonly IAddedCommandRepository _addedCommandRepository;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
-    public DeleteCustomCommand(IAddedCommandRepository addedCommandRepository)
+    public DeleteCustomCommand(IBotDbContextFactory dbContextFactory)
     {
-        _addedCommandRepository = addedCommandRepository;
+        _dbContextFactory = dbContextFactory;
     }
 
     public override Rank RequiredRank => Rank.Driver;
@@ -23,8 +23,17 @@ public class DeleteCustomCommand : Command
         var commandId = context.Target.Trim().ToLower();
         try
         {
-            await _addedCommandRepository.DeleteByIdAsync(Tuple.Create(commandId, context.RoomId), cancellationToken);
-            await _addedCommandRepository.SaveChangesAsync(cancellationToken);
+            await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+            var existingCommand = await dbContext.AddedCommands
+                .FindAsync([commandId, context.RoomId], cancellationToken);
+            if (existingCommand == null)
+            {
+                context.ReplyLocalizedMessage("deletecommand_not_found", commandId);
+                return;
+            }
+
+            dbContext.AddedCommands.Remove(existingCommand);
+            await dbContext.SaveChangesAsync(cancellationToken);
             context.ReplyLocalizedMessage("deletecommand_success", commandId);
         }
         catch (Exception exception)

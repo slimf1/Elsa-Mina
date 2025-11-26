@@ -6,8 +6,8 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
+using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
 using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Teams.Samples;
@@ -20,16 +20,15 @@ public class AddTeam : Command
         Constants.REGEX_MATCH_TIMEOUT);
 
     private readonly ITeamLinkMatchFactory _teamLinkMatchFactory;
-    private readonly ITeamRepository _teamRepository;
     private readonly IClockService _clockService;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
     public AddTeam(ITeamLinkMatchFactory teamLinkMatchFactory,
-        ITeamRepository teamRepository,
-        IClockService clockService)
+        IClockService clockService, IBotDbContextFactory dbContextFactory)
     {
         _teamLinkMatchFactory = teamLinkMatchFactory;
-        _teamRepository = teamRepository;
         _clockService = clockService;
+        _dbContextFactory = dbContextFactory;
     }
 
     public override string HelpMessageKey => "add_team_help_message";
@@ -108,8 +107,9 @@ public class AddTeam : Command
 
         try
         {
-            await _teamRepository.AddAsync(team, cancellationToken);
-            await _teamRepository.SaveChangesAsync(cancellationToken);
+            await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+            await dbContext.Teams.AddAsync(team, cancellationToken);
+            await dbContext.SaveChangesAsync(cancellationToken);
             context.ReplyLocalizedMessage("add_team_success", teamId);
         }
         catch (Exception exception)

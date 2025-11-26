@@ -2,8 +2,8 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
+using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
 using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Badges;
@@ -11,11 +11,11 @@ namespace ElsaMina.Commands.Badges;
 [NamedCommand("add-badge", Aliases = ["addbadge", "new-badge", "newbadge", "add-trophy", "newtrophy", "new-trophy"])]
 public class AddBadge : Command
 {
-    private readonly IBadgeRepository _badgeRepository;
+    private readonly IBotDbContextFactory _factory;
 
-    public AddBadge(IBadgeRepository badgeRepository)
+    public AddBadge(IBotDbContextFactory factory)
     {
-        _badgeRepository = badgeRepository;
+        _factory = factory;
     }
 
     public override Rank RequiredRank => Rank.Driver;
@@ -34,8 +34,9 @@ public class AddBadge : Command
         var isTrophy = context.Command is "add-trophy" or "newtrophy" or "new-trophy";
         var badgeId = name.ToLowerAlphaNum();
 
+        await using var dbContext = await _factory.CreateDbContextAsync(cancellationToken);
         var existingBadge =
-            await _badgeRepository.GetByIdAsync(Tuple.Create(badgeId, context.RoomId), cancellationToken);
+            await dbContext.Badges.FindAsync([badgeId, context.RoomId], cancellationToken: cancellationToken);
         if (existingBadge != null)
         {
             context.ReplyLocalizedMessage("badge_add_already_exist", name);
@@ -44,7 +45,7 @@ public class AddBadge : Command
 
         try
         {
-            await _badgeRepository.AddAsync(new Badge
+            await dbContext.Badges.AddAsync(new Badge
             {
                 Name = name,
                 Image = image,
@@ -52,7 +53,7 @@ public class AddBadge : Command
                 IsTrophy = isTrophy,
                 RoomId = context.RoomId
             }, cancellationToken);
-            await _badgeRepository.SaveChangesAsync(cancellationToken);
+            await dbContext.SaveChangesAsync(cancellationToken);
             context.ReplyLocalizedMessage("badge_add_success_message");
         }
         catch (Exception exception)

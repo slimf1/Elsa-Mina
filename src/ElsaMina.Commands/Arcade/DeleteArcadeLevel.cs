@@ -2,18 +2,18 @@ using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
-using ElsaMina.DataAccess.Repositories;
+using ElsaMina.DataAccess;
 
 namespace ElsaMina.Commands.Arcade;
 
 [NamedCommand("deletepalier", "removepalier", "removelevel")]
 public class DeleteArcadeLevel : Command
 {
-    private readonly IArcadeLevelRepository _arcadeLevelRepository;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
-    public DeleteArcadeLevel(IArcadeLevelRepository arcadeLevelRepository)
+    public DeleteArcadeLevel(IBotDbContextFactory dbContextFactory)
     {
-        _arcadeLevelRepository = arcadeLevelRepository;
+        _dbContextFactory = dbContextFactory;
     }
 
     public override Rank RequiredRank => Rank.Driver;
@@ -29,7 +29,8 @@ public class DeleteArcadeLevel : Command
         }
 
         var id = context.Target.ToLowerAlphaNum();
-        var arcadeLevel = await _arcadeLevelRepository.GetByIdAsync(id, cancellationToken);
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+        var arcadeLevel = await dbContext.ArcadeLevels.FindAsync([id], cancellationToken);
         if (arcadeLevel == null)
         {
             context.ReplyLocalizedMessage("arcade_level_delete_not_found");
@@ -38,8 +39,8 @@ public class DeleteArcadeLevel : Command
         {
             try
             {
-                await _arcadeLevelRepository.DeleteAsync(arcadeLevel, cancellationToken);
-                await _arcadeLevelRepository.SaveChangesAsync(cancellationToken);
+                dbContext.Remove(arcadeLevel);
+                await dbContext.SaveChangesAsync(cancellationToken);
                 context.ReplyLocalizedMessage("arcade_level_delete_success");
             }
             catch (Exception e)

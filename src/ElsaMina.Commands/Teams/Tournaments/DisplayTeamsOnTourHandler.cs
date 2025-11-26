@@ -3,26 +3,27 @@ using ElsaMina.Core.Handlers;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
-using ElsaMina.DataAccess.Repositories;
+using ElsaMina.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.Commands.Teams.Tournaments;
 
 public class DisplayTeamsOnTourHandler : Handler
 {
-    private readonly ITeamRepository _teamRepository;
     private readonly ITemplatesManager _templatesManager;
     private readonly IRoomsManager _roomsManager;
     private readonly IBot _bot;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
-    public DisplayTeamsOnTourHandler(ITeamRepository teamRepository,
-        ITemplatesManager templatesManager,
+    public DisplayTeamsOnTourHandler(ITemplatesManager templatesManager,
         IRoomsManager roomsManager,
-        IBot bot)
+        IBot bot,
+        IBotDbContextFactory dbContextFactory)
     {
-        _teamRepository = teamRepository;
         _templatesManager = templatesManager;
         _roomsManager = roomsManager;
         _bot = bot;
+        _dbContextFactory = dbContextFactory;
     }
 
     public override async Task HandleReceivedMessageAsync(string[] parts, string roomId = null,
@@ -53,8 +54,12 @@ public class DisplayTeamsOnTourHandler : Handler
             _ => format
         };
 
-        var teams = (await _teamRepository.GetTeamsFromRoomWithFormat(roomId, format, cancellationToken))?.ToList();
-        if (teams == null || teams.Count == 0)
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+        var teams = await dbContext.Teams.Include(team => team.Rooms)
+            .Where(team => team.Rooms != null && team.Rooms.Any(roomTeam => roomTeam.RoomId == roomId) &&
+                           team.Format == format)
+            .ToListAsync(cancellationToken);
+        if (teams.Count == 0)
         {
             return;
         }

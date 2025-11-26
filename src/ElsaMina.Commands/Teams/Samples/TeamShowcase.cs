@@ -3,28 +3,28 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
-using ElsaMina.DataAccess.Repositories;
+using ElsaMina.DataAccess;
 
 namespace ElsaMina.Commands.Teams.Samples;
 
 [NamedCommand("team-showcase", Aliases = ["team"])]
 public class TeamShowcase : Command
 {
-    private readonly ITeamRepository _teamRepository;
     private readonly ITemplatesManager _templatesManager;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
-    public TeamShowcase(ITeamRepository teamRepository,
-        ITemplatesManager templatesManager)
+    public TeamShowcase(ITemplatesManager templatesManager, IBotDbContextFactory dbContextFactory)
     {
-        _teamRepository = teamRepository;
         _templatesManager = templatesManager;
+        _dbContextFactory = dbContextFactory;
     }
 
     public override Rank RequiredRank => Rank.Regular;
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        var team = await _teamRepository.GetByIdAsync(context.Target?.ToLowerAlphaNum(), cancellationToken);
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+        var team = await dbContext.Teams.FindAsync([context.Target?.ToLowerAlphaNum()], cancellationToken);
         if (team == null)
         {
             context.ReplyLocalizedMessage("team_showcase_not_found");

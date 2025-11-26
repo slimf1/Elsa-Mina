@@ -1,9 +1,8 @@
-﻿using ElsaMina.Core;
-using ElsaMina.Core.Commands;
+﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
-using ElsaMina.DataAccess.Repositories;
+using ElsaMina.DataAccess;
 using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Badges;
@@ -11,31 +10,30 @@ namespace ElsaMina.Commands.Badges;
 [NamedCommand("deletebadge", Aliases = ["deletetrophy", "delete-badge", "delete-trophy"])]
 public class DeleteBadge : Command
 {
-    private readonly IBadgeRepository _badgeRepository;
+    private readonly IBotDbContextFactory _factory;
 
-    public DeleteBadge(IBadgeRepository badgeRepository)
+    public DeleteBadge(IBotDbContextFactory factory)
     {
-        _badgeRepository = badgeRepository;
+        _factory = factory;
     }
 
     public override Rank RequiredRank => Rank.Driver;
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        var badgeId = context.Target.ToLowerAlphaNum();
-        var key = Tuple.Create(badgeId, context.RoomId);
-
         try
         {
-            var badge = await _badgeRepository.GetByIdAsync(key, cancellationToken);
+            var badgeId = context.Target.ToLowerAlphaNum();
+            await using var dbContext = await _factory.CreateDbContextAsync(cancellationToken);
+            var badge = await dbContext.Badges.FindAsync([badgeId, context.RoomId], cancellationToken);
             if (badge == null)
             {
                 context.ReplyLocalizedMessage("badge_delete_doesnt_exist", badgeId);
                 return;
             }
             
-            await _badgeRepository.DeleteAsync(badge, cancellationToken);
-            await _badgeRepository.SaveChangesAsync(cancellationToken);
+            dbContext.Badges.Remove(badge);
+            await dbContext.SaveChangesAsync(cancellationToken);
             context.ReplyLocalizedMessage("badge_delete_success", badgeId);
         }
         catch (Exception exception)

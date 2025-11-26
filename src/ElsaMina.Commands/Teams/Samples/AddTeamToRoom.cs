@@ -1,22 +1,22 @@
-﻿using ElsaMina.Core;
-using ElsaMina.Core.Commands;
+﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
+using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
 using ElsaMina.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.Commands.Teams.Samples;
 
 [NamedCommand("add-team-to-room", Aliases = ["addteamtoroom", "add-to-room", "add-to-room"])]
 public class AddTeamToRoom : Command
 {
-    private readonly ITeamRepository _teamRepository;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
-    public AddTeamToRoom(ITeamRepository teamRepository)
+    public AddTeamToRoom(IBotDbContextFactory dbContextFactory)
     {
-        _teamRepository = teamRepository;
+        _dbContextFactory = dbContextFactory;
     }
 
     public override Rank RequiredRank => Rank.Voiced;
@@ -30,7 +30,10 @@ public class AddTeamToRoom : Command
             return;
         }
 
-        var team = await _teamRepository.GetByIdAsync(teamId, cancellationToken);
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+        var team = await dbContext.Teams
+            .Include(team => team.Rooms)
+            .FirstOrDefaultAsync(team => team.Id == teamId, cancellationToken);
         if (team == null)
         {
             context.ReplyLocalizedMessage("add_team_to_room_no_team");
@@ -52,7 +55,7 @@ public class AddTeamToRoom : Command
 
         try
         {
-            await _teamRepository.SaveChangesAsync(cancellationToken);
+            await dbContext.SaveChangesAsync(cancellationToken);
             context.ReplyLocalizedMessage("add_team_to_room_success");
         }
         catch (Exception exception)

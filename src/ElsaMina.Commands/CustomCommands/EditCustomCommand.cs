@@ -1,9 +1,8 @@
-using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
 using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.CustomCommands;
@@ -11,11 +10,11 @@ namespace ElsaMina.Commands.CustomCommands;
 [NamedCommand("edit-command", Aliases = ["edit-added-command", "edit-custom-command", "editcommand", "editcustom"])]
 public class EditCustomCommand : Command
 {
-    private readonly IAddedCommandRepository _addedCommandsRepository;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
-    public EditCustomCommand(IAddedCommandRepository addedCommandsRepository)
+    public EditCustomCommand(IBotDbContextFactory dbContextFactory)
     {
-        _addedCommandsRepository = addedCommandsRepository;
+        _dbContextFactory = dbContextFactory;
     }
 
     public override Rank RequiredRank => Rank.Driver;
@@ -27,10 +26,10 @@ public class EditCustomCommand : Command
         var commandId = parts[0].Trim().ToLower();
         var content = string.Join(",", parts[1..]).Trim();
         AddedCommand command = null;
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
         try
         {
-            command = await _addedCommandsRepository.GetByIdAsync(Tuple.Create(commandId, context.RoomId),
-                cancellationToken);
+            command = await dbContext.AddedCommands.FindAsync([commandId, context.RoomId], cancellationToken);
         }
         catch (Exception exception)
         {
@@ -47,7 +46,7 @@ public class EditCustomCommand : Command
 
         try
         {
-            await _addedCommandsRepository.SaveChangesAsync(cancellationToken);
+            await dbContext.SaveChangesAsync(cancellationToken);
             context.ReplyLocalizedMessage("editcommand_success", commandId);
         }
         catch (Exception exception)

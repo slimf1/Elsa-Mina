@@ -680,4 +680,7 @@
     <data name="tour_announce_message" xml:space="preserve">
         <value>Se ha creado un torneo {0} en la sala &lt;&lt;{1}&gt;&gt;</value>
     </data>
+    <data name="deletecommand_not_found" xml:space="preserve">
+        <value>No se pudo encontrar el comando con id '{0}'.</value>
+    </data>
 </root>
