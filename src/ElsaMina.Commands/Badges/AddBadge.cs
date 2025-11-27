@@ -11,11 +11,11 @@ namespace ElsaMina.Commands.Badges;
 [NamedCommand("add-badge", Aliases = ["addbadge", "new-badge", "newbadge", "add-trophy", "newtrophy", "new-trophy"])]
 public class AddBadge : Command
 {
-    private readonly IBotDbContextFactory _factory;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
-    public AddBadge(IBotDbContextFactory factory)
+    public AddBadge(IBotDbContextFactory dbContextFactory)
     {
-        _factory = factory;
+        _dbContextFactory = dbContextFactory;
     }
 
     public override Rank RequiredRank => Rank.Driver;
@@ -34,7 +34,7 @@ public class AddBadge : Command
         var isTrophy = context.Command is "add-trophy" or "newtrophy" or "new-trophy";
         var badgeId = name.ToLowerAlphaNum();
 
-        await using var dbContext = await _factory.CreateDbContextAsync(cancellationToken);
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
         var existingBadge =
             await dbContext.Badges.FindAsync([badgeId, context.RoomId], cancellationToken: cancellationToken);
         if (existingBadge != null)

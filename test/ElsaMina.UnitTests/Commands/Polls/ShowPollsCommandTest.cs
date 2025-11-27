@@ -1,28 +1,49 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
-using ElsaMina.Commands.Polls;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using System.Globalization;
+using ElsaMina.Commands.Polls;
 
 namespace ElsaMina.UnitTests.Commands.Polls;
 
 public class ShowPollsCommandTest
 {
-    private ISavedPollRepository _savedPollRepository;
     private IRoomsManager _roomsManager;
     private IContext _context;
-    private ShowPollsCommand _showPollsCommand;
+    private IBotDbContextFactory _dbFactory;
+    private BotDbContext _dbContext;
+    private DbSet<SavedPoll> _pollsSet;
+    private ShowPollsCommand _command;
 
     [SetUp]
     public void SetUp()
     {
-        _savedPollRepository = Substitute.For<ISavedPollRepository>();
         _roomsManager = Substitute.For<IRoomsManager>();
         _context = Substitute.For<IContext>();
         _context.Culture.Returns(new CultureInfo("en-US"));
-        _showPollsCommand = new ShowPollsCommand(_savedPollRepository, _roomsManager);
+
+        _dbFactory = Substitute.For<IBotDbContextFactory>();
+        _dbContext = Substitute.For<BotDbContext>();
+        _dbFactory.CreateDbContextAsync(Arg.Any<CancellationToken>()).Returns(_dbContext);
+
+        _command = new ShowPollsCommand(_roomsManager, _dbFactory);
+    }
+
+    private void MockPolls(IEnumerable<SavedPoll> polls)
+    {
+        var queryable = polls.AsQueryable();
+
+        _pollsSet = Substitute.For<DbSet<SavedPoll>, IQueryable<SavedPoll>>();
+
+        ((IQueryable<SavedPoll>)_pollsSet).Provider.Returns(queryable.Provider);
+        ((IQueryable<SavedPoll>)_pollsSet).Expression.Returns(queryable.Expression);
+        ((IQueryable<SavedPoll>)_pollsSet).ElementType.Returns(queryable.ElementType);
+        ((IQueryable<SavedPoll>)_pollsSet).GetEnumerator().Returns(queryable.GetEnumerator());
+
+        _dbContext.SavedPolls.Returns(_pollsSet);
     }
 
     [Test]
@@ -32,45 +53,52 @@ public class ShowPollsCommandTest
         const string roomId = "test-room";
         _context.RoomId.Returns(roomId);
         _context.Target.Returns(string.Empty);
+
         _roomsManager.HasRoom(roomId).Returns(true);
 
         var polls = new List<SavedPoll>
         {
-            new() { Id = 1, Content = "Poll 1", RoomId = roomId, EndedAt = new DateTimeOffset(2025, 2, 4, 8, 20, 0, TimeSpan.Zero) },
-            new() { Id = 2, Content = "Poll 2", RoomId = roomId, EndedAt = new DateTimeOffset(2025, 2, 4, 8, 30, 0, TimeSpan.Zero) }
+            new() { Id = 1, Content = "Poll 1", RoomId = roomId, EndedAt = new DateTimeOffset(2025,2,4,8,20,0,TimeSpan.Zero) },
+            new() { Id = 2, Content = "Poll 2", RoomId = roomId, EndedAt = new DateTimeOffset(2025,2,4,8,30,0,TimeSpan.Zero) }
         };
-        _savedPollRepository.GetPollsByRoomIdAsync(roomId, Arg.Any<CancellationToken>()).Returns(polls);
 
-        // Mock GetString for all resource keys used in the test
-        _context.GetString("show_polls_history_header", Arg.Any<object[]>()).Returns(x => string.Format("Poll history for {0}:<br>", x.Arg<object[]>()));
-        _context.GetString("show_polls_history_entry", Arg.Any<object[]>()).Returns(x => string.Format("ID: {0}, Ended At: {1}, Content: {2}", x.Arg<object[]>()));
+        MockPolls(polls);
+
+        _context.GetString("show_polls_history_header", Arg.Any<object[]>())
+            .Returns(call => $"Poll history for {call.Arg<object[]>()[0]}:<br>");
+
+        _context.GetString("show_polls_history_entry", Arg.Any<object[]>())
+            .Returns(call =>
+                $"ID: {call.Arg<object[]>()[0]}, Ended At: {call.Arg<object[]>()[1]}, Content: {call.Arg<object[]>()[2]}");
+
         _context.GetString("show_polls_history_sent").Returns("Poll history sent.");
 
         // Act
-        await _showPollsCommand.RunAsync(_context);
+        await _command.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("show_polls_history_sent");
-        _context.Received(1).ReplyHtmlPage("polls-history", Arg.Is<string>(message =>
-            message.Contains("Poll history for test-room:") &&
-            message.Contains("ID: 1") &&
-            message.Contains("Content: Poll 1") &&
-            message.Contains("ID: 2") &&
-            message.Contains("Content: Poll 2")));
+
+        _context.Received(1).ReplyHtmlPage(
+            "polls-history",
+            Arg.Is<string>(msg =>
+                msg.Contains("Poll history for test-room") &&
+                msg.Contains("ID: 1") &&
+                msg.Contains("Poll 1") &&
+                msg.Contains("ID: 2") &&
+                msg.Contains("Poll 2")
+            ));
     }
 
     [Test]
     public async Task Test_Run_ShouldShowError_WhenRoomDoesNotExist()
     {
-        // Arrange
-        const string roomId = "non-existent-room";
+        const string roomId = "missing-room";
         _context.Target.Returns(roomId);
         _roomsManager.HasRoom(roomId).Returns(false);
 
-        // Act
-        await _showPollsCommand.RunAsync(_context);
+        await _command.RunAsync(_context);
 
-        // Assert
         _context.Received(1).ReplyLocalizedMessage("show_polls_room_not_exist", roomId);
         _context.DidNotReceive().ReplyHtmlPage(Arg.Any<string>(), Arg.Any<string>());
     }
@@ -78,18 +106,17 @@ public class ShowPollsCommandTest
     [Test]
     public async Task Test_Run_ShouldShowError_WhenNoPollsExist()
     {
-        // Arrange
         const string roomId = "test-room";
-        _context.RoomId.Returns(roomId);
         _context.Target.Returns(string.Empty);
+        _context.RoomId.Returns(roomId);
+
         _roomsManager.HasRoom(roomId).Returns(true);
-        _savedPollRepository.GetPollsByRoomIdAsync(roomId, Arg.Any<CancellationToken>()).Returns(new List<SavedPoll>());
 
-        // Act
-        await _showPollsCommand.RunAsync(_context);
+        MockPolls(new List<SavedPoll>()); // empty
 
-        // Assert
+        await _command.RunAsync(_context);
+
         _context.Received(1).ReplyLocalizedMessage("show_polls_no_polls", roomId);
         _context.DidNotReceive().ReplyHtmlPage(Arg.Any<string>(), Arg.Any<string>());
     }
-} 
+}

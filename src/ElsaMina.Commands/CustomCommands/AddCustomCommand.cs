@@ -8,7 +8,7 @@ using ElsaMina.DataAccess.Models;
 
 namespace ElsaMina.Commands.CustomCommands;
 
-[NamedCommand("add-custom-command", Aliases = ["add-custom", "add-command"])]
+[NamedCommand("add-custom-command", Aliases = ["add-custom", "add-command", "addcommand"])]
 public class AddCustomCommand : Command
 {
     private const int MAX_COMMAND_NAME_LENGTH = 18;

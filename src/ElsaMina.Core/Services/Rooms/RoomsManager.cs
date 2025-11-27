@@ -203,6 +203,7 @@ public class RoomsManager : IRoomsManager, IDisposable
             else
             {
                 existingValue.Value = value;
+                // On ne track pas cette entité avec le même db context, il faut donc informer EF de la mise à jour
                 dbContext.RoomBotParameterValues.Update(existingValue);
             }
 

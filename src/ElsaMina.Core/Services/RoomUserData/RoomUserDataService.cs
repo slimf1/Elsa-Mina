@@ -51,8 +51,7 @@ public class RoomUserDataService : IRoomUserDataService
     {
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
-        var existingUser = await dbContext.UserData.FindAsync(
-            [userId, roomId], cancellationToken);
+        var existingUser = await dbContext.UserData.FindAsync([userId, roomId], cancellationToken);
 
         if (existingUser != null)
             return existingUser;
@@ -184,7 +183,7 @@ public class RoomUserDataService : IRoomUserDataService
         dbContext.UserData.Update(user);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
-    
+
     public async Task IncrementUserPlayTime(
         string roomId,
         string userId,

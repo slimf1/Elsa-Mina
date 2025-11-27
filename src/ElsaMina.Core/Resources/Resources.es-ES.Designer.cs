@@ -1364,5 +1364,35 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("deletecommand_not_found", resourceCulture);
             }
         }
+        
+        internal static string badge_display_not_found {
+            get {
+                return ResourceManager.GetString("badge_display_not_found", resourceCulture);
+            }
+        }
+        
+        internal static string badge_display_is_team_tournament {
+            get {
+                return ResourceManager.GetString("badge_display_is_team_tournament", resourceCulture);
+            }
+        }
+        
+        internal static string badge_display_is_trophy {
+            get {
+                return ResourceManager.GetString("badge_display_is_trophy", resourceCulture);
+            }
+        }
+        
+        internal static string badge_display_holders {
+            get {
+                return ResourceManager.GetString("badge_display_holders", resourceCulture);
+            }
+        }
+        
+        internal static string badge_display_no_holders {
+            get {
+                return ResourceManager.GetString("badge_display_no_holders", resourceCulture);
+            }
+        }
     }
 }
