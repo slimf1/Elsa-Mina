@@ -9,13 +9,13 @@ using NSubstitute.ExceptionExtensions;
 
 namespace ElsaMina.UnitTests.Commands.Badges;
 
-public class AddBadgeTest
+public class AddBadgeCommandTest
 {
     private IContext _context;
     private IBotDbContextFactory _dbContextFactory;
     private BotDbContext _dbContext;
     private DbSet<Badge> _badgesDbSet;
-    private AddBadge _command;
+    private AddBadgeCommand _command;
 
     [SetUp]
     public void SetUp()
@@ -29,7 +29,7 @@ public class AddBadgeTest
         _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>())
             .Returns(_dbContext);
 
-        _command = new AddBadge(_dbContextFactory);
+        _command = new AddBadgeCommand(_dbContextFactory);
     }
 
     [Test]

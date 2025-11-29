@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Globalization;
+using ElsaMina.Core.Services.Rooms.Parameters;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess.Models;
 
@@ -13,13 +14,19 @@ public class Room : IRoom
     private readonly ConcurrentDictionary<string, TimeSpan> _pendingPlayTimeUpdates = [];
     private readonly Queue<Tuple<string, string>> _lastMessages = new(MESSAGE_QUEUE_LENGTH);
     private readonly ConcurrentDictionary<string, IUser> _users = new();
+    private readonly IRoomParameterStore _roomParameterStore;
+    private readonly IReadOnlyDictionary<Parameter, IParameterDefiniton> _parametersDefinitions;
     private IGame _game;
 
-    public Room(string roomTitle, string roomId, CultureInfo culture)
+    public Room(string roomTitle, string roomId, CultureInfo culture, IRoomParameterStore roomParameterStore,
+        IReadOnlyDictionary<Parameter, IParameterDefiniton> parametersDefinitions)
     {
         RoomId = roomId ?? roomTitle.ToLowerAlphaNum();
         Name = roomTitle;
         Culture = culture;
+
+        _roomParameterStore = roomParameterStore;
+        _parametersDefinitions = parametersDefinitions;
     }
 
     public string RoomId { get; }
@@ -33,7 +40,6 @@ public class Room : IRoom
         set => OnGameChanged(_game, value);
     }
 
-    public DataAccess.Models.Room Info { get; set; }
     public IEnumerable<Tuple<string, string>> LastMessages => _lastMessages.Reverse();
     public IDictionary<string, TimeSpan> PendingPlayTimeUpdates => _pendingPlayTimeUpdates;
 
@@ -46,6 +52,29 @@ public class Room : IRoom
         }
     }
 
+    public string GetParameterValue(Parameter parameter)
+    {
+        var parameterDefinition = _parametersDefinitions[parameter];
+        return _roomParameterStore.GetValue(parameter) ?? parameterDefinition.DefaultValue;
+    }
+
+    public async Task<string> GetParameterValueAsync(Parameter parameter, CancellationToken cancellationToken = default)
+    {
+        var parameterDefinition = _parametersDefinitions[parameter];
+        return await _roomParameterStore.GetValueAsync(parameter, cancellationToken) ?? parameterDefinition.DefaultValue;
+    }
+
+    public bool SetParameterValue(Parameter parameter, string value)
+    {
+        return _roomParameterStore.SetValue(parameter, value);
+    }
+
+    public async Task<bool> SetParameterValueAsync(Parameter parameter, string value,
+        CancellationToken cancellationToken = default)
+    {
+        return await _roomParameterStore.SetValueAsync(parameter, value, cancellationToken);
+    }
+
     public void InitializeMessageQueueFromLogs(IEnumerable<string> logs)
     {
         var filteredMessages = logs
@@ -54,7 +83,7 @@ public class Room : IRoom
             .Select(line => line.Split("|"))
             .Where(messageParts => !messageParts[4].StartsWith("/raw"))
             .Select(messageParts => (messageParts[3], messageParts[4]));
-            
+
         foreach (var (user, message) in filteredMessages)
         {
             _lastMessages.Enqueue(Tuple.Create(user, message));
@@ -98,7 +127,7 @@ public class Room : IRoom
             AddUser(user);
         }
     }
-    
+
     private void OnGameChanged(IGame oldGame, IGame newGame)
     {
         if (oldGame != null)

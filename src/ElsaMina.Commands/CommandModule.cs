@@ -56,8 +56,8 @@ public class CommandModule : Module
         builder.RegisterCommand<Ping>();
         builder.RegisterCommand<AddCustomCommand>();
         builder.RegisterCommand<CustomCommandList>();
-        builder.RegisterCommand<AddBadge>();
-        builder.RegisterCommand<SetLocale>();
+        builder.RegisterCommand<AddBadgeCommand>();
+        builder.RegisterCommand<SetLocaleCommand>();
         builder.RegisterCommand<Help>();
         builder.RegisterCommand<ShowRoomDashboard>();
         builder.RegisterCommand<RoomConfig>();
@@ -69,10 +69,10 @@ public class CommandModule : Module
         builder.RegisterCommand<DeleteCustomCommand>();
         builder.RegisterCommand<EditCustomCommand>();
         builder.RegisterCommand<TemplatesDebug>();
-        builder.RegisterCommand<GiveBadge>();
+        builder.RegisterCommand<GiveBadgeCommand>();
         builder.RegisterCommand<ProfileCommand>();
-        builder.RegisterCommand<DeleteBadge>();
-        builder.RegisterCommand<TakeBadge>();
+        builder.RegisterCommand<DeleteBadgeCommand>();
+        builder.RegisterCommand<TakeBadgeCommand>();
         builder.RegisterCommand<SetAvatarCommand>();
         builder.RegisterCommand<SetTitleCommand>();
         builder.RegisterCommand<AllCommands>();

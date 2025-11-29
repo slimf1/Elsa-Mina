@@ -12,14 +12,14 @@ using NUnit.Framework;
 namespace ElsaMina.UnitTests.Commands.Badges;
 
 [TestFixture]
-public class GiveBadgeTest
+public class GiveBadgeCommandTest
 {
     private IContext _context;
     private IBotDbContextFactory _dbContextFactory;
     private BotDbContext _dbContext;
     private DbSet<Badge> _badgesDbSet;
     private IRoomUserDataService _roomUserDataService;
-    private GiveBadge _command;
+    private GiveBadgeCommand _command;
 
     [SetUp]
     public void SetUp()
@@ -34,7 +34,7 @@ public class GiveBadgeTest
         _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>())
             .Returns(_dbContext);
 
-        _command = new GiveBadge(_roomUserDataService, _dbContextFactory);
+        _command = new GiveBadgeCommand(_roomUserDataService, _dbContextFactory);
     }
 
     [Test]

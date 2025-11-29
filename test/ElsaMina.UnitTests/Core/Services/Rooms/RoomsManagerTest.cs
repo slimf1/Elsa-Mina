@@ -27,7 +27,7 @@ namespace ModernBOT.Api.Helpers
     {
         private IConfiguration _configuration;
         private IRoomInfoRepository _roomInfoRepository;
-        private IParametersFactory _parametersFactory;
+        private IParametersDefinitionFactory _parametersDefinitionFactory;
         private IBotDbContextFactory _dbContextFactory;
         private IBotDbContext _dbContext;
         private IRoomUserDataService _roomUserDataService;
@@ -39,7 +39,7 @@ namespace ModernBOT.Api.Helpers
         {
             _configuration = Substitute.For<IConfiguration>();
             _roomInfoRepository = Substitute.For<IRoomInfoRepository>();
-            _parametersFactory = Substitute.For<IParametersFactory>();
+            _parametersDefinitionFactory = Substitute.For<IParametersDefinitionFactory>();
             _dbContextFactory = Substitute.For<IBotDbContextFactory>();
             _dbContext = Substitute.For<IBotDbContext>();
             _roomUserDataService = Substitute.For<IRoomUserDataService>();
@@ -48,9 +48,9 @@ namespace ModernBOT.Api.Helpers
             _configuration.PlayTimeUpdatesInterval.Returns(TimeSpan.FromDays(1));
 
             // Fake parameters dictionary
-            var mockParameter = Substitute.For<IParameter>();
-            _parametersFactory.GetParameters().Returns(
-                new Dictionary<string, IParameter>()
+            var mockParameter = Substitute.For<IParameterDefiniton>();
+            _parametersDefinitionFactory.GetParametersDefinitions().Returns(
+                new Dictionary<string, IParameterDefiniton>()
                 {
                     { ParametersConstants.LOCALE, mockParameter }
                 });
@@ -66,7 +66,7 @@ namespace ModernBOT.Api.Helpers
             // Create the RoomsManager instance
             _roomsManager = new RoomsManager(
                 _configuration,
-                _parametersFactory,
+                _parametersDefinitionFactory,
                 _dbContextFactory,
                 _roomUserDataService
             );

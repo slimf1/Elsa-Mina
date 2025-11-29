@@ -11,24 +11,24 @@
 }
 <tr>
     <td style="@cellStyle">
-        <label for="@Model.RoomParameter.Identifier">
+        <label for="@Model.RoomParameterDefiniton.Identifier">
             <h3>
-                @GetString(Model.RoomParameter.NameKey)
+                @GetString(Model.RoomParameterDefiniton.NameKey)
             </h3>
             <span>
-                @GetString(Model.RoomParameter.DescriptionKey)
+                @GetString(Model.RoomParameterDefiniton.DescriptionKey)
             </span>
         </label>
     </td>
     <td style="@cellStyle">
-        @switch (Model.RoomParameter.Type)
+        @switch (Model.RoomParameterDefiniton.Type)
         {
             case RoomBotConfigurationType.Enumeration:
             {
                 <select
-                    name="@Model.RoomParameter.Identifier"
-                    id="@Model.RoomParameter.Identifier">
-                    @foreach (var option in Model.RoomParameter.PossibleValues)
+                    name="@Model.RoomParameterDefiniton.Identifier"
+                    id="@Model.RoomParameterDefiniton.Identifier">
+                    @foreach (var option in Model.RoomParameterDefiniton.PossibleValues)
                     {
                         <option
                             value="@option.InternalValue"
@@ -42,15 +42,15 @@
             case RoomBotConfigurationType.Boolean:
                 <input
                     type="checkbox"
-                    id="@Model.RoomParameter.Identifier"
-                    name="@Model.RoomParameter.Identifier"
+                    id="@Model.RoomParameterDefiniton.Identifier"
+                    name="@Model.RoomParameterDefiniton.Identifier"
                     @(Model.CurrentValue.ToBoolean() ? "checked" : string.Empty)/>
                 break;
             case RoomBotConfigurationType.String:
                 <input
                     type="text"
-                    id="@Model.RoomParameter.Identifier"
-                    name="@Model.RoomParameter.Identifier"
+                    id="@Model.RoomParameterDefiniton.Identifier"
+                    name="@Model.RoomParameterDefiniton.Identifier"
                     value="@Model.CurrentValue"/>
                 break;
         }

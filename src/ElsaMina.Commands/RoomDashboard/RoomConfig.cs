@@ -39,7 +39,10 @@ public class RoomConfig : Command
                 var items = pair.Split('=');
                 var parameterId = items[0];
                 var value = items[1];
-                await _roomsManager.SetRoomParameter(roomId, parameterId, value);
+                var (parameter, _) = _roomsManager
+                    .ParametersDefinitions
+                    .FirstOrDefault(kvp => kvp.Value.Identifier == parameterId);
+                await room.SetParameterValueAsync(parameter, value, cancellationToken);
             }
 
             context.ReplyLocalizedMessage("room_config_success", roomId);

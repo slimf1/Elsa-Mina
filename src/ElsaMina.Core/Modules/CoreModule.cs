@@ -59,12 +59,13 @@ public class CoreModule : Module
         builder.RegisterType<RandomService>().As<IRandomService>().SingleInstance();
         builder.RegisterType<RepeatsManager>().As<IRepeatsManager>().SingleInstance();
         builder.RegisterType<SystemService>().As<ISystemService>().SingleInstance();
-        builder.RegisterType<ParametersFactory>().As<IParametersFactory>()
+        builder.RegisterType<ParametersDefinitionFactory>().As<IParametersDefinitionFactory>()
             .SingleInstance();
         builder.RegisterType<CustomColorsManager>().As<ICustomColorsManager>().SingleInstance();
         builder.RegisterType<DexManager>().As<IDexManager>().SingleInstance();
         builder.RegisterType<StartManager>().As<IStartManager>().SingleInstance();
         builder.RegisterType<ImageService>().As<IImageService>().SingleInstance();
+        builder.RegisterType<EfRoomParameterStore>().As<IRoomParameterStore>();
 
         builder.RegisterType<Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot>().As<IBot>().AsSelf().SingleInstance();

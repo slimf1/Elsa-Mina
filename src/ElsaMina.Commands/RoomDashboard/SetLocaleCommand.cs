@@ -7,11 +7,11 @@ using ElsaMina.Core.Services.Rooms.Parameters;
 namespace ElsaMina.Commands.RoomDashboard;
 
 [NamedCommand("set-locale", Aliases = ["setlocale"])]
-public class SetLocale : Command
+public class SetLocaleCommand : Command
 {
     private readonly IRoomsManager _roomsManager;
 
-    public SetLocale(IRoomsManager roomsManager)
+    public SetLocaleCommand(IRoomsManager roomsManager)
     {
         _roomsManager = roomsManager;
     }
@@ -30,13 +30,24 @@ public class SetLocale : Command
         }
         catch (CultureNotFoundException)
         {
-            context.Reply($"Locale '{locale}' doesn't exist.");
+            context.ReplyLocalizedMessage("setlocale_invalid_locale", locale);
             return;
         }
 
-        var success = await _roomsManager.SetRoomParameter(roomId,
-            ParametersConstants.LOCALE, locale);
+        var room = _roomsManager.GetRoom(roomId);
+        if (room == null)
+        {
+            context.ReplyLocalizedMessage("setlocale_room_not_found", roomId);
+            return;
+        }
+        
+        var success = await room.SetParameterValueAsync(Parameter.Locale, locale, cancellationToken);
         context.Culture = cultureInfo;
-        context.Reply(success ? $"Updated locale of room {roomId} to : {locale}" : "An error occurred.");
+        if (!success)
+        {
+            context.ReplyLocalizedMessage("setlocale_failure");
+            return;
+        }
+        context.ReplyLocalizedMessage("setlocale_success", roomId, locale);
     }
 }

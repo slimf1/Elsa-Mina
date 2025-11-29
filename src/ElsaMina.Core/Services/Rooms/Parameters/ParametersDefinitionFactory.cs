@@ -5,24 +5,24 @@ using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Core.Services.Rooms.Parameters;
 
-public class ParametersFactory : IParametersFactory
+public class ParametersDefinitionFactory : IParametersDefinitionFactory
 {
     private readonly IConfiguration _configuration;
     private readonly IResourcesService _resourcesService;
     
-    public ParametersFactory(IConfiguration configuration,
+    public ParametersDefinitionFactory(IConfiguration configuration,
         IResourcesService resourcesService)
     {
         _configuration = configuration;
         _resourcesService = resourcesService;
     }
 
-    public IReadOnlyDictionary<string, IParameter> GetParameters() =>
-        new Dictionary<string, IParameter>
+    public IReadOnlyDictionary<Parameter, IParameterDefiniton> GetParametersDefinitions() =>
+        new Dictionary<Parameter, IParameterDefiniton>
         {
-            [ParametersConstants.LOCALE] = new Parameter
+            [Parameter.Locale] = new ParameterDefinition
             {
-                Identifier = ParametersConstants.LOCALE,
+                Identifier = "locale",
                 NameKey = "parameter_name_locale",
                 DescriptionKey = "parameter_description_locale",
                 Type = RoomBotConfigurationType.Enumeration,
@@ -34,33 +34,33 @@ public class ParametersFactory : IParametersFactory
                 }),
                 OnUpdateAction = (room, newValue) => room.Culture = new CultureInfo(newValue)
             },
-            [ParametersConstants.HAS_COMMAND_AUTO_CORRECT] = new Parameter
+            [Parameter.HasCommandAutoCorrect] = new ParameterDefinition
             {
-                Identifier = ParametersConstants.HAS_COMMAND_AUTO_CORRECT,
+                Identifier = "autocorr",
                 NameKey = "parameter_name_has_command_auto_correct",
                 DescriptionKey = "parameter_description_has_command_auto_correct",
                 Type = RoomBotConfigurationType.Boolean,
                 DefaultValue = true.ToString()
             },
-            [ParametersConstants.IS_SHOWING_ERROR_MESSAGES] = new Parameter
+            [Parameter.ShowErrorMessages] = new ParameterDefinition
             {
-                Identifier = ParametersConstants.IS_SHOWING_ERROR_MESSAGES,
+                Identifier = "error",
                 NameKey = "parameter_name_is_showing_error_messages",
                 DescriptionKey = "parameter_description_is_showing_error_messages",
                 Type = RoomBotConfigurationType.Boolean,
                 DefaultValue = true.ToString()
             },
-            [ParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW] = new Parameter
+            [Parameter.ShowTeamLinksPreview] = new ParameterDefinition
             {
-                Identifier = ParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW,
+                Identifier = "teams",
                 NameKey = "parameter_name_is_showing_team_links_preview",
                 DescriptionKey = "parameter_description_is_showing_team_links_preview",
                 Type = RoomBotConfigurationType.Boolean,
                 DefaultValue = true.ToString()
             },
-            [ParametersConstants.IS_SHOWING_REPLAYS_PREVIEW] = new Parameter
+            [Parameter.ShowReplaysPreview] = new ParameterDefinition
             {
-                Identifier = ParametersConstants.IS_SHOWING_REPLAYS_PREVIEW,
+                Identifier = "replays",
                 NameKey = "parameter_name_is_showing_replays_preview",
                 DescriptionKey = "parameter_description_is_showing_replays_preview",
                 Type = RoomBotConfigurationType.Boolean,

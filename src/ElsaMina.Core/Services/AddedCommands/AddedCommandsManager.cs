@@ -33,24 +33,25 @@ public class AddedCommandsManager : IAddedCommandsManager
         _randomService = randomService;
     }
 
-    public async Task TryExecuteAddedCommand(string commandName, IContext context)
+    public async Task<bool> TryExecuteAddedCommand(string commandName, IContext context)
     {
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync();
         var command = await dbContext.AddedCommands.FindAsync(commandName, context.RoomId);
         if (command == null)
         {
-            return;
+            return false;
         }
 
         var content = command.Content;
         if (content.IsValidImageLink())
         {
             await DisplayRemoteImage(context, content);
-            return;
+            return true;
         }
 
         content = EvaluateContent(content, context);
         context.Reply(content, rankAware: true);
+        return true;
     }
 
     private async Task DisplayRemoteImage(IContext context, string content)

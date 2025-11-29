@@ -693,4 +693,55 @@
     <data name="badge_display_no_holders" xml:space="preserve">
         <value>None</value>
     </data>
+    <data name="hall_of_fame_rank" xml:space="preserve">
+        <value>Rank</value>
+    </data>
+    <data name="hall_of_fame_user" xml:space="preserve">
+        <value>Player</value>
+    </data>
+    <data name="hall_of_fame_trophies" xml:space="preserve">
+        <value>trophies</value>
+    </data>
+    <data name="hall_of_fame_total" xml:space="preserve">
+        <value>Total</value>
+    </data>
+    <data name="hall_of_fame_trophies_header" xml:space="preserve">
+        <value>Trophies</value>
+    </data>
+    <data name="hall_of_fame_solo" xml:space="preserve">
+        <value>solo</value>
+    </data>
+    <data name="hall_of_fame_team" xml:space="preserve">
+        <value>as a team</value>
+    </data>
+    <data name="hall_of_fame_title" xml:space="preserve">
+        <value>Hall of fame</value>
+    </data>
+    <data name="hall_of_fame_no_trophies" xml:space="preserve">
+        <value>No trophies found</value>
+    </data>
+    <data name="profile_header_avatar" xml:space="preserve">
+        <value>Avatar</value>
+    </data>
+    <data name="profile_header_badges" xml:space="preserve">
+        <value>Badges</value>
+    </data>
+    <data name="profile_header_info" xml:space="preserve">
+        <value>Info</value>
+    </data>
+    <data name="setlocale_invalid_locale" xml:space="preserve">
+        <value>Locale "{0}" not found.</value>
+    </data>
+    <data name="setlocale_room_not_found" xml:space="preserve">
+        <value>Room "{0}" not found.</value>
+    </data>
+    <data name="setlocale_success" xml:space="preserve">
+        <value>Updated locale of room {0} to {1}.</value>
+    </data>
+    <data name="setlocale_failure" xml:space="preserve">
+        <value>Could not update locale.</value>
+    </data>
+    <data name="command_autocorrect_suggestion" xml:space="preserve">
+        <value>Could not find command "{0}". Did you mean: __{1}__ ?</value>
+    </data>
 </root>

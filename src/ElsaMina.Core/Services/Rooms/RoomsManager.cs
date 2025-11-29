@@ -1,7 +1,9 @@
 ﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Globalization;
 using System.Timers;
 using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Rooms.Parameters;
 using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.DataAccess;
@@ -17,6 +19,7 @@ public class RoomsManager : IRoomsManager, IDisposable
     private readonly IConfiguration _configuration;
     private readonly IBotDbContextFactory _dbContextFactory;
     private readonly IRoomUserDataService _roomUserDataService;
+    private readonly IDependencyContainerService _dependencyContainerService;
 
     private readonly ConcurrentDictionary<string, IRoom> _rooms = new();
     private readonly SemaphoreSlim _playTimeUpdateSemaphoreSlim = new(1, 1);
@@ -25,18 +28,20 @@ public class RoomsManager : IRoomsManager, IDisposable
 
     public RoomsManager(
         IConfiguration configuration,
-        IParametersFactory parametersFactory,
+        IParametersDefinitionFactory parametersDefinitionFactory,
         IBotDbContextFactory dbContextFactory,
-        IRoomUserDataService roomUserDataService)
+        IRoomUserDataService roomUserDataService,
+        IDependencyContainerService dependencyContainerService)
     {
         _configuration = configuration;
         _dbContextFactory = dbContextFactory;
         _roomUserDataService = roomUserDataService;
+        _dependencyContainerService = dependencyContainerService;
 
-        RoomParameters = parametersFactory.GetParameters();
+        ParametersDefinitions = parametersDefinitionFactory.GetParametersDefinitions();
     }
 
-    public IReadOnlyDictionary<string, IParameter> RoomParameters { get; }
+    public IReadOnlyDictionary<Parameter, IParameterDefiniton> ParametersDefinitions { get; }
 
     public void Initialize() => StartPlayTimeUpdatesTimer();
 
@@ -45,56 +50,69 @@ public class RoomsManager : IRoomsManager, IDisposable
 
     public bool HasRoom(string roomId) => _rooms.ContainsKey(roomId);
 
-    public async Task InitializeRoomAsync(string roomId, IEnumerable<string> lines, CancellationToken cancellationToken = default)
+    // This method is ass and needs refactoring~
+    public async Task InitializeRoomAsync(string roomId, IEnumerable<string> lines,
+        CancellationToken cancellationToken = default)
     {
         var receivedLines = lines.ToArray();
+
+        // Le titre peut être différent du roomId
         var roomTitle = receivedLines
             .FirstOrDefault(x => x.StartsWith("|title|"))
-            ?.Split("|")[2];
+            ?.Split("|")[2] ?? roomId;
 
         var users = receivedLines
-            .FirstOrDefault(x => x.StartsWith("|users|"))
-            ?.Split("|")[2]
-            ?.Split(",")[1..];
+            .FirstOrDefault(x => x.StartsWith("|users|"))?
+            .Split("|")[2]
+            .Split(",")[1..];
 
         Log.Information("Initializing {0}...", roomTitle);
 
-        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+        var dbRoomEntity = await InitializeOrUpdateRoomEntity(roomId, roomTitle, cancellationToken);
 
-        var roomParameters = await dbContext.RoomInfo
-            .Include(r => r.ParameterValues)
-            .FirstOrDefaultAsync(r => r.Id == roomId, cancellationToken);
+        // Construction de la room
+        var parameterStore = _dependencyContainerService.Resolve<IRoomParameterStore>();
+        parameterStore.InitializeFromRoomEntity(dbRoomEntity);
+        var localeCode = await parameterStore.GetValueAsync(Parameter.Locale, cancellationToken);
+        var room = new Room(roomTitle,
+            roomId,
+            new CultureInfo(localeCode ?? _configuration.DefaultLocaleCode),
+            parameterStore,
+            ParametersDefinitions);
 
-        if (roomParameters == null)
-        {
-            Log.Information("Could not find room parameters, inserting...");
-
-            roomParameters = new DataAccess.Models.Room { Id = roomId };
-            await dbContext.RoomInfo.AddAsync(roomParameters, cancellationToken);
-
-            await dbContext.SaveChangesAsync(cancellationToken);
-
-            Log.Information("Inserted room parameters for {0}", roomId);
-        }
-
-        var localeValue = roomParameters.ParameterValues?
-            .FirstOrDefault(p => p.ParameterId == ParametersConstants.LOCALE)
-            ?.Value;
-
-        var locale = localeValue ?? _configuration.DefaultLocaleCode;
-
-        var room = new Room(roomTitle ?? roomId, roomId, new CultureInfo(locale))
-        {
-            Info = roomParameters
-        };
-
-        room.AddUsers(users ?? Array.Empty<string>());
+        parameterStore.Room = room;
+        room.AddUsers(users ?? []);
+        room.InitializeMessageQueueFromLogs(receivedLines);
 
         _rooms[room.RoomId] = room;
 
-        room.InitializeMessageQueueFromLogs(receivedLines);
-
         Log.Information("Initializing {0} : DONE", roomTitle);
+    }
+
+    private async Task<DataAccess.Models.Room> InitializeOrUpdateRoomEntity(string roomId, string roomTitle,
+        CancellationToken cancellationToken)
+    {
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+        var dbRoom = await dbContext
+            .RoomInfo
+            .Include(r => r.ParameterValues)
+            .FirstOrDefaultAsync(r => r.Id == roomId, cancellationToken);
+
+        if (dbRoom == null)
+        {
+            Log.Information("Could not find room parameters, inserting...");
+
+            dbRoom = new DataAccess.Models.Room { Id = roomId, Title = roomTitle };
+            await dbContext.RoomInfo.AddAsync(dbRoom, cancellationToken);
+            Log.Information("Inserted room parameters for {0}", roomId);
+        }
+        else
+        {
+            dbRoom.Title = roomTitle;
+        }
+
+        await dbContext.SaveChangesAsync(cancellationToken);
+        return dbRoom;
     }
 
     public void RemoveRoom(string roomId)
@@ -154,75 +172,6 @@ public class RoomsManager : IRoomsManager, IDisposable
 
     public void RenameUserInRoom(string roomId, string oldName, string newName) =>
         GetRoom(roomId)?.RenameUser(oldName, newName);
-
-    public string GetRoomParameter(string roomId, string parameterId)
-    {
-        var room = GetRoom(roomId);
-        if (room?.Info?.ParameterValues == null) return default;
-
-        if (!RoomParameters.TryGetValue(parameterId, out var parameter)) 
-            return default;
-
-        var value = room.Info.ParameterValues
-            .FirstOrDefault(v => v.ParameterId == parameterId)
-            ?.Value;
-
-        return value ?? parameter.DefaultValue;
-    }
-
-    public async Task<bool> SetRoomParameter(string roomId, string parameterId, string value)
-    {
-        var room = GetRoom(roomId);
-        if (room == null)
-        {
-            return false;
-        }
-
-        await using var dbContext = await _dbContextFactory.CreateDbContextAsync();
-
-        var roomInfo = room.Info;
-        var parameter = RoomParameters[parameterId];
-
-        var existingValue = roomInfo.ParameterValues
-            .FirstOrDefault(x => x.ParameterId == parameterId);
-
-        try
-        {
-            if (existingValue == null)
-            {
-                var newValue = new RoomBotParameterValue
-                {
-                    ParameterId = parameterId,
-                    RoomId = roomId,
-                    Value = value
-                };
-
-                await dbContext.RoomBotParameterValues.AddAsync(newValue);
-                roomInfo.ParameterValues.Add(newValue);
-            }
-            else
-            {
-                existingValue.Value = value;
-                // On ne track pas cette entité avec le même db context, il faut donc informer EF de la mise à jour
-                dbContext.RoomBotParameterValues.Update(existingValue);
-            }
-
-            await dbContext.SaveChangesAsync();
-
-            parameter.OnUpdateAction?.Invoke(room, value);
-
-            Log.Information("Saved room parameter: '{0}' = '{1}' for '{2}'",
-                parameterId, value, roomId);
-
-            return true;
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Failed to save parameter '{0}' = '{1}' for room '{2}'",
-                parameterId, value, roomId);
-            return false;
-        }
-    }
 
     public void Clear() => _rooms.Clear();
 

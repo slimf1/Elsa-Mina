@@ -1,6 +1,5 @@
-using System.Collections;
 using System.Globalization;
-using ElsaMina.DataAccess.Models;
+using ElsaMina.Core.Services.Rooms.Parameters;
 
 namespace ElsaMina.Core.Services.Rooms;
 
@@ -11,10 +10,13 @@ public interface IRoom
     IReadOnlyDictionary<string, IUser> Users { get; }
     CultureInfo Culture { get; set; }
     IGame Game { get; set; }
-    DataAccess.Models.Room Info { get; }
     IEnumerable<Tuple<string, string>> LastMessages { get; }
     IDictionary<string, TimeSpan> PendingPlayTimeUpdates { get; }
 
+    string GetParameterValue(Parameter parameter);
+    Task<string> GetParameterValueAsync(Parameter parameter, CancellationToken cancellationToken = default);
+    bool SetParameterValue(Parameter parameter, string value);
+    Task<bool> SetParameterValueAsync(Parameter parameter, string value, CancellationToken cancellationToken = default);
     void AddUser(string username);
     void RemoveUser(string username);
     void RenameUser(string oldName, string newName);

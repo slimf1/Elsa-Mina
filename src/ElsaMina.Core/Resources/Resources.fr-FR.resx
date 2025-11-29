@@ -693,4 +693,55 @@
     <data name="badge_display_no_holders" xml:space="preserve">
         <value>Aucun</value>
     </data>
+    <data name="hall_of_fame_rank" xml:space="preserve">
+        <value>Rang</value>
+    </data>
+    <data name="hall_of_fame_user" xml:space="preserve">
+        <value>Joueur</value>
+    </data>
+    <data name="hall_of_fame_total" xml:space="preserve">
+        <value>Total</value>
+    </data>
+    <data name="hall_of_fame_trophies_header" xml:space="preserve">
+        <value>Trophées</value>
+    </data>
+    <data name="hall_of_fame_solo" xml:space="preserve">
+        <value>solo</value>
+    </data>
+    <data name="hall_of_fame_team" xml:space="preserve">
+        <value>en équipe</value>
+    </data>
+    <data name="hall_of_fame_title" xml:space="preserve">
+        <value>Panthéon</value>
+    </data>
+    <data name="hall_of_fame_trophies" xml:space="preserve">
+        <value>trophée{0}</value>
+    </data>
+    <data name="hall_of_fame_no_trophies" xml:space="preserve">
+        <value>Aucun trophée trouvé.</value>
+    </data>
+    <data name="profile_header_avatar" xml:space="preserve">
+        <value>Avatar</value>
+    </data>
+    <data name="profile_header_badges" xml:space="preserve">
+        <value>Badges</value>
+    </data>
+    <data name="profile_header_info" xml:space="preserve">
+        <value>Infos</value>
+    </data>
+    <data name="setlocale_invalid_locale" xml:space="preserve">
+        <value>La langue "{0}" n'a pas été trouvée.</value>
+    </data>
+    <data name="setlocale_room_not_found" xml:space="preserve">
+        <value>La salle "{0}" n'a pas été trouvée.</value>
+    </data>
+    <data name="setlocale_success" xml:space="preserve">
+        <value>Mise à jour de la langue de la salle {0} : {1}</value>
+    </data>
+    <data name="setlocale_failure" xml:space="preserve">
+        <value>Impossible de mettre à jour la langue.</value>
+    </data>
+    <data name="command_autocorrect_suggestion" xml:space="preserve">
+        <value>La commmade "{0}" n'a pas été trouvée. Vouliez-vous dire : __{1}__ ?</value>
+    </data>
 </root>

@@ -45,9 +45,9 @@ public class OtherRoomTournamentAnnounceHandler : Handler
 
             foreach (var receivingRoomId in receivingRoomsIds)
             {
-                var cultureCode = _roomsManager.GetRoomParameter(receivingRoomId, ParametersConstants.LOCALE);
+                var room = _roomsManager.GetRoom(receivingRoomId);
                 var message = string.Format(
-                    _resourcesService.GetString("tour_announce_message", new CultureInfo(cultureCode)),
+                    _resourcesService.GetString("tour_announce_message", room.Culture),
                     format,
                     broadcastingRoomId);
                 _bot.Say(receivingRoomId, message);

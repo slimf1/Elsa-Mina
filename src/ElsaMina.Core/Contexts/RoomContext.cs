@@ -7,7 +7,6 @@ namespace ElsaMina.Core.Contexts;
 
 public class RoomContext : Context
 {
-    private readonly IContextProvider _contextProvider;
     private readonly IRoom _room;
     private readonly long _timestamp;
 
@@ -20,8 +19,6 @@ public class RoomContext : Context
         IRoom room,
         long timestamp) : base(contextProvider, bot, message, target, sender, command)
     {
-        _contextProvider = contextProvider;
-
         _room = room;
         _timestamp = timestamp;
     }
@@ -40,8 +37,8 @@ public class RoomContext : Context
 
     public DateTimeOffset Timestamp => DateTimeOffset.FromUnixTimeSeconds(_timestamp);
 
-    protected override bool IsAllowingErrorMessages => _contextProvider
-        .GetRoomParameterValue(RoomId, ParametersConstants.IS_SHOWING_ERROR_MESSAGES).ToBoolean();
+    protected override bool IsAllowingErrorMessages =>
+        _room.GetParameterValueAsync(Parameter.ShowErrorMessages).GetAwaiter().GetResult().ToBoolean();
 
     public override bool HasRankOrHigher(Rank requiredRank)
     {

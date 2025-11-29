@@ -20,21 +20,18 @@ public class DisplayTeamOnLinkHandler : ChatMessageHandler
     private readonly IClockService _clockService;
     private readonly ITeamLinkMatchFactory _teamLinkMatchFactory;
     private readonly ITemplatesManager _templatesManager;
-    private readonly IRoomsManager _roomsManager;
     private readonly IConfiguration _configuration;
 
     public DisplayTeamOnLinkHandler(IContextFactory contextFactory,
         IClockService clockService,
         ITeamLinkMatchFactory teamLinkMatchFactory,
         ITemplatesManager templatesManager,
-        IRoomsManager roomManager,
         IConfiguration configuration)
         : base(contextFactory)
     {
         _clockService = clockService;
         _teamLinkMatchFactory = teamLinkMatchFactory;
         _templatesManager = templatesManager;
-        _roomsManager = roomManager;
         _configuration = configuration;
     }
 
@@ -47,8 +44,8 @@ public class DisplayTeamOnLinkHandler : ChatMessageHandler
             return;
         }
 
-        var isShowingTeamLinksPreviewEnabled = _roomsManager.GetRoomParameter(
-            context.RoomId, ParametersConstants.IS_SHOWING_TEAM_LINKS_PREVIEW).ToBoolean();
+        var isShowingTeamLinksPreviewEnabled =
+            (await context.Room.GetParameterValueAsync(Parameter.ShowTeamLinksPreview, cancellationToken)).ToBoolean();
         if (!isShowingTeamLinksPreviewEnabled)
         {
             return;

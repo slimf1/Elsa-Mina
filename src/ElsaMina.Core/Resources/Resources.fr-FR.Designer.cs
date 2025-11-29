@@ -1394,5 +1394,107 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("badge_display_no_holders", resourceCulture);
             }
         }
+        
+        internal static string hall_of_fame_rank {
+            get {
+                return ResourceManager.GetString("hall_of_fame_rank", resourceCulture);
+            }
+        }
+        
+        internal static string hall_of_fame_user {
+            get {
+                return ResourceManager.GetString("hall_of_fame_user", resourceCulture);
+            }
+        }
+        
+        internal static string hall_of_fame_total {
+            get {
+                return ResourceManager.GetString("hall_of_fame_total", resourceCulture);
+            }
+        }
+        
+        internal static string hall_of_fame_trophies_header {
+            get {
+                return ResourceManager.GetString("hall_of_fame_trophies_header", resourceCulture);
+            }
+        }
+        
+        internal static string hall_of_fame_solo {
+            get {
+                return ResourceManager.GetString("hall_of_fame_solo", resourceCulture);
+            }
+        }
+        
+        internal static string hall_of_fame_team {
+            get {
+                return ResourceManager.GetString("hall_of_fame_team", resourceCulture);
+            }
+        }
+        
+        internal static string hall_of_fame_title {
+            get {
+                return ResourceManager.GetString("hall_of_fame_title", resourceCulture);
+            }
+        }
+        
+        internal static string hall_of_fame_trophies {
+            get {
+                return ResourceManager.GetString("hall_of_fame_trophies", resourceCulture);
+            }
+        }
+        
+        internal static string hall_of_fame_no_trophies {
+            get {
+                return ResourceManager.GetString("hall_of_fame_no_trophies", resourceCulture);
+            }
+        }
+        
+        internal static string profile_header_avatar {
+            get {
+                return ResourceManager.GetString("profile_header_avatar", resourceCulture);
+            }
+        }
+        
+        internal static string profile_header_badges {
+            get {
+                return ResourceManager.GetString("profile_header_badges", resourceCulture);
+            }
+        }
+        
+        internal static string profile_header_info {
+            get {
+                return ResourceManager.GetString("profile_header_info", resourceCulture);
+            }
+        }
+        
+        internal static string setlocale_invalid_locale {
+            get {
+                return ResourceManager.GetString("setlocale_invalid_locale", resourceCulture);
+            }
+        }
+        
+        internal static string setlocale_room_not_found {
+            get {
+                return ResourceManager.GetString("setlocale_room_not_found", resourceCulture);
+            }
+        }
+        
+        internal static string setlocale_success {
+            get {
+                return ResourceManager.GetString("setlocale_success", resourceCulture);
+            }
+        }
+        
+        internal static string setlocale_failure {
+            get {
+                return ResourceManager.GetString("setlocale_failure", resourceCulture);
+            }
+        }
+        
+        internal static string command_autocorrect_suggestion {
+            get {
+                return ResourceManager.GetString("command_autocorrect_suggestion", resourceCulture);
+            }
+        }
     }
 }

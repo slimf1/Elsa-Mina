@@ -9,6 +9,7 @@ namespace ElsaMina.DataAccess.Models;
 public class Room
 {
     public string Id { get; set; }
+    public string Title { get; set; }
     public ICollection<RoomTeam> Teams { get; set; } = new HashSet<RoomTeam>();
     public ICollection<RoomBotParameterValue> ParameterValues { get; set; } = new HashSet<RoomBotParameterValue>();
     public ICollection<SavedPoll> PollHistory { get; set; } = new HashSet<SavedPoll>();

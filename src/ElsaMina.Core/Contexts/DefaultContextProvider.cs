@@ -44,11 +44,6 @@ public class DefaultContextProvider : IContextProvider
         return _roomsManager.GetRoom(roomId);
     }
 
-    public string GetRoomParameterValue(string roomId, string key)
-    {
-        return _roomsManager.GetRoomParameter(roomId, key);
-    }
-
     public async Task<Rank> GetUserRankInRoom(string roomId, string userId, CancellationToken cancellationToken)
     {
         var userDetails = await _userDetailsManager.GetUserDetailsAsync(userId, cancellationToken);

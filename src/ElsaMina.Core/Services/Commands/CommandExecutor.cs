@@ -2,6 +2,8 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.DependencyInjection;
+using ElsaMina.Core.Services.Rooms.Parameters;
+using ElsaMina.Core.Utils;
 using ElsaMina.Logging;
 
 namespace ElsaMina.Core.Services.Commands;
@@ -45,11 +47,36 @@ public class CommandExecutor : ICommandExecutor
         if (!context.IsPrivateMessage)
         {
             Log.Information("Trying command {0} as a custom command", commandName);
-            await _addedCommandsManager.TryExecuteAddedCommand(commandName, context);
-            return;
+            if (await _addedCommandsManager.TryExecuteAddedCommand(commandName, context))
+            {
+                // Une commande custom a été trouvée & éxécutée : on s'arrête là
+                return;
+            }
         }
 
         Log.Error("Could not find command {0}", commandName);
+        var canRunAutoCorrect = context.IsPrivateMessage
+                                || (await context.Room.GetParameterValueAsync(Parameter.HasCommandAutoCorrect,
+                                    cancellationToken)).ToBoolean();
+
+        if (canRunAutoCorrect)
+        {
+            var maxLevenshteinDistance = commandName.Length <= 5 ? 1 : 2; // <= completement arbitraire
+            var closestCommand = GetAllCommands()
+                .SelectMany(command => (string[]) [.. command.Aliases, command.Name])
+                .Where(possibleCommands => possibleCommands.LevenshteinDistance(commandName) <= maxLevenshteinDistance)
+                .ToArray(); // TODO : ajouter les commandes custom un jour dans le cas d'une salle
+
+            if (closestCommand.Length > 0)
+            {
+                Log.Information("Auto-correcting command {0} to {1}", commandName, closestCommand);
+                context.ReplyLocalizedMessage("command_autocorrect_suggestion", commandName, string.Join(", ", closestCommand));
+            }
+
+            return;
+        }
+
+        Log.Information("Not running auto-correct for command {0}", commandName);
     }
 
     private static bool CanCommandBeRan(IContext context, ICommand command)

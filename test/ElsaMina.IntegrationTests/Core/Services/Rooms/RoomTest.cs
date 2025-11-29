@@ -32,7 +32,7 @@ public class RoomTest
         configuration.DefaultLocaleCode.Returns("fr-FR");
         var resourcesService = Substitute.For<IResourcesService>();
         resourcesService.SupportedLocales.Returns([new CultureInfo("fr-FR")]);
-        var parametersFactory = new ParametersFactory(configuration,
+        var parametersFactory = new ParametersDefinitionFactory(configuration,
             resourcesService);
         var roomParametersRepository = new RoomInfoRepository(_context);
         var roomBotParameterValueRepository = new RoomBotParameterValueRepository(_context);

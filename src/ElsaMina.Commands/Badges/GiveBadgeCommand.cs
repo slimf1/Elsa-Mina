@@ -10,12 +10,12 @@ using ElsaMina.Logging;
 namespace ElsaMina.Commands.Badges;
 
 [NamedCommand("givebadge", Aliases = ["give-badge"])]
-public class GiveBadge : Command
+public class GiveBadgeCommand : Command
 {
     private readonly IRoomUserDataService _roomUserDataService;
     private readonly IBotDbContextFactory _dbContextFactory;
 
-    public GiveBadge(IRoomUserDataService roomUserDataService, IBotDbContextFactory dbContextFactory)
+    public GiveBadgeCommand(IRoomUserDataService roomUserDataService, IBotDbContextFactory dbContextFactory)
     {
         _roomUserDataService = roomUserDataService;
         _dbContextFactory = dbContextFactory;
@@ -55,7 +55,7 @@ public class GiveBadge : Command
 
         try
         {
-            await _roomUserDataService.GiveBadgeToUserAsync(context.RoomId, userId, badgeId);
+            await _roomUserDataService.GiveBadgeToUserAsync(context.RoomId, userId, badgeId, cancellationToken);
             context.ReplyLocalizedMessage("badge_give_success", userId, badge.Name);
         }
         catch (Exception exception)

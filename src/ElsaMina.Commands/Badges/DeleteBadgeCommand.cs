@@ -8,11 +8,11 @@ using ElsaMina.Logging;
 namespace ElsaMina.Commands.Badges;
 
 [NamedCommand("deletebadge", Aliases = ["deletetrophy", "delete-badge", "delete-trophy"])]
-public class DeleteBadge : Command
+public class DeleteBadgeCommand : Command
 {
     private readonly IBotDbContextFactory _factory;
 
-    public DeleteBadge(IBotDbContextFactory factory)
+    public DeleteBadgeCommand(IBotDbContextFactory factory)
     {
         _factory = factory;
     }

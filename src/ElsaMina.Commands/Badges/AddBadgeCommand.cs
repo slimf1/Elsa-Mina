@@ -9,11 +9,11 @@ using ElsaMina.Logging;
 namespace ElsaMina.Commands.Badges;
 
 [NamedCommand("add-badge", Aliases = ["addbadge", "new-badge", "newbadge", "add-trophy", "newtrophy", "new-trophy"])]
-public class AddBadge : Command
+public class AddBadgeCommand : Command
 {
     private readonly IBotDbContextFactory _dbContextFactory;
 
-    public AddBadge(IBotDbContextFactory dbContextFactory)
+    public AddBadgeCommand(IBotDbContextFactory dbContextFactory)
     {
         _dbContextFactory = dbContextFactory;
     }

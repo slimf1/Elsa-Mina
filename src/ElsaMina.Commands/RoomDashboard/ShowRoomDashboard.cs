@@ -3,12 +3,13 @@ using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.Rooms.Parameters;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.RoomDashboard;
 
-[NamedCommand("room-dashboard")]
+[NamedCommand("room-dashboard", "roomdashboard", "rdash")]
 public class ShowRoomDashboard : Command
 {
     private readonly IConfiguration _configuration;
@@ -57,7 +58,7 @@ public class ShowRoomDashboard : Command
         configurationCommandBuilder.Append(roomId);
         configurationCommandBuilder.Append(',');
         configurationCommandBuilder.AppendJoin(',', _roomsManager
-            .RoomParameters
+            .ParametersDefinitions
             .Values
             .Select(parameter => $"{parameter.Identifier}={{{parameter.Identifier}}}"));
 
@@ -69,13 +70,12 @@ public class ShowRoomDashboard : Command
             Command = configurationCommandBuilder.ToString(),
             RoomName = room.Name,
             Culture = context.Culture,
-            RoomParameterLines = _roomsManager.RoomParameters
-                .Select(roomParameter => new RoomParameterLineModel
+            RoomParameterLines = _roomsManager.ParametersDefinitions
+                .Select(kvp => new RoomParameterLineModel
                 {
                     Culture = context.Culture,
-                    RoomParameter = roomParameter.Value,
-                    CurrentValue = _roomsManager
-                        .GetRoomParameter(roomId, roomParameter.Value.Identifier)
+                    RoomParameterDefiniton = kvp.Value,
+                    CurrentValue = room.GetParameterValue(kvp.Key)
                 })
         };
         var template = await _templatesManager.GetTemplateAsync("RoomDashboard/RoomDashboard", viewModel);

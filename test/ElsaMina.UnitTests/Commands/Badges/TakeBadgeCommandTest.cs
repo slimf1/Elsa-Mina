@@ -6,18 +6,18 @@ using NSubstitute.ExceptionExtensions;
 
 namespace ElsaMina.UnitTests.Commands.Badges;
 
-public class TakeBadgeTest
+public class TakeBadgeCommandTest
 {
     private IContext _context;
     private IRoomUserDataService _roomUserDataService;
-    private TakeBadge _command;
+    private TakeBadgeCommand _command;
 
     [SetUp]
     public void SetUp()
     {
         _context = Substitute.For<IContext>();
         _roomUserDataService = Substitute.For<IRoomUserDataService>();
-        _command = new TakeBadge(_roomUserDataService);
+        _command = new TakeBadgeCommand(_roomUserDataService);
     }
 
     [Test]

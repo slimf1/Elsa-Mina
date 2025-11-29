@@ -9,11 +9,11 @@ using ElsaMina.Logging;
 namespace ElsaMina.Commands.Badges;
 
 [NamedCommand("takebadge", Aliases = ["take-badge", "take-trophy", "taketrophy"])]
-public class TakeBadge : Command
+public class TakeBadgeCommand : Command
 {
     private readonly IRoomUserDataService _roomUserDataService;
 
-    public TakeBadge(IRoomUserDataService roomUserDataService)
+    public TakeBadgeCommand(IRoomUserDataService roomUserDataService)
     {
         _roomUserDataService = roomUserDataService;
     }
