@@ -58,25 +58,29 @@ public class CommandExecutor : ICommandExecutor
         var canRunAutoCorrect = context.IsPrivateMessage
                                 || (await context.Room.GetParameterValueAsync(Parameter.HasCommandAutoCorrect,
                                     cancellationToken)).ToBoolean();
-
         if (canRunAutoCorrect)
         {
-            var maxLevenshteinDistance = commandName.Length <= 5 ? 1 : 2; // <= completement arbitraire
-            var closestCommand = GetAllCommands()
-                .SelectMany(command => (string[]) [.. command.Aliases, command.Name])
-                .Where(possibleCommands => possibleCommands.LevenshteinDistance(commandName) <= maxLevenshteinDistance)
-                .ToArray(); // TODO : ajouter les commandes custom un jour dans le cas d'une salle
-
-            if (closestCommand.Length > 0)
-            {
-                Log.Information("Auto-correcting command {0} to {1}", commandName, closestCommand);
-                context.ReplyLocalizedMessage("command_autocorrect_suggestion", commandName, string.Join(", ", closestCommand));
-            }
-
+            ReplyWithAutoCorrect(commandName, context);
             return;
         }
 
         Log.Information("Not running auto-correct for command {0}", commandName);
+    }
+
+    private void ReplyWithAutoCorrect(string commandName, IContext context)
+    {
+        var maxLevenshteinDistance = commandName.Length <= 6 ? 1 : 2;
+        var closestCommand = GetAllCommands()
+            .SelectMany(command => (string[]) [.. command.Aliases, command.Name])
+            .Where(possibleCommands => possibleCommands.LevenshteinDistance(commandName) <= maxLevenshteinDistance)
+            .ToArray(); // TODO : ajouter les commandes custom
+
+        if (closestCommand.Length == 0)
+        {
+            return;
+        }
+
+        context.ReplyLocalizedMessage("command_autocorrect_suggestion", commandName, string.Join(", ", closestCommand));
     }
 
     private static bool CanCommandBeRan(IContext context, ICommand command)
