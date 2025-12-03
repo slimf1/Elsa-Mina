@@ -486,7 +486,7 @@
         <value>Sintaxis: addpalier (usuario), (palier)</value>
     </data>
     <data name="arcade_levels_level" xml:space="preserve">
-        <value>Palier</value>
+        <value>Nivel</value>
     </data>
     <data name="arcade_levels_players" xml:space="preserve">
         <value>Jugadores</value>
