@@ -744,7 +744,7 @@
         <value>Aggiornamento della lingua della stanza {0}: {1}</value>
     </data>
     <data name="setlocale_failure" xml:space="preserve">
-        <value>mpossibile aggiornare la lingua.</value>
+        <value>Impossibile aggiornare la lingua.</value>
     </data>
     <data name="command_autocorrect_suggestion" xml:space="preserve">
         <value>Il comando "{0}" non è stato trovato. Volevi dire: __{1}__ ?</value>
