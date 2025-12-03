@@ -744,4 +744,19 @@
     <data name="command_autocorrect_suggestion" xml:space="preserve">
         <value>Could not find command "{0}". Did you mean: __{1}__ ?</value>
     </data>
+    <data name="genius_help_message" xml:space="preserve">
+        <value>Fetch a song by its lyrics using Genius. Usage: -genius &lt;lyrics&gt;</value>
+    </data>
+    <data name="genius_release_date" xml:space="preserve">
+        <value>Released on: {0}</value>
+    </data>
+    <data name="genius_artist" xml:space="preserve">
+        <value>By: {0}</value>
+    </data>
+    <data name="genius_page_views" xml:space="preserve">
+        <value>Page Views: {0}</value>
+    </data>
+    <data name="genius_link" xml:space="preserve">
+        <value>Check lyrics on Genius</value>
+    </data>
 </root>

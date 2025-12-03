@@ -744,4 +744,19 @@
     <data name="command_autocorrect_suggestion" xml:space="preserve">
         <value>La commmade "{0}" n'a pas été trouvée. Vouliez-vous dire : __{1}__ ?</value>
     </data>
+    <data name="genius_help_message" xml:space="preserve">
+        <value>Recherche une chanson à partir de ses paroles. Syntaxe: -genius &lt;paroles&gt;</value>
+    </data>
+    <data name="genius_release_date" xml:space="preserve">
+        <value>Sortie le: {0}</value>
+    </data>
+    <data name="genius_artist" xml:space="preserve">
+        <value>Par: {0}</value>
+    </data>
+    <data name="genius_page_views" xml:space="preserve">
+        <value>Vues sur la page: {0}</value>
+    </data>
+    <data name="genius_link" xml:space="preserve">
+        <value>Lire les paroles sur Genius</value>
+    </data>
 </root>

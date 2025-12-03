@@ -36,6 +36,7 @@ public class TemplatesManager : ITemplatesManager
     {
         var compilationTasks = FileSystem
             .GetFilesFromDirectoryRecursively(TEMPLATES_DIRECTORY_PATH)
+            .Where(templatePath => Path.GetExtension(templatePath) == ".cshtml")
             .Select(CompileTemplateAsync);
         await Task.WhenAll(compilationTasks);
         Log.Information("Done compiling templates");

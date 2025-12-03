@@ -10,12 +10,12 @@ using Microsoft.EntityFrameworkCore;
 namespace ElsaMina.Commands.Teams.Samples;
 
 [NamedCommand("team-list", Aliases = ["teams"])]
-public class TeamList : Command
+public class TeamListCommand : Command
 {
     private readonly ITemplatesManager _templatesManager;
     private readonly IBotDbContextFactory _dbContextFactory;
 
-    public TeamList(ITemplatesManager templatesManager, IBotDbContextFactory dbContextFactory)
+    public TeamListCommand(ITemplatesManager templatesManager, IBotDbContextFactory dbContextFactory)
     {
         _templatesManager = templatesManager;
         _dbContextFactory = dbContextFactory;

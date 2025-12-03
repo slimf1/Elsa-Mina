@@ -8,12 +8,12 @@ using ElsaMina.DataAccess;
 namespace ElsaMina.Commands.Teams.Samples;
 
 [NamedCommand("team-showcase", Aliases = ["team"])]
-public class TeamShowcase : Command
+public class TeamShowcaseCommand : Command
 {
     private readonly ITemplatesManager _templatesManager;
     private readonly IBotDbContextFactory _dbContextFactory;
 
-    public TeamShowcase(ITemplatesManager templatesManager, IBotDbContextFactory dbContextFactory)
+    public TeamShowcaseCommand(ITemplatesManager templatesManager, IBotDbContextFactory dbContextFactory)
     {
         _templatesManager = templatesManager;
         _dbContextFactory = dbContextFactory;

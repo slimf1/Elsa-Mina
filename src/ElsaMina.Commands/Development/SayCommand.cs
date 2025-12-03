@@ -6,11 +6,11 @@ using ElsaMina.Logging;
 namespace ElsaMina.Commands.Development;
 
 [NamedCommand("say")]
-public class Say : DevelopmentCommand
+public class SayCommand : DevelopmentCommand
 {
     private readonly IBot _bot;
 
-    public Say(IBot bot)
+    public SayCommand(IBot bot)
     {
         _bot = bot;
     }

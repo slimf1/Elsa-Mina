@@ -3,6 +3,7 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.Rooms.Parameters;
 using ElsaMina.Core.Services.Templates;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
@@ -16,7 +17,7 @@ public class ReplaysHandlerTest
     private ITemplatesManager _templatesManager;
     private IRoomsManager _roomsManager;
     private IContext _context;
-    private IConfiguration _configuration;
+    private IRoom _room;
 
     [SetUp]
     public void SetUp()
@@ -26,17 +27,17 @@ public class ReplaysHandlerTest
         _templatesManager = Substitute.For<ITemplatesManager>();
         _roomsManager = Substitute.For<IRoomsManager>();
         _context = Substitute.For<IContext>();
-        _configuration = Substitute.For<IConfiguration>();
-
+        _room = Substitute.For<IRoom>();
+        _context.Room.Returns(_room);
         _replaysHandler =
-            new ReplaysHandler(contextFactory, _httpService, _templatesManager, _roomsManager, _configuration);
+            new ReplaysHandler(contextFactory, _httpService, _templatesManager);
     }
 
     [Test]
     public async Task Test_HandleMessage_ShouldNotProcess_WhenReplayPreviewDisabled()
     {
         // Arrange
-        _roomsManager.GetRoomParameter(Arg.Any<string>(), Arg.Any<string>())
+        _room.GetParameterValueAsync(Parameter.ShowReplaysPreview, Arg.Any<CancellationToken>())
             .Returns("false");
 
         // Act
@@ -50,7 +51,7 @@ public class ReplaysHandlerTest
     public async Task Test_HandleMessage_ShouldNotProcess_WhenNoReplayLinkFound()
     {
         // Arrange
-        _roomsManager.GetRoomParameter(Arg.Any<string>(), Arg.Any<string>())
+        _room.GetParameterValueAsync(Parameter.ShowReplaysPreview, Arg.Any<CancellationToken>())
             .Returns("true");
         _context.Message.Returns("This is a message without a replay link.");
 
@@ -66,7 +67,7 @@ public class ReplaysHandlerTest
     {
         // Arrange
         var replayUrl = "https://replay.pokemonshowdown.com/gen8ou-123456789";
-        _roomsManager.GetRoomParameter(Arg.Any<string>(), Arg.Any<string>())
+        _room.GetParameterValueAsync(Parameter.ShowReplaysPreview, Arg.Any<CancellationToken>())
             .Returns("true");
         _context.Message.Returns(replayUrl);
         var replayData = new ReplayDto
@@ -97,7 +98,7 @@ public class ReplaysHandlerTest
     {
         // Arrange
         var replayUrl = "https://replay.pokemonshowdown.com/gen8ou-123456789";
-        _roomsManager.GetRoomParameter(Arg.Any<string>(), Arg.Any<string>())
+        _room.GetParameterValueAsync(Parameter.ShowReplaysPreview, Arg.Any<CancellationToken>())
             .Returns("true");
         _context.Message.Returns(replayUrl);
 

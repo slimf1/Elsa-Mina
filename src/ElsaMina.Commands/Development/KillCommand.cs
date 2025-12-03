@@ -7,11 +7,11 @@ using ElsaMina.Logging;
 namespace ElsaMina.Commands.Development;
 
 [NamedCommand("kill")]
-public class Kill : DevelopmentCommand
+public class KillCommand : DevelopmentCommand
 {
     private readonly ISystemService _systemService;
 
-    public Kill(ISystemService systemService)
+    public KillCommand(ISystemService systemService)
     {
         _systemService = systemService;
     }

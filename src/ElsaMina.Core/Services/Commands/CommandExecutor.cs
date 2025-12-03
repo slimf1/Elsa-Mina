@@ -69,7 +69,12 @@ public class CommandExecutor : ICommandExecutor
 
     private void ReplyWithAutoCorrect(string commandName, IContext context)
     {
-        var maxLevenshteinDistance = commandName.Length <= 6 ? 1 : 2;
+        var maxLevenshteinDistance = commandName.Length switch
+        {
+            <= 6 => 1,
+            <= 12 => 2,
+            _ => 3
+        };
         var closestCommand = GetAllCommands()
             .SelectMany(command => (string[]) [.. command.Aliases, command.Name])
             .Where(possibleCommands => possibleCommands.LevenshteinDistance(commandName) <= maxLevenshteinDistance)

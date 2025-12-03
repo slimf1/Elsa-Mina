@@ -6,11 +6,11 @@ using ElsaMina.Core.Services.Rooms;
 namespace ElsaMina.Commands.Development;
 
 [NamedCommand("help", Aliases = ["about"])]
-public class Help : Command
+public class HelpCommand : Command
 {
     private readonly IVersionProvider _versionProvider;
 
-    public Help(IVersionProvider versionProvider)
+    public HelpCommand(IVersionProvider versionProvider)
     {
         _versionProvider = versionProvider;
     }

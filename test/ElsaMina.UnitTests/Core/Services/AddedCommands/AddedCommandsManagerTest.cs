@@ -1,4 +1,3 @@
-using System.Globalization;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.Images;
@@ -8,7 +7,6 @@ using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
-using Room = ElsaMina.Core.Services.Rooms.Room;
 using User = ElsaMina.Core.Services.Rooms.User;
 
 namespace ElsaMina.UnitTests.Core.Services.AddedCommands;
@@ -17,7 +15,6 @@ public class AddedCommandsManagerTest
 {
     private IBotDbContextFactory _factory;
     private BotDbContext _db;
-    private DbSet<AddedCommand> _set;
     private AddedCommandsManager _manager;
     private IImageService _imageService;
     private IRandomService _randomService;
@@ -25,14 +22,14 @@ public class AddedCommandsManagerTest
     [SetUp]
     public void SetUp()
     {
+        var options = new DbContextOptionsBuilder<BotDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString()) // isolate each test
+            .Options;
+
+        _db = new BotDbContext(options);
+
         _factory = Substitute.For<IBotDbContextFactory>();
-        _db = Substitute.For<BotDbContext>();
-        _set = Substitute.For<DbSet<AddedCommand>>();
-
-        _db.AddedCommands.Returns(_set);
-
-        _factory.CreateDbContextAsync()
-            .Returns(Task.FromResult(_db));
+        _factory.CreateDbContextAsync().Returns(Task.FromResult(_db));
 
         _imageService = Substitute.For<IImageService>();
         _randomService = Substitute.For<IRandomService>();
@@ -40,28 +37,27 @@ public class AddedCommandsManagerTest
         _manager = new AddedCommandsManager(_factory, _imageService, _randomService);
     }
 
-    private void MockFindAsyncReturns(AddedCommand? result)
+    private async Task AddCommandAsync(string name, string roomId, string content)
     {
-        _set.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns(callInfo =>
-            {
-                var key = callInfo.Arg<object[]>();
-                return new ValueTask<AddedCommand?>(result);
-            });
+        _db.AddedCommands.Add(new AddedCommand
+        {
+            Id = name,
+            RoomId = roomId,
+            Content = content
+        });
+
+        await _db.SaveChangesAsync();
     }
 
     [Test]
     public async Task Test_TryExecuteAddedCommand_ShouldDoNothing_WhenCommandNotFound()
     {
-        // Arrange
         var context = Substitute.For<IContext>();
-        MockFindAsyncReturns(null);
+        context.RoomId.Returns("franais");
 
-        // Act
-        await _manager.TryExecuteAddedCommand("nonExistent", context);
+        await _manager.TryExecuteAddedCommand("doesNotExist", context);
 
-        // Assert
-        context.DidNotReceive().Reply(Arg.Any<string>(), rankAware: Arg.Any<bool>());
+        context.DidNotReceive().Reply(Arg.Any<string>(), Arg.Any<bool>());
         context.DidNotReceive().ReplyHtml(Arg.Any<string>(), rankAware: Arg.Any<bool>());
     }
 
@@ -69,9 +65,9 @@ public class AddedCommandsManagerTest
     public async Task Test_TryExecuteAddedCommand_ShouldSendImage_WhenContentIsImageUrl()
     {
         var context = Substitute.For<IContext>();
-        var cmd = new AddedCommand { Content = "https://example.com/image.png" };
+        context.RoomId.Returns("franais");
 
-        MockFindAsyncReturns(cmd);
+        await AddCommandAsync("imageCommand", "franais", "https://example.com/image.png");
 
         _imageService.GetRemoteImageDimensions(Arg.Any<string>())
             .Returns(Task.FromResult((400, 300)));
@@ -82,31 +78,31 @@ public class AddedCommandsManagerTest
 
         context.Received().ReplyHtml(
             Arg.Is<string>(s => s.Contains("https://example.com/image.png")),
-            rankAware: Arg.Any<bool>());
+            rankAware: true);
     }
 
     [Test]
     public async Task Test_TryExecuteAddedCommand_ShouldReplyWithContent_WhenContentIsText()
     {
         var context = Substitute.For<IContext>();
-        var cmd = new AddedCommand { Content = "Hello!" };
+        context.RoomId.Returns("franais");
 
-        MockFindAsyncReturns(cmd);
+        await AddCommandAsync("text", "franais", "Hello!");
 
         await _manager.TryExecuteAddedCommand("text", context);
 
-        context.Received().Reply("Hello!", Arg.Any<bool>());
+        context.Received().Reply("Hello!", true);
     }
 
     [Test]
     public async Task Test_TryExecuteAddedCommand_ShouldResizeImage_WhenLarge()
     {
         var context = Substitute.For<IContext>();
-        var cmd = new AddedCommand { Content = "https://example.com/large.png" };
+        context.RoomId.Returns("franais");
 
-        MockFindAsyncReturns(cmd);
+        await AddCommandAsync("large", "franais", "https://example.com/large.png");
 
-        _imageService.GetRemoteImageDimensions(Arg.Any<string>())
+        _imageService.GetRemoteImageDimensions("https://example.com/large.png")
             .Returns(Task.FromResult((800, 600)));
         _imageService.ResizeWithSameAspectRatio(800, 600, 400, 300)
             .Returns((400, 300));
@@ -115,27 +111,27 @@ public class AddedCommandsManagerTest
 
         context.Received().ReplyHtml(
             Arg.Is<string>(s => s.Contains("width=\"400\" height=\"300\"")),
-            rankAware: Arg.Any<bool>());
+            rankAware: true);
     }
 
     [Test]
     public async Task Test_TryExecuteAddedCommand_ShouldNotResizeImage_WhenSmall()
     {
         var context = Substitute.For<IContext>();
-        var cmd = new AddedCommand { Content = "https://example.com/small.png" };
+        context.RoomId.Returns("franais");
 
-        MockFindAsyncReturns(cmd);
+        await AddCommandAsync("small", "franais", "https://example.com/small.png");
 
-        _imageService.GetRemoteImageDimensions(Arg.Any<string>())
+        _imageService.GetRemoteImageDimensions("https://example.com/small.png")
             .Returns(Task.FromResult((200, 150)));
-        _imageService.ResizeWithSameAspectRatio(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>())
+        _imageService.ResizeWithSameAspectRatio(200, 150, Arg.Any<int>(), Arg.Any<int>())
             .Returns((200, 150));
 
         await _manager.TryExecuteAddedCommand("small", context);
 
         context.Received().ReplyHtml(
             Arg.Is<string>(s => s.Contains("width=\"200\" height=\"150\"")),
-             rankAware: Arg.Any<bool>());
+            rankAware: true);
     }
 
     [Test]
@@ -153,14 +149,17 @@ public class AddedCommandsManagerTest
     [Test]
     public void Test_ParseContent_ShouldParseExpressionWithContext()
     {
+        var room = Substitute.For<IRoom>();
+        room.RoomId.Returns("franais");
+        room.Name.Returns("Français");
         var context = Substitute.For<IContext>();
         context.Sender.Returns(new User("Mec", Rank.Voiced));
-        context.Room.Returns(new Room("Chat Room", "chatroom", CultureInfo.InvariantCulture));
+        context.Room.Returns(room);
         context.Command.Returns("myCmd");
         context.Target.Returns("myArgs");
 
         var result = _manager.EvaluateContent("{command} {author} {room} {args}", context);
 
-        Assert.That(result, Is.EqualTo("myCmd Mec Chat Room myArgs"));
+        Assert.That(result, Is.EqualTo("myCmd Mec Français myArgs"));
     }
 }

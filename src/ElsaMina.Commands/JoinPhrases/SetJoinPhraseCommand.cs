@@ -9,11 +9,11 @@ using ElsaMina.Logging;
 namespace ElsaMina.Commands.JoinPhrases;
 
 [NamedCommand("setjoinphrase")]
-public class SetJoinPhrase : Command
+public class SetJoinPhraseCommand : Command
 {
     private readonly IRoomUserDataService _roomUserDataService;
 
-    public SetJoinPhrase(IRoomUserDataService roomUserDataService)
+    public SetJoinPhraseCommand(IRoomUserDataService roomUserDataService)
     {
         _roomUserDataService = roomUserDataService;
     }

@@ -7,9 +7,9 @@ using NSubstitute;
 
 namespace ElsaMina.UnitTests.Commands.Misc.Colors;
 
-public class NameColorInfoTests
+public class NameColorInfoCommandTests
 {
-    private NameColorInfo _nameColorInfo;
+    private NameColorInfoCommand _nameColorInfoCommand;
     private ITemplatesManager _templatesManager;
     private ICustomColorsManager _customColorsManager;
     private IContext _context;
@@ -20,14 +20,14 @@ public class NameColorInfoTests
         _templatesManager = Substitute.For<ITemplatesManager>();
         _customColorsManager = Substitute.For<ICustomColorsManager>();
         _context = Substitute.For<IContext>();
-        _nameColorInfo = new NameColorInfo(_templatesManager, _customColorsManager);
+        _nameColorInfoCommand = new NameColorInfoCommand(_templatesManager, _customColorsManager);
     }
 
     [Test]
     public void Test_HelpMessageKey_ShouldBeDefined()
     {
         // Assert
-        Assert.That(_nameColorInfo.HelpMessageKey, Is.EqualTo("name_color_help"));
+        Assert.That(_nameColorInfoCommand.HelpMessageKey, Is.EqualTo("name_color_help"));
     }
 
     [Test]
@@ -43,7 +43,7 @@ public class NameColorInfoTests
             .Returns(Task.FromResult("formatted_html"));
 
         // Act
-        await _nameColorInfo.RunAsync(_context);
+        await _nameColorInfoCommand.RunAsync(_context);
 
         // Assert
         await _templatesManager.Received()
@@ -61,7 +61,7 @@ public class NameColorInfoTests
             .Returns(Task.FromResult("formatted_html"));
 
         // Act
-        await _nameColorInfo.RunAsync(_context);
+        await _nameColorInfoCommand.RunAsync(_context);
 
         // Assert
         await _templatesManager.Received()

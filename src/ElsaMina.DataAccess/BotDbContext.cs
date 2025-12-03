@@ -5,11 +5,16 @@ namespace ElsaMina.DataAccess;
 
 public class BotDbContext : DbContext
 {
+    public BotDbContext()
+    {
+        // Empty
+    }
+
     public BotDbContext(DbContextOptions<BotDbContext> options) : base(options)
     {
     }
 
-    public DbSet<RoomUser> UserData { get; set; }
+    public DbSet<RoomUser> RoomUsers { get; set; }
     public DbSet<Badge> Badges { get; set; }
     public DbSet<AddedCommand> AddedCommands { get; set; }
     public DbSet<Room> RoomInfo { get; set; }

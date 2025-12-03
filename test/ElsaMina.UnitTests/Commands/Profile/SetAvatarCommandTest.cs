@@ -3,6 +3,7 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.RoomUserData;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 
 namespace ElsaMina.UnitTests.Commands.Profile;
 
@@ -55,10 +56,9 @@ public class SetAvatarCommandTest
         // Arrange
         _context.RoomId.Returns("testRoom");
         _context.Target.Returns("user123, https://avatar.url/image.png");
-        var errorMessage = "Database error";
-        _roomUserDataService
-            .When(x => x.SetUserAvatarAsync("testRoom", "user123", "https://avatar.url/image.png"))
-            .Do(x => throw new Exception(errorMessage));
+        const string errorMessage = "Database error";
+        _roomUserDataService.SetUserAvatarAsync("testRoom", "user123", "https://avatar.url/image.png")
+            .Throws(new Exception(errorMessage));
 
         // Act
         await _command.RunAsync(_context);

@@ -7,11 +7,11 @@ using ElsaMina.Logging;
 namespace ElsaMina.Commands.RoomDashboard;
 
 [NamedCommand("room-config", Aliases = ["roomconfig", "rc"])]
-public class RoomConfig : Command
+public class RoomConfigCommand : Command
 {
     private readonly IRoomsManager _roomsManager;
 
-    public RoomConfig(IRoomsManager roomsManager)
+    public RoomConfigCommand(IRoomsManager roomsManager)
     {
         _roomsManager = roomsManager;
     }

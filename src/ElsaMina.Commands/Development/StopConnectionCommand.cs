@@ -6,11 +6,11 @@ using ElsaMina.Logging;
 namespace ElsaMina.Commands.Development;
 
 [NamedCommand("stop-connection")]
-public class StopConnection : DevelopmentCommand
+public class StopConnectionCommand : DevelopmentCommand
 {
     private readonly IClient _client;
 
-    public StopConnection(IClient client)
+    public StopConnectionCommand(IClient client)
     {
         _client = client;
     }

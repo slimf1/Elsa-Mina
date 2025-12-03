@@ -4,25 +4,37 @@ using ElsaMina.Commands.Teams.Samples;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
+using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 
 namespace ElsaMina.UnitTests.Commands.Teams.Samples;
 
-public class TeamShowcaseTests
+public class TeamShowcaseCommandTests
 {
-    private TeamShowcase _command;
-    private ITeamRepository _teamRepository;
+    private TeamShowcaseCommand _command;
+    private IBotDbContextFactory _dbContextFactory;
     private ITemplatesManager _templatesManager;
     private IContext _context;
+    private BotDbContext _dbContext;
 
     [SetUp]
     public void SetUp()
     {
-        _teamRepository = Substitute.For<ITeamRepository>();
+        var dbOptions = new DbContextOptionsBuilder<BotDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+
+        _dbContext = new BotDbContext(dbOptions);
+
+        _dbContextFactory = Substitute.For<IBotDbContextFactory>();
+        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>())
+            .Returns(ci => Task.FromResult<BotDbContext>(_dbContext));
+
         _templatesManager = Substitute.For<ITemplatesManager>();
-        _command = new TeamShowcase(_teamRepository, _templatesManager);
+        _command = new TeamShowcaseCommand(_templatesManager, _dbContextFactory);
+
         _context = Substitute.For<IContext>();
     }
 
@@ -31,7 +43,6 @@ public class TeamShowcaseTests
     {
         // Arrange
         _context.Target.Returns("nonexistentTeamId");
-        _teamRepository.GetByIdAsync("nonexistentteamid").Returns(Task.FromResult<Team>(null));
 
         // Act
         await _command.RunAsync(_context);
@@ -45,20 +56,28 @@ public class TeamShowcaseTests
     {
         // Arrange
         var team = new Team { Id = "teamid", Name = "Test Team" };
+        _dbContext.Teams.Add(team);
+        await _dbContext.SaveChangesAsync();
+
         _context.Target.Returns("teamId");
         _context.Culture.Returns(new CultureInfo("fr-FR"));
-        _teamRepository.GetByIdAsync("teamid").Returns(Task.FromResult(team));
 
         var expectedHtml = "<div>Sample Team HTML</div>";
-        _templatesManager.GetTemplateAsync("Teams/SampleTeam", Arg.Any<SampleTeamViewModel>())
+        _templatesManager.GetTemplateAsync(
+                "Teams/SampleTeam",
+                Arg.Any<SampleTeamViewModel>())
             .Returns(Task.FromResult(expectedHtml));
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        await _templatesManager.Received(1).GetTemplateAsync("Teams/SampleTeam", Arg.Is<SampleTeamViewModel>(vm =>
-            vm.Culture.Name == "fr-FR" && vm.Team == team));
+        await _templatesManager.Received(1).GetTemplateAsync(
+            "Teams/SampleTeam",
+            Arg.Is<SampleTeamViewModel>(vm =>
+                vm.Team == team &&
+                vm.Culture.Name == "fr-FR"));
+
         _context.Received().ReplyHtml(expectedHtml.RemoveNewlines(), rankAware: true);
     }
 }

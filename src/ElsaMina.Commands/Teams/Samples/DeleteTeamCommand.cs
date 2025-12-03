@@ -8,11 +8,11 @@ using ElsaMina.Logging;
 namespace ElsaMina.Commands.Teams.Samples;
 
 [NamedCommand("delete-team", Aliases = ["deleteteam"])]
-public class DeleteTeam : Command
+public class DeleteTeamCommand : Command
 {
     private readonly IBotDbContextFactory _dbContextFactory;
 
-    public DeleteTeam(IBotDbContextFactory dbContextFactory)
+    public DeleteTeamCommand(IBotDbContextFactory dbContextFactory)
     {
         _dbContextFactory = dbContextFactory;
     }

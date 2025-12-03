@@ -24,6 +24,7 @@ using ElsaMina.Commands.Misc.Bitcoin;
 using ElsaMina.Commands.Misc.Colors;
 using ElsaMina.Commands.Misc.Dailymotion;
 using ElsaMina.Commands.Misc.Facts;
+using ElsaMina.Commands.Misc.Genius;
 using ElsaMina.Commands.Misc.Pairings;
 using ElsaMina.Commands.Misc.Pokemon;
 using ElsaMina.Commands.Misc.Wiki;
@@ -58,13 +59,13 @@ public class CommandModule : Module
         builder.RegisterCommand<CustomCommandList>();
         builder.RegisterCommand<AddBadgeCommand>();
         builder.RegisterCommand<SetLocaleCommand>();
-        builder.RegisterCommand<Help>();
+        builder.RegisterCommand<HelpCommand>();
         builder.RegisterCommand<ShowRoomDashboard>();
-        builder.RegisterCommand<RoomConfig>();
-        builder.RegisterCommand<Kill>();
-        builder.RegisterCommand<StopConnection>();
+        builder.RegisterCommand<RoomConfigCommand>();
+        builder.RegisterCommand<KillCommand>();
+        builder.RegisterCommand<StopConnectionCommand>();
 #if DEBUG
-        builder.RegisterCommand<Script>();
+        builder.RegisterCommand<ScriptCommand>();
 #endif
         builder.RegisterCommand<DeleteCustomCommand>();
         builder.RegisterCommand<EditCustomCommand>();
@@ -78,16 +79,16 @@ public class CommandModule : Module
         builder.RegisterCommand<AllCommands>();
         builder.RegisterCommand<GuessingGameCommand>();
         builder.RegisterCommand<EndGuessingGame>();
-        builder.RegisterCommand<AddTeam>();
-        builder.RegisterCommand<AddTeamToRoom>();
-        builder.RegisterCommand<TeamShowcase>();
-        builder.RegisterCommand<TeamList>();
-        builder.RegisterCommand<DeleteTeam>();
-        builder.RegisterCommand<Say>();
-        builder.RegisterCommand<NameColorInfo>();
+        builder.RegisterCommand<AddTeamCommand>();
+        builder.RegisterCommand<AddTeamToRoomCommand>();
+        builder.RegisterCommand<TeamShowcaseCommand>();
+        builder.RegisterCommand<TeamListCommand>();
+        builder.RegisterCommand<DeleteTeamCommand>();
+        builder.RegisterCommand<SayCommand>();
+        builder.RegisterCommand<NameColorInfoCommand>();
         builder.RegisterCommand<FactsCommand>();
         builder.RegisterCommand<BitcoinCommand>();
-        builder.RegisterCommand<SetJoinPhrase>();
+        builder.RegisterCommand<SetJoinPhraseCommand>();
         builder.RegisterCommand<CreateConnectFourCommand>();
         builder.RegisterCommand<JoinConnectFourCommand>();
         builder.RegisterCommand<PlayConnectFourCommand>();
@@ -117,6 +118,7 @@ public class CommandModule : Module
         builder.RegisterCommand<BadgeDisplayCommand>();
         builder.RegisterCommand<BadgeHoldersCommand>();
         builder.RegisterCommand<HallOfFameCommand>();
+        builder.RegisterCommand<GeniusSearchCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();

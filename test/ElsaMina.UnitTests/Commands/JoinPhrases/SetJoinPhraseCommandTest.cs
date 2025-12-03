@@ -7,10 +7,10 @@ using NSubstitute.ExceptionExtensions;
 
 namespace ElsaMina.UnitTests.Commands.JoinPhrases;
 
-public class SetJoinPhraseTest
+public class SetJoinPhraseCommandTest
 {
     private IRoomUserDataService _roomUserDataService;
-    private SetJoinPhrase _command;
+    private SetJoinPhraseCommand _command;
 
     private const string TEST_ROOM_ID = "testroom";
     private const string TEST_USER_ID = "testuser";
@@ -20,7 +20,7 @@ public class SetJoinPhraseTest
     public void SetUp()
     {
         _roomUserDataService = Substitute.For<IRoomUserDataService>();
-        _command = new SetJoinPhrase(_roomUserDataService);
+        _command = new SetJoinPhraseCommand(_roomUserDataService);
     }
 
     [Test]

@@ -9,11 +9,11 @@ using Microsoft.CodeAnalysis.Scripting;
 namespace ElsaMina.Commands.Development;
 
 [NamedCommand("script")]
-public class Script : DevelopmentCommand
+public class ScriptCommand : DevelopmentCommand
 {
     private readonly IDependencyContainerService _dependencyContainerService;
 
-    public Script(IDependencyContainerService dependencyContainerService)
+    public ScriptCommand(IDependencyContainerService dependencyContainerService)
     {
         _dependencyContainerService = dependencyContainerService;
     }
@@ -32,7 +32,7 @@ public class Script : DevelopmentCommand
         try
         {
             var options = ScriptOptions.Default.WithReferences(typeof(Bot).Assembly)
-                .WithReferences(typeof(Script).Assembly)
+                .WithReferences(typeof(ScriptCommand).Assembly)
                 .WithImports("ElsaMina.Core");
             var globals = new Globals { Context = context, Container = _dependencyContainerService };
             var result = await CSharpScript.EvaluateAsync(context.Target, options, globals: globals,

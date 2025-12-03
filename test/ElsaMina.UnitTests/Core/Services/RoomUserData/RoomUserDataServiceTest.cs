@@ -1,23 +1,49 @@
-using ElsaMina.Core.Services.Images;
 using ElsaMina.Core.Services.RoomUserData;
+using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using NSubstitute;
 
 namespace ElsaMina.UnitTests.Core.Services.RoomUserData;
 
 public class RoomUserDataServiceTest
 {
-    private IRoomSpecificUserDataRepository _roomSpecificUserDataRepository;
-    private IBadgeHoldingRepository _badgeHoldingRepository;
+    private BotDbContext _db;
     private RoomUserDataService _service;
+    private IBotDbContextFactory _dbContextFactory;
+    private DbContextOptions<BotDbContext> _options;
 
     [SetUp]
     public void SetUp()
     {
-        _roomSpecificUserDataRepository = Substitute.For<IRoomSpecificUserDataRepository>();
-        _badgeHoldingRepository = Substitute.For<IBadgeHoldingRepository>();
-        _service = new RoomUserDataService(_roomSpecificUserDataRepository, _badgeHoldingRepository);
+        _options = new DbContextOptionsBuilder<BotDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+
+        // Shared context used ONLY for validation in tests.
+        _db = new BotDbContext(_options);
+
+        _dbContextFactory = Substitute.For<IBotDbContextFactory>();
+
+        // IMPORTANT: return a NEW CONTEXT every time the service asks for one.
+        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>())
+            .Returns(ci =>
+            {
+                var freshContext = new BotDbContext(_options);
+                return Task.FromResult(freshContext);
+            });
+
+        _service = new RoomUserDataService(_dbContextFactory);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _db.Dispose();
     }
 
     [Test]
@@ -27,13 +53,15 @@ public class RoomUserDataServiceTest
         var roomId = "room1";
         var userId = "user1";
         var existingUserData = new RoomUser { Id = userId, RoomId = roomId };
-        _roomSpecificUserDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(existingUserData);
+        await _db.RoomUsers.AddAsync(existingUserData);
+        await _db.SaveChangesAsync();
 
         // Act
         var result = await _service.GetUserData(roomId, userId);
 
         // Assert
-        Assert.That(result, Is.EqualTo(existingUserData));
+        Assert.That(result.Id, Is.EqualTo(userId));
+        Assert.That(result.RoomId, Is.EqualTo(roomId));
     }
 
     [Test]
@@ -42,18 +70,16 @@ public class RoomUserDataServiceTest
         // Arrange
         var roomId = "room1";
         var userId = "user1";
-        _roomSpecificUserDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns((RoomUser)null);
 
         // Act
         var result = await _service.GetUserData(roomId, userId);
 
         // Assert
-        await _roomSpecificUserDataRepository.Received().AddAsync(Arg.Is<RoomUser>(u => u.Id == userId && u.RoomId == roomId));
-        Assert.Multiple(() =>
-        {
-            Assert.That(result.Id, Is.EqualTo(userId));
-            Assert.That(result.RoomId, Is.EqualTo(roomId));
-        });
+        Assert.That(result.Id, Is.EqualTo(userId));
+        Assert.That(result.RoomId, Is.EqualTo(roomId));
+
+        var dbUser = await _db.RoomUsers.FindAsync(userId, roomId);
+        Assert.That(dbUser, Is.Not.Null);
     }
 
     [Test]
@@ -65,7 +91,8 @@ public class RoomUserDataServiceTest
             new RoomUser { Id = "user1", RoomId = "room1", JoinPhrase = "Hello" },
             new RoomUser { Id = "user2", RoomId = "room2", JoinPhrase = "Welcome" }
         };
-        _roomSpecificUserDataRepository.GetAllAsync().Returns(userDataList);
+        await _db.RoomUsers.AddRangeAsync(userDataList);
+        await _db.SaveChangesAsync();
 
         // Act
         await _service.InitializeJoinPhrasesAsync();
@@ -73,7 +100,7 @@ public class RoomUserDataServiceTest
         // Assert
         Assert.Multiple(() =>
         {
-            Assert.That(_service.JoinPhrases, Has.Count.EqualTo(2));
+            Assert.That(_service.JoinPhrases.Count, Is.EqualTo(2));
             Assert.That(_service.JoinPhrases[Tuple.Create("user1", "room1")], Is.EqualTo("Hello"));
             Assert.That(_service.JoinPhrases[Tuple.Create("user2", "room2")], Is.EqualTo("Welcome"));
         });
@@ -91,7 +118,9 @@ public class RoomUserDataServiceTest
         await _service.GiveBadgeToUserAsync(roomId, userId, badgeId);
 
         // Assert
-        await _badgeHoldingRepository.Received().AddAsync(Arg.Is<BadgeHolding>(b => b.BadgeId == badgeId && b.RoomId == roomId && b.UserId == userId));
+        var badge = await _db.BadgeHoldings.FindAsync(badgeId, userId, roomId);
+        Assert.That(badge, Is.Not.Null);
+        Assert.That(badge.BadgeId, Is.EqualTo(badgeId));
     }
 
     [Test]
@@ -101,10 +130,9 @@ public class RoomUserDataServiceTest
         var roomId = "room1";
         var userId = "user1";
         var badgeId = "badge1";
-        _badgeHoldingRepository.GetByIdAsync(Arg.Any<Tuple<string, string, string>>()).Returns((BadgeHolding)null);
 
         // Act & Assert
-        Assert.ThrowsAsync<ArgumentException>(async () => await _service.TakeBadgeFromUserAsync(roomId, userId, badgeId));
+        Assert.ThrowsAsync<ArgumentException>(() => _service.TakeBadgeFromUserAsync(roomId, userId, badgeId));
     }
 
     [Test]
@@ -115,13 +143,15 @@ public class RoomUserDataServiceTest
         var userId = "user1";
         var badgeId = "badge1";
         var badgeHolding = new BadgeHolding { BadgeId = badgeId, RoomId = roomId, UserId = userId };
-        _badgeHoldingRepository.GetByIdAsync(Arg.Any<Tuple<string, string, string>>()).Returns(badgeHolding);
+        await _db.BadgeHoldings.AddAsync(badgeHolding);
+        await _db.SaveChangesAsync();
 
         // Act
         await _service.TakeBadgeFromUserAsync(roomId, userId, badgeId);
 
         // Assert
-        await _badgeHoldingRepository.Received().DeleteAsync(badgeHolding);
+        var dbBadge = await _db.BadgeHoldings.FindAsync(badgeId, roomId, userId);
+        Assert.That(dbBadge, Is.Null);
     }
 
     [Test]
@@ -133,7 +163,7 @@ public class RoomUserDataServiceTest
         var title = new string('a', 451);
 
         // Act & Assert
-        Assert.ThrowsAsync<ArgumentException>(async () => await _service.SetUserTitleAsync(roomId, userId, title));
+        Assert.ThrowsAsync<ArgumentException>(() => _service.SetUserTitleAsync(roomId, userId, title));
     }
 
     [Test]
@@ -144,14 +174,16 @@ public class RoomUserDataServiceTest
         var userId = "user1";
         var title = "Valid Title";
         var userData = new RoomUser { Id = userId, RoomId = roomId };
-        _roomSpecificUserDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(userData);
+        await _db.RoomUsers.AddAsync(userData);
+        await _db.SaveChangesAsync();
 
         // Act
         await _service.SetUserTitleAsync(roomId, userId, title);
 
         // Assert
-        Assert.That(userData.Title, Is.EqualTo(title));
-        await _roomSpecificUserDataRepository.Received().SaveChangesAsync();
+        await using var dbContext = new BotDbContext(_options);
+        var dbUser = await dbContext.RoomUsers.FindAsync(userId, roomId);
+        Assert.That(dbUser.Title, Is.EqualTo(title));
     }
 
     [Test]
@@ -163,7 +195,7 @@ public class RoomUserDataServiceTest
         var invalidAvatar = "invalid_url";
 
         // Act & Assert
-        Assert.ThrowsAsync<ArgumentException>(async () => await _service.SetUserAvatarAsync(roomId, userId, invalidAvatar));
+        Assert.ThrowsAsync<ArgumentException>(() => _service.SetUserAvatarAsync(roomId, userId, invalidAvatar));
     }
 
     [Test]
@@ -174,14 +206,16 @@ public class RoomUserDataServiceTest
         var userId = "user1";
         var avatar = "https://valid.url/image.jpg";
         var userData = new RoomUser { Id = userId, RoomId = roomId };
-        _roomSpecificUserDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(userData);
+        await _db.RoomUsers.AddAsync(userData);
+        await _db.SaveChangesAsync();
 
         // Act
         await _service.SetUserAvatarAsync(roomId, userId, avatar);
 
         // Assert
-        Assert.That(userData.Avatar, Is.EqualTo(avatar));
-        await _roomSpecificUserDataRepository.Received().SaveChangesAsync();
+        await using var dbContext = new BotDbContext(_options);
+        var dbUser = await dbContext.RoomUsers.FindAsync(userId, roomId);
+        Assert.That(dbUser.Avatar, Is.EqualTo(avatar));
     }
 
     [Test]
@@ -193,7 +227,7 @@ public class RoomUserDataServiceTest
         var joinPhrase = new string('a', 301);
 
         // Act & Assert
-        Assert.ThrowsAsync<ArgumentException>(async () => await _service.SetUserJoinPhraseAsync(roomId, userId, joinPhrase));
+        Assert.ThrowsAsync<ArgumentException>(() => _service.SetUserJoinPhraseAsync(roomId, userId, joinPhrase));
     }
 
     [Test]
@@ -204,14 +238,16 @@ public class RoomUserDataServiceTest
         var userId = "user1";
         var joinPhrase = "Welcome!";
         var userData = new RoomUser { Id = userId, RoomId = roomId };
-        _roomSpecificUserDataRepository.GetByIdAsync(Arg.Any<Tuple<string, string>>()).Returns(userData);
+        await _db.RoomUsers.AddAsync(userData);
+        await _db.SaveChangesAsync();
 
         // Act
         await _service.SetUserJoinPhraseAsync(roomId, userId, joinPhrase);
 
         // Assert
-        Assert.That(userData.JoinPhrase, Is.EqualTo(joinPhrase));
-        await _roomSpecificUserDataRepository.Received().SaveChangesAsync();
+        await using var dbContext = new BotDbContext(_options);
+        var dbUser = await dbContext.RoomUsers.FindAsync(userId, roomId);
+        Assert.That(dbUser.JoinPhrase, Is.EqualTo(joinPhrase));
         Assert.That(_service.JoinPhrases[Tuple.Create(userId, roomId)], Is.EqualTo(joinPhrase));
     }
 }

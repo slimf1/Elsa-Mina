@@ -147,35 +147,4 @@ public class DefaultContextProviderTest
         // Assert
         Assert.That(result, Is.Null);
     }
-
-    [Test]
-    public void Test_GetRoomParameterValue_ShouldReturnParameterValue_WhenExists()
-    {
-        // Arrange
-        var roomId = "room1";
-        var key = "setting";
-        var expectedValue = "enabled";
-        _roomsManager.GetRoomParameter(roomId, key).Returns(expectedValue);
-
-        // Act
-        var result = _contextProvider.GetRoomParameterValue(roomId, key);
-
-        // Assert
-        Assert.That(result, Is.EqualTo(expectedValue));
-    }
-
-    [Test]
-    public void Test_GetRoomParameterValue_ShouldReturnNull_WhenParameterDoesNotExist()
-    {
-        // Arrange
-        var roomId = "room1";
-        var key = "invalid_setting";
-        _roomsManager.GetRoomParameter(roomId, key).Returns((string)null);
-
-        // Act
-        var result = _contextProvider.GetRoomParameterValue(roomId, key);
-
-        // Assert
-        Assert.That(result, Is.Null);
-    }
 }

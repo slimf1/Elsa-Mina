@@ -1,23 +1,35 @@
 using ElsaMina.Commands.Teams.Samples;
 using ElsaMina.Core.Contexts;
+using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
-using NSubstitute.ExceptionExtensions;
 
 namespace ElsaMina.UnitTests.Commands.Teams.Samples;
 
-public class DeleteTeamTests
+public class DeleteTeamCommandTests
 {
-    private DeleteTeam _command;
-    private ITeamRepository _teamRepository;
+    private DeleteTeamCommand _command;
+    private IBotDbContextFactory _dbContextFactory;
     private IContext _context;
+    private BotDbContext _dbContext;
+    private DbContextOptions<BotDbContext> _dbContextOptions;
 
     [SetUp]
     public void SetUp()
     {
-        _teamRepository = Substitute.For<ITeamRepository>();
-        _command = new DeleteTeam(_teamRepository);
+        _dbContextOptions = new DbContextOptionsBuilder<BotDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+
+        _dbContext = new BotDbContext(_dbContextOptions);
+
+        _dbContextFactory = Substitute.For<IBotDbContextFactory>();
+        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>())
+            .Returns(ci => Task.FromResult<BotDbContext>(_dbContext));
+
+        _command = new DeleteTeamCommand(_dbContextFactory);
+
         _context = Substitute.For<IContext>();
     }
 
@@ -26,7 +38,6 @@ public class DeleteTeamTests
     {
         // Arrange
         _context.Target.Returns("nonexistentTeamId");
-        _teamRepository.GetByIdAsync("nonexistentteamid").Returns(Task.FromResult<Team>(null));
 
         // Act
         await _command.RunAsync(_context);
@@ -40,31 +51,17 @@ public class DeleteTeamTests
     {
         // Arrange
         var team = new Team { Id = "teamid" };
+        _dbContext.Teams.Add(team);
+        await _dbContext.SaveChangesAsync();
+
         _context.Target.Returns("teamId");
-        _teamRepository.GetByIdAsync("teamid").Returns(Task.FromResult(team));
 
         // Act
         await _command.RunAsync(_context);
-
+        
         // Assert
-        await _teamRepository.Received(1).DeleteAsync(team, Arg.Any<CancellationToken>());
-        await _teamRepository.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
+        await using var dbContext = new BotDbContext(_dbContextOptions);
+        Assert.That(dbContext.Teams.Any(t => t.Id == "teamid"), Is.False);
         _context.Received().ReplyLocalizedMessage("deleteteam_team_deleted_successfully");
-    }
-
-    [Test]
-    public async Task Test_RunAsync_ShouldReplyWithDeletionError_WhenRepositoryThrowsException()
-    {
-        // Arrange
-        var team = new Team { Id = "teamid" };
-        _context.Target.Returns("teamId");
-        _teamRepository.GetByIdAsync("teamid").Returns(Task.FromResult(team));
-        _teamRepository.DeleteAsync(team, Arg.Any<CancellationToken>()).Throws(new Exception("Deletion error"));
-
-        // Act
-        await _command.RunAsync(_context);
-
-        // Assert
-        _context.Received().ReplyLocalizedMessage("deleteteam_team_deletion_error", "Deletion error");
     }
 }

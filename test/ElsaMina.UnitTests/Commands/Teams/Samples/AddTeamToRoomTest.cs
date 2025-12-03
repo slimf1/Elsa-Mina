@@ -1,24 +1,37 @@
 using ElsaMina.Commands.Teams.Samples;
 using ElsaMina.Core.Contexts;
+using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 
 namespace ElsaMina.UnitTests.Commands.Teams.Samples;
 
-public class AddTeamToRoomTests
+public class AddTeamToRoomCommandTests
 {
-    private AddTeamToRoom _command;
-    private ITeamRepository _teamRepository;
+    private AddTeamToRoomCommand _command;
+    private IBotDbContextFactory _dbContextFactory;
+    private BotDbContext _dbContext;
     private IContext _context;
+    private DbContextOptions<BotDbContext> _options;
 
     [SetUp]
     public void SetUp()
     {
-        _teamRepository = Substitute.For<ITeamRepository>();
-        _command = new AddTeamToRoom(_teamRepository);
+        _dbContextFactory = Substitute.For<IBotDbContextFactory>();
         _context = Substitute.For<IContext>();
+
+        _options = new DbContextOptionsBuilder<BotDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+
+        _dbContext = new BotDbContext(_options);
+
+        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult(_dbContext));
+
+        _command = new AddTeamToRoomCommand(_dbContextFactory);
     }
 
     [Test]
@@ -39,7 +52,6 @@ public class AddTeamToRoomTests
     {
         // Arrange
         _context.Target.Returns("teamId");
-        _teamRepository.GetByIdAsync("teamid").Returns(Task.FromResult<Team>(null));
 
         // Act
         await _command.RunAsync(_context);
@@ -58,9 +70,14 @@ public class AddTeamToRoomTests
         var team = new Team
         {
             Id = "teamid",
-            Rooms = new List<RoomTeam> { new RoomTeam { RoomId = "roomId", TeamId = "teamid" } }
+            Rooms = new List<RoomTeam>
+            {
+                new RoomTeam { RoomId = "roomId", TeamId = "teamid" }
+            }
         };
-        _teamRepository.GetByIdAsync("teamid").Returns(team);
+
+        _dbContext.Teams.Add(team);
+        await _dbContext.SaveChangesAsync();
 
         // Act
         await _command.RunAsync(_context);
@@ -81,17 +98,21 @@ public class AddTeamToRoomTests
             Id = "teamid",
             Rooms = new List<RoomTeam>()
         };
-        _teamRepository.GetByIdAsync("teamid").Returns(team);
+
+        _dbContext.Teams.Add(team);
+        await _dbContext.SaveChangesAsync();
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        Assert.That(team.Rooms.Any(roomTeam => roomTeam.RoomId == "roomId" && roomTeam.TeamId == "teamid"), Is.True);
-        await _teamRepository.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
+        await using var dbContext = new BotDbContext(_options);
+        var updated = dbContext.Teams.Include(otherTeam => otherTeam.Rooms).Single();
+        Assert.That(updated.Rooms.Any(roomTeam =>
+            roomTeam.RoomId == "roomId" && roomTeam.TeamId == "teamid"), Is.True);
         _context.Received().ReplyLocalizedMessage("add_team_to_room_success");
     }
-
+    
     [Test]
     public async Task Test_RunAsync_ShouldReplyWithFailureMessage_WhenRepositoryUpdateThrowsException()
     {
@@ -99,19 +120,13 @@ public class AddTeamToRoomTests
         _context.Target.Returns("teamId");
         _context.RoomId.Returns("roomId");
 
-        var team = new Team
-        {
-            Id = "teamid",
-            Rooms = new List<RoomTeam>()
-        };
-        _teamRepository.GetByIdAsync("teamid").Returns(team);
-        _teamRepository.SaveChangesAsync(Arg.Any<CancellationToken>())
-            .Throws(new Exception("Update error"));
+        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>())
+            .Throws(new Exception("db error"));
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        _context.Received().ReplyLocalizedMessage("add_team_to_room_failure", "Update error");
+        _context.Received().ReplyLocalizedMessage("add_team_to_room_failure", "db error");
     }
 }

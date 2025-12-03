@@ -13,7 +13,7 @@ using ElsaMina.Logging;
 namespace ElsaMina.Commands.Teams.Samples;
 
 [NamedCommand("add-team", Aliases = ["addteam"])]
-public class AddTeam : Command
+public class AddTeamCommand : Command
 {
     private const int MAX_NAME_LENGTH = 70;
     private static readonly Regex TEAM_NAME_FILTER = new(@"[^\w\d\s+\-[\]]", RegexOptions.Compiled,
@@ -23,7 +23,7 @@ public class AddTeam : Command
     private readonly IClockService _clockService;
     private readonly IBotDbContextFactory _dbContextFactory;
 
-    public AddTeam(ITeamLinkMatchFactory teamLinkMatchFactory,
+    public AddTeamCommand(ITeamLinkMatchFactory teamLinkMatchFactory,
         IClockService clockService, IBotDbContextFactory dbContextFactory)
     {
         _teamLinkMatchFactory = teamLinkMatchFactory;

@@ -34,7 +34,7 @@ public class RoomUserDataService : IRoomUserDataService
     {
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
-        var usersWithJoinPhrase = await dbContext.UserData
+        var usersWithJoinPhrase = await dbContext.RoomUsers
             .Where(userData => !string.IsNullOrEmpty(userData.JoinPhrase))
             .ToListAsync(cancellationToken);
 
@@ -51,10 +51,12 @@ public class RoomUserDataService : IRoomUserDataService
     {
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
-        var existingUser = await dbContext.UserData.FindAsync([userId, roomId], cancellationToken);
+        var existingUser = await dbContext.RoomUsers.FindAsync([userId, roomId], cancellationToken);
 
         if (existingUser != null)
+        {
             return existingUser;
+        }
 
         var newUser = new RoomUser
         {
@@ -63,7 +65,7 @@ public class RoomUserDataService : IRoomUserDataService
             PlayTime = TimeSpan.Zero
         };
 
-        await dbContext.UserData.AddAsync(newUser, cancellationToken);
+        await dbContext.RoomUsers.AddAsync(newUser, cancellationToken);
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return newUser;
@@ -127,7 +129,7 @@ public class RoomUserDataService : IRoomUserDataService
 
         user.Title = title;
 
-        dbContext.UserData.Update(user);
+        dbContext.RoomUsers.Update(user);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
@@ -147,8 +149,8 @@ public class RoomUserDataService : IRoomUserDataService
         var user = await GetUserAndCreateIfNotExistsAsync(roomId, userId, cancellationToken);
 
         user.Avatar = avatar;
+        dbContext.RoomUsers.Update(user);
 
-        dbContext.UserData.Update(user);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
@@ -180,7 +182,7 @@ public class RoomUserDataService : IRoomUserDataService
             _joinPhrases[key] = joinPhrase;
         }
 
-        dbContext.UserData.Update(user);
+        dbContext.RoomUsers.Update(user);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
@@ -191,9 +193,11 @@ public class RoomUserDataService : IRoomUserDataService
         CancellationToken cancellationToken = default)
     {
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+
         var user = await GetUserAndCreateIfNotExistsAsync(roomId, userId, cancellationToken);
         user.PlayTime += additionalPlayTime;
-        dbContext.UserData.Update(user);
+        dbContext.RoomUsers.Update(user);
+
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 }

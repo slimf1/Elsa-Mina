@@ -16,10 +16,10 @@
         @{
             var ogColor = Model.OriginalColor.Value;
         }
-        (Original:&nbsp;
+        (Original:
         <span style="color: @ogColor.ToHexString(); font-weight: bold;">
             @Model.Name
-        </span>&nbsp;
+        </span>
         <span>
             | @ogColor.ToHexString() | @ogColor.ToRgbString() | @ogColor.ToHslString()
         </span>

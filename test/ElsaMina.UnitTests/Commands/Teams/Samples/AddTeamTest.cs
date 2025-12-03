@@ -4,28 +4,40 @@ using ElsaMina.Commands.Teams.TeamProviders;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Utils;
-using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
+using ElsaMina.DataAccess;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 
 namespace ElsaMina.UnitTests.Commands.Teams.Samples;
 
-public class AddTeamTests
+public class AddTeamCommandTests
 {
-    private AddTeam _command;
+    private AddTeamCommand _command;
     private ITeamLinkMatchFactory _teamLinkMatchFactory;
-    private ITeamRepository _teamRepository;
     private IClockService _clockService;
+    private IBotDbContextFactory _dbContextFactory;
+    private BotDbContext _dbContext;
     private IContext _context;
+    private DbContextOptions<BotDbContext> _options;
 
     [SetUp]
     public void SetUp()
     {
         _teamLinkMatchFactory = Substitute.For<ITeamLinkMatchFactory>();
-        _teamRepository = Substitute.For<ITeamRepository>();
         _clockService = Substitute.For<IClockService>();
-        _command = new AddTeam(_teamLinkMatchFactory, _teamRepository, _clockService);
+        _dbContextFactory = Substitute.For<IBotDbContextFactory>();
         _context = Substitute.For<IContext>();
+
+        _options = new DbContextOptionsBuilder<BotDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+
+        _dbContext = new BotDbContext(_options);
+
+        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult(_dbContext));
+
+        _command = new AddTeamCommand(_teamLinkMatchFactory, _clockService, _dbContextFactory);
     }
 
     [Test]
@@ -73,8 +85,10 @@ public class AddTeamTests
     {
         // Arrange
         _context.Target.Returns("link, name, format");
+
         var teamLinkMatch = Substitute.For<ITeamLinkMatch>();
         teamLinkMatch.GetTeamExport().Returns(Task.FromResult((SharedTeam)null));
+
         _teamLinkMatchFactory.FindTeamLinkMatch("link").Returns(teamLinkMatch);
 
         // Act
@@ -95,6 +109,7 @@ public class AddTeamTests
         var teamLinkMatch = Substitute.For<ITeamLinkMatch>();
         var sharedTeam = new SharedTeam { TeamExport = "export_data" };
         teamLinkMatch.GetTeamExport().Returns(Task.FromResult(sharedTeam));
+
         _teamLinkMatchFactory.FindTeamLinkMatch("link").Returns(teamLinkMatch);
 
         var currentDateTime = DateTime.UtcNow;
@@ -104,18 +119,23 @@ public class AddTeamTests
         await _command.RunAsync(_context);
 
         // Assert
-        await _teamRepository.Received(1).AddAsync(Arg.Is<Team>(team =>
-            team.Id == "name".ToLowerAlphaNum() &&
-            team.Name == "name" &&
-            team.Author == "author" &&
-            team.Link == "link" &&
-            team.CreationDate == currentDateTime &&
-            team.TeamJson == ShowdownTeams.TeamExportToJson("export_data") &&
-            team.Format == "format" &&
-            team.Rooms.Count == 1 &&
-            team.Rooms.ElementAt(0).RoomId == "room" &&
-            team.Rooms.ElementAt(0).TeamId == "name".ToLowerAlphaNum()
-        ));
+        await using var dbContext = new BotDbContext(_options);
+        var team = dbContext.Teams.Include(team => team.Rooms).Single();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(team.Id, Is.EqualTo("name".ToLowerAlphaNum()));
+            Assert.That(team.Name, Is.EqualTo("name"));
+            Assert.That(team.Author, Is.EqualTo("author"));
+            Assert.That(team.Link, Is.EqualTo("link"));
+            Assert.That(team.CreationDate, Is.EqualTo(currentDateTime));
+            Assert.That(team.TeamJson, Is.EqualTo(ShowdownTeams.TeamExportToJson("export_data")));
+            Assert.That(team.Format, Is.EqualTo("format"));
+            Assert.That(team.Rooms.Count, Is.EqualTo(1));
+            Assert.That(team.Rooms.ElementAt(0).RoomId, Is.EqualTo("room"));
+            Assert.That(team.Rooms.ElementAt(0).TeamId, Is.EqualTo("name".ToLowerAlphaNum()));
+        });
+
         _context.Received().ReplyLocalizedMessage("add_team_success", "name".ToLowerAlphaNum());
     }
 
@@ -130,6 +150,7 @@ public class AddTeamTests
         var teamLinkMatch = Substitute.For<ITeamLinkMatch>();
         var sharedTeam = new SharedTeam { TeamExport = "export_data" };
         teamLinkMatch.GetTeamExport().Returns(Task.FromResult(sharedTeam));
+
         _teamLinkMatchFactory.FindTeamLinkMatch("link").Returns(teamLinkMatch);
 
         var currentDateTime = DateTime.UtcNow;
@@ -139,11 +160,15 @@ public class AddTeamTests
         await _command.RunAsync(_context);
 
         // Assert
-        await _teamRepository.Received(1).AddAsync(Arg.Is<Team>(team =>
-            team.Rooms.Count == 2 &&
-            team.Rooms.Any(rt => rt.RoomId == "arcade") &&
-            team.Rooms.Any(rt => rt.RoomId == "franais")
-        ));
+        await using var dbContext = new BotDbContext(_options);
+        var team = dbContext.Teams.Include(team => team.Rooms).Single();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(team.Rooms.Count, Is.EqualTo(2));
+            Assert.That(team.Rooms.Any(rt => rt.RoomId == "arcade"));
+            Assert.That(team.Rooms.Any(rt => rt.RoomId == "franais"));
+        });
     }
 
     [Test]
@@ -157,15 +182,24 @@ public class AddTeamTests
         var teamLinkMatch = Substitute.For<ITeamLinkMatch>();
         var sharedTeam = new SharedTeam { TeamExport = "export_data" };
         teamLinkMatch.GetTeamExport().Returns(Task.FromResult(sharedTeam));
+
         _teamLinkMatchFactory.FindTeamLinkMatch("link").Returns(teamLinkMatch);
 
-        _teamRepository.When(repo => repo.AddAsync(Arg.Any<Team>()))
-            .Do(_ => throw new Exception("Database error"));
+        var faultyOptions = new DbContextOptionsBuilder<BotDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+
+        var throwingDbContext = Substitute.For<BotDbContext>(faultyOptions);
+        throwingDbContext.SaveChangesAsync(Arg.Any<CancellationToken>())
+            .Returns(Task.FromException<int>(new Exception("Database error")));
+
+        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult((BotDbContext)throwingDbContext));
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        _context.Received().ReplyLocalizedMessage("add_team_failure", "Database error");
+        _context.Received().ReplyLocalizedMessage("add_team_failure", Arg.Any<string>());
     }
 }

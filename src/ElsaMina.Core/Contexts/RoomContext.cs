@@ -37,8 +37,7 @@ public class RoomContext : Context
 
     public DateTimeOffset Timestamp => DateTimeOffset.FromUnixTimeSeconds(_timestamp);
 
-    protected override bool IsAllowingErrorMessages =>
-        _room.GetParameterValueAsync(Parameter.ShowErrorMessages).GetAwaiter().GetResult().ToBoolean();
+    protected override bool IsAllowingErrorMessages => _room.GetParameterValue(Parameter.ShowErrorMessages).ToBoolean();
 
     public override bool HasRankOrHigher(Rank requiredRank)
     {

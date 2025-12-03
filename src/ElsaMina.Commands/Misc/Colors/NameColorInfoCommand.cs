@@ -9,12 +9,12 @@ using ElsaMina.Core.Utils;
 namespace ElsaMina.Commands.Misc.Colors;
 
 [NamedCommand("namecolor", Aliases = ["name-color", "colorinfo", "namecolorinfo"])]
-public class NameColorInfo : Command
+public class NameColorInfoCommand : Command
 {
     private readonly ITemplatesManager _templatesManager;
     private readonly ICustomColorsManager _customColorsManager;
 
-    public NameColorInfo(ITemplatesManager templatesManager, ICustomColorsManager customColorsManager)
+    public NameColorInfoCommand(ITemplatesManager templatesManager, ICustomColorsManager customColorsManager)
     {
         _templatesManager = templatesManager;
         _customColorsManager = customColorsManager;

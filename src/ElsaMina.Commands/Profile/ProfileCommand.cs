@@ -57,9 +57,9 @@ public class ProfileCommand : Command
         }
 
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
-        var userDataTask = dbContext.UserData
-            .Include(userData => userData.Badges)
-            .ThenInclude(badge => badge.Badge)
+        var userDataTask = dbContext.RoomUsers
+            .Include(roomUser => roomUser.Badges)
+            .ThenInclude(badgeHolding => badgeHolding.Badge)
             .FirstOrDefaultAsync(userData => userData.Id == userId && userData.RoomId == context.RoomId,
                 cancellationToken);
         var userDetailsTask = _userDetailsManager.GetUserDetailsAsync(userId, cancellationToken);

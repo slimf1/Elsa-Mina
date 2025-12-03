@@ -10,11 +10,11 @@ using Microsoft.EntityFrameworkCore;
 namespace ElsaMina.Commands.Teams.Samples;
 
 [NamedCommand("add-team-to-room", Aliases = ["addteamtoroom", "add-to-room", "add-to-room"])]
-public class AddTeamToRoom : Command
+public class AddTeamToRoomCommand : Command
 {
     private readonly IBotDbContextFactory _dbContextFactory;
 
-    public AddTeamToRoom(IBotDbContextFactory dbContextFactory)
+    public AddTeamToRoomCommand(IBotDbContextFactory dbContextFactory)
     {
         _dbContextFactory = dbContextFactory;
     }
@@ -30,31 +30,30 @@ public class AddTeamToRoom : Command
             return;
         }
 
-        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
-        var team = await dbContext.Teams
-            .Include(team => team.Rooms)
-            .FirstOrDefaultAsync(team => team.Id == teamId, cancellationToken);
-        if (team == null)
-        {
-            context.ReplyLocalizedMessage("add_team_to_room_no_team");
-            return;
-        }
-
-        if (team.Rooms != null && team.Rooms.Any(roomTeam => roomTeam.RoomId == context.RoomId))
-        {
-            context.ReplyLocalizedMessage("add_team_to_room_team_already_in_room");
-            return;
-        }
-
-        team.Rooms ??= new List<RoomTeam>();
-        team.Rooms.Add(new RoomTeam
-        {
-            RoomId = context.RoomId,
-            TeamId = team.Id
-        });
-
         try
         {
+            await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+            var team = await dbContext.Teams
+                .Include(team => team.Rooms)
+                .FirstOrDefaultAsync(team => team.Id == teamId, cancellationToken);
+            if (team == null)
+            {
+                context.ReplyLocalizedMessage("add_team_to_room_no_team");
+                return;
+            }
+
+            if (team.Rooms != null && team.Rooms.Any(roomTeam => roomTeam.RoomId == context.RoomId))
+            {
+                context.ReplyLocalizedMessage("add_team_to_room_team_already_in_room");
+                return;
+            }
+
+            team.Rooms ??= new List<RoomTeam>();
+            team.Rooms.Add(new RoomTeam
+            {
+                RoomId = context.RoomId,
+                TeamId = team.Id
+            });
             await dbContext.SaveChangesAsync(cancellationToken);
             context.ReplyLocalizedMessage("add_team_to_room_success");
         }

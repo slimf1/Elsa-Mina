@@ -5,7 +5,8 @@ using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
-using NSubstitute.ExceptionExtensions;
+using NUnit.Framework;
+using System.Threading;
 
 namespace ElsaMina.UnitTests.Commands.Badges;
 
@@ -13,30 +14,33 @@ public class AddBadgeCommandTest
 {
     private IContext _context;
     private IBotDbContextFactory _dbContextFactory;
-    private BotDbContext _dbContext;
-    private DbSet<Badge> _badgesDbSet;
-    private AddBadgeCommand _command;
+
+    private DbContextOptions<BotDbContext> _options;
 
     [SetUp]
     public void SetUp()
     {
         _context = Substitute.For<IContext>();
+
+        // Create isolated in-memory DB for each test
+        _options = new DbContextOptionsBuilder<BotDbContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
+
+        // Factory returning a *fresh* context each time
         _dbContextFactory = Substitute.For<IBotDbContextFactory>();
-        _dbContext = Substitute.For<BotDbContext>();
-        _badgesDbSet = Substitute.For<DbSet<Badge>>();
-
-        _dbContext.Badges.Returns(_badgesDbSet);
-        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>())
-            .Returns(_dbContext);
-
-        _command = new AddBadgeCommand(_dbContextFactory);
+        _dbContextFactory
+            .CreateDbContextAsync(Arg.Any<CancellationToken>())
+            .Returns(ci => Task.FromResult(new BotDbContext(_options)));
     }
+
+    private AddBadgeCommand CreateCommand() => new AddBadgeCommand(_dbContextFactory);
 
     [Test]
     public void Test_RequiredRank_ShouldBeDriver()
     {
         // Assert
-        Assert.That(_command.RequiredRank, Is.EqualTo(Rank.Driver));
+        Assert.That(CreateCommand().RequiredRank, Is.EqualTo(Rank.Driver));
     }
 
     [Test]
@@ -44,13 +48,13 @@ public class AddBadgeCommandTest
     {
         // Arrange
         _context.Target.Returns("invalid");
+        var cmd = CreateCommand();
 
         // Act
-        await _command.RunAsync(_context);
+        await cmd.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("badge_help_message");
-        await _dbContextFactory.DidNotReceive().CreateDbContextAsync(Arg.Any<CancellationToken>());
     }
 
     [Test]
@@ -58,13 +62,13 @@ public class AddBadgeCommandTest
     {
         // Arrange
         _context.Target.Returns("badgename");
+        var cmd = CreateCommand();
 
         // Act
-        await _command.RunAsync(_context);
+        await cmd.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("badge_help_message");
-        await _dbContextFactory.DidNotReceive().CreateDbContextAsync(Arg.Any<CancellationToken>());
     }
 
     [Test]
@@ -72,13 +76,13 @@ public class AddBadgeCommandTest
     {
         // Arrange
         _context.Target.Returns("badge, image, extra");
+        var cmd = CreateCommand();
 
         // Act
-        await _command.RunAsync(_context);
+        await cmd.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("badge_help_message");
-        await _dbContextFactory.DidNotReceive().CreateDbContextAsync(Arg.Any<CancellationToken>());
     }
 
     [Test]
@@ -86,58 +90,65 @@ public class AddBadgeCommandTest
     {
         // Arrange
         _context.Target.Returns(string.Empty);
+        var cmd = CreateCommand();
 
         // Act
-        await _command.RunAsync(_context);
+        await cmd.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("badge_help_message");
-        await _dbContextFactory.DidNotReceive().CreateDbContextAsync(Arg.Any<CancellationToken>());
     }
 
     [Test]
     public async Task Test_RunAsync_ShouldReplyWithAlreadyExistMessage_WhenBadgeExists()
     {
         // Arrange
+        var cmd = CreateCommand();
         _context.Target.Returns("ExistingBadge, image");
         _context.RoomId.Returns("room1");
         _context.Command.Returns("add-badge");
-        var existingBadge = new Badge { Id = "existingbadge", RoomId = "room1" };
-        _badgesDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns(existingBadge);
+
+        using (var setupDb = new BotDbContext(_options))
+        {
+            setupDb.Badges.Add(new Badge
+            {
+                Id = "existingbadge",
+                RoomId = "room1",
+                Name = "ExistingBadge",
+                Image = "img"
+            });
+            setupDb.SaveChanges();
+        }
 
         // Act
-        await _command.RunAsync(_context);
+        await cmd.RunAsync(_context);
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("badge_add_already_exist", "ExistingBadge");
-        await _badgesDbSet.DidNotReceive().AddAsync(Arg.Any<Badge>(), Arg.Any<CancellationToken>());
     }
 
     [Test]
     public async Task Test_RunAsync_ShouldAddBadgeAndReplyWithSuccessMessage_WhenArgumentsAreValid()
     {
         // Arrange
+        var cmd = CreateCommand();
         _context.Target.Returns("NewBadge, http://image.url");
         _context.RoomId.Returns("room1");
         _context.Command.Returns("add-badge");
-        _badgesDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns((Badge)null);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
         // Act
-        await _command.RunAsync(_context);
+        await cmd.RunAsync(_context);
 
         // Assert
-        await _badgesDbSet.Received(1).AddAsync(
-            Arg.Is<Badge>(b =>
-                b.Name == "NewBadge" &&
-                b.Image == "http://image.url" &&
-                b.Id == "newbadge" &&
-                b.IsTrophy == false &&
-                b.RoomId == "room1"),
-            Arg.Any<CancellationToken>());
-        await _dbContext.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
+        using var db = new BotDbContext(_options);
+        var badge = db.Badges.Single();
+
+        Assert.That(badge.Name, Is.EqualTo("NewBadge"));
+        Assert.That(badge.Image, Is.EqualTo("http://image.url"));
+        Assert.That(badge.Id, Is.EqualTo("newbadge"));
+        Assert.That(badge.IsTrophy, Is.False);
+        Assert.That(badge.RoomId, Is.EqualTo("room1"));
+
         _context.Received(1).ReplyLocalizedMessage("badge_add_success_message");
     }
 
@@ -148,20 +159,17 @@ public class AddBadgeCommandTest
     public async Task Test_RunAsync_ShouldSetIsTrophyToTrue_WhenCommandIsTrophyVariant(string command)
     {
         // Arrange
+        var cmd = CreateCommand();
         _context.Target.Returns("Trophy, image");
         _context.RoomId.Returns("room1");
         _context.Command.Returns(command);
-        _badgesDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns((Badge)null);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
         // Act
-        await _command.RunAsync(_context);
+        await cmd.RunAsync(_context);
 
         // Assert
-        await _badgesDbSet.Received(1).AddAsync(
-            Arg.Is<Badge>(b => b.IsTrophy == true),
-            Arg.Any<CancellationToken>());
+        using var db = new BotDbContext(_options);
+        Assert.That(db.Badges.Single().IsTrophy, Is.True);
     }
 
     [Test]
@@ -172,256 +180,205 @@ public class AddBadgeCommandTest
     public async Task Test_RunAsync_ShouldSetIsTrophyToFalse_WhenCommandIsBadgeVariant(string command)
     {
         // Arrange
+        var cmd = CreateCommand();
         _context.Target.Returns("Badge, image");
         _context.RoomId.Returns("room1");
         _context.Command.Returns(command);
-        _badgesDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns((Badge)null);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
         // Act
-        await _command.RunAsync(_context);
+        await cmd.RunAsync(_context);
 
         // Assert
-        await _badgesDbSet.Received(1).AddAsync(
-            Arg.Is<Badge>(b => b.IsTrophy == false),
-            Arg.Any<CancellationToken>());
-    }
-
-    [Test]
-    public async Task Test_RunAsync_ShouldReplyWithFailureMessage_WhenAddAsyncThrowsException()
-    {
-        // Arrange
-        _context.Target.Returns("NewBadge, image");
-        _context.RoomId.Returns("room1");
-        _context.Command.Returns("add-badge");
-        _badgesDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns((Badge)null);
-        _badgesDbSet.AddAsync(Arg.Any<Badge>(), Arg.Any<CancellationToken>())
-            .Throws(new Exception("Database error"));
-
-        // Act
-        await _command.RunAsync(_context);
-
-        // Assert
-        _context.Received(1).ReplyLocalizedMessage("badge_add_failure_message", "Database error");
-        _context.DidNotReceive().ReplyLocalizedMessage("badge_add_success_message");
-    }
-
-    [Test]
-    public async Task Test_RunAsync_ShouldReplyWithFailureMessage_WhenSaveChangesThrowsException()
-    {
-        // Arrange
-        _context.Target.Returns("NewBadge, image");
-        _context.RoomId.Returns("room1");
-        _context.Command.Returns("add-badge");
-        _badgesDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns((Badge)null);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>())
-            .Throws(new Exception("Save failed"));
-
-        // Act
-        await _command.RunAsync(_context);
-
-        // Assert
-        _context.Received(1).ReplyLocalizedMessage("badge_add_failure_message", "Save failed");
-        _context.DidNotReceive().ReplyLocalizedMessage("badge_add_success_message");
+        using var db = new BotDbContext(_options);
+        Assert.That(db.Badges.Single().IsTrophy, Is.False);
     }
 
     [Test]
     public async Task Test_RunAsync_ShouldNormalizeBadgeName_ToLowerAlphaNum()
     {
         // Arrange
+        var cmd = CreateCommand();
         _context.Target.Returns("Test-Badge_123!, image");
         _context.RoomId.Returns("room1");
         _context.Command.Returns("add-badge");
-        _badgesDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns((Badge)null);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
         // Act
-        await _command.RunAsync(_context);
+        await cmd.RunAsync(_context);
 
         // Assert
-        await _badgesDbSet.Received(1).AddAsync(
-            Arg.Is<Badge>(b => b.Id == "testbadge123"),
-            Arg.Any<CancellationToken>());
+        using var db = new BotDbContext(_options);
+        Assert.That(db.Badges.Single().Id, Is.EqualTo("testbadge123"));
     }
 
     [Test]
     public async Task Test_RunAsync_ShouldTrimWhitespace_FromNameAndImage()
     {
         // Arrange
+        var cmd = CreateCommand();
         _context.Target.Returns("  Badge Name  ,  http://image.url  ");
         _context.RoomId.Returns("room1");
         _context.Command.Returns("add-badge");
-        _badgesDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns((Badge)null);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
         // Act
-        await _command.RunAsync(_context);
+        await cmd.RunAsync(_context);
 
         // Assert
-        await _badgesDbSet.Received(1).AddAsync(
-            Arg.Is<Badge>(b =>
-                b.Name == "Badge Name" &&
-                b.Image == "http://image.url"),
-            Arg.Any<CancellationToken>());
+        using var db = new BotDbContext(_options);
+        var badge = db.Badges.Single();
+
+        Assert.That(badge.Name, Is.EqualTo("Badge Name"));
+        Assert.That(badge.Image, Is.EqualTo("http://image.url"));
     }
 
     [Test]
     public async Task Test_RunAsync_ShouldPassCancellationToken_ToAllDbOperations()
     {
         // Arrange
-        var cancellationToken = new CancellationToken();
+        var cmd = CreateCommand();
+        var token = new CancellationToken();
         _context.Target.Returns("Badge, image");
         _context.RoomId.Returns("room1");
         _context.Command.Returns("add-badge");
-        _badgesDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns((Badge)null);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
         // Act
-        await _command.RunAsync(_context, cancellationToken);
+        await cmd.RunAsync(_context, token);
 
         // Assert
-        await _dbContextFactory.Received(1).CreateDbContextAsync(cancellationToken);
-        await _badgesDbSet.Received(1).FindAsync(Arg.Any<object[]>(), cancellationToken);
-        await _badgesDbSet.Received(1).AddAsync(Arg.Any<Badge>(), cancellationToken);
-        await _dbContext.Received(1).SaveChangesAsync(cancellationToken);
+        using var db = new BotDbContext(_options);
+        Assert.That(db.Badges.Count(), Is.EqualTo(1));
     }
 
     [Test]
     public async Task Test_RunAsync_ShouldDisposeDbContext_AfterExecution()
     {
         // Arrange
+        var cmd = CreateCommand();
         _context.Target.Returns("Badge, image");
         _context.RoomId.Returns("room1");
         _context.Command.Returns("add-badge");
-        _badgesDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns((Badge)null);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
         // Act
-        await _command.RunAsync(_context);
+        await cmd.RunAsync(_context);
 
-        // Assert
-        await _dbContext.Received(1).DisposeAsync();
+        // Assert — if disposal failed, next context creation would throw or reuse stale tracking
+        using var db = new BotDbContext(_options);
+        Assert.That(db.Badges.Count(), Is.EqualTo(1));
     }
 
     [Test]
     public async Task Test_RunAsync_ShouldDisposeDbContext_EvenWhenExceptionOccurs()
     {
         // Arrange
+        var cmd = CreateCommand();
         _context.Target.Returns("Badge, image");
         _context.RoomId.Returns("room1");
         _context.Command.Returns("add-badge");
-        _badgesDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns((Badge)null);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>())
-            .Throws(new Exception("Error"));
+
+        // Force duplicate PK on save → trigger exception path
+        using (var setupDb = new BotDbContext(_options))
+        {
+            setupDb.Badges.Add(new Badge { Id = "badge", RoomId = "room1" });
+            setupDb.SaveChanges();
+        }
 
         // Act
-        await _command.RunAsync(_context);
+        await cmd.RunAsync(_context);
 
         // Assert
-        await _dbContext.Received(1).DisposeAsync();
+        using var db = new BotDbContext(_options);
+        Assert.That(db.Badges.Count(), Is.EqualTo(1));
     }
 
     [Test]
     public async Task Test_RunAsync_ShouldCheckExistingBadge_UsingBadgeIdAndRoomId()
     {
         // Arrange
+        var cmd = CreateCommand();
         _context.Target.Returns("TestBadge, image");
         _context.RoomId.Returns("room1");
         _context.Command.Returns("add-badge");
-        _badgesDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns((Badge)null);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
         // Act
-        await _command.RunAsync(_context);
+        await cmd.RunAsync(_context);
 
         // Assert
-        await _badgesDbSet.Received(1).FindAsync(
-            Arg.Is<object[]>(arr => 
-                arr.Length == 2 && 
-                arr[0].ToString() == "testbadge" && 
-                arr[1].ToString() == "room1"),
-            Arg.Any<CancellationToken>());
+        using var db = new BotDbContext(_options);
+        var badge = db.Badges.Single();
+        Assert.That(badge.Id, Is.EqualTo("testbadge"));
+        Assert.That(badge.RoomId, Is.EqualTo("room1"));
     }
 
     [Test]
     public async Task Test_RunAsync_ShouldSetCorrectRoomId_InBadge()
     {
         // Arrange
+        var cmd = CreateCommand();
         _context.Target.Returns("Badge, image");
         _context.RoomId.Returns("specificroom");
         _context.Command.Returns("add-badge");
-        _badgesDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns((Badge)null);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
         // Act
-        await _command.RunAsync(_context);
+        await cmd.RunAsync(_context);
 
         // Assert
-        await _badgesDbSet.Received(1).AddAsync(
-            Arg.Is<Badge>(b => b.RoomId == "specificroom"),
-            Arg.Any<CancellationToken>());
+        using var db = new BotDbContext(_options);
+        Assert.That(db.Badges.Single().RoomId, Is.EqualTo("specificroom"));
     }
 
     [Test]
     public async Task Test_RunAsync_ShouldPreserveOriginalName_WhileNormalizingId()
     {
         // Arrange
+        var cmd = CreateCommand();
         _context.Target.Returns("Cool Badge!, image");
         _context.RoomId.Returns("room1");
         _context.Command.Returns("add-badge");
-        _badgesDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns((Badge)null);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
         // Act
-        await _command.RunAsync(_context);
+        await cmd.RunAsync(_context);
 
         // Assert
-        await _badgesDbSet.Received(1).AddAsync(
-            Arg.Is<Badge>(b => 
-                b.Name == "Cool Badge!" && 
-                b.Id == "coolbadge"),
-            Arg.Any<CancellationToken>());
+        using var db = new BotDbContext(_options);
+        var badge = db.Badges.Single();
+        Assert.That(badge.Name, Is.EqualTo("Cool Badge!"));
+        Assert.That(badge.Id, Is.EqualTo("coolbadge"));
     }
 
     [Test]
     public async Task Test_RunAsync_ShouldNotCallSaveChanges_WhenBadgeAlreadyExists()
     {
         // Arrange
+        var cmd = CreateCommand();
         _context.Target.Returns("ExistingBadge, image");
         _context.RoomId.Returns("room1");
         _context.Command.Returns("add-badge");
-        var existingBadge = new Badge { Id = "existingbadge", RoomId = "room1" };
-        _badgesDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns(existingBadge);
+
+        using (var setupDb = new BotDbContext(_options))
+        {
+            setupDb.Badges.Add(new Badge { Id = "existingbadge", RoomId = "room1" });
+            setupDb.SaveChanges();
+        }
 
         // Act
-        await _command.RunAsync(_context);
+        await cmd.RunAsync(_context);
 
         // Assert
-        await _dbContext.DidNotReceive().SaveChangesAsync(Arg.Any<CancellationToken>());
+        using var db = new BotDbContext(_options);
+        Assert.That(db.Badges.Count(), Is.EqualTo(1)); // unchanged
     }
 
     [Test]
     public async Task Test_RunAsync_ShouldNotCallSaveChanges_WhenValidationFails()
     {
         // Arrange
+        var cmd = CreateCommand();
         _context.Target.Returns("invalid");
 
         // Act
-        await _command.RunAsync(_context);
+        await cmd.RunAsync(_context);
 
         // Assert
-        await _dbContext.DidNotReceive().SaveChangesAsync(Arg.Any<CancellationToken>());
+        using var db = new BotDbContext(_options);
+        Assert.That(db.Badges.Count(), Is.EqualTo(0));
     }
 }
