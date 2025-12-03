@@ -757,6 +757,6 @@
         <value>Page Views: {0}</value>
     </data>
     <data name="genius_link" xml:space="preserve">
-        <value>Check lyrics on Genius</value>
+        <value>Read lyrics on Genius</value>
     </data>
 </root>

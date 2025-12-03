@@ -749,4 +749,19 @@
     <data name="command_autocorrect_suggestion" xml:space="preserve">
         <value>Il comando "{0}" non è stato trovato. Volevi dire: __{1}__ ?</value>
     </data>
+    <data name="genius_help_message" xml:space="preserve">
+        <value>Recupera una canzone dai suoi testi usando Genius. Uso: -genius &lt;testo&gt;</value>
+    </data>
+        <data name="genius_release_date" xml:space="preserve">
+        <value>Rilasciato il: {0}</value>
+    </data>
+        <data name="genius_artist" xml:space="preserve">
+        <value>Di: {0}</value>
+    </data>
+        <data name="genius_page_views" xml:space="preserve">
+        <value>Visualizzazioni pagina: {0}</value>
+    </data>
+        <data name="genius_link" xml:space="preserve">
+        <value>Leggi i testi su Genius</value>
+    </data>
 </root>

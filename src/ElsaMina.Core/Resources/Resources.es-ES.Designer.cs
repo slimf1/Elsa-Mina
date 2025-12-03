@@ -1496,5 +1496,35 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("command_autocorrect_suggestion", resourceCulture);
             }
         }
+        
+        internal static string genius_help_message {
+            get {
+                return ResourceManager.GetString("genius_help_message", resourceCulture);
+            }
+        }
+        
+        internal static string genius_release_date {
+            get {
+                return ResourceManager.GetString("genius_release_date", resourceCulture);
+            }
+        }
+        
+        internal static string genius_artist {
+            get {
+                return ResourceManager.GetString("genius_artist", resourceCulture);
+            }
+        }
+        
+        internal static string genius_page_views {
+            get {
+                return ResourceManager.GetString("genius_page_views", resourceCulture);
+            }
+        }
+        
+        internal static string genius_link {
+            get {
+                return ResourceManager.GetString("genius_link", resourceCulture);
+            }
+        }
     }
 }
