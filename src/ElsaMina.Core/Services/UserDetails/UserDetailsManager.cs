@@ -36,7 +36,7 @@ public class UserDetailsManager : IUserDetailsManager
 
         _pendingRequests[userId] = (tcs, timeoutCts);
 
-        _ = RunTimeoutAsync(userId, timeoutCts);
+        _ = RunTimeoutAsync(userId, timeoutCts.Token);
 
         return tcs.Task;
     }

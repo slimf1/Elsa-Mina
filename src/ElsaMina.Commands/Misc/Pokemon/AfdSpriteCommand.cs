@@ -1,5 +1,6 @@
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.Misc.Pokemon;
 
@@ -9,11 +10,13 @@ public class AfdSpriteCommand : Command
     private const string FRONT_SPRITE_URL = "https://play.pokemonshowdown.com/sprites/afd/{0}.png";
     private const string BACK_SPRITE_URL = "https://play.pokemonshowdown.com/sprites/afd-back/{0}.png";
 
+    public override Rank RequiredRank => Rank.Regular;
+
     public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(context.Target))
         {
-            context.ReplyLocalizedMessage("pokemon_name_required");
+            context.ReplyRankAwareLocalizedMessage("pokemon_name_required");
             return Task.CompletedTask;
         }
 
@@ -23,8 +26,8 @@ public class AfdSpriteCommand : Command
         var spriteType = isBackSprite ? "back" : "front";
 
         var imgHtml = $"""<img src="{spriteUrl}" width="80" height="80" alt="{pokemonName} {spriteType} sprite">""";
-        context.ReplyHtml(imgHtml, null, true);
-        
+        context.ReplyHtml(imgHtml, rankAware: true);
+
         return Task.CompletedTask;
     }
 }

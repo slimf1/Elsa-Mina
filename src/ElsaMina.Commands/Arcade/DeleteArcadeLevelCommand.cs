@@ -7,11 +7,11 @@ using ElsaMina.DataAccess;
 namespace ElsaMina.Commands.Arcade;
 
 [NamedCommand("deletepalier", "removepalier", "removelevel")]
-public class DeleteArcadeLevel : Command
+public class DeleteArcadeLevelCommand : Command
 {
     private readonly IBotDbContextFactory _dbContextFactory;
 
-    public DeleteArcadeLevel(IBotDbContextFactory dbContextFactory)
+    public DeleteArcadeLevelCommand(IBotDbContextFactory dbContextFactory)
     {
         _dbContextFactory = dbContextFactory;
     }

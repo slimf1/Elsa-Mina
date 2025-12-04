@@ -8,11 +8,11 @@ using ElsaMina.DataAccess.Models;
 namespace ElsaMina.Commands.Arcade;
 
 [NamedCommand("addpalier", "setpalier")]
-public class SetArcadeLevel : Command
+public class SetArcadeLevelCommand : Command
 {
     private readonly IBotDbContextFactory _dbContextFactory;
 
-    public SetArcadeLevel(IBotDbContextFactory dbContextFactory)
+    public SetArcadeLevelCommand(IBotDbContextFactory dbContextFactory)
     {
         _dbContextFactory = dbContextFactory;
     }
@@ -42,12 +42,12 @@ public class SetArcadeLevel : Command
             context.ReplyLocalizedMessage("arcade_level_invalid_value");
             return;
         }
-        
-        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
-        var arcadeLevel = await dbContext.ArcadeLevels.FindAsync([user], cancellationToken);
-        if (arcadeLevel == null)
+
+        try
         {
-            try
+            await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+            var arcadeLevel = await dbContext.ArcadeLevels.FindAsync([user], cancellationToken);
+            if (arcadeLevel == null)
             {
                 await dbContext.ArcadeLevels.AddAsync(new ArcadeLevel
                 {
@@ -57,23 +57,16 @@ public class SetArcadeLevel : Command
                 context.ReplyLocalizedMessage("arcade_level_add", user, level);
                 await dbContext.SaveChangesAsync(cancellationToken);
             }
-            catch (Exception e)
+            else
             {
-                context.ReplyLocalizedMessage("arcade_level_update_error", e.Message);
-            }
-        }
-        else
-        {
-            arcadeLevel.Level = level;
-            try
-            {
+                arcadeLevel.Level = level;
                 await dbContext.SaveChangesAsync(cancellationToken);
                 context.ReplyLocalizedMessage("arcade_level_update", user, level);
             }
-            catch (Exception e)
-            {
-                context.ReplyLocalizedMessage("arcade_level_update_error", e.Message);
-            }
+        }
+        catch (Exception e)
+        {
+            context.ReplyLocalizedMessage("arcade_level_update_error", e.Message);
         }
     }
 }

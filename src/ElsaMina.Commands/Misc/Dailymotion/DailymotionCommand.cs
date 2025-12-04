@@ -5,6 +5,7 @@ using ElsaMina.Core;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Http;
+using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
 using ElsaMina.Logging;
@@ -18,6 +19,8 @@ public class DailymotionCommand : Command
 
     private readonly IHttpService _httpService;
     private readonly ITemplatesManager _templatesManager;
+
+    public override Rank RequiredRank => Rank.Regular;
 
     public DailymotionCommand(IHttpService httpService, ITemplatesManager templatesManager)
     {
@@ -77,7 +80,7 @@ public class DailymotionCommand : Command
         catch (Exception exception)
         {
             Log.Error(exception, "An error occurred fetching Dailymotion video");
-            context.ReplyLocalizedMessage("dailymotion_fetch_error", exception.Message);
+            context.ReplyRankAwareLocalizedMessage("dailymotion_fetch_error", exception.Message);
         }
     }
 }

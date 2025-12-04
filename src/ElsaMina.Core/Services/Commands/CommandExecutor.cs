@@ -75,17 +75,18 @@ public class CommandExecutor : ICommandExecutor
             <= 12 => 2,
             _ => 3
         };
-        var closestCommand = GetAllCommands()
+        var closestCommands = GetAllCommands()
             .SelectMany(command => (string[]) [.. command.Aliases, command.Name])
             .Where(possibleCommands => possibleCommands.LevenshteinDistance(commandName) <= maxLevenshteinDistance)
             .ToArray(); // TODO : ajouter les commandes custom
 
-        if (closestCommand.Length == 0)
+        if (closestCommands.Length == 0)
         {
             return;
         }
 
-        context.ReplyLocalizedMessage("command_autocorrect_suggestion", commandName, string.Join(", ", closestCommand));
+        context.ReplyLocalizedMessage("command_autocorrect_suggestion", commandName,
+            string.Join(", ", closestCommands));
     }
 
     private static bool CanCommandBeRan(IContext context, ICommand command)

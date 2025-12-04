@@ -6,9 +6,9 @@ using NSubstitute.ReturnsExtensions;
 
 namespace ElsaMina.UnitTests.Commands.ConnectFour;
 
-public class EndConnectFourTest
+public class EndConnectFourCommandTest
 {
-    private EndConnectFour _command;
+    private EndConnectFourCommand _command;
     private IContext _context;
     private IRoom _room;
     private IConnectFourGame _connectFourGame;
@@ -16,7 +16,7 @@ public class EndConnectFourTest
     [SetUp]
     public void SetUp()
     {
-        _command = new EndConnectFour();
+        _command = new EndConnectFourCommand();
         _context = Substitute.For<IContext>();
         _room = Substitute.For<IRoom>();
         _connectFourGame = Substitute.For<IConnectFourGame>();

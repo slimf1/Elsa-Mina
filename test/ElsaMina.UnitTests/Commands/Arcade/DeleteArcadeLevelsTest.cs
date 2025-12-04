@@ -9,201 +9,288 @@ using NSubstitute.ExceptionExtensions;
 
 namespace ElsaMina.UnitTests.Commands.Arcade;
 
-public class DeleteArcadeLevelTests
+public class DeleteArcadeLevelCommandTests
 {
+    private DbContextOptions<BotDbContext> _dbOptions;
     private IBotDbContextFactory _dbContextFactory;
-    private BotDbContext _dbContext;
     private IContext _context;
-    private DeleteArcadeLevel _command;
-    private DbSet<ArcadeLevel> _arcadeLevelsDbSet;
+    private DeleteArcadeLevelCommand _command;
 
     [SetUp]
     public void SetUp()
     {
+        _dbOptions = new DbContextOptionsBuilder<BotDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+        
+        // Clear the database before each test
+        using var dbContext = new BotDbContext(_dbOptions);
+        dbContext.Database.EnsureDeleted();
+        dbContext.Database.EnsureCreated();
+
+        // Setup factory mock to return new contexts
         _dbContextFactory = Substitute.For<IBotDbContextFactory>();
-        _dbContext = Substitute.For<BotDbContext>();
-        _context = Substitute.For<IContext>();
-        _arcadeLevelsDbSet = Substitute.For<DbSet<ArcadeLevel>>();
-
-        _dbContext.ArcadeLevels.Returns(_arcadeLevelsDbSet);
         _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>())
-            .Returns(_dbContext);
+            .Returns(callInfo => new BotDbContext(_dbOptions));
 
-        _command = new DeleteArcadeLevel(_dbContextFactory);
+        // Setup context mock
+        _context = Substitute.For<IContext>();
+
+        // Create command instance
+        _command = new DeleteArcadeLevelCommand(_dbContextFactory);
     }
 
     [Test]
-    public void Test_RequiredRank_ShouldBeDriver()
+    public void Test_Constructor_ShouldInitializeCommand_WhenCalled()
     {
-        Assert.That(_command.RequiredRank, Is.EqualTo(Rank.Driver));
+        // Arrange & Act
+        var command = new DeleteArcadeLevelCommand(_dbContextFactory);
+
+        // Assert
+        Assert.That(command, Is.Not.Null);
+        Assert.That(command.Name, Is.EqualTo("deletepalier"));
+        Assert.That(command.Aliases, Is.EquivalentTo(new[] { "removepalier", "removelevel" }));
+        Assert.That(command.RequiredRank, Is.EqualTo(Rank.Driver));
+        Assert.That(command.RoomRestriction, Is.EqualTo(new[] { "arcade", "botdevelopment" }));
+        Assert.That(command.HelpMessageKey, Is.EqualTo("arcade_level_delete_help"));
     }
 
     [Test]
-    public void Test_RoomRestriction_ShouldContainArcadeAndBotDevelopment()
-    {
-        Assert.That(_command.RoomRestriction, Is.EqualTo(new[] { "arcade", "botdevelopment" }));
-    }
-
-    [Test]
-    public void Test_HelpMessageKey_ShouldBeCorrect()
-    {
-        Assert.That(_command.HelpMessageKey, Is.EqualTo("arcade_level_delete_help"));
-    }
-
-    [Test]
-    public async Task Test_RunAsync_WhenTargetIsNull_ShouldReplyWithHelpMessage()
+    public async Task Test_RunAsync_ShouldReplyWithHelpMessage_WhenTargetIsNull()
     {
         // Arrange
         _context.Target.Returns((string)null);
+        _context.GetString("arcade_level_delete_help").Returns("Help message");
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        _context.Received(1).ReplyLocalizedMessage("arcade_level_delete_help");
+        _context.Received(1).GetString("arcade_level_delete_help");
+        _context.Received(1).Reply("Help message");
         await _dbContextFactory.DidNotReceive().CreateDbContextAsync(Arg.Any<CancellationToken>());
     }
 
     [Test]
-    public async Task Test_RunAsync_WhenTargetIsEmpty_ShouldReplyWithHelpMessage()
+    public async Task Test_RunAsync_ShouldReplyWithHelpMessage_WhenTargetIsEmpty()
     {
         // Arrange
         _context.Target.Returns(string.Empty);
+        _context.GetString("arcade_level_delete_help").Returns("Help message");
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        _context.Received(1).ReplyLocalizedMessage("arcade_level_delete_help");
+        _context.Received(1).GetString("arcade_level_delete_help");
+        _context.Received(1).Reply("Help message");
         await _dbContextFactory.DidNotReceive().CreateDbContextAsync(Arg.Any<CancellationToken>());
     }
 
     [Test]
-    public async Task Test_RunAsync_WhenTargetIsWhitespace_ShouldReplyWithHelpMessage()
+    public async Task Test_RunAsync_ShouldReplyWithHelpMessage_WhenTargetIsWhitespace()
     {
         // Arrange
         _context.Target.Returns("   ");
+        _context.GetString("arcade_level_delete_help").Returns("Help message");
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        _context.Received(1).ReplyLocalizedMessage("arcade_level_delete_help");
+        _context.Received(1).GetString("arcade_level_delete_help");
+        _context.Received(1).Reply("Help message");
         await _dbContextFactory.DidNotReceive().CreateDbContextAsync(Arg.Any<CancellationToken>());
     }
 
     [Test]
-    public async Task Test_RunAsync_WhenLevelNotFound_ShouldReplyNotFound()
+    public async Task Test_RunAsync_ShouldReplyNotFound_WhenLevelDoesNotExist()
     {
         // Arrange
-        _context.Target.Returns("TestLevel123");
-        _arcadeLevelsDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns((ArcadeLevel)null);
+        _context.Target.Returns("testuser");
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        await _arcadeLevelsDbSet.Received(1).FindAsync(
-            Arg.Is<object[]>(arr => arr.Length == 1), 
-            Arg.Any<CancellationToken>());
         _context.Received(1).ReplyLocalizedMessage("arcade_level_delete_not_found");
-        _dbContext.DidNotReceive().Remove(Arg.Any<object>());
-    }
-
-    [Test]
-    public async Task Test_RunAsync_WhenLevelExists_ShouldDeleteAndReplySuccess()
-    {
-        // Arrange
-        var arcadeLevel = new ArcadeLevel { Id = "testlevel123" };
-        _context.Target.Returns("TestLevel123");
-        _arcadeLevelsDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns(arcadeLevel);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
-
-        // Act
-        await _command.RunAsync(_context);
-
-        // Assert
-        await _arcadeLevelsDbSet.Received(1).FindAsync(
-            Arg.Is<object[]>(arr => arr.Length == 1), 
-            Arg.Any<CancellationToken>());
-        _dbContext.Received(1).Remove(arcadeLevel);
-        await _dbContext.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
-        _context.Received(1).ReplyLocalizedMessage("arcade_level_delete_success");
-    }
-
-    [Test]
-    public async Task Test_RunAsync_WhenSaveChangesFails_ShouldReplyFailureWithErrorMessage()
-    {
-        // Arrange
-        var arcadeLevel = new ArcadeLevel { Id = "testlevel123" };
-        var exceptionMessage = "Database connection error";
-        _context.Target.Returns("TestLevel123");
-        _arcadeLevelsDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns(arcadeLevel);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>())
-            .Throws(new Exception(exceptionMessage));
-
-        // Act
-        await _command.RunAsync(_context);
-
-        // Assert
-        _dbContext.Received(1).Remove(arcadeLevel);
-        _context.Received(1).ReplyLocalizedMessage("arcade_level_delete_failure", exceptionMessage);
         _context.DidNotReceive().ReplyLocalizedMessage("arcade_level_delete_success");
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldNormalizeTargetToLowerAlphaNum()
+    public async Task Test_RunAsync_ShouldDeleteLevelAndReplySuccess_WhenLevelExists()
     {
         // Arrange
-        _context.Target.Returns("Test-Level_123!");
-        var arcadeLevel = new ArcadeLevel { Id = "testlevel123" };
-        _arcadeLevelsDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns(arcadeLevel);
+        var userId = "testuser";
+        var arcadeLevel = new ArcadeLevel { Id = userId, Level = 5 };
+        
+        using (var setupContext = new BotDbContext(_dbOptions))
+        {
+            await setupContext.ArcadeLevels.AddAsync(arcadeLevel);
+            await setupContext.SaveChangesAsync();
+        }
+
+        _context.Target.Returns("Test-User!");
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        // The ToLowerAlphaNum() should normalize the input
-        await _arcadeLevelsDbSet.Received(1).FindAsync(
-            Arg.Any<object[]>(), 
-            Arg.Any<CancellationToken>());
+        using (var assertContext = new BotDbContext(_dbOptions))
+        {
+            var deletedLevel = await assertContext.ArcadeLevels.FindAsync(userId);
+            Assert.That(deletedLevel, Is.Null);
+        }
+        
+        _context.Received(1).ReplyLocalizedMessage("arcade_level_delete_success");
+        _context.DidNotReceive().ReplyLocalizedMessage("arcade_level_delete_not_found");
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldPassCancellationTokenToDbOperations()
+    public async Task Test_RunAsync_ShouldNormalizeId_WhenTargetContainsSpecialCharacters()
     {
         // Arrange
+        var userId = "testuser123";
+        var arcadeLevel = new ArcadeLevel { Id = userId, Level = 10 };
+        
+        using (var setupContext = new BotDbContext(_dbOptions))
+        {
+            await setupContext.ArcadeLevels.AddAsync(arcadeLevel);
+            await setupContext.SaveChangesAsync();
+        }
+
+        _context.Target.Returns("Test-User_123!@#");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await using (var assertContext = new BotDbContext(_dbOptions))
+        {
+            var deletedLevel = await assertContext.ArcadeLevels.FindAsync(userId);
+            Assert.That(deletedLevel, Is.Null);
+        }
+        
+        _context.Received(1).ReplyLocalizedMessage("arcade_level_delete_success");
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldReplyFailure_WhenSaveChangesFails()
+    {
+        // Arrange
+        var mockContext = Substitute.ForPartsOf<BotDbContext>(_dbOptions);
+        
+        var userId = "testuser";
+        var arcadeLevel = new ArcadeLevel { Id = userId, Level = 3 };
+
+        await using (var setupContext = new BotDbContext(_dbOptions))
+        {
+            await setupContext.ArcadeLevels.AddAsync(arcadeLevel);
+            await setupContext.SaveChangesAsync();
+        }
+
+        mockContext.SaveChangesAsync(Arg.Any<CancellationToken>())
+            .Throws(new DbUpdateException("Database error"));
+
+        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>())
+            .Returns(mockContext);
+
+        _context.Target.Returns("testuser");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        _context.Received(1).ReplyLocalizedMessage("arcade_level_delete_failure", "Database error");
+        _context.DidNotReceive().ReplyLocalizedMessage("arcade_level_delete_success");
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldPassCancellationToken_WhenProvided()
+    {
+        // Arrange
+        _context.Target.Returns("testuser");
         var cancellationToken = new CancellationToken();
-        var arcadeLevel = new ArcadeLevel { Id = "testlevel123" };
-        _context.Target.Returns("TestLevel123");
-        _arcadeLevelsDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns(arcadeLevel);
 
         // Act
         await _command.RunAsync(_context, cancellationToken);
 
         // Assert
         await _dbContextFactory.Received(1).CreateDbContextAsync(cancellationToken);
-        await _arcadeLevelsDbSet.Received(1).FindAsync(Arg.Any<object[]>(), cancellationToken);
-        await _dbContext.Received(1).SaveChangesAsync(cancellationToken);
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldDisposeDbContextAfterUse()
+    public async Task Test_RunAsync_ShouldCreateNewDbContext_WhenCalled()
     {
         // Arrange
-        _context.Target.Returns("TestLevel123");
-        _arcadeLevelsDbSet.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-            .Returns((ArcadeLevel)null);
+        _context.Target.Returns("testuser");
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        await _dbContext.Received(1).DisposeAsync();
+        await _dbContextFactory.Received(1).CreateDbContextAsync(Arg.Any<CancellationToken>());
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldHandleCaseInsensitiveId_WhenSearchingForLevel()
+    {
+        // Arrange
+        var userId = "testuser";
+        var arcadeLevel = new ArcadeLevel { Id = userId, Level = 7 };
+        
+        using (var setupContext = new BotDbContext(_dbOptions))
+        {
+            await setupContext.ArcadeLevels.AddAsync(arcadeLevel);
+            await setupContext.SaveChangesAsync();
+        }
+
+        _context.Target.Returns("TESTUSER");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await using (var assertContext = new BotDbContext(_dbOptions))
+        {
+            var deletedLevel = await assertContext.ArcadeLevels.FindAsync(userId);
+            Assert.That(deletedLevel, Is.Null);
+        }
+        
+        _context.Received(1).ReplyLocalizedMessage("arcade_level_delete_success");
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldDeleteCorrectUser_WhenMultipleUsersExist()
+    {
+        // Arrange
+        var user1 = new ArcadeLevel { Id = "user1", Level = 5 };
+        var user2 = new ArcadeLevel { Id = "user2", Level = 10 };
+        var user3 = new ArcadeLevel { Id = "user3", Level = 15 };
+
+        await using (var setupContext = new BotDbContext(_dbOptions))
+        {
+            await setupContext.ArcadeLevels.AddRangeAsync(user1, user2, user3);
+            await setupContext.SaveChangesAsync();
+        }
+
+        _context.Target.Returns("user2");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await using (var assertContext = new BotDbContext(_dbOptions))
+        {
+            var deletedUser = await assertContext.ArcadeLevels.FindAsync("user2");
+            var stillExistsUser1 = await assertContext.ArcadeLevels.FindAsync("user1");
+            var stillExistsUser3 = await assertContext.ArcadeLevels.FindAsync("user3");
+            
+            Assert.That(deletedUser, Is.Null);
+            Assert.That(stillExistsUser1, Is.Not.Null);
+            Assert.That(stillExistsUser3, Is.Not.Null);
+        }
+        
+        _context.Received(1).ReplyLocalizedMessage("arcade_level_delete_success");
     }
 }

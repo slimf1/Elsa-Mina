@@ -5,7 +5,7 @@ using ElsaMina.Core.Services.Rooms;
 namespace ElsaMina.Commands.GuessingGame;
 
 [NamedCommand("endguessinggame", Aliases = ["endcountriesgame"])]
-public class EndGuessingGame : Command
+public class EndGuessingGameCommand : Command
 {
     public override Rank RequiredRank => Rank.Voiced;
 

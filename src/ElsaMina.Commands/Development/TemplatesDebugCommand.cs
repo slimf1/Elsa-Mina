@@ -9,11 +9,11 @@ using ElsaMina.Core.Utils;
 namespace ElsaMina.Commands.Development;
 
 [NamedCommand("templates", Aliases = ["templates-debug", "templatedebug"])]
-public class TemplatesDebug : DevelopmentCommand
+public class TemplatesDebugCommand : DevelopmentCommand
 {
     private readonly ITemplatesManager _templatesManager;
 
-    public TemplatesDebug(ITemplatesManager templatesManager)
+    public TemplatesDebugCommand(ITemplatesManager templatesManager)
     {
         _templatesManager = templatesManager;
     }

@@ -22,16 +22,14 @@ public class AddBadgeCommandTest
     {
         _context = Substitute.For<IContext>();
 
-        // Create isolated in-memory DB for each test
         _options = new DbContextOptionsBuilder<BotDbContext>()
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
             .Options;
 
-        // Factory returning a *fresh* context each time
         _dbContextFactory = Substitute.For<IBotDbContextFactory>();
         _dbContextFactory
             .CreateDbContextAsync(Arg.Any<CancellationToken>())
-            .Returns(ci => Task.FromResult(new BotDbContext(_options)));
+            .Returns(_ => Task.FromResult(new BotDbContext(_options)));
     }
 
     private AddBadgeCommand CreateCommand() => new AddBadgeCommand(_dbContextFactory);
@@ -140,14 +138,17 @@ public class AddBadgeCommandTest
         await cmd.RunAsync(_context);
 
         // Assert
-        using var db = new BotDbContext(_options);
+        await using var db = new BotDbContext(_options);
         var badge = db.Badges.Single();
 
-        Assert.That(badge.Name, Is.EqualTo("NewBadge"));
-        Assert.That(badge.Image, Is.EqualTo("http://image.url"));
-        Assert.That(badge.Id, Is.EqualTo("newbadge"));
-        Assert.That(badge.IsTrophy, Is.False);
-        Assert.That(badge.RoomId, Is.EqualTo("room1"));
+        Assert.Multiple(() =>
+        {
+            Assert.That(badge.Name, Is.EqualTo("NewBadge"));
+            Assert.That(badge.Image, Is.EqualTo("http://image.url"));
+            Assert.That(badge.Id, Is.EqualTo("newbadge"));
+            Assert.That(badge.IsTrophy, Is.False);
+            Assert.That(badge.RoomId, Is.EqualTo("room1"));
+        });
 
         _context.Received(1).ReplyLocalizedMessage("badge_add_success_message");
     }
@@ -168,7 +169,7 @@ public class AddBadgeCommandTest
         await cmd.RunAsync(_context);
 
         // Assert
-        using var db = new BotDbContext(_options);
+        await using var db = new BotDbContext(_options);
         Assert.That(db.Badges.Single().IsTrophy, Is.True);
     }
 
@@ -189,7 +190,7 @@ public class AddBadgeCommandTest
         await cmd.RunAsync(_context);
 
         // Assert
-        using var db = new BotDbContext(_options);
+        await using var db = new BotDbContext(_options);
         Assert.That(db.Badges.Single().IsTrophy, Is.False);
     }
 
@@ -206,7 +207,7 @@ public class AddBadgeCommandTest
         await cmd.RunAsync(_context);
 
         // Assert
-        using var db = new BotDbContext(_options);
+        await using var db = new BotDbContext(_options);
         Assert.That(db.Badges.Single().Id, Is.EqualTo("testbadge123"));
     }
 
@@ -223,11 +224,14 @@ public class AddBadgeCommandTest
         await cmd.RunAsync(_context);
 
         // Assert
-        using var db = new BotDbContext(_options);
+        await using var db = new BotDbContext(_options);
         var badge = db.Badges.Single();
 
-        Assert.That(badge.Name, Is.EqualTo("Badge Name"));
-        Assert.That(badge.Image, Is.EqualTo("http://image.url"));
+        Assert.Multiple(() =>
+        {
+            Assert.That(badge.Name, Is.EqualTo("Badge Name"));
+            Assert.That(badge.Image, Is.EqualTo("http://image.url"));
+        });
     }
 
     [Test]
@@ -244,7 +248,7 @@ public class AddBadgeCommandTest
         await cmd.RunAsync(_context, token);
 
         // Assert
-        using var db = new BotDbContext(_options);
+        await using var db = new BotDbContext(_options);
         Assert.That(db.Badges.Count(), Is.EqualTo(1));
     }
 
@@ -261,7 +265,7 @@ public class AddBadgeCommandTest
         await cmd.RunAsync(_context);
 
         // Assert — if disposal failed, next context creation would throw or reuse stale tracking
-        using var db = new BotDbContext(_options);
+        await using var db = new BotDbContext(_options);
         Assert.That(db.Badges.Count(), Is.EqualTo(1));
     }
 
@@ -275,17 +279,17 @@ public class AddBadgeCommandTest
         _context.Command.Returns("add-badge");
 
         // Force duplicate PK on save → trigger exception path
-        using (var setupDb = new BotDbContext(_options))
+        await using (var setupDb = new BotDbContext(_options))
         {
             setupDb.Badges.Add(new Badge { Id = "badge", RoomId = "room1" });
-            setupDb.SaveChanges();
+            await setupDb.SaveChangesAsync();
         }
 
         // Act
         await cmd.RunAsync(_context);
 
         // Assert
-        using var db = new BotDbContext(_options);
+        await using var db = new BotDbContext(_options);
         Assert.That(db.Badges.Count(), Is.EqualTo(1));
     }
 
@@ -302,10 +306,13 @@ public class AddBadgeCommandTest
         await cmd.RunAsync(_context);
 
         // Assert
-        using var db = new BotDbContext(_options);
+        await using var db = new BotDbContext(_options);
         var badge = db.Badges.Single();
-        Assert.That(badge.Id, Is.EqualTo("testbadge"));
-        Assert.That(badge.RoomId, Is.EqualTo("room1"));
+        Assert.Multiple(() =>
+        {
+            Assert.That(badge.Id, Is.EqualTo("testbadge"));
+            Assert.That(badge.RoomId, Is.EqualTo("room1"));
+        });
     }
 
     [Test]
@@ -321,7 +328,7 @@ public class AddBadgeCommandTest
         await cmd.RunAsync(_context);
 
         // Assert
-        using var db = new BotDbContext(_options);
+        await using var db = new BotDbContext(_options);
         Assert.That(db.Badges.Single().RoomId, Is.EqualTo("specificroom"));
     }
 
@@ -338,10 +345,13 @@ public class AddBadgeCommandTest
         await cmd.RunAsync(_context);
 
         // Assert
-        using var db = new BotDbContext(_options);
+        await using var db = new BotDbContext(_options);
         var badge = db.Badges.Single();
-        Assert.That(badge.Name, Is.EqualTo("Cool Badge!"));
-        Assert.That(badge.Id, Is.EqualTo("coolbadge"));
+        Assert.Multiple(() =>
+        {
+            Assert.That(badge.Name, Is.EqualTo("Cool Badge!"));
+            Assert.That(badge.Id, Is.EqualTo("coolbadge"));
+        });
     }
 
     [Test]
@@ -353,17 +363,17 @@ public class AddBadgeCommandTest
         _context.RoomId.Returns("room1");
         _context.Command.Returns("add-badge");
 
-        using (var setupDb = new BotDbContext(_options))
+        await using (var setupDb = new BotDbContext(_options))
         {
             setupDb.Badges.Add(new Badge { Id = "existingbadge", RoomId = "room1" });
-            setupDb.SaveChanges();
+            await setupDb.SaveChangesAsync();
         }
 
         // Act
         await cmd.RunAsync(_context);
 
         // Assert
-        using var db = new BotDbContext(_options);
+        await using var db = new BotDbContext(_options);
         Assert.That(db.Badges.Count(), Is.EqualTo(1)); // unchanged
     }
 
@@ -378,7 +388,7 @@ public class AddBadgeCommandTest
         await cmd.RunAsync(_context);
 
         // Assert
-        using var db = new BotDbContext(_options);
+        await using var db = new BotDbContext(_options);
         Assert.That(db.Badges.Count(), Is.EqualTo(0));
     }
 }

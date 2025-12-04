@@ -69,7 +69,7 @@ public class CommandModule : Module
 #endif
         builder.RegisterCommand<DeleteCustomCommand>();
         builder.RegisterCommand<EditCustomCommand>();
-        builder.RegisterCommand<TemplatesDebug>();
+        builder.RegisterCommand<TemplatesDebugCommand>();
         builder.RegisterCommand<GiveBadgeCommand>();
         builder.RegisterCommand<ProfileCommand>();
         builder.RegisterCommand<DeleteBadgeCommand>();
@@ -78,7 +78,7 @@ public class CommandModule : Module
         builder.RegisterCommand<SetTitleCommand>();
         builder.RegisterCommand<AllCommands>();
         builder.RegisterCommand<GuessingGameCommand>();
-        builder.RegisterCommand<EndGuessingGame>();
+        builder.RegisterCommand<EndGuessingGameCommand>();
         builder.RegisterCommand<AddTeamCommand>();
         builder.RegisterCommand<AddTeamToRoomCommand>();
         builder.RegisterCommand<TeamShowcaseCommand>();
@@ -92,11 +92,11 @@ public class CommandModule : Module
         builder.RegisterCommand<CreateConnectFourCommand>();
         builder.RegisterCommand<JoinConnectFourCommand>();
         builder.RegisterCommand<PlayConnectFourCommand>();
-        builder.RegisterCommand<EndConnectFour>();
+        builder.RegisterCommand<EndConnectFourCommand>();
         builder.RegisterCommand<YoutubeCommand>();
-        builder.RegisterCommand<SetArcadeLevel>();
-        builder.RegisterCommand<DisplayArcadeLevels>();
-        builder.RegisterCommand<DeleteArcadeLevel>();
+        builder.RegisterCommand<SetArcadeLevelCommand>();
+        builder.RegisterCommand<DisplayArcadeLevelsCommand>();
+        builder.RegisterCommand<DeleteArcadeLevelCommand>();
         builder.RegisterCommand<ForfeitConnectFourCommand>();
         builder.RegisterCommand<AskElsaCommand>();
         builder.RegisterCommand<SpeakCommand>();

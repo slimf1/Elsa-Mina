@@ -31,7 +31,7 @@ public class PollEndHandler : Handler
             {
                 RoomId = roomId,
                 Content = htmlContent,
-                EndedAt = _clockService.CurrentUtcDateTime
+                EndedAt = _clockService.CurrentUtcDateTimeOffset
             };
             await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
             await dbContext.SavedPolls.AddAsync(poll, cancellationToken);

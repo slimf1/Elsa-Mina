@@ -11,12 +11,12 @@ using Microsoft.EntityFrameworkCore;
 namespace ElsaMina.Commands.Arcade;
 
 [NamedCommand("displaypaliers", "displaypalier", "paliers", "arcadelevels")]
-public class DisplayArcadeLevels : Command
+public class DisplayArcadeLevelsCommand : Command
 {
     private readonly ITemplatesManager _templatesManager;
     private readonly IBotDbContextFactory _dbContextFactory;
 
-    public DisplayArcadeLevels(ITemplatesManager templatesManager, IBotDbContextFactory dbContextFactory)
+    public DisplayArcadeLevelsCommand(ITemplatesManager templatesManager, IBotDbContextFactory dbContextFactory)
     {
         _templatesManager = templatesManager;
         _dbContextFactory = dbContextFactory;

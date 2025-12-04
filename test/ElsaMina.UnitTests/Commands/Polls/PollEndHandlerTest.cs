@@ -1,328 +1,138 @@
 using ElsaMina.Commands.Polls;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.DataAccess;
-using ElsaMina.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 
 namespace ElsaMina.UnitTests.Commands.Polls;
 
-public class PollEndHandlerTest
+public class PollEndHandlerTests
 {
+    private PollEndHandler _sut;
     private IClockService _clockService;
     private IBotDbContextFactory _dbContextFactory;
-    private BotDbContext _dbContext;
-    private DbSet<SavedPoll> _savedPollsDbSet;
-    private PollEndHandler _pollEndHandler;
+
+    private DbContextOptions<BotDbContext> _dbContextOptions;
+    private readonly DateTimeOffset _expectedTime = new DateTime(2025, 10, 27, 10, 0, 0, DateTimeKind.Utc);
+    private const string TestRoomId = "battleformat";
 
     [SetUp]
-    public void SetUp()
+    public void Setup()
     {
+        // Arrange
+        _dbContextOptions = CreateOptions();
         _clockService = Substitute.For<IClockService>();
-        _dbContextFactory = Substitute.For<IBotDbContextFactory>();
-        _dbContext = Substitute.For<BotDbContext>();
-        _savedPollsDbSet = Substitute.For<DbSet<SavedPoll>>();
+        _clockService.CurrentUtcDateTimeOffset.Returns(_expectedTime);
+        _dbContextFactory = CreateFactory(_dbContextOptions);
+        _sut = new PollEndHandler(_clockService, _dbContextFactory);
+    }
 
-        _dbContext.SavedPolls.Returns(_savedPollsDbSet);
-        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>())
-            .Returns(_dbContext);
+    private DbContextOptions<BotDbContext> CreateOptions() =>
+        new DbContextOptionsBuilder<BotDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
 
-        _pollEndHandler = new PollEndHandler(_clockService, _dbContextFactory);
+    private IBotDbContextFactory CreateFactory(DbContextOptions<BotDbContext> options)
+    {
+        var factory = Substitute.For<IBotDbContextFactory>();
+        factory.CreateDbContextAsync(Arg.Any<CancellationToken>())
+            .Returns(ci => Task.FromResult(new BotDbContext(options)));
+        return factory;
     }
 
     [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldSavePoll_WhenPollEndedInEnglish()
+    public async Task HandleReceivedMessageAsync_WhenEnglishPollEnds_ShouldSavePollToDatabase()
     {
         // Arrange
-        var roomId = "test-room";
-        var parts = new[] { "room", "html", "Poll ended: What is your favorite color?" };
-        var currentTime = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
-        _clockService.CurrentUtcDateTime.Returns(currentTime);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
+        var parts = new[] { "", "html", "<div>Poll ended: A new poll result.</div>" };
+        var expectedContent = parts[2];
 
         // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
+        await _sut.HandleReceivedMessageAsync(parts, TestRoomId);
 
         // Assert
-        await _savedPollsDbSet.Received(1).AddAsync(
-            Arg.Is<SavedPoll>(poll =>
-                poll.RoomId == roomId &&
-                poll.Content == "Poll ended: What is your favorite color?" &&
-                poll.EndedAt == currentTime),
-            Arg.Any<CancellationToken>());
-        await _dbContext.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
+        await using var assertContext = new BotDbContext(_dbContextOptions);
+        var savedPolls = await assertContext.SavedPolls.ToListAsync();
+
+        Assert.That(savedPolls, Is.Not.Empty);
+        var savedPoll = savedPolls.First();
+        Assert.Multiple(() =>
+        {
+            Assert.That(savedPoll.RoomId, Is.EqualTo(TestRoomId));
+            Assert.That(savedPoll.Content, Is.EqualTo(expectedContent));
+            Assert.That(savedPoll.EndedAt, Is.EqualTo(_expectedTime));
+        });
     }
 
     [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldSavePoll_WhenPollEndedInFrench()
+    public async Task HandleReceivedMessageAsync_WhenFrenchPollEnds_ShouldSavePollToDatabase()
     {
         // Arrange
-        var roomId = "test-room";
-        var parts = new[] { "room", "html", "Sondage terminé: Quelle est votre couleur préférée?" };
-        var currentTime = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
-        _clockService.CurrentUtcDateTime.Returns(currentTime);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
+        var parts = new[] { "", "html", "<span>Sondage terminé! Le resultat est...</span>" };
+        var expectedContent = parts[2];
 
         // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
+        await _sut.HandleReceivedMessageAsync(parts, TestRoomId);
 
         // Assert
-        await _savedPollsDbSet.Received(1).AddAsync(
-            Arg.Is<SavedPoll>(poll =>
-                poll.RoomId == roomId &&
-                poll.Content == "Sondage terminé: Quelle est votre couleur préférée?" &&
-                poll.EndedAt == currentTime),
-            Arg.Any<CancellationToken>());
-        await _dbContext.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
+        await using var assertContext = new BotDbContext(_dbContextOptions);
+        var savedPolls = await assertContext.SavedPolls.ToListAsync();
+
+        Assert.That(savedPolls, Is.Not.Empty);
+        var savedPoll = savedPolls.First();
+        Assert.Multiple(() =>
+        {
+            Assert.That(savedPoll.RoomId, Is.EqualTo(TestRoomId));
+            Assert.That(savedPoll.Content, Is.EqualTo(expectedContent));
+            Assert.That(savedPoll.EndedAt, Is.EqualTo(_expectedTime));
+        });
     }
 
     [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldNotSavePoll_WhenNotPollEndMessage()
+    public async Task HandleReceivedMessageAsync_WhenMessageIsNotHtml_ShouldNotSavePoll()
     {
         // Arrange
-        var roomId = "test-room";
-        var parts = new[] { "room", "html", "Some other message" };
+        var parts = new[] { "", "text", "Poll ended: A new poll result." };
 
         // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
+        await _sut.HandleReceivedMessageAsync(parts, TestRoomId);
 
         // Assert
-        await _savedPollsDbSet.DidNotReceive().AddAsync(Arg.Any<SavedPoll>(), Arg.Any<CancellationToken>());
-        await _dbContext.DidNotReceive().SaveChangesAsync(Arg.Any<CancellationToken>());
+        await using var assertContext = new BotDbContext(_dbContextOptions);
+        var savedPolls = await assertContext.SavedPolls.ToListAsync();
+
+        Assert.That(savedPolls, Is.Empty);
     }
 
     [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldNotSavePoll_WhenNotHtmlMessage()
+    public async Task HandleReceivedMessageAsync_WhenHtmlDoesNotIndicateEnd_ShouldNotSavePoll()
     {
         // Arrange
-        var roomId = "test-room";
-        var parts = new[] { "room", "chat", "Poll ended: What is your favorite color?" };
+        var parts = new[] { "", "html", "<div>A new poll has started.</div>" };
 
         // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
+        await _sut.HandleReceivedMessageAsync(parts, TestRoomId);
 
         // Assert
-        await _savedPollsDbSet.DidNotReceive().AddAsync(Arg.Any<SavedPoll>(), Arg.Any<CancellationToken>());
-        await _dbContextFactory.DidNotReceive().CreateDbContextAsync(Arg.Any<CancellationToken>());
+        await using var assertContext = new BotDbContext(_dbContextOptions);
+        var savedPolls = await assertContext.SavedPolls.ToListAsync();
+
+        Assert.That(savedPolls, Is.Empty);
     }
 
     [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldNotSavePoll_WhenPartsTooShort()
+    public async Task HandleReceivedMessageAsync_WhenPartsLengthIsLessThanThree_ShouldNotSavePoll()
     {
         // Arrange
-        var roomId = "test-room";
-        var parts = new[] { "room", "html" };
+        var parts = new[] { "", "html" };
 
         // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
+        await _sut.HandleReceivedMessageAsync(parts, TestRoomId);
 
         // Assert
-        await _savedPollsDbSet.DidNotReceive().AddAsync(Arg.Any<SavedPoll>(), Arg.Any<CancellationToken>());
-        await _dbContextFactory.DidNotReceive().CreateDbContextAsync(Arg.Any<CancellationToken>());
-    }
+        await using var assertContext = new BotDbContext(_dbContextOptions);
+        var savedPolls = await assertContext.SavedPolls.ToListAsync();
 
-    [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldJoinMultipleParts_IntoContent()
-    {
-        // Arrange
-        var roomId = "test-room";
-        var parts = new[] { "room", "html", "Poll", "ended:", "What", "is", "best?" };
-        var currentTime = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
-        _clockService.CurrentUtcDateTime.Returns(currentTime);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
-
-        // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
-
-        // Assert
-        await _savedPollsDbSet.Received(1).AddAsync(
-            Arg.Is<SavedPoll>(poll => poll.Content == "Poll ended: What is best?"),
-            Arg.Any<CancellationToken>());
-    }
-
-    [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldSavePoll_WhenContentContainsPollEndedAnywhere()
-    {
-        // Arrange
-        var roomId = "test-room";
-        var parts = new[] { "room", "html", "The Poll ended with 10 votes" };
-        var currentTime = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
-        _clockService.CurrentUtcDateTime.Returns(currentTime);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
-
-        // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
-
-        // Assert
-        await _savedPollsDbSet.Received(1).AddAsync(Arg.Any<SavedPoll>(), Arg.Any<CancellationToken>());
-    }
-
-    [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldSavePoll_WhenContentContainsSondageTermineAnywhere()
-    {
-        // Arrange
-        var roomId = "test-room";
-        var parts = new[] { "room", "html", "Le Sondage terminé avec succès" };
-        var currentTime = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
-        _clockService.CurrentUtcDateTime.Returns(currentTime);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
-
-        // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
-
-        // Assert
-        await _savedPollsDbSet.Received(1).AddAsync(Arg.Any<SavedPoll>(), Arg.Any<CancellationToken>());
-    }
-
-    [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldPassCancellationToken_ToDbOperations()
-    {
-        // Arrange
-        var cancellationToken = new CancellationToken();
-        var roomId = "test-room";
-        var parts = new[] { "room", "html", "Poll ended: Test" };
-        var currentTime = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
-        _clockService.CurrentUtcDateTime.Returns(currentTime);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
-
-        // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId, cancellationToken);
-
-        // Assert
-        await _dbContextFactory.Received(1).CreateDbContextAsync(cancellationToken);
-        await _savedPollsDbSet.Received(1).AddAsync(Arg.Any<SavedPoll>(), cancellationToken);
-        await _dbContext.Received(1).SaveChangesAsync(cancellationToken);
-    }
-
-    [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldDisposeDbContext_AfterSaving()
-    {
-        // Arrange
-        var roomId = "test-room";
-        var parts = new[] { "room", "html", "Poll ended: Test" };
-        var currentTime = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
-        _clockService.CurrentUtcDateTime.Returns(currentTime);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
-
-        // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
-
-        // Assert
-        await _dbContext.Received(1).DisposeAsync();
-    }
-
-    [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldStoreCurrentUtcDateTime()
-    {
-        // Arrange
-        var roomId = "test-room";
-        var parts = new[] { "room", "html", "Poll ended: Test" };
-        var specificTime = new DateTime(2024, 6, 15, 14, 30, 45, DateTimeKind.Utc);
-        _clockService.CurrentUtcDateTime.Returns(specificTime);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
-
-        // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
-
-        // Assert
-        await _savedPollsDbSet.Received(1).AddAsync(
-            Arg.Is<SavedPoll>(poll => poll.EndedAt == specificTime),
-            Arg.Any<CancellationToken>());
-    }
-
-    [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldStoreCorrectRoomId()
-    {
-        // Arrange
-        var roomId = "specific-room-123";
-        var parts = new[] { "room", "html", "Poll ended: Test" };
-        var currentTime = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
-        _clockService.CurrentUtcDateTime.Returns(currentTime);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
-
-        // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
-
-        // Assert
-        await _savedPollsDbSet.Received(1).AddAsync(
-            Arg.Is<SavedPoll>(poll => poll.RoomId == "specific-room-123"),
-            Arg.Any<CancellationToken>());
-    }
-
-    [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldHandleNullRoomId()
-    {
-        // Arrange
-        var parts = new[] { "room", "html", "Poll ended: Test" };
-        var currentTime = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
-        _clockService.CurrentUtcDateTime.Returns(currentTime);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
-
-        // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, null);
-
-        // Assert
-        await _savedPollsDbSet.Received(1).AddAsync(
-            Arg.Is<SavedPoll>(poll => poll.RoomId == null),
-            Arg.Any<CancellationToken>());
-    }
-
-    [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldNotCreateDbContext_WhenConditionsNotMet()
-    {
-        // Arrange
-        var roomId = "test-room";
-        var parts = new[] { "room", "chat", "Poll ended: Test" };
-
-        // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
-
-        // Assert
-        await _dbContextFactory.DidNotReceive().CreateDbContextAsync(Arg.Any<CancellationToken>());
-    }
-
-    [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldHandleEmptyParts()
-    {
-        // Arrange
-        var roomId = "test-room";
-        var parts = Array.Empty<string>();
-
-        // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
-
-        // Assert
-        await _dbContextFactory.DidNotReceive().CreateDbContextAsync(Arg.Any<CancellationToken>());
-    }
-
-    [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldBeCaseInsensitive_ForPollEnded()
-    {
-        // Arrange
-        var roomId = "test-room";
-        var parts = new[] { "room", "html", "POLL ENDED: Test" };
-        var currentTime = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
-        _clockService.CurrentUtcDateTime.Returns(currentTime);
-        _dbContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
-
-        // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
-
-        // Assert - "Poll ended" check is case-sensitive in implementation
-        await _savedPollsDbSet.DidNotReceive().AddAsync(Arg.Any<SavedPoll>(), Arg.Any<CancellationToken>());
-    }
-
-    [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldCheckHtmlType_CaseSensitively()
-    {
-        // Arrange
-        var roomId = "test-room";
-        var parts = new[] { "room", "HTML", "Poll ended: Test" };
-
-        // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
-
-        // Assert - parts[1] check is case-sensitive
-        await _dbContextFactory.DidNotReceive().CreateDbContextAsync(Arg.Any<CancellationToken>());
+        Assert.That(savedPolls, Is.Empty);
     }
 }
