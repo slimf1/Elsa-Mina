@@ -42,13 +42,13 @@ public class HallOfFameCommand : Command
         var playerRecords = new Dictionary<string, PlayerRecord>();
         foreach (var trophy in trophies)
         {
-            foreach (var holder in trophy.BadgeHolders)
+            foreach (var holderId in trophy.BadgeHolders.Select(holding => holding.UserId))
             {
-                if (!playerRecords.TryGetValue(holder.UserId, out var record))
+                if (!playerRecords.TryGetValue(holderId, out var record))
                 {
                     record = new PlayerRecord
                     {
-                        UserId = holder.UserId,
+                        UserId = holderId,
                         Badges = [],
                         Total = 0,
                         Solo = 0,
@@ -67,7 +67,7 @@ public class HallOfFameCommand : Command
                     record.Team += 1;
                 }
 
-                playerRecords[holder.UserId] = record;
+                playerRecords[holderId] = record;
             }
         }
 

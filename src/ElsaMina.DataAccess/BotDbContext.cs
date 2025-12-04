@@ -24,7 +24,7 @@ public class BotDbContext : DbContext
     public DbSet<ArcadeLevel> ArcadeLevels { get; set; }
     public DbSet<SavedPoll> SavedPolls { get; set; }
     public DbSet<RoomBotParameterValue> RoomBotParameterValues { get; set; }
-    public DbSet<TournamentRecord> TournamentRecords { get; set; } // todo : migration
+    public DbSet<TournamentRecord> TournamentRecords { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -52,7 +52,7 @@ public class EfRoomParameterStore : IRoomParameterStore
     private async Task<bool> SetValueInternalAsync(
         Parameter parameter,
         string value,
-        bool async,
+        bool isAsync,
         CancellationToken cancellationToken = default)
     {
         try
@@ -82,7 +82,7 @@ public class EfRoomParameterStore : IRoomParameterStore
                 dbContext.RoomBotParameterValues.Update(existing);
             }
 
-            if (async)
+            if (isAsync)
             {
                 await dbContext.SaveChangesAsync(cancellationToken);
             }

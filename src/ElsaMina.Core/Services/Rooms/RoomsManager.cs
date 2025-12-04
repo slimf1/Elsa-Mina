@@ -170,8 +170,8 @@ public class RoomsManager : IRoomsManager, IDisposable
         await ProcessPendingPlayTimeUpdates();
     }
 
-    public void RenameUserInRoom(string roomId, string oldName, string newName) =>
-        GetRoom(roomId)?.RenameUser(oldName, newName);
+    public void RenameUserInRoom(string roomId, string formerName, string newName) =>
+        GetRoom(roomId)?.RenameUser(formerName, newName);
 
     public void Clear() => _rooms.Clear();
 
