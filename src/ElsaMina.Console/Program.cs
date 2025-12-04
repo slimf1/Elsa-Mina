@@ -59,8 +59,9 @@ client.ReconnectionHappened.Subscribe(info =>
     bot.OnReconnect();
 });
 
-Console.CancelKeyPress += (_, _) =>
+AppDomain.CurrentDomain.ProcessExit += (_, _) =>
 {
+    Log.Information("Exiting...");
     bot.OnExit();
     Log.CloseAndFlush();
 };

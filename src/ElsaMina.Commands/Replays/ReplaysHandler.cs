@@ -20,23 +20,19 @@ public class ReplaysHandler : ChatMessageHandler
 
     private readonly IHttpService _httpService;
     private readonly ITemplatesManager _templatesManager;
-    private readonly IRoomsManager _roomsManager;
 
     public ReplaysHandler(IContextFactory contextFactory,
         IHttpService httpService,
-        ITemplatesManager templatesManager,
-        IRoomsManager roomsManager,
-        IConfiguration configuration) : base(contextFactory)
+        ITemplatesManager templatesManager) : base(contextFactory)
     {
         _httpService = httpService;
         _templatesManager = templatesManager;
-        _roomsManager = roomsManager;
     }
 
     public override async Task HandleMessageAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        var isReplayPreviewEnabled = _roomsManager.GetRoomParameter(
-            context.RoomId, ParametersConstants.IS_SHOWING_REPLAYS_PREVIEW).ToBoolean();
+        var isReplayPreviewEnabled = (await context.Room.GetParameterValueAsync(Parameter.ShowReplaysPreview,
+            cancellationToken)).ToBoolean();
         if (!isReplayPreviewEnabled)
         {
             return;

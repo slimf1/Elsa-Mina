@@ -1,0 +1,49 @@
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Badges.HallOfFame.HallOfFameViewModel>
+
+<h3>@GetString("hall_of_fame_title")</h3>
+
+<div style="max-height: 250px; overflow-y: auto;">
+    <table>
+        <thead>
+        <tr>
+            <th>@GetString("hall_of_fame_rank")</th>
+            <th>@GetString("hall_of_fame_user")</th>
+            <th>@GetString("hall_of_fame_total")</th>
+            <th>@GetString("hall_of_fame_trophies_header")</th>
+        </tr>
+        </thead>
+        <tbody>
+        @{
+            var rank = 1;
+            var innerRank = 1;
+            (int TotalCount, int SoloCount) prevCounts = (-1, -1);
+        }
+        @foreach (var entry in Model.SortedPlayerRecords)
+        {
+            if (prevCounts.TotalCount != entry.Total || prevCounts.SoloCount != entry.Solo)
+            {
+                rank = innerRank;
+            }
+
+            <tr>
+                <td>@rank.</td>
+                <td>
+                    <b>@entry.UserId</b>
+                </td>
+                <td>
+                    @entry.Total @GetString("hall_of_fame_trophies", entry.Total == 1 ? string.Empty : "s") (@entry.Solo @GetString("hall_of_fame_solo"), @entry.Team @GetString("hall_of_fame_team"))
+                </td>
+                <td style="text-align: center;">
+                    @foreach (var badge in entry.Badges)
+                    {
+                        await IncludeAsync("Badges/Badge", badge);
+                    }
+                </td>
+                
+            </tr>
+            prevCounts = (entry.Total, entry.Solo);
+            innerRank++;
+        }
+        </tbody>
+    </table>
+</div>

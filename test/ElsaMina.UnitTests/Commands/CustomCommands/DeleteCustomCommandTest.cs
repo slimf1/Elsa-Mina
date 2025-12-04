@@ -1,64 +1,106 @@
 using ElsaMina.Commands.CustomCommands;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Services.Rooms;
-using ElsaMina.DataAccess.Repositories;
+using ElsaMina.DataAccess;
+using ElsaMina.DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 
 namespace ElsaMina.UnitTests.Commands.CustomCommands;
 
-public class DeleteCustomCommandTest
+public class DeleteCustomCommandTests
 {
-    private IAddedCommandRepository _addedCommandRepository;
-    private IContext _context;
-    private DeleteCustomCommand _deleteCustomCommand;
+    private DbContextOptions<BotDbContext> CreateOptions() =>
+        new DbContextOptionsBuilder<BotDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
 
-    [SetUp]
-    public void SetUp()
+    private IBotDbContextFactory CreateFactoryReturning(BotDbContext ctx)
     {
-        _addedCommandRepository = Substitute.For<IAddedCommandRepository>();
-        _context = Substitute.For<IContext>();
-        _deleteCustomCommand = new DeleteCustomCommand(_addedCommandRepository);
+        var factory = Substitute.For<IBotDbContextFactory>();
+        factory.CreateDbContextAsync(Arg.Any<CancellationToken>())
+            .Returns(ctx);
+        return factory;
     }
 
     [Test]
-    public void Test_RequiredRank_ShouldBePercent()
-    {
-        // Assert
-        Assert.That(_deleteCustomCommand.RequiredRank, Is.EqualTo(Rank.Driver));
-    }
-
-    [Test]
-    public async Task Test_RunAsync_ShouldDeleteCommandAndReplySuccess_WhenCommandExists()
+    public async Task RunAsync_ShouldReplyNotFound_WhenCommandDoesNotExist()
     {
         // Arrange
-        _context.Target.Returns("commandToDelete");
-        _context.RoomId.Returns("room1");
+        var options = CreateOptions();
+        await using var setupCtx = new BotDbContext(options);
+        await setupCtx.Database.EnsureCreatedAsync();
+
+        var factory = CreateFactoryReturning(setupCtx);
+        var context = Substitute.For<IContext>();
+        context.Target.Returns("testcommand");
+        context.RoomId.Returns("room1");
+
+        var sut = new DeleteCustomCommand(factory);
 
         // Act
-        await _deleteCustomCommand.RunAsync(_context);
+        await sut.RunAsync(context);
 
         // Assert
-        await _addedCommandRepository.Received(1)
-            .DeleteByIdAsync(Tuple.Create("commandtodelete", "room1"));
-        _context.Received(1).ReplyLocalizedMessage("deletecommand_success", "commandtodelete");
+        context.Received().ReplyLocalizedMessage("deletecommand_not_found", "testcommand");
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldReplyWithFailureMessage_WhenDeleteThrowsException()
+    public async Task RunAsync_ShouldDeleteCommandAndReplySuccess_WhenCommandExists()
     {
         // Arrange
-        _context.Target.Returns("commandToDelete");
-        _context.RoomId.Returns("room1");
+        var options = CreateOptions();
+        await using (var setupCtx = new BotDbContext(options))
+        {
+            await setupCtx.Database.EnsureCreatedAsync();
+            setupCtx.AddedCommands.Add(new AddedCommand
+            {
+                Id = "testcommand",
+                RoomId = "room1",
+                Content = "hello"
+            });
+            await setupCtx.SaveChangesAsync();
+        }
 
-        var exceptionMessage = "Database error";
-        _addedCommandRepository
-            .When(repo => repo.DeleteByIdAsync(Arg.Any<Tuple<string, string>>()))
-            .Do(x => throw new Exception(exceptionMessage));
+        await using var execCtx = new BotDbContext(options);
+        var factory = CreateFactoryReturning(execCtx);
+
+        var context = Substitute.For<IContext>();
+        context.Target.Returns("testcommand");
+        context.RoomId.Returns("room1");
+
+        var sut = new DeleteCustomCommand(factory);
 
         // Act
-        await _deleteCustomCommand.RunAsync(_context);
+        await sut.RunAsync(context);
 
         // Assert
-        _context.Received(1).ReplyLocalizedMessage("deletecommand_failure", exceptionMessage);
+        await using (var assertCtx = new BotDbContext(options))
+        {
+            var deleted = await assertCtx.AddedCommands.FindAsync("testcommand", "room1");
+            Assert.IsNull(deleted);
+        }
+
+        context.Received().ReplyLocalizedMessage("deletecommand_success", "testcommand");
+    }
+
+    [Test]
+    public async Task RunAsync_ShouldReplyFailure_WhenExceptionThrown()
+    {
+        // Arrange
+        var factory = Substitute.For<IBotDbContextFactory>();
+        factory.CreateDbContextAsync(Arg.Any<CancellationToken>())
+            .Returns<Task<BotDbContext>>(x => throw new Exception("boom"));
+
+        var context = Substitute.For<IContext>();
+        context.Target.Returns("testcommand");
+        context.RoomId.Returns("room1");
+
+        var sut = new DeleteCustomCommand(factory);
+
+        // Act
+        await sut.RunAsync(context);
+
+        // Assert
+        context.Received().ReplyLocalizedMessage("deletecommand_failure", "boom");
     }
 }

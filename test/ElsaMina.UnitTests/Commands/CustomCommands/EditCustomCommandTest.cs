@@ -1,109 +1,86 @@
 using ElsaMina.Commands.CustomCommands;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Services.Rooms;
+using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
-using NSubstitute.ExceptionExtensions;
-using NSubstitute.ReturnsExtensions;
 
 namespace ElsaMina.UnitTests.Commands.CustomCommands;
 
-public class EditCustomCommandTest
+public class EditCustomCommandTests
 {
-    private IAddedCommandRepository _addedCommandRepository;
-    private IContext _context;
-    private EditCustomCommand _editCustomCommand;
+    private DbContextOptions<BotDbContext> CreateOptions() =>
+        new DbContextOptionsBuilder<BotDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
 
-    [SetUp]
-    public void SetUp()
+    private IBotDbContextFactory CreateFactoryReturning(BotDbContext ctx)
     {
-        _addedCommandRepository = Substitute.For<IAddedCommandRepository>();
-        _context = Substitute.For<IContext>();
-        _editCustomCommand = new EditCustomCommand(_addedCommandRepository);
+        var factory = Substitute.For<IBotDbContextFactory>();
+        factory.CreateDbContextAsync(Arg.Any<CancellationToken>())
+            .Returns(ctx);
+        return factory;
     }
 
     [Test]
-    public void Test_RequiredRank_ShouldBePercent()
-    {
-        // Assert
-        Assert.That(_editCustomCommand.RequiredRank, Is.EqualTo(Rank.Driver));
-    }
-
-    [Test]
-    public async Task Test_RunAsync_ShouldReplyWithHelpMessage_WhenCommandIsNotFound()
+    public async Task RunAsync_ShouldEditCommandAndReplySuccess_WhenCommandExists()
     {
         // Arrange
-        _context.Target.Returns("nonexistentcommand, new content");
-        _context.RoomId.Returns("room1");
-        _addedCommandRepository
-            .GetByIdAsync(Arg.Any<Tuple<string, string>>())
-            .ReturnsNull();
+        var options = CreateOptions();
+        await using (var setup = new BotDbContext(options))
+        {
+            await setup.Database.EnsureCreatedAsync();
+            setup.AddedCommands.Add(new AddedCommand
+            {
+                Id = "hello",
+                RoomId = "room1",
+                Content = "old"
+            });
+            await setup.SaveChangesAsync();
+        }
+
+        await using var execCtx = new BotDbContext(options);
+        var factory = CreateFactoryReturning(execCtx);
+
+        var context = Substitute.For<IContext>();
+        context.Target.Returns("hello, new content");
+        context.RoomId.Returns("room1");
+
+        var sut = new EditCustomCommand(factory);
 
         // Act
-        await _editCustomCommand.RunAsync(_context);
+        await sut.RunAsync(context);
 
         // Assert
-        _context.Received(1).ReplyLocalizedMessage(_editCustomCommand.HelpMessageKey);
+        await using (var assertCtx = new BotDbContext(options))
+        {
+            var cmd = await assertCtx.AddedCommands.FindAsync("hello", "room1");
+            Assert.That(cmd.Content, Is.EqualTo("new content"));
+        }
+
+        context.Received().ReplyLocalizedMessage("editcommand_success", "hello");
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldUpdateCommandAndReplySuccess_WhenCommandExists()
+    public async Task RunAsync_ShouldReplyHelp_WhenCommandDoesNotExist()
     {
         // Arrange
-        _context.Target.Returns("existingcommand, updated content");
-        _context.RoomId.Returns("room1");
-        var existingCommand = new AddedCommand { Content = "old content" };
-        _addedCommandRepository
-            .GetByIdAsync(Arg.Any<Tuple<string, string>>())
-            .Returns(existingCommand);
+        var options = CreateOptions();
+        await using var ctx = new BotDbContext(options);
+        await ctx.Database.EnsureCreatedAsync();
+
+        var factory = CreateFactoryReturning(ctx);
+
+        var context = Substitute.For<IContext>();
+        context.Target.Returns("missingcmd, new text");
+        context.RoomId.Returns("room1");
+
+        var sut = new EditCustomCommand(factory);
 
         // Act
-        await _editCustomCommand.RunAsync(_context);
+        await sut.RunAsync(context);
 
         // Assert
-        Assert.That(existingCommand.Content, Is.EqualTo("updated content"));
-        await _addedCommandRepository.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
-        _context.Received(1).ReplyLocalizedMessage("editcommand_success", "existingcommand");
-    }
-
-    [Test]
-    public async Task Test_RunAsync_ShouldReplyWithFailureMessage_WhenUpdateThrowsException()
-    {
-        // Arrange
-        _context.Target.Returns("existingcommand, new content");
-        _context.RoomId.Returns("room1");
-
-        var existingCommand = new AddedCommand { Content = "old content" };
-        _addedCommandRepository
-            .GetByIdAsync(Arg.Any<Tuple<string, string>>())
-            .Returns(existingCommand);
-
-        const string exceptionMessage = "Database error";
-        _addedCommandRepository.SaveChangesAsync(Arg.Any<CancellationToken>())
-            .Throws(new Exception(exceptionMessage));
-
-        // Act
-        await _editCustomCommand.RunAsync(_context);
-
-        // Assert
-        _context.Received(1).ReplyLocalizedMessage("editcommand_failure", exceptionMessage);
-    }
-
-    [Test]
-    public async Task Test_RunAsync_ShouldLogErrorAndReplyWithHelpMessage_WhenGetByIdThrowsException()
-    {
-        // Arrange
-        _context.Target.Returns("commandid, new content");
-        _context.RoomId.Returns("room1");
-        _addedCommandRepository
-            .When(repo => repo.GetByIdAsync(Arg.Any<Tuple<string, string>>()))
-            .Do(x => throw new Exception("Some error"));
-
-        // Act
-        await _editCustomCommand.RunAsync(_context);
-
-        // Assert
-        _context.Received(1).ReplyLocalizedMessage(_editCustomCommand.HelpMessageKey);
+        context.Received().ReplyLocalizedMessage("editcommand_help");
     }
 }

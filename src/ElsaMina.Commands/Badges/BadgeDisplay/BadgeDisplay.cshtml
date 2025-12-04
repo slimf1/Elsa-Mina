@@ -1,0 +1,33 @@
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Badges.BadgeDisplay.BadgeDisplayViewModel>
+
+@{
+    await IncludeAsync("Badges/Badge", Model.DisplayedBadge);
+}
+&nbsp;
+<b>@Model.DisplayedBadge.Name</b>
+@if (Model.DisplayedBadge.IsTrophy)
+{
+    <span>
+        (@GetString("badge_display_is_trophy"))
+    </span>
+}
+@if (Model.DisplayedBadge.IsTeamTournament)
+{
+    <span>
+        (@GetString("badge_display_is_team_tournament"))
+    </span>
+}
+<br/>
+@GetString("badge_display_holders"):
+@if (Model.BadgeHolders.Length > 0)
+{
+    <span>
+        @string.Join(", ", Model.BadgeHolders)
+    </span>
+}
+else
+{
+    <span style="font-style: italic;">
+        @GetString("badge_display_no_holders")
+    </span>
+}

@@ -486,7 +486,7 @@
         <value>Sintaxis: addpalier (usuario), (palier)</value>
     </data>
     <data name="arcade_levels_level" xml:space="preserve">
-        <value>Palier</value>
+        <value>Nivel</value>
     </data>
     <data name="arcade_levels_players" xml:space="preserve">
         <value>Jugadores</value>
@@ -679,5 +679,89 @@
     </data>
     <data name="tour_announce_message" xml:space="preserve">
         <value>Se ha creado un torneo {0} en la sala &lt;&lt;{1}&gt;&gt;</value>
+    </data>
+    <data name="deletecommand_not_found" xml:space="preserve">
+        <value>No se pudo encontrar el comando con id '{0}'.</value>
+    </data>
+    <data name="badge_display_not_found" xml:space="preserve">
+        <value>No se pudo encontrar la insignia {0}</value>
+    </data>
+    <data name="badge_display_is_team_tournament" xml:space="preserve">
+        <value>Torneo por equipos</value>
+    </data>
+    <data name="badge_display_is_trophy" xml:space="preserve">
+        <value>Trofeo</value>
+    </data>
+    <data name="badge_display_holders" xml:space="preserve">
+        <value>Poseedores</value>
+    </data>
+    <data name="badge_display_no_holders" xml:space="preserve">
+        <value>Ninguno</value>
+    </data>
+    <data name="profile_header_avatar" xml:space="preserve">
+        <value>Avatar</value>
+    </data>
+    <data name="profile_header_badges" xml:space="preserve">
+        <value>Insignias</value>
+    </data>
+    <data name="profile_header_info" xml:space="preserve">
+        <value>Información</value>
+    </data>
+    <data name="hall_of_fame_rank">
+        <value>Classifica</value>
+    </data>
+    <data name="hall_of_fame_user">
+        <value>Giocatore</value>
+    </data>
+    <data name="hall_of_fame_trophies">
+        <value>trofei</value>
+    </data>
+    <data name="hall_of_fame_total">
+        <value>Totale</value>
+    </data>
+    <data name="hall_of_fame_trophies_header">
+        <value>Trofei</value>
+    </data>
+    <data name="hall_of_fame_solo">
+        <value>solo</value>
+    </data>
+    <data name="hall_of_fame_team">
+        <value>in squadra</value>
+    </data>
+    <data name="hall_of_fame_title">
+        <value>Hall of Fame</value>
+    </data>
+    <data name="hall_of_fame_no_trophies">
+        <value>Nessun trofeo trovato</value>
+    </data>
+    <data name="setlocale_invalid_locale" xml:space="preserve">
+        <value>El idioma "{0}" no se ha encontrado.</value>
+    </data>
+    <data name="setlocale_room_not_found" xml:space="preserve">
+        <value>La sala "{0}" no se ha encontrado.</value>
+    </data>
+    <data name="setlocale_success" xml:space="preserve">
+        <value>Actualización del idioma de la sala {0}: {1}</value>
+    </data>
+    <data name="setlocale_failure" xml:space="preserve">
+        <value>No se pudo actualizar el idioma.</value>
+    </data>
+    <data name="command_autocorrect_suggestion" xml:space="preserve">
+        <value>El comando "{0}" no se ha encontrado. ¿Querías decir: __{1}__ ?</value>
+    </data>
+    <data name="genius_help_message" xml:space="preserve">
+        <value>Busca una canción por su letra usando Genius. Uso: -genius &lt;letra&gt;</value>
+    </data>
+        <data name="genius_release_date" xml:space="preserve">
+        <value>Lanzado el: {0}</value>
+    </data>
+        <data name="genius_artist" xml:space="preserve">
+        <value>Por: {0}</value>
+    </data>
+        <data name="genius_page_views" xml:space="preserve">
+        <value>Vistas de la página: {0}</value>
+    </data>
+        <data name="genius_link" xml:space="preserve">
+        <value>Leer la letra en Genius</value>
     </data>
 </root>

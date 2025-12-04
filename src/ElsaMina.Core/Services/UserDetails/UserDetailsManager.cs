@@ -11,9 +11,9 @@ public class UserDetailsManager : IUserDetailsManager
 
     private readonly IClient _client;
     private readonly ISystemService _systemService;
-    private readonly
-        ConcurrentDictionary<string, (TaskCompletionSource<UserDetailsDto> Tcs, CancellationTokenSource Cts)>
-        _taskCompletionSources = new();
+
+    private readonly ConcurrentDictionary<string, (TaskCompletionSource<UserDetailsDto> Tcs, CancellationTokenSource TimeoutCts)>
+        _pendingRequests = new();
 
     public UserDetailsManager(IClient client, ISystemService systemService)
     {
@@ -25,58 +25,62 @@ public class UserDetailsManager : IUserDetailsManager
     {
         _client.Send($"|/cmd userdetails {userId}");
 
-        if (_taskCompletionSources.TryGetValue(userId, out var existingEntry))
+        if (_pendingRequests.TryRemove(userId, out var oldEntry))
         {
-            existingEntry.Cts.Cancel();
-            _taskCompletionSources.TryRemove(userId, out _);
+            oldEntry.TimeoutCts.Cancel();
+            oldEntry.Tcs.TrySetCanceled();
         }
 
-        var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         var tcs = new TaskCompletionSource<UserDetailsDto>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 
-        _taskCompletionSources[userId] = (tcs, cts);
+        _pendingRequests[userId] = (tcs, timeoutCts);
 
-        _ = Task.Run(async () =>
-        {
-            try
-            {
-                await _systemService.SleepAsync(CANCEL_DELAY, cts.Token);
-                if (_taskCompletionSources.TryRemove(userId, out var entry))
-                {
-                    entry.Tcs.TrySetResult(null);
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                // Do nothing
-            }
-        }, cts.Token);
+        _ = RunTimeoutAsync(userId, timeoutCts.Token);
 
         return tcs.Task;
     }
 
-    public void HandleReceivedUserDetails(string message)
+    private async Task RunTimeoutAsync(string userId, CancellationToken cancellationToken)
     {
-        UserDetailsDto userDetailsDto = null;
         try
         {
-            // Ugly workaround for the userdetails json respsonse
-            // When user has no rooms => rooms is false, otherwise it's a dictionary 🤡
-            message = message.Replace("\"rooms\":false", "\"rooms\":{}");
-            message = message.Replace("\"rooms\": false", "\"rooms\":{}");
-            userDetailsDto = JsonConvert.DeserializeObject<UserDetailsDto>(message);
+            await _systemService.SleepAsync(CANCEL_DELAY, cancellationToken);
+            if (_pendingRequests.TryRemove(userId, out var entry))
+            {
+                entry.Tcs.TrySetResult(null);
+            }
         }
-        catch (JsonSerializationException exception)
+        catch (OperationCanceledException)
         {
-            Log.Error(exception, "Error while deserializing userdata json");
+            // Normal: cancelled because data arrived or request was replaced
+        }
+    }
+
+    public void HandleReceivedUserDetails(string message)
+    {
+        UserDetailsDto dto = null;
+
+        try
+        {
+            // Handle servers returning "rooms: false" instead of {}
+            message = message.Replace("\"rooms\":false", "\"rooms\":{}")
+                             .Replace("\"rooms\": false", "\"rooms\":{}");
+
+            dto = JsonConvert.DeserializeObject<UserDetailsDto>(message);
+        }
+        catch (JsonSerializationException ex)
+        {
+            Log.Error(ex, "Error while deserializing userdata json");
         }
 
-        if (userDetailsDto == null || !_taskCompletionSources.TryRemove(userDetailsDto.UserId, out var entry))
-        {
+        if (dto == null)
             return;
-        }
 
-        entry.Cts.Cancel(); // Cancel the timeout task
-        entry.Tcs.TrySetResult(userDetailsDto);
+        if (_pendingRequests.TryRemove(dto.UserId, out var entry))
+        {
+            entry.TimeoutCts.Cancel(); // stop timeout
+            entry.Tcs.TrySetResult(dto);
+        }
     }
 }

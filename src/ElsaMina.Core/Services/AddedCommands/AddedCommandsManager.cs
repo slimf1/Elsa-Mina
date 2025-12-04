@@ -3,7 +3,8 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Images;
 using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Utils;
-using ElsaMina.DataAccess.Repositories;
+using ElsaMina.DataAccess;
+using Microsoft.EntityFrameworkCore;
 using NCalc;
 
 namespace ElsaMina.Core.Services.AddedCommands;
@@ -16,39 +17,41 @@ public class AddedCommandsManager : IAddedCommandsManager
     private static readonly Regex EXPRESSION_IDENTIFIER =
         new("{([^}]+)}", RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
 
-    private readonly IAddedCommandRepository _addedCommandRepository;
+    private readonly IBotDbContextFactory _dbContextFactory;
     private readonly IImageService _imageService;
     private readonly IRandomService _randomService;
 
     private readonly Dictionary<string, Func<object[], object>> _predefinedFunctions = new();
     private readonly Dictionary<string, Func<object>> _predefinedIdentifiers = new();
 
-    public AddedCommandsManager(IAddedCommandRepository addedCommandRepository,
+    public AddedCommandsManager(IBotDbContextFactory dbContextFactory,
         IImageService imageService,
         IRandomService randomService)
     {
-        _addedCommandRepository = addedCommandRepository;
+        _dbContextFactory = dbContextFactory;
         _imageService = imageService;
         _randomService = randomService;
     }
 
-    public async Task TryExecuteAddedCommand(string commandName, IContext context)
+    public async Task<bool> TryExecuteAddedCommand(string commandName, IContext context)
     {
-        var command = await _addedCommandRepository.GetByIdAsync(Tuple.Create(commandName, context.RoomId));
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync();
+        var command = await dbContext.AddedCommands.FindAsync(commandName, context.RoomId);
         if (command == null)
         {
-            return;
+            return false;
         }
 
         var content = command.Content;
         if (content.IsValidImageLink())
         {
             await DisplayRemoteImage(context, content);
-            return;
+            return true;
         }
 
         content = EvaluateContent(content, context);
         context.Reply(content, rankAware: true);
+        return true;
     }
 
     private async Task DisplayRemoteImage(IContext context, string content)

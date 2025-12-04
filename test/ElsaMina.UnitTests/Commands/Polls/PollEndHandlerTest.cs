@@ -1,102 +1,138 @@
-using ElsaMina.Core.Services.Clock;
-using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
 using ElsaMina.Commands.Polls;
+using ElsaMina.Core.Services.Clock;
+using ElsaMina.DataAccess;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 
 namespace ElsaMina.UnitTests.Commands.Polls;
 
-public class PollEndHandlerTest
+public class PollEndHandlerTests
 {
-    private ISavedPollRepository _savedPollRepository;
+    private PollEndHandler _sut;
     private IClockService _clockService;
-    private PollEndHandler _pollEndHandler;
+    private IBotDbContextFactory _dbContextFactory;
+
+    private DbContextOptions<BotDbContext> _dbContextOptions;
+    private readonly DateTimeOffset _expectedTime = new DateTime(2025, 10, 27, 10, 0, 0, DateTimeKind.Utc);
+    private const string TestRoomId = "battleformat";
 
     [SetUp]
-    public void SetUp()
+    public void Setup()
     {
-        _savedPollRepository = Substitute.For<ISavedPollRepository>();
+        // Arrange
+        _dbContextOptions = CreateOptions();
         _clockService = Substitute.For<IClockService>();
-        _pollEndHandler = new PollEndHandler(_savedPollRepository, _clockService);
+        _clockService.CurrentUtcDateTimeOffset.Returns(_expectedTime);
+        _dbContextFactory = CreateFactory(_dbContextOptions);
+        _sut = new PollEndHandler(_clockService, _dbContextFactory);
+    }
+
+    private DbContextOptions<BotDbContext> CreateOptions() =>
+        new DbContextOptionsBuilder<BotDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+
+    private IBotDbContextFactory CreateFactory(DbContextOptions<BotDbContext> options)
+    {
+        var factory = Substitute.For<IBotDbContextFactory>();
+        factory.CreateDbContextAsync(Arg.Any<CancellationToken>())
+            .Returns(ci => Task.FromResult(new BotDbContext(options)));
+        return factory;
     }
 
     [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldSavePoll_WhenPollEndedInEnglish()
+    public async Task HandleReceivedMessageAsync_WhenEnglishPollEnds_ShouldSavePollToDatabase()
     {
         // Arrange
-        var roomId = "test-room";
-        var parts = new[] { "room", "html", "Poll ended: What is your favorite color?" };
-        var currentTime = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
-        _clockService.CurrentUtcDateTime.Returns(currentTime);
+        var parts = new[] { "", "html", "<div>Poll ended: A new poll result.</div>" };
+        var expectedContent = parts[2];
 
         // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
+        await _sut.HandleReceivedMessageAsync(parts, TestRoomId);
 
         // Assert
-        await _savedPollRepository.Received(1).AddAsync(Arg.Is<SavedPoll>(poll =>
-            poll.RoomId == roomId &&
-            poll.Content == "Poll ended: What is your favorite color?" &&
-            poll.EndedAt == currentTime));
+        await using var assertContext = new BotDbContext(_dbContextOptions);
+        var savedPolls = await assertContext.SavedPolls.ToListAsync();
+
+        Assert.That(savedPolls, Is.Not.Empty);
+        var savedPoll = savedPolls.First();
+        Assert.Multiple(() =>
+        {
+            Assert.That(savedPoll.RoomId, Is.EqualTo(TestRoomId));
+            Assert.That(savedPoll.Content, Is.EqualTo(expectedContent));
+            Assert.That(savedPoll.EndedAt, Is.EqualTo(_expectedTime));
+        });
     }
 
     [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldSavePoll_WhenPollEndedInFrench()
+    public async Task HandleReceivedMessageAsync_WhenFrenchPollEnds_ShouldSavePollToDatabase()
     {
         // Arrange
-        var roomId = "test-room";
-        var parts = new[] { "room", "html", "Sondage terminé: Quelle est votre couleur préférée?" };
-        var currentTime = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
-        _clockService.CurrentUtcDateTime.Returns(currentTime);
+        var parts = new[] { "", "html", "<span>Sondage terminé! Le resultat est...</span>" };
+        var expectedContent = parts[2];
 
         // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
+        await _sut.HandleReceivedMessageAsync(parts, TestRoomId);
 
         // Assert
-        await _savedPollRepository.Received(1).AddAsync(Arg.Is<SavedPoll>(poll =>
-            poll.RoomId == roomId &&
-            poll.Content == "Sondage terminé: Quelle est votre couleur préférée?" &&
-            poll.EndedAt == currentTime));
+        await using var assertContext = new BotDbContext(_dbContextOptions);
+        var savedPolls = await assertContext.SavedPolls.ToListAsync();
+
+        Assert.That(savedPolls, Is.Not.Empty);
+        var savedPoll = savedPolls.First();
+        Assert.Multiple(() =>
+        {
+            Assert.That(savedPoll.RoomId, Is.EqualTo(TestRoomId));
+            Assert.That(savedPoll.Content, Is.EqualTo(expectedContent));
+            Assert.That(savedPoll.EndedAt, Is.EqualTo(_expectedTime));
+        });
     }
 
     [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldNotSavePoll_WhenNotPollEndMessage()
+    public async Task HandleReceivedMessageAsync_WhenMessageIsNotHtml_ShouldNotSavePoll()
     {
         // Arrange
-        var roomId = "test-room";
-        var parts = new[] { "room", "html", "Some other message" };
+        var parts = new[] { "", "text", "Poll ended: A new poll result." };
 
         // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
+        await _sut.HandleReceivedMessageAsync(parts, TestRoomId);
 
         // Assert
-        await _savedPollRepository.DidNotReceive().AddAsync(Arg.Any<SavedPoll>());
+        await using var assertContext = new BotDbContext(_dbContextOptions);
+        var savedPolls = await assertContext.SavedPolls.ToListAsync();
+
+        Assert.That(savedPolls, Is.Empty);
     }
 
     [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldNotSavePoll_WhenNotHtmlMessage()
+    public async Task HandleReceivedMessageAsync_WhenHtmlDoesNotIndicateEnd_ShouldNotSavePoll()
     {
         // Arrange
-        var roomId = "test-room";
-        var parts = new[] { "room", "chat", "Poll ended: What is your favorite color?" };
+        var parts = new[] { "", "html", "<div>A new poll has started.</div>" };
 
         // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
+        await _sut.HandleReceivedMessageAsync(parts, TestRoomId);
 
         // Assert
-        await _savedPollRepository.DidNotReceive().AddAsync(Arg.Any<SavedPoll>());
+        await using var assertContext = new BotDbContext(_dbContextOptions);
+        var savedPolls = await assertContext.SavedPolls.ToListAsync();
+
+        Assert.That(savedPolls, Is.Empty);
     }
 
     [Test]
-    public async Task Test_HandleReceivedMessageAsync_ShouldNotSavePoll_WhenPartsTooShort()
+    public async Task HandleReceivedMessageAsync_WhenPartsLengthIsLessThanThree_ShouldNotSavePoll()
     {
         // Arrange
-        var roomId = "test-room";
-        var parts = new[] { "room", "html" };
+        var parts = new[] { "", "html" };
 
         // Act
-        await _pollEndHandler.HandleReceivedMessageAsync(parts, roomId);
+        await _sut.HandleReceivedMessageAsync(parts, TestRoomId);
 
         // Assert
-        await _savedPollRepository.DidNotReceive().AddAsync(Arg.Any<SavedPoll>());
+        await using var assertContext = new BotDbContext(_dbContextOptions);
+        var savedPolls = await assertContext.SavedPolls.ToListAsync();
+
+        Assert.That(savedPolls, Is.Empty);
     }
-} 
+}

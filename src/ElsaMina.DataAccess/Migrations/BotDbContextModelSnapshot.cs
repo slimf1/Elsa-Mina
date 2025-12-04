@@ -17,7 +17,7 @@ namespace ElsaMina.DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "10.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -36,10 +36,12 @@ namespace ElsaMina.DataAccess.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("CreationDate")
+                    b.Property<DateTime>("CreationDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id", "RoomId");
+
+                    b.HasIndex("RoomId");
 
                     b.ToTable("AddedCommands");
                 });
@@ -47,8 +49,7 @@ namespace ElsaMina.DataAccess.Migrations
             modelBuilder.Entity("ElsaMina.DataAccess.Models.ArcadeLevel", b =>
                 {
                     b.Property<string>("Id")
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasColumnType("text");
 
                     b.Property<int>("Level")
                         .HasColumnType("integer");
@@ -69,16 +70,18 @@ namespace ElsaMina.DataAccess.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("text");
 
-                    b.Property<bool?>("IsTeamTournament")
+                    b.Property<bool>("IsTeamTournament")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("IsTrophy")
+                    b.Property<bool>("IsTrophy")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.HasKey("Id", "RoomId");
+
+                    b.HasIndex("RoomId");
 
                     b.ToTable("Badges");
                 });
@@ -103,48 +106,17 @@ namespace ElsaMina.DataAccess.Migrations
                     b.ToTable("BadgeHoldings");
                 });
 
-            modelBuilder.Entity("ElsaMina.DataAccess.Models.PollSuggestion", b =>
+            modelBuilder.Entity("ElsaMina.DataAccess.Models.Room", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("RoomId")
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
-
-                    b.Property<string>("Suggestion")
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
-
-                    b.Property<string>("Username")
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("PollSuggestions");
-                });
-
-            modelBuilder.Entity("ElsaMina.DataAccess.Models.Repeat", b =>
-                {
-                    b.Property<string>("RoomId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<long>("Delay")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("RoomId", "Name");
-
-                    b.ToTable("Repeats");
+                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("ElsaMina.DataAccess.Models.RoomBotParameterValue", b =>
@@ -163,41 +135,6 @@ namespace ElsaMina.DataAccess.Migrations
                     b.ToTable("RoomBotParameterValues");
                 });
 
-            modelBuilder.Entity("ElsaMina.DataAccess.Models.RoomInfo", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RoomInfo");
-                });
-
-            modelBuilder.Entity("ElsaMina.DataAccess.Models.RoomSpecificUserData", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("RoomId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Avatar")
-                        .HasColumnType("text");
-
-                    b.Property<string>("JoinPhrase")
-                        .HasColumnType("text");
-
-                    b.Property<long?>("OnTime")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id", "RoomId");
-
-                    b.ToTable("UserData");
-                });
-
             modelBuilder.Entity("ElsaMina.DataAccess.Models.RoomTeam", b =>
                 {
                     b.Property<string>("TeamId")
@@ -211,6 +148,31 @@ namespace ElsaMina.DataAccess.Migrations
                     b.HasIndex("RoomId");
 
                     b.ToTable("RoomTeams");
+                });
+
+            modelBuilder.Entity("ElsaMina.DataAccess.Models.RoomUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RoomId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Avatar")
+                        .HasColumnType("text");
+
+                    b.Property<string>("JoinPhrase")
+                        .HasColumnType("text");
+
+                    b.Property<TimeSpan>("PlayTime")
+                        .HasColumnType("interval");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id", "RoomId");
+
+                    b.ToTable("RoomUsers");
                 });
 
             modelBuilder.Entity("ElsaMina.DataAccess.Models.SavedPoll", b =>
@@ -228,15 +190,11 @@ namespace ElsaMina.DataAccess.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("RoomId")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<string>("RoomInfoId")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomInfoId");
+                    b.HasIndex("RoomId");
 
                     b.ToTable("SavedPolls");
                 });
@@ -269,23 +227,7 @@ namespace ElsaMina.DataAccess.Migrations
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("ElsaMina.DataAccess.Models.User", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("RegDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("ElsaMina.DataAccess.Models.UserPlayTime", b =>
+            modelBuilder.Entity("ElsaMina.DataAccess.Models.TournamentRecord", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("text");
@@ -293,12 +235,44 @@ namespace ElsaMina.DataAccess.Migrations
                     b.Property<string>("RoomId")
                         .HasColumnType("text");
 
-                    b.Property<TimeSpan>("PlayTime")
-                        .HasColumnType("interval");
+                    b.Property<int>("PlayedGames")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RunnerUpCount")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TournamentsEnteredCount")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WinsCount")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WonGames")
+                        .HasColumnType("integer");
 
                     b.HasKey("UserId", "RoomId");
 
-                    b.ToTable("UserPlayTimes");
+                    b.ToTable("TournamentRecords");
+                });
+
+            modelBuilder.Entity("ElsaMina.DataAccess.Models.AddedCommand", b =>
+                {
+                    b.HasOne("ElsaMina.DataAccess.Models.Room", "Room")
+                        .WithMany("AddedCommands")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("ElsaMina.DataAccess.Models.Badge", b =>
+                {
+                    b.HasOne("ElsaMina.DataAccess.Models.Room", null)
+                        .WithMany("Badges")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ElsaMina.DataAccess.Models.BadgeHolding", b =>
@@ -309,7 +283,7 @@ namespace ElsaMina.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ElsaMina.DataAccess.Models.RoomSpecificUserData", "RoomSpecificUserData")
+                    b.HasOne("ElsaMina.DataAccess.Models.RoomUser", "RoomUser")
                         .WithMany("Badges")
                         .HasForeignKey("UserId", "RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -317,23 +291,23 @@ namespace ElsaMina.DataAccess.Migrations
 
                     b.Navigation("Badge");
 
-                    b.Navigation("RoomSpecificUserData");
+                    b.Navigation("RoomUser");
                 });
 
             modelBuilder.Entity("ElsaMina.DataAccess.Models.RoomBotParameterValue", b =>
                 {
-                    b.HasOne("ElsaMina.DataAccess.Models.RoomInfo", "RoomInfo")
+                    b.HasOne("ElsaMina.DataAccess.Models.Room", "Room")
                         .WithMany("ParameterValues")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("RoomInfo");
+                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("ElsaMina.DataAccess.Models.RoomTeam", b =>
                 {
-                    b.HasOne("ElsaMina.DataAccess.Models.RoomInfo", "RoomInfo")
+                    b.HasOne("ElsaMina.DataAccess.Models.Room", "Room")
                         .WithMany("Teams")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -345,18 +319,29 @@ namespace ElsaMina.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("RoomInfo");
+                    b.Navigation("Room");
 
                     b.Navigation("Team");
                 });
 
             modelBuilder.Entity("ElsaMina.DataAccess.Models.SavedPoll", b =>
                 {
-                    b.HasOne("ElsaMina.DataAccess.Models.RoomInfo", "RoomInfo")
+                    b.HasOne("ElsaMina.DataAccess.Models.Room", "Room")
                         .WithMany("PollHistory")
-                        .HasForeignKey("RoomInfoId");
+                        .HasForeignKey("RoomId");
 
-                    b.Navigation("RoomInfo");
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("ElsaMina.DataAccess.Models.TournamentRecord", b =>
+                {
+                    b.HasOne("ElsaMina.DataAccess.Models.RoomUser", "RoomUser")
+                        .WithOne("TournamentRecord")
+                        .HasForeignKey("ElsaMina.DataAccess.Models.TournamentRecord", "UserId", "RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RoomUser");
                 });
 
             modelBuilder.Entity("ElsaMina.DataAccess.Models.Badge", b =>
@@ -364,8 +349,12 @@ namespace ElsaMina.DataAccess.Migrations
                     b.Navigation("BadgeHolders");
                 });
 
-            modelBuilder.Entity("ElsaMina.DataAccess.Models.RoomInfo", b =>
+            modelBuilder.Entity("ElsaMina.DataAccess.Models.Room", b =>
                 {
+                    b.Navigation("AddedCommands");
+
+                    b.Navigation("Badges");
+
                     b.Navigation("ParameterValues");
 
                     b.Navigation("PollHistory");
@@ -373,9 +362,11 @@ namespace ElsaMina.DataAccess.Migrations
                     b.Navigation("Teams");
                 });
 
-            modelBuilder.Entity("ElsaMina.DataAccess.Models.RoomSpecificUserData", b =>
+            modelBuilder.Entity("ElsaMina.DataAccess.Models.RoomUser", b =>
                 {
                     b.Navigation("Badges");
+
+                    b.Navigation("TournamentRecord");
                 });
 
             modelBuilder.Entity("ElsaMina.DataAccess.Models.Team", b =>

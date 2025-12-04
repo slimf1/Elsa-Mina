@@ -7,8 +7,9 @@ using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Services.UserData;
 using ElsaMina.Core.Services.UserDetails;
 using ElsaMina.Core.Utils;
+using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.Commands.Profile;
 
@@ -19,26 +20,26 @@ public class ProfileCommand : Command
     private const string AVATAR_URL = "https://play.pokemonshowdown.com/sprites/trainers/{0}.png";
     private const string AVATAR_CUSTOM_URL = "https://play.pokemonshowdown.com/sprites/trainers-custom/{0}.png";
 
-    private readonly IRoomSpecificUserDataRepository _userDataRepository;
     private readonly IUserDetailsManager _userDetailsManager;
     private readonly ITemplatesManager _templatesManager;
     private readonly IUserDataService _userDataService;
     private readonly IShowdownRanksProvider _showdownRanksProvider;
     private readonly IFormatsManager _formatsManager;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
-    public ProfileCommand(IRoomSpecificUserDataRepository userDataRepository,
-        IUserDetailsManager userDetailsManager,
+    public ProfileCommand(IUserDetailsManager userDetailsManager,
         ITemplatesManager templatesManager,
         IUserDataService userDataService,
         IShowdownRanksProvider showdownRanksProvider,
-        IFormatsManager formatsManager)
+        IFormatsManager formatsManager,
+        IBotDbContextFactory dbContextFactory)
     {
-        _userDataRepository = userDataRepository;
         _userDetailsManager = userDetailsManager;
         _templatesManager = templatesManager;
         _userDataService = userDataService;
         _showdownRanksProvider = showdownRanksProvider;
         _formatsManager = formatsManager;
+        _dbContextFactory = dbContextFactory;
     }
 
     public override bool IsAllowedInPrivateMessage => true;
@@ -55,7 +56,12 @@ public class ProfileCommand : Command
             return;
         }
 
-        var userDataTask = _userDataRepository.GetByIdAsync(Tuple.Create(userId, context.RoomId), cancellationToken);
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+        var userDataTask = dbContext.RoomUsers
+            .Include(roomUser => roomUser.Badges)
+            .ThenInclude(badgeHolding => badgeHolding.Badge)
+            .FirstOrDefaultAsync(userData => userData.Id == userId && userData.RoomId == context.RoomId,
+                cancellationToken);
         var userDetailsTask = _userDetailsManager.GetUserDetailsAsync(userId, cancellationToken);
         var registerDateTask = _userDataService.GetRegisterDateAsync(userId, cancellationToken);
         var ranksTask = _showdownRanksProvider.GetRankingDataAsync(userId, cancellationToken);
@@ -102,12 +108,12 @@ public class ProfileCommand : Command
         return userRoom != null ? userRoom[0] : ' ';
     }
 
-    public static string GetAvatar(RoomSpecificUserData storedUserData, UserDetailsDto showdownUserDetails)
+    public static string GetAvatar(RoomUser storedRoomUserData, UserDetailsDto showdownUserDetails)
     {
         string avatarUrl;
-        if (!string.IsNullOrEmpty(storedUserData?.Avatar))
+        if (!string.IsNullOrEmpty(storedRoomUserData?.Avatar))
         {
-            avatarUrl = storedUserData.Avatar;
+            avatarUrl = storedRoomUserData.Avatar;
         }
         else
         {

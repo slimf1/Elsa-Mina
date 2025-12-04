@@ -1,12 +1,10 @@
-﻿namespace ElsaMina.Core.Services.Rooms.Parameters;
+namespace ElsaMina.Core.Services.Rooms.Parameters;
 
-public class Parameter : IParameter
+public enum Parameter
 {
-    public required string Identifier { get; set; }
-    public required string NameKey { get; set; }
-    public required string DescriptionKey { get; set; }
-    public required RoomBotConfigurationType Type { get; set; }
-    public required string DefaultValue { get; set; }
-    public IEnumerable<EnumerationValue> PossibleValues { get; set; } // Only used for the enumeration type
-    public Action<IRoom, string> OnUpdateAction { get; set; }
+    Locale,
+    HasCommandAutoCorrect,
+    ShowErrorMessages,
+    ShowTeamLinksPreview,
+    ShowReplaysPreview
 }

@@ -129,7 +129,7 @@ public class DailymotionCommandTests
         await _command.RunAsync(_context);
 
         // Assert
-        _context.Received(1).ReplyLocalizedMessage("dailymotion_fetch_error", Arg.Any<object>());
+        _context.Received(1).ReplyRankAwareLocalizedMessage("dailymotion_fetch_error", Arg.Any<object>());
         _context.DidNotReceive().ReplyHtml(Arg.Any<string>(), rankAware: Arg.Any<bool>());
     }
 }

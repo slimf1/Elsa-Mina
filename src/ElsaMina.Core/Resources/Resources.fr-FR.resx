@@ -675,4 +675,88 @@
     <data name="tour_announce_message" xml:space="preserve">
         <value>Un tournoi {0} a été créé dans la salle &lt;&lt;{1}&gt;&gt;</value>
     </data>
+    <data name="deletecommand_not_found" xml:space="preserve">
+        <value>Impossible de trouver une commande avec l'identifiant '{0}'</value>
+    </data>
+    <data name="badge_display_not_found" xml:space="preserve">
+        <value>Impossible de trouver le badge {0}</value>
+    </data>
+    <data name="badge_display_is_trophy" xml:space="preserve">
+        <value>Trophée</value>
+    </data>
+    <data name="badge_display_is_team_tournament" xml:space="preserve">
+        <value>Tournoi en équipe</value>
+    </data>
+    <data name="badge_display_holders" xml:space="preserve">
+        <value>Détenteurs</value>
+    </data>
+    <data name="badge_display_no_holders" xml:space="preserve">
+        <value>Aucun</value>
+    </data>
+    <data name="hall_of_fame_rank" xml:space="preserve">
+        <value>Rang</value>
+    </data>
+    <data name="hall_of_fame_user" xml:space="preserve">
+        <value>Joueur</value>
+    </data>
+    <data name="hall_of_fame_total" xml:space="preserve">
+        <value>Total</value>
+    </data>
+    <data name="hall_of_fame_trophies_header" xml:space="preserve">
+        <value>Trophées</value>
+    </data>
+    <data name="hall_of_fame_solo" xml:space="preserve">
+        <value>solo</value>
+    </data>
+    <data name="hall_of_fame_team" xml:space="preserve">
+        <value>en équipe</value>
+    </data>
+    <data name="hall_of_fame_title" xml:space="preserve">
+        <value>Panthéon</value>
+    </data>
+    <data name="hall_of_fame_trophies" xml:space="preserve">
+        <value>trophée{0}</value>
+    </data>
+    <data name="hall_of_fame_no_trophies" xml:space="preserve">
+        <value>Aucun trophée trouvé.</value>
+    </data>
+    <data name="profile_header_avatar" xml:space="preserve">
+        <value>Avatar</value>
+    </data>
+    <data name="profile_header_badges" xml:space="preserve">
+        <value>Badges</value>
+    </data>
+    <data name="profile_header_info" xml:space="preserve">
+        <value>Infos</value>
+    </data>
+    <data name="setlocale_invalid_locale" xml:space="preserve">
+        <value>La langue "{0}" n'a pas été trouvée.</value>
+    </data>
+    <data name="setlocale_room_not_found" xml:space="preserve">
+        <value>La salle "{0}" n'a pas été trouvée.</value>
+    </data>
+    <data name="setlocale_success" xml:space="preserve">
+        <value>Mise à jour de la langue de la salle {0} : {1}</value>
+    </data>
+    <data name="setlocale_failure" xml:space="preserve">
+        <value>Impossible de mettre à jour la langue.</value>
+    </data>
+    <data name="command_autocorrect_suggestion" xml:space="preserve">
+        <value>La commmade "{0}" n'a pas été trouvée. Vouliez-vous dire : __{1}__ ?</value>
+    </data>
+    <data name="genius_help_message" xml:space="preserve">
+        <value>Recherche une chanson à partir de ses paroles. Syntaxe: -genius &lt;paroles&gt;</value>
+    </data>
+    <data name="genius_release_date" xml:space="preserve">
+        <value>Sortie le: {0}</value>
+    </data>
+    <data name="genius_artist" xml:space="preserve">
+        <value>Par: {0}</value>
+    </data>
+    <data name="genius_page_views" xml:space="preserve">
+        <value>Vues sur la page: {0}</value>
+    </data>
+    <data name="genius_link" xml:space="preserve">
+        <value>Lire les paroles sur Genius</value>
+    </data>
 </root>

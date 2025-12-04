@@ -62,7 +62,7 @@ public class AfdSpriteCommandTest
         await _command.RunAsync(_context);
 
         // Assert
-        _context.Received(1).ReplyLocalizedMessage("pokemon_name_required");
+        _context.Received(1).ReplyRankAwareLocalizedMessage("pokemon_name_required");
         _context.DidNotReceive().ReplyHtml(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<bool>());
     }
 } 

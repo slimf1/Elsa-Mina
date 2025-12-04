@@ -1,86 +1,345 @@
 using System.Globalization;
 using ElsaMina.Commands.Arcade;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
-using ElsaMina.Core.Utils;
+using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 
 namespace ElsaMina.UnitTests.Commands.Arcade;
 
-public class DisplayArcadeLevelsTests
+public class DisplayArcadeLevelsCommandTests
 {
-    private DisplayArcadeLevels _command;
-    private IArcadeLevelRepository _arcadeLevelRepository;
+    private DbContextOptions<BotDbContext> _dbOptions;
+    private IBotDbContextFactory _dbContextFactory;
     private ITemplatesManager _templatesManager;
+    private IContext _context;
+    private DisplayArcadeLevelsCommand _command;
 
     [SetUp]
     public void SetUp()
     {
-        _arcadeLevelRepository = Substitute.For<IArcadeLevelRepository>();
+        _dbOptions = new DbContextOptionsBuilder<BotDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+
+        // Clear the database before each test
+        using var dbContext = new BotDbContext(_dbOptions);
+        dbContext.Database.EnsureDeleted();
+        dbContext.Database.EnsureCreated();
+
+        // Setup factory mock to return new contexts
+        _dbContextFactory = Substitute.For<IBotDbContextFactory>();
+        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>())
+            .Returns(_ => new BotDbContext(_dbOptions));
+
+        // Setup templates manager mock
         _templatesManager = Substitute.For<ITemplatesManager>();
-        _command = new DisplayArcadeLevels(_arcadeLevelRepository, _templatesManager);
+
+        // Setup context mock
+        _context = Substitute.For<IContext>();
+        _context.Culture.Returns(CultureInfo.InvariantCulture);
+
+        // Create command instance
+        _command = new DisplayArcadeLevelsCommand(_templatesManager, _dbContextFactory);
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldSendHtml_WhenLevelsArePresent()
+    public void Test_Constructor_ShouldInitializeCommand_WhenCalled()
+    {
+        // Arrange & Act
+        var command = new DisplayArcadeLevelsCommand(_templatesManager, _dbContextFactory);
+
+        // Assert
+        Assert.That(command, Is.Not.Null);
+        Assert.That(command.Name, Is.EqualTo("displaypaliers"));
+        Assert.That(command.Aliases, Is.EquivalentTo(new[] { "displaypalier", "paliers", "arcadelevels" }));
+        Assert.That(command.RequiredRank, Is.EqualTo(Rank.Regular));
+        Assert.That(command.RoomRestriction, Is.EqualTo(new[] { "arcade", "botdevelopment" }));
+        Assert.That(command.HelpMessageKey, Is.EqualTo("display_paliers_help"));
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldReplyNoUsers_WhenNoLevelsExist()
     {
         // Arrange
-        var context = Substitute.For<IContext>();
-        var culture = new CultureInfo("en-US");
-        context.Culture.Returns(culture);
-        var levels = new List<ArcadeLevel>
+        // Database is empty
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        _context.Received(1).ReplyLocalizedMessage("arcade_level_no_users");
+        _context.DidNotReceive().ReplyHtml(Arg.Any<string>(), rankAware: Arg.Any<bool>());
+        await _templatesManager.DidNotReceive().GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>());
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldDisplaySingleLevel_WhenOneLevelExists()
+    {
+        // Arrange
+        var level = new ArcadeLevel { Id = "user1", Level = 5 };
+
+        await using (var setupContext = new BotDbContext(_dbOptions))
         {
-            new() { Id = "user1", Level = 3 },
-            new() { Id = "user2", Level = 3 },
-            new() { Id = "user3", Level = 2 }
+            await setupContext.ArcadeLevels.AddAsync(level);
+            await setupContext.SaveChangesAsync();
+        }
+
+        _templatesManager.GetTemplateAsync("Arcade/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
+            .Returns("<html>rendered template</html>");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync("Arcade/ArcadeLevels",
+            Arg.Is<ArcadeLevelsViewModel>(vm =>
+                vm.Culture == _context.Culture &&
+                vm.Levels.Count == 1 &&
+                vm.Levels[5].Count == 1 &&
+                vm.Levels[5][0] == "user1"));
+
+        _context.Received(1).ReplyHtml("<html>rendered template</html>", rankAware: true);
+        _context.DidNotReceive().ReplyLocalizedMessage(Arg.Any<string>());
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldGroupUsersByLevel_WhenMultipleUsersExist()
+    {
+        // Arrange
+        var levels = new[]
+        {
+            new ArcadeLevel { Id = "user1", Level = 5 },
+            new ArcadeLevel { Id = "user2", Level = 5 },
+            new ArcadeLevel { Id = "user3", Level = 10 },
+            new ArcadeLevel { Id = "user4", Level = 10 },
+            new ArcadeLevel { Id = "user5", Level = 15 }
         };
 
-        _arcadeLevelRepository.GetAllAsync().Returns(levels);
+        using (var setupContext = new BotDbContext(_dbOptions))
+        {
+            await setupContext.ArcadeLevels.AddRangeAsync(levels);
+            await setupContext.SaveChangesAsync();
+        }
 
-        var expectedTemplate = "<html>Rendered Content</html>";
-        _templatesManager.GetTemplateAsync(
-            "Arcade/ArcadeLevels",
+        _templatesManager.GetTemplateAsync("Arcade/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
+            .Returns("<html>template</html>");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync("Arcade/ArcadeLevels",
             Arg.Is<ArcadeLevelsViewModel>(vm =>
-                vm.Culture == culture &&
-                vm.Levels[3].Count == 2 &&
-                vm.Levels[2].Count == 1))
-            .Returns(Task.FromResult(expectedTemplate));
+                vm.Levels.Count == 3 &&
+                vm.Levels[5].Count == 2 &&
+                vm.Levels[10].Count == 2 &&
+                vm.Levels[15].Count == 1));
 
-        // Act
-        await _command.RunAsync(context);
-
-        // Assert
-        context.Received(1).ReplyHtml(expectedTemplate.RemoveNewlines(), rankAware: true);
+        _context.Received(1).ReplyHtml("<html>template</html>", rankAware: true);
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldSendEmptyMessage_WhenNoLevelsArePresent()
+    public async Task Test_RunAsync_ShouldIncludeAllUsersInLevel_WhenMultipleUsersHaveSameLevel()
     {
         // Arrange
-        var context = Substitute.For<IContext>();
-        _arcadeLevelRepository.GetAllAsync().Returns(new List<ArcadeLevel>());
+        var levels = new[]
+        {
+            new ArcadeLevel { Id = "alice", Level = 7 },
+            new ArcadeLevel { Id = "bob", Level = 7 },
+            new ArcadeLevel { Id = "charlie", Level = 7 }
+        };
+
+        await using (var setupContext = new BotDbContext(_dbOptions))
+        {
+            await setupContext.ArcadeLevels.AddRangeAsync(levels);
+            await setupContext.SaveChangesAsync();
+        }
+
+        _templatesManager.GetTemplateAsync("Arcade/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
+            .Returns("<html>template</html>");
 
         // Act
-        await _command.RunAsync(context);
+        await _command.RunAsync(_context);
 
         // Assert
-        context.Received(1).ReplyLocalizedMessage("arcade_level_no_users");
+        await _templatesManager.Received(1).GetTemplateAsync("Arcade/ArcadeLevels",
+            Arg.Is<ArcadeLevelsViewModel>(vm =>
+                vm.Levels[7].Contains("alice") &&
+                vm.Levels[7].Contains("bob") &&
+                vm.Levels[7].Contains("charlie")));
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldHandleException_WhenRepositoryThrowsError()
+    public async Task Test_RunAsync_ShouldPassCultureToTemplate_WhenCalled()
     {
         // Arrange
-        var context = Substitute.For<IContext>();
-        _arcadeLevelRepository.GetAllAsync().Throws(new Exception("Database error"));
+        var customCulture = new CultureInfo("fr-FR");
+        _context.Culture.Returns(customCulture);
+
+        var level = new ArcadeLevel { Id = "user1", Level = 1 };
+
+        await using (var setupContext = new BotDbContext(_dbOptions))
+        {
+            await setupContext.ArcadeLevels.AddAsync(level);
+            await setupContext.SaveChangesAsync();
+        }
+        _templatesManager.GetTemplateAsync("Arcade/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
+            .Returns("<html>template</html>");
 
         // Act
-        await _command.RunAsync(context);
+        await _command.RunAsync(_context);
 
         // Assert
-        context.Received(1).ReplyLocalizedMessage("arcade_level_no_users");
+        await _templatesManager.Received(1).GetTemplateAsync("Arcade/ArcadeLevels",
+            Arg.Is<ArcadeLevelsViewModel>(vm => vm.Culture == customCulture));
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldCallRemoveNewlines_WhenRenderingTemplate()
+    {
+        // Arrange
+        var level = new ArcadeLevel { Id = "user1", Level = 1 };
+
+        await using (var setupContext = new BotDbContext(_dbOptions))
+        {
+            await setupContext.ArcadeLevels.AddAsync(level);
+            await setupContext.SaveChangesAsync();
+        }
+
+        _templatesManager.GetTemplateAsync("Arcade/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
+            .Returns("<html>template without newlines</html>");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        _context.Received(1).ReplyHtml("<html>template without newlines</html>", rankAware: true);
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldReplyWithRankAware_WhenCallingReplyHtml()
+    {
+        // Arrange
+        var level = new ArcadeLevel { Id = "user1", Level = 1 };
+
+        await using (var setupContext = new BotDbContext(_dbOptions))
+        {
+            await setupContext.ArcadeLevels.AddAsync(level);
+            await setupContext.SaveChangesAsync();
+        }
+
+        _templatesManager.GetTemplateAsync("Arcade/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
+            .Returns("<html>template</html>");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        _context.Received(1).ReplyHtml(Arg.Any<string>(), rankAware: true);
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldReplyNoUsers_WhenDatabaseThrowsException()
+    {
+        // Arrange
+        var mockContext = Substitute.ForPartsOf<BotDbContext>(_dbOptions);
+        mockContext.ArcadeLevels.ToListAsync(Arg.Any<CancellationToken>())
+            .Throws(new InvalidOperationException("Database error"));
+
+        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>())
+            .Returns(mockContext);
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        _context.Received(1).ReplyLocalizedMessage("arcade_level_no_users");
+        _context.DidNotReceive().ReplyHtml(Arg.Any<string>(),  rankAware: Arg.Any<bool>());
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldPassCancellationToken_WhenProvided()
+    {
+        // Arrange
+        var cancellationToken = new CancellationToken();
+
+        // Act
+        await _command.RunAsync(_context, cancellationToken);
+
+        // Assert
+        await _dbContextFactory.Received(1).CreateDbContextAsync(cancellationToken);
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldCreateNewDbContext_WhenCalled()
+    {
+        // Arrange
+        // Database is empty
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await _dbContextFactory.Received(1).CreateDbContextAsync(Arg.Any<CancellationToken>());
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldHandleVariousLevelNumbers_WhenUsersHaveDifferentLevels()
+    {
+        // Arrange
+        var levels = new[]
+        {
+            new ArcadeLevel { Id = "user1", Level = 1 },
+            new ArcadeLevel { Id = "user2", Level = 50 },
+            new ArcadeLevel { Id = "user3", Level = 100 },
+            new ArcadeLevel { Id = "user4", Level = 999 }
+        };
+
+        using (var setupContext = new BotDbContext(_dbOptions))
+        {
+            await setupContext.ArcadeLevels.AddRangeAsync(levels);
+            await setupContext.SaveChangesAsync();
+        }
+
+        _templatesManager.GetTemplateAsync("Arcade/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
+            .Returns("<html>template</html>");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync("Arcade/ArcadeLevels",
+            Arg.Is<ArcadeLevelsViewModel>(vm =>
+                vm.Levels.ContainsKey(1) &&
+                vm.Levels.ContainsKey(50) &&
+                vm.Levels.ContainsKey(100) &&
+                vm.Levels.ContainsKey(999)));
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldUseCorrectTemplatePath_WhenCalled()
+    {
+        // Arrange
+        var level = new ArcadeLevel { Id = "user1", Level = 1 };
+
+        await using (var setupContext = new BotDbContext(_dbOptions))
+        {
+            await setupContext.ArcadeLevels.AddAsync(level);
+            await setupContext.SaveChangesAsync();
+        }
+
+        _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<ArcadeLevelsViewModel>())
+            .Returns("<html>template</html>");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync("Arcade/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>());
     }
 }

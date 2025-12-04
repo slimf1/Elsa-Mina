@@ -2,20 +2,21 @@ using System.Text;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
-using ElsaMina.DataAccess.Repositories;
+using ElsaMina.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.Commands.Polls;
 
 [NamedCommand("showpolls")]
 public class ShowPollsCommand : Command
 {
-    private readonly ISavedPollRepository _savedPollRepository;
     private readonly IRoomsManager _roomsManager;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
-    public ShowPollsCommand(ISavedPollRepository savedPollRepository, IRoomsManager roomsManager)
+    public ShowPollsCommand(IRoomsManager roomsManager, IBotDbContextFactory dbContextFactory)
     {
-        _savedPollRepository = savedPollRepository;
         _roomsManager = roomsManager;
+        _dbContextFactory = dbContextFactory;
     }
 
     public override bool IsAllowedInPrivateMessage => true;
@@ -37,25 +38,28 @@ public class ShowPollsCommand : Command
             roomId = context.RoomId;
         }
 
-        var pollHistory = await _savedPollRepository.GetPollsByRoomIdAsync(roomId, cancellationToken);
-        var savedPolls = pollHistory?.ToArray();
-        if (savedPolls == null || savedPolls.Length == 0)
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+        var pollHistory = await dbContext.SavedPolls
+            .Where(poll => poll.RoomId == roomId)
+            .ToListAsync(cancellationToken);
+
+        if (pollHistory.Count == 0)
         {
             context.ReplyLocalizedMessage("show_polls_no_polls", roomId);
             return;
         }
 
-        var sb = new StringBuilder();
-        sb.Append(context.GetString("show_polls_history_header", roomId));
-        foreach (var poll in savedPolls)
+        var stringBuilder = new StringBuilder();
+        stringBuilder.Append(context.GetString("show_polls_history_header", roomId));
+        foreach (var poll in pollHistory)
         {
-            sb.AppendLine(context.GetString("show_polls_history_entry",
+            stringBuilder.AppendLine(context.GetString("show_polls_history_entry",
                 poll.Id,
                 poll.EndedAt.ToLocalTime().ToString("G", context.Culture),
                 poll.Content));
         }
 
         context.ReplyLocalizedMessage("show_polls_history_sent");
-        context.ReplyHtmlPage("polls-history", sb.ToString());
+        context.ReplyHtmlPage("polls-history", stringBuilder.ToString());
     }
 }

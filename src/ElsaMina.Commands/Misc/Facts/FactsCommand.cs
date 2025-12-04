@@ -34,7 +34,7 @@ public class FactsCommand : Command
         catch (Exception ex)
         {
             Log.Error(ex, "Could not fetch fact.");
-            context.ReplyLocalizedMessage("fact_error");
+            context.ReplyRankAwareLocalizedMessage("fact_error");
         }
     }
 }

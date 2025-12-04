@@ -1,19 +1,19 @@
 using ElsaMina.Core.Handlers;
 using ElsaMina.Core.Services.Clock;
+using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
-using ElsaMina.DataAccess.Repositories;
 
 namespace ElsaMina.Commands.Polls;
 
 public class PollEndHandler : Handler
 {
-    private readonly ISavedPollRepository _savedPollRepository;
     private readonly IClockService _clockService;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
-    public PollEndHandler(ISavedPollRepository savedPollRepository, IClockService clockService)
+    public PollEndHandler(IClockService clockService, IBotDbContextFactory dbContextFactory)
     {
-        _savedPollRepository = savedPollRepository;
         _clockService = clockService;
+        _dbContextFactory = dbContextFactory;
     }
 
     public override async Task HandleReceivedMessageAsync(string[] parts, string roomId = null,
@@ -31,10 +31,11 @@ public class PollEndHandler : Handler
             {
                 RoomId = roomId,
                 Content = htmlContent,
-                EndedAt = _clockService.CurrentUtcDateTime
+                EndedAt = _clockService.CurrentUtcDateTimeOffset
             };
-            await _savedPollRepository.AddAsync(poll, cancellationToken);
-            await _savedPollRepository.SaveChangesAsync(cancellationToken);
+            await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+            await dbContext.SavedPolls.AddAsync(poll, cancellationToken);
+            await dbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

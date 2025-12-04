@@ -1,0 +1,22 @@
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Misc.Genius.GeniusSongPanelViewModel>
+
+<img
+    style="float: left; padding-right: 12px;"
+    src="@Model.ThumbnailUrl"
+    width="@Model.ThumbnailWidth"
+    height="@Model.ThumbnailHeight"
+    alt="Thumbnail"/>
+
+<b>@Model.Title</b> <br/>
+<span>@GetString("genius_artist", Model.ArtistName)</span> <br/>
+@if (!string.IsNullOrWhiteSpace(Model.ReleaseDate))
+{
+    <span>@GetString("genius_release_date", Model.ReleaseDate)</span>
+    <br/>
+}
+<span>
+    @GetString("genius_page_views", Model.PageViews.ToString("N0", Model.Culture))
+</span><br/>
+
+<br/>
+<a href="@Model.LyricsUrl">@GetString("genius_link")</a>

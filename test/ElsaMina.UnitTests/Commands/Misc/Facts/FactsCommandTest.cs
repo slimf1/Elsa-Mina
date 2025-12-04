@@ -81,6 +81,6 @@ public class FactsCommandTest
         await _factsCommand.RunAsync(_context);
 
         // Assert
-        _context.Received(1).ReplyLocalizedMessage("fact_error");
+        _context.Received(1).ReplyRankAwareLocalizedMessage("fact_error");
     }
 }

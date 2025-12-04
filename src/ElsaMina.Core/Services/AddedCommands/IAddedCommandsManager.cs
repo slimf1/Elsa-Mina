@@ -4,5 +4,5 @@ namespace ElsaMina.Core.Services.AddedCommands;
 
 public interface IAddedCommandsManager
 {
-    Task TryExecuteAddedCommand(string commandName, IContext context);
+    Task<bool> TryExecuteAddedCommand(string commandName, IContext context);
 }

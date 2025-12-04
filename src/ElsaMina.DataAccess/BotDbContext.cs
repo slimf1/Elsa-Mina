@@ -1,6 +1,5 @@
 ﻿using ElsaMina.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace ElsaMina.DataAccess;
 
@@ -8,106 +7,28 @@ public class BotDbContext : DbContext
 {
     public BotDbContext()
     {
+        // Empty
     }
 
     public BotDbContext(DbContextOptions<BotDbContext> options) : base(options)
     {
     }
 
-    public DbSet<User> Users { get; set; }
-    public DbSet<RoomSpecificUserData> UserData { get; set; }
+    public DbSet<RoomUser> RoomUsers { get; set; }
     public DbSet<Badge> Badges { get; set; }
     public DbSet<AddedCommand> AddedCommands { get; set; }
-    public DbSet<RoomInfo> RoomInfo { get; set; }
+    public DbSet<Room> RoomInfo { get; set; }
     public DbSet<BadgeHolding> BadgeHoldings { get; set; }
     public DbSet<Team> Teams { get; set; }
     public DbSet<RoomTeam> RoomTeams { get; set; }
-    public DbSet<Repeat> Repeats { get; set; }
     public DbSet<ArcadeLevel> ArcadeLevels { get; set; }
-    public DbSet<PollSuggestion> PollSuggestions { get; set; }
-    public DbSet<UserPlayTime> UserPlayTimes { get; set; }
     public DbSet<SavedPoll> SavedPolls { get; set; }
-    //public DbSet<TournamentRecord> TournamentRecords { get; set; } // todo : migration
-
-    public string ConnectionString { get; set; }
-    public int MaxRetries { get; set; }
-    public TimeSpan RetryDelay { get; set; }
+    public DbSet<RoomBotParameterValue> RoomBotParameterValues { get; set; }
+    public DbSet<TournamentRecord> TournamentRecords { get; set; } // todo : migration
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        modelBuilder.Entity<AddedCommand>()
-            .HasKey(command => new { command.Id, command.RoomId });
-
-        modelBuilder.Entity<Badge>()
-            .HasKey(badge => new { badge.Id, badge.RoomId });
-
-        modelBuilder.Entity<BadgeHolding>()
-            .HasKey(badgeHolding => new { badgeHolding.BadgeId, badgeHolding.UserId, badgeHolding.RoomId });
-
-        modelBuilder.Entity<BadgeHolding>()
-            .HasOne(badgeHolding => badgeHolding.Badge)
-            .WithMany(badge => badge.BadgeHolders)
-            .HasForeignKey(badgeHolding => new { badgeHolding.BadgeId, badgeHolding.RoomId });
-
-        modelBuilder.Entity<BadgeHolding>()
-            .HasOne(badgeHolding => badgeHolding.RoomSpecificUserData)
-            .WithMany(userData => userData.Badges)
-            .HasForeignKey(badgeHolding => new { badgeHolding.UserId, badgeHolding.RoomId });
-
-        modelBuilder.Entity<RoomSpecificUserData>()
-            .HasKey(userData => new { userData.Id, userData.RoomId });
-
-        modelBuilder.Entity<RoomTeam>()
-            .HasKey(roomTeam => new { roomTeam.TeamId, roomTeam.RoomId });
-
-        modelBuilder.Entity<RoomTeam>()
-            .HasOne(roomTeam => roomTeam.RoomInfo)
-            .WithMany(roomParameters => roomParameters.Teams)
-            .HasForeignKey(roomTeam => roomTeam.RoomId);
-
-        modelBuilder.Entity<RoomTeam>()
-            .HasOne(roomTeam => roomTeam.Team)
-            .WithMany(team => team.Rooms)
-            .HasForeignKey(roomTeam => roomTeam.TeamId);
-
-        modelBuilder.Entity<Repeat>()
-            .HasKey(repeat => new { repeat.RoomId, repeat.Name });
-
-        modelBuilder.Entity<UserPlayTime>()
-            .HasKey(repeat => new { repeat.UserId, repeat.RoomId });
-
-        modelBuilder.Entity<RoomBotParameterValue>()
-            .HasKey(roomBotParameterValue => new { roomBotParameterValue.RoomId, roomBotParameterValue.ParameterId });
-
-        modelBuilder.Entity<RoomBotParameterValue>()
-            .HasOne(roomBotParameterValue => roomBotParameterValue.RoomInfo)
-            .WithMany(roomsParameters => roomsParameters.ParameterValues)
-            .HasForeignKey(roomBotParameterValue => roomBotParameterValue.RoomId);
-
-        //modelBuilder.Entity<TournamentRecord>()
-        //    .HasKey(record => new { record.UserId, record.RoomId });
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-
-        if (optionsBuilder.IsConfigured)
-        {
-            return;
-        }
-
-#if DEBUG
-        optionsBuilder
-            .UseNpgsql(ConnectionString, builder => builder.EnableRetryOnFailure(MaxRetries, RetryDelay, null))
-            .LogTo(Console.WriteLine, LogLevel.Information)
-            .EnableSensitiveDataLogging()
-            .EnableDetailedErrors();
-#else
-        optionsBuilder
-            .UseNpgsql(ConnectionString, builder => builder.EnableRetryOnFailure(MaxRetries, RetryDelay, null));
-#endif
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(BotDbContext).Assembly);
     }
 }

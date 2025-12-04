@@ -1,7 +1,8 @@
 ﻿using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
-using ElsaMina.DataAccess.Repositories;
+using ElsaMina.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.Commands.CustomCommands;
 
@@ -12,20 +13,22 @@ namespace ElsaMina.Commands.CustomCommands;
 ])]
 public class CustomCommandList : Command
 {
-    private readonly IAddedCommandRepository _addedCommandRepository;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
-    public CustomCommandList(IAddedCommandRepository addedCommandRepository)
+    public CustomCommandList(IBotDbContextFactory dbContextFactory)
     {
-        _addedCommandRepository = addedCommandRepository;
+        _dbContextFactory = dbContextFactory;
     }
 
     public override Rank RequiredRank => Rank.Voiced;
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        var addedCommands = (await _addedCommandRepository.GetAllAsync(cancellationToken))
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+        var addedCommands = await dbContext.AddedCommands
             .Where(command => command.RoomId == context.RoomId)
-            .Select(command => command.Id);
+            .Select(command => command.Id)
+            .ToListAsync(cancellationToken);
         context.Reply($"**Commands**: {string.Join(", ", addedCommands)}");
     }
 }

@@ -1,0 +1,17 @@
+@using ElsaMina.Commands.Badges.BadgeDisplay
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Badges.BadgeHolders.BadgeHoldersViewModel>
+
+<div style="max-height: 180px; overflow-y: auto;">
+    
+    @foreach (var badge in Model.Badges)
+    {
+        await IncludeAsync("Badges/BadgeDisplay/BadgeDisplay", new BadgeDisplayViewModel
+        {
+            Culture = Model.Culture,
+            DisplayedBadge = badge,
+            BadgeHolders = badge.BadgeHolders.Select(holding => holding.UserId).ToArray()
+        });
+        <br/><br />
+    }
+    
+</div>
