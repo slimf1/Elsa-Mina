@@ -7,7 +7,6 @@ using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
-using Room = ElsaMina.DataAccess.Models.Room;
 
 namespace ElsaMina.UnitTests.Core.Services.Rooms;
 
@@ -38,7 +37,7 @@ public class RoomsManagerTest
     }
 
     // Helper method to seed the database
-    private async Task SeedDatabaseAsync(IEnumerable<Room> rooms)
+    private async Task SeedDatabaseAsync(IEnumerable<SavedRoom> rooms)
     {
         // Arrange
         await using var context = new BotDbContext(_dbContextOptions);
@@ -103,7 +102,7 @@ public class RoomsManagerTest
             Assert.That(_sut.HasRoom(roomId), Is.True);
         });
 
-        _roomParameterStore.Received(1).InitializeFromRoomEntity(Arg.Is<DataAccess.Models.Room>(r => r.Id == roomId));
+        _roomParameterStore.Received(1).InitializeFromRoomEntity(Arg.Is<DataAccess.Models.SavedRoom>(r => r.Id == roomId));
         await _roomParameterStore.Received(1).GetValueAsync(Parameter.Locale, Arg.Any<CancellationToken>());
     }
 
@@ -116,7 +115,7 @@ public class RoomsManagerTest
         const string newTitle = "New Updated Title";
 
         await SeedDatabaseAsync([
-            new Room
+            new SavedRoom
             {
                 Id = roomId, Title = oldTitle,
                 ParameterValues = [new RoomBotParameterValue { ParameterId = "Locale", Value = "es-ES" }]
@@ -140,7 +139,7 @@ public class RoomsManagerTest
         });
 
         // Verify room was configured using existing entity
-        _roomParameterStore.Received(1).InitializeFromRoomEntity(Arg.Is<Room>(r => r.Title == newTitle));
+        _roomParameterStore.Received(1).InitializeFromRoomEntity(Arg.Is<SavedRoom>(r => r.Title == newTitle));
         await _roomParameterStore.Received(1).GetValueAsync(Parameter.Locale, Arg.Any<CancellationToken>());
     }
 

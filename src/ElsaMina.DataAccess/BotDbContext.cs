@@ -5,11 +5,6 @@ namespace ElsaMina.DataAccess;
 
 public class BotDbContext : DbContext
 {
-    public BotDbContext()
-    {
-        // Empty
-    }
-
     public BotDbContext(DbContextOptions<BotDbContext> options) : base(options)
     {
     }
@@ -17,7 +12,7 @@ public class BotDbContext : DbContext
     public DbSet<RoomUser> RoomUsers { get; set; }
     public DbSet<Badge> Badges { get; set; }
     public DbSet<AddedCommand> AddedCommands { get; set; }
-    public DbSet<Room> RoomInfo { get; set; }
+    public DbSet<SavedRoom> RoomInfo { get; set; }
     public DbSet<BadgeHolding> BadgeHoldings { get; set; }
     public DbSet<Team> Teams { get; set; }
     public DbSet<RoomTeam> RoomTeams { get; set; }

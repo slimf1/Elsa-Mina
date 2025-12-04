@@ -9,7 +9,7 @@ public class  SavedPollConfiguration : IEntityTypeConfiguration<SavedPoll>
     public void Configure(EntityTypeBuilder<SavedPoll> builder)
     {
         builder
-            .HasOne(poll => poll.Room)
+            .HasOne(poll => poll.SavedRoom)
             .WithMany(room => room.PollHistory);
     }
 }

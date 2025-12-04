@@ -2,7 +2,6 @@ using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.Logging;
 using Microsoft.EntityFrameworkCore;
-using DbRoom = ElsaMina.DataAccess.Models.Room;
 
 namespace ElsaMina.Core.Services.Rooms.Parameters;
 
@@ -10,7 +9,7 @@ public class EfRoomParameterStore : IRoomParameterStore
 {
     private readonly IBotDbContextFactory _dbContextFactory;
     private readonly IReadOnlyDictionary<Parameter, IParameterDefiniton> _parameterDefinitions;
-    private DbRoom _dbRoom;
+    private SavedRoom _dbSavedRoom;
 
     public EfRoomParameterStore(IBotDbContextFactory dbContextFactory, IParametersDefinitionFactory definitionFactory)
     {
@@ -20,9 +19,9 @@ public class EfRoomParameterStore : IRoomParameterStore
     
     public IRoom Room { get; set; }
 
-    public void InitializeFromRoomEntity(DbRoom roomEntity)
+    public void InitializeFromRoomEntity(SavedRoom savedRoomEntity)
     {
-        _dbRoom = roomEntity;
+        _dbSavedRoom = savedRoomEntity;
     }
 
     public string GetValue(Parameter parameter)
@@ -36,7 +35,7 @@ public class EfRoomParameterStore : IRoomParameterStore
     private string GetCachedValue(Parameter parameter)
     {
         var parameterDefinition = _parameterDefinitions[parameter];
-        return _dbRoom
+        return _dbSavedRoom
             .ParameterValues
             .FirstOrDefault(parameterValue => parameterValue.ParameterId == parameterDefinition.Identifier)
             ?.Value
@@ -60,19 +59,19 @@ public class EfRoomParameterStore : IRoomParameterStore
             await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
             var parameterDefinition = _parameterDefinitions[parameter];
             
-            var existing = _dbRoom.ParameterValues
+            var existing = _dbSavedRoom.ParameterValues
                 .FirstOrDefault(parameterValue => parameterValue.ParameterId == parameterDefinition.Identifier);
 
             if (existing == null)
             {
                 existing = new RoomBotParameterValue
                 {
-                    RoomId = _dbRoom.Id,
+                    RoomId = _dbSavedRoom.Id,
                     ParameterId = parameterDefinition.Identifier,
                     Value = value
                 };
 
-                _dbRoom.ParameterValues.Add(existing);
+                _dbSavedRoom.ParameterValues.Add(existing);
                 dbContext.RoomBotParameterValues.Add(existing);
             }
             else
@@ -99,7 +98,7 @@ public class EfRoomParameterStore : IRoomParameterStore
         {
             Log.Error(ex,
                 "Failed to set room parameter value for RoomId={RoomId}, Parameter={Parameter}",
-                _dbRoom.Id, parameter);
+                _dbSavedRoom.Id, parameter);
 
             return false;
         }

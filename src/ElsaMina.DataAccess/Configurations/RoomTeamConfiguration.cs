@@ -12,7 +12,7 @@ public class RoomTeamConfiguration : IEntityTypeConfiguration<RoomTeam>
             .HasKey(roomTeam => new { roomTeam.TeamId, roomTeam.RoomId });
 
         builder
-            .HasOne(roomTeam => roomTeam.Room)
+            .HasOne(roomTeam => roomTeam.SavedRoom)
             .WithMany(roomParameters => roomParameters.Teams)
             .HasForeignKey(roomTeam => roomTeam.RoomId);
 

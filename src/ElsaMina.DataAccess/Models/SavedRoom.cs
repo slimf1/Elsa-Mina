@@ -6,7 +6,7 @@ namespace ElsaMina.DataAccess.Models;
 /// Room data independent of users
 /// </summary>
 [Table("Rooms")]
-public class Room
+public class SavedRoom
 {
     public string Id { get; set; }
     public string Title { get; set; }

@@ -16,4 +16,5 @@ public class RoomUser
     public TimeSpan PlayTime { get; set; }
     public TournamentRecord TournamentRecord { get; set; }
     public ICollection<BadgeHolding> Badges { get; set; } = new HashSet<BadgeHolding>();
+    public SavedUser User { get; set; }
 }

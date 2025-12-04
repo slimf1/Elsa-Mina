@@ -89,20 +89,20 @@ public class RoomsManager : IRoomsManager, IDisposable
         Log.Information("Initializing {0} : DONE", roomTitle);
     }
 
-    private async Task<DataAccess.Models.Room> InitializeOrUpdateRoomEntity(string roomId, string roomTitle,
+    private async Task<SavedRoom> InitializeOrUpdateRoomEntity(string roomId, string roomTitle,
         CancellationToken cancellationToken)
     {
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
         var dbRoom = await dbContext
             .RoomInfo
-            .Include(r => r.ParameterValues)
-            .FirstOrDefaultAsync(r => r.Id == roomId, cancellationToken);
+            .Include(savedRoom => savedRoom.ParameterValues)
+            .FirstOrDefaultAsync(savedRoom => savedRoom.Id == roomId, cancellationToken);
 
         if (dbRoom == null)
         {
             Log.Information("Could not find room parameters, inserting...");
 
-            dbRoom = new DataAccess.Models.Room { Id = roomId, Title = roomTitle };
+            dbRoom = new SavedRoom { Id = roomId, Title = roomTitle };
             await dbContext.RoomInfo.AddAsync(dbRoom, cancellationToken);
             Log.Information("Inserted room parameters for {0}", roomId);
         }

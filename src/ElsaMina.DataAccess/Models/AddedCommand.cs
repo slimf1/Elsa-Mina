@@ -10,5 +10,5 @@ public class AddedCommand
     public string Content { get; set; }
     public string Author { get; set; }
     public DateTime CreationDate { get; set; }
-    public Room Room { get; set; }
+    public SavedRoom SavedRoom { get; set; }
 }

@@ -9,7 +9,7 @@ public class SavedPoll
     public int Id { get; set; }
 
     public string RoomId { get; set; }
-    public Room Room { get; set; }
+    public SavedRoom SavedRoom { get; set; }
     public string Content { get; set; }
     public DateTimeOffset EndedAt { get; set; }
 }

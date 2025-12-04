@@ -6,7 +6,7 @@ namespace ElsaMina.DataAccess.Models;
 public class RoomBotParameterValue
 {
     public string RoomId { get; set; }
-    public Room Room { get; set; }
+    public SavedRoom SavedRoom { get; set; }
     public string ParameterId { get; set; }
     public string Value { get; set; }
 }

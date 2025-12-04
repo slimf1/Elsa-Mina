@@ -10,5 +10,10 @@ public class RoomUserConfiguration : IEntityTypeConfiguration<RoomUser>
     {
         builder
             .HasKey(userData => new { userData.Id, userData.RoomId });
+
+        builder
+            .HasOne(roomUser => roomUser.User)
+            .WithMany(savedUser => savedUser.RoomData)
+            .HasForeignKey(roomUser => roomUser.Id);
     }
 }

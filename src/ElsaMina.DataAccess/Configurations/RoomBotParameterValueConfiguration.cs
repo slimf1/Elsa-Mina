@@ -12,7 +12,7 @@ public class RoomBotParameterValueConfiguration : IEntityTypeConfiguration<RoomB
             .HasKey(roomBotParameterValue => new { roomBotParameterValue.RoomId, roomBotParameterValue.ParameterId });
 
         builder
-            .HasOne(roomBotParameterValue => roomBotParameterValue.Room)
+            .HasOne(roomBotParameterValue => roomBotParameterValue.SavedRoom)
             .WithMany(roomsParameters => roomsParameters.ParameterValues)
             .HasForeignKey(roomBotParameterValue => roomBotParameterValue.RoomId);
     }

@@ -9,7 +9,7 @@ public class AddedCommandConfiguration : IEntityTypeConfiguration<AddedCommand>
     public void Configure(EntityTypeBuilder<AddedCommand> builder)
     {
         builder
-            .HasOne(command => command.Room)
+            .HasOne(command => command.SavedRoom)
             .WithMany(room => room.AddedCommands)
             .HasForeignKey(command => command.RoomId);
 
