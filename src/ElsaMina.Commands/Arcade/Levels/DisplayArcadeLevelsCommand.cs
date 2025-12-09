@@ -59,7 +59,7 @@ public class DisplayArcadeLevelsCommand : Command
             }
         }
 
-        var template = await _templatesManager.GetTemplateAsync("Arcade/ArcadeLevels", new ArcadeLevelsViewModel
+        var template = await _templatesManager.GetTemplateAsync("Arcade/Levels/ArcadeLevels", new ArcadeLevelsViewModel
         {
             Culture = context.Culture,
             Levels = levels

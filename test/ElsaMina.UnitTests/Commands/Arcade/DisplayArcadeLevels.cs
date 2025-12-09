@@ -90,14 +90,14 @@ public class DisplayArcadeLevelsCommandTests
             await setupContext.SaveChangesAsync();
         }
 
-        _templatesManager.GetTemplateAsync("Arcade/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
+        _templatesManager.GetTemplateAsync("Arcade/Levels/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
             .Returns("<html>rendered template</html>");
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        await _templatesManager.Received(1).GetTemplateAsync("Arcade/ArcadeLevels",
+        await _templatesManager.Received(1).GetTemplateAsync("Arcade/Levels/ArcadeLevels",
             Arg.Is<ArcadeLevelsViewModel>(vm =>
                 vm.Culture == _context.Culture &&
                 vm.Levels.Count == 1 &&
@@ -127,14 +127,14 @@ public class DisplayArcadeLevelsCommandTests
             await setupContext.SaveChangesAsync();
         }
 
-        _templatesManager.GetTemplateAsync("Arcade/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
+        _templatesManager.GetTemplateAsync("Arcade/Levels/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
             .Returns("<html>template</html>");
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        await _templatesManager.Received(1).GetTemplateAsync("Arcade/ArcadeLevels",
+        await _templatesManager.Received(1).GetTemplateAsync("Arcade/Levels/ArcadeLevels",
             Arg.Is<ArcadeLevelsViewModel>(vm =>
                 vm.Levels.Count == 3 &&
                 vm.Levels[5].Count == 2 &&
@@ -161,14 +161,14 @@ public class DisplayArcadeLevelsCommandTests
             await setupContext.SaveChangesAsync();
         }
 
-        _templatesManager.GetTemplateAsync("Arcade/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
+        _templatesManager.GetTemplateAsync("Arcade/Levels/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
             .Returns("<html>template</html>");
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        await _templatesManager.Received(1).GetTemplateAsync("Arcade/ArcadeLevels",
+        await _templatesManager.Received(1).GetTemplateAsync("Arcade/Levels/ArcadeLevels",
             Arg.Is<ArcadeLevelsViewModel>(vm =>
                 vm.Levels[7].Contains("alice") &&
                 vm.Levels[7].Contains("bob") &&
@@ -189,14 +189,14 @@ public class DisplayArcadeLevelsCommandTests
             await setupContext.ArcadeLevels.AddAsync(level);
             await setupContext.SaveChangesAsync();
         }
-        _templatesManager.GetTemplateAsync("Arcade/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
+        _templatesManager.GetTemplateAsync("Arcade/Levels/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
             .Returns("<html>template</html>");
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        await _templatesManager.Received(1).GetTemplateAsync("Arcade/ArcadeLevels",
+        await _templatesManager.Received(1).GetTemplateAsync("Arcade/Levels/ArcadeLevels",
             Arg.Is<ArcadeLevelsViewModel>(vm => vm.Culture == customCulture));
     }
 
@@ -212,7 +212,7 @@ public class DisplayArcadeLevelsCommandTests
             await setupContext.SaveChangesAsync();
         }
 
-        _templatesManager.GetTemplateAsync("Arcade/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
+        _templatesManager.GetTemplateAsync("Arcade/Levels/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
             .Returns("<html>template without newlines</html>");
 
         // Act
@@ -234,7 +234,7 @@ public class DisplayArcadeLevelsCommandTests
             await setupContext.SaveChangesAsync();
         }
 
-        _templatesManager.GetTemplateAsync("Arcade/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
+        _templatesManager.GetTemplateAsync("Arcade/Levels/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
             .Returns("<html>template</html>");
 
         // Act
@@ -307,14 +307,14 @@ public class DisplayArcadeLevelsCommandTests
             await setupContext.SaveChangesAsync();
         }
 
-        _templatesManager.GetTemplateAsync("Arcade/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
+        _templatesManager.GetTemplateAsync("Arcade/Levels/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>())
             .Returns("<html>template</html>");
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        await _templatesManager.Received(1).GetTemplateAsync("Arcade/ArcadeLevels",
+        await _templatesManager.Received(1).GetTemplateAsync("Arcade/Levels/ArcadeLevels",
             Arg.Is<ArcadeLevelsViewModel>(vm =>
                 vm.Levels.ContainsKey(1) &&
                 vm.Levels.ContainsKey(50) &&
@@ -341,6 +341,6 @@ public class DisplayArcadeLevelsCommandTests
         await _command.RunAsync(_context);
 
         // Assert
-        await _templatesManager.Received(1).GetTemplateAsync("Arcade/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>());
+        await _templatesManager.Received(1).GetTemplateAsync("Arcade/Levels/ArcadeLevels", Arg.Any<ArcadeLevelsViewModel>());
     }
 }
