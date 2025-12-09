@@ -4,7 +4,7 @@ using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess;
 
-namespace ElsaMina.Commands.Arcade;
+namespace ElsaMina.Commands.Arcade.Levels;
 
 [NamedCommand("deletepalier", "removepalier", "removelevel")]
 public class DeleteArcadeLevelCommand : Command

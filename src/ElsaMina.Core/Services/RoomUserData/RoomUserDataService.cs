@@ -24,10 +24,10 @@ public class RoomUserDataService : IRoomUserDataService
 
     public async Task<RoomUser> GetUserData(
         string roomId,
-        string userId,
+        string userName,
         CancellationToken cancellationToken = default)
     {
-        return await GetUserAndCreateIfNotExistsAsync(roomId, userId, cancellationToken);
+        return await GetUserAndCreateIfNotExistsAsync(roomId, userName, cancellationToken);
     }
 
     public async Task InitializeJoinPhrasesAsync(CancellationToken cancellationToken = default)
@@ -46,38 +46,58 @@ public class RoomUserDataService : IRoomUserDataService
 
     private async Task<RoomUser> GetUserAndCreateIfNotExistsAsync(
         string roomId,
-        string userId,
+        string userName,
         CancellationToken cancellationToken = default)
     {
+        var userId = userName.ToLowerAlphaNum();
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+        var roomUser = await dbContext.RoomUsers
+            .Include(roomUser => roomUser.User)
+            .FirstOrDefaultAsync(roomUser => roomUser.Id == userId && roomUser.RoomId == roomId, cancellationToken);
 
-        var existingUser = await dbContext.RoomUsers.FindAsync([userId, roomId], cancellationToken);
-
-        if (existingUser != null)
+        if (roomUser != null)
         {
-            return existingUser;
+            return roomUser;
         }
 
-        var newUser = new RoomUser
+        var user = await dbContext.Users.FindAsync([userId], cancellationToken: cancellationToken);
+        if (user == null)
+        {
+            user = new SavedUser
+            {
+                UserId = userId,
+                UserName = userName
+            };
+            await dbContext.Users.AddAsync(user, cancellationToken);
+        }
+        else if (user.UserName != userName)
+        {
+            user.UserName = userName;
+        }
+
+        var newRoomUser = new RoomUser
         {
             Id = userId,
             RoomId = roomId,
-            PlayTime = TimeSpan.Zero
+            PlayTime = TimeSpan.Zero,
+            User = user
         };
 
-        await dbContext.RoomUsers.AddAsync(newUser, cancellationToken);
+        await dbContext.Users.AddAsync(user, cancellationToken);
+        await dbContext.RoomUsers.AddAsync(newRoomUser, cancellationToken);
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return newUser;
+        return newRoomUser;
     }
 
     public async Task GiveBadgeToUserAsync(
         string roomId,
-        string userId,
+        string userName,
         string badgeId,
         CancellationToken cancellationToken = default)
     {
-        await GetUserAndCreateIfNotExistsAsync(roomId, userId, cancellationToken);
+        var userId = userName.ToLowerAlphaNum();
+        await GetUserAndCreateIfNotExistsAsync(roomId, userName, cancellationToken);
 
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
@@ -94,19 +114,22 @@ public class RoomUserDataService : IRoomUserDataService
 
     public async Task TakeBadgeFromUserAsync(
         string roomId,
-        string userId,
+        string userName,
         string badgeId,
         CancellationToken cancellationToken = default)
     {
+        var userId = userName.ToLowerAlphaNum();
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
         var existing = await dbContext.BadgeHoldings
             .FirstOrDefaultAsync(
-                x => x.BadgeId == badgeId && x.UserId == userId && x.RoomId == roomId,
+                holding => holding.BadgeId == badgeId && holding.UserId == userName && holding.RoomId == roomId,
                 cancellationToken);
 
         if (existing == null)
+        {
             throw new ArgumentException("Badge not found");
+        }
 
         dbContext.BadgeHoldings.Remove(existing);
         await dbContext.SaveChangesAsync(cancellationToken);

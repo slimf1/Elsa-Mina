@@ -22,6 +22,7 @@
     <Project Path="src\ElsaMina.DataAccess\ElsaMina.DataAccess.csproj" Type="Classic C#" />
     <Project Path="src\ElsaMina.FileSharing\ElsaMina.FileSharing.csproj" Type="Classic C#" />
     <Project Path="src\ElsaMina.Logging\ElsaMina.Logging.csproj" Type="Classic C#" />
+    <Project Path="src\ElsaMina.Sheets\ElsaMina.Sheets.csproj" Type="Classic C#" />
   </Folder>
   <Folder Name="/test/">
     <Project Path="test\ElsaMina.IntegrationTests\ElsaMina.IntegrationTests.csproj" Type="Classic C#" />

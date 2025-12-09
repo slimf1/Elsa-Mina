@@ -28,5 +28,6 @@ public interface IConfiguration : IS3CredentialsProvider, ILoggingConfiguration
     string ChatGptApiKey { get; }
     string ElevenLabsApiKey { get; }
     TimeSpan PlayTimeUpdatesInterval { get; }
+    string SheetsAccessAccountCredentialsFile { get; set; }
     IReadOnlyDictionary<string, IEnumerable<string>> TourAnnounces { get; }
 }

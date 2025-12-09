@@ -38,6 +38,7 @@ public class CoreModule : Module
         base.Load(builder);
 
         builder.RegisterModule<DataAccessModule>();
+        builder.RegisterModule<SheetsModule>();
 
         builder.RegisterType<DependencyContainerService>().As<IDependencyContainerService>().SingleInstance();
         builder.RegisterType<HttpService>().As<IHttpService>().SingleInstance();

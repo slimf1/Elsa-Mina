@@ -1,5 +1,6 @@
 using System.Globalization;
 using ElsaMina.Commands.Arcade;
+using ElsaMina.Commands.Arcade.Events;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Resources;

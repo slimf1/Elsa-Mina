@@ -1,11 +1,11 @@
 ﻿using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Globalization;
 using System.Timers;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Rooms.Parameters;
 using ElsaMina.Core.Services.RoomUserData;
+using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.Logging;
@@ -121,9 +121,10 @@ public class RoomsManager : IRoomsManager, IDisposable
         _rooms.Remove(roomId, out _);
     }
 
-    public void AddUserToRoom(string roomId, string username) =>
+    public void AddUserToRoom(string roomId, string username)
+    {
         GetRoom(roomId)?.AddUser(username);
-
+    }
     public void RemoveUserFromRoom(string roomId, string username) =>
         GetRoom(roomId)?.RemoveUser(username);
 

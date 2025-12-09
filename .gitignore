@@ -4,8 +4,9 @@
 # IDE
 .idea
 
-# Crendentials
+# Crendentials (Google)
 credentials.json
+*.client_secrets.json
 
 # Tests results
 *.trx

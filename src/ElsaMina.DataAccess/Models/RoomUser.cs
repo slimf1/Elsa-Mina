@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using JetBrains.Annotations;
 
 namespace ElsaMina.DataAccess.Models;
 
@@ -16,5 +17,6 @@ public class RoomUser
     public TimeSpan PlayTime { get; set; }
     public TournamentRecord TournamentRecord { get; set; }
     public ICollection<BadgeHolding> Badges { get; set; } = new HashSet<BadgeHolding>();
+    [CanBeNull]
     public SavedUser User { get; set; }
 }

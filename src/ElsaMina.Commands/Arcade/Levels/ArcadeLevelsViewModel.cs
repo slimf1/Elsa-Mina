@@ -1,6 +1,6 @@
 using ElsaMina.Core.Templates;
 
-namespace ElsaMina.Commands.Arcade;
+namespace ElsaMina.Commands.Arcade.Levels;
 
 public class ArcadeLevelsViewModel : LocalizableViewModel
 {

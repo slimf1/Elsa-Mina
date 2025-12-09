@@ -5,7 +5,7 @@ using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
 
-namespace ElsaMina.Commands.Arcade;
+namespace ElsaMina.Commands.Arcade.Levels;
 
 [NamedCommand("addpalier", "setpalier")]
 public class SetArcadeLevelCommand : Command

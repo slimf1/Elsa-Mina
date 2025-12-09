@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace ElsaMina.Commands.Arcade;
+namespace ElsaMina.Commands.Arcade.Events;
 
 public class ArcadeEventWebhookBody
 {

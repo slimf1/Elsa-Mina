@@ -5,6 +5,8 @@ using ElsaMina.Commands.Ai.LanguageModel.Mistral;
 using ElsaMina.Commands.Ai.LanguageModel.OpenAi;
 using ElsaMina.Commands.Ai.TextToSpeech;
 using ElsaMina.Commands.Arcade;
+using ElsaMina.Commands.Arcade.Events;
+using ElsaMina.Commands.Arcade.Levels;
 using ElsaMina.Commands.Badges;
 using ElsaMina.Commands.Badges.BadgeDisplay;
 using ElsaMina.Commands.Badges.BadgeHolders;

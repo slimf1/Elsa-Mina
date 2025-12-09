@@ -9,7 +9,7 @@
     <ItemGroup>
         <PackageReference Include="Autofac" Version="8.2.0"/>
         <PackageReference Include="NCalcSync" Version="5.4.1"/>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.4"/>
         <PackageReference Include="RazorLight" Version="2.3.1"/>
         <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12"/>
         <PackageReference Include="Websocket.Client" Version="5.1.2"/>
@@ -19,6 +19,7 @@
         <ProjectReference Include="..\ElsaMina.DataAccess\ElsaMina.DataAccess.csproj"/>
         <ProjectReference Include="..\ElsaMina.FileSharing\ElsaMina.FileSharing.csproj"/>
         <ProjectReference Include="..\ElsaMina.Logging\ElsaMina.Logging.csproj" />
+        <ProjectReference Include="..\ElsaMina.Sheets\ElsaMina.Sheets.csproj" />
     </ItemGroup>
 
     <ItemGroup>

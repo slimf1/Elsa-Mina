@@ -8,7 +8,7 @@ using ElsaMina.DataAccess.Models;
 using ElsaMina.Logging;
 using Microsoft.EntityFrameworkCore;
 
-namespace ElsaMina.Commands.Arcade;
+namespace ElsaMina.Commands.Arcade.Levels;
 
 [NamedCommand("displaypaliers", "displaypalier", "paliers", "arcadelevels")]
 public class DisplayArcadeLevelsCommand : Command

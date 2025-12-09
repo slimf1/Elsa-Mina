@@ -1,4 +1,5 @@
-﻿using ElsaMina.Core.Services.Http;
+﻿using System.Collections.Concurrent;
+using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Utils;
 using ElsaMina.Logging;
 
@@ -8,7 +9,7 @@ public class UserDataService : IUserDataService
 {
     private const string USER_DATA_URL = "https://pokemonshowdown.com/users/{0}.json";
 
-    private readonly Dictionary<string, UserDataDto> _userDataCache = new();
+    private readonly ConcurrentDictionary<string, UserDataDto> _userDataCache = new();
 
     private readonly IHttpService _httpService;
 

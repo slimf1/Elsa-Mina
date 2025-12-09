@@ -25,6 +25,7 @@ public class Configuration : IConfiguration
     public string ChatGptApiKey { get; set; }
     public string ElevenLabsApiKey { get; set; }
     public TimeSpan PlayTimeUpdatesInterval { get; set; }
+    public string SheetsAccessAccountCredentialsFile { get; set; }
     public IReadOnlyDictionary<string, IEnumerable<string>> TourAnnounces { get; set; }
     public string S3BucketName { get; set; } = string.Empty;
     public string S3EndpointUrl { get; set; } = string.Empty;

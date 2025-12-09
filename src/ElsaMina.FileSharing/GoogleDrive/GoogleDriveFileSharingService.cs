@@ -7,7 +7,7 @@ namespace ElsaMina.FileSharing.GoogleDrive;
 public class GoogleDriveFileSharingService : IFileSharingService
 {
     private static readonly string[] SCOPES = [DriveService.Scope.Drive];
-    private const string CREDENTIALS_FILE = "credentials.json";
+    private const string CREDENTIALS_FILE = "credentials.json"; // TODO : laisser le client en décider (cf sheets)
 
     private DriveService? _driveService;
     private bool _disposed;

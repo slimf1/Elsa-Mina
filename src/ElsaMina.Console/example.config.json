@@ -30,6 +30,7 @@
   "LokiUrl": "",
   "LoginUser": "",
   "LokiApiKey": "",
+  "SheetsAccessAccountCredentialsFile": "",
   "TourAnnounces": {
     "": [""]
   }
