@@ -72,6 +72,7 @@ jobs:
               cd ./ElsaV2/output
               echo "Writing config file"
               echo "$CONFIG_FILE" > config.json
+              echo "$SERVICE_ACCOUNT_CREDENTIALS" > service_account.client_secrets.json
               echo "Killing existing instances of ElsaMina.Console"
               pkill -x ElsaMina.Console || true
               sleep 1
