@@ -1,0 +1,65 @@
+@using ElsaMina.Core.Utils
+@inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Arcade.Sheets.ArcadeHallOfFameViewModel>
+
+@{
+    const string tableStyle = "border-collapse: collapse; width: 100%;";
+    const string tdthStyle = "border: 1px solid #68A; text-align: left; padding: 4px;";
+    const string headerRowStyle = "border: 1px solid #68A; text-align: center; padding: 0px; height: 1px; background-color: rgba(102,136,170,0.45); font-style: italic;";
+    const string headerStyle = "border: 1px solid #68A; text-align: center;";
+}
+
+<div style="max-height:196px; overflow-y:auto">
+    <h4>Arcade's Hall of Fame</h4>
+    <table style="@tableStyle">
+        <thead>
+        <tr style="@headerRowStyle">
+            <th style="@headerStyle">Rang</th>
+            <th style="@headerStyle">Pseudo</th>
+            <th style="@headerStyle">Points</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for (var i = 0; i < Model.Entries.Length; i++)
+        {
+            var entry = Model.Entries[i];
+            if (string.IsNullOrEmpty(entry.UserName)) continue;
+
+            var bgColor = i % 2 == 0 ? "background-color: rgba(102,136,170,0.21);" : "";
+            var rankColor = entry.Rank switch
+            {
+                1 => "#D4AF37",
+                2 => "#C4CACE",
+                3 => "#CD7F32",
+                _ => ""
+            };
+            <tr style="@($"{tdthStyle}{bgColor}")">
+                <td style="@tdthStyle">
+                    @if (!string.IsNullOrEmpty(rankColor))
+                    {
+                        <b style="color:@rankColor">#@entry.Rank</b>
+                    }
+                    else
+                    {
+                        <b>#@entry.Rank</b>
+                    }
+                </td>
+                <td style="@tdthStyle">
+                    <span class="username" data-name="@entry.UserName" style="color:@entry.UserName.ToColorHexCodeWithCustoms()">
+                        @entry.UserName
+                    </span>
+                </td>
+                <td style="@tdthStyle">
+                    @if (entry.Points >= 50)
+                    {
+                        <b>@entry.Points points</b>
+                    }
+                    else
+                    {
+                        @entry.Points
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

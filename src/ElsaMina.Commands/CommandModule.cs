@@ -7,6 +7,7 @@ using ElsaMina.Commands.Ai.TextToSpeech;
 using ElsaMina.Commands.Arcade;
 using ElsaMina.Commands.Arcade.Events;
 using ElsaMina.Commands.Arcade.Levels;
+using ElsaMina.Commands.Arcade.Sheets;
 using ElsaMina.Commands.Badges;
 using ElsaMina.Commands.Badges.BadgeDisplay;
 using ElsaMina.Commands.Badges.BadgeHolders;
@@ -121,6 +122,7 @@ public class CommandModule : Module
         builder.RegisterCommand<BadgeHoldersCommand>();
         builder.RegisterCommand<HallOfFameCommand>();
         builder.RegisterCommand<GeniusSearchCommand>();
+        builder.RegisterCommand<ArcadeHallOfFameCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();
