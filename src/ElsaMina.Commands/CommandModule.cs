@@ -67,9 +67,6 @@ public class CommandModule : Module
         builder.RegisterCommand<RoomConfigCommand>();
         builder.RegisterCommand<KillCommand>();
         builder.RegisterCommand<StopConnectionCommand>();
-#if DEBUG
-        builder.RegisterCommand<ScriptCommand>();
-#endif
         builder.RegisterCommand<DeleteCustomCommand>();
         builder.RegisterCommand<EditCustomCommand>();
         builder.RegisterCommand<TemplatesDebugCommand>();
