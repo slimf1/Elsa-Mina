@@ -5,11 +5,10 @@ using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
-using ElsaMina.Core.Services.Rooms.Parameters;
 
 namespace ElsaMina.Commands.Teams.Tournaments;
 
-public class OtherRoomTournamentAnnounceHandler : Handler
+public class OtherRoomTournamentAnnounceHandler : Handler // TODO : unit test ^^
 {
     private readonly IConfiguration _configuration;
     private readonly IBot _bot;
@@ -46,8 +45,9 @@ public class OtherRoomTournamentAnnounceHandler : Handler
             foreach (var receivingRoomId in receivingRoomsIds)
             {
                 var room = _roomsManager.GetRoom(receivingRoomId);
+                var culture = room?.Culture ?? new CultureInfo(_configuration.DefaultLocaleCode);
                 var message = string.Format(
-                    _resourcesService.GetString("tour_announce_message", room.Culture),
+                    _resourcesService.GetString("tour_announce_message", culture),
                     format,
                     broadcastingRoomId);
                 _bot.Say(receivingRoomId, message);
