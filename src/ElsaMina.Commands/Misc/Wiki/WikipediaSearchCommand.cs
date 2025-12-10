@@ -1,9 +1,9 @@
-using System.Web;
 using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Images;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.Misc.Wiki;
 
@@ -11,6 +11,7 @@ namespace ElsaMina.Commands.Misc.Wiki;
 public class WikipediaSearchCommand : Command
 {
     private const string WIKIPEDIA_API_URL = "https://{0}.wikipedia.org/w/api.php";
+    private const int MAX_EXTRACT_LENGTH = 1000;
 
     private readonly IHttpService _httpService;
     private readonly IImageService _imageService;
@@ -44,7 +45,7 @@ public class WikipediaSearchCommand : Command
                 return;
             }
 
-            var line = pageData.Extract?.Split('\n').FirstOrDefault() ?? string.Empty;
+            var extract = pageData.Extract.Shorten(MAX_EXTRACT_LENGTH);
             var imageTag = string.Empty;
             var thumbnail = pageData.Thumbnail;
             if (thumbnail != null)
@@ -56,7 +57,7 @@ public class WikipediaSearchCommand : Command
             }
 
             var box =
-                $"""{imageTag}{line} <a href="https://{languageCode}.wikipedia.org/wiki/{page.Title}">{page.Title}</a><br>""";
+                $"""{imageTag}{extract} <a href="https://{languageCode}.wikipedia.org/wiki/{page.Title}">{page.Title}</a><br>""";
             context.ReplyHtml(box, rankAware: true);
         }
         catch (Exception ex)
@@ -93,7 +94,7 @@ public class WikipediaSearchCommand : Command
         {
             ["action"] = "query",
             ["generator"] = "search",
-            ["gsrsearch"] = HttpUtility.UrlEncode(searchTerms),
+            ["gsrsearch"] = searchTerms,
             ["prop"] = "pageprops",
             ["format"] = "json"
         };
