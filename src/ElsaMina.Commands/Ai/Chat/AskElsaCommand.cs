@@ -41,7 +41,7 @@ public class AskElsaCommand : Command
             context.Sender.Name,
             _configuration.Name,
             room.Name,
-            string.Join(", ", room.LastMessages.Select(pair => $"{pair.Item1}: {pair.Item2}")));
+            string.Join("\n", room.LastMessages.Select(pair => $"{pair.Item1[1..]}: {pair.Item2}")));
 
         var response = await _languageModelProvider.AskLanguageModelAsync(prompt, cancellationToken);
         if (response == null)

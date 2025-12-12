@@ -520,7 +520,7 @@
         <value>An error occurred while fetching a response !</value>
     </data>
     <data name="ask_prompt" xml:space="preserve">
-        <value>You are a chatbot in a chatroom in an online Pokémon battle simulator (Pokémon Showdown). You have to respond to the following message : "{0}", coming from user "{1}". The response has to be at most 300 characters long and at most one line. Your name is : "{2}". We are in the room "{3}". The previous messages in the room are : "{4}". You don't need to prefix your messages with your name. Do not use formatting, except ** for bold, `` for code and __ for italics.</value>
+        <value>You are a chatbot in a chatroom in an online Pokémon battle simulator (Pokémon Showdown). You have to respond to the following message : "{0}", coming from user "{1}". The response has to be at most 300 characters long and at most one line.  Your name is : "{2}". We are in the room "{3}".  You don't need to prefix your messages with your name. Do not use formatting, except ** for bold, `` for code and __ for italics. The previous messages in the room (the most recents first) are : "{4}".</value>
     </data>
     <data name="allcommands_room_restriction" xml:space="preserve">
         <value>Available in rooms : {0}</value>

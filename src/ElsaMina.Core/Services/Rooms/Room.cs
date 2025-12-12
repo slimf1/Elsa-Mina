@@ -8,7 +8,7 @@ namespace ElsaMina.Core.Services.Rooms;
 
 public class Room : IRoom
 {
-    private const int MESSAGE_QUEUE_LENGTH = 8;
+    private const int MESSAGE_QUEUE_LENGTH = 12;
 
     private readonly ConcurrentDictionary<string, DateTime> _joinDateTimes = [];
     private readonly ConcurrentDictionary<string, TimeSpan> _pendingPlayTimeUpdates = [];
@@ -46,7 +46,7 @@ public class Room : IRoom
     public void UpdateMessageQueue(string user, string message)
     {
         _lastMessages.Enqueue(Tuple.Create(user, message));
-        if (_lastMessages.Count == MESSAGE_QUEUE_LENGTH)
+        while (_lastMessages.Count > MESSAGE_QUEUE_LENGTH)
         {
             _lastMessages.Dequeue();
         }

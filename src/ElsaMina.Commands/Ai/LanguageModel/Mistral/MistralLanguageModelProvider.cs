@@ -46,6 +46,7 @@ public class MistralLanguageModelProvider : ILanguageModelProvider
             ]
         };
 
+        Log.Information("Making request to Mistral with prompt: {0}", prompt);
         var response = await _httpService.PostJsonAsync<MistralRequestDto, MistralResponseDto>(
             MISTRAL_AUTOCOMPLETE_API_URL,
             dto,

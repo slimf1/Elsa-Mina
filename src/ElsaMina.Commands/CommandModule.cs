@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using ElsaMina.Commands.Ai.Chat;
 using ElsaMina.Commands.Ai.LanguageModel;
+using ElsaMina.Commands.Ai.LanguageModel.Google;
 using ElsaMina.Commands.Ai.LanguageModel.Mistral;
 using ElsaMina.Commands.Ai.LanguageModel.OpenAi;
 using ElsaMina.Commands.Ai.TextToSpeech;
@@ -57,6 +58,9 @@ public class CommandModule : Module
     protected override void Load(ContainerBuilder builder)
     {
         base.Load(builder);
+#if DEBUG
+        builder.RegisterCommand<ScriptCommand>();
+#endif
         builder.RegisterCommand<Ping>();
         builder.RegisterCommand<AddCustomCommand>();
         builder.RegisterCommand<CustomCommandList>();
@@ -140,7 +144,8 @@ public class CommandModule : Module
 
         builder.RegisterType<ElevenLabsAiTextToSpeechProvider>().As<IAiTextToSpeechProvider>().SingleInstance();
         //builder.RegisterType<MistralLanguageModelProvider>().As<ILanguageModelProvider>().SingleInstance();
-        builder.RegisterType<GptLanguageModelProvider>().As<ILanguageModelProvider>().SingleInstance();
+        //builder.RegisterType<GptLanguageModelProvider>().As<ILanguageModelProvider>().SingleInstance();
+        builder.RegisterType<GeminiLanguageModelProvider>().As<ILanguageModelProvider>().SingleInstance();
         builder.RegisterType<ShowdownRanksProvider>().As<IShowdownRanksProvider>().SingleInstance();
         builder.RegisterType<PokepasteProvider>().As<ITeamProvider>().SingleInstance();
         builder.RegisterType<CoupCritiqueProvider>().As<ITeamProvider>().SingleInstance();

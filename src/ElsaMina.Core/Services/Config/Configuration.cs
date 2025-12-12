@@ -23,6 +23,7 @@ public class Configuration : IConfiguration
     public string ArcadeWebhookUrl { get; set; }
     public string MistralApiKey { get; set; }
     public string ChatGptApiKey { get; set; }
+    public string GeminiApiKey { get; set; }
     public string ElevenLabsApiKey { get; set; }
     public TimeSpan PlayTimeUpdatesInterval { get; set; }
     public string SheetsAccessAccountCredentialsFile { get; set; }

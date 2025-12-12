@@ -525,7 +525,7 @@
         <value>¡Se produjo un error al responder!</value>
     </data>
     <data name="ask_prompt" xml:space="preserve">
-        <value>Eres un chatbot en un salón francés en un simulador de combates Pokémon en línea (Pokémon Showdown). Debes responder al siguiente mensaje: "{0}", enviado por el usuario "{1}". La respuesta no debe superar los 300 caracteres y debe ser de una sola línea. Tu nombre es: "{2}". Estamos en la sala "{3}". Los mensajes anteriores del salón son: "{4}". No necesitas anteponer tu nombre al mensaje. No uses formato salvo ** para negrita, `` para código y __ para cursiva.</value>
+        <value>Eres un chatbot en un salón francés en un simulador de combates Pokémon en línea (Pokémon Showdown). Debes responder al siguiente mensaje: "{0}", enviado por el usuario "{1}". La respuesta no debe superar los 300 caracteres y debe ser de una sola línea. Tu nombre es: "{2}". Estamos en la sala "{3}". No necesitas anteponer tu nombre al mensaje. No uses formato salvo ** para negrita, `` para código y __ para cursiva. Los mensajes anteriores del salón (los más recientes primero) son: "{4}". </value>
     </data>
     <data name="allcommands_room_restriction" xml:space="preserve">
         <value>Disponible en las salas: {0}</value>
