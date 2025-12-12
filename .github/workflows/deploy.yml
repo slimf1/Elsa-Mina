@@ -74,7 +74,7 @@ jobs:
             echo "$CONFIG_FILE" > config.json
             echo "$SERVICE_ACCOUNT_CREDENTIALS" > service_account.client_secrets.json
             echo "Killing existing instances of ElsaMina.Console"
-            pkill -f ElsaMina.Console || true
+            pkill -f ElsaMina.Console 2>/dev/null || true
             sleep 1
             echo "Setting permissions"
             chmod u+x ElsaMina.Console
