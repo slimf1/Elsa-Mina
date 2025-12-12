@@ -73,8 +73,9 @@ jobs:
             echo "Writing config file"
             echo "$CONFIG_FILE" > config.json
             echo "$SERVICE_ACCOUNT_CREDENTIALS" > service_account.client_secrets.json
-            echo "Killing existing instances of ElsaMina.Console"
+            echo "Checking existing instances of ElsaMina.Console"
             if pgrep -f ElsaMina.Console > /dev/null; then
+              echo "Killing existing instances of ElsaMina.Console"
               pkill -f ElsaMina.Console
             fi
             sleep 1
