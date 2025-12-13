@@ -1,17 +1,17 @@
-﻿FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-
+﻿FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /app
 
 COPY *.sln .
-
 COPY scripts/*.sh /app/scripts/
-COPY src/ElsaMina.Console/*.csproj /app/src/ElsaMina.Console/
-COPY src/ElsaMina.Core/*.csproj /app/src/ElsaMina.Core/
-COPY src/ElsaMina.Commands/*.csproj /app/src/ElsaMina.Commands/
-COPY src/ElsaMina.DataAccess/*.csproj /app/src/ElsaMina.DataAccess/
-COPY test/ElsaMina.Test/*.csproj /app/test/ElsaMina.Test/
-COPY test/ElsaMina.IntegrationTests/*.csproj /app/test/ElsaMina.IntegrationTests/
-RUN dotnet restore
+COPY src/ElsaMina.Console/*.csproj src/ElsaMina.Console/
+COPY src/ElsaMina.Core/*.csproj src/ElsaMina.Core/
+COPY src/ElsaMina.Commands/*.csproj src/ElsaMina.Commands/
+COPY src/ElsaMina.DataAccess/*.csproj src/ElsaMina.DataAccess/
+COPY src/ElsaMina.FileSharing/*.csproj src/ElsaMina.FileSharing/
+COPY src/ElsaMina.Logging/*.csproj src/ElsaMina.Logging/
+COPY src/ElsaMina.Sheets/*.csproj src/ElsaMina.Sheets/
+COPY test/ElsaMina.UnitTests/*.csproj test/ElsaMina.UnitTests/
+COPY test/ElsaMina.IntegrationTests/*.csproj test/ElsaMina.IntegrationTests/
 
 COPY . .
 
@@ -20,10 +20,7 @@ RUN /app/scripts/restore.sh
 RUN /app/scripts/build.sh
 RUN /app/scripts/publish.sh
 
-FROM mcr.microsoft.com/dotnet/runtime:9.0 AS runtime
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS aspnet
-
-COPY --from=build /app/dist .
-
-ENV ELSA_MINA_ENV="prod"
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
+WORKDIR /app
+COPY --from=build /app/output .
 ENTRYPOINT ["dotnet", "ElsaMina.Console.dll"]
