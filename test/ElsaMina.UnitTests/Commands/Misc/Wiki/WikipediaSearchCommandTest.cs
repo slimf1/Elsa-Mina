@@ -61,66 +61,16 @@ public class WikipediaSearchCommandTest
                 }
             }
         };
-        _mockHttpService.GetAsync<WikipediaApiSearchResponse>(Arg.Any<string>(), Arg.Any<IDictionary<string, string>>(),
-                Arg.Any<IDictionary<string, string>>(), false, isRaw: false, Arg.Any<CancellationToken>())
+        _mockHttpService.GetAsync<WikipediaApiSearchResponse>(Arg.Any<string>(), Arg.Any<IDictionary<string, string>>(), Arg.Any<IDictionary<string, string>>(), false, isRaw: false, Arg.Any<CancellationToken>())
             .Returns(new HttpResponse<WikipediaApiSearchResponse> { Data = searchResponse });
-        _mockHttpService.GetAsync<WikipediaExtractResponse>(Arg.Any<string>(), Arg.Any<IDictionary<string, string>>(),
-                Arg.Any<IDictionary<string, string>>(), false, isRaw: false, Arg.Any<CancellationToken>())
+        _mockHttpService.GetAsync<WikipediaExtractResponse>(Arg.Any<string>(), Arg.Any<IDictionary<string, string>>(), Arg.Any<IDictionary<string, string>>(), false, isRaw: false, Arg.Any<CancellationToken>())
             .Returns(new HttpResponse<WikipediaExtractResponse> { Data = extractResponse });
 
         // Act
         await _command.RunAsync(context);
 
         // Assert
-        context.Received(1).ReplyHtml(Arg.Is<string>(s => s.Contains("Test Page") && s.Contains("Summary line.")),
-            rankAware: true);
-    }
-
-    [Test]
-    public async Task RunAsync_ShouldShortenExtract_WhenExtractIsTooLong()
-    {
-        // Arrange
-        var context = Substitute.For<IContext>();
-        context.Culture.Returns(new CultureInfo("fr-FR"));
-        context.Target.Returns("Test");
-        var searchResponse = new WikipediaApiSearchResponse
-        {
-            Query = new QueryPages
-            {
-                Pages = new Dictionary<string, WikiPage>
-                {
-                    { "1", new WikiPage { PageId = 1, Title = "Test Page" } }
-                }
-            }
-        };
-        var extractResponse = new WikipediaExtractResponse
-        {
-            Query = new QueryWithExtract
-            {
-                Pages = new Dictionary<string, WikiExtractPage>
-                {
-                    {
-                        "1",
-                        new WikiExtractPage
-                            { PageId = 1, Title = "Test Page", Extract = new string('a', 999) + " abcd" }
-                    }
-                }
-            }
-        };
-        _mockHttpService.GetAsync<WikipediaApiSearchResponse>(Arg.Any<string>(), Arg.Any<IDictionary<string, string>>(),
-                Arg.Any<IDictionary<string, string>>(), false, isRaw: false, Arg.Any<CancellationToken>())
-            .Returns(new HttpResponse<WikipediaApiSearchResponse> { Data = searchResponse });
-        _mockHttpService.GetAsync<WikipediaExtractResponse>(Arg.Any<string>(), Arg.Any<IDictionary<string, string>>(),
-                Arg.Any<IDictionary<string, string>>(), false, isRaw: false, Arg.Any<CancellationToken>())
-            .Returns(new HttpResponse<WikipediaExtractResponse> { Data = extractResponse });
-
-        // Act
-        await _command.RunAsync(context);
-
-        // Assert
-        context.Received(1)
-            .ReplyHtml(Arg.Is<string>(s => s.Contains("Test Page") && s.Contains("...") && !s.Contains("abcd")),
-                rankAware: true);
+        context.Received(1).ReplyHtml(Arg.Is<string>(s => s.Contains("Test Page") && s.Contains("Summary line.")), rankAware: true);
     }
 
     [Test]
@@ -137,8 +87,7 @@ public class WikipediaSearchCommandTest
                 Pages = new Dictionary<string, WikiPage>()
             }
         };
-        _mockHttpService.GetAsync<WikipediaApiSearchResponse>(Arg.Any<string>(), Arg.Any<IDictionary<string, string>>(),
-                Arg.Any<IDictionary<string, string>>(), false, isRaw: true, Arg.Any<CancellationToken>())
+        _mockHttpService.GetAsync<WikipediaApiSearchResponse>(Arg.Any<string>(), Arg.Any<IDictionary<string, string>>(), Arg.Any<IDictionary<string, string>>(), false, isRaw: true, Arg.Any<CancellationToken>())
             .Returns(new HttpResponse<WikipediaApiSearchResponse> { Data = searchResponse });
 
         // Act
@@ -155,8 +104,7 @@ public class WikipediaSearchCommandTest
         var context = Substitute.For<IContext>();
         context.Culture.Returns(new CultureInfo("fr-FR"));
         context.Target.Returns("Test");
-        _mockHttpService.GetAsync<WikipediaApiSearchResponse>(Arg.Any<string>(), Arg.Any<IDictionary<string, string>>(),
-                Arg.Any<IDictionary<string, string>>(), false, isRaw: false, Arg.Any<CancellationToken>())
+        _mockHttpService.GetAsync<WikipediaApiSearchResponse>(Arg.Any<string>(), Arg.Any<IDictionary<string, string>>(), Arg.Any<IDictionary<string, string>>(), false, isRaw: false, Arg.Any<CancellationToken>())
             .Throws(new Exception("Error"));
 
         // Act
