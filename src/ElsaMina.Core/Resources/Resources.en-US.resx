@@ -759,4 +759,7 @@
     <data name="genius_link" xml:space="preserve">
         <value>Read lyrics on Genius</value>
     </data>
+    <data name="genius_not_found" xml:space="preserve">
+        <value>Could not find any song from those lyrics or keywords.</value>
+    </data>
 </root>

@@ -1526,5 +1526,11 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("genius_link", resourceCulture);
             }
         }
+        
+        internal static string genius_not_found {
+            get {
+                return ResourceManager.GetString("genius_not_found", resourceCulture);
+            }
+        }
     }
 }

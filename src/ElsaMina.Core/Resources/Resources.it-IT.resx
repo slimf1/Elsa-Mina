@@ -764,4 +764,7 @@
         <data name="genius_link" xml:space="preserve">
         <value>Leggi i testi su Genius</value>
     </data>
+    <data name="genius_not_found" xml:space="preserve">
+        <value>Impossibile trovare una canzone a partire da quei testi o da quelle parole chiave.</value>
+    </data>
 </root>

@@ -759,4 +759,7 @@
     <data name="genius_link" xml:space="preserve">
         <value>Lire les paroles sur Genius</value>
     </data>
+    <data name="genius_not_found" xml:space="preserve">
+        <value>Impossible de trouver une chanson à partir de ces paroles ou de ces mots-clés.</value>
+    </data>
 </root>

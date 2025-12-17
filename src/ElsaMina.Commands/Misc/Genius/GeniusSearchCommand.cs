@@ -68,7 +68,7 @@ public class GeniusSearchCommand : Command
 
             if (mostViewedHit == null)
             {
-                context.Reply("not found");
+                context.ReplyLocalizedMessage("genius_not_found");
                 return;
             }
 
