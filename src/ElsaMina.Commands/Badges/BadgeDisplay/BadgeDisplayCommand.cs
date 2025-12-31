@@ -28,8 +28,10 @@ public class BadgeDisplayCommand : Command
         var badgeId = context.Target.ToLowerAlphaNum();
         var badge = await dbContext.Badges
             .Include(badge => badge.BadgeHolders)
+            .ThenInclude(badgeHolding => badgeHolding.RoomUser)
+            .ThenInclude(roomUser => roomUser.User)
             .Where(badge => badge.RoomId == context.RoomId && badge.Id == badgeId)
-            .FirstOrDefaultAsync(cancellationToken);
+            .SingleOrDefaultAsync(cancellationToken);
 
         if (badge == null)
         {
@@ -37,10 +39,13 @@ public class BadgeDisplayCommand : Command
             return;
         }
 
+        var badgeHolders = badge.BadgeHolders
+            .Select(holder => holder.RoomUser?.User?.UserName ?? holder.UserId)
+            .ToArray();
         var viewModel = new BadgeDisplayViewModel
         {
             DisplayedBadge = badge,
-            BadgeHolders = badge.BadgeHolders.Select(holding => holding.UserId).ToArray(),
+            BadgeHolders = badgeHolders,
             Culture = context.Culture
         };
         var template = await _templatesManager.GetTemplateAsync("Badges/BadgeDisplay/BadgeDisplay", viewModel);

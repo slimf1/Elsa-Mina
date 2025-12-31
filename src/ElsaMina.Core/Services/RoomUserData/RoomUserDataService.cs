@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using ElsaMina.Core.Handlers.DefaultHandlers.Rooms;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
@@ -12,22 +13,24 @@ public class RoomUserDataService : IRoomUserDataService
     private const int JOIN_PHRASE_MAX_LENGTH = 300;
 
     private readonly IBotDbContextFactory _dbContextFactory;
+    private readonly IUserSaveQueue _userSaveQueue;
 
     private readonly ConcurrentDictionary<Tuple<string, string>, string> _joinPhrases = new();
 
-    public RoomUserDataService(IBotDbContextFactory dbContextFactory)
+    public RoomUserDataService(IBotDbContextFactory dbContextFactory, IUserSaveQueue userSaveQueue)
     {
         _dbContextFactory = dbContextFactory;
+        _userSaveQueue = userSaveQueue;
     }
 
     public IReadOnlyDictionary<Tuple<string, string>, string> JoinPhrases => _joinPhrases;
 
     public async Task<RoomUser> GetUserData(
         string roomId,
-        string userName,
+        string userId,
         CancellationToken cancellationToken = default)
     {
-        return await GetUserAndCreateIfNotExistsAsync(roomId, userName, cancellationToken);
+        return await GetUserAndCreateIfNotExistsAsync(roomId, userId, cancellationToken);
     }
 
     public async Task InitializeJoinPhrasesAsync(CancellationToken cancellationToken = default)
@@ -46,13 +49,11 @@ public class RoomUserDataService : IRoomUserDataService
 
     private async Task<RoomUser> GetUserAndCreateIfNotExistsAsync(
         string roomId,
-        string userName,
+        string userId,
         CancellationToken cancellationToken = default)
     {
-        var userId = userName.ToLowerAlphaNum();
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
         var roomUser = await dbContext.RoomUsers
-            .Include(roomUser => roomUser.User)
             .FirstOrDefaultAsync(roomUser => roomUser.Id == userId && roomUser.RoomId == roomId, cancellationToken);
 
         if (roomUser != null)
@@ -63,16 +64,14 @@ public class RoomUserDataService : IRoomUserDataService
         var user = await dbContext.Users.FindAsync([userId], cancellationToken: cancellationToken);
         if (user == null)
         {
+            // S'assurer que toutes les sauvegardes en attente sont finies avant de créer un nouvel user
+            await _userSaveQueue.WaitForFlushAsync(cancellationToken);
             user = new SavedUser
             {
                 UserId = userId,
-                UserName = userName
+                UserName = userId
             };
             await dbContext.Users.AddAsync(user, cancellationToken);
-        }
-        else if (user.UserName != userName)
-        {
-            user.UserName = userName;
         }
 
         var newRoomUser = new RoomUser
@@ -83,7 +82,6 @@ public class RoomUserDataService : IRoomUserDataService
             User = user
         };
 
-        await dbContext.Users.AddAsync(user, cancellationToken);
         await dbContext.RoomUsers.AddAsync(newRoomUser, cancellationToken);
         await dbContext.SaveChangesAsync(cancellationToken);
 
@@ -92,12 +90,11 @@ public class RoomUserDataService : IRoomUserDataService
 
     public async Task GiveBadgeToUserAsync(
         string roomId,
-        string userName,
+        string userId,
         string badgeId,
         CancellationToken cancellationToken = default)
     {
-        var userId = userName.ToLowerAlphaNum();
-        await GetUserAndCreateIfNotExistsAsync(roomId, userName, cancellationToken);
+        await GetUserAndCreateIfNotExistsAsync(roomId, userId, cancellationToken);
 
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
@@ -114,16 +111,15 @@ public class RoomUserDataService : IRoomUserDataService
 
     public async Task TakeBadgeFromUserAsync(
         string roomId,
-        string userName,
+        string userId,
         string badgeId,
         CancellationToken cancellationToken = default)
     {
-        var userId = userName.ToLowerAlphaNum();
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
         var existing = await dbContext.BadgeHoldings
             .FirstOrDefaultAsync(
-                holding => holding.BadgeId == badgeId && holding.UserId == userName && holding.RoomId == roomId,
+                holding => holding.BadgeId == badgeId && holding.UserId == userId && holding.RoomId == roomId,
                 cancellationToken);
 
         if (existing == null)

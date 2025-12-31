@@ -28,6 +28,8 @@ public class Configuration : IConfiguration
     public TimeSpan PlayTimeUpdatesInterval { get; set; }
     public string SheetsAccessAccountCredentialsFile { get; set; }
     public IReadOnlyDictionary<string, IEnumerable<string>> TourAnnounces { get; set; }
+    public int UserUpdateBatchSize { get; set; }
+    public TimeSpan UserUpdateFlushInterval { get; set; }
     public string S3BucketName { get; set; } = string.Empty;
     public string S3EndpointUrl { get; set; } = string.Empty;
     public string S3AccessKey { get; set; } = string.Empty;

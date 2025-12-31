@@ -14,7 +14,6 @@ public class SavedUserConfiguration : IEntityTypeConfiguration<SavedUser>
         builder
             .HasMany(user => user.RoomData)
             .WithOne(roomUser => roomUser.User)
-            .HasForeignKey(roomUser => roomUser.Id)
-            .IsRequired(false);
+            .HasForeignKey(roomUser => roomUser.Id);
     }
 }

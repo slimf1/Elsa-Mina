@@ -6,6 +6,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ElsaMina.Core.Handlers.DefaultHandlers.Rooms;
 using NSubstitute;
 
 namespace ElsaMina.UnitTests.Core.Services.RoomUserData;
@@ -16,6 +17,7 @@ public class RoomUserDataServiceTest
     private RoomUserDataService _service;
     private IBotDbContextFactory _dbContextFactory;
     private DbContextOptions<BotDbContext> _options;
+    private IUserSaveQueue _userSaveQueue;
 
     [SetUp]
     public void SetUp()
@@ -37,7 +39,8 @@ public class RoomUserDataServiceTest
                 return Task.FromResult(freshContext);
             });
 
-        _service = new RoomUserDataService(_dbContextFactory);
+        _userSaveQueue = Substitute.For<IUserSaveQueue>();
+        _service = new RoomUserDataService(_dbContextFactory, _userSaveQueue);
     }
 
     [TearDown]

@@ -14,7 +14,6 @@ public class RoomUserConfiguration : IEntityTypeConfiguration<RoomUser>
         builder
             .HasOne(roomUser => roomUser.User)
             .WithMany(savedUser => savedUser.RoomData)
-            .HasForeignKey(roomUser => roomUser.Id)
-            .IsRequired(false);
+            .HasForeignKey(roomUser => roomUser.Id);
     }
 }

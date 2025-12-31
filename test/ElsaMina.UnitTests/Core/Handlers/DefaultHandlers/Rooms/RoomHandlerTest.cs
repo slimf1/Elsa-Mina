@@ -1,19 +1,21 @@
-using ElsaMina.Core.Handlers.DefaultHandlers;
+using ElsaMina.Core.Handlers.DefaultHandlers.Rooms;
 using ElsaMina.Core.Services.Rooms;
 using NSubstitute;
 
-namespace ElsaMina.UnitTests.Core.Handlers.DefaultHandlers;
+namespace ElsaMina.UnitTests.Core.Handlers.DefaultHandlers.Rooms;
 
 public class RoomsHandlerTest
 {
     private IRoomsManager _roomsManager;
     private RoomsHandler _roomsHandler;
+    private IUserSaveQueue _userSaveQueue;
 
     [SetUp]
     public void SetUp()
     {
         _roomsManager = Substitute.For<IRoomsManager>();
-        _roomsHandler = new RoomsHandler(_roomsManager);
+        _userSaveQueue = Substitute.For<IUserSaveQueue>();
+        _roomsHandler = new RoomsHandler(_roomsManager, _userSaveQueue);
     }
 
     [Test]
@@ -59,6 +61,7 @@ public class RoomsHandlerTest
 
         // Assert
         _roomsManager.Received(1).AddUserToRoom(roomId, userId);
+        _userSaveQueue.Received(1).Enqueue(userId);
     }
 
     [Test]

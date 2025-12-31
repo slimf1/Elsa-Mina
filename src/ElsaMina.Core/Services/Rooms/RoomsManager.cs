@@ -125,6 +125,7 @@ public class RoomsManager : IRoomsManager, IDisposable
     {
         GetRoom(roomId)?.AddUser(username);
     }
+
     public void RemoveUserFromRoom(string roomId, string username) =>
         GetRoom(roomId)?.RemoveUser(username);
 

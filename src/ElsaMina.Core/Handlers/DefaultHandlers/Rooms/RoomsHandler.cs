@@ -1,19 +1,21 @@
 using ElsaMina.Core.Services.Rooms;
-using ElsaMina.Core.Utils;
 using ElsaMina.Logging;
 
-namespace ElsaMina.Core.Handlers.DefaultHandlers;
+namespace ElsaMina.Core.Handlers.DefaultHandlers.Rooms;
 
 public sealed class RoomsHandler : Handler
 {
     private readonly IRoomsManager _roomsManager;
+    private readonly IUserSaveQueue _userSaveQueue;
 
-    public RoomsHandler(IRoomsManager roomsManager)
+    public RoomsHandler(IRoomsManager roomsManager, IUserSaveQueue userSaveQueue)
     {
         _roomsManager = roomsManager;
+        _userSaveQueue = userSaveQueue;
     }
 
-    public override Task HandleReceivedMessageAsync(string[] parts, string roomId = null, CancellationToken cancellationToken = default)
+    public override Task HandleReceivedMessageAsync(string[] parts, string roomId = null,
+        CancellationToken cancellationToken = default)
     {
         if (parts.Length < 2)
         {
@@ -28,12 +30,14 @@ public sealed class RoomsHandler : Handler
                 {
                     room.UpdateMessageQueue(parts[3], parts[4]);
                 }
+
                 break;
             case "deinit":
                 _roomsManager.RemoveRoom(roomId);
                 break;
             case "J":
                 _roomsManager.AddUserToRoom(roomId, parts[2]);
+                _userSaveQueue.Enqueue(parts[2]);
                 break;
             case "L":
                 _roomsManager.RemoveUserFromRoom(roomId, parts[2]);
@@ -53,6 +57,7 @@ public sealed class RoomsHandler : Handler
                 {
                     Log.Error(errorMessage, roomId);
                 }
+
                 break;
         }
 

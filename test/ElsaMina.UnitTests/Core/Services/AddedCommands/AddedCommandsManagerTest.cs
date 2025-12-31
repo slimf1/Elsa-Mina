@@ -52,11 +52,14 @@ public class AddedCommandsManagerTest
     [Test]
     public async Task Test_TryExecuteAddedCommand_ShouldDoNothing_WhenCommandNotFound()
     {
+        // Arrange
         var context = Substitute.For<IContext>();
         context.RoomId.Returns("franais");
 
+        // Act
         await _manager.TryExecuteAddedCommand("doesNotExist", context);
 
+        // Assert
         context.DidNotReceive().Reply(Arg.Any<string>(), Arg.Any<bool>());
         context.DidNotReceive().ReplyHtml(Arg.Any<string>(), rankAware: Arg.Any<bool>());
     }
@@ -64,9 +67,9 @@ public class AddedCommandsManagerTest
     [Test]
     public async Task Test_TryExecuteAddedCommand_ShouldSendImage_WhenContentIsImageUrl()
     {
+        // Arrange
         var context = Substitute.For<IContext>();
         context.RoomId.Returns("franais");
-
         await AddCommandAsync("imageCommand", "franais", "https://example.com/image.png");
 
         _imageService.GetRemoteImageDimensions(Arg.Any<string>())
@@ -74,8 +77,10 @@ public class AddedCommandsManagerTest
         _imageService.ResizeWithSameAspectRatio(400, 300, Arg.Any<int>(), Arg.Any<int>())
             .Returns((400, 300));
 
+        // Act
         await _manager.TryExecuteAddedCommand("imageCommand", context);
 
+        // Assert
         context.Received().ReplyHtml(
             Arg.Is<string>(s => s.Contains("https://example.com/image.png")),
             rankAware: true);

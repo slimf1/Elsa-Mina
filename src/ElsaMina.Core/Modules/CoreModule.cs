@@ -2,10 +2,10 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Handlers;
 using ElsaMina.Core.Handlers.DefaultHandlers;
+using ElsaMina.Core.Handlers.DefaultHandlers.Rooms;
 using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Commands;
-using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.CustomColors;
 using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Dex;
@@ -67,6 +67,7 @@ public class CoreModule : Module
         builder.RegisterType<StartManager>().As<IStartManager>().SingleInstance();
         builder.RegisterType<ImageService>().As<IImageService>().SingleInstance();
         builder.RegisterType<EfRoomParameterStore>().As<IRoomParameterStore>();
+        builder.RegisterType<UserSaveQueue>().As<IUserSaveQueue>().SingleInstance();
 
         builder.RegisterType<Client>().As<IClient>().SingleInstance();
         builder.RegisterType<Bot>().As<IBot>().AsSelf().SingleInstance();
