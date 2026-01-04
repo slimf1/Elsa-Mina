@@ -30,6 +30,8 @@ public class HallOfFameCommand : Command
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
         var trophies = await dbContext.Badges
             .Include(badge => badge.BadgeHolders)
+            .ThenInclude(badgeHolding => badgeHolding.RoomUser)
+            .ThenInclude(roomUser => roomUser.User)
             .Where(badge => badge.RoomId == targetRoomId && badge.IsTrophy)
             .ToArrayAsync(cancellationToken);
 
@@ -42,13 +44,13 @@ public class HallOfFameCommand : Command
         var playerRecords = new Dictionary<string, PlayerRecord>();
         foreach (var trophy in trophies)
         {
-            foreach (var holderId in trophy.BadgeHolders.Select(holding => holding.UserId))
+            foreach (var badgeHolding in trophy.BadgeHolders)
             {
-                if (!playerRecords.TryGetValue(holderId, out var record))
+                if (!playerRecords.TryGetValue(badgeHolding.UserId, out var record))
                 {
                     record = new PlayerRecord
                     {
-                        UserId = holderId,
+                        UserName = badgeHolding.RoomUser?.User?.UserName ?? badgeHolding.UserId,
                         Badges = [],
                         Total = 0,
                         Solo = 0,
@@ -67,7 +69,7 @@ public class HallOfFameCommand : Command
                     record.Team += 1;
                 }
 
-                playerRecords[holderId] = record;
+                playerRecords[badgeHolding.UserId] = record;
             }
         }
 

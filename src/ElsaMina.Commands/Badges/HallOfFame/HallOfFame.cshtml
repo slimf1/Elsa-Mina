@@ -1,15 +1,18 @@
+@using ElsaMina.Core.Templates
 @inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Badges.HallOfFame.HallOfFameViewModel>
 
-<h3>@GetString("hall_of_fame_title")</h3>
+@{
+    const string headerStyle = $"border-bottom: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR}; padding: 4px";
+}
 
-<div style="max-height: 250px; overflow-y: auto;">
-    <table>
+<div style="max-height: 240px; overflow-y: auto">
+    <table style="margin: auto; border: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; border-radius: 12px; padding: 4px">
         <thead>
         <tr>
-            <th>@GetString("hall_of_fame_rank")</th>
-            <th>@GetString("hall_of_fame_user")</th>
-            <th>@GetString("hall_of_fame_total")</th>
-            <th>@GetString("hall_of_fame_trophies_header")</th>
+            <th scope="col" style="@headerStyle">@GetString("hall_of_fame_rank")</th>
+            <th scope="col" style="@headerStyle">@GetString("hall_of_fame_user")</th>
+            <th scope="col" style="@headerStyle">@GetString("hall_of_fame_total")</th>
+            <th scope="col" style="@headerStyle">@GetString("hall_of_fame_trophies_header")</th>
         </tr>
         </thead>
         <tbody>
@@ -26,14 +29,14 @@
             }
 
             <tr>
-                <td>@rank.</td>
-                <td>
-                    <b>@entry.UserId</b>
+                <td style="text-align: center">@rank</td>
+                <td style="text-align: center">
+                    <b>@entry.UserName</b>
                 </td>
-                <td>
+                <td style="text-align: center">
                     @entry.Total @GetString("hall_of_fame_trophies", entry.Total == 1 ? string.Empty : "s") (@entry.Solo @GetString("hall_of_fame_solo"), @entry.Team @GetString("hall_of_fame_team"))
                 </td>
-                <td style="text-align: center;">
+                <td style="text-align: center">
                     @foreach (var badge in entry.Badges)
                     {
                         await IncludeAsync("Badges/Badge", badge);

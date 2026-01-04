@@ -1,8 +1,8 @@
-﻿using ElsaMina.Core.Services.Config;
+﻿using ElsaMina.Core.Handlers.DefaultHandlers.Rooms;
+using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Rooms.Parameters;
-using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +16,7 @@ public class RoomsManagerTest
     private IConfiguration _configuration;
     private IParametersDefinitionFactory _parametersDefinitionFactory;
     private IBotDbContextFactory _dbContextFactory;
-    private IRoomUserDataService _roomUserDataService;
+    private IUserSaveQueue _userSaveQueue;
     private IDependencyContainerService _dependencyContainerService;
     private DbContextOptions<BotDbContext> _dbContextOptions;
     private IRoomParameterStore _roomParameterStore;
@@ -65,7 +65,7 @@ public class RoomsManagerTest
             });
 
         _dbContextFactory = CreateFactory(_dbContextOptions);
-        _roomUserDataService = Substitute.For<IRoomUserDataService>();
+        _userSaveQueue = Substitute.For<IUserSaveQueue>();
         _dependencyContainerService = Substitute.For<IDependencyContainerService>();
         _roomParameterStore = Substitute.For<IRoomParameterStore>();
         _dependencyContainerService.Resolve<IRoomParameterStore>().Returns(_roomParameterStore);
@@ -73,7 +73,7 @@ public class RoomsManagerTest
 
         _dependencyContainerService.Resolve<IRoomParameterStore>().Returns(_roomParameterStore);
 
-        _sut = new RoomsManager(_configuration, _parametersDefinitionFactory, _dbContextFactory, _roomUserDataService,
+        _sut = new RoomsManager(_configuration, _parametersDefinitionFactory, _dbContextFactory, _userSaveQueue,
             _dependencyContainerService);
 
         // Clear any room state from previous tests
@@ -102,7 +102,7 @@ public class RoomsManagerTest
             Assert.That(_sut.HasRoom(roomId), Is.True);
         });
 
-        _roomParameterStore.Received(1).InitializeFromRoomEntity(Arg.Is<DataAccess.Models.SavedRoom>(r => r.Id == roomId));
+        _roomParameterStore.Received(1).InitializeFromRoomEntity(Arg.Is<SavedRoom>(r => r.Id == roomId));
         await _roomParameterStore.Received(1).GetValueAsync(Parameter.Locale, Arg.Any<CancellationToken>());
     }
 

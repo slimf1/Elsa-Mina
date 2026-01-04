@@ -4,7 +4,7 @@ namespace ElsaMina.Commands.Badges.HallOfFame;
 
 public class PlayerRecord
 {
-    public string UserId { get; set; }
+    public string UserName { get; set; }
     public List<Badge> Badges { get; set; }
     public int Total { get; set; }
     public int Solo { get; set; }

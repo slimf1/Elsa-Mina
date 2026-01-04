@@ -211,12 +211,6 @@ public class RoomUserDataService : IRoomUserDataService
         TimeSpan additionalPlayTime,
         CancellationToken cancellationToken = default)
     {
-        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
-        var user = await GetUserAndCreateIfNotExistsAsync(roomId, userId, cancellationToken);
-        user.PlayTime += additionalPlayTime;
-        dbContext.RoomUsers.Update(user);
-
-        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }

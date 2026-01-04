@@ -19,7 +19,4 @@ public interface IRoomUserDataService
 
     Task SetUserJoinPhraseAsync(string roomId, string userId, string joinPhrase,
         CancellationToken cancellationToken = default);
-
-    Task IncrementUserPlayTime(string roomId, string userId, TimeSpan additionalPlayTime,
-        CancellationToken cancellationToken = default);
 }

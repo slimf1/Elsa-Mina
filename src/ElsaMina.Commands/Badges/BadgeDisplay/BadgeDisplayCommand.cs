@@ -31,7 +31,7 @@ public class BadgeDisplayCommand : Command
             .ThenInclude(badgeHolding => badgeHolding.RoomUser)
             .ThenInclude(roomUser => roomUser.User)
             .Where(badge => badge.RoomId == context.RoomId && badge.Id == badgeId)
-            .SingleOrDefaultAsync(cancellationToken);
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (badge == null)
         {
