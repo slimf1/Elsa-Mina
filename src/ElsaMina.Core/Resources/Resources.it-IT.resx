@@ -767,4 +767,13 @@
     <data name="genius_not_found" xml:space="preserve">
         <value>Impossibile trovare una canzone a partire da quei testi o da quelle parole chiave.</value>
     </data>
+    <data name="timer_command_help" xml:space="preserve">
+        <value>Imposta un timer per inviare un messaggio dopo una durata specificata. Utilizzo: -timer &lt;durata&gt; (es. 3min 50secs, 0.5h, 2 days)</value>
+    </data>
+    <data name="timer_command_success" xml:space="preserve">
+        <value>Tempo scaduto! Il timer di {0} è terminato.</value>
+    </data>
+    <data name="timer_command_started" xml:space="preserve">
+        <value>Timer avviato.</value>
+    </data>
 </root>

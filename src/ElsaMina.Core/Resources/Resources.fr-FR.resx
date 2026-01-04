@@ -762,4 +762,13 @@
     <data name="genius_not_found" xml:space="preserve">
         <value>Impossible de trouver une chanson à partir de ces paroles ou de ces mots-clés.</value>
     </data>
+    <data name="timer_command_help" xml:space="preserve">
+        <value>Définit un minuteur pour envoyer un message après une durée spécifiée. Utilisation : -timer &lt;durée&gt; (ex. 3min 50secs, 0.5h, 2 days</value>
+    </data>
+    <data name="timer_command_success" xml:space="preserve">
+        <value>Temps écoulé ! Le minuteur de{0} est terminé.</value>
+    </data>
+    <data name="timer_command_started" xml:space="preserve">
+        <value>Minuteur démarré.</value>
+    </data>
 </root>

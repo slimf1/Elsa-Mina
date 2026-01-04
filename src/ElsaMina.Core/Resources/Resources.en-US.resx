@@ -762,4 +762,13 @@
     <data name="genius_not_found" xml:space="preserve">
         <value>Could not find any song from those lyrics or keywords.</value>
     </data>
+    <data name="timer_command_help" xml:space="preserve">
+        <value>Sets a timer to send a message after a specified duration. Usage: -timer &lt;duration&gt; (e.g. 3min 50secs, 0.5h, 2 days)</value>
+    </data>
+    <data name="timer_command_success" xml:space="preserve">
+        <value>Time's up! {0}'s timer has finished.</value>
+    </data>
+    <data name="timer_command_started" xml:space="preserve">
+        <value>Timer started.</value>
+    </data>
 </root>

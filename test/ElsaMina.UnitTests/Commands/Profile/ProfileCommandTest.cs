@@ -115,11 +115,12 @@ public class ProfileCommandTest
         await using (var setup = new BotDbContext(options))
         {
             await setup.Database.EnsureCreatedAsync();
+            setup.Users.Add(new SavedUser { UserId = "alice", UserName = "Alice" });
             setup.RoomUsers.Add(new RoomUser
             {
                 Id = "alice",
                 RoomId = "room1",
-                Avatar = "https://custom/avatar.png"
+                Avatar = "https://custom/avatar.png",
             });
             await setup.SaveChangesAsync();
         }
@@ -234,6 +235,7 @@ public class ProfileCommandTest
             await setup.Database.EnsureCreatedAsync();
             var badge = new Badge { Id = "b1", Name = "TestBadge", RoomId = "room1"};
             setup.Badges.Add(badge);
+            setup.Users.Add(new SavedUser { UserId = "alice", UserName = "Alice" });
             setup.RoomUsers.Add(new RoomUser
             {
                 Id = "alice",

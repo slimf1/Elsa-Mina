@@ -58,6 +58,7 @@ public class ProfileCommand : Command
 
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
         var userDataTask = dbContext.RoomUsers
+            .Include(roomUser => roomUser.User)
             .Include(roomUser => roomUser.Badges)
             .ThenInclude(badgeHolding => badgeHolding.Badge)
             .FirstOrDefaultAsync(userData => userData.Id == userId && userData.RoomId == context.RoomId,
@@ -76,18 +77,17 @@ public class ProfileCommand : Command
         var avatarUrl = GetAvatar(storedUserData, showdownUserDetails);
         var userRoomRank = GetUserRoomRank(context, showdownUserDetails);
         var bestRanking = ranksTask.Result?.MaxBy(ranking => ranking.Elo);
+        bestRanking?.FormatId = _formatsManager.GetCleanFormat(bestRanking.FormatId);
 
-        if (bestRanking != null)
-        {
-            bestRanking.FormatId = _formatsManager.GetCleanFormat(bestRanking.FormatId);
-        }
-
+        var userName = showdownUserDetails?.Name != userId && !string.IsNullOrEmpty(showdownUserDetails?.Name)
+            ? showdownUserDetails.Name
+            : storedUserData?.User?.UserName ?? userId;
         var viewModel = new ProfileViewModel
         {
             Culture = room.Culture,
             Avatar = avatarUrl,
             UserId = userId,
-            UserName = showdownUserDetails?.Name ?? userId,
+            UserName = userName,
             UserRoomRank = userRoomRank,
             Status = status,
             Badges = storedUserData?.Badges.Select(holding => holding.Badge),

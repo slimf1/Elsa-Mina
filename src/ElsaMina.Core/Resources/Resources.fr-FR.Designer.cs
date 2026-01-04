@@ -1532,5 +1532,23 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("genius_not_found", resourceCulture);
             }
         }
+        
+        internal static string timer_command_help {
+            get {
+                return ResourceManager.GetString("timer_command_help", resourceCulture);
+            }
+        }
+        
+        internal static string timer_command_success {
+            get {
+                return ResourceManager.GetString("timer_command_success", resourceCulture);
+            }
+        }
+        
+        internal static string timer_command_started {
+            get {
+                return ResourceManager.GetString("timer_command_started", resourceCulture);
+            }
+        }
     }
 }
