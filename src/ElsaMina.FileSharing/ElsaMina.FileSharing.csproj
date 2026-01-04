@@ -8,15 +8,6 @@
 
     <ItemGroup>
         <PackageReference Include="AWSSDK.S3" Version="4.0.0-preview.8" />
-        <PackageReference Include="Google.Apis.Auth" Version="1.69.0"/>
-        <PackageReference Include="Google.Apis.Drive.v3" Version="1.69.0.3699"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Update="GoogleDrive\credentials.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>credentials.json</Link>
-        </None>
     </ItemGroup>
 
 </Project>
