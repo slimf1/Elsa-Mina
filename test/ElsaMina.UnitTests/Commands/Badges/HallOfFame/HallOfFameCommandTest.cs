@@ -10,7 +10,6 @@ using NSubstitute;
 
 namespace ElsaMina.UnitTests.Commands.Badges.HallOfFame;
 
-[TestFixture]
 public class HallOfFameCommandTest
 {
     private IContext _context;
@@ -111,10 +110,12 @@ public class HallOfFameCommandTest
         await _templatesManager.Received(1).GetTemplateAsync("Badges/HallOfFame/HallOfFame",
             Arg.Is<HallOfFameViewModel>(vm =>
                 vm.SortedPlayerRecords.Length == 2 &&
+                vm.SortedPlayerRecords[0].UserId == user1 &&
                 vm.SortedPlayerRecords[0].UserName == "User 1" &&
                 vm.SortedPlayerRecords[0].Total == 2 &&
                 vm.SortedPlayerRecords[0].Solo == 1 &&
                 vm.SortedPlayerRecords[0].Team == 1 &&
+                vm.SortedPlayerRecords[1].UserId == user2 &&
                 vm.SortedPlayerRecords[1].UserName == user2 &&
                 vm.SortedPlayerRecords[1].Total == 1 &&
                 vm.SortedPlayerRecords[1].Solo == 0 &&
@@ -156,6 +157,7 @@ public class HallOfFameCommandTest
         // Assert
         await _templatesManager.Received(1).GetTemplateAsync(Arg.Any<string>(), Arg.Is<HallOfFameViewModel>(vm =>
             vm.SortedPlayerRecords.Length == 1 &&
+            vm.SortedPlayerRecords[0].UserId == "user1" &&
             vm.SortedPlayerRecords[0].UserName == "user1"
         ));
     }

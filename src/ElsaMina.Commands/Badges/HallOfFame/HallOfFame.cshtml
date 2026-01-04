@@ -1,4 +1,5 @@
 @using ElsaMina.Core.Templates
+@using ElsaMina.Core.Utils
 @inherits ElsaMina.Core.Templates.LocalizableTemplatePage<ElsaMina.Commands.Badges.HallOfFame.HallOfFameViewModel>
 
 @{
@@ -6,7 +7,8 @@
 }
 
 <div style="max-height: 240px; overflow-y: auto">
-    <table style="margin: auto; border: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; border-radius: 12px; padding: 4px">
+    <table
+        style="margin: auto; border: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; border-radius: 12px; padding: 4px">
         <thead>
         <tr>
             <th scope="col" style="@headerStyle">@GetString("hall_of_fame_rank")</th>
@@ -31,7 +33,12 @@
             <tr>
                 <td style="text-align: center">@rank</td>
                 <td style="text-align: center">
-                    <b>@entry.UserName</b>
+                    <span
+                        class="username"
+                        data-name="@entry.UserId"
+                        style="color: @entry.UserId.ToColorHexCodeWithCustoms(); font-weight: bold">
+                        @entry.UserName
+                    </span>
                 </td>
                 <td style="text-align: center">
                     @entry.Total @GetString("hall_of_fame_trophies", entry.Total == 1 ? string.Empty : "s") (@entry.Solo @GetString("hall_of_fame_solo"), @entry.Team @GetString("hall_of_fame_team"))
@@ -42,7 +49,7 @@
                         await IncludeAsync("Badges/Badge", badge);
                     }
                 </td>
-                
+
             </tr>
             prevCounts = (entry.Total, entry.Solo);
             innerRank++;

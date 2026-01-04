@@ -50,6 +50,7 @@ public class HallOfFameCommand : Command
                 {
                     record = new PlayerRecord
                     {
+                        UserId = badgeHolding.UserId,
                         UserName = badgeHolding.RoomUser?.User?.UserName ?? badgeHolding.UserId,
                         Badges = [],
                         Total = 0,
