@@ -59,9 +59,9 @@ public class RoomsManagerTest
 
         _parametersDefinitionFactory = Substitute.For<IParametersDefinitionFactory>();
         _parametersDefinitionFactory.GetParametersDefinitions().Returns(
-            new Dictionary<Parameter, IParameterDefiniton>
+            new Dictionary<Parameter, IParameterDefinition>
             {
-                { Parameter.Locale, Substitute.For<IParameterDefiniton>() }
+                { Parameter.Locale, Substitute.For<IParameterDefinition>() }
             });
 
         _dbContextFactory = CreateFactory(_dbContextOptions);

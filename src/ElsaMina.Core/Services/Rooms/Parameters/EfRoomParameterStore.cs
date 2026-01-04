@@ -8,7 +8,7 @@ namespace ElsaMina.Core.Services.Rooms.Parameters;
 public class EfRoomParameterStore : IRoomParameterStore
 {
     private readonly IBotDbContextFactory _dbContextFactory;
-    private readonly IReadOnlyDictionary<Parameter, IParameterDefiniton> _parameterDefinitions;
+    private readonly IReadOnlyDictionary<Parameter, IParameterDefinition> _parameterDefinitions;
     private SavedRoom _dbSavedRoom;
 
     public EfRoomParameterStore(IBotDbContextFactory dbContextFactory, IParametersDefinitionFactory definitionFactory)

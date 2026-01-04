@@ -15,11 +15,11 @@ public class Room : IRoom
     private readonly Queue<Tuple<string, string>> _lastMessages = new(MESSAGE_QUEUE_LENGTH);
     private readonly ConcurrentDictionary<string, IUser> _users = new();
     private readonly IRoomParameterStore _roomParameterStore;
-    private readonly IReadOnlyDictionary<Parameter, IParameterDefiniton> _parametersDefinitions;
+    private readonly IReadOnlyDictionary<Parameter, IParameterDefinition> _parametersDefinitions;
     private IGame _game;
 
     public Room(string roomTitle, string roomId, CultureInfo culture, IRoomParameterStore roomParameterStore,
-        IReadOnlyDictionary<Parameter, IParameterDefiniton> parametersDefinitions)
+        IReadOnlyDictionary<Parameter, IParameterDefinition> parametersDefinitions)
     {
         RoomId = roomId ?? roomTitle.ToLowerAlphaNum();
         Name = roomTitle;

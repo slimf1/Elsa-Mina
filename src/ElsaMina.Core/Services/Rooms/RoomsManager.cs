@@ -42,7 +42,7 @@ public class RoomsManager : IRoomsManager, IDisposable
         ParametersDefinitions = parametersDefinitionFactory.GetParametersDefinitions();
     }
 
-    public IReadOnlyDictionary<Parameter, IParameterDefiniton> ParametersDefinitions { get; }
+    public IReadOnlyDictionary<Parameter, IParameterDefinition> ParametersDefinitions { get; }
 
     public void Initialize() => StartPlayTimeUpdatesTimer();
 

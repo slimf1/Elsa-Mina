@@ -1,6 +1,6 @@
 ﻿namespace ElsaMina.Core.Services.Rooms.Parameters;
 
-public interface IParameterDefiniton
+public interface IParameterDefinition
 {
     string Identifier { get; }
     string NameKey { get; }

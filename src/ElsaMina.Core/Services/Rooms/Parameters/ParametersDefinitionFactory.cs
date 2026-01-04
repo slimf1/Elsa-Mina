@@ -17,8 +17,8 @@ public class ParametersDefinitionFactory : IParametersDefinitionFactory
         _resourcesService = resourcesService;
     }
 
-    public IReadOnlyDictionary<Parameter, IParameterDefiniton> GetParametersDefinitions() =>
-        new Dictionary<Parameter, IParameterDefiniton>
+    public IReadOnlyDictionary<Parameter, IParameterDefinition> GetParametersDefinitions() =>
+        new Dictionary<Parameter, IParameterDefinition>
         {
             [Parameter.Locale] = new ParameterDefinition
             {

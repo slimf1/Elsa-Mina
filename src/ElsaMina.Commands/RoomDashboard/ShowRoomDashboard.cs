@@ -74,7 +74,7 @@ public class ShowRoomDashboard : Command
                 .Select(kvp => new RoomParameterLineModel
                 {
                     Culture = context.Culture,
-                    RoomParameterDefiniton = kvp.Value,
+                    RoomParameterDefinition = kvp.Value,
                     CurrentValue = room.GetParameterValue(kvp.Key)
                 })
         };
