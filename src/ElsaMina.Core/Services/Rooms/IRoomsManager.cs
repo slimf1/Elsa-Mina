@@ -15,4 +15,5 @@ public interface IRoomsManager
     void RenameUserInRoom(string roomId, string formerName, string newName);
     Task ProcessPendingPlayTimeUpdates();
     void Clear();
+    Task WaitForPlayTimeUpdatesAsync(CancellationToken cancellationToken = default);
 }

@@ -132,41 +132,58 @@ public class RoomsManager : IRoomsManager, IDisposable
 
     public async Task ProcessPendingPlayTimeUpdates()
     {
+        await _playTimeUpdateSemaphoreSlim.WaitAsync();
         try
         {
-            await _playTimeUpdateSemaphoreSlim.WaitAsync();
-
-            Log.Information("Processing play time updates...");
-
-            await using var dbContext = await _dbContextFactory.CreateDbContextAsync();
-
-            foreach (var room in _rooms.Values)
+            await _userSaveQueue.AcquireLockAsync();
+            try
             {
-                var roomId = room.RoomId;
-                var updates = room.PendingPlayTimeUpdates.ToList();
+                Log.Information("Processing play time updates...");
 
-                foreach (var (userId, playTime) in updates)
+                await using var dbContext = await _dbContextFactory.CreateDbContextAsync();
+
+                foreach (var room in _rooms.Values)
                 {
-                    try
+                    var roomId = room.RoomId;
+                    var updates = room.PendingPlayTimeUpdates.ToList();
+
+                    foreach (var (userId, playTime) in updates)
                     {
-                        await IncrementUserPlayTime(dbContext, roomId, userId, playTime);
-                        room.PendingPlayTimeUpdates.Remove(userId);
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Error(ex, "Failed to update play time for {0} in room {1}",
-                            userId, room.RoomId);
+                        try
+                        {
+                            await IncrementUserPlayTime(dbContext, roomId, userId, playTime);
+                            room.PendingPlayTimeUpdates.Remove(userId);
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Error(ex, "Failed to update play time for {0} in room {1}",
+                                userId, room.RoomId);
+                        }
                     }
                 }
-            }
 
-            await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
+            }
+            finally
+            {
+                _userSaveQueue.ReleaseLock();
+            }
         }
         finally
         {
             _playTimeUpdateSemaphoreSlim.Release();
         }
     }
+
+    public async Task WaitForPlayTimeUpdatesAsync(CancellationToken cancellationToken = default)
+    {
+        // If no update is running, this will acquire immediately
+        await _playTimeUpdateSemaphoreSlim.WaitAsync(cancellationToken);
+
+        // Immediately release so we don't block actual processing
+        _playTimeUpdateSemaphoreSlim.Release();
+    }
+
 
     private async Task IncrementUserPlayTime(BotDbContext dbContext, string roomId, string userId, TimeSpan playTime,
         CancellationToken cancellationToken = default)
@@ -179,7 +196,6 @@ public class RoomsManager : IRoomsManager, IDisposable
             var user = await dbContext.Users.FindAsync([userId], cancellationToken: cancellationToken);
             if (user == null)
             {
-                await _userSaveQueue.WaitForFlushAsync(cancellationToken);
                 user = new SavedUser
                 {
                     UserId = userId,

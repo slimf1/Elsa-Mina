@@ -16,7 +16,7 @@ public sealed class UserSaveQueue : IUserSaveQueue
     private readonly int _batchSize;
 
     private readonly SemaphoreSlim _flushLock = new(1, 1);
-    private readonly object _flushTaskLock = new();
+    private readonly Lock _flushTaskLock = new();
 
     private Task _currentFlushTask;
     private readonly CancellationTokenSource _cts = new();
@@ -143,6 +143,16 @@ public sealed class UserSaveQueue : IUserSaveQueue
         {
             await flushTask.WaitAsync(cancellationToken);
         }
+    }
+
+    public async Task AcquireLockAsync(CancellationToken cancellationToken = default)
+    {
+        await _flushLock.WaitAsync(cancellationToken);
+    }
+
+    public void ReleaseLock()
+    {
+        _flushLock.Release();
     }
 
     public async ValueTask DisposeAsync()

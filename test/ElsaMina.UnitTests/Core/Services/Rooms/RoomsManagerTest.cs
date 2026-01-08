@@ -32,7 +32,7 @@ public class RoomsManagerTest
     {
         var factory = Substitute.For<IBotDbContextFactory>();
         factory.CreateDbContextAsync(Arg.Any<CancellationToken>())
-            .Returns(ci => Task.FromResult(new BotDbContext(options)));
+            .Returns(_ => Task.FromResult(new BotDbContext(options)));
         return factory;
     }
 
@@ -156,5 +156,16 @@ public class RoomsManagerTest
 
         // Act & Assert
         Assert.That(_sut.HasRoom(roomId), Is.True);
+    }
+
+    [Test]
+    public async Task ProcessPendingPlayTimeUpdates_ShouldAcquireAndReleaseLock()
+    {
+        // Arrange
+        await _sut.ProcessPendingPlayTimeUpdates();
+
+        // Assert
+        await _userSaveQueue.Received(1).AcquireLockAsync(Arg.Any<CancellationToken>());
+        _userSaveQueue.Received(1).ReleaseLock();
     }
 }

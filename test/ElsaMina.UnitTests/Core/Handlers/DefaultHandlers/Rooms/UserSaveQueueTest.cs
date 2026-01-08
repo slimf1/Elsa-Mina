@@ -104,6 +104,24 @@ public class UserSaveQueueTests
         await waitTask;
     }
 
+    [Test]
+    public async Task AcquireLockAsync_ShouldBlockFlush()
+    {
+        // Arrange
+        var queue = CreateQueue();
+        await queue.AcquireLockAsync();
+
+        // Act
+        var flushTask = queue.FlushAsync(CancellationToken.None);
+        
+        // Assert
+        Assert.That(flushTask.IsCompleted, Is.False);
+        
+        queue.ReleaseLock();
+        await flushTask;
+        Assert.That(flushTask.IsCompleted, Is.True);
+    }
+
     private UserSaveQueue CreateQueue()
         => new(_dbContextFactory, _configuration);
 
