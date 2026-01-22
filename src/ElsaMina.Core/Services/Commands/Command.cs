@@ -2,7 +2,7 @@
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
 
-namespace ElsaMina.Core.Commands;
+namespace ElsaMina.Core.Services.Commands;
 
 public abstract class Command : ICommand
 {

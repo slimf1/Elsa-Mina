@@ -1,4 +1,4 @@
-﻿using ElsaMina.Core.Commands;
+﻿using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Templates;
 
 namespace ElsaMina.Commands.Development.Commands;

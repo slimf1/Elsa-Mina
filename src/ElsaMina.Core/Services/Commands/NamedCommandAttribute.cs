@@ -1,4 +1,4 @@
-﻿namespace ElsaMina.Core.Commands;
+﻿namespace ElsaMina.Core.Services.Commands;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class NamedCommandAttribute : Attribute

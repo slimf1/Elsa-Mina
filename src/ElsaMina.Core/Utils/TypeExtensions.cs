@@ -1,4 +1,4 @@
-using ElsaMina.Core.Commands;
+using ElsaMina.Core.Services.Commands;
 
 namespace ElsaMina.Core.Utils;
 

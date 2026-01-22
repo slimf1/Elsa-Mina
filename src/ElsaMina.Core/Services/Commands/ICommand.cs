@@ -1,7 +1,7 @@
 ﻿using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 
-namespace ElsaMina.Core.Commands;
+namespace ElsaMina.Core.Services.Commands;
 
 public interface ICommand
 {

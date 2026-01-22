@@ -1,7 +1,7 @@
 using ElsaMina.Commands.GuessingGame;
 using ElsaMina.Commands.Profile;
-using ElsaMina.Core.Commands;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
 
