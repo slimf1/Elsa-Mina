@@ -1,5 +1,5 @@
 using ElsaMina.Core.Services.Rooms.Parameters;
-using ElsaMina.Core.Templates;
+using ElsaMina.Core.Services.Templates;
 
 namespace ElsaMina.Commands.RoomDashboard;
 

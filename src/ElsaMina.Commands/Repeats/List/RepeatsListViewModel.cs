@@ -1,5 +1,5 @@
 using ElsaMina.Core.Services.Repeats;
-using ElsaMina.Core.Templates;
+using ElsaMina.Core.Services.Templates;
 
 namespace ElsaMina.Commands.Repeats.List;
 

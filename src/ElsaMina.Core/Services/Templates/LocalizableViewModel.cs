@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace ElsaMina.Core.Templates;
+namespace ElsaMina.Core.Services.Templates;
 
 public class LocalizableViewModel
 {

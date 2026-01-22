@@ -1,5 +1,5 @@
 using ElsaMina.Core.Services.Dex;
-using ElsaMina.Core.Templates;
+using ElsaMina.Core.Services.Templates;
 
 namespace ElsaMina.Commands.GuessingGame.Gatekeepers;
 

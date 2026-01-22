@@ -2,7 +2,7 @@
 using ElsaMina.Core.Services.Resources;
 using RazorLight;
 
-namespace ElsaMina.Core.Templates;
+namespace ElsaMina.Core.Services.Templates;
 
 public abstract class LocalizableTemplatePage<TViewModel> : TemplatePage<TViewModel>
     where TViewModel : LocalizableViewModel

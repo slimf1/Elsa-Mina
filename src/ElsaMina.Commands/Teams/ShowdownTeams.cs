@@ -42,7 +42,7 @@ public static class ShowdownTeams
     private static readonly Regex NATURE_REGEX =
         new("^[A-Za-z]+ (N|n)ature", RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
 
-    public static IEnumerable<PokemonSet> DeserializeTeamExport(string export)
+    public static IReadOnlyList<PokemonSet> DeserializeTeamExport(string export)
     {
         var team = new List<PokemonSet>();
         PokemonSet currentSet = null;

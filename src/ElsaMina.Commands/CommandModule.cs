@@ -47,7 +47,6 @@ using ElsaMina.Commands.Teams.TeamPreviewOnLink;
 using ElsaMina.Commands.Teams.TeamProviders;
 using ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
 using ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
-using ElsaMina.Commands.Teams.Tournaments;
 using ElsaMina.Commands.Tournaments;
 using ElsaMina.Core.Utils;
 

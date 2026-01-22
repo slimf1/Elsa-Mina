@@ -6,7 +6,7 @@ using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 
-namespace ElsaMina.Commands.Teams.Tournaments;
+namespace ElsaMina.Commands.Tournaments;
 
 public class OtherRoomTournamentAnnounceHandler : Handler // TODO : unit test ^^
 {

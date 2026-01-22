@@ -1,3 +1,4 @@
+using ElsaMina.Commands.Teams;
 using ElsaMina.Core;
 using ElsaMina.Core.Handlers;
 using ElsaMina.Core.Services.Rooms;
@@ -6,7 +7,7 @@ using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
-namespace ElsaMina.Commands.Teams.Tournaments;
+namespace ElsaMina.Commands.Tournaments;
 
 public class DisplayTeamsOnTourHandler : Handler
 {
