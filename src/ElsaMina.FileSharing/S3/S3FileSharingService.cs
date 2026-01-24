@@ -76,11 +76,10 @@ public class S3FileSharingService : IFileSharingService
 
     private static string ComputeSha256(byte[] bytes)
     {
-        using var sha256 = SHA256.Create();
-        var hashBytes = sha256.ComputeHash(bytes);
+        var hashBytes = SHA256.HashData(bytes);
         return Convert.ToBase64String(hashBytes);
     }
-    
+
     private static string ComputeSha256(Stream bytes)
     {
         using var sha256 = SHA256.Create();

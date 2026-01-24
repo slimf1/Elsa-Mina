@@ -1,4 +1,5 @@
-﻿using ElsaMina.Core.Contexts;
+﻿using System.Collections.Concurrent;
+using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Rooms.Parameters;
@@ -12,12 +13,17 @@ public class CommandExecutor : ICommandExecutor
     private readonly IDependencyContainerService _dependencyContainerService;
     private readonly IAddedCommandsManager _addedCommandsManager;
 
-    public CommandExecutor(IDependencyContainerService dependencyContainerService,
+    private readonly ConcurrentDictionary<Guid, RunningCommand> _runningCommands = new();
+
+    public CommandExecutor(
+        IDependencyContainerService dependencyContainerService,
         IAddedCommandsManager addedCommandsManager)
     {
         _dependencyContainerService = dependencyContainerService;
         _addedCommandsManager = addedCommandsManager;
     }
+
+    #region Public API
 
     public IEnumerable<ICommand> GetAllCommands()
     {
@@ -26,7 +32,9 @@ public class CommandExecutor : ICommandExecutor
             .DistinctBy(command => command.Name);
     }
 
-    public async Task TryExecuteCommandAsync(string commandName, IContext context,
+    public async Task TryExecuteCommandAsync(
+        string commandName,
+        IContext context,
         CancellationToken cancellationToken = default)
     {
         if (_dependencyContainerService.IsRegisteredWithName<ICommand>(commandName))
@@ -39,7 +47,7 @@ public class CommandExecutor : ICommandExecutor
                 return;
             }
 
-            await command.RunAsync(context, cancellationToken);
+            RegisterAndRun(command, context, cancellationToken);
             return;
         }
 
@@ -48,23 +56,88 @@ public class CommandExecutor : ICommandExecutor
             Log.Information("Trying command {0} as a custom command", commandName);
             if (await _addedCommandsManager.TryExecuteAddedCommand(commandName, context))
             {
-                // Une commande custom a été trouvée & éxécutée : on s'arrête là
                 return;
             }
         }
 
         Log.Error("Could not find command {0}", commandName);
-        var canRunAutoCorrect = context.IsPrivateMessage
-                                || (await context.Room.GetParameterValueAsync(Parameter.HasCommandAutoCorrect,
-                                    cancellationToken)).ToBoolean();
+
+        var canRunAutoCorrect =
+            context.IsPrivateMessage ||
+            (await context.Room
+                .GetParameterValueAsync(Parameter.HasCommandAutoCorrect, cancellationToken))
+            .ToBoolean();
+
         if (canRunAutoCorrect)
         {
             ReplyWithAutoCorrect(commandName, context);
-            return;
+        }
+    }
+
+    #endregion
+
+    #region Execution tracking
+
+    private void RegisterAndRun(ICommand command, IContext context, CancellationToken externalToken)
+    {
+        var executionId = Guid.NewGuid();
+
+        var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(externalToken);
+        var token = linkedCts.Token;
+
+        var task = Task.Run(async () =>
+        {
+            try
+            {
+                await command.RunAsync(context, token);
+            }
+            catch (OperationCanceledException)
+            {
+                Log.Information(
+                    "Command {0} ({1}) was cancelled",
+                    command.Name,
+                    executionId);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(
+                    ex,
+                    "Command {0} ({1}) crashed",
+                    command.Name,
+                    executionId);
+            }
+            finally
+            {
+                _runningCommands.TryRemove(executionId, out _);
+                linkedCts.Dispose();
+            }
+        }, CancellationToken.None);
+
+        _runningCommands[executionId] = new RunningCommand(
+            executionId,
+            command.Name,
+            context,
+            linkedCts,
+            task);
+    }
+
+    public bool TryCancel(Guid executionId)
+    {
+        if (!_runningCommands.TryGetValue(executionId, out var running))
+        {
+            return false;
         }
 
-        Log.Information("Not running auto-correct for command {0}", commandName);
+        running.CancellationTokenSource.Cancel();
+        return true;
     }
+
+    public IReadOnlyCollection<RunningCommand> RunningCommands
+        => _runningCommands.Values.ToArray();
+
+    #endregion
+
+    #region Auto-correct & guards
 
     private void ReplyWithAutoCorrect(string commandName, IContext context)
     {
@@ -74,47 +147,45 @@ public class CommandExecutor : ICommandExecutor
             <= 12 => 2,
             _ => 3
         };
+
         var closestCommands = GetAllCommands()
-            .SelectMany(command => (string[]) [.. command.Aliases, command.Name])
-            .Where(possibleCommands => possibleCommands.LevenshteinDistance(commandName) <= maxLevenshteinDistance)
-            .ToArray(); // TODO : ajouter les commandes custom
+            .SelectMany(command => (string[])[..command.Aliases, command.Name])
+            .Where(possible =>
+                possible.LevenshteinDistance(commandName) <= maxLevenshteinDistance)
+            .ToArray();
 
         if (closestCommands.Length == 0)
         {
             return;
         }
 
-        context.ReplyLocalizedMessage("command_autocorrect_suggestion", commandName,
+        context.ReplyLocalizedMessage(
+            "command_autocorrect_suggestion",
+            commandName,
             string.Join(", ", closestCommands));
     }
 
     private static bool CanCommandBeRan(IContext context, ICommand command)
     {
         if (command.IsPrivateMessageOnly && !context.IsPrivateMessage)
-        {
             return false;
-        }
 
-        if (context.IsPrivateMessage && !(command.IsAllowedInPrivateMessage || command.IsPrivateMessageOnly))
-        {
+        if (context.IsPrivateMessage &&
+            !(command.IsAllowedInPrivateMessage || command.IsPrivateMessageOnly))
             return false;
-        }
 
         if (command.IsWhitelistOnly && !context.IsSenderWhitelisted)
-        {
             return false;
-        }
 
         if (!context.HasRankOrHigher(command.RequiredRank))
-        {
             return false;
-        }
 
-        if (command.RoomRestriction.Any() && !command.RoomRestriction.Contains(context.RoomId))
-        {
+        if (command.RoomRestriction.Any() &&
+            !command.RoomRestriction.Contains(context.RoomId))
             return false;
-        }
 
         return true;
     }
+
+    #endregion
 }

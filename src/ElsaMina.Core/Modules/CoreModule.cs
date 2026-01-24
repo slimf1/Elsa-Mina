@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Handlers;
-using ElsaMina.Core.Handlers.BattleHandlers;
 using ElsaMina.Core.Handlers.DefaultHandlers;
 using ElsaMina.Core.Handlers.DefaultHandlers.Rooms;
 using ElsaMina.Core.Services.AddedCommands;
@@ -40,7 +39,6 @@ public class CoreModule : Module
 
         builder.RegisterModule<DataAccessModule>();
         builder.RegisterModule<SheetsModule>();
-        builder.RegisterModule<BattleSystemModule>();
 
         builder.RegisterType<DependencyContainerService>().As<IDependencyContainerService>().SingleInstance();
         builder.RegisterType<HttpService>().As<IHttpService>().SingleInstance();
@@ -82,7 +80,6 @@ public class CoreModule : Module
         builder.RegisterHandler<CheckConnectionHandler>();
         builder.RegisterHandler<FormatsHandler>();
         builder.RegisterHandler<LoginHandler>();
-        builder.RegisterHandler<BattleMessageHandler>();
 
         builder.RegisterType<S3FileSharingService>().As<IFileSharingService>().SingleInstance().OnActivating(
             ctx => ctx.Instance.InitializeAsync().Wait());
