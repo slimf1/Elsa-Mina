@@ -13,6 +13,7 @@ using ElsaMina.Commands.Badges;
 using ElsaMina.Commands.Badges.BadgeDisplay;
 using ElsaMina.Commands.Badges.BadgeHolders;
 using ElsaMina.Commands.Badges.HallOfFame;
+using ElsaMina.Commands.Battles;
 using ElsaMina.Commands.ConnectFour;
 using ElsaMina.Commands.CustomCommands;
 using ElsaMina.Commands.Development;
@@ -42,6 +43,7 @@ using ElsaMina.Commands.Replays;
 using ElsaMina.Commands.RoomDashboard;
 using ElsaMina.Commands.Showdown.Ladder;
 using ElsaMina.Commands.Showdown.Ranking;
+using ElsaMina.Commands.Showdown.Searching;
 using ElsaMina.Commands.Teams.Samples;
 using ElsaMina.Commands.Teams.TeamPreviewOnLink;
 using ElsaMina.Commands.Teams.TeamProviders;
@@ -105,6 +107,7 @@ public class CommandModule : Module
         builder.RegisterCommand<SpeakCommand>();
         builder.RegisterCommand<RankingCommand>();
         builder.RegisterCommand<LadderCommand>();
+        builder.RegisterCommand<SearchCommand>();
         builder.RegisterCommand<FailCommand>();
         builder.RegisterCommand<RepeatFormCommand>();
         builder.RegisterCommand<StartRepeatCommand>();
@@ -137,6 +140,7 @@ public class CommandModule : Module
         builder.RegisterHandler<ArcadeEventsHandler>();
         builder.RegisterHandler<PollEndHandler>();
         builder.RegisterHandler<OtherRoomTournamentAnnounceHandler>();
+        builder.RegisterHandler<PokemonBattleHandler>();
 
         builder.RegisterType<CountriesGame>().AsSelf();
         builder.RegisterType<ConnectFourGame>().AsSelf();
