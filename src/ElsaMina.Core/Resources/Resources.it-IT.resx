@@ -122,6 +122,15 @@
     <data name="badge_give_success" xml:space="preserve">
         <value>"{0}" ha ricevuto il badge "{1}"</value>
     </data>
+    <data name="cancel_command_usage" xml:space="preserve">
+        <value>Uso: cancel-command &lt;execution-id&gt;</value>
+    </data>
+    <data name="cancel_command_success" xml:space="preserve">
+        <value>Comando {0} annullato</value>
+    </data>
+    <data name="cancel_command_not_found" xml:space="preserve">
+        <value>Nessun comando in esecuzione trovato per {0}</value>
+    </data>
     <data name="rank_owner" xml:space="preserve">
         <value>Amministratore</value>
     </data>

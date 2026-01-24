@@ -125,6 +125,7 @@ public class CommandModule : Module
         builder.RegisterCommand<ArcadeHallOfFameCommand>();
         builder.RegisterCommand<TimerCommand>();
         builder.RegisterCommand<RunningCommands>();
+        builder.RegisterCommand<CancelRunningCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();
