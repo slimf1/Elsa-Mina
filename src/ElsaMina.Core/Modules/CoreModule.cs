@@ -3,6 +3,7 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Handlers;
 using ElsaMina.Core.Handlers.DefaultHandlers;
 using ElsaMina.Core.Handlers.DefaultHandlers.Rooms;
+using ElsaMina.Core.Services.Battles;
 using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Commands;
@@ -53,6 +54,9 @@ public class CoreModule : Module
         builder.RegisterType<PmSendersManager>().As<IPmSendersManager>().SingleInstance();
         builder.RegisterType<HandlerManager>().As<IHandlerManager>().SingleInstance();
         builder.RegisterType<AddedCommandsManager>().As<IAddedCommandsManager>().SingleInstance();
+        builder.RegisterType<BattleMessageParser>().As<IBattleMessageParser>().SingleInstance();
+        builder.RegisterType<RandomBattleDecisionService>().As<IBattleDecisionService>().SingleInstance();
+        builder.RegisterType<BattleService>().As<IBattleService>().SingleInstance();
         builder.RegisterType<TemplatesManager>().As<ITemplatesManager>().SingleInstance();
         builder.RegisterType<RoomUserDataService>().As<IRoomUserDataService>().SingleInstance();
         builder.RegisterType<UserDetailsManager>().As<IUserDetailsManager>().SingleInstance();
@@ -77,6 +81,7 @@ public class CoreModule : Module
         builder.RegisterHandler<NameTakenHandler>();
         builder.RegisterHandler<QueryResponseHandler>();
         builder.RegisterHandler<RoomsHandler>();
+        builder.RegisterHandler<BattleHandler>();
         builder.RegisterHandler<CheckConnectionHandler>();
         builder.RegisterHandler<FormatsHandler>();
         builder.RegisterHandler<LoginHandler>();

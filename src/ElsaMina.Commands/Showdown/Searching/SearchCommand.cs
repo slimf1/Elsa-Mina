@@ -7,7 +7,8 @@ namespace ElsaMina.Commands.Showdown.Searching;
 [NamedCommand("search")]
 public class SearchCommand : Command
 {
-    public override Rank RequiredRank => Rank.Regular;
+    public override bool IsWhitelistOnly => true; // temporaire ^^
+    public override bool IsAllowedInPrivateMessage => true;
 
     public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
