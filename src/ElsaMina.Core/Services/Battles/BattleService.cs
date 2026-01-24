@@ -1,4 +1,6 @@
 using System.Collections.Concurrent;
+using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Core.Services.Battles;
 
@@ -7,13 +9,18 @@ public class BattleService : IBattleService
     private readonly IBattleMessageParser _messageParser;
     private readonly IBattleDecisionService _decisionService;
     private readonly IBot _bot;
+    private readonly IConfiguration _configuration;
     private readonly ConcurrentDictionary<string, BattleContext> _contexts = new();
 
-    public BattleService(IBattleMessageParser messageParser, IBattleDecisionService decisionService, IBot bot)
+    public BattleService(IBattleMessageParser messageParser,
+        IBattleDecisionService decisionService,
+        IBot bot,
+        IConfiguration configuration)
     {
         _messageParser = messageParser;
         _decisionService = decisionService;
         _bot = bot;
+        _configuration = configuration;
     }
 
     public Task HandleMessageAsync(string[] parts, string roomId, CancellationToken cancellationToken = default)
@@ -29,8 +36,21 @@ public class BattleService : IBattleService
             return Task.CompletedTask;
         }
 
+        if (result.Type == BattleMessageType.BattleStarted && !context.HasAnnouncedStart)
+        {
+            _bot.Say(roomId, "/timer on");
+            _bot.Say(roomId, "Battle started. Good luck!");
+            context.HasAnnouncedStart = true;
+        }
+
         if (result.Type == BattleMessageType.BattleEnded)
         {
+            if (!context.HasAnnouncedEnd)
+            {
+                AnnounceBattleEnd(roomId, result);
+                context.HasAnnouncedEnd = true;
+            }
+
             _bot.Say(roomId, "/leave");
             _contexts.TryRemove(roomId, out _);
             return Task.CompletedTask;
@@ -47,6 +67,26 @@ public class BattleService : IBattleService
         }
 
         return Task.CompletedTask;
+    }
+
+    private void AnnounceBattleEnd(string roomId, BattleMessageResult result)
+    {
+        if (result.IsTie)
+        {
+            _bot.Say(roomId, "Battle ended in a tie. GG!");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(result.WinnerName))
+        {
+            _bot.Say(roomId, "Battle ended. GG!");
+            return;
+        }
+
+        var winnerId = result.WinnerName.ToLowerAlphaNum();
+        var botId = _configuration.Name.ToLowerAlphaNum();
+        var message = winnerId == botId ? "GG! I won." : "GG! I lost.";
+        _bot.Say(roomId, message);
     }
 
     private static string BuildCommand(BattleDecision decision)

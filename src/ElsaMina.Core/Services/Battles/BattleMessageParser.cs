@@ -14,10 +14,18 @@ public class BattleMessageParser : IBattleMessageParser
             return false;
         }
 
+        if (parts[1] == "start")
+        {
+            result = new BattleMessageResult(BattleMessageType.BattleStarted);
+            return true;
+        }
+
         if (parts[1] is "win" or "tie")
         {
             context.IsBattleOver = true;
-            result = new BattleMessageResult(BattleMessageType.BattleEnded);
+            var winnerName = parts[1] == "win" && parts.Length >= 3 ? parts[2] : null;
+            var isTie = parts[1] == "tie";
+            result = new BattleMessageResult(BattleMessageType.BattleEnded, winnerName, isTie);
             return true;
         }
 

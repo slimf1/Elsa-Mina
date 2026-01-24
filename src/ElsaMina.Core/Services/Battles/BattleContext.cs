@@ -11,6 +11,8 @@ public class BattleContext
     public bool Wait { get; set; }
     public bool TeamPreview { get; set; }
     public bool IsBattleOver { get; set; }
+    public bool HasAnnouncedStart { get; set; }
+    public bool HasAnnouncedEnd { get; set; }
     public List<bool> ForceSwitchSlots { get; set; } = [];
     public List<BattlePokemonState> SidePokemon { get; set; } = [];
     public List<BattleActiveSlot> ActiveSlots { get; set; } = [];
