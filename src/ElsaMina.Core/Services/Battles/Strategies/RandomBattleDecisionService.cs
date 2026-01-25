@@ -1,6 +1,6 @@
 using ElsaMina.Core.Services.Probabilities;
 
-namespace ElsaMina.Core.Services.Battles;
+namespace ElsaMina.Core.Services.Battles.Strategies;
 
 public class RandomBattleDecisionService : IBattleDecisionService
 {

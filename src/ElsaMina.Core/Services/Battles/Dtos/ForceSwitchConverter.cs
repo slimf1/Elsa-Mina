@@ -1,7 +1,7 @@
 #nullable enable
 using Newtonsoft.Json;
 
-namespace ElsaMina.Core.Services.Battles.DataClasses;
+namespace ElsaMina.Core.Services.Battles.Dtos;
 
 public sealed class ForceSwitchConverter : JsonConverter<List<bool>>
 {

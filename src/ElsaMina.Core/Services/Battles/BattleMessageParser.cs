@@ -1,4 +1,4 @@
-using ElsaMina.Core.Services.Battles.DataClasses;
+using ElsaMina.Core.Services.Battles.Dtos;
 using ElsaMina.Logging;
 using Newtonsoft.Json;
 
@@ -43,12 +43,13 @@ public class BattleMessageParser : IBattleMessageParser
 
         try
         {
-            var battleState = JsonConvert.DeserializeObject<BattleState>(requestJson);
+            var battleState = JsonConvert.DeserializeObject<BattleStateDto>(requestJson);
             if (battleState == null)
             {
                 return false;
             }
 
+            context.Wait = battleState.Wait;
             context.TeamPreview = battleState.TeamPreview;
             context.ForceSwitchSlots = ParseForceSwitch(battleState);
             context.SidePokemon = ParseSidePokemon(battleState);
@@ -64,12 +65,12 @@ public class BattleMessageParser : IBattleMessageParser
         }
     }
 
-    private static List<bool> ParseForceSwitch(BattleState root)
+    private static List<bool> ParseForceSwitch(BattleStateDto root)
     {
         return root.ForceSwitch == null || root.ForceSwitch.Count == 0 ? [] : root.ForceSwitch;
     }
 
-    private static List<BattlePokemonState> ParseSidePokemon(BattleState root)
+    private static List<BattlePokemonState> ParseSidePokemon(BattleStateDto root)
     {
         if (root.Side?.Pokemon == null || root.Side.Pokemon.Count == 0)
         {
@@ -93,7 +94,7 @@ public class BattleMessageParser : IBattleMessageParser
         return results;
     }
 
-    private static List<BattleActiveSlot> ParseActiveSlots(BattleState root)
+    private static List<BattleActiveSlot> ParseActiveSlots(BattleStateDto root)
     {
         if (root.Active == null || root.Active.Count == 0)
         {
@@ -112,7 +113,11 @@ public class BattleMessageParser : IBattleMessageParser
             var moves = new List<BattleMoveState>(activeSlot.Moves.Count);
             foreach (var move in activeSlot.Moves)
             {
-                moves.Add(new BattleMoveState { IsDisabled = move?.Disabled ?? false });
+                moves.Add(new BattleMoveState
+                {
+                    IsDisabled = move?.Disabled ?? false,
+                    //Type = move?.Type ?? "" // TODO : resource json
+                });
             }
 
             slots.Add(new BattleActiveSlot { Moves = moves });

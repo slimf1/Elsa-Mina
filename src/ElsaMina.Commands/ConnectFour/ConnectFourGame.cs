@@ -20,7 +20,6 @@ public class ConnectFourGame : Game, IConnectFourGame
     private readonly ITemplatesManager _templatesManager;
     private readonly IConfiguration _configuration;
     private readonly IBot _bot;
-    private readonly int _gameId;
 
     private Timer _timer;
 
@@ -34,7 +33,7 @@ public class ConnectFourGame : Game, IConnectFourGame
         _configuration = configuration;
         _bot = bot;
 
-        _gameId = NextGameId++;
+        GameId = NextGameId++;
     }
 
     #region Properties
@@ -56,11 +55,12 @@ public class ConnectFourGame : Game, IConnectFourGame
     public override string Identifier => nameof(ConnectFourGame);
 
     public string PlayerNames => string.Join(", ", Players.Select(player => player.Name));
-    public int GameId => _gameId;
+
+    public int GameId { get; }
 
     public IContext Context { get; set; }
     
-    private string AnnounceId => $"c4-announce-{_gameId}";
+    private string AnnounceId => $"c4-announce-{GameId}";
 
     #endregion
 
@@ -343,7 +343,7 @@ public class ConnectFourGame : Game, IConnectFourGame
                 Trigger = _configuration.Trigger
             });
 
-        var pageName = $"c4-game-{Context.RoomId}-{_gameId}";
+        var pageName = $"c4-game-{Context.RoomId}-{GameId}";
         var sanitizedTemplate = template.RemoveNewlines();
         foreach (var player in Players)
         {
