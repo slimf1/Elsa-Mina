@@ -116,7 +116,7 @@ public class BattleMessageParser : IBattleMessageParser
                 moves.Add(new BattleMoveState
                 {
                     IsDisabled = move?.Disabled ?? false,
-                    //Type = move?.Type ?? "" // TODO : resource json
+                    Type = "" // TODO : resource json
                 });
             }
 
