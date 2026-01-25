@@ -14,7 +14,7 @@ public class RandomBattleDecisionService : IBattleDecisionService
     public bool TryGetDecision(BattleContext context, out BattleDecision decision)
     {
         decision = null;
-        if (context.IsBattleOver || context.Wait)
+        if (context.IsBattleOver)
         {
             return false;
         }

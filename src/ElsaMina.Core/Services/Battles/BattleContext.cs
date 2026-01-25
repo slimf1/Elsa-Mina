@@ -8,7 +8,6 @@ public class BattleContext
     }
 
     public string RoomId { get; }
-    public bool Wait { get; set; }
     public bool TeamPreview { get; set; }
     public bool IsBattleOver { get; set; }
     public bool HasAnnouncedStart { get; set; }

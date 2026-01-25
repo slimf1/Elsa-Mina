@@ -1,5 +1,6 @@
-using System.Text.Json;
+using ElsaMina.Core.Services.Battles.DataClasses;
 using ElsaMina.Logging;
+using Newtonsoft.Json;
 
 namespace ElsaMina.Core.Services.Battles;
 
@@ -42,17 +43,16 @@ public class BattleMessageParser : IBattleMessageParser
 
         try
         {
-            using var document = JsonDocument.Parse(requestJson);
-            var root = document.RootElement;
+            var battleState = JsonConvert.DeserializeObject<BattleState>(requestJson);
+            if (battleState == null)
+            {
+                return false;
+            }
 
-            context.Wait = root.TryGetProperty("wait", out var waitElement) &&
-                           waitElement.ValueKind == JsonValueKind.True;
-            context.TeamPreview = root.TryGetProperty("teamPreview", out var teamPreviewElement) &&
-                                  teamPreviewElement.ValueKind == JsonValueKind.True;
-
-            context.ForceSwitchSlots = ParseForceSwitch(root);
-            context.SidePokemon = ParseSidePokemon(root);
-            context.ActiveSlots = ParseActiveSlots(root);
+            context.TeamPreview = battleState.TeamPreview;
+            context.ForceSwitchSlots = ParseForceSwitch(battleState);
+            context.SidePokemon = ParseSidePokemon(battleState);
+            context.ActiveSlots = ParseActiveSlots(battleState);
 
             result = new BattleMessageResult(BattleMessageType.RequestUpdated);
             return true;
@@ -64,52 +64,28 @@ public class BattleMessageParser : IBattleMessageParser
         }
     }
 
-    private static List<bool> ParseForceSwitch(JsonElement root)
+    private static List<bool> ParseForceSwitch(BattleState root)
     {
-        if (!root.TryGetProperty("forceSwitch", out var forceSwitchElement))
-        {
-            return [];
-        }
-
-        var forceSwitchSlots = new List<bool>();
-        if (forceSwitchElement.ValueKind == JsonValueKind.Array)
-        {
-            foreach (var element in forceSwitchElement.EnumerateArray())
-            {
-                forceSwitchSlots.Add(element.ValueKind == JsonValueKind.True);
-            }
-        }
-        else if (forceSwitchElement.ValueKind == JsonValueKind.True)
-        {
-            forceSwitchSlots.Add(true);
-        }
-
-        return forceSwitchSlots;
+        return root.ForceSwitch == null || root.ForceSwitch.Count == 0 ? [] : root.ForceSwitch;
     }
 
-    private static List<BattlePokemonState> ParseSidePokemon(JsonElement root)
+    private static List<BattlePokemonState> ParseSidePokemon(BattleState root)
     {
-        if (!root.TryGetProperty("side", out var sideElement) ||
-            !sideElement.TryGetProperty("pokemon", out var pokemonElement) ||
-            pokemonElement.ValueKind != JsonValueKind.Array)
+        if (root.Side?.Pokemon == null || root.Side.Pokemon.Count == 0)
         {
             return [];
         }
 
-        var results = new List<BattlePokemonState>();
-        foreach (var pokemon in pokemonElement.EnumerateArray())
+        var results = new List<BattlePokemonState>(root.Side.Pokemon.Count);
+        foreach (var pokemon in root.Side.Pokemon)
         {
-            var isActive = pokemon.TryGetProperty("active", out var activeElement) &&
-                           activeElement.ValueKind == JsonValueKind.True;
-            var condition = pokemon.TryGetProperty("condition", out var conditionElement)
-                ? conditionElement.GetString()
-                : null;
-            var isFainted = condition != null &&
+            var condition = pokemon.Condition;
+            var isFainted = !string.IsNullOrWhiteSpace(condition) &&
                             condition.Contains("fnt", StringComparison.OrdinalIgnoreCase);
 
             results.Add(new BattlePokemonState
             {
-                IsActive = isActive,
+                IsActive = pokemon.Active,
                 IsFainted = isFainted
             });
         }
@@ -117,30 +93,26 @@ public class BattleMessageParser : IBattleMessageParser
         return results;
     }
 
-    private static List<BattleActiveSlot> ParseActiveSlots(JsonElement root)
+    private static List<BattleActiveSlot> ParseActiveSlots(BattleState root)
     {
-        if (!root.TryGetProperty("active", out var activeElement) ||
-            activeElement.ValueKind != JsonValueKind.Array)
+        if (root.Active == null || root.Active.Count == 0)
         {
             return [];
         }
 
-        var slots = new List<BattleActiveSlot>();
-        foreach (var activeSlot in activeElement.EnumerateArray())
+        var slots = new List<BattleActiveSlot>(root.Active.Count);
+        foreach (var activeSlot in root.Active)
         {
-            if (!activeSlot.TryGetProperty("moves", out var movesElement) ||
-                movesElement.ValueKind != JsonValueKind.Array)
+            if (activeSlot?.Moves == null || activeSlot.Moves.Count == 0)
             {
                 slots.Add(new BattleActiveSlot());
                 continue;
             }
 
-            var moves = new List<BattleMoveState>();
-            foreach (var move in movesElement.EnumerateArray())
+            var moves = new List<BattleMoveState>(activeSlot.Moves.Count);
+            foreach (var move in activeSlot.Moves)
             {
-                var isDisabled = move.TryGetProperty("disabled", out var disabledElement) &&
-                                 disabledElement.ValueKind == JsonValueKind.True;
-                moves.Add(new BattleMoveState { IsDisabled = isDisabled });
+                moves.Add(new BattleMoveState { IsDisabled = move?.Disabled ?? false });
             }
 
             slots.Add(new BattleActiveSlot { Moves = moves });
