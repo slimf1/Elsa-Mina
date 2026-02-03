@@ -29,6 +29,33 @@
     <data name="badge_help_message" xml:space="preserve">
         <value>Añade una nueva insignia. Sintaxis: -add-badge &lt;nombre&gt;, &lt;imagen&gt;. Usa -add-trophy para añadir un trofeo.</value>
     </data>
+    <data name="badge_edit_help_message" xml:space="preserve">
+        <value>Edita una insignia. Sintaxis: -editbadge &lt;insignia&gt;, &lt;nombre&gt;, &lt;imagen&gt; [, &lt;sala&gt;]</value>
+    </data>
+    <data name="badge_edit_not_found" xml:space="preserve">
+        <value>No se pudo encontrar la insignia {0}.</value>
+    </data>
+    <data name="badge_edit_success" xml:space="preserve">
+        <value>La insignia "{0}" ha sido actualizada.</value>
+    </data>
+    <data name="badge_edit_failure" xml:space="preserve">
+        <value>Se produjo un error al actualizar la insignia: {0}</value>
+    </data>
+    <data name="badge_edit_panel_title" xml:space="preserve">
+        <value>Editor de insignias de {0}</value>
+    </data>
+    <data name="badge_edit_panel_id" xml:space="preserve">
+        <value>ID de insignia</value>
+    </data>
+    <data name="badge_edit_panel_name" xml:space="preserve">
+        <value>Nombre</value>
+    </data>
+    <data name="badge_edit_panel_image" xml:space="preserve">
+        <value>URL de imagen</value>
+    </data>
+    <data name="badge_edit_panel_no_badges" xml:space="preserve">
+        <value>No se encontraron insignias para {0}.</value>
+    </data>
     <data name="badge_add_success_message" xml:space="preserve">
         <value>Insignia añadida correctamente.</value>
     </data>

@@ -1,24 +1,71 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Commands;
+using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.Templates;
+using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.Commands.Badges.BadgeEditPanel;
 
-[NamedCommand("badge-edit", "editbadge", "updatebadge", "editbadge", "updatebadges")]
+[NamedCommand("badge-edit-panel", "badgeeditpanel", "editbadges", "updatebadges", "badgepanel")]
 public class BadgeEditPanelCommand : Command
 {
     private readonly IBotDbContextFactory _dbContextFactory;
+    private readonly ITemplatesManager _templatesManager;
+    private readonly IConfiguration _configuration;
+    private readonly IRoomsManager _roomsManager;
 
-    public BadgeEditPanelCommand(IBotDbContextFactory dbContextFactory)
+    public BadgeEditPanelCommand(IBotDbContextFactory dbContextFactory,
+        ITemplatesManager templatesManager,
+        IConfiguration configuration,
+        IRoomsManager roomsManager)
     {
         _dbContextFactory = dbContextFactory;
+        _templatesManager = templatesManager;
+        _configuration = configuration;
+        _roomsManager = roomsManager;
     }
 
-    public override Rank RequiredRank => Rank.Regular;
+    public override bool IsAllowedInPrivateMessage => true;
+    public override Rank RequiredRank => Rank.Driver;
 
-    public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var roomId = string.IsNullOrWhiteSpace(context.Target)
+            ? context.RoomId
+            : context.Target.ToLowerAlphaNum();
+        var room = _roomsManager.GetRoom(roomId);
+        if (context.IsPrivateMessage && room != null)
+        {
+            context.Culture = room.Culture;
+        }
+
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+        var badges = await dbContext.Badges
+            .Where(badge => badge.RoomId == roomId)
+            .OrderBy(badge => badge.Name)
+            .ToListAsync(cancellationToken);
+
+        if (badges.Count == 0)
+        {
+            context.ReplyLocalizedMessage("badge_edit_panel_no_badges", room?.Name ?? roomId);
+            return;
+        }
+
+        var viewModel = new BadgeEditPanelViewModel
+        {
+            Culture = context.Culture,
+            RoomId = roomId,
+            RoomName = room?.Name ?? roomId,
+            BotName = _configuration.Name,
+            Trigger = _configuration.Trigger,
+            EditCommand = $"/w {_configuration.Name},{_configuration.Trigger}editbadge {{badgeId}}, {{name}}, {{image}}, {roomId}",
+            Badges = badges
+        };
+
+        var template = await _templatesManager.GetTemplateAsync("Badges/BadgeEditPanel/BadgeEditPanel", viewModel);
+        context.ReplyHtmlPage($"badge-edit-{roomId}", template.RemoveNewlines());
     }
 }

@@ -24,6 +24,33 @@
     <data name="badge_help_message" xml:space="preserve">
         <value>Ajoute un nouveau badge. Syntaxe : -add-badge &lt;nom&gt;, &lt;image&gt;. Utiliser -add-trophy pour ajouter un trophée.</value>
     </data>
+    <data name="badge_edit_help_message" xml:space="preserve">
+        <value>Modifie un badge. Syntaxe : -editbadge &lt;badge&gt;, &lt;nom&gt;, &lt;image&gt; [, &lt;salle&gt;]</value>
+    </data>
+    <data name="badge_edit_not_found" xml:space="preserve">
+        <value>Impossible de trouver le badge {0}.</value>
+    </data>
+    <data name="badge_edit_success" xml:space="preserve">
+        <value>Le badge "{0}" a été mis à jour.</value>
+    </data>
+    <data name="badge_edit_failure" xml:space="preserve">
+        <value>Une erreur est survenue en mettant à jour le badge : {0}</value>
+    </data>
+    <data name="badge_edit_panel_title" xml:space="preserve">
+        <value>Éditeur de badges de {0}</value>
+    </data>
+    <data name="badge_edit_panel_id" xml:space="preserve">
+        <value>ID du badge</value>
+    </data>
+    <data name="badge_edit_panel_name" xml:space="preserve">
+        <value>Nom</value>
+    </data>
+    <data name="badge_edit_panel_image" xml:space="preserve">
+        <value>URL de l'image</value>
+    </data>
+    <data name="badge_edit_panel_no_badges" xml:space="preserve">
+        <value>Aucun badge trouvé pour {0}.</value>
+    </data>
     <data name="badge_add_success_message" xml:space="preserve">
         <value>Badge ajouté avec succès.</value>
     </data>

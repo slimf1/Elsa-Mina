@@ -1,0 +1,64 @@
+@using ElsaMina.Core.Services.Templates
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Badges.BadgeEditPanel.BadgeEditPanelViewModel>
+
+@{
+    const string containerStyle = "padding: 1.5rem;";
+    const string rowStyle = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};" +
+                            "padding: .5rem;" +
+                            "margin-bottom: .5rem;" +
+                            $"background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
+    const string labelStyle = "display: inline-block; min-width: 90px;";
+    const string inputStyle = "margin-right: .5rem;";
+}
+
+<div style="@containerStyle">
+    <h2>@GetString("badge_edit_panel_title", Model.RoomName)</h2>
+
+    @foreach (var badge in Model.Badges)
+    {
+        <form data-submitsend="@Model.EditCommand" style="@rowStyle">
+            <div style="margin-bottom: .35rem;">
+                @{
+                    await IncludeAsync("Badges/Badge", badge);
+                }
+                <strong>@badge.Name</strong>
+            </div>
+            <div>
+                <label style="@labelStyle" for="badgeId-@badge.Id">@GetString("badge_edit_panel_id")</label>
+                <input
+                    class="textbox searchinput"
+                    style="@inputStyle"
+                    type="text"
+                    id="badgeId-@badge.Id"
+                    name="badgeId"
+                    value="@badge.Id"
+                    readonly />
+            </div>
+            <div>
+                <label style="@labelStyle" for="name-@badge.Id">@GetString("badge_edit_panel_name")</label>
+                <input
+                    class="textbox searchinput"
+                    style="@inputStyle"
+                    type="text"
+                    id="name-@badge.Id"
+                    name="name"
+                    value="@badge.Name"
+                    required />
+            </div>
+            <div>
+                <label style="@labelStyle" for="image-@badge.Id">@GetString("badge_edit_panel_image")</label>
+                <input
+                    class="textbox searchinput"
+                    style="@inputStyle"
+                    type="text"
+                    id="image-@badge.Id"
+                    name="image"
+                    value="@badge.Image"
+                    required />
+            </div>
+            <div style="margin-top: .5rem;">
+                <button class="button" type="submit">@GetString("submit")</button>
+            </div>
+        </form>
+    }
+</div>

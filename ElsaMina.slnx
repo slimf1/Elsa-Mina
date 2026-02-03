@@ -16,17 +16,17 @@
     <File Path="scripts\test.sh" />
   </Folder>
   <Folder Name="/src/">
-    <Project Path="src\ElsaMina.Commands\ElsaMina.Commands.csproj" Type="Classic C#" />
-    <Project Path="src\ElsaMina.Console\ElsaMina.Console.csproj" Type="Classic C#" />
-    <Project Path="src\ElsaMina.Core\ElsaMina.Core.csproj" Type="Classic C#" />
-    <Project Path="src\ElsaMina.DataAccess\ElsaMina.DataAccess.csproj" Type="Classic C#" />
-    <Project Path="src\ElsaMina.FileSharing\ElsaMina.FileSharing.csproj" Type="Classic C#" />
-    <Project Path="src\ElsaMina.Logging\ElsaMina.Logging.csproj" Type="Classic C#" />
-    <Project Path="src\ElsaMina.Sheets\ElsaMina.Sheets.csproj" Type="Classic C#" />
+    <Project Path="src\ElsaMina.Commands\ElsaMina.Commands.csproj" Type="C#" />
+    <Project Path="src\ElsaMina.Console\ElsaMina.Console.csproj" Type="C#" />
+    <Project Path="src\ElsaMina.Core\ElsaMina.Core.csproj" Type="C#" />
+    <Project Path="src\ElsaMina.DataAccess\ElsaMina.DataAccess.csproj" Type="C#" />
+    <Project Path="src\ElsaMina.FileSharing\ElsaMina.FileSharing.csproj" Type="C#" />
+    <Project Path="src\ElsaMina.Logging\ElsaMina.Logging.csproj" Type="C#" />
+    <Project Path="src\ElsaMina.Sheets\ElsaMina.Sheets.csproj" Type="C#" />
   </Folder>
   <Folder Name="/test/">
-    <Project Path="test\ElsaMina.IntegrationTests\ElsaMina.IntegrationTests.csproj" Type="Classic C#" />
-    <Project Path="test\ElsaMina.UnitTests\ElsaMina.UnitTests.csproj" Type="Classic C#" />
+    <Project Path="test\ElsaMina.IntegrationTests\ElsaMina.IntegrationTests.csproj" Type="C#" />
+    <Project Path="test\ElsaMina.UnitTests\ElsaMina.UnitTests.csproj" Type="C#" />
   </Folder>
   <Folder Name="/Workflows/">
     <File Path=".github\workflows\deploy.yml" />

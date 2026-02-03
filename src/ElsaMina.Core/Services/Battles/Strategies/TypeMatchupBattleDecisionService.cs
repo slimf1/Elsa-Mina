@@ -160,11 +160,13 @@ public class TypeMatchupBattleDecisionService : IBattleDecisionService
 
     private static IReadOnlyList<string> GetOpponentTypes(BattleContext context, int slotIndex)
     {
+        /*
         if (context.OpponentActiveTypes.Count <= slotIndex)
         {
             return Array.Empty<string>();
         }
 
-        return context.OpponentActiveTypes[slotIndex] ?? [];
+        return context.OpponentActiveTypes[slotIndex] ?? [];*/
+        return [];
     }
 }
