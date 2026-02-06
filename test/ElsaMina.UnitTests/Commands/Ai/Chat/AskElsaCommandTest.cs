@@ -23,6 +23,7 @@ public class AskElsaCommandTest
     public void SetUp()
     {
         _mockConfiguration = Substitute.For<IConfiguration>();
+        _mockConfiguration.Name.Returns("Elsa");
         _mockResourcesService = Substitute.For<IResourcesService>();
         _mockLanguageModelProvider = Substitute.For<ILanguageModelProvider>();
         _mockTextToSpeechProvider = Substitute.For<IAiTextToSpeechProvider>();
@@ -49,14 +50,9 @@ public class AskElsaCommandTest
     public async Task RunAsync_ShouldReplyWithText_WhenAudioIsNotRequested()
     {
         // Arrange
-        var mockContext = Substitute.For<IContext>();
-        mockContext.Command.Returns("ask");
-        mockContext.Target.Returns("What is the weather?");
-        mockContext.Sender.Name.Returns("User");
-        mockContext.Room.Name.Returns("Room1");
-        mockContext.Room.LastMessages.Returns(new List<Tuple<string, string>>());
+        var mockContext = BuildContext("ask", "What is the weather?");
         _mockResourcesService.GetString("ask_prompt", Arg.Any<CultureInfo>())
-            .Returns("{0} asked by {1} in {3}");
+            .Returns("{0} asked by {1} in {2}");
         _mockLanguageModelProvider.AskLanguageModelAsync(Arg.Any<LanguageModelRequest>(), Arg.Any<CancellationToken>())
             .Returns("It's sunny.");
 
@@ -71,14 +67,9 @@ public class AskElsaCommandTest
     public async Task RunAsync_ShouldReplyWithAudio_WhenAudioIsRequested()
     {
         // Arrange
-        var mockContext = Substitute.For<IContext>();
-        mockContext.Command.Returns("askaudio");
-        mockContext.Target.Returns("What is the weather?");
-        mockContext.Sender.Name.Returns("User");
-        mockContext.Room.Name.Returns("Room1");
-        mockContext.Room.LastMessages.Returns(new List<Tuple<string, string>>());
+        var mockContext = BuildContext("askaudio", "What is the weather?");
         _mockResourcesService.GetString("ask_prompt", Arg.Any<CultureInfo>())
-            .Returns("{0} asked by {1} in {3}");
+            .Returns("{0} asked by {1} in {2}");
         _mockLanguageModelProvider.AskLanguageModelAsync(Arg.Any<LanguageModelRequest>(), Arg.Any<CancellationToken>())
             .Returns("It's sunny.");
         _mockTextToSpeechProvider.GetTextToSpeechAudioUrlAsync(Arg.Any<string>(), Arg.Any<VoiceType>(), Arg.Any<CancellationToken>())
@@ -95,14 +86,9 @@ public class AskElsaCommandTest
     public async Task RunAsync_ShouldLogError_WhenAudioGenerationFails()
     {
         // Arrange
-        var mockContext = Substitute.For<IContext>();
-        mockContext.Command.Returns("askaudio");
-        mockContext.Target.Returns("What is the weather?");
-        mockContext.Sender.Name.Returns("User");
-        mockContext.Room.Name.Returns("Room1");
-        mockContext.Room.LastMessages.Returns(new List<Tuple<string, string>>());
+        var mockContext = BuildContext("askaudio", "What is the weather?");
         _mockResourcesService.GetString("ask_prompt", Arg.Any<CultureInfo>())
-            .Returns("{0} asked by {1} in {3}");
+            .Returns("{0} asked by {1} in {2}");
         _mockLanguageModelProvider.AskLanguageModelAsync(Arg.Any<LanguageModelRequest>(), Arg.Any<CancellationToken>())
             .Returns("It's sunny.");
         _mockTextToSpeechProvider.GetTextToSpeechAudioUrlAsync(Arg.Any<string>(), Arg.Any<VoiceType>(), Arg.Any<CancellationToken>())
@@ -113,5 +99,24 @@ public class AskElsaCommandTest
 
         // Assert
         mockContext.Received(1).ReplyLocalizedMessage("ask_error");
+    }
+
+    private static IContext BuildContext(string command, string target)
+    {
+        var context = Substitute.For<IContext>();
+        var room = Substitute.For<IRoom>();
+        var sender = Substitute.For<IUser>();
+
+        room.Name.Returns("Room1");
+        room.LastMessages.Returns(new List<Tuple<string, string>>());
+        sender.Name.Returns("User");
+
+        context.Command.Returns(command);
+        context.Target.Returns(target);
+        context.Room.Returns(room);
+        context.Sender.Returns(sender);
+        context.Culture.Returns(CultureInfo.InvariantCulture);
+
+        return context;
     }
 }
