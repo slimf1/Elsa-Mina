@@ -6,18 +6,18 @@ using NSubstitute;
 namespace ElsaMina.UnitTests.Commands.Ai.LanguageModel;
 
 [TestFixture]
-public class MistralLanguageModelProviderTest
+public class MistralMediumProviderTest
 {
     private IHttpService _httpService;
     private IConfiguration _configuration;
-    private MistralLanguageModelProvider _languageModelProvider;
+    private MistralMediumProvider _languageModelProvider;
 
     [SetUp]
     public void SetUp()
     {
         _httpService = Substitute.For<IHttpService>();
         _configuration = Substitute.For<IConfiguration>();
-        _languageModelProvider = new MistralLanguageModelProvider(_httpService, _configuration);
+        _languageModelProvider = new MistralMediumProvider(_httpService, _configuration);
     }
 
     [Test]

@@ -16,6 +16,7 @@ public class AskElsaCommandTest
     private IResourcesService _mockResourcesService;
     private ILanguageModelProvider _mockLanguageModelProvider;
     private IAiTextToSpeechProvider _mockTextToSpeechProvider;
+    private IConversationHistoryService _mockConversationHistory;
     private AskElsaCommand _command;
 
     [SetUp]
@@ -25,12 +26,16 @@ public class AskElsaCommandTest
         _mockResourcesService = Substitute.For<IResourcesService>();
         _mockLanguageModelProvider = Substitute.For<ILanguageModelProvider>();
         _mockTextToSpeechProvider = Substitute.For<IAiTextToSpeechProvider>();
+        _mockConversationHistory = Substitute.For<IConversationHistoryService>();
+        _mockConversationHistory.BuildConversation(Arg.Any<IRoom>(), Arg.Any<IUser>(), Arg.Any<string>())
+            .Returns(new List<LanguageModelMessage>());
 
         _command = new AskElsaCommand(
             _mockConfiguration,
             _mockResourcesService,
             _mockLanguageModelProvider,
-            _mockTextToSpeechProvider
+            _mockTextToSpeechProvider,
+            _mockConversationHistory
         );
     }
     
@@ -52,7 +57,7 @@ public class AskElsaCommandTest
         mockContext.Room.LastMessages.Returns(new List<Tuple<string, string>>());
         _mockResourcesService.GetString("ask_prompt", Arg.Any<CultureInfo>())
             .Returns("{0} asked by {1} in {3}");
-        _mockLanguageModelProvider.AskLanguageModelAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+        _mockLanguageModelProvider.AskLanguageModelAsync(Arg.Any<LanguageModelRequest>(), Arg.Any<CancellationToken>())
             .Returns("It's sunny.");
 
         // Act
@@ -74,7 +79,7 @@ public class AskElsaCommandTest
         mockContext.Room.LastMessages.Returns(new List<Tuple<string, string>>());
         _mockResourcesService.GetString("ask_prompt", Arg.Any<CultureInfo>())
             .Returns("{0} asked by {1} in {3}");
-        _mockLanguageModelProvider.AskLanguageModelAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+        _mockLanguageModelProvider.AskLanguageModelAsync(Arg.Any<LanguageModelRequest>(), Arg.Any<CancellationToken>())
             .Returns("It's sunny.");
         _mockTextToSpeechProvider.GetTextToSpeechAudioUrlAsync(Arg.Any<string>(), Arg.Any<VoiceType>(), Arg.Any<CancellationToken>())
             .Returns("https://example.com/audio.mp3");
@@ -98,7 +103,7 @@ public class AskElsaCommandTest
         mockContext.Room.LastMessages.Returns(new List<Tuple<string, string>>());
         _mockResourcesService.GetString("ask_prompt", Arg.Any<CultureInfo>())
             .Returns("{0} asked by {1} in {3}");
-        _mockLanguageModelProvider.AskLanguageModelAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+        _mockLanguageModelProvider.AskLanguageModelAsync(Arg.Any<LanguageModelRequest>(), Arg.Any<CancellationToken>())
             .Returns("It's sunny.");
         _mockTextToSpeechProvider.GetTextToSpeechAudioUrlAsync(Arg.Any<string>(), Arg.Any<VoiceType>(), Arg.Any<CancellationToken>())
             .Returns((string)null);

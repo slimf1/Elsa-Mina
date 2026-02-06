@@ -4,11 +4,12 @@ using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Ai.LanguageModel.Mistral;
 
-public class MistralLanguageModelProvider : ILanguageModelProvider
+public abstract class MistralLanguageModelProvider : ILanguageModelProvider
 {
     private const string MISTRAL_AUTOCOMPLETE_API_URL = "https://api.mistral.ai/v1/chat/completions";
-    private const string DEFAULT_MODEL = "mistral-medium-latest";
     private const string USER_ROLE = "user";
+    private const string ASSISTANT_ROLE = "assistant";
+    private const string SYSTEM_ROLE = "system";
 
     private readonly IHttpService _httpService;
     private readonly IConfiguration _configuration;
@@ -18,6 +19,8 @@ public class MistralLanguageModelProvider : ILanguageModelProvider
         _httpService = httpService;
         _configuration = configuration;
     }
+    
+    protected abstract string Model { get; }
 
     public async Task<string> AskLanguageModelAsync(string prompt, CancellationToken cancellationToken = default)
     {
@@ -35,7 +38,7 @@ public class MistralLanguageModelProvider : ILanguageModelProvider
 
         var dto = new MistralRequestDto
         {
-            Model = DEFAULT_MODEL,
+            Model = Model,
             Messages =
             [
                 new MistralRequestMessageDto
@@ -47,6 +50,72 @@ public class MistralLanguageModelProvider : ILanguageModelProvider
         };
 
         Log.Information("Making request to Mistral with prompt: {0}", prompt);
+        var response = await _httpService.PostJsonAsync<MistralRequestDto, MistralResponseDto>(
+            MISTRAL_AUTOCOMPLETE_API_URL,
+            dto,
+            headers: headers,
+            cancellationToken: cancellationToken);
+
+        var choice = response?.Data?.Choices?.FirstOrDefault();
+        return choice?.Message.Content;
+    }
+
+    public async Task<string> AskLanguageModelAsync(LanguageModelRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        var key = _configuration.MistralApiKey;
+        if (string.IsNullOrWhiteSpace(key))
+        {
+            Log.Error("Missing Mistral API key");
+            return null;
+        }
+
+        var headers = new Dictionary<string, string>
+        {
+            ["Authorization"] = $"Bearer {key}"
+        };
+
+        var messages = new List<MistralRequestMessageDto>();
+        if (!string.IsNullOrWhiteSpace(request?.SystemPrompt))
+        {
+            messages.Add(new MistralRequestMessageDto
+            {
+                Role = SYSTEM_ROLE,
+                Content = request.SystemPrompt
+            });
+        }
+
+        if (request?.InputConversation != null)
+        {
+            foreach (var msg in request.InputConversation)
+            {
+                if (msg == null)
+                {
+                    continue;
+                }
+
+                var role = msg.Role switch
+                {
+                    MessageRole.Agent => ASSISTANT_ROLE,
+                    MessageRole.User => USER_ROLE,
+                    _ => USER_ROLE
+                };
+
+                messages.Add(new MistralRequestMessageDto
+                {
+                    Role = role,
+                    Content = msg.Content
+                });
+            }
+        }
+
+        var dto = new MistralRequestDto
+        {
+            Model = Model,
+            Messages = messages
+        };
+
+        Log.Information("Making request to Mistral with full conversation context. Messages: {0}", messages.Count);
         var response = await _httpService.PostJsonAsync<MistralRequestDto, MistralResponseDto>(
             MISTRAL_AUTOCOMPLETE_API_URL,
             dto,

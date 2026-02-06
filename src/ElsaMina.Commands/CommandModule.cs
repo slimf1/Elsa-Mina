@@ -5,7 +5,6 @@ using ElsaMina.Commands.Ai.LanguageModel.Google;
 using ElsaMina.Commands.Ai.LanguageModel.Mistral;
 using ElsaMina.Commands.Ai.LanguageModel.OpenAi;
 using ElsaMina.Commands.Ai.TextToSpeech;
-using ElsaMina.Commands.Arcade;
 using ElsaMina.Commands.Arcade.Events;
 using ElsaMina.Commands.Arcade.Levels;
 using ElsaMina.Commands.Arcade.Sheets;
@@ -151,9 +150,11 @@ public class CommandModule : Module
         builder.RegisterType<GatekeepersGame>().AsSelf();
 
         builder.RegisterType<ElevenLabsAiTextToSpeechProvider>().As<IAiTextToSpeechProvider>().SingleInstance();
-        //builder.RegisterType<MistralLanguageModelProvider>().As<ILanguageModelProvider>().SingleInstance();
-        //builder.RegisterType<GptLanguageModelProvider>().As<ILanguageModelProvider>().SingleInstance();
-        builder.RegisterType<GeminiLanguageModelProvider>().As<ILanguageModelProvider>().SingleInstance();
+        builder.RegisterType<Gemini25FlashProvider>().AsSelf().SingleInstance();
+        builder.RegisterType<MistralMediumProvider>().AsSelf().SingleInstance();
+        builder.RegisterType<GptNano41Provider>().AsSelf().SingleInstance();
+        builder.RegisterType<ConversationHistoryService>().As<IConversationHistoryService>().SingleInstance();
+        builder.RegisterType<LanguageModelResolver>().As<ILanguageModelProvider>().SingleInstance();
         builder.RegisterType<ShowdownRanksProvider>().As<IShowdownRanksProvider>().SingleInstance();
         builder.RegisterType<PokepasteProvider>().As<ITeamProvider>().SingleInstance();
         builder.RegisterType<CoupCritiqueProvider>().As<ITeamProvider>().SingleInstance();

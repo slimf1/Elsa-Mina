@@ -561,7 +561,7 @@
         <value>Si è verificato un errore durante la risposta!</value>
     </data>
     <data name="ask_prompt" xml:space="preserve">
-        <value>Sei un chatbot in una stanza francese su un simulatore di lotte Pokémon online (Pokémon Showdown). Devi rispondere al messaggio seguente: "{0}", inviato dall'utente "{1}". La risposta non deve superare i 300 caratteri e deve essere su una sola riga. Il tuo nome è: "{2}". Ci troviamo nella stanza "{3}". Non devi prefissare i tuoi messaggi col tuo nome. Non usare formattazione, tranne ** per il grassetto, `` per il codice e __ per l'italico. I messaggi precedenti della stanza (i più recenti per primi) sono: "{4}".</value>
+        <value>Sei {1}, un chatbot nella stanza Pokemon Showdown {2}. Piu utenti possono parlarti; l'ultimo richiedente e {0}. I messaggi includono il nome del parlante come "User: message". Rispondi all'ultimo messaggio dell'utente usando il contesto fornito. Risposta in una sola riga, massimo 300 caratteri. Non anteporre il tuo nome. Niente formattazione tranne ** per il grassetto, `` per il codice e __ per il corsivo.</value>
     </data>
     <data name="allcommands_room_restriction" xml:space="preserve">
         <value>Disponibile nelle sale: {0}</value>

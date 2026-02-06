@@ -4,10 +4,10 @@ using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Ai.LanguageModel.Google;
 
-public class GeminiLanguageModelProvider : ILanguageModelProvider
+public abstract class GeminiLanguageModelProvider : ILanguageModelProvider
 {
     private const string BASE_URL =
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
+        "https://generativelanguage.googleapis.com/v1beta/models/{0}:generateContent";
 
     private readonly IConfiguration _configuration;
     private readonly IHttpService _httpService;
@@ -17,6 +17,9 @@ public class GeminiLanguageModelProvider : ILanguageModelProvider
         _configuration = configuration;
         _httpService = httpService;
     }
+    
+    protected abstract string Model { get; }
+    private string Url => string.Format(BASE_URL, Model);
 
     public async Task<string> AskLanguageModelAsync(string prompt, CancellationToken cancellationToken = default)
     {
@@ -44,7 +47,7 @@ public class GeminiLanguageModelProvider : ILanguageModelProvider
         var response = await _httpService.PostJsonAsync<GeminiRequestDto, GeminiResponseDto>(BASE_URL, requestDto,
             cancellationToken: cancellationToken, headers: headers);
 
-        return response.Data.Candidates.First().Content.Parts[0].Text;
+        return response.Data?.Candidates?.FirstOrDefault()?.Content?.Parts.FirstOrDefault()?.Text ?? string.Empty;
     }
 
     public async Task<string> AskLanguageModelAsync(LanguageModelRequest request,
@@ -57,11 +60,18 @@ public class GeminiLanguageModelProvider : ILanguageModelProvider
             return null;
         }
 
+        var headers = new Dictionary<string, string>
+        {
+            ["x-goog-api-key"] = apiKey
+        };
 
         GeminiRequestDto requestDto = new();
         if (!string.IsNullOrEmpty(request.SystemPrompt))
         {
-            requestDto.SystemInstruction.Parts[0].Text = request.SystemPrompt;
+            requestDto.SystemInstruction = new SystemInstruction
+            {
+                Parts = [new InstructionPart { Text = request.SystemPrompt }]
+            };
         }
 
         foreach (var message in request.InputConversation ?? [])
@@ -81,9 +91,9 @@ public class GeminiLanguageModelProvider : ILanguageModelProvider
         }
 
         var response =
-            await _httpService.PostJsonAsync<GeminiRequestDto, GeminiResponseDto>(BASE_URL, requestDto,
-                cancellationToken: cancellationToken);
+            await _httpService.PostJsonAsync<GeminiRequestDto, GeminiResponseDto>(Url, requestDto,
+                cancellationToken: cancellationToken, headers: headers);
 
-        return response.Data.Candidates.First().Content.Parts[0].Text;
+        return response.Data?.Candidates?.FirstOrDefault()?.Content?.Parts.FirstOrDefault()?.Text ?? string.Empty;
     }
 }

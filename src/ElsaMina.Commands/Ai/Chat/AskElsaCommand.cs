@@ -13,6 +13,7 @@ namespace ElsaMina.Commands.Ai.Chat;
     "ai-chat-audio", "aiaudio", "ai-audio")]
 public class AskElsaCommand : Command
 {
+    private readonly IConversationHistoryService _conversationHistory;
     private readonly IConfiguration _configuration;
     private readonly IResourcesService _resourcesService;
     private readonly ILanguageModelProvider _languageModelProvider;
@@ -21,12 +22,14 @@ public class AskElsaCommand : Command
     public AskElsaCommand(IConfiguration configuration,
         IResourcesService resourcesService,
         ILanguageModelProvider languageModelProvider,
-        IAiTextToSpeechProvider textToSpeechProvider)
+        IAiTextToSpeechProvider textToSpeechProvider,
+        IConversationHistoryService conversationHistory)
     {
         _configuration = configuration;
         _resourcesService = resourcesService;
         _languageModelProvider = languageModelProvider;
         _textToSpeechProvider = textToSpeechProvider;
+        _conversationHistory = conversationHistory;
     }
 
     public override Rank RequiredRank => Rank.Voiced;
@@ -35,15 +38,20 @@ public class AskElsaCommand : Command
     {
         var withAudio = context.Command.Contains("audio");
         var room = context.Room;
-        var prompt = string.Format(
+        var systemPrompt = string.Format(
             _resourcesService.GetString("ask_prompt", context.Culture),
-            context.Target,
             context.Sender.Name,
             _configuration.Name,
-            room.Name,
-            string.Join("\n", room.LastMessages.Select(pair => $"{pair.Item1[1..]}: {pair.Item2}")));
+            room.Name);
 
-        var response = await _languageModelProvider.AskLanguageModelAsync(prompt, cancellationToken);
+        var conversation = _conversationHistory.BuildConversation(room, context.Sender, context.Target);
+        var request = new LanguageModelRequest
+        {
+            SystemPrompt = systemPrompt,
+            InputConversation = conversation
+        };
+
+        var response = await _languageModelProvider.AskLanguageModelAsync(request, cancellationToken);
         if (response == null)
         {
             context.ReplyLocalizedMessage("ask_error");
@@ -65,6 +73,7 @@ public class AskElsaCommand : Command
             return;
         }
 
+        _conversationHistory.StoreAssistantReply(room, response);
         context.Reply(response);
     }
 }
