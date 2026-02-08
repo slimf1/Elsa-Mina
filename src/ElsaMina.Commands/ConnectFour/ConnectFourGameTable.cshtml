@@ -1,6 +1,6 @@
 ﻿@using ElsaMina.Commands.ConnectFour
 @using ElsaMina.Core.Services.Templates
-@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.ConnectFour.ConnectFourGameTableModel>
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.ConnectFour.ConnectFourModel>
 
 @{
     const string cellStyle = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};";
@@ -22,14 +22,7 @@
     <tbody>
     <tr>
         <td style="@cellStyle">
-            @{ await IncludeAsync("ConnectFour/ConnectFourGrid", new ConnectFourGridModel
-               {
-                   Culture = Model.Culture,
-                   CurrentGame = Model.CurrentGame,
-                   Trigger = Model.Trigger,
-                   BotName = Model.BotName,
-                   RoomId = Model.RoomId
-               }); }
+            @{ await IncludeAsync("ConnectFour/ConnectFourGrid", Model); }
         </td>
         <td style="padding: 20px; @cellStyle">
             <span style="font-weight: bold;">@GetString("c4_game_name")</span><br/>

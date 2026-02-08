@@ -1,11 +1,11 @@
-@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.ConnectFour.ConnectFourGamePanelViewModel>
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.ConnectFour.ConnectFourModel>
 
 <div>
     <h3>
         @GetString("c4_panel_title")
     </h3>
 
-    <span>@GetString("c4_panel_players", Model.ConnectFourGame.PlayerNames)</span><br /><br />
+    <span>@GetString("c4_panel_players", Model.CurrentGame.PlayerNames)</span><br /><br />
 
     <button
         class="button"

@@ -1,6 +1,6 @@
 ﻿@using ElsaMina.Commands.ConnectFour
 @using ElsaMina.Core.Services.Templates
-@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.ConnectFour.ConnectFourGridModel>
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.ConnectFour.ConnectFourModel>
 
 @{
     const string evenCellStyle = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR}";
@@ -14,7 +14,7 @@
     <tr>
         @for (var i = 1; i <= ConnectFourConstants.GRID_WIDTH; ++i)
         {
-            <th style="@headerCellStyle">
+            <th style=" @headerCellStyle">
                 @i
             </th>
         }

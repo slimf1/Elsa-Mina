@@ -2,7 +2,7 @@
 
 namespace ElsaMina.Commands.ConnectFour;
 
-public class ConnectFourGameTableModel : LocalizableViewModel
+public class ConnectFourModel : LocalizableViewModel
 {
     public IConnectFourGame CurrentGame { get; init; }
     public string Trigger { get; init; }
