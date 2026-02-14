@@ -68,18 +68,4 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           passphrase: ${{ secrets.SERVER_KEY_PASSPHRASE }}
           envs: CONFIG_FILE,SERVICE_ACCOUNT_CREDENTIALS
-          script: |
-            cd ./ElsaV2/output
-            echo "Writing config file"
-            echo "$CONFIG_FILE" > config.json
-            echo "$SERVICE_ACCOUNT_CREDENTIALS" > service_account.client_secrets.json
-            echo "Checking existing instances of ElsaMina.Console"
-            if pgrep -f ElsaMina.Console > /dev/null; then
-              echo "Killing existing instances of ElsaMina.Console"
-              pkill -f ElsaMina.Console
-            fi
-            sleep 1
-            echo "Setting permissions"
-            chmod u+x ElsaMina.Console
-            echo "Starting ElsaMina.Console"
-            nohup ./ElsaMina.Console > elsa.log 2>&1 &
+          script_path: scripts/restart_remote.sh

@@ -12,21 +12,22 @@
     <File Path="scripts\build.sh" />
     <File Path="scripts\publish.sh" />
     <File Path="scripts\shared.sh" />
+    <File Path="scripts\restart_remote.sh" />
     <File Path="scripts\restore.sh" />
     <File Path="scripts\test.sh" />
   </Folder>
   <Folder Name="/src/">
-    <Project Path="src\ElsaMina.Commands\ElsaMina.Commands.csproj" Type="C#" />
-    <Project Path="src\ElsaMina.Console\ElsaMina.Console.csproj" Type="C#" />
-    <Project Path="src\ElsaMina.Core\ElsaMina.Core.csproj" Type="C#" />
-    <Project Path="src\ElsaMina.DataAccess\ElsaMina.DataAccess.csproj" Type="C#" />
-    <Project Path="src\ElsaMina.FileSharing\ElsaMina.FileSharing.csproj" Type="C#" />
-    <Project Path="src\ElsaMina.Logging\ElsaMina.Logging.csproj" Type="C#" />
-    <Project Path="src\ElsaMina.Sheets\ElsaMina.Sheets.csproj" Type="C#" />
+    <Project Path="src\ElsaMina.Commands\ElsaMina.Commands.csproj" />
+    <Project Path="src\ElsaMina.Console\ElsaMina.Console.csproj" />
+    <Project Path="src\ElsaMina.Core\ElsaMina.Core.csproj" />
+    <Project Path="src\ElsaMina.DataAccess\ElsaMina.DataAccess.csproj" />
+    <Project Path="src\ElsaMina.FileSharing\ElsaMina.FileSharing.csproj" />
+    <Project Path="src\ElsaMina.Logging\ElsaMina.Logging.csproj" />
+    <Project Path="src\ElsaMina.Sheets\ElsaMina.Sheets.csproj" />
   </Folder>
   <Folder Name="/test/">
-    <Project Path="test\ElsaMina.IntegrationTests\ElsaMina.IntegrationTests.csproj" Type="C#" />
-    <Project Path="test\ElsaMina.UnitTests\ElsaMina.UnitTests.csproj" Type="C#" />
+    <Project Path="test\ElsaMina.IntegrationTests\ElsaMina.IntegrationTests.csproj" />
+    <Project Path="test\ElsaMina.UnitTests\ElsaMina.UnitTests.csproj" />
   </Folder>
   <Folder Name="/Workflows/">
     <File Path=".github\workflows\deploy.yml" />
