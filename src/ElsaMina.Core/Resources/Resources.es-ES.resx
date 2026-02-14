@@ -812,4 +812,10 @@
     <data name="timer_command_started" xml:space="preserve">
         <value>Temporizador iniciado.</value>
     </data>
+    <data name="parameter_name_timezone" xml:space="preserve">
+        <value>Zona horaria</value>
+    </data>
+    <data name="parameter_description_timezone" xml:space="preserve">
+        <value>La zona horaria utilizada en las fechas mostradas</value>
+    </data>
 </root>

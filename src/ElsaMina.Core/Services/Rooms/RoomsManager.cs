@@ -75,9 +75,12 @@ public class RoomsManager : IRoomsManager, IDisposable
         var parameterStore = _dependencyContainerService.Resolve<IRoomParameterStore>();
         parameterStore.InitializeFromRoomEntity(dbRoomEntity);
         var localeCode = await parameterStore.GetValueAsync(Parameter.Locale, cancellationToken);
+        var timeZoneId = await parameterStore.GetValueAsync(Parameter.TimeZone, cancellationToken);
+        var hasTimeZone = TimeZoneInfo.TryFindSystemTimeZoneById(timeZoneId, out var timeZone);
         var room = new Room(roomTitle,
             roomId,
             new CultureInfo(localeCode ?? _configuration.DefaultLocaleCode),
+            hasTimeZone ? timeZone : TimeZoneInfo.Local,
             parameterStore,
             ParametersDefinitions);
 

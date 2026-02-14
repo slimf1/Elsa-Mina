@@ -33,8 +33,10 @@ public class CreateConnectFourCommandTest
         _context = Substitute.For<IContext>();
         _room = Substitute.For<IRoom>();
         _room.RoomId.Returns("room-id");
+        _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>())
+            .Returns(Task.FromResult(string.Empty));
         _game = new ConnectFourGame(Substitute.For<IRandomService>(), _templatesManager,
-            _configuration, _bot);
+            _configuration, _bot, ConnectFourConstants.TIMEOUT_DELAY);
 
         _context.RoomId.Returns("room-id");
         _context.Room.Returns(_room);

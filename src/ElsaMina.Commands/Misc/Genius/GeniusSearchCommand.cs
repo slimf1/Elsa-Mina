@@ -63,8 +63,7 @@ public class GeniusSearchCommand : Command
 
             var mostViewedHit = response.Data.Response.Hits
                 .Where(hit => hit.Type == SONG_TYPE)
-                .OrderByDescending(hit => hit.Result.Stats.Pageviews)
-                .FirstOrDefault();
+                .MaxBy(hit => hit.Result.Stats.Pageviews);
 
             if (mostViewedHit == null)
             {

@@ -231,7 +231,7 @@ public class TimeSpanStringExtensionsTest
     public void Test_ToTimeSpan_ShouldReturnNull_WhenInputIsNull()
     {
         // Arrange
-        string? input = null;
+        string input = null;
 
         // Act
         var result = input.ToTimeSpan();

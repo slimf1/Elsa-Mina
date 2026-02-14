@@ -70,7 +70,8 @@ public class ReplaysHandler : ChatMessageHandler
                     Name = replayInfo.Players[index],
                     Team = team.Value
                 }).ToList(),
-                Date = DateTimeOffset.FromUnixTimeSeconds(replayInfo.UploadTime).ToLocalTime(),
+                Date = TimeZoneInfo.ConvertTime(DateTimeOffset.FromUnixTimeSeconds(replayInfo.UploadTime),
+                    context.Room.TimeZone),
                 Views = replayInfo.Views
             });
 

@@ -21,7 +21,6 @@ public abstract class GuessingGame : Game, IGuessingGame
     private int _elapsedSeconds;
 
     private readonly Dictionary<string, int> _scores = new();
-    private int _currentTurn;
     private bool _hasRoundBeenWon;
 
     protected GuessingGame(ITemplatesManager templatesManager,
@@ -33,7 +32,7 @@ public abstract class GuessingGame : Game, IGuessingGame
 
     protected IReadOnlyDictionary<string, int> Scores => _scores;
 
-    protected int CurrentTurn => _currentTurn;
+    protected int CurrentTurn { get; private set; }
 
     protected IEnumerable<string> CurrentValidAnswers { get; set; } = [];
 
@@ -50,8 +49,8 @@ public abstract class GuessingGame : Game, IGuessingGame
 
     private async Task InitializeNextTurn()
     {
-        _currentTurn++;
-        Context.ReplyLocalizedMessage("guessing_game_turn_count", _currentTurn);
+        CurrentTurn++;
+        Context.ReplyLocalizedMessage("guessing_game_turn_count", CurrentTurn);
         await OnTurnStart();
         _hasRoundBeenWon = false;
 
@@ -100,7 +99,7 @@ public abstract class GuessingGame : Game, IGuessingGame
                 string.Join(", ", CurrentValidAnswers.Distinct()));
         }
 
-        if (_currentTurn >= TurnsCount || IsEnded)
+        if (CurrentTurn >= TurnsCount || IsEnded)
         {
             await EndGame();
         }

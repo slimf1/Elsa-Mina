@@ -812,4 +812,10 @@
     <data name="timer_command_started" xml:space="preserve">
         <value>Timer avviato.</value>
     </data>
+    <data name="parameter_name_timezone" xml:space="preserve">
+        <value>Fuso orario</value>
+    </data>
+    <data name="parameter_description_timezone" xml:space="preserve">
+        <value>Il fuso orario utilizzato nelle date visualizzate</value>
+    </data>
 </root>

@@ -16,6 +16,7 @@ public class ShowPollsCommandTest
     private IBotDbContextFactory _dbContextFactory;
     private DbContextOptions<BotDbContext> _dbContextOptions;
     private IContext _context;
+    private IRoom _room;
 
     private const string TestRoomId = "currentroom";
     private const string TargetRoomId = "targetroom";
@@ -55,7 +56,10 @@ public class ShowPollsCommandTest
         _sut = new ShowPollsCommand(_roomsManager, _dbContextFactory);
 
         _context = Substitute.For<IContext>();
+        _room = Substitute.For<IRoom>();
+        _room.TimeZone.Returns(TimeZoneInfo.Utc);
         _context.RoomId.Returns(TestRoomId);
+        _context.Room.Returns(_room);
         _context.Culture.Returns(_culture);
         _context.GetString(Arg.Any<string>(), Arg.Any<object[]>())
             .Returns(ci =>
@@ -164,5 +168,33 @@ public class ShowPollsCommandTest
         // Assert
         _context.Received(1).ReplyLocalizedMessage("show_polls_no_polls", TargetRoomId);
         _context.DidNotReceive().ReplyHtmlPage(Arg.Any<string>(), Arg.Any<string>());
+    }
+
+    [Test]
+    public async Task RunAsync_WhenPollsExist_ShouldFormatPollDateUsingRoomTimeZone()
+    {
+        // Arrange
+        _context.Target.Returns("");
+        var customTimeZone = TimeZoneInfo.CreateCustomTimeZone("utc-plus-2", TimeSpan.FromHours(2), "UTC+2", "UTC+2");
+        _room.TimeZone.Returns(customTimeZone);
+        var poll = new SavedPoll
+        {
+            Id = 401,
+            RoomId = TestRoomId,
+            Content = "Timezone poll",
+            EndedAt = new DateTimeOffset(2025, 1, 1, 10, 0, 0, TimeSpan.Zero)
+        };
+        await SeedDatabaseAsync(new[] { poll });
+        var expectedDate = TimeZoneInfo.ConvertTime(poll.EndedAt, customTimeZone).ToString("G", _culture);
+
+        // Act
+        await _sut.RunAsync(_context);
+
+        // Assert
+        _context.Received(1).ReplyHtmlPage(
+            "polls-history",
+            Arg.Is<string>(content =>
+                content.Contains(expectedDate) &&
+                content.Contains("Timezone poll")));
     }
 }

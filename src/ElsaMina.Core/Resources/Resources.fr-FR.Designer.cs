@@ -57,6 +57,60 @@ namespace ElsaMina.Core.Resources {
             }
         }
         
+        internal static string badge_edit_help_message {
+            get {
+                return ResourceManager.GetString("badge_edit_help_message", resourceCulture);
+            }
+        }
+        
+        internal static string badge_edit_not_found {
+            get {
+                return ResourceManager.GetString("badge_edit_not_found", resourceCulture);
+            }
+        }
+        
+        internal static string badge_edit_success {
+            get {
+                return ResourceManager.GetString("badge_edit_success", resourceCulture);
+            }
+        }
+        
+        internal static string badge_edit_failure {
+            get {
+                return ResourceManager.GetString("badge_edit_failure", resourceCulture);
+            }
+        }
+        
+        internal static string badge_edit_panel_title {
+            get {
+                return ResourceManager.GetString("badge_edit_panel_title", resourceCulture);
+            }
+        }
+        
+        internal static string badge_edit_panel_id {
+            get {
+                return ResourceManager.GetString("badge_edit_panel_id", resourceCulture);
+            }
+        }
+        
+        internal static string badge_edit_panel_name {
+            get {
+                return ResourceManager.GetString("badge_edit_panel_name", resourceCulture);
+            }
+        }
+        
+        internal static string badge_edit_panel_image {
+            get {
+                return ResourceManager.GetString("badge_edit_panel_image", resourceCulture);
+            }
+        }
+        
+        internal static string badge_edit_panel_no_badges {
+            get {
+                return ResourceManager.GetString("badge_edit_panel_no_badges", resourceCulture);
+            }
+        }
+        
         internal static string badge_add_success_message {
             get {
                 return ResourceManager.GetString("badge_add_success_message", resourceCulture);
@@ -240,6 +294,24 @@ namespace ElsaMina.Core.Resources {
         internal static string badge_give_success {
             get {
                 return ResourceManager.GetString("badge_give_success", resourceCulture);
+            }
+        }
+        
+        internal static string cancel_command_usage {
+            get {
+                return ResourceManager.GetString("cancel_command_usage", resourceCulture);
+            }
+        }
+        
+        internal static string cancel_command_success {
+            get {
+                return ResourceManager.GetString("cancel_command_success", resourceCulture);
+            }
+        }
+        
+        internal static string cancel_command_not_found {
+            get {
+                return ResourceManager.GetString("cancel_command_not_found", resourceCulture);
             }
         }
         
@@ -1548,6 +1620,18 @@ namespace ElsaMina.Core.Resources {
         internal static string timer_command_started {
             get {
                 return ResourceManager.GetString("timer_command_started", resourceCulture);
+            }
+        }
+        
+        internal static string parameter_name_timezone {
+            get {
+                return ResourceManager.GetString("parameter_name_timezone", resourceCulture);
+            }
+        }
+        
+        internal static string parameter_description_timezone {
+            get {
+                return ResourceManager.GetString("parameter_description_timezone", resourceCulture);
             }
         }
     }

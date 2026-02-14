@@ -9,7 +9,7 @@ public class ParametersDefinitionFactory : IParametersDefinitionFactory
 {
     private readonly IConfiguration _configuration;
     private readonly IResourcesService _resourcesService;
-    
+
     public ParametersDefinitionFactory(IConfiguration configuration,
         IResourcesService resourcesService)
     {
@@ -22,7 +22,7 @@ public class ParametersDefinitionFactory : IParametersDefinitionFactory
         {
             [Parameter.Locale] = new ParameterDefinition
             {
-                Identifier = "locale",
+                Identifier = "loc",
                 NameKey = "parameter_name_locale",
                 DescriptionKey = "parameter_description_locale",
                 Type = RoomBotConfigurationType.Enumeration,
@@ -34,9 +34,24 @@ public class ParametersDefinitionFactory : IParametersDefinitionFactory
                 }),
                 OnUpdateAction = (room, newValue) => room.Culture = new CultureInfo(newValue)
             },
+            [Parameter.TimeZone] = new ParameterDefinition
+            {
+                Identifier = "tzn",
+                NameKey = "parameter_name_timezone",
+                DescriptionKey = "parameter_description_timezone",
+                Type = RoomBotConfigurationType.Enumeration,
+                DefaultValue = TimeZoneInfo.Local.Id,
+                PossibleValues = TimeZoneInfo.GetSystemTimeZones().Select(tz =>
+                    new EnumerationValue
+                    {
+                        DisplayedValue = tz.DisplayName,
+                        InternalValue = tz.Id
+                    }),
+                OnUpdateAction = (room, newValue) => room.TimeZone = TimeZoneInfo.FindSystemTimeZoneById(newValue)
+            },
             [Parameter.HasCommandAutoCorrect] = new ParameterDefinition
             {
-                Identifier = "autocorr",
+                Identifier = "atc",
                 NameKey = "parameter_name_has_command_auto_correct",
                 DescriptionKey = "parameter_description_has_command_auto_correct",
                 Type = RoomBotConfigurationType.Boolean,
@@ -44,7 +59,7 @@ public class ParametersDefinitionFactory : IParametersDefinitionFactory
             },
             [Parameter.ShowErrorMessages] = new ParameterDefinition
             {
-                Identifier = "error",
+                Identifier = "err",
                 NameKey = "parameter_name_is_showing_error_messages",
                 DescriptionKey = "parameter_description_is_showing_error_messages",
                 Type = RoomBotConfigurationType.Boolean,
@@ -52,7 +67,7 @@ public class ParametersDefinitionFactory : IParametersDefinitionFactory
             },
             [Parameter.ShowTeamLinksPreview] = new ParameterDefinition
             {
-                Identifier = "teams",
+                Identifier = "tms",
                 NameKey = "parameter_name_is_showing_team_links_preview",
                 DescriptionKey = "parameter_description_is_showing_team_links_preview",
                 Type = RoomBotConfigurationType.Boolean,
@@ -60,7 +75,7 @@ public class ParametersDefinitionFactory : IParametersDefinitionFactory
             },
             [Parameter.ShowReplaysPreview] = new ParameterDefinition
             {
-                Identifier = "replays",
+                Identifier = "rpl",
                 NameKey = "parameter_name_is_showing_replays_preview",
                 DescriptionKey = "parameter_description_is_showing_replays_preview",
                 Type = RoomBotConfigurationType.Boolean,

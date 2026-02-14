@@ -24,15 +24,14 @@ public class PairingsCommand : Command
 
     private static int GetByes(int playerCount)
     {
-        if (playerCount == 0)
-            return 0;
-            
-        var nextPowerOfTwo = 1;
-        while (nextPowerOfTwo < playerCount)
+        if (playerCount <= 0)
         {
-            nextPowerOfTwo *= 2;
+            return 0;
         }
-        return nextPowerOfTwo - playerCount;
+
+        var closestExponent = Math.Ceiling(Math.Log2(playerCount));
+        var nextPow2 = (int)Math.Pow(2, closestExponent);
+        return nextPow2 - playerCount;
     }
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)

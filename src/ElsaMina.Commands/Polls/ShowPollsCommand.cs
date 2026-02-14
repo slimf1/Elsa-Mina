@@ -55,7 +55,7 @@ public class ShowPollsCommand : Command
         {
             stringBuilder.AppendLine(context.GetString("show_polls_history_entry",
                 poll.Id,
-                poll.EndedAt.ToLocalTime().ToString("G", context.Culture),
+                TimeZoneInfo.ConvertTime(poll.EndedAt, context.Room.TimeZone).ToString("G", context.Culture),
                 poll.Content));
         }
 

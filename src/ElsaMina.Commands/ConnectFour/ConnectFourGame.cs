@@ -1,12 +1,10 @@
-﻿using System.Timers;
-using ElsaMina.Core;
+﻿using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
-using Timer = System.Timers.Timer;
 
 namespace ElsaMina.Commands.ConnectFour;
 
@@ -21,17 +19,20 @@ public class ConnectFourGame : Game, IConnectFourGame
     private readonly IConfiguration _configuration;
     private readonly IBot _bot;
 
-    private Timer _timer;
+    private readonly PeriodicTimerRunner _turnTimeoutTimer;
+    private bool _ended;
 
     public ConnectFourGame(IRandomService randomService,
         ITemplatesManager templatesManager,
         IConfiguration configuration,
-        IBot bot)
+        IBot bot,
+        TimeSpan timeoutDelay)
     {
         _randomService = randomService;
         _templatesManager = templatesManager;
         _configuration = configuration;
         _bot = bot;
+        _turnTimeoutTimer = new PeriodicTimerRunner(timeoutDelay, OnTimeout, runOnce: true);
 
         GameId = NextGameId++;
     }
@@ -59,7 +60,7 @@ public class ConnectFourGame : Game, IConnectFourGame
     public int GameId { get; }
 
     public IContext Context { get; set; }
-    
+
     private string AnnounceId => $"c4-announce-{GameId}";
 
     #endregion
@@ -179,7 +180,7 @@ public class ConnectFourGame : Game, IConnectFourGame
     public void Cancel()
     {
         OnEnd();
-        CancelTimer();
+        _turnTimeoutTimer.Stop();
     }
 
     #endregion
@@ -290,35 +291,21 @@ public class ConnectFourGame : Game, IConnectFourGame
         TurnCount++;
         PlayerCurrentlyPlaying = Players[(TurnCount - 1) % ConnectFourConstants.MAX_PLAYERS_COUNT];
         CurrentPlayerSymbol = ConnectFourConstants.SYMBOLS[Players.IndexOf(PlayerCurrentlyPlaying)];
-        await DisplayGrid();
+        await SendGridToPlayers();
 
-        CancelTimer();
-
-        _timer = new Timer(ConnectFourConstants.TIMEOUT_DELAY);
-        _timer.AutoReset = false;
-        _timer.Elapsed += HandleTimerElapsed;
-        _timer.Start();
-    }
-
-    private void CancelTimer()
-    {
-        if (_timer == null)
-        {
-            return;
-        } 
-        _timer.Elapsed -= HandleTimerElapsed;
-        _timer.Dispose();
-    }
-
-    private async void HandleTimerElapsed(object sender, ElapsedEventArgs e)
-    {
-        await OnTimeout();
-        CancelTimer();
+        _turnTimeoutTimer.Restart();
     }
 
     private async Task OnWin(IUser winner)
     {
-        await DisplayGrid();
+        if (_ended)
+        {
+            return;
+        }
+
+        _ended = true;
+        await SendGridToPlayers();
+
         if (winner is null)
         {
             Context.ReplyLocalizedMessage("c4_game_tie_end");
@@ -331,7 +318,7 @@ public class ConnectFourGame : Game, IConnectFourGame
         Cancel();
     }
 
-    private async Task DisplayGrid()
+    private async Task SendGridToPlayers()
     {
         var template = await _templatesManager.GetTemplateAsync("ConnectFour/ConnectFourGameTable",
             new ConnectFourModel

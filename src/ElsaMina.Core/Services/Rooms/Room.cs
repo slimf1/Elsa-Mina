@@ -18,12 +18,14 @@ public class Room : IRoom
     private readonly IReadOnlyDictionary<Parameter, IParameterDefinition> _parametersDefinitions;
     private IGame _game;
 
-    public Room(string roomTitle, string roomId, CultureInfo culture, IRoomParameterStore roomParameterStore,
+    public Room(string roomTitle, string roomId, CultureInfo culture, TimeZoneInfo timeZoneInfo,
+        IRoomParameterStore roomParameterStore,
         IReadOnlyDictionary<Parameter, IParameterDefinition> parametersDefinitions)
     {
         RoomId = roomId ?? roomTitle.ToLowerAlphaNum();
         Name = roomTitle;
         Culture = culture;
+        TimeZone = timeZoneInfo;
 
         _roomParameterStore = roomParameterStore;
         _parametersDefinitions = parametersDefinitions;
@@ -37,11 +39,12 @@ public class Room : IRoom
     public IGame Game
     {
         get => _game;
-        set => OnGameChanged(_game, value);
+        set => UpdateGame(_game, value);
     }
 
     public IEnumerable<Tuple<string, string>> LastMessages => _lastMessages.Reverse();
     public IDictionary<string, TimeSpan> PendingPlayTimeUpdates => _pendingPlayTimeUpdates;
+    public TimeZoneInfo TimeZone { get; set; }
 
     public void UpdateMessageQueue(string user, string message)
     {
@@ -61,7 +64,8 @@ public class Room : IRoom
     public async Task<string> GetParameterValueAsync(Parameter parameter, CancellationToken cancellationToken = default)
     {
         var parameterDefinition = _parametersDefinitions[parameter];
-        return await _roomParameterStore.GetValueAsync(parameter, cancellationToken) ?? parameterDefinition.DefaultValue;
+        return await _roomParameterStore.GetValueAsync(parameter, cancellationToken) ??
+               parameterDefinition.DefaultValue;
     }
 
     public bool SetParameterValue(Parameter parameter, string value)
@@ -128,7 +132,7 @@ public class Room : IRoom
         }
     }
 
-    private void OnGameChanged(IGame oldGame, IGame newGame)
+    private void UpdateGame(IGame oldGame, IGame newGame)
     {
         if (oldGame != null)
         {

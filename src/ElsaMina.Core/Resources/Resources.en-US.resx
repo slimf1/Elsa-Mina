@@ -807,4 +807,10 @@
     <data name="timer_command_started" xml:space="preserve">
         <value>Timer started.</value>
     </data>
+    <data name="parameter_name_timezone" xml:space="preserve">
+        <value>Time zone</value>
+    </data>
+    <data name="parameter_description_timezone" xml:space="preserve">
+        <value>The timezone used in shown dates</value>
+    </data>
 </root>

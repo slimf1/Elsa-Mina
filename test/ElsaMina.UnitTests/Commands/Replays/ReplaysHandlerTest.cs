@@ -28,6 +28,7 @@ public class ReplaysHandlerTest
         _roomsManager = Substitute.For<IRoomsManager>();
         _context = Substitute.For<IContext>();
         _room = Substitute.For<IRoom>();
+        _room.TimeZone.Returns(TimeZoneInfo.Utc);
         _context.Room.Returns(_room);
         _replaysHandler =
             new ReplaysHandler(contextFactory, _httpService, _templatesManager);
@@ -109,5 +110,41 @@ public class ReplaysHandlerTest
 
         // Assert
         _context.DidNotReceive().ReplyHtml(Arg.Any<string>());
+    }
+
+    [Test]
+    public async Task Test_HandleMessage_ShouldConvertUploadDateToRoomTimeZone_WhenBuildingTemplate()
+    {
+        // Arrange
+        var replayUrl = "https://replay.pokemonshowdown.com/gen8ou-123456789";
+        var customTimeZone = TimeZoneInfo.CreateCustomTimeZone("utc-minus-3", TimeSpan.FromHours(-3), "UTC-3", "UTC-3");
+        _room.TimeZone.Returns(customTimeZone);
+        _room.GetParameterValueAsync(Parameter.ShowReplaysPreview, Arg.Any<CancellationToken>())
+            .Returns("true");
+        _context.Message.Returns(replayUrl);
+
+        var replayData = new ReplayDto
+        {
+            Format = "gen8ou",
+            Rating = 1400,
+            Players = ["player1", "player2"],
+            UploadTime = 1625140800,
+            Views = 200,
+            Log = "sample-log-data"
+        };
+        var expectedDate = TimeZoneInfo.ConvertTime(DateTimeOffset.FromUnixTimeSeconds(replayData.UploadTime), customTimeZone);
+
+        _httpService.GetAsync<ReplayDto>(replayUrl + ".json")
+            .Returns(new HttpResponse<ReplayDto> { Data = replayData });
+        _templatesManager.GetTemplateAsync("Replays/ReplayPreview", Arg.Any<ReplayPreviewViewModel>())
+            .Returns("sample-html-template");
+
+        // Act
+        await _replaysHandler.HandleMessageAsync(_context);
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync(
+            "Replays/ReplayPreview",
+            Arg.Is<ReplayPreviewViewModel>(viewModel => viewModel.Date == expectedDate));
     }
 }

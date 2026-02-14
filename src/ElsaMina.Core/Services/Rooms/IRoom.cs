@@ -9,6 +9,7 @@ public interface IRoom
     string Name { get; }
     IReadOnlyDictionary<string, IUser> Users { get; }
     CultureInfo Culture { get; set; }
+    TimeZoneInfo TimeZone { get; set; }
     IGame Game { get; set; }
     IEnumerable<Tuple<string, string>> LastMessages { get; }
     IDictionary<string, TimeSpan> PendingPlayTimeUpdates { get; }
