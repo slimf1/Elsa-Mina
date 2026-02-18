@@ -1,5 +1,8 @@
 using Serilog;
 using Serilog.Core;
+#if RELEASE
+using Serilog.Sinks.Grafana.Loki;
+#endif 
 
 namespace ElsaMina.Logging;
 
