@@ -28,17 +28,17 @@ public class S3FileSharingService : IFileSharingService
         return Task.CompletedTask;
     }
 
-    public Task<string?> CreateFileAsync(byte[]? fileContent = default, string? fileName = default,
-        string? description = default,
-        string? mimeType = default, CancellationToken cancellationToken = default)
+    public Task<string?> CreateFileAsync(byte[]? fileContent = null, string? fileName = null,
+        string? description = null,
+        string? mimeType = null, CancellationToken cancellationToken = default)
     {
         return CreateFileAsync(fileContent != null ? new MemoryStream(fileContent) : null,
             fileName, description, mimeType, cancellationToken);
     }
 
-    public async Task<string?> CreateFileAsync(Stream? fileContent = default, string? fileName = default,
-        string? description = default,
-        string? mimeType = default, CancellationToken cancellationToken = default)
+    public async Task<string?> CreateFileAsync(Stream? fileContent = null, string? fileName = null,
+        string? description = null,
+        string? mimeType = null, CancellationToken cancellationToken = default)
     {
         if (_client == null || fileName == null || fileContent == null)
         {
@@ -72,12 +72,6 @@ public class S3FileSharingService : IFileSharingService
     {
         var baseUrl = new Uri(_credentialsProvider.S3BaseUrl);
         return new Uri(baseUrl, objectName).AbsoluteUri;
-    }
-
-    private static string ComputeSha256(byte[] bytes)
-    {
-        var hashBytes = SHA256.HashData(bytes);
-        return Convert.ToBase64String(hashBytes);
     }
 
     private static string ComputeSha256(Stream bytes)
