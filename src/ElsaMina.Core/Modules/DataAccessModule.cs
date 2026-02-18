@@ -1,10 +1,10 @@
 ﻿using Autofac;
 using ElsaMina.Core.Services.Config;
-using ElsaMina.Core.Services.Rooms;
 using ElsaMina.DataAccess;
+using ElsaMina.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.Logging;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace ElsaMina.Core.Modules;
 
@@ -46,7 +46,7 @@ public class DataAccessModule : Module
         );
 #if DEBUG
         optionsBuilder
-            .LogTo(Console.WriteLine, LogLevel.Information)
+            .LogTo(message => Log.Debug(message), LogLevel.Information)
             .EnableSensitiveDataLogging()
             .EnableDetailedErrors();
 #endif

@@ -1,7 +1,10 @@
-﻿namespace ElsaMina.Core.Services.Config;
+﻿using ElsaMina.Logging;
+
+namespace ElsaMina.Core.Services.Config;
 
 public class Configuration : IConfiguration
 {
+    public LogLevel LogLevel { get; set; } = LogLevel.Info;
     public string Host { get; set; }
     public string Port { get; set; }
     public string Name { get; set; }

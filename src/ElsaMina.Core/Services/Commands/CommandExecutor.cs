@@ -150,8 +150,7 @@ public class CommandExecutor : ICommandExecutor
 
         var closestCommands = GetAllCommands()
             .SelectMany(command => (string[])[..command.Aliases, command.Name])
-            .Where(possible =>
-                possible.LevenshteinDistance(commandName) <= maxLevenshteinDistance)
+            .Where(possible => possible.LevenshteinDistance(commandName) <= maxLevenshteinDistance)
             .ToArray();
 
         if (closestCommands.Length == 0)
@@ -168,21 +167,31 @@ public class CommandExecutor : ICommandExecutor
     private static bool CanCommandBeRan(IContext context, ICommand command)
     {
         if (command.IsPrivateMessageOnly && !context.IsPrivateMessage)
+        {
             return false;
+        }
 
         if (context.IsPrivateMessage &&
             !(command.IsAllowedInPrivateMessage || command.IsPrivateMessageOnly))
+        {
             return false;
+        }
 
         if (command.IsWhitelistOnly && !context.IsSenderWhitelisted)
+        {
             return false;
+        }
 
         if (!context.HasRankOrHigher(command.RequiredRank))
+        {
             return false;
+        }
 
         if (command.RoomRestriction.Any() &&
             !command.RoomRestriction.Contains(context.RoomId))
+        {
             return false;
+        }
 
         return true;
     }

@@ -1,6 +1,5 @@
 using Serilog;
 using Serilog.Core;
-using Serilog.Sinks.Grafana.Loki;
 
 namespace ElsaMina.Logging;
 
@@ -9,7 +8,7 @@ public static class Log
     private static readonly Lazy<Logger> LOGGER = new(CreateLogger, isThreadSafe: true);
 
     private static Logger Instance => LOGGER.Value;
-    
+
     public static ILoggingConfiguration Configuration { get; set; }
 
     private static Logger CreateLogger()
@@ -18,9 +17,28 @@ public static class Log
             .Enrich.FromLogContext()
             .MinimumLevel.Debug()
             .WriteTo.Console();
+
+        switch (Configuration.LogLevel)
+        {
+            case LogLevel.Verbose:
+                config.MinimumLevel.Verbose();
+                break;
+            case LogLevel.Debug:
+                config.MinimumLevel.Debug();
+                break;
+            case LogLevel.Info:
+                config.MinimumLevel.Information();
+                break;
+            case LogLevel.Warning:
+                config.MinimumLevel.Warning();
+                break;
+            case LogLevel.Error:
+            default:
+                config.MinimumLevel.Error();
+                break;
+        }
 #if !DEBUG
-        config.MinimumLevel.Information()
-              .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day);
+        config.WriteTo.File("log.txt", rollingInterval: RollingInterval.Day);
 
         var lokiUrl = Configuration.LokiUrl;
         var lokiUser = Configuration.LoginUser;
