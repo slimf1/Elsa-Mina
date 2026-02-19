@@ -51,7 +51,7 @@ public class SeenCommandTest
         context.Received(1).GetString("seen_command_help");
         context.Received(1).Reply("seen help", rankAware: true);
         context.DidNotReceiveWithAnyArgs()
-            .ReplyRankAwareLocalizedMessage(default!, default(object[])!);
+            .ReplyRankAwareLocalizedMessage(null!, null!);
     }
 
     [Test]
@@ -65,6 +65,7 @@ public class SeenCommandTest
 
         var command = new SeenCommand(factory);
         var context = Substitute.For<IContext>();
+        context.Room.TimeZone.Returns(TimeZoneInfo.Utc);
         context.Target.Returns(target);
 
         // Act
@@ -85,6 +86,7 @@ public class SeenCommandTest
         var command = new SeenCommand(CreateFactoryReturning(db));
 
         var context = Substitute.For<IContext>();
+        context.Room.TimeZone.Returns(TimeZoneInfo.Utc);
         context.Target.Returns("alice");
 
         // Act
@@ -118,6 +120,7 @@ public class SeenCommandTest
         var command = new SeenCommand(CreateFactoryReturning(db));
 
         var context = Substitute.For<IContext>();
+        context.Room.TimeZone.Returns(TimeZoneInfo.Utc);
         context.Target.Returns("alice");
         context.Culture.Returns(new CultureInfo("en-US"));
         context.GetString(actionStringId).Returns(translatedAction);
@@ -148,6 +151,7 @@ public class SeenCommandTest
         var command = new SeenCommand(CreateFactoryReturning(db));
 
         var context = Substitute.For<IContext>();
+        context.Room.TimeZone.Returns(TimeZoneInfo.Utc);
         context.Target.Returns("alice");
         context.Culture.Returns(new CultureInfo("en-US"));
         context.GetString("seen_command_action_chatting").Returns("chatting in");
