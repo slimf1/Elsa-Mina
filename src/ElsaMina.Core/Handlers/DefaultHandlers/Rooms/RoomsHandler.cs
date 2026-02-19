@@ -1,4 +1,5 @@
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.DataAccess.Models;
 using ElsaMina.Logging;
 
 namespace ElsaMina.Core.Handlers.DefaultHandlers.Rooms;
@@ -25,22 +26,40 @@ public sealed class RoomsHandler : Handler
         switch (parts[1])
         {
             case "c:":
+                if (parts.Length < 5)
+                {
+                    break;
+                }
+
                 var room = _roomsManager.GetRoom(roomId);
                 if (!parts[4].StartsWith("/raw") && room != null)
                 {
                     room.UpdateMessageQueue(parts[3], parts[4]);
                 }
 
+                _userSaveQueue.Enqueue(parts[3], roomId, UserAction.Chatting);
+
                 break;
             case "deinit":
                 _roomsManager.RemoveRoom(roomId);
                 break;
             case "J":
+                if (parts.Length < 3)
+                {
+                    break;
+                }
+
                 _roomsManager.AddUserToRoom(roomId, parts[2]);
-                _userSaveQueue.Enqueue(parts[2]);
+                _userSaveQueue.Enqueue(parts[2], roomId, UserAction.Joining);
                 break;
             case "L":
+                if (parts.Length < 3)
+                {
+                    break;
+                }
+
                 _roomsManager.RemoveUserFromRoom(roomId, parts[2]);
+                _userSaveQueue.Enqueue(parts[2], roomId, UserAction.Leaving);
                 break;
             case "N":
                 _roomsManager.RenameUserInRoom(roomId, parts[3], parts[2]);

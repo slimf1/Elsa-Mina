@@ -1,4 +1,5 @@
 using ElsaMina.Core.Handlers.DefaultHandlers.Rooms;
+using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
@@ -12,12 +13,15 @@ public class UserSaveQueueTests
     private IConfiguration _configuration = null!;
     private IBotDbContextFactory _dbContextFactory = null!;
     private DbContextOptions<BotDbContext> _options = null!;
+    private IClockService _clockService = null!;
 
     [SetUp]
     public void SetUp()
     {
         _options = CreateInMemoryOptions();
 
+        _clockService = Substitute.For<IClockService>();
+        _clockService.CurrentUtcDateTimeOffset.Returns(new DateTimeOffset(2026, 2, 19, 0, 0, 0, TimeSpan.Zero));
         _dbContextFactory = Substitute.For<IBotDbContextFactory>();
         _dbContextFactory
             .CreateDbContextAsync(Arg.Any<CancellationToken>())
@@ -32,11 +36,14 @@ public class UserSaveQueueTests
     public async Task Enqueue_ShouldFlush_WhenBatchSizeReached()
     {
         // Arrange
+        var firstSeen = new DateTimeOffset(2026, 2, 19, 1, 0, 0, TimeSpan.Zero);
+        var secondSeen = new DateTimeOffset(2026, 2, 19, 1, 5, 0, TimeSpan.Zero);
+        _clockService.CurrentUtcDateTimeOffset.Returns(firstSeen, secondSeen);
         var queue = CreateQueue();
 
         // Act
-        queue.Enqueue("AUser");
-        queue.Enqueue("BUser"); // déclenche le flush
+        queue.Enqueue("AUser", "room1", UserAction.Joining);
+        queue.Enqueue("BUser", "room2", UserAction.Leaving); // déclenche le flush
         await queue.WaitForFlushAsync();
 
         // Assert
@@ -47,6 +54,12 @@ public class UserSaveQueueTests
         {
             Assert.That(users.Select(u => u.UserId),
                 Is.EquivalentTo((string[]) ["auser", "buser"]));
+            Assert.That(users.Single(u => u.UserId == "auser").LastSeenAction, Is.EqualTo(UserAction.Joining));
+            Assert.That(users.Single(u => u.UserId == "auser").LastSeenRoomId, Is.EqualTo("room1"));
+            Assert.That(users.Single(u => u.UserId == "auser").LastOnline, Is.EqualTo(firstSeen));
+            Assert.That(users.Single(u => u.UserId == "buser").LastSeenAction, Is.EqualTo(UserAction.Leaving));
+            Assert.That(users.Single(u => u.UserId == "buser").LastSeenRoomId, Is.EqualTo("room2"));
+            Assert.That(users.Single(u => u.UserId == "buser").LastOnline, Is.EqualTo(secondSeen));
         });
     }
 
@@ -61,7 +74,7 @@ public class UserSaveQueueTests
         });
 
         var queue = CreateQueue();
-        queue.Enqueue(" User 1");
+        queue.Enqueue(" User 1", "room-a", UserAction.Chatting);
 
         // Act
         await queue.FlushAsync(CancellationToken.None);
@@ -75,6 +88,9 @@ public class UserSaveQueueTests
         {
             Assert.That(user!.UserId, Is.EqualTo("user1"));
             Assert.That(user.UserName, Is.EqualTo("User 1"));
+            Assert.That(user.LastOnline, Is.EqualTo(_clockService.CurrentUtcDateTimeOffset));
+            Assert.That(user.LastSeenRoomId, Is.EqualTo("room-a"));
+            Assert.That(user.LastSeenAction, Is.EqualTo(UserAction.Chatting));
         });
     }
 
@@ -82,8 +98,6 @@ public class UserSaveQueueTests
     public async Task WaitForFlushAsync_ShouldAwaitFlush_WhenFlushIsInProgress()
     {
         // Arrange
-        var tcs = new TaskCompletionSource();
-
         _dbContextFactory
             .CreateDbContextAsync(Arg.Any<CancellationToken>())
             .Returns(async _ =>
@@ -93,8 +107,8 @@ public class UserSaveQueueTests
             });
 
         var queue = CreateQueue();
-        queue.Enqueue("UserA");
-        queue.Enqueue("UserB"); // déclenche le flush
+        queue.Enqueue("UserA", "room1", UserAction.Joining);
+        queue.Enqueue("UserB", "room1", UserAction.Joining); // déclenche le flush
 
         // Act
         var waitTask = queue.WaitForFlushAsync();
@@ -123,7 +137,7 @@ public class UserSaveQueueTests
     }
 
     private UserSaveQueue CreateQueue()
-        => new(_dbContextFactory, _configuration);
+        => new(_dbContextFactory, _configuration, _clockService);
 
     private static DbContextOptions<BotDbContext> CreateInMemoryOptions()
         => new DbContextOptionsBuilder<BotDbContext>()

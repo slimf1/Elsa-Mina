@@ -15,6 +15,5 @@ public interface ICommand
     public bool IsHidden { get; }
     public IEnumerable<string> RoomRestriction { get; }
 
-    void ReplyLocalizedHelpMessage(IContext context);
     Task RunAsync(IContext context, CancellationToken cancellationToken = default);
 }

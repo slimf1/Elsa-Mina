@@ -49,6 +49,7 @@ using ElsaMina.Commands.Teams.TeamProviders;
 using ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
 using ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
 using ElsaMina.Commands.Tournaments;
+using ElsaMina.Commands.Users;
 using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands;
@@ -131,6 +132,8 @@ public class CommandModule : Module
         builder.RegisterCommand<RunningCommands>();
         builder.RegisterCommand<CancelRunningCommand>();
         builder.RegisterCommand<SearchCommand>();
+        builder.RegisterCommand<SeenCommand>();
+        builder.RegisterCommand<AltsCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();

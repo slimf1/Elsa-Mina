@@ -3,5 +3,5 @@
 public class ClockService : IClockService
 {
     public DateTime CurrentUtcDateTime => DateTime.UtcNow;
-    public DateTimeOffset CurrentUtcDateTimeOffset => DateTimeOffset.Now;
+    public DateTimeOffset CurrentUtcDateTimeOffset => DateTimeOffset.UtcNow;
 }

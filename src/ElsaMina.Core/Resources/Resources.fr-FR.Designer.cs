@@ -1623,6 +1623,48 @@ namespace ElsaMina.Core.Resources {
             }
         }
         
+        internal static string seen_command_help {
+            get {
+                return ResourceManager.GetString("seen_command_help", resourceCulture);
+            }
+        }
+        
+        internal static string seen_command_not_found {
+            get {
+                return ResourceManager.GetString("seen_command_not_found", resourceCulture);
+            }
+        }
+        
+        internal static string seen_command_error {
+            get {
+                return ResourceManager.GetString("seen_command_error", resourceCulture);
+            }
+        }
+        
+        internal static string seen_command_last_seen {
+            get {
+                return ResourceManager.GetString("seen_command_last_seen", resourceCulture);
+            }
+        }
+        
+        internal static string seen_command_action_chatting {
+            get {
+                return ResourceManager.GetString("seen_command_action_chatting", resourceCulture);
+            }
+        }
+        
+        internal static string seen_command_action_joining {
+            get {
+                return ResourceManager.GetString("seen_command_action_joining", resourceCulture);
+            }
+        }
+        
+        internal static string seen_command_action_leaving {
+            get {
+                return ResourceManager.GetString("seen_command_action_leaving", resourceCulture);
+            }
+        }
+        
         internal static string parameter_name_timezone {
             get {
                 return ResourceManager.GetString("parameter_name_timezone", resourceCulture);

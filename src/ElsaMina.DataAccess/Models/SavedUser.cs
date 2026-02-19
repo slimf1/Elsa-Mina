@@ -9,6 +9,7 @@ public class SavedUser
     public string UserName { get; set; }
     public ICollection<RoomUser> RoomData { get; set; } = [];
     public DateTimeOffset? RegisterDate { get; set; }
-    public DateTimeOffset? LastOnline { get; set; }
+    public DateTimeOffset? LastOnline { get; set; } // to be renamed : this is more "last action datetime"
     public string LastSeenRoomId { get; set; }
+    public UserAction LastSeenAction { get; set; }
 }

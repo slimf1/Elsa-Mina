@@ -812,6 +812,27 @@
     <data name="timer_command_started" xml:space="preserve">
         <value>Timer avviato.</value>
     </data>
+    <data name="seen_command_help" xml:space="preserve">
+        <value>Mostra l'ultima azione registrata per un utente. Sintassi: -seen &lt;utente&gt;</value>
+    </data>
+    <data name="seen_command_not_found" xml:space="preserve">
+        <value>Nessuna azione recente trovata per l'utente {0}.</value>
+    </data>
+    <data name="seen_command_error" xml:space="preserve">
+        <value>Si è verificato un errore durante il recupero dei dati seen per l'utente {0}: {1}</value>
+    </data>
+    <data name="seen_command_last_seen" xml:space="preserve">
+        <value>L'utente {0} è stato visto l'ultima volta il {1}, {2} la room {3}</value>
+    </data>
+    <data name="seen_command_action_chatting" xml:space="preserve">
+        <value>mentre parlava in</value>
+    </data>
+    <data name="seen_command_action_joining" xml:space="preserve">
+        <value>mentre entrava in</value>
+    </data>
+    <data name="seen_command_action_leaving" xml:space="preserve">
+        <value>mentre usciva da</value>
+    </data>
     <data name="parameter_name_timezone" xml:space="preserve">
         <value>Fuso orario</value>
     </data>

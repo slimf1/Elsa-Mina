@@ -807,6 +807,27 @@
     <data name="timer_command_started" xml:space="preserve">
         <value>Timer started.</value>
     </data>
+    <data name="seen_command_help" xml:space="preserve">
+        <value>Shows the latest action seen for a user. Syntax: -seen &lt;user&gt;</value>
+    </data>
+    <data name="seen_command_not_found" xml:space="preserve">
+        <value>No recent action found for user {0}.</value>
+    </data>
+    <data name="seen_command_error" xml:space="preserve">
+        <value>An error occurred while fetching seen data for user {0}: {1}</value>
+    </data>
+    <data name="seen_command_last_seen" xml:space="preserve">
+        <value>User {0} was last seen on {1} {2} room {3}</value>
+    </data>
+    <data name="seen_command_action_chatting" xml:space="preserve">
+        <value>chatting in</value>
+    </data>
+    <data name="seen_command_action_joining" xml:space="preserve">
+        <value>joining</value>
+    </data>
+    <data name="seen_command_action_leaving" xml:space="preserve">
+        <value>leaving</value>
+    </data>
     <data name="parameter_name_timezone" xml:space="preserve">
         <value>Time zone</value>
     </data>

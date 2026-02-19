@@ -21,9 +21,9 @@ public abstract class Command : ICommand
     public virtual bool IsHidden => false;
     public virtual IEnumerable<string> RoomRestriction => [];
 
-    public void ReplyLocalizedHelpMessage(IContext context)
+    protected void ReplyLocalizedHelpMessage(IContext context, bool rankAware = false)
     {
-        context.Reply(context.GetString(HelpMessageKey));
+        context.Reply(context.GetString(HelpMessageKey), rankAware: rankAware);
     }
 
     public abstract Task RunAsync(IContext context, CancellationToken cancellationToken = default);

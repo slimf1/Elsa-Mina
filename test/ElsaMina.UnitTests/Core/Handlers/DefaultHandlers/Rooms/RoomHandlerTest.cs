@@ -1,5 +1,6 @@
 using ElsaMina.Core.Handlers.DefaultHandlers.Rooms;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.DataAccess.Models;
 using NSubstitute;
 
 namespace ElsaMina.UnitTests.Core.Handlers.DefaultHandlers.Rooms;
@@ -61,7 +62,22 @@ public class RoomsHandlerTest
 
         // Assert
         _roomsManager.Received(1).AddUserToRoom(roomId, userId);
-        _userSaveQueue.Received(1).Enqueue(userId);
+        _userSaveQueue.Received(1).Enqueue(userId, roomId, UserAction.Joining);
+    }
+
+    [Test]
+    public async Task Test_HandleReceivedMessage_ShouldSaveUserAction_WhenCommandIsC()
+    {
+        // Arrange
+        const string roomId = "room1";
+        const string userId = "user123";
+        string[] parts = ["", "c:", "123", userId, "test message"];
+
+        // Act
+        await _roomsHandler.HandleReceivedMessageAsync(parts, roomId);
+
+        // Assert
+        _userSaveQueue.Received(1).Enqueue(userId, roomId, UserAction.Chatting);
     }
 
     [Test]
@@ -77,6 +93,7 @@ public class RoomsHandlerTest
 
         // Assert
         _roomsManager.Received(1).RemoveUserFromRoom(roomId, userId);
+        _userSaveQueue.Received(1).Enqueue(userId, roomId, UserAction.Leaving);
     }
 
     [Test]

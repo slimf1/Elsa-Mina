@@ -812,6 +812,27 @@
     <data name="timer_command_started" xml:space="preserve">
         <value>Temporizador iniciado.</value>
     </data>
+    <data name="seen_command_help" xml:space="preserve">
+        <value>Muestra la última acción registrada de un usuario. Sintaxis: -seen &lt;usuario&gt;</value>
+    </data>
+    <data name="seen_command_not_found" xml:space="preserve">
+        <value>No se encontró ninguna acción reciente para el usuario {0}.</value>
+    </data>
+    <data name="seen_command_error" xml:space="preserve">
+        <value>Se produjo un error al obtener los datos seen del usuario {0}: {1}</value>
+    </data>
+    <data name="seen_command_last_seen" xml:space="preserve">
+        <value>El usuario {0} fue visto por última vez el {1}, {2} la sala {3}</value>
+    </data>
+    <data name="seen_command_action_chatting" xml:space="preserve">
+        <value>hablando en</value>
+    </data>
+    <data name="seen_command_action_joining" xml:space="preserve">
+        <value>uniéndose a</value>
+    </data>
+    <data name="seen_command_action_leaving" xml:space="preserve">
+        <value>saliendo de</value>
+    </data>
     <data name="parameter_name_timezone" xml:space="preserve">
         <value>Zona horaria</value>
     </data>

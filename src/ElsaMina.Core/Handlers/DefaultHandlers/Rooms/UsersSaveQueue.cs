@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess;
@@ -8,34 +9,48 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.Core.Handlers.DefaultHandlers.Rooms;
 
+/// <summary>
+/// Bufferise les màj de "dernière activité" des utilisateurs, puis les enregistre par lots.
+/// Plusieurs màj pour un même utilisateur sont fusionnées : seule la plus récente est sauvegardée
+/// </summary>
 public sealed class UserSaveQueue : IUserSaveQueue
 {
-    private readonly ConcurrentDictionary<string, string> _pendingUsers = new();
+    private sealed record PendingUserSave(
+        string RawUserName,
+        string RoomId,
+        UserAction Action,
+        DateTimeOffset LastSeenTime);
+
+    // userId -> dernière màj en attente pour cet user
+    private readonly ConcurrentDictionary<string, PendingUserSave> _pendingUsers = new();
     private readonly IBotDbContextFactory _dbContextFactory;
+    private readonly IClockService _clockService;
     private readonly PeriodicTimer _timer;
     private readonly int _batchSize;
 
     private readonly SemaphoreSlim _flushLock = new(1, 1);
+    // Protège l'accès à _currentFlushTask pour partager un flush déjà en cours
     private readonly Lock _flushTaskLock = new();
 
     private Task _currentFlushTask;
-    private readonly CancellationTokenSource _cts = new();
+    private readonly CancellationTokenSource _timerBasedBackgroundSaveCts = new();
 
     public UserSaveQueue(
         IBotDbContextFactory dbContextFactory,
-        IConfiguration configuration)
+        IConfiguration configuration, IClockService clockService)
     {
         _dbContextFactory = dbContextFactory;
+        _clockService = clockService;
         _batchSize = configuration.UserUpdateBatchSize;
         _timer = new PeriodicTimer(configuration.UserUpdateFlushInterval);
 
         _ = Task.Run(BackgroundFlushAsync);
     }
 
-    public void Enqueue(string userName)
+    public void Enqueue(string userName, string roomId, UserAction action)
     {
         var userId = userName.ToLowerAlphaNum();
-        _pendingUsers[userId] = userName;
+        _pendingUsers[userId] = new PendingUserSave(userName, roomId, action, _clockService.CurrentUtcDateTimeOffset);
 
         if (_pendingUsers.Count >= _batchSize)
         {
@@ -47,13 +62,18 @@ public sealed class UserSaveQueue : IUserSaveQueue
     {
         try
         {
-            while (await _timer.WaitForNextTickAsync(_cts.Token))
+            while (await _timer.WaitForNextTickAsync(_timerBasedBackgroundSaveCts.Token))
             {
-                await FlushAsync(_cts.Token);
+                await FlushAsync(_timerBasedBackgroundSaveCts.Token);
             }
         }
         catch (OperationCanceledException)
         {
+            // Ignore
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error while flushing user updates (timer based)");
         }
     }
 
@@ -61,6 +81,7 @@ public sealed class UserSaveQueue : IUserSaveQueue
     {
         lock (_flushTaskLock)
         {
+            // Réutilise la tâche de flush en cours au lieu d'en démarrer plusieurs en parallèle
             if (_currentFlushTask?.IsCompleted == false)
             {
                 return _currentFlushTask;
@@ -86,6 +107,7 @@ public sealed class UserSaveQueue : IUserSaveQueue
         await _flushLock.WaitAsync(cancellationToken);
         try
         {
+            // Boucle pour capter les nouvelles mises à jour arrivées pendant l'enregistrement du lot courant.
             while (!_pendingUsers.IsEmpty)
             {
                 var batch = _pendingUsers.ToArray();
@@ -100,9 +122,9 @@ public sealed class UserSaveQueue : IUserSaveQueue
                     .ToDictionaryAsync(u => u.UserId, cancellationToken);
 
                 Log.Debug("Saving user ids : {0}", string.Join(", ", userIds));
-                foreach (var (userId, rawUserName) in batch)
+                foreach (var (userId, pendingUser) in batch)
                 {
-                    var userName = rawUserName[1..];
+                    var userName = ExtractUserName(pendingUser.RawUserName);
 
                     if (existingUsers.TryGetValue(userId, out var user))
                     {
@@ -110,13 +132,31 @@ public sealed class UserSaveQueue : IUserSaveQueue
                         {
                             user.UserName = userName;
                         }
+
+                        if (user.LastOnline != pendingUser.LastSeenTime)
+                        {
+                            user.LastOnline = pendingUser.LastSeenTime;
+                        }
+
+                        if (user.LastSeenRoomId != pendingUser.RoomId)
+                        {
+                            user.LastSeenRoomId = pendingUser.RoomId;
+                        }
+
+                        if (user.LastSeenAction != pendingUser.Action)
+                        {
+                            user.LastSeenAction = pendingUser.Action;
+                        }
                     }
                     else
                     {
                         dbContext.Users.Add(new SavedUser
                         {
                             UserId = userId,
-                            UserName = userName
+                            UserName = userName,
+                            LastOnline = pendingUser.LastSeenTime,
+                            LastSeenRoomId = pendingUser.RoomId,
+                            LastSeenAction = pendingUser.Action
                         });
                     }
                 }
@@ -147,6 +187,7 @@ public sealed class UserSaveQueue : IUserSaveQueue
 
     public async Task AcquireLockAsync(CancellationToken cancellationToken = default)
     {
+        // Permet à des services externes de suspendre les flushs pendant leurs propres écritures liées
         await _flushLock.WaitAsync(cancellationToken);
     }
 
@@ -157,9 +198,21 @@ public sealed class UserSaveQueue : IUserSaveQueue
 
     public async ValueTask DisposeAsync()
     {
-        await _cts.CancelAsync();
+        await _timerBasedBackgroundSaveCts.CancelAsync();
         _timer.Dispose();
         await FlushAsync(CancellationToken.None);
         await WaitForFlushAsync(CancellationToken.None);
+    }
+
+    private static string ExtractUserName(string rawUserName)
+    {
+        if (string.IsNullOrEmpty(rawUserName))
+        {
+            return string.Empty;
+        }
+
+        return char.IsLetterOrDigit(rawUserName[0])
+            ? rawUserName
+            : rawUserName[1..];
     }
 }

@@ -807,6 +807,27 @@
     <data name="timer_command_started" xml:space="preserve">
         <value>Minuteur démarré.</value>
     </data>
+    <data name="seen_command_help" xml:space="preserve">
+        <value>Affiche la dernière action enregistrée d'un utilisateur. Syntaxe : -seen &lt;utilisateur&gt;</value>
+    </data>
+    <data name="seen_command_not_found" xml:space="preserve">
+        <value>Aucune action récente trouvée pour l'utilisateur {0}.</value>
+    </data>
+    <data name="seen_command_error" xml:space="preserve">
+        <value>Une erreur est survenue lors de la récupération des données d'activité pour l'utilisateur {0} : {1}</value>
+    </data>
+    <data name="seen_command_last_seen" xml:space="preserve">
+        <value>L'utilisateur {0} a été vu pour la dernière fois le {1}, {2} la salle {3}</value>
+    </data>
+    <data name="seen_command_action_chatting" xml:space="preserve">
+        <value>en parlant dans</value>
+    </data>
+    <data name="seen_command_action_joining" xml:space="preserve">
+        <value>en rejoignant</value>
+    </data>
+    <data name="seen_command_action_leaving" xml:space="preserve">
+        <value>en quittant</value>
+    </data>
     <data name="parameter_name_timezone" xml:space="preserve">
         <value>Fuseau horaire</value>
     </data>
