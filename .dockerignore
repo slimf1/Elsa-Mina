@@ -1,7 +1,3 @@
-# VCS
-.git/
-.github/
-
 # Build artifacts
 bin/
 obj/

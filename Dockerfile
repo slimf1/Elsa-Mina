@@ -1,6 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /app
 
+COPY .git .
 COPY ElsaMina.slnx .
 COPY GitVersion.yml .
 COPY scripts/*.sh /app/scripts/
