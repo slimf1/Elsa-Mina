@@ -1,4 +1,5 @@
 using ElsaMina.Core.Handlers.DefaultHandlers;
+using ElsaMina.Core.Services.BattleTracker;
 using ElsaMina.Core.Services.UserDetails;
 using NSubstitute;
 
@@ -7,13 +8,28 @@ namespace ElsaMina.UnitTests.Core.Handlers.DefaultHandlers;
 public class QueryResponseHandlerTest
 {
     private IUserDetailsManager _userDetailsManager;
+    private IActiveBattlesManager _activeBattlesManager;
     private QueryResponseHandler _handler;
 
     [SetUp]
     public void SetUp()
     {
         _userDetailsManager = Substitute.For<IUserDetailsManager>();
-        _handler = new QueryResponseHandler(_userDetailsManager);
+        _activeBattlesManager = Substitute.For<IActiveBattlesManager>();
+        _handler = new QueryResponseHandler(_userDetailsManager, _activeBattlesManager);
+    }
+
+    [Test]
+    public async Task Test_HandleReceivedMessage_ShouldCallHandleReceivedRoomList_WhenCommandIsQueryResponseRoomList()
+    {
+        // Arrange
+        string[] parts = ["", "queryresponse", "roomlist", "roomListData"];
+
+        // Act
+        await _handler.HandleReceivedMessageAsync(parts);
+
+        // Assert
+        _activeBattlesManager.Received(1).HandleReceivedRoomList("roomListData");
     }
 
     [Test]
@@ -40,6 +56,7 @@ public class QueryResponseHandlerTest
 
         // Assert
         _userDetailsManager.DidNotReceive().HandleReceivedUserDetails(Arg.Any<string>());
+        _activeBattlesManager.DidNotReceive().HandleReceivedRoomList(Arg.Any<string>());
     }
 
     [Test]
@@ -53,6 +70,7 @@ public class QueryResponseHandlerTest
 
         // Assert
         _userDetailsManager.DidNotReceive().HandleReceivedUserDetails(Arg.Any<string>());
+        _activeBattlesManager.DidNotReceive().HandleReceivedRoomList(Arg.Any<string>());
     }
 
     [Test]
@@ -66,5 +84,6 @@ public class QueryResponseHandlerTest
 
         // Assert
         _userDetailsManager.DidNotReceive().HandleReceivedUserDetails(Arg.Any<string>());
+        _activeBattlesManager.DidNotReceive().HandleReceivedRoomList(Arg.Any<string>());
     }
 }

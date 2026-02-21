@@ -4,6 +4,7 @@ using ElsaMina.Core.Handlers;
 using ElsaMina.Core.Handlers.DefaultHandlers;
 using ElsaMina.Core.Handlers.DefaultHandlers.Rooms;
 using ElsaMina.Core.Services.Battles;
+using ElsaMina.Core.Services.BattleTracker;
 using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.Battles.Strategies;
 using ElsaMina.Core.Services.Clock;
@@ -61,6 +62,7 @@ public class CoreModule : Module
         builder.RegisterType<TemplatesManager>().As<ITemplatesManager>().SingleInstance();
         builder.RegisterType<RoomUserDataService>().As<IRoomUserDataService>().SingleInstance();
         builder.RegisterType<UserDetailsManager>().As<IUserDetailsManager>().SingleInstance();
+        builder.RegisterType<ActiveBattlesManager>().As<IActiveBattlesManager>().SingleInstance();
         builder.RegisterType<UserDataService>().As<IUserDataService>().SingleInstance();
         builder.RegisterType<RandomService>().As<IRandomService>().SingleInstance();
         builder.RegisterType<RepeatsManager>().As<IRepeatsManager>().SingleInstance();

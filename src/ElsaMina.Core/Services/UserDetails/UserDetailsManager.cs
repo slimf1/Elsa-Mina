@@ -1,4 +1,4 @@
-using System.Collections.Concurrent;
+using ElsaMina.Core.Services;
 using ElsaMina.Core.Services.System;
 using ElsaMina.Logging;
 using Newtonsoft.Json;
@@ -10,51 +10,22 @@ public class UserDetailsManager : IUserDetailsManager
     private static readonly TimeSpan CANCEL_DELAY = TimeSpan.FromSeconds(5);
 
     private readonly IClient _client;
-    private readonly ISystemService _systemService;
-
-    private readonly ConcurrentDictionary<string, (TaskCompletionSource<UserDetailsDto> Tcs, CancellationTokenSource TimeoutCts)>
-        _pendingRequests = new();
+    private readonly PendingQueryRequestsManager<string, UserDetailsDto> _pendingRequestsManager;
 
     public UserDetailsManager(IClient client, ISystemService systemService)
     {
         _client = client;
-        _systemService = systemService;
+        _pendingRequestsManager = new PendingQueryRequestsManager<string, UserDetailsDto>(
+            systemService,
+            CANCEL_DELAY,
+            () => null);
     }
 
     public Task<UserDetailsDto> GetUserDetailsAsync(string userId, CancellationToken cancellationToken = default)
     {
         _client.Send($"|/cmd userdetails {userId}");
 
-        if (_pendingRequests.TryRemove(userId, out var oldEntry))
-        {
-            oldEntry.TimeoutCts.Cancel();
-            oldEntry.Tcs.TrySetCanceled();
-        }
-
-        var tcs = new TaskCompletionSource<UserDetailsDto>(TaskCreationOptions.RunContinuationsAsynchronously);
-        var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-
-        _pendingRequests[userId] = (tcs, timeoutCts);
-
-        _ = RunTimeoutAsync(userId, timeoutCts.Token);
-
-        return tcs.Task;
-    }
-
-    private async Task RunTimeoutAsync(string userId, CancellationToken cancellationToken)
-    {
-        try
-        {
-            await _systemService.SleepAsync(CANCEL_DELAY, cancellationToken);
-            if (_pendingRequests.TryRemove(userId, out var entry))
-            {
-                entry.Tcs.TrySetResult(null);
-            }
-        }
-        catch (OperationCanceledException)
-        {
-            // Normal: cancelled because data arrived or request was replaced
-        }
+        return _pendingRequestsManager.AddOrReplace(userId, cancellationToken);
     }
 
     public void HandleReceivedUserDetails(string message)
@@ -77,10 +48,6 @@ public class UserDetailsManager : IUserDetailsManager
         if (dto == null)
             return;
 
-        if (_pendingRequests.TryRemove(dto.UserId, out var entry))
-        {
-            entry.TimeoutCts.Cancel(); // stop timeout
-            entry.Tcs.TrySetResult(dto);
-        }
+        _pendingRequestsManager.TryResolve(dto.UserId, dto);
     }
 }
