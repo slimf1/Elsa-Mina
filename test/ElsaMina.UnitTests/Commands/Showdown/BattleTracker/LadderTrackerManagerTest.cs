@@ -45,7 +45,7 @@ public class LadderTrackerManagerTest
         DependencyContainerService.Current = dependencyContainerService;
 
         _manager = new LadderTrackerManager(_activeBattlesManager, _bot,
-            _roomsManager, _resourcesService, _formatsManager, TimeSpan.FromMilliseconds(10));
+            _roomsManager, _resourcesService, _formatsManager, TimeSpan.FromMilliseconds(25));
     }
 
     [TearDown]

@@ -20,6 +20,7 @@ public class LadderTrackerManager : ILadderTrackerManager
     private readonly IRoomsManager _roomsManager;
     private readonly IResourcesService _resourcesService;
     private readonly IFormatsManager _formatsManager;
+    private readonly TimeSpan _pollInterval;
     private readonly Lock _lock = new();
     private readonly Dictionary<LadderTracking, TrackingState> _trackedBattles = [];
 
@@ -28,12 +29,25 @@ public class LadderTrackerManager : ILadderTrackerManager
 
     public LadderTrackerManager(IActiveBattlesManager activeBattlesManager, IBot bot,
         IRoomsManager roomsManager, IResourcesService resourcesService, IFormatsManager formatsManager)
+        : this(activeBattlesManager, bot, roomsManager, resourcesService, formatsManager, DEFAULT_POLL_INTERVAL)
     {
+    }
+
+    public LadderTrackerManager(IActiveBattlesManager activeBattlesManager, IBot bot,
+        IRoomsManager roomsManager, IResourcesService resourcesService, IFormatsManager formatsManager,
+        TimeSpan pollInterval)
+    {
+        if (pollInterval <= TimeSpan.Zero)
+        {
+            throw new ArgumentOutOfRangeException(nameof(pollInterval), "Poll interval must be greater than zero.");
+        }
+
         _activeBattlesManager = activeBattlesManager;
         _bot = bot;
         _roomsManager = roomsManager;
         _resourcesService = resourcesService;
         _formatsManager = formatsManager;
+        _pollInterval = pollInterval;
     }
 
     public IReadOnlyCollection<LadderTracking> GetRoomTrackings(string roomId)
@@ -156,7 +170,7 @@ public class LadderTrackerManager : ILadderTrackerManager
     {
         try
         {
-            using var timer = new PeriodicTimer(DEFAULT_POLL_INTERVAL);
+            using var timer = new PeriodicTimer(_pollInterval);
             while (await timer.WaitForNextTickAsync(cancellationToken))
             {
                 await PollOnceAsync(cancellationToken);
