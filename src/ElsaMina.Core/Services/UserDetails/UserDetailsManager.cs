@@ -46,7 +46,9 @@ public class UserDetailsManager : IUserDetailsManager
         }
 
         if (dto == null)
+        {
             return;
+        }
 
         _pendingRequestsManager.TryResolve(dto.UserId, dto);
     }

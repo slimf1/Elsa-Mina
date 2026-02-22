@@ -828,10 +828,31 @@
     <data name="seen_command_action_leaving" xml:space="preserve">
         <value>en quittant</value>
     </data>
+    <data name="current_ladder_trackers_none" xml:space="preserve">
+        <value>Aucun suivi de salle trouvé pour {0}.</value>
+    </data>
+    <data name="current_ladder_trackers_entry" xml:space="preserve">
+        <value>{0} - préfixe : {1}</value>
+    </data>
     <data name="parameter_name_timezone" xml:space="preserve">
         <value>Fuseau horaire</value>
     </data>
     <data name="parameter_description_timezone" xml:space="preserve">
         <value>Le fuseau horaire utilisé dans les dates affichées</value>
+    </data>
+    <data name="toggletracking_help_message" xml:space="preserve">
+        <value>Enverra une annonce lorsqu’un nouveau combat commence dans un format spécifique si le nom d’utilisateur d’un joueur correspond au préfixe donné. Syntaxe : -track &lt;format&gt;, &lt;prefix&gt;</value>
+    </data>
+    <data name="toggletracking_success" xml:space="preserve">
+        <value>Suivi des combats {0} démarré pour le préfixe {1}.</value>
+    </data>
+    <data name="toggletracking_failure" xml:space="preserve">
+        <value>Impossible de démarrer le suivi des combats.</value>
+    </data>
+    <data name="toggletracking_stop_success" xml:space="preserve">
+        <value>Suivi des combats {0} arrêté pour le préfixe {1}.</value>
+    </data>
+    <data name="battletracker_battle_started" xml:space="preserve">
+        <value>Un combat {0} a commencé entre {1} et {2} (Elo min. : {3})</value>
     </data>
 </root>

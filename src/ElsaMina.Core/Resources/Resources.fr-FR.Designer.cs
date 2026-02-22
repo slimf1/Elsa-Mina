@@ -1665,6 +1665,18 @@ namespace ElsaMina.Core.Resources {
             }
         }
         
+        internal static string current_ladder_trackers_none {
+            get {
+                return ResourceManager.GetString("current_ladder_trackers_none", resourceCulture);
+            }
+        }
+        
+        internal static string current_ladder_trackers_entry {
+            get {
+                return ResourceManager.GetString("current_ladder_trackers_entry", resourceCulture);
+            }
+        }
+        
         internal static string parameter_name_timezone {
             get {
                 return ResourceManager.GetString("parameter_name_timezone", resourceCulture);
@@ -1674,6 +1686,12 @@ namespace ElsaMina.Core.Resources {
         internal static string parameter_description_timezone {
             get {
                 return ResourceManager.GetString("parameter_description_timezone", resourceCulture);
+            }
+        }
+        
+        internal static string toggletracking_help_message {
+            get {
+                return ResourceManager.GetString("toggletracking_help_message", resourceCulture);
             }
         }
     }

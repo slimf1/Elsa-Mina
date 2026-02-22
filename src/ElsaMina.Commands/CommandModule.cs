@@ -40,6 +40,7 @@ using ElsaMina.Commands.Repeats.Form;
 using ElsaMina.Commands.Repeats.List;
 using ElsaMina.Commands.Replays;
 using ElsaMina.Commands.RoomDashboard;
+using ElsaMina.Commands.Showdown.BattleTracker;
 using ElsaMina.Commands.Showdown.Ladder;
 using ElsaMina.Commands.Showdown.Ranking;
 using ElsaMina.Commands.Showdown.Searching;
@@ -110,6 +111,7 @@ public class CommandModule : Module
         builder.RegisterCommand<RankingCommand>();
         builder.RegisterCommand<LadderCommand>();
         builder.RegisterCommand<SearchCommand>();
+        builder.RegisterCommand<ToggleLadderTrackerCommand>();
         builder.RegisterCommand<FailCommand>();
         builder.RegisterCommand<RepeatFormCommand>();
         builder.RegisterCommand<StartRepeatCommand>();
@@ -134,6 +136,7 @@ public class CommandModule : Module
         builder.RegisterCommand<SearchCommand>();
         builder.RegisterCommand<SeenCommand>();
         builder.RegisterCommand<AltsCommand>();
+        builder.RegisterCommand<CurrentLadderTrackersCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();
@@ -159,6 +162,7 @@ public class CommandModule : Module
         builder.RegisterType<ConversationHistoryService>().As<IConversationHistoryService>().SingleInstance();
         builder.RegisterType<LanguageModelResolver>().As<ILanguageModelProvider>().SingleInstance();
         builder.RegisterType<ShowdownRanksProvider>().As<IShowdownRanksProvider>().SingleInstance();
+        builder.RegisterType<LadderTrackerManager>().As<ILadderTrackerManager>().SingleInstance();
         builder.RegisterType<PokepasteProvider>().As<ITeamProvider>().SingleInstance();
         builder.RegisterType<CoupCritiqueProvider>().As<ITeamProvider>().SingleInstance();
         builder.RegisterType<TeamLinkMatchFactory>().As<ITeamLinkMatchFactory>().SingleInstance();

@@ -828,10 +828,31 @@
     <data name="seen_command_action_leaving" xml:space="preserve">
         <value>leaving</value>
     </data>
+    <data name="current_ladder_trackers_none" xml:space="preserve">
+        <value>No room trackings found for {0}.</value>
+    </data>
+    <data name="current_ladder_trackers_entry" xml:space="preserve">
+        <value>{0} - prefix: {1}</value>
+    </data>
     <data name="parameter_name_timezone" xml:space="preserve">
         <value>Time zone</value>
     </data>
     <data name="parameter_description_timezone" xml:space="preserve">
         <value>The timezone used in shown dates</value>
+    </data>
+    <data name="toggletracking_help_message" xml:space="preserve">
+        <value>Will send an announce when a new battle starts in a specific format if a player's username match the given prefix. Syntax: -track &lt;format&gt;, &lt;prefix&gt;</value>
+    </data>
+    <data name="toggletracking_success" xml:space="preserve">
+        <value>Started tracking {0} battles for prefix {1}.</value>
+    </data>
+    <data name="toggletracking_failure" xml:space="preserve">
+        <value>Failed to start battle tracking.</value>
+    </data>
+    <data name="toggletracking_stop_success" xml:space="preserve">
+        <value>Stopped tracking {0} battles for prefix {1}.</value>
+    </data>
+    <data name="battletracker_battle_started" xml:space="preserve">
+        <value>A {0} battle started between {1} and {2} (min. Elo: {3})</value>
     </data>
 </root>

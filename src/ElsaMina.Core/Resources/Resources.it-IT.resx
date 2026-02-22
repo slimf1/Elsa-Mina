@@ -833,10 +833,31 @@
     <data name="seen_command_action_leaving" xml:space="preserve">
         <value>mentre usciva da</value>
     </data>
+    <data name="current_ladder_trackers_none" xml:space="preserve">
+        <value>Nessun monitoraggio della stanza trovato per {0}.</value>
+    </data>
+    <data name="current_ladder_trackers_entry" xml:space="preserve">
+        <value>{0} - prefisso: {1}</value>
+    </data>
     <data name="parameter_name_timezone" xml:space="preserve">
         <value>Fuso orario</value>
     </data>
     <data name="parameter_description_timezone" xml:space="preserve">
         <value>Il fuso orario utilizzato nelle date visualizzate</value>
+    </data>
+    <data name="toggletracking_help_message" xml:space="preserve">
+        <value>Invierà un annuncio quando inizia una nuova battaglia in un formato specifico se il nome utente di un giocatore corrisponde al prefisso indicato. Sintassi: -track &lt;format&gt;, &lt;prefix&gt;</value>
+    </data>
+    <data name="toggletracking_success" xml:space="preserve">
+        <value>Monitoraggio delle battaglie {0} avviato per il prefisso {1}.</value>
+    </data>
+    <data name="toggletracking_failure" xml:space="preserve">
+        <value>Impossibile avviare il monitoraggio delle battaglie.</value>
+    </data>
+    <data name="toggletracking_stop_success" xml:space="preserve">
+        <value>Monitoraggio delle battaglie {0} interrotto per il prefisso {1}.</value>
+    </data>
+    <data name="battletracker_battle_started" xml:space="preserve">
+        <value>Una battaglia {0} è iniziata tra {1} e {2} (elo min.: {3})</value>
     </data>
 </root>
