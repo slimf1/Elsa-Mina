@@ -1,4 +1,3 @@
-using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Formats;
@@ -14,19 +13,22 @@ namespace ElsaMina.Commands.Showdown.Ladder;
 public class LadderCommand : Command
 {
     private const string LADDER_RESOURCE_URL = "https://pokemonshowdown.com/ladder/{0}.json";
-    private const int MAX_PLAYERS_WITHOUT_PREFIX = 200;
+    private const int MAX_PLAYERS_WITHOUT_PREFIX = 150;
 
     private readonly IHttpService _httpService;
     private readonly ITemplatesManager _templatesManager;
     private readonly IFormatsManager _formatsManager;
+    private readonly ILadderHistoryManager _ladderHistoryManager;
 
     public LadderCommand(IHttpService httpService,
         ITemplatesManager templatesManager,
-        IFormatsManager formatsManager)
+        IFormatsManager formatsManager,
+        ILadderHistoryManager ladderHistoryManager)
     {
         _httpService = httpService;
         _templatesManager = templatesManager;
         _formatsManager = formatsManager;
+        _ladderHistoryManager = ladderHistoryManager;
     }
 
     public override bool IsAllowedInPrivateMessage => true;
@@ -65,7 +67,7 @@ public class LadderCommand : Command
                     players.Add(player);
                 }
 
-                // Only show the top 200 when there's no prefix because the message becomes too big (> 100KB)
+                // limit when there's no prefix because the message becomes too big (> 100KB)
                 if (!hasPrefix && index >= MAX_PLAYERS_WITHOUT_PREFIX)
                 {
                     break;
@@ -78,6 +80,44 @@ public class LadderCommand : Command
                 return;
             }
 
+            var previousEntries = _ladderHistoryManager.GetPreviousEntriesAndSave(tier, players);
+            var previousPlacements = _ladderHistoryManager.GetPreviousPlacementsAndSave(tier, players);
+            var previousPrefixedPlacements = hasPrefix
+                ? _ladderHistoryManager.GetPreviousPrefixedPlacementsAndSave(tier, prefix, players)
+                : null;
+            foreach (var player in players)
+            {
+                var playerId = string.IsNullOrWhiteSpace(player.UserId) ? string.Empty : player.UserId.ToLowerAlphaNum();
+                if (string.IsNullOrWhiteSpace(playerId))
+                {
+                    playerId = string.IsNullOrWhiteSpace(player.Username) ? string.Empty : player.Username.ToLowerAlphaNum();
+                }
+
+                if (string.IsNullOrWhiteSpace(playerId))
+                {
+                    continue;
+                }
+
+                if (previousEntries.TryGetValue(playerId, out var previousElo))
+                {
+                    var currentElo = (int)Math.Round(player.Elo, MidpointRounding.AwayFromZero);
+                    player.EloDifference = currentElo - previousElo;
+                }
+
+                if (previousPlacements.TryGetValue(playerId, out var previousPlacement))
+                {
+                    // différence positive => amélioration
+                    player.IndexDifference = previousPlacement - player.Index;
+                }
+
+                if (hasPrefix && previousPrefixedPlacements != null &&
+                    previousPrefixedPlacements.TryGetValue(playerId, out var previousPrefixedPlacement))
+                {
+                    // différence positive => amélioration
+                    player.InnerIndexDifference = previousPrefixedPlacement - player.InnerIndex;
+                }
+            }
+
             var template = await _templatesManager.GetTemplateAsync("Showdown/Ladder/LadderTable",
                 new LadderTableViewModel
                 {
@@ -87,7 +127,7 @@ public class LadderCommand : Command
                     TopList = players
                 });
 
-            context.ReplyHtml(template, rankAware: true);
+            context.ReplyHtml(template.RemoveNewlines().RemoveWhitespacesBetweenTags(), rankAware: true);
         }
         catch (Exception exception)
         {

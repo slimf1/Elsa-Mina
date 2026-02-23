@@ -32,4 +32,7 @@ public class LadderPlayerDto
     public double WinRate => Wins + Losses == 0 ? 0 : 100 * Wins / (double)(Wins + Losses);
     public int Index { get; set; }
     public int InnerIndex { get; set; }
+    public int? EloDifference { get; set; }
+    public int? IndexDifference { get; set; }
+    public int? InnerIndexDifference { get; set; }
 }

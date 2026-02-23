@@ -162,6 +162,7 @@ public class CommandModule : Module
         builder.RegisterType<ConversationHistoryService>().As<IConversationHistoryService>().SingleInstance();
         builder.RegisterType<LanguageModelResolver>().As<ILanguageModelProvider>().SingleInstance();
         builder.RegisterType<ShowdownRanksProvider>().As<IShowdownRanksProvider>().SingleInstance();
+        builder.RegisterType<LadderHistoryManager>().As<ILadderHistoryManager>().SingleInstance();
         builder.RegisterType<LadderTrackerManager>().As<ILadderTrackerManager>().SingleInstance();
         builder.RegisterType<PokepasteProvider>().As<ITeamProvider>().SingleInstance();
         builder.RegisterType<CoupCritiqueProvider>().As<ITeamProvider>().SingleInstance();

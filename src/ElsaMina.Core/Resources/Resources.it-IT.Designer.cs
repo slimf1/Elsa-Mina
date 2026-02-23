@@ -1250,6 +1250,12 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("ladder_no_players", resourceCulture);
             }
         }
+
+        internal static string ladder_error {
+            get {
+                return ResourceManager.GetString("ladder_error", resourceCulture);
+            }
+        }
         
         internal static string command_execution_error {
             get {

@@ -621,6 +621,9 @@
     <data name="ladder_no_players" xml:space="preserve">
         <value>Aucun joueur trouvé.</value>
     </data>
+    <data name="ladder_error" xml:space="preserve">
+        <value>Impossible de recuperer le ladder.</value>
+    </data>
     <data name="command_execution_error" xml:space="preserve">
         <value>L'exécution de la commande a soulevé une erreur.</value>
     </data>

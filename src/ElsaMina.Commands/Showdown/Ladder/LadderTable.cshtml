@@ -4,6 +4,9 @@
 
 @{
     const string headerStyle = $"border-bottom: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR}; padding: 4px";
+    static string TrendArrowOrNbsp(int? diff) => diff > 0 ? "▲" : diff < 0 ? "▼" : "&nbsp;";
+    static string TrendColor(int? diff) => diff > 0 ? "#2e8b57" : diff < 0 ? "#d9534f" : "inherit";
+    static string TrendTitle(int? diff) => diff > 0 ? $"+{diff}" : diff < 0 ? diff.ToString() : string.Empty;
 }
 <div style="max-height: 200px; overflow-y: auto">
     <table style="margin: auto; border: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; border-radius: 12px; padding: 4px">
@@ -29,17 +32,26 @@
             <tr>
                 @if (Model.ShowInnerRanking)
                 {
-                    <td style="text-align: center">@rating.InnerIndex</td>
+                    <td style="text-align:center">
+                        &nbsp;@rating.InnerIndex<span style="color:@TrendColor(rating.InnerIndexDifference);font-weight:bold"
+                                                     title="@TrendTitle(rating.InnerIndexDifference)">@Raw(TrendArrowOrNbsp(rating.InnerIndexDifference))</span>
+                    </td>
                 }
-                <td style="text-align: center">@rating.Index</td>
+                <td style="text-align:center">
+                    &nbsp;@rating.Index<span style="color:@TrendColor(rating.IndexDifference);font-weight:bold"
+                                             title="@TrendTitle(rating.IndexDifference)">@Raw(TrendArrowOrNbsp(rating.IndexDifference))</span>
+                </td>
                 <td style="color: @rating.UserId.ToColorHexCodeWithCustoms()">
                     @rating.Username
                 </td>
-                <td style="text-align: center">@rating.Elo.ToString("F0", Model.Culture)</td>
-                <td style="text-align: center">@rating.Gxe.ToString("F1", Model.Culture)</td>
-                <td style="text-align: center">@rating.Wins</td>
-                <td style="text-align: center">@rating.Losses</td>
-                <td style="text-align: center">@rating.WinRate.ToString("F2", Model.Culture)%</td>
+                <td style="text-align:center">
+                    &nbsp;@rating.Elo.ToString("F0", Model.Culture)<span style="color:@TrendColor(rating.EloDifference);font-weight:bold"
+                                                                         title="@TrendTitle(rating.EloDifference)">@Raw(TrendArrowOrNbsp(rating.EloDifference))</span>
+                </td>
+                <td style="text-align:center">@rating.Gxe.ToString("F1", Model.Culture)</td>
+                <td style="text-align:center">@rating.Wins</td>
+                <td style="text-align:center">@rating.Losses</td>
+                <td style="text-align:center">@rating.WinRate.ToString("F2", Model.Culture)%</td>
             </tr>
         }
         </tbody>

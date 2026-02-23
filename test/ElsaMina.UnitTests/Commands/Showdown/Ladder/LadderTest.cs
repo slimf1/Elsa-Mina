@@ -15,6 +15,7 @@ public class LadderCommandTest
     private IHttpService _httpService;
     private ITemplatesManager _templatesManager;
     private IFormatsManager _formatsManager;
+    private LadderHistoryManager _ladderHistoryManager;
     private IContext _context;
 
     [SetUp]
@@ -23,8 +24,9 @@ public class LadderCommandTest
         _httpService = Substitute.For<IHttpService>();
         _templatesManager = Substitute.For<ITemplatesManager>();
         _formatsManager = Substitute.For<IFormatsManager>();
+        _ladderHistoryManager = new LadderHistoryManager();
         _context = Substitute.For<IContext>();
-        _ladderCommand = new LadderCommand(_httpService, _templatesManager, _formatsManager);
+        _ladderCommand = new LadderCommand(_httpService, _templatesManager, _formatsManager, _ladderHistoryManager);
     }
 
     [Test]
@@ -110,5 +112,155 @@ public class LadderCommandTest
 
         // Assert
         _context.Received().ReplyLocalizedMessage("ladder_error");
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldSetEloTrend_WhenSameLadderIsRequestedTwice()
+    {
+        // Arrange
+        var firstResponse = new HttpResponse<LadderDto>
+        {
+            Data = new LadderDto
+            {
+                Format = "gen8ou",
+                TopList =
+                [
+                    new LadderPlayerDto { UserId = "player1", Username = "player1", Elo = 1500 },
+                    new LadderPlayerDto { UserId = "player2", Username = "player2", Elo = 1600 }
+                ]
+            }
+        };
+
+        var secondResponse = new HttpResponse<LadderDto>
+        {
+            Data = new LadderDto
+            {
+                Format = "gen8ou",
+                TopList =
+                [
+                    new LadderPlayerDto { UserId = "player1", Username = "player1", Elo = 1512 },
+                    new LadderPlayerDto { UserId = "player2", Username = "player2", Elo = 1588 }
+                ]
+            }
+        };
+
+        _httpService.GetAsync<LadderDto>(Arg.Any<string>())
+            .Returns(firstResponse, secondResponse);
+        _formatsManager.GetCleanFormat("gen8ou").Returns("[Gen 8] OU");
+        _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<LadderTableViewModel>())
+            .Returns(Task.FromResult("formatted_html"));
+        _context.Target.Returns("gen8ou");
+
+        // Act
+        await _ladderCommand.RunAsync(_context);
+        await _ladderCommand.RunAsync(_context);
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync("Showdown/Ladder/LadderTable",
+            Arg.Is<LadderTableViewModel>(vm =>
+                vm.TopList.Any(player => player.UserId == "player1" && player.EloDifference == 12) &&
+                vm.TopList.Any(player => player.UserId == "player2" && player.EloDifference == -12) &&
+                vm.TopList.All(player => player.IndexDifference == 0)));
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldSetPlacementTrend_WhenSameLadderIsRequestedTwiceWithoutPrefix()
+    {
+        // Arrange
+        var firstResponse = new HttpResponse<LadderDto>
+        {
+            Data = new LadderDto
+            {
+                Format = "gen8ou",
+                TopList =
+                [
+                    new LadderPlayerDto { UserId = "player1", Username = "player1", Elo = 1500 },
+                    new LadderPlayerDto { UserId = "player2", Username = "player2", Elo = 1500 }
+                ]
+            }
+        };
+
+        var secondResponse = new HttpResponse<LadderDto>
+        {
+            Data = new LadderDto
+            {
+                Format = "gen8ou",
+                TopList =
+                [
+                    new LadderPlayerDto { UserId = "player2", Username = "player2", Elo = 1500 },
+                    new LadderPlayerDto { UserId = "player1", Username = "player1", Elo = 1500 }
+                ]
+            }
+        };
+
+        _httpService.GetAsync<LadderDto>(Arg.Any<string>())
+            .Returns(firstResponse, secondResponse);
+        _formatsManager.GetCleanFormat("gen8ou").Returns("[Gen 8] OU");
+        _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<LadderTableViewModel>())
+            .Returns(Task.FromResult("formatted_html"));
+        _context.Target.Returns("gen8ou");
+
+        // Act
+        await _ladderCommand.RunAsync(_context);
+        await _ladderCommand.RunAsync(_context);
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync("Showdown/Ladder/LadderTable",
+            Arg.Is<LadderTableViewModel>(vm =>
+                vm.TopList.Any(player => player.UserId == "player1" && player.IndexDifference == -1) &&
+                vm.TopList.Any(player => player.UserId == "player2" && player.IndexDifference == 1)));
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldSetPrefixedPlacementTrend_WhenSameLadderAndPrefixAreRequestedTwice()
+    {
+        // Arrange
+        var firstResponse = new HttpResponse<LadderDto>
+        {
+            Data = new LadderDto
+            {
+                Format = "gen8ou",
+                TopList =
+                [
+                    new LadderPlayerDto { UserId = "plaone", Username = "plaone", Elo = 1500 },
+                    new LadderPlayerDto { UserId = "other", Username = "other", Elo = 1500 },
+                    new LadderPlayerDto { UserId = "platwo", Username = "platwo", Elo = 1500 }
+                ]
+            }
+        };
+
+        var secondResponse = new HttpResponse<LadderDto>
+        {
+            Data = new LadderDto
+            {
+                Format = "gen8ou",
+                TopList =
+                [
+                    new LadderPlayerDto { UserId = "platwo", Username = "platwo", Elo = 1500 },
+                    new LadderPlayerDto { UserId = "other", Username = "other", Elo = 1500 },
+                    new LadderPlayerDto { UserId = "plaone", Username = "plaone", Elo = 1500 }
+                ]
+            }
+        };
+
+        _httpService.GetAsync<LadderDto>(Arg.Any<string>())
+            .Returns(firstResponse, secondResponse);
+        _formatsManager.GetCleanFormat("gen8ou").Returns("[Gen 8] OU");
+        _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<LadderTableViewModel>())
+            .Returns(Task.FromResult("formatted_html"));
+        _context.Target.Returns("gen8ou,pla");
+
+        // Act
+        await _ladderCommand.RunAsync(_context);
+        await _ladderCommand.RunAsync(_context);
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync("Showdown/Ladder/LadderTable",
+            Arg.Is<LadderTableViewModel>(vm =>
+                vm.ShowInnerRanking &&
+                vm.TopList.Any(player => player.UserId == "plaone" && player.IndexDifference == -2 &&
+                                         player.InnerIndexDifference == -1) &&
+                vm.TopList.Any(player => player.UserId == "platwo" && player.IndexDifference == 2 &&
+                                         player.InnerIndexDifference == 1)));
     }
 }

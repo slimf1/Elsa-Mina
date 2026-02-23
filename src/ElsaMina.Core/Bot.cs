@@ -127,10 +127,14 @@ public class Bot : IBot
     public void Send(string message)
     {
         var now = _clockService.CurrentUtcDateTimeOffset;
-        if ((_lastMessage == message && now - _lastMessageTime < SAME_MESSAGE_COOLDOWN)
-            || message.Length > MESSAGE_LENGTH_LIMIT)
+        if (_lastMessage == message && now - _lastMessageTime < SAME_MESSAGE_COOLDOWN)
         {
             return;
+        }
+
+        if (message.Length > MESSAGE_LENGTH_LIMIT)
+        {
+            throw new ArgumentException("Message length limit reached", nameof(message));
         }
 
         Log.Debug("[Sending] {0}", message);

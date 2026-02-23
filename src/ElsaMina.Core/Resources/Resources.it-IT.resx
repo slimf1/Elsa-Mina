@@ -626,6 +626,9 @@
     <data name="ladder_no_players" xml:space="preserve">
         <value>Nessun giocatore trovato.</value>
     </data>
+    <data name="ladder_error" xml:space="preserve">
+        <value>Impossibile recuperare la classifica.</value>
+    </data>
     <data name="command_execution_error" xml:space="preserve">
         <value>L'esecuzione del comando ha generato un errore.</value>
     </data>
