@@ -16,16 +16,13 @@ public class EfRoomParameterStore : IRoomParameterStore
         _dbContextFactory = dbContextFactory;
         _parameterDefinitions = definitionFactory.GetParametersDefinitions();
     }
-    
+
     public IRoom Room { get; set; }
 
     public void InitializeFromRoomEntity(SavedRoom savedRoomEntity)
     {
         _dbSavedRoom = savedRoomEntity;
     }
-
-    public string GetValue(Parameter parameter)
-        => GetCachedValue(parameter);
 
     public Task<string> GetValueAsync(Parameter parameter, CancellationToken cancellationToken = default)
         => cancellationToken.IsCancellationRequested
@@ -36,29 +33,20 @@ public class EfRoomParameterStore : IRoomParameterStore
     {
         var parameterDefinition = _parameterDefinitions[parameter];
         return _dbSavedRoom
-            .ParameterValues
-            .FirstOrDefault(parameterValue => parameterValue.ParameterId == parameterDefinition.Identifier)
-            ?.Value
-            ?? parameterDefinition.DefaultValue;
+                   .ParameterValues
+                   .FirstOrDefault(parameterValue => parameterValue.ParameterId == parameterDefinition.Identifier)
+                   ?.Value
+               ?? parameterDefinition.DefaultValue;
     }
 
-    public bool SetValue(Parameter parameter, string value)
-        => SetValueInternalAsync(parameter, value, false).GetAwaiter().GetResult();
-
-    public Task<bool> SetValueAsync(Parameter parameter, string value, CancellationToken cancellationToken = default)
-        => SetValueInternalAsync(parameter, value, true, cancellationToken);
-
-    private async Task<bool> SetValueInternalAsync(
-        Parameter parameter,
-        string value,
-        bool isAsync,
+    public async Task<bool> SetValueAsync(Parameter parameter, string value,
         CancellationToken cancellationToken = default)
     {
         try
         {
             await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
             var parameterDefinition = _parameterDefinitions[parameter];
-            
+
             var existing = _dbSavedRoom.ParameterValues
                 .FirstOrDefault(parameterValue => parameterValue.ParameterId == parameterDefinition.Identifier);
 
@@ -81,16 +69,8 @@ public class EfRoomParameterStore : IRoomParameterStore
                 dbContext.RoomBotParameterValues.Update(existing);
             }
 
-            if (isAsync)
-            {
-                await dbContext.SaveChangesAsync(cancellationToken);
-            }
-            else
-            {
-                // ReSharper disable once MethodHasAsyncOverloadWithCancellation
-                dbContext.SaveChanges();
-            }
-            
+            await dbContext.SaveChangesAsync(cancellationToken);
+
             parameterDefinition.OnUpdateAction?.Invoke(Room, value);
             return true;
         }

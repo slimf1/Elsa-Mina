@@ -14,7 +14,7 @@ public class DefaultContextProvider : IContextProvider
     private readonly IRoomsManager _roomsManager;
     private readonly IUserDetailsManager _userDetailsManager;
 
-    public  DefaultContextProvider(IConfiguration configuration,
+    public DefaultContextProvider(IConfiguration configuration,
         IResourcesService resourcesService,
         IRoomsManager roomsManager,
         IUserDetailsManager userDetailsManager)
@@ -26,6 +26,7 @@ public class DefaultContextProvider : IContextProvider
     }
 
     public string DefaultRoom => _configuration.DefaultRoom;
+    public string BugReportLink => _configuration.BugReportLink;
     public CultureInfo DefaultCulture => new(_configuration.DefaultLocaleCode);
 
     public bool IsUserWhitelisted(string userId)

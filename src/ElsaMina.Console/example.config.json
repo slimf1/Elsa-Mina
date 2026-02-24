@@ -9,6 +9,7 @@
   "Whitelist": ["panur"],
   "Avatar": "",
   "DefaultRoom": "default",
+  "BugReportLink": "",
   "DefaultLocaleCode": "en-US",
   "ConnectionString": "",
   "DatabaseMaxRetries": 5,

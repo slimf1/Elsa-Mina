@@ -62,6 +62,14 @@ public class ShowRoomDashboard : Command
             .Values
             .Select(parameter => $"{parameter.Identifier}={{{parameter.Identifier}}}"));
 
+        var roomParameterLines = await Task.WhenAll(_roomsManager.ParametersDefinitions
+            .Select(async kvp => new RoomParameterLineModel
+            {
+                Culture = context.Culture,
+                RoomParameterDefinition = kvp.Value,
+                CurrentValue = await room.GetParameterValueAsync(kvp.Key, cancellationToken)
+            }));
+
         var viewModel = new RoomDashboardViewModel
         {
             BotName = _configuration.Name,
@@ -70,13 +78,7 @@ public class ShowRoomDashboard : Command
             Command = configurationCommandBuilder.ToString(),
             RoomName = room.Name,
             Culture = context.Culture,
-            RoomParameterLines = _roomsManager.ParametersDefinitions
-                .Select(kvp => new RoomParameterLineModel
-                {
-                    Culture = context.Culture,
-                    RoomParameterDefinition = kvp.Value,
-                    CurrentValue = room.GetParameterValue(kvp.Key)
-                })
+            RoomParameterLines = roomParameterLines
         };
         var template = await _templatesManager.GetTemplateAsync("RoomDashboard/RoomDashboard", viewModel);
 

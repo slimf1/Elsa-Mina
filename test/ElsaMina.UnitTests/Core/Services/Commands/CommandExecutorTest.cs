@@ -197,6 +197,31 @@ public class CommandExecutorTest
     }
 
     [Test]
+    public async Task Test_TryExecuteCommandAsync_ShouldThrow_WhenCommandExecutionFails()
+    {
+        // Arrange
+        var commandName = "failingCommand";
+        var command = Substitute.For<ICommand>();
+        var expectedException = new InvalidOperationException("boom");
+        _dependencyContainerService.IsRegisteredWithName<ICommand>(commandName).Returns(true);
+        _dependencyContainerService.ResolveNamed<ICommand>(commandName).Returns(command);
+        _context.HasRankOrHigher(command.RequiredRank).Returns(true);
+        command.IsAllowedInPrivateMessage.Returns(true);
+        command.RoomRestriction.Returns(Array.Empty<string>());
+        command.Name.Returns(commandName);
+        command.RunAsync(Arg.Any<IContext>(), Arg.Any<CancellationToken>())
+            .Returns(Task.FromException(expectedException));
+
+        // Act
+        var exception = Assert.ThrowsAsync<InvalidOperationException>(
+            async () => await _commandExecutor.TryExecuteCommandAsync(commandName, _context));
+
+        // Assert
+        Assert.That(exception, Is.SameAs(expectedException));
+        Assert.That(_commandExecutor.RunningCommands, Is.Empty);
+    }
+
+    [Test]
     public async Task Test_TryExecuteCommandAsync_ShouldTryAddedCommand_WhenNotRegisteredAndNotPrivateMessage()
     {
         // Arrange

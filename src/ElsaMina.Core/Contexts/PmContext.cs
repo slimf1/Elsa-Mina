@@ -26,7 +26,8 @@ public class PmContext : Context
 
     public override bool HasRankOrHigher(Rank requiredRank) => true;
 
-    protected override bool IsAllowingErrorMessages => true;
+    protected override Task<bool> IsAllowingErrorMessagesAsync(CancellationToken cancellationToken = default)
+        => Task.FromResult(true);
 
     public override void Reply(string message, bool rankAware = false)
         => Bot.Send($"|/pm {Sender.UserId}, {message}");

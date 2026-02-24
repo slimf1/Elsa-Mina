@@ -15,6 +15,7 @@ public interface IConfiguration : IS3CredentialsProvider, ILoggingConfiguration
     IEnumerable<string> Whitelist { get; }
     string Avatar { get; }
     string DefaultRoom { get; }
+    string BugReportLink { get; }
     string DefaultLocaleCode { get; }
     string ConnectionString { get; }
     int DatabaseMaxRetries { get; }

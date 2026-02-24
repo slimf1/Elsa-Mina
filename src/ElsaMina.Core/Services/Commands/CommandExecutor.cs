@@ -47,7 +47,7 @@ public class CommandExecutor : ICommandExecutor
                 return;
             }
 
-            RegisterAndRun(command, context, cancellationToken);
+            await RegisterAndRun(command, context, cancellationToken);
             return;
         }
 
@@ -78,7 +78,7 @@ public class CommandExecutor : ICommandExecutor
 
     #region Execution tracking
 
-    private void RegisterAndRun(ICommand command, IContext context, CancellationToken externalToken)
+    private async Task RegisterAndRun(ICommand command, IContext context, CancellationToken externalToken)
     {
         var executionId = Guid.NewGuid();
 
@@ -105,6 +105,7 @@ public class CommandExecutor : ICommandExecutor
                     "Command {0} ({1}) crashed",
                     command.Name,
                     executionId);
+                throw;
             }
             finally
             {
@@ -119,6 +120,8 @@ public class CommandExecutor : ICommandExecutor
             context,
             linkedCts,
             task);
+
+        await task;
     }
 
     public bool TryCancel(Guid executionId)

@@ -14,9 +14,7 @@ public interface IRoom
     IEnumerable<Tuple<string, string>> LastMessages { get; }
     IDictionary<string, TimeSpan> PendingPlayTimeUpdates { get; }
 
-    string GetParameterValue(Parameter parameter);
     Task<string> GetParameterValueAsync(Parameter parameter, CancellationToken cancellationToken = default);
-    bool SetParameterValue(Parameter parameter, string value);
     Task<bool> SetParameterValueAsync(Parameter parameter, string value, CancellationToken cancellationToken = default);
     void AddUser(string username);
     void RemoveUser(string username);

@@ -2,7 +2,6 @@
 using System.Globalization;
 using ElsaMina.Core.Services.Rooms.Parameters;
 using ElsaMina.Core.Utils;
-using ElsaMina.DataAccess.Models;
 
 namespace ElsaMina.Core.Services.Rooms;
 
@@ -55,22 +54,11 @@ public class Room : IRoom
         }
     }
 
-    public string GetParameterValue(Parameter parameter)
-    {
-        var parameterDefinition = _parametersDefinitions[parameter];
-        return _roomParameterStore.GetValue(parameter) ?? parameterDefinition.DefaultValue;
-    }
-
     public async Task<string> GetParameterValueAsync(Parameter parameter, CancellationToken cancellationToken = default)
     {
         var parameterDefinition = _parametersDefinitions[parameter];
         return await _roomParameterStore.GetValueAsync(parameter, cancellationToken) ??
                parameterDefinition.DefaultValue;
-    }
-
-    public bool SetParameterValue(Parameter parameter, string value)
-    {
-        return _roomParameterStore.SetValue(parameter, value);
     }
 
     public async Task<bool> SetParameterValueAsync(Parameter parameter, string value,

@@ -632,6 +632,9 @@
     <data name="command_execution_error" xml:space="preserve">
         <value>L'esecuzione del comando ha generato un errore.</value>
     </data>
+    <data name="command_execution_report_bug" xml:space="preserve">
+        <value>Per favore, [[segnala un problema &lt;{0}&gt;]]</value>
+    </data>
     <data name="repeat_start_error" xml:space="preserve">
         <value>Il repeat non ha potuto essere avviato</value>
     </data>

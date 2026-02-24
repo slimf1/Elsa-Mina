@@ -8,7 +8,6 @@ namespace ElsaMina.Core.Contexts;
 public class RoomContext : Context
 {
     private readonly IRoom _room;
-    private readonly long _timestamp;
 
     public RoomContext(IContextProvider contextProvider,
         IBot bot,
@@ -20,7 +19,7 @@ public class RoomContext : Context
         long timestamp) : base(contextProvider, bot, message, target, sender, command)
     {
         _room = room;
-        _timestamp = timestamp;
+        Timestamp = DateTimeOffset.FromUnixTimeSeconds(timestamp);
     }
 
     public override string RoomId => _room.RoomId;
@@ -35,9 +34,13 @@ public class RoomContext : Context
 
     public override ContextType Type => ContextType.Room;
 
-    public DateTimeOffset Timestamp => DateTimeOffset.FromUnixTimeSeconds(_timestamp);
+    public DateTimeOffset Timestamp { get; }
 
-    protected override bool IsAllowingErrorMessages => _room.GetParameterValue(Parameter.ShowErrorMessages).ToBoolean();
+    protected override async Task<bool> IsAllowingErrorMessagesAsync(CancellationToken cancellationToken = default)
+    {
+        var parameterValue = await _room.GetParameterValueAsync(Parameter.ShowErrorMessages, cancellationToken);
+        return parameterValue.ToBoolean();
+    }
 
     public override bool HasRankOrHigher(Rank requiredRank)
     {

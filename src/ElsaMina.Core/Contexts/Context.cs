@@ -68,14 +68,19 @@ public abstract class Context : IContext
         Reply(GetString(key, formatArguments), rankAware: true);
     }
 
-    public void HandleError(Exception exception)
+    public async Task HandleErrorAsync(Exception exception, CancellationToken cancellationToken = default)
     {
-        if (!IsAllowingErrorMessages)
+        var isAllowed = await IsAllowingErrorMessagesAsync(cancellationToken);
+        if (!isAllowed)
         {
             return;
         }
 
         ReplyLocalizedMessage("command_execution_error");
+        if (!string.IsNullOrWhiteSpace(_contextProvider.BugReportLink))
+        {
+            ReplyLocalizedMessage("command_execution_report_bug", _contextProvider.BugReportLink);
+        }
         Reply($"!code {exception.GetType().FullName}: {exception.Message}\n{exception.StackTrace}");
     }
 
@@ -100,7 +105,7 @@ public abstract class Context : IContext
     public abstract bool IsPrivateMessage { get; }
     public abstract CultureInfo Culture { get; set; }
     public abstract ContextType Type { get; }
-    protected abstract bool IsAllowingErrorMessages { get; }
+    protected abstract Task<bool> IsAllowingErrorMessagesAsync(CancellationToken cancellationToken = default);
 
     public abstract bool HasRankOrHigher(Rank requiredRank);
     public abstract void Reply(string message, bool rankAware = false);

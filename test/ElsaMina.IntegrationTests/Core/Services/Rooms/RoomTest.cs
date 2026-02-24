@@ -88,7 +88,7 @@ public class RoomTest
         await _roomsManager.InitializeRoomAsync(ROOM_ID, BuildRoomInitLines());
         var room = _roomsManager.GetRoom(ROOM_ID);
 
-        Assert.That(room.GetParameterValue(Parameter.Locale), Is.EqualTo("fr-FR"));
+        Assert.That(await room.GetParameterValueAsync(Parameter.Locale), Is.EqualTo("fr-FR"));
 
         var updateResult = await room.SetParameterValueAsync(Parameter.Locale, "en-US");
         Assert.That(updateResult, Is.True);
@@ -97,10 +97,11 @@ public class RoomTest
 
         await _roomsManager.InitializeRoomAsync(ROOM_ID, BuildRoomInitLines());
         var reloadedRoom = _roomsManager.GetRoom(ROOM_ID);
+        var reloadedLocale = await reloadedRoom.GetParameterValueAsync(Parameter.Locale);
 
         Assert.Multiple(() =>
         {
-            Assert.That(reloadedRoom.GetParameterValue(Parameter.Locale), Is.EqualTo("en-US"));
+            Assert.That(reloadedLocale, Is.EqualTo("en-US"));
             Assert.That(reloadedRoom.Culture.Name, Is.EqualTo("en-US"));
         });
     }
