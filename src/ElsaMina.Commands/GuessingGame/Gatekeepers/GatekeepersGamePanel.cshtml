@@ -8,6 +8,7 @@
     const string border = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};";
     const string cellStyle = $"{border} padding: 4px; text-align: center; vertical-align: middle;";
     const string shadedCellStyle = $"{border} padding: 4px; text-align: center; vertical-align: middle; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
+    const string correctAnswerCellStyle = $"{border} padding: 4px; text-align: center; vertical-align: middle; background-color: {backgroundGreenColor};";
 }
 <table style="border-collapse: collapse;">
     <tbody>
@@ -27,15 +28,13 @@
                 var slug = entry.Name.English.ToLowerAlphaNum();
                 var faceStyle = Model.ShowPortraits ? string.Empty : "visibility: hidden;";
                 var silhouettesStyle = Model.ShowSilhouettes ? string.Empty : "visibility: hidden;";
-                var bgColor = Model.ShouldShowCorrectAnswer
-                              && Model.CurrentValidAnswer.Name.English == entry.Name.English
-                    ? backgroundGreenColor
-                    : string.Empty;
-                <td style="@cellStyle">
+                var withCorrectAnswerBackground = Model.ShouldShowCorrectAnswer
+                                                  && Model.CurrentValidAnswer.Name.English == entry.Name.English;
+                <td style="@(withCorrectAnswerBackground ? correctAnswerCellStyle : cellStyle)">
                     <button name="send"
                             value="/botmsg @Model.BotName, @(Model.Trigger)guess @Model.RoomId,@(Model.Culture.TwoLetterISOLanguageName == "fr" ? entry.Name.French : entry.Name.English)"
                             style="background: none; border: none; cursor: pointer; padding: 0;">
-                        <table style="border-collapse: collapse; background-color: @bgColor;">
+                        <table style="border-collapse: collapse; background-color: @withCorrectAnswerBackground;">
                             <tbody>
                             <tr>
                                 <td style="padding-right: 4px; vertical-align: middle;">

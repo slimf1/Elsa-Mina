@@ -24,7 +24,6 @@ public abstract class GuessingGame : Game, IGuessingGame
     private readonly Dictionary<string, int> _scores = new();
     private readonly Dictionary<string, DateTimeOffset> _lastAnswerTimes = new();
     private readonly IClockService _clockService;
-    private bool _hasRoundBeenWon;
 
     protected GuessingGame(ITemplatesManager templatesManager,
         IConfiguration configuration, IClockService clockService)
@@ -36,7 +35,7 @@ public abstract class GuessingGame : Game, IGuessingGame
 
     protected IReadOnlyDictionary<string, int> Scores => _scores;
 
-    protected bool HasRoundBeenWon => _hasRoundBeenWon;
+    protected bool HasRoundBeenWon { get; private set; }
 
     protected int CurrentTurn { get; private set; }
 
@@ -58,7 +57,7 @@ public abstract class GuessingGame : Game, IGuessingGame
         CurrentTurn++;
         Context.ReplyLocalizedMessage("guessing_game_turn_count", CurrentTurn);
         await OnTurnStart();
-        _hasRoundBeenWon = false;
+        HasRoundBeenWon = false;
 
         CancelTimer();
         _elapsedSeconds = 0;
@@ -89,7 +88,7 @@ public abstract class GuessingGame : Game, IGuessingGame
 
     private async Task OnTurnEnd()
     {
-        if (!_hasRoundBeenWon)
+        if (!HasRoundBeenWon)
         {
             Context.ReplyLocalizedMessage("guessing_game_answer_not_found",
                 string.Join(", ", CurrentValidAnswers.Distinct()));
@@ -107,7 +106,7 @@ public abstract class GuessingGame : Game, IGuessingGame
 
     public void OnAnswer(string userName, string answer)
     {
-        if (_hasRoundBeenWon ||
+        if (HasRoundBeenWon ||
             userName.ToLowerAlphaNum() == _configuration.Name.ToLowerAlphaNum())
         {
             return;
@@ -131,7 +130,7 @@ public abstract class GuessingGame : Game, IGuessingGame
             return;
         }
 
-        _hasRoundBeenWon = true;
+        HasRoundBeenWon = true;
         _scores.TryAdd(userId, 0);
 
         _scores[userId] += 1;
@@ -163,7 +162,7 @@ public abstract class GuessingGame : Game, IGuessingGame
 
     protected virtual void OnTimerCountdown(TimeSpan remainingTime)
     {
-        if (remainingTime == TIME_WARNING_THRESHOLD && !_hasRoundBeenWon)
+        if (remainingTime == TIME_WARNING_THRESHOLD && !HasRoundBeenWon)
         {
             Context.ReplyLocalizedMessage("countries_game_turn_ending_soon", remainingTime.Seconds);
         }
