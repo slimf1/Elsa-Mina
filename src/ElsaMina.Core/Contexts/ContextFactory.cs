@@ -7,6 +7,8 @@ namespace ElsaMina.Core.Contexts;
 
 public class ContextFactory : IContextFactory
 {
+    private const string BOT_MESSAGE_PREFIX = "/botmsg ";
+    
     private readonly IContextProvider _contextProvider;
     private readonly IBot _bot;
     private readonly IRoomsManager _roomsManager;
@@ -47,6 +49,10 @@ public class ContextFactory : IContextFactory
             case > 2 when parts[1] == "pm":
             {
                 var message = parts[4];
+                if (message.StartsWith(BOT_MESSAGE_PREFIX))
+                {
+                    message = message[BOT_MESSAGE_PREFIX.Length..];
+                }
                 var (target, command) = GetTargetAndCommand(message);
                 return new PmContext(_contextProvider, _bot, message, target, _pmSendersManager.GetUser(parts[2]), command);
             }

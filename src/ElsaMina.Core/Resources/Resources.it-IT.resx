@@ -866,4 +866,10 @@
     <data name="battletracker_battle_started" xml:space="preserve">
         <value>Una battaglia {0} è iniziata tra {1} e {2} (elo min.: {3})</value>
     </data>
+    <data name="gatekeepers_rules_title" xml:space="preserve">
+        <value>Regole</value>
+    </data>
+    <data name="gatekeepers_rules" xml:space="preserve">
+        <value>Un Pokémon è nascosto dietro la sua impronta. Clicca sulla sua icona per segnare un punto! I ritratti vengono rivelati dopo 10 secondi, le sagome dopo 5.</value>
+    </data>
 </root>

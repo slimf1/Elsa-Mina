@@ -137,6 +137,7 @@ public class CommandModule : Module
         builder.RegisterCommand<SeenCommand>();
         builder.RegisterCommand<AltsCommand>();
         builder.RegisterCommand<CurrentLadderTrackersCommand>();
+        builder.RegisterCommand<GuessingGameAnswerCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();

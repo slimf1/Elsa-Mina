@@ -866,4 +866,10 @@
     <data name="battletracker_battle_started" xml:space="preserve">
         <value>Una batalla {0} comenzó entre {1} y {2} (elo mín.: {3})</value>
     </data>
+    <data name="gatekeepers_rules_title" xml:space="preserve">
+        <value>Reglas</value>
+    </data>
+    <data name="gatekeepers_rules" xml:space="preserve">
+        <value>Un Pokémon está escondido detrás de su huella. ¡Haz clic en su icono para ganar un punto! Los retratos se revelan después de 10 segundos, las siluetas después de 5.</value>
+    </data>
 </root>

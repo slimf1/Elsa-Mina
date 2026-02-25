@@ -1,3 +1,4 @@
+using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Dex;
 using ElsaMina.Core.Services.Probabilities;
@@ -44,7 +45,8 @@ public class PokeCriesGame : GuessingGame
     public PokeCriesGame(ITemplatesManager templatesManager,
         IConfiguration configuration,
         IRandomService randomService,
-        IDexManager dexManager) : base(templatesManager, configuration)
+        IDexManager dexManager,
+        IClockService clockService) : base(templatesManager, configuration, clockService)
     {
         _randomService = randomService;
         _dexManager = dexManager;
@@ -70,15 +72,13 @@ public class PokeCriesGame : GuessingGame
 
         var monId = _randomService.NextInt(1, MAX_MON_ID + 1);
         var message = $"<audio controls src=\"https://media.pokemoncentral.it/wiki/versi/{monId:D3}.mp3\"></audio>";
-        var entry = _dexManager
-            .Pokedex
-            .Values
-            .FirstOrDefault(e => e.Num == monId && string.IsNullOrEmpty(e.BaseSpecies));
-        if (entry != null)
+        if (monId < 0 || monId > _dexManager.Pokedex.Length)
         {
-            CurrentValidAnswers = [entry.Name];
-            Context.ReplyHtml(message);
+            return Task.CompletedTask; // Prevent crash but it shouldn't be possible
         }
+        var pokemon = _dexManager.Pokedex[monId];
+        CurrentValidAnswers = [pokemon.Name.French, pokemon.Name.English, pokemon.Name.Japanese];
+        Context.ReplyHtml(message);
 
         return Task.CompletedTask;
     }

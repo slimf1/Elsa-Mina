@@ -861,4 +861,10 @@
     <data name="battletracker_battle_started" xml:space="preserve">
         <value>A {0} battle started between {1} and {2} (min. Elo: {3})</value>
     </data>
+    <data name="gatekeepers_rules_title" xml:space="preserve">
+        <value>Rules</value>
+    </data>
+    <data name="gatekeepers_rules" xml:space="preserve">
+        <value>A Pokémon is hidden behind its footprint. Click its icon to score a point! Portraits are revealed after 10 seconds, silhouettes after 5.</value>
+    </data>
 </root>

@@ -1,3 +1,4 @@
+using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Templates;
@@ -12,7 +13,8 @@ public class PokeDescGame : GuessingGame
     public PokeDescGame(ITemplatesManager templatesManager,
         IConfiguration configuration,
         IRandomService randomService,
-        IDataManager dataManager) : base(templatesManager, configuration)
+        IDataManager dataManager,
+        IClockService clockService) : base(templatesManager, configuration, clockService)
     {
         _randomService = randomService;
         _dataManager = dataManager;

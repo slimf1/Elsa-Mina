@@ -1,22 +1,79 @@
+@using ElsaMina.Core.Services.Templates
+@using ElsaMina.Core.Utils
 @inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.GuessingGame.Gatekeepers.GatekeepersGamePanelViewModel>
-<table>
-    <tbody>
-    <tr>
-        <td rowspan="2">
-            <img src="@Model.FootprintSprite" width="128" height="128" alt="Footprint Sprite"/>
-            
-        </td>
-        <td>
-            show portraits = @Model.ShowPortraits
-        </td>
-    </tr>
-    <tr>
-        <td rowspan="2">
-            show silhouettes = @Model.ShowSilhouettes
-        </td>
-        <td>
+@{
+    var options = Model.CurrentOptions.ToList();
 
-        </td>
-    </tr>
+    const string backgroundGreenColor = "#55BB8873";
+    const string border = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};";
+    const string cellStyle = $"{border} padding: 4px; text-align: center; vertical-align: middle;";
+    const string shadedCellStyle = $"{border} padding: 4px; text-align: center; vertical-align: middle; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
+}
+<table style="border-collapse: collapse;">
+    <tbody>
+    @for (var row = 0; row < 2; row++)
+    {
+        <tr>
+            @if (row == 0)
+            {
+                <td style="@shadedCellStyle" rowspan="2">
+                    <img src="@Model.FootprintSprite" width="80" height="80" alt="Footprint"/>
+                </td>
+            }
+            @for (var col = 0; col < 2; col++)
+            {
+                var i = row * 2 + col;
+                var entry = options[i];
+                var slug = entry.Name.English.ToLowerAlphaNum();
+                var faceStyle = Model.ShowPortraits ? string.Empty : "visibility: hidden;";
+                var silhouettesStyle = Model.ShowSilhouettes ? string.Empty : "visibility: hidden;";
+                var bgColor = Model.ShouldShowCorrectAnswer
+                              && Model.CurrentValidAnswer.Name.English == entry.Name.English
+                    ? backgroundGreenColor
+                    : string.Empty;
+                <td style="@cellStyle">
+                    <button name="send"
+                            value="/botmsg @Model.BotName, @(Model.Trigger)guess @Model.RoomId,@(Model.Culture.TwoLetterISOLanguageName == "fr" ? entry.Name.French : entry.Name.English)"
+                            style="background: none; border: none; cursor: pointer; padding: 0;">
+                        <table style="border-collapse: collapse; background-color: @bgColor;">
+                            <tbody>
+                            <tr>
+                                <td style="padding-right: 4px; vertical-align: middle;">
+                                    <img
+                                        src="https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/portrait/@(entry.PokedexId.ToString("D4"))/Normal.png"
+                                        alt="@entry.Name.English" style="@faceStyle" width="64" height="64"/>
+                                    <div style="font-size: 11px;">
+                                        @(Model.Culture.TwoLetterISOLanguageName == "fr" ? entry.Name.French : entry.Name.English)
+                                    </div>
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <psicon pokemon="@slug" style="@silhouettesStyle"/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </button>
+                </td>
+            }
+            @if (row == 0)
+            {
+                <td style="@shadedCellStyle" rowspan="2">
+                    <b>@GetString("gatekeepers_rules_title")</b><br/>
+                    <span>@GetString("gatekeepers_rules")</span>
+                    <br/><br/>
+                    <b>@Model.CurrentTurn / @Model.TurnsCount</b> &bull; @Model.RemainingTime.Seconds s
+                    @if (Model.Scores != null && Model.Scores.Count > 0)
+                    {
+                        <br/>
+                        @foreach (var score in Model.Scores.OrderByDescending(s => s.Value))
+                        {
+                            <span>@score.Key: @score.Value</span>
+                            <br/>
+                        }
+                    }
+                </td>
+            }
+        </tr>
+    }
     </tbody>
 </table>

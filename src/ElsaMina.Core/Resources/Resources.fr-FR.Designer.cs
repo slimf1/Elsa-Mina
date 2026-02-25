@@ -1250,7 +1250,7 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("ladder_no_players", resourceCulture);
             }
         }
-
+        
         internal static string ladder_error {
             get {
                 return ResourceManager.GetString("ladder_error", resourceCulture);
@@ -1260,6 +1260,12 @@ namespace ElsaMina.Core.Resources {
         internal static string command_execution_error {
             get {
                 return ResourceManager.GetString("command_execution_error", resourceCulture);
+            }
+        }
+        
+        internal static string command_execution_report_bug {
+            get {
+                return ResourceManager.GetString("command_execution_report_bug", resourceCulture);
             }
         }
         
@@ -1698,6 +1704,30 @@ namespace ElsaMina.Core.Resources {
         internal static string toggletracking_help_message {
             get {
                 return ResourceManager.GetString("toggletracking_help_message", resourceCulture);
+            }
+        }
+        
+        internal static string toggletracking_success {
+            get {
+                return ResourceManager.GetString("toggletracking_success", resourceCulture);
+            }
+        }
+        
+        internal static string toggletracking_failure {
+            get {
+                return ResourceManager.GetString("toggletracking_failure", resourceCulture);
+            }
+        }
+        
+        internal static string toggletracking_stop_success {
+            get {
+                return ResourceManager.GetString("toggletracking_stop_success", resourceCulture);
+            }
+        }
+        
+        internal static string battletracker_battle_started {
+            get {
+                return ResourceManager.GetString("battletracker_battle_started", resourceCulture);
             }
         }
     }

@@ -1,10 +1,9 @@
-﻿using System.Timers;
-using ElsaMina.Core.Contexts;
+﻿using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
-using Timer = System.Timers.Timer;
 
 namespace ElsaMina.Commands.GuessingGame;
 
@@ -12,25 +11,32 @@ public abstract class GuessingGame : Game, IGuessingGame
 {
     private const int DEFAULT_TURNS_COUNT = 10;
     private const int MIN_LENGTH_FOR_AUTOCORRECT = 8;
-    private const int TIME_WARNING_THRESHOLD = 5;
-    private static readonly TimeSpan DEFAULT_TURN_COOLDOWN = TimeSpan.FromSeconds(15);
+    private static readonly TimeSpan TIME_WARNING_THRESHOLD = TimeSpan.FromSeconds(5);
+    protected static readonly TimeSpan DEFAULT_TURN_COOLDOWN = TimeSpan.FromSeconds(15);
 
     private readonly ITemplatesManager _templatesManager;
     private readonly IConfiguration _configuration;
-    private Timer _timer;
+    private PeriodicTimerRunner _timer;
     private int _elapsedSeconds;
 
+    private static readonly TimeSpan ANSWER_RATE_LIMIT = TimeSpan.FromSeconds(2);
+
     private readonly Dictionary<string, int> _scores = new();
+    private readonly Dictionary<string, DateTimeOffset> _lastAnswerTimes = new();
+    private readonly IClockService _clockService;
     private bool _hasRoundBeenWon;
 
     protected GuessingGame(ITemplatesManager templatesManager,
-        IConfiguration configuration)
+        IConfiguration configuration, IClockService clockService)
     {
         _templatesManager = templatesManager;
         _configuration = configuration;
+        _clockService = clockService;
     }
 
     protected IReadOnlyDictionary<string, int> Scores => _scores;
+
+    protected bool HasRoundBeenWon => _hasRoundBeenWon;
 
     protected int CurrentTurn { get; private set; }
 
@@ -56,27 +62,17 @@ public abstract class GuessingGame : Game, IGuessingGame
 
         CancelTimer();
         _elapsedSeconds = 0;
-        _timer = new Timer(TimeSpan.FromSeconds(1))
-        {
-            AutoReset = true
-        };
-        _timer.Elapsed += HandleTimerElapsed;
+        _timer = new PeriodicTimerRunner(TimeSpan.FromSeconds(1), HandleTimerTickAsync);
         _timer.Start();
     }
 
     private void CancelTimer()
     {
-        if (_timer == null)
-        {
-            return;
-        }
-
-        _timer.Elapsed -= HandleTimerElapsed;
-        _timer.Dispose();
+        _timer?.Dispose();
         _timer = null;
     }
 
-    private async void HandleTimerElapsed(object sender, ElapsedEventArgs e)
+    private async Task HandleTimerTickAsync()
     {
         _elapsedSeconds++;
         var remainingTime = DEFAULT_TURN_COOLDOWN - TimeSpan.FromSeconds(_elapsedSeconds);
@@ -118,11 +114,20 @@ public abstract class GuessingGame : Game, IGuessingGame
         }
 
         var userId = userName.ToLowerAlphaNum();
+        var now = _clockService.CurrentUtcDateTime;
+        if (_lastAnswerTimes.TryGetValue(userId, out var lastAnswerTime) &&
+            now - lastAnswerTime < ANSWER_RATE_LIMIT)
+        {
+            return;
+        }
+
+        _lastAnswerTimes[userId] = now;
         var maxLevenshteinDistance = answer.Length > MIN_LENGTH_FOR_AUTOCORRECT ? 1 : 0;
         if (!CurrentValidAnswers.Any(validAnswer =>
                 validAnswer.ToLowerAlphaNum().LevenshteinDistance(answer.ToLowerAlphaNum()) <=
                 maxLevenshteinDistance))
         {
+            // Aucune réponse n'est suffisamment proche
             return;
         }
 
@@ -134,6 +139,7 @@ public abstract class GuessingGame : Game, IGuessingGame
             userName,
             _scores[userId],
             _scores[userId] == 1 ? string.Empty : "s");
+        OnCorrectAnswer();
     }
 
     private async Task EndGame()
@@ -157,10 +163,14 @@ public abstract class GuessingGame : Game, IGuessingGame
 
     protected virtual void OnTimerCountdown(TimeSpan remainingTime)
     {
-        if (remainingTime.TotalSeconds.IsApproximatelyEqualTo(TIME_WARNING_THRESHOLD) && !_hasRoundBeenWon)
+        if (remainingTime == TIME_WARNING_THRESHOLD && !_hasRoundBeenWon)
         {
             Context.ReplyLocalizedMessage("countries_game_turn_ending_soon", remainingTime.Seconds);
         }
+    }
+
+    protected virtual void OnCorrectAnswer()
+    {
     }
 
     protected abstract void OnGameStart();

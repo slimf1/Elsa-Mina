@@ -1,15 +1,20 @@
 using ElsaMina.Core.Services.Dex;
+using ElsaMina.Core.Services.Http;
+using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 
 namespace ElsaMina.UnitTests.Core.Services.Dex;
 
 public class DexManagerTest
 {
+    private IHttpService _httpService;
     private DexManager _dexManager;
 
     [SetUp]
     public void SetUp()
     {
-        _dexManager = new DexManager();
+        _httpService = Substitute.For<IHttpService>();
+        _dexManager = new DexManager(_httpService);
     }
 
     [Test]
@@ -25,32 +30,42 @@ public class DexManagerTest
     }
 
     [Test]
-    public async Task Test_LoadDexAsync_ShouldPopulateCollections()
+    public async Task Test_LoadDexAsync_ShouldPopulatePokedex_WhenHttpSucceeds()
     {
+        // Arrange
+        var expected = new Pokemon[] { new() { Name = new Name { English = "Bulbasaur" } } };
+        _httpService.GetAsync<Pokemon[]>(Arg.Any<string>())
+            .Returns(new HttpResponse<Pokemon[]> { Data = expected });
+
         // Act
         await _dexManager.LoadDexAsync();
 
         // Assert
-        Assert.Multiple(() =>
-        {
-            Assert.That(_dexManager.Pokedex, Is.Not.Empty);
-            Assert.That(_dexManager.Moves, Is.Not.Empty);
-        });
+        Assert.That(_dexManager.Pokedex, Is.EquivalentTo(expected));
     }
 
     [Test]
-    public async Task Test_LoadDexAsync_ShouldKeyPokedexByLowercaseName()
+    public async Task Test_LoadDexAsync_ShouldNotThrow_WhenHttpFails()
     {
-        // Act
-        await _dexManager.LoadDexAsync();
+        // Arrange
+        _httpService.GetAsync<Pokemon[]>(Arg.Any<string>())
+            .Throws(new Exception("Network error"));
 
-        // Assert
-        Assert.That(_dexManager.Pokedex.ContainsKey("bulbasaur"), Is.True);
-    }
-
-    [Test]
-    public async Task Test_LoadDexAsync_ShouldNotThrow()
-    {
+        // Act & Assert
         Assert.DoesNotThrowAsync(async () => await _dexManager.LoadDexAsync());
+    }
+
+    [Test]
+    public async Task Test_LoadDexAsync_ShouldLeavePokedexEmpty_WhenHttpFails()
+    {
+        // Arrange
+        _httpService.GetAsync<Pokemon[]>(Arg.Any<string>())
+            .Throws(new Exception("Network error"));
+
+        // Act
+        await _dexManager.LoadDexAsync();
+
+        // Assert
+        Assert.That(_dexManager.Pokedex, Is.Empty);
     }
 }

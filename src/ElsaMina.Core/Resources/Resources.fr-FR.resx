@@ -259,7 +259,7 @@
         <value>Personne n'a trouvé la réponse à temps ! La réponse était: {0}</value>
     </data>
     <data name="guessing_game_round_won" xml:space="preserve">
-        <value>{0} gagne ce round ! Ils ont maintenant {1} point{2}</value>
+        <value>{0} gagne ce round et a maintenant {1} point{2}</value>
     </data>
     <data name="guessing_game_result_ended" xml:space="preserve">
         <value>La partie est terminée!</value>
@@ -860,5 +860,11 @@
     </data>
     <data name="battletracker_battle_started" xml:space="preserve">
         <value>Un combat {0} a commencé entre {1} et {2} (Elo min. : {3})</value>
+    </data>
+    <data name="gatekeepers_rules_title" xml:space="preserve">
+        <value>Règles</value>
+    </data>
+    <data name="gatekeepers_rules" xml:space="preserve">
+        <value>Un Pokémon est caché derrière son empreinte. Cliquez sur son icône pour marquer un point ! Les portraits sont révélés après 10 secondes, les silhouettes après 5.</value>
     </data>
 </root>

@@ -9,7 +9,7 @@
         <br/>
 
         var i = 1;
-        foreach (var (userId, score) in Model.Scores)
+        foreach (var (userId, score) in Model.Scores.OrderByDescending(kvp => kvp.Value))
         {
             <span>
                 @(i++). @userId (@score @GetString("guessing_game_point")@(score == 1 ? string.Empty : "s"))

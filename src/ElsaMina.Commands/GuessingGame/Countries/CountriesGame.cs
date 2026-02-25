@@ -1,4 +1,5 @@
-﻿using ElsaMina.Core.Services.Config;
+﻿using ElsaMina.Core.Services.Clock;
+using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Images;
 using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Templates;
@@ -9,7 +10,7 @@ public class CountriesGame : GuessingGame
 {
     private const int MAX_HEIGHT = 200;
     private const int MAX_WIDTH = 300;
-    
+
     private readonly IRandomService _randomService;
     private readonly IImageService _imageService;
     private readonly IDataManager _dataManager;
@@ -18,7 +19,8 @@ public class CountriesGame : GuessingGame
         IRandomService randomService,
         IConfiguration configuration,
         IImageService imageService,
-        IDataManager dataManager) : base(templatesManager, configuration)
+        IDataManager dataManager,
+        IClockService clockService) : base(templatesManager, configuration, clockService)
     {
         _randomService = randomService;
         _imageService = imageService;

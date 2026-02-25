@@ -5,7 +5,7 @@ using ElsaMina.Core.Services.Rooms;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 
-namespace ElsaMina.UnitTests.Commands.ConnectFour;
+namespace ElsaMina.UnitTests.Commands.GuessingGame;
 
 public class GuessingGameCommandTest
 {
