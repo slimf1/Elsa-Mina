@@ -57,12 +57,9 @@ public class PendingQueryRequestsManager<TKey, TResult>
             return false;
         }
 
-        foreach (var request in _pendingRequests)
-        {
-            return TryResolve(request.Key, result);
-        }
-
-        return false;
+        return _pendingRequests
+            .Select(request => TryResolve(request.Key, result))
+            .FirstOrDefault();
     }
 
     private async Task RunTimeoutAsync(TKey requestKey, CancellationToken cancellationToken)
