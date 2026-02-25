@@ -2,6 +2,7 @@ namespace ElsaMina.Core.Services.Dex;
 
 public interface IDexManager
 {
-    IReadOnlyList<Pokemon> Pokedex { get; }
+    IReadOnlyDictionary<string, PokedexEntry> Pokedex { get; }
+    IReadOnlyDictionary<string, MoveData> Moves { get; }
     Task LoadDexAsync(CancellationToken cancellationToken = default);
 }

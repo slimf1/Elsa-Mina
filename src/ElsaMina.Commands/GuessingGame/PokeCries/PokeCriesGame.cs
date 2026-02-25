@@ -70,10 +70,13 @@ public class PokeCriesGame : GuessingGame
 
         var monId = _randomService.NextInt(1, MAX_MON_ID + 1);
         var message = $"<audio controls src=\"https://media.pokemoncentral.it/wiki/versi/{monId:D3}.mp3\"></audio>";
-        if (monId >= 0 && monId <= _dexManager.Pokedex.Count) // Prevent crash but it shouldn't be possible
+        var entry = _dexManager
+            .Pokedex
+            .Values
+            .FirstOrDefault(e => e.Num == monId && string.IsNullOrEmpty(e.BaseSpecies));
+        if (entry != null)
         {
-            var pokemon = _dexManager.Pokedex[monId];
-            CurrentValidAnswers = [pokemon.Name.French, pokemon.Name.English, pokemon.Name.Japanese];
+            CurrentValidAnswers = [entry.Name];
             Context.ReplyHtml(message);
         }
 

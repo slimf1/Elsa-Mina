@@ -21,8 +21,8 @@ public class GatekeepersGame : GuessingGame
     private readonly IRandomService _randomService;
     private readonly ITemplatesManager _templatesManager;
     private readonly int _gameId;
-    private readonly List<Pokemon> _currentOptions = [];
-    private Pokemon _currentValidAnswer;
+    private readonly List<PokedexEntry> _currentOptions = [];
+    private PokedexEntry _currentValidAnswer;
     
     public GatekeepersGame(ITemplatesManager templatesManager, IConfiguration configuration,
         IDexManager dexManager, IRandomService randomService)
@@ -45,18 +45,18 @@ public class GatekeepersGame : GuessingGame
 
     protected override async Task OnTurnStart()
     {
-        var slice = _dexManager.Pokedex.Take(649);
+        var slice = _dexManager.Pokedex.Values.Where(e => e.Num is >= 1 and <= 649 && string.IsNullOrEmpty(e.BaseSpecies));
         var sample = _randomService.RandomSample(slice, ANSWERS_COUNT).ToList();
 
         _currentOptions.Clear();
         _currentOptions.AddRange(sample);
         _currentValidAnswer = _randomService.RandomElement(_currentOptions);
-        CurrentValidAnswers = [_currentValidAnswer.Name.English];
+        CurrentValidAnswers = [_currentValidAnswer.Name];
 
         var viewModel = new GatekeepersGamePanelViewModel
         {
             Culture = Context.Culture,
-            FootprintSprite = string.Format(FOOTPRINT_SPRITE_URL, _currentValidAnswer.PokedexId),
+            FootprintSprite = string.Format(FOOTPRINT_SPRITE_URL, _currentValidAnswer.Num),
             ShowPortraits = false,
             ShowSilhouettes = false,
             Scores = Scores
@@ -75,7 +75,7 @@ public class GatekeepersGame : GuessingGame
             var viewModel = new GatekeepersGamePanelViewModel
             {
                 Culture = Context.Culture,
-                FootprintSprite = string.Format(FOOTPRINT_SPRITE_URL, _currentValidAnswer.PokedexId),
+                FootprintSprite = string.Format(FOOTPRINT_SPRITE_URL, _currentValidAnswer.Num),
                 ShowPortraits = true,
                 ShowSilhouettes = false,
                 Scores = Scores
@@ -89,7 +89,7 @@ public class GatekeepersGame : GuessingGame
             var viewModel = new GatekeepersGamePanelViewModel
             {
                 Culture = Context.Culture,
-                FootprintSprite = string.Format(FOOTPRINT_SPRITE_URL, _currentValidAnswer.PokedexId),
+                FootprintSprite = string.Format(FOOTPRINT_SPRITE_URL, _currentValidAnswer.Num),
                 ShowPortraits = true,
                 ShowSilhouettes = true,
                 Scores = Scores

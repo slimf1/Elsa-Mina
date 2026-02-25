@@ -37,11 +37,6 @@ public class LadderTrackerManager : ILadderTrackerManager
         IRoomsManager roomsManager, IResourcesService resourcesService, IFormatsManager formatsManager,
         TimeSpan pollInterval)
     {
-        if (pollInterval <= TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(pollInterval), "Poll interval must be greater than zero.");
-        }
-
         _activeBattlesManager = activeBattlesManager;
         _bot = bot;
         _roomsManager = roomsManager;

@@ -204,13 +204,4 @@ public class RoomUserDataService : IRoomUserDataService
         dbContext.RoomUsers.Update(user);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
-
-    public async Task IncrementUserPlayTime(
-        string roomId,
-        string userId,
-        TimeSpan additionalPlayTime,
-        CancellationToken cancellationToken = default)
-    {
-
-    }
 }
