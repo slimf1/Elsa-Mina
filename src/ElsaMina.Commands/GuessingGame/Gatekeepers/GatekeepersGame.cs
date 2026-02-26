@@ -15,8 +15,8 @@ public class GatekeepersGame : GuessingGame
     private const string FOOTPRINT_SPRITE_URL = // C'est très con oui
         "https://raw.githubusercontent.com/slimf1/Elsa-Mina/refs/heads/main/src/ElsaMina.Commands/Data/Footprints/{0}.png";
 
-    private const int SHOW_PORTRAITS_AT = 10;
-    private const int SHOW_SILHOUETTES_AT = 5;
+    private static readonly TimeSpan SHOW_PORTRAITS_AT = TimeSpan.FromSeconds(10);
+    private static readonly TimeSpan SHOW_SILHOUETTES_AT = TimeSpan.FromSeconds(5);
     private const int MAX_SPECIES_ID = 649; // Gen 1 à 5
 
     private static int NextGameId { get; set; } = 1;
@@ -75,7 +75,7 @@ public class GatekeepersGame : GuessingGame
             return;
         }
 
-        if (remainingTime.TotalSeconds.IsApproximatelyEqualTo(SHOW_PORTRAITS_AT))
+        if (remainingTime == SHOW_PORTRAITS_AT)
         {
             var template = _templatesManager.GetTemplateAsync(TEMPLATE_PATH,
                     BuildViewModel(remainingTime, showPortraits: true, showSilhouettes: false,
@@ -83,7 +83,7 @@ public class GatekeepersGame : GuessingGame
                 .Result;
             Context.SendUpdatableHtml(HtmlId, template.RemoveNewlines(), isChanging: true);
         }
-        else if (remainingTime.TotalSeconds.IsApproximatelyEqualTo(SHOW_SILHOUETTES_AT))
+        else if (remainingTime == SHOW_SILHOUETTES_AT)
         {
             var template = _templatesManager.GetTemplateAsync(TEMPLATE_PATH,
                     BuildViewModel(remainingTime, showPortraits: true, showSilhouettes: true, showCorrectAnswer: false))

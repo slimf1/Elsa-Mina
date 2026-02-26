@@ -15,7 +15,7 @@ public class GuessingGameTest
     private IContext _context;
     private TestGuessingGame _game;
 
-    private static readonly DateTime BaseTime = new(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
+    private static readonly DateTime BASE_TIME = new(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
 
     [SetUp]
     public void SetUp()
@@ -26,7 +26,7 @@ public class GuessingGameTest
         _context = Substitute.For<IContext>();
 
         _configuration.Name.Returns("ElsaBot");
-        _clockService.CurrentUtcDateTime.Returns(BaseTime);
+        _clockService.CurrentUtcDateTime.Returns(BASE_TIME);
 
         _game = new TestGuessingGame(_templatesManager, _configuration, _clockService);
         _game.Context = _context;
@@ -76,10 +76,23 @@ public class GuessingGameTest
     }
 
     [Test]
+    public void Test_OnAnswer_ShouldSendRateLimitPm_WhenSameUserAnswersTwiceWithinRateLimit()
+    {
+        _context.RoomId.Returns("testroom");
+        _context.GetString("guessing_game_answer_rate_limit").Returns("You are answering too fast!");
+
+        _game.OnAnswer("Player1", "charizard"); // first attempt (wrong, records time)
+        _game.OnAnswer("Player1", "pikachu");   // second attempt within 2s → rate-limited
+
+        _context.Received(1).GetString("guessing_game_answer_rate_limit");
+        _context.Received(1).SendMessageIn("testroom", "/pm player1, You are answering too fast!");
+    }
+
+    [Test]
     public void Test_OnAnswer_ShouldAllow_WhenSameUserAnswersAfterRateLimit()
     {
         _game.OnAnswer("Player1", "charizard"); // first attempt (wrong, records time)
-        _clockService.CurrentUtcDateTime.Returns(BaseTime.AddSeconds(3));
+        _clockService.CurrentUtcDateTime.Returns(BASE_TIME.AddSeconds(3));
         _game.OnAnswer("Player1", "pikachu");   // second attempt after 3s → allowed
 
         _context.Received(1).ReplyLocalizedMessage("guessing_game_round_won", "Player1", 1, string.Empty);
@@ -105,7 +118,7 @@ public class GuessingGameTest
         _context.DidNotReceive().ReplyLocalizedMessage("guessing_game_round_won", Arg.Any<object[]>());
     }
 
-    private class TestGuessingGame : global::ElsaMina.Commands.GuessingGame.GuessingGame
+    private class TestGuessingGame : ElsaMina.Commands.GuessingGame.GuessingGame
     {
         public TestGuessingGame(ITemplatesManager templatesManager, IConfiguration configuration,
             IClockService clockService)

@@ -117,6 +117,8 @@ public abstract class GuessingGame : Game, IGuessingGame
         if (_lastAnswerTimes.TryGetValue(userId, out var lastAnswerTime) &&
             now - lastAnswerTime < ANSWER_RATE_LIMIT)
         {
+            var rateLimitMessage = Context.GetString("guessing_game_answer_rate_limit");
+            Context.SendMessageIn(Context.RoomId, $"/pm {userId}, {rateLimitMessage}");
             return;
         }
 

@@ -263,6 +263,9 @@
     <data name="guessing_game_answer_not_found" xml:space="preserve">
         <value>¡Nadie encontró la respuesta a tiempo! La respuesta era: {0}</value>
     </data>
+    <data name="guessing_game_answer_rate_limit" xml:space="preserve">
+        <value>¡Estás respondiendo demasiado rápido! Por favor, espera un momento antes de intentarlo de nuevo.</value>
+    </data>
     <data name="guessing_game_round_won" xml:space="preserve">
         <value>{0} gana esta ronda. Ahora tiene {1} punto{2}</value>
     </data>

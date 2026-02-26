@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <root>
     <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
@@ -257,6 +257,9 @@
     </data>
     <data name="guessing_game_answer_not_found" xml:space="preserve">
         <value>No one found the answer in time! The answer was: {0}</value>
+    </data>
+    <data name="guessing_game_answer_rate_limit" xml:space="preserve">
+        <value>You are answering too fast! Please wait a moment before trying again.</value>
     </data>
     <data name="guessing_game_round_won" xml:space="preserve">
         <value>{0} wins this round ! They now have {1} point{2}</value>
