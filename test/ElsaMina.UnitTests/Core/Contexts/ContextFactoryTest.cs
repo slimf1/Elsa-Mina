@@ -129,7 +129,7 @@ public class ContextFactoryTest
         var room = Substitute.For<IRoom>();
         var user = Substitute.For<IUser>();
 
-        room.Users["user"].Returns(user);
+        room.Users.Returns(new Dictionary<string, IUser> { ["user"] = user });
         _roomsManager.GetRoom("main").Returns(room);
         _configuration.Trigger.Returns("!");
 
@@ -150,7 +150,7 @@ public class ContextFactoryTest
         var room = Substitute.For<IRoom>();
         var user = Substitute.For<IUser>();
 
-        room.Users["user"].Returns(user);
+        room.Users.Returns(new Dictionary<string, IUser> { ["user"] = user });
         _roomsManager.GetRoom("main").Returns(room);
         _configuration.Trigger.Returns("!");
 
