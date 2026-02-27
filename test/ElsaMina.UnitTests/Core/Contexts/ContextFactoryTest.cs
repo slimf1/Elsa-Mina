@@ -76,7 +76,7 @@ public class ContextFactoryTest
     }
 
     [Test]
-    public void Test_TryBuildContextFromReceivedMessage_ShouldThrow_WhenUserNotFoundInRoom()
+    public void Test_TryBuildContextFromReceivedMessage_ShouldReturnNull_WhenUserNotFoundInRoom()
     {
         // Arrange
         string[] parts = ["", "c:", "123", "missingUser", "!test"];
@@ -85,9 +85,11 @@ public class ContextFactoryTest
         _roomsManager.GetRoom("room1").Returns(room);
         _configuration.Trigger.Returns("!");
 
-        // Act & Assert
-        Assert.Throws<KeyNotFoundException>(() =>
-            _contextFactory.TryBuildContextFromReceivedMessage(parts, "room1"));
+        // Act
+        var result = _contextFactory.TryBuildContextFromReceivedMessage(parts, "room1");
+
+        // Assert
+        Assert.That(result, Is.Null);
     }
 
     [Test]
@@ -98,7 +100,7 @@ public class ContextFactoryTest
         var room = Substitute.For<IRoom>();
         var user = Substitute.For<IUser>();
 
-        room.Users["user1"].Returns(user);
+        room.Users.Returns(new Dictionary<string, IUser> { ["user1"] = user });
         _roomsManager.GetRoom("lobby").Returns(room);
         _configuration.Trigger.Returns("!");
 

@@ -2,13 +2,14 @@
 using ElsaMina.Core.Services.PrivateMessages;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
+using ElsaMina.Logging;
 
 namespace ElsaMina.Core.Contexts;
 
 public class ContextFactory : IContextFactory
 {
     private const string BOT_MESSAGE_PREFIX = "/botmsg ";
-    
+
     private readonly IContextProvider _contextProvider;
     private readonly IBot _bot;
     private readonly IRoomsManager _roomsManager;
@@ -39,12 +40,21 @@ public class ContextFactory : IContextFactory
                 {
                     return null;
                 }
+
                 var timestamp = long.Parse(parts[2]);
                 var userId = parts[3].ToLowerAlphaNum();
                 var message = parts[4];
                 var (target, command) = GetTargetAndCommand(message);
+                var user = room.Users.GetValueOrDefault(userId);
+
+                if (user == null)
+                {
+                    Log.Error("Error: User {UserId} not found in room {RoomId}", userId, roomId);
+                    return null;
+                }
+
                 return new RoomContext(_contextProvider, _bot, message, target,
-                    room.Users[userId], command, room, timestamp);
+                    user, command, room, timestamp);
             }
             case > 2 when parts[1] == "pm":
             {
@@ -53,8 +63,10 @@ public class ContextFactory : IContextFactory
                 {
                     message = message[BOT_MESSAGE_PREFIX.Length..];
                 }
+
                 var (target, command) = GetTargetAndCommand(message);
-                return new PmContext(_contextProvider, _bot, message, target, _pmSendersManager.GetUser(parts[2]), command);
+                return new PmContext(_contextProvider, _bot, message, target, _pmSendersManager.GetUser(parts[2]),
+                    command);
             }
             default:
                 return null;
@@ -68,7 +80,7 @@ public class ContextFactory : IContextFactory
             ? ParseMessage(message, trigger)
             : (null, null);
     }
-    
+
     private static (string target, string command) ParseMessage(string message, string trigger)
     {
         var triggerLength = trigger.Length;
