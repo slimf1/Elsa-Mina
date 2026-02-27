@@ -33,8 +33,8 @@ chmod u+x ElsaMina.Console
 echo "Starting ElsaMina.Console"
 nohup ./ElsaMina.Console >> elsa.log 2>&1 < /dev/null &
 
-sleep 1
-if pgrep -x ElsaMina.Console > /dev/null; then
+sleep 5
+if pgrep -f ElsaMina.Console > /dev/null; then
   echo "ElsaMina.Console started successfully"
 else
   echo "Failed to start ElsaMina.Console"
