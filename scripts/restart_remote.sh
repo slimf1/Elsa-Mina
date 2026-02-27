@@ -7,34 +7,33 @@ echo "Writing config file"
 printf '%s' "$CONFIG_FILE" > config.json
 printf '%s' "$SERVICE_ACCOUNT_CREDENTIALS" > service_account.client_secrets.json
 
-echo "Current shell: PID=$$, PGID=$(ps -o pgid= -p $$ | tr -d ' ')"
+# Match on the comm name (15-char kernel truncation of "ElsaMina.Console" = "ElsaMina.Consol").
+# This only matches the actual binary, never the bash shell running this script.
+PROC_PATTERN="ElsaMina.Consol"
 
 echo "Checking existing instances of ElsaMina.Console"
-if pids="$(pgrep -f ElsaMina.Console)"; then
+if pids="$(pgrep "$PROC_PATTERN")"; then
   echo "Found PIDs: $pids"
   echo "Process details:"
-  ps -p $pids -o pid,ppid,pgid,stat,args || true
+  ps -p "$pids" -o pid,ppid,pgid,stat,args || true
 
   echo "Killing existing instances of ElsaMina.Console: $pids"
-  # Ignore TERM/HUP in this shell in case the old process shares our process group
-  trap '' TERM HUP
-  kill $pids || true
-  trap - TERM HUP
+  kill "$pids" || true
   echo "Kill signal sent"
 
   i=0
   while [ "$i" -lt 20 ]; do
-    if ! pgrep -f ElsaMina.Console > /dev/null; then
-      echo "All instances stopped after $((i)) * 0.5s"
+    if ! pgrep "$PROC_PATTERN" > /dev/null; then
+      echo "All instances stopped after $((i * 5 / 10))s"
       break
     fi
     sleep 0.5
     i=$((i + 1))
   done
 
-  if pgrep -f ElsaMina.Console > /dev/null; then
-    echo "Force killing remaining instances of ElsaMina.Console"
-    pkill -KILL -f ElsaMina.Console || true
+  if pgrep "$PROC_PATTERN" > /dev/null; then
+    echo "Force killing remaining instances"
+    pkill -KILL "$PROC_PATTERN" || true
   fi
 else
   echo "No existing instances found"
@@ -50,9 +49,9 @@ echo "Launched with PID $NEW_PID"
 
 sleep 5
 echo "Checking if process is still running after 5s..."
-if pgrep -f ElsaMina.Console > /dev/null; then
+if pgrep "$PROC_PATTERN" > /dev/null; then
   echo "ElsaMina.Console started successfully"
-  pgrep -f ElsaMina.Console | xargs ps -o pid,ppid,pgid,stat,args -p || true
+  pgrep "$PROC_PATTERN" | xargs -I{} ps -p {} -o pid,ppid,pgid,stat,args || true
 else
   echo "Failed to start ElsaMina.Console"
   echo "Last 20 lines of elsa.log:"
