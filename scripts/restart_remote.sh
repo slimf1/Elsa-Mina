@@ -8,20 +8,20 @@ printf '%s' "$CONFIG_FILE" > config.json
 printf '%s' "$SERVICE_ACCOUNT_CREDENTIALS" > service_account.client_secrets.json
 
 echo "Checking existing instances of ElsaMina.Console"
-if pids="$(pgrep -x ElsaMina.Console)"; then
+if pids="$(pgrep -f ElsaMina.Console)"; then
   echo "Killing existing instances of ElsaMina.Console: $pids"
   kill $pids
 
   i=0
   while [ "$i" -lt 20 ]; do
-    if ! pgrep -x ElsaMina.Console > /dev/null; then
+    if ! pgrep -f ElsaMina.Console > /dev/null; then
       break
     fi
     sleep 0.5
     i=$((i + 1))
   done
 
-  if pgrep -x ElsaMina.Console > /dev/null; then
+  if pgrep -f ElsaMina.Console > /dev/null; then
     echo "Force killing remaining instances of ElsaMina.Console"
     pkill -KILL -x ElsaMina.Console
   fi
