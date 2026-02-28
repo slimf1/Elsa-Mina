@@ -889,10 +889,10 @@
         <value>Impossible de récupérer les temps de jeu.</value>
     </data>
     <data name="play_time_format" xml:space="preserve">
-        <value>d' j 'hh'h 'mm'm 'ss's'</value>
+        <value>d'j 'hh'h 'mm'm 'ss's'</value>
     </data>
     <data name="play_time_help" xml:space="preserve">
-        <value>Affiche le temps de jeu d'un utilisateur dans cette salle. Syntaxe : -playtime [utilisateur]</value>
+        <value>Affiche le temps de jeu d'un utilisateur dans cette salle. Syntaxe : -playtime [utilisateur[, salle]]</value>
     </data>
     <data name="play_time_result" xml:space="preserve">
         <value>{0} a passé **{1}** dans **{2}**.</value>

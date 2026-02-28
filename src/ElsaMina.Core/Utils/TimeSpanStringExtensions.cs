@@ -58,7 +58,7 @@ public static class TimeSpanStringExtensions
             ["weeks"] = v => TimeSpan.FromDays(v * 7)
         };
 
-    public const string DEFAULT_PLAY_TIME_FORMAT = @"d' d 'hh'h 'mm'm 'ss's'";
+    public const string DEFAULT_PLAY_TIME_FORMAT = "d'd 'hh'h 'mm'm 'ss's'";
 
     public static string ToPlayTimeString(this TimeSpan playTime, string format = DEFAULT_PLAY_TIME_FORMAT)
         => playTime.ToString(format);

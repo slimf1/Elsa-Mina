@@ -889,10 +889,10 @@
         <value>Could not retrieve play times.</value>
     </data>
     <data name="play_time_format" xml:space="preserve">
-        <value>d' d 'hh'h 'mm'm 'ss's'</value>
+        <value>d'd 'hh'h 'mm'm 'ss's'</value>
     </data>
     <data name="play_time_help" xml:space="preserve">
-        <value>Displays the play time of a user in this room. Syntax: -playtime [user]</value>
+        <value>Displays the play time of a user in this room. Syntax: -playtime [user[, room]]</value>
     </data>
     <data name="play_time_result" xml:space="preserve">
         <value>{0} has spent **{1}** in **{2}**.</value>

@@ -179,4 +179,31 @@ public class PlayTimeCommandTest
         // Assert
         _context.Received(1).ReplyLocalizedMessage("play_time_no_data", "alice");
     }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldUseProvidedRoomId_WhenRoomParameterIsGiven()
+    {
+        // Arrange
+        var options = CreateNewInMemoryOptions();
+        await using var dbContext = new BotDbContext(options);
+        await dbContext.RoomUsers.AddAsync(new RoomUser
+        {
+            Id = "alice",
+            RoomId = "otherroom",
+            PlayTime = TimeSpan.FromHours(7),
+            User = new SavedUser { UserId = "alice", UserName = "Alice" }
+        });
+        await dbContext.SaveChangesAsync();
+
+        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>()).Returns(dbContext);
+        _context.RoomId.Returns("lobby");
+        _context.Target.Returns("alice, otherroom");
+        _context.GetString("play_time_format").Returns(DEFAULT_PLAY_TIME_FORMAT);
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        _context.Received(1).ReplyLocalizedMessage("play_time_result", "Alice", TimeSpan.FromHours(7).ToPlayTimeString(), "otherroom");
+    }
 }

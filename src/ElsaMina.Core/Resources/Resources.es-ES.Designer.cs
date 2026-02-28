@@ -525,6 +525,12 @@ namespace ElsaMina.Core.Resources {
             }
         }
         
+        internal static string guessing_game_answer_rate_limit {
+            get {
+                return ResourceManager.GetString("guessing_game_answer_rate_limit", resourceCulture);
+            }
+        }
+        
         internal static string guessing_game_round_won {
             get {
                 return ResourceManager.GetString("guessing_game_round_won", resourceCulture);
@@ -1250,7 +1256,7 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("ladder_no_players", resourceCulture);
             }
         }
-
+        
         internal static string ladder_error {
             get {
                 return ResourceManager.GetString("ladder_error", resourceCulture);
@@ -1260,6 +1266,12 @@ namespace ElsaMina.Core.Resources {
         internal static string command_execution_error {
             get {
                 return ResourceManager.GetString("command_execution_error", resourceCulture);
+            }
+        }
+        
+        internal static string command_execution_report_bug {
+            get {
+                return ResourceManager.GetString("command_execution_report_bug", resourceCulture);
             }
         }
         
@@ -1698,6 +1710,108 @@ namespace ElsaMina.Core.Resources {
         internal static string toggletracking_help_message {
             get {
                 return ResourceManager.GetString("toggletracking_help_message", resourceCulture);
+            }
+        }
+        
+        internal static string toggletracking_success {
+            get {
+                return ResourceManager.GetString("toggletracking_success", resourceCulture);
+            }
+        }
+        
+        internal static string toggletracking_failure {
+            get {
+                return ResourceManager.GetString("toggletracking_failure", resourceCulture);
+            }
+        }
+        
+        internal static string toggletracking_stop_success {
+            get {
+                return ResourceManager.GetString("toggletracking_stop_success", resourceCulture);
+            }
+        }
+        
+        internal static string battletracker_battle_started {
+            get {
+                return ResourceManager.GetString("battletracker_battle_started", resourceCulture);
+            }
+        }
+        
+        internal static string gatekeepers_rules_title {
+            get {
+                return ResourceManager.GetString("gatekeepers_rules_title", resourceCulture);
+            }
+        }
+        
+        internal static string gatekeepers_rules {
+            get {
+                return ResourceManager.GetString("gatekeepers_rules", resourceCulture);
+            }
+        }
+        
+        internal static string top_play_times_help {
+            get {
+                return ResourceManager.GetString("top_play_times_help", resourceCulture);
+            }
+        }
+        
+        internal static string top_play_times_title {
+            get {
+                return ResourceManager.GetString("top_play_times_title", resourceCulture);
+            }
+        }
+        
+        internal static string top_play_times_user {
+            get {
+                return ResourceManager.GetString("top_play_times_user", resourceCulture);
+            }
+        }
+        
+        internal static string top_play_times_play_time {
+            get {
+                return ResourceManager.GetString("top_play_times_play_time", resourceCulture);
+            }
+        }
+        
+        internal static string top_play_times_no_data {
+            get {
+                return ResourceManager.GetString("top_play_times_no_data", resourceCulture);
+            }
+        }
+        
+        internal static string top_play_times_error {
+            get {
+                return ResourceManager.GetString("top_play_times_error", resourceCulture);
+            }
+        }
+        
+        internal static string play_time_format {
+            get {
+                return ResourceManager.GetString("play_time_format", resourceCulture);
+            }
+        }
+        
+        internal static string play_time_help {
+            get {
+                return ResourceManager.GetString("play_time_help", resourceCulture);
+            }
+        }
+        
+        internal static string play_time_result {
+            get {
+                return ResourceManager.GetString("play_time_result", resourceCulture);
+            }
+        }
+        
+        internal static string play_time_no_data {
+            get {
+                return ResourceManager.GetString("play_time_no_data", resourceCulture);
+            }
+        }
+        
+        internal static string play_time_error {
+            get {
+                return ResourceManager.GetString("play_time_error", resourceCulture);
             }
         }
     }

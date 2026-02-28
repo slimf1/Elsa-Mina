@@ -25,13 +25,17 @@ public class PlayTimeCommand : Command
     {
         try
         {
-            var userId = string.IsNullOrWhiteSpace(context.Target)
+            var parts = context.Target.Split(",", 2);
+            var userId = string.IsNullOrWhiteSpace(parts[0])
                 ? context.Sender.UserId
-                : context.Target.ToLowerAlphaNum();
+                : parts[0].ToLowerAlphaNum();
+            var roomId = parts.Length == 2
+                ? parts[1].ToLowerAlphaNum()
+                : context.RoomId;
 
             await using var dbContext = await _botDbContextFactory.CreateDbContextAsync(cancellationToken);
             var roomUser = await dbContext.RoomUsers
-                .Where(roomUser => roomUser.Id == userId && roomUser.RoomId == context.RoomId)
+                .Where(roomUser => roomUser.Id == userId && roomUser.RoomId == roomId)
                 .Include(roomUser => roomUser.User)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(cancellationToken);
@@ -44,7 +48,7 @@ public class PlayTimeCommand : Command
 
             var displayName = roomUser.User?.UserName ?? roomUser.Id;
             var formattedTime = roomUser.PlayTime.ToPlayTimeString(context.GetString("play_time_format"));
-            context.ReplyLocalizedMessage("play_time_result", displayName, formattedTime, context.RoomId);
+            context.ReplyLocalizedMessage("play_time_result", displayName, formattedTime, roomId);
         }
         catch (Exception exception)
         {
