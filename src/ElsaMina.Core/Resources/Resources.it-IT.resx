@@ -875,4 +875,37 @@
     <data name="gatekeepers_rules" xml:space="preserve">
         <value>Un Pokémon è nascosto dietro la sua impronta. Clicca sulla sua icona per segnare un punto! I ritratti vengono rivelati dopo 10 secondi, le sagome dopo 5.</value>
     </data>
+    <data name="top_play_times_help" xml:space="preserve">
+        <value>Mostra i 20 migliori tempi di gioco in questa stanza.</value>
+    </data>
+    <data name="top_play_times_title" xml:space="preserve">
+        <value>Migliori tempi di gioco in {0}</value>
+    </data>
+    <data name="top_play_times_user" xml:space="preserve">
+        <value>Utente</value>
+    </data>
+    <data name="top_play_times_play_time" xml:space="preserve">
+        <value>Tempo di gioco</value>
+    </data>
+    <data name="top_play_times_no_data" xml:space="preserve">
+        <value>Nessun dato di tempo di gioco trovato per questa stanza.</value>
+    </data>
+    <data name="top_play_times_error" xml:space="preserve">
+        <value>Impossibile recuperare i tempi di gioco.</value>
+    </data>
+    <data name="play_time_format" xml:space="preserve">
+        <value>d' g 'hh'h 'mm'm 'ss's'</value>
+    </data>
+    <data name="play_time_help" xml:space="preserve">
+        <value>Mostra il tempo di gioco di un utente in questa stanza. Sintassi: -playtime [utente]</value>
+    </data>
+    <data name="play_time_result" xml:space="preserve">
+        <value>{0} ha trascorso **{1}** in **{2}**.</value>
+    </data>
+    <data name="play_time_no_data" xml:space="preserve">
+        <value>Nessun tempo di gioco trovato per {0} in questa stanza.</value>
+    </data>
+    <data name="play_time_error" xml:space="preserve">
+        <value>Impossibile recuperare il tempo di gioco.</value>
+    </data>
 </root>

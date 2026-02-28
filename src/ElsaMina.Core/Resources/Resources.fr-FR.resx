@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <root>
     <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
@@ -869,5 +869,38 @@
     </data>
     <data name="gatekeepers_rules" xml:space="preserve">
         <value>Un Pokémon est caché derrière son empreinte. Cliquez sur son icône pour marquer un point ! Les portraits sont révélés après 10 secondes, les silhouettes après 5.</value>
+    </data>
+    <data name="top_play_times_help" xml:space="preserve">
+        <value>Affiche les 20 meilleurs temps de jeu dans cette salle.</value>
+    </data>
+    <data name="top_play_times_title" xml:space="preserve">
+        <value>Meilleurs temps de jeu dans {0}</value>
+    </data>
+    <data name="top_play_times_user" xml:space="preserve">
+        <value>Utilisateur</value>
+    </data>
+    <data name="top_play_times_play_time" xml:space="preserve">
+        <value>Temps de jeu</value>
+    </data>
+    <data name="top_play_times_no_data" xml:space="preserve">
+        <value>Aucune donnée de temps de jeu trouvée pour cette salle.</value>
+    </data>
+    <data name="top_play_times_error" xml:space="preserve">
+        <value>Impossible de récupérer les temps de jeu.</value>
+    </data>
+    <data name="play_time_format" xml:space="preserve">
+        <value>d' j 'hh'h 'mm'm 'ss's'</value>
+    </data>
+    <data name="play_time_help" xml:space="preserve">
+        <value>Affiche le temps de jeu d'un utilisateur dans cette salle. Syntaxe : -playtime [utilisateur]</value>
+    </data>
+    <data name="play_time_result" xml:space="preserve">
+        <value>{0} a passé **{1}** dans **{2}**.</value>
+    </data>
+    <data name="play_time_no_data" xml:space="preserve">
+        <value>Aucun temps de jeu trouvé pour {0} dans cette salle.</value>
+    </data>
+    <data name="play_time_error" xml:space="preserve">
+        <value>Impossible de récupérer le temps de jeu.</value>
     </data>
 </root>

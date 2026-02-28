@@ -1,0 +1,34 @@
+@using ElsaMina.Core.Services.Templates
+@using ElsaMina.Core.Utils
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Users.PlayTimes.TopPlayTimesViewModel>
+
+@{
+    const string headerStyle = $"border-bottom: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR}; padding: 4px";
+}
+<div style="max-height: 200px; overflow-y: auto">
+    <table
+        style="margin: auto; border: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; border-radius: 12px; padding: 4px">
+        <thead>
+        <tr>
+            <th colspan="3" scope="colgroup">
+                @GetString("top_play_times_title", Model.Room)
+            </th>
+        </tr>
+        <tr>
+            <th scope="col" style="@headerStyle">#</th>
+            <th scope="col" style="@headerStyle">@GetString("top_play_times_user")</th>
+            <th scope="col" style="@headerStyle">@GetString("top_play_times_play_time")</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var entry in Model.TopList)
+        {
+            <tr>
+                <td style="text-align:center">@entry.Rank</td>
+                <td style="text-align: center; color: @entry.UserId.ToColorHexCodeWithCustoms()">@entry.UserName</td>
+                <td style="text-align:center">@entry.PlayTime.ToPlayTimeString(GetString("play_time_format"))</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

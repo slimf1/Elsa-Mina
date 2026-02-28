@@ -51,6 +51,7 @@ using ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
 using ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
 using ElsaMina.Commands.Tournaments;
 using ElsaMina.Commands.Users;
+using ElsaMina.Commands.Users.PlayTimes;
 using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands;
@@ -136,6 +137,8 @@ public class CommandModule : Module
         builder.RegisterCommand<SearchCommand>();
         builder.RegisterCommand<SeenCommand>();
         builder.RegisterCommand<AltsCommand>();
+        builder.RegisterCommand<TopPlayTimesCommand>();
+        builder.RegisterCommand<PlayTimeCommand>();
         builder.RegisterCommand<CurrentLadderTrackersCommand>();
         builder.RegisterCommand<GuessingGameAnswerCommand>();
 

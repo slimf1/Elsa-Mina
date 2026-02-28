@@ -61,7 +61,7 @@ public class TeamListCommand : Command
             Teams = teams
         });
 
-        var html = template.RemoveNewlines();
+        var html = template.RemoveNewlines().RemoveWhitespacesBetweenTags();
         if (context.HasRankOrHigher(Rank.Voiced))
         {
             var message = $"""<div style="overflow-y: auto; max-height: 230px;">{html}</div>""";

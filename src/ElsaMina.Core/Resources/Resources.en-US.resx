@@ -870,4 +870,37 @@
     <data name="gatekeepers_rules" xml:space="preserve">
         <value>A Pokémon is hidden behind its footprint. Click its icon to score a point! Portraits are revealed after 10 seconds, silhouettes after 5.</value>
     </data>
+    <data name="top_play_times_help" xml:space="preserve">
+        <value>Displays the top 20 users by play time in this room.</value>
+    </data>
+    <data name="top_play_times_title" xml:space="preserve">
+        <value>Top play times in {0}</value>
+    </data>
+    <data name="top_play_times_user" xml:space="preserve">
+        <value>User</value>
+    </data>
+    <data name="top_play_times_play_time" xml:space="preserve">
+        <value>Play Time</value>
+    </data>
+    <data name="top_play_times_no_data" xml:space="preserve">
+        <value>No play time data found for this room.</value>
+    </data>
+    <data name="top_play_times_error" xml:space="preserve">
+        <value>Could not retrieve play times.</value>
+    </data>
+    <data name="play_time_format" xml:space="preserve">
+        <value>d' d 'hh'h 'mm'm 'ss's'</value>
+    </data>
+    <data name="play_time_help" xml:space="preserve">
+        <value>Displays the play time of a user in this room. Syntax: -playtime [user]</value>
+    </data>
+    <data name="play_time_result" xml:space="preserve">
+        <value>{0} has spent **{1}** in **{2}**.</value>
+    </data>
+    <data name="play_time_no_data" xml:space="preserve">
+        <value>No play time found for {0} in this room.</value>
+    </data>
+    <data name="play_time_error" xml:space="preserve">
+        <value>Could not retrieve play time.</value>
+    </data>
 </root>

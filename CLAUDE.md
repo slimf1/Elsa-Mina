@@ -118,6 +118,11 @@ Rooms have configurable parameters (defined in the `Parameter` enum: `Locale`, `
 2. Implement `HandleReceivedMessageAsync(string[] parts, string roomId, CancellationToken)`.
 3. Register with `builder.RegisterHandler<MyHandler>()` in `CommandModule.cs` or `CoreModule.cs`.
 
+## Code Style Conventions
+
+- **One class per file**: every class, record, or interface must live in its own dedicated `.cs` file named after the type. Never define multiple types in a single file.
+- **No single-letter variables**: use descriptive names everywhere. Exception: integer loop indices (`i`, `j`, `k`) are allowed.
+
 ## Testing Conventions
 
 - Framework: NUnit 3 + NSubstitute.
