@@ -759,8 +759,11 @@
     <data name="hall_of_fame_title" xml:space="preserve">
         <value>Panthéon</value>
     </data>
+    <data name="hall_of_fame_trophy" xml:space="preserve">
+        <value>trophée</value>
+    </data>
     <data name="hall_of_fame_trophies" xml:space="preserve">
-        <value>trophée{0}</value>
+        <value>trophées</value>
     </data>
     <data name="hall_of_fame_no_trophies" xml:space="preserve">
         <value>Aucun trophée trouvé.</value>

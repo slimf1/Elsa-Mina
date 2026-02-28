@@ -100,6 +100,28 @@ public class StringExtensionsTest
     }
 
     [Test]
+    [TestCase(
+        "<span                        class=\"username\"                        data-name=\"hc\">",
+        ExpectedResult = "<span class=\"username\" data-name=\"hc\">")]
+    [TestCase(
+        "<div  class=\"x\">text   between   tags</div>",
+        ExpectedResult = "<div class=\"x\">text   between   tags</div>")]
+    [TestCase(
+        "<a href=\"url\">link</a>",
+        ExpectedResult = "<a href=\"url\">link</a>")]
+    [TestCase(
+        "<img\n    src=\"img.png\"\n    alt=\"test\">",
+        ExpectedResult = "<img src=\"img.png\" alt=\"test\">")]
+    public string Test_CollapseAttributeWhitespace_ShouldCollapseWhitespaceInsideTags(string input)
+    {
+        // Act
+        var result = input.CollapseAttributeWhitespace();
+        
+        // Assert
+        return result;
+    }
+
+    [Test]
     public void Test_RemoveExtension_ShouldRemoveExtension()
     {
         // Arrange

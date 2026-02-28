@@ -83,6 +83,7 @@ public class HallOfFameCommand : Command
                 .ThenByDescending(record => record.Team)
                 .ToArray()
         });
-        context.ReplyHtml(template.RemoveNewlines(), rankAware: true);
+        context.ReplyHtml(template.RemoveNewlines().RemoveWhitespacesBetweenTags().CollapseAttributeWhitespace(),
+            rankAware: true);
     }
 }

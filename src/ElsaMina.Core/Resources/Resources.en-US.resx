@@ -744,6 +744,9 @@
     <data name="hall_of_fame_user" xml:space="preserve">
         <value>Player</value>
     </data>
+    <data name="hall_of_fame_trophy" xml:space="preserve">
+        <value>trophy</value>
+    </data>
     <data name="hall_of_fame_trophies" xml:space="preserve">
         <value>trophies</value>
     </data>

@@ -758,6 +758,9 @@
     <data name="hall_of_fame_user">
         <value>Giocatore</value>
     </data>
+    <data name="hall_of_fame_trophy">
+        <value>trofeo</value>
+    </data>
     <data name="hall_of_fame_trophies">
         <value>trofei</value>
     </data>

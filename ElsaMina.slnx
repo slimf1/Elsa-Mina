@@ -19,6 +19,11 @@
     <File Path="scripts\restore.sh" />
     <File Path="scripts\test.sh" />
   </Folder>
+  <Folder Name="/Scripts/DataMigrationScripts/">
+    <File Path="scripts\import_teams.py" />
+    <File Path="scripts\migrate-db.py" />
+    <File Path="scripts\update_team_badges.py" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src\ElsaMina.Commands\ElsaMina.Commands.csproj" />
     <Project Path="src\ElsaMina.Console\ElsaMina.Console.csproj" />

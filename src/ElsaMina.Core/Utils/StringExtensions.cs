@@ -12,6 +12,12 @@ public static class StringExtensions
     private static readonly Regex WHITESPACE_BETWEEN_TAGS_REGEX =
         new(@"\s*(<[^>]+>)\s*", RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
 
+    private static readonly Regex HTML_TAG_REGEX =
+        new(@"<[^>]+>", RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
+
+    private static readonly Regex MULTIPLE_WHITESPACE_REGEX =
+        new(@"\s{2,}", RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
+
     private static readonly Regex IMAGE_LINK_REGEX = new("(http)?s?:(//[^\"']*.(?:png|jpg|jpeg|gif|png|svg))",
         RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
 
@@ -28,6 +34,11 @@ public static class StringExtensions
     public static string RemoveWhitespacesBetweenTags(this string text)
     {
         return WHITESPACE_BETWEEN_TAGS_REGEX.Replace(text, "$1");
+    }
+
+    public static string CollapseAttributeWhitespace(this string text)
+    {
+        return HTML_TAG_REGEX.Replace(text, match => MULTIPLE_WHITESPACE_REGEX.Replace(match.Value, " "));
     }
 
     public static string Capitalize(this string text)
