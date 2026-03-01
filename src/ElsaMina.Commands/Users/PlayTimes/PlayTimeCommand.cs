@@ -47,7 +47,7 @@ public class PlayTimeCommand : Command
             }
 
             var displayName = roomUser.User?.UserName ?? roomUser.Id;
-            var formattedTime = roomUser.PlayTime.ToPlayTimeString(context.GetString("play_time_format"));
+            var formattedTime = roomUser.PlayTime.ToString(context.GetString("play_time_format"));
             context.ReplyLocalizedMessage("play_time_result", displayName, formattedTime, roomId);
         }
         catch (Exception exception)

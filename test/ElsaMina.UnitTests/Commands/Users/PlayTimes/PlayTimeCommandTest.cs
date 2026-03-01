@@ -1,8 +1,6 @@
 using ElsaMina.Commands.Users.PlayTimes;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
-using ElsaMina.Core.Utils;
-using static ElsaMina.Core.Utils.TimeSpanStringExtensions;
 using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
@@ -90,13 +88,14 @@ public class PlayTimeCommandTest
         _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>()).Returns(dbContext);
         _context.RoomId.Returns("lobby");
         _context.Target.Returns("alice");
-        _context.GetString("play_time_format").Returns(DEFAULT_PLAY_TIME_FORMAT);
+        var format = "d'd 'hh'h 'mm'm 'ss's'";
+        _context.GetString("play_time_format").Returns(format);
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        _context.Received(1).ReplyLocalizedMessage("play_time_result", "Alice", TimeSpan.FromHours(5).ToPlayTimeString(), "lobby");
+        _context.Received(1).ReplyLocalizedMessage("play_time_result", "Alice", TimeSpan.FromHours(5).ToString(format), "lobby");
     }
 
     [Test]
@@ -117,14 +116,15 @@ public class PlayTimeCommandTest
         _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>()).Returns(dbContext);
         _context.RoomId.Returns("lobby");
         _context.Target.Returns(string.Empty);
-        _context.GetString("play_time_format").Returns(DEFAULT_PLAY_TIME_FORMAT);
+        var format = "d'd 'hh'h 'mm'm 'ss's'";
+        _context.GetString("play_time_format").Returns(format);
         _sender.UserId.Returns("bob");
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        _context.Received(1).ReplyLocalizedMessage("play_time_result", "Bob", TimeSpan.FromMinutes(90).ToPlayTimeString(), "lobby");
+        _context.Received(1).ReplyLocalizedMessage("play_time_result", "Bob", TimeSpan.FromMinutes(90).ToString(format), "lobby");
     }
 
     [Test]
@@ -145,13 +145,14 @@ public class PlayTimeCommandTest
         _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>()).Returns(dbContext);
         _context.RoomId.Returns("lobby");
         _context.Target.Returns("orphan");
-        _context.GetString("play_time_format").Returns(DEFAULT_PLAY_TIME_FORMAT);
+        var format = "d'd 'hh'h 'mm'm 'ss's'";
+        _context.GetString("play_time_format").Returns(format);
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        _context.Received(1).ReplyLocalizedMessage("play_time_result", "orphan", TimeSpan.FromHours(3).ToPlayTimeString(), "lobby");
+        _context.Received(1).ReplyLocalizedMessage("play_time_result", "orphan", TimeSpan.FromHours(3).ToString(format), "lobby");
     }
 
     [Test]
@@ -198,12 +199,13 @@ public class PlayTimeCommandTest
         _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>()).Returns(dbContext);
         _context.RoomId.Returns("lobby");
         _context.Target.Returns("alice, otherroom");
-        _context.GetString("play_time_format").Returns(DEFAULT_PLAY_TIME_FORMAT);
+        var format = "d'd 'hh'h 'mm'm 'ss's'";
+        _context.GetString("play_time_format").Returns(format);
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        _context.Received(1).ReplyLocalizedMessage("play_time_result", "Alice", TimeSpan.FromHours(7).ToPlayTimeString(), "otherroom");
+        _context.Received(1).ReplyLocalizedMessage("play_time_result", "Alice", TimeSpan.FromHours(7).ToString(format), "otherroom");
     }
 }
