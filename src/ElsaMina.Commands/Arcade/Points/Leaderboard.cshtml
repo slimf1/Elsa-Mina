@@ -1,0 +1,29 @@
+@using ElsaMina.Core.Utils
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Arcade.Points.LeaderboardViewModel>
+@{
+    string FormatPoints(double points)
+    {
+        return points % 1 == 0 ? ((int)points).ToString() : points.ToString("0.##");
+    }
+}
+<b>@GetString("leaderboard_title") :</b><br>
+<table>
+    <tr>
+        <th>@GetString("leaderboard_user")</th>
+        <th>@GetString("leaderboard_points")</th>
+    </tr>
+    @foreach (var (user, points) in Model.Leaderboard)
+    {
+        <tr>
+            <td>
+                <span
+                    class="username"
+                    data-name="@user"
+                    style="font-weight: bold; font-style: italic; color: @user.ToColorHexCodeWithCustoms();">
+                    @user
+                </span>
+            </td>
+            <td>@FormatPoints(points)</td>
+        </tr>
+    }
+</table>

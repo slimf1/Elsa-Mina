@@ -555,6 +555,54 @@
     <data name="arcade_level_delete_failure" xml:space="preserve">
         <value>An error occurred when deleting arcade level : {0}</value>
     </data>
+    <data name="arcade_level_get_help" xml:space="preserve">
+        <value>Syntax: -palier (user)</value>
+    </data>
+    <data name="arcade_level_get_not_found" xml:space="preserve">
+        <value>{0} does not belong to any level.</value>
+    </data>
+    <data name="arcade_level_get_success" xml:space="preserve">
+        <value>**{0}** belongs to Level **{1}**.</value>
+    </data>
+    <data name="add_points_help" xml:space="preserve">
+        <value>Syntax: -addp user, points</value>
+    </data>
+    <data name="remove_points_help" xml:space="preserve">
+        <value>Syntax: -removepoints user, nb_point</value>
+    </data>
+    <data name="remove_points_user_not_found" xml:space="preserve">
+        <value>User '{0}' has no points.</value>
+    </data>
+    <data name="leaderboard_help" xml:space="preserve">
+        <value>Display the leaderboard</value>
+    </data>
+    <data name="leaderboard_empty" xml:space="preserve">
+        <value>No points found.</value>
+    </data>
+    <data name="clear_points_help" xml:space="preserve">
+        <value>Reset all points after an event</value>
+    </data>
+    <data name="clear_points_success" xml:space="preserve">
+        <value>All user points have been reset to zero.</value>
+    </data>
+    <data name="points_added_to" xml:space="preserve">
+        <value>point(s) added to</value>
+    </data>
+    <data name="points_removed_from" xml:space="preserve">
+        <value>point(s) removed from</value>
+    </data>
+    <data name="points_new_total" xml:space="preserve">
+        <value>New points total for</value>
+    </data>
+    <data name="leaderboard_title" xml:space="preserve">
+        <value>Leaderboard</value>
+    </data>
+    <data name="leaderboard_user" xml:space="preserve">
+        <value>User</value>
+    </data>
+    <data name="leaderboard_points" xml:space="preserve">
+        <value>Points</value>
+    </data>
     <data name="ask_error" xml:space="preserve">
         <value>An error occurred while fetching a response !</value>
     </data>

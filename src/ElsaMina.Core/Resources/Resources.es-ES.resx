@@ -560,6 +560,54 @@
     <data name="arcade_level_delete_failure" xml:space="preserve">
         <value>Se produjo un error al eliminar el palier: {0}</value>
     </data>
+    <data name="arcade_level_get_help" xml:space="preserve">
+        <value>Sintaxis: -palier (usuario)</value>
+    </data>
+    <data name="arcade_level_get_not_found" xml:space="preserve">
+        <value>{0} no pertenece a ningún nivel.</value>
+    </data>
+    <data name="arcade_level_get_success" xml:space="preserve">
+        <value>**{0}** pertenece al Nivel **{1}**.</value>
+    </data>
+    <data name="add_points_help" xml:space="preserve">
+        <value>Sintaxis: -addp usuario, puntos</value>
+    </data>
+    <data name="remove_points_help" xml:space="preserve">
+        <value>Sintaxis: -removepoints usuario, nb_punto</value>
+    </data>
+    <data name="remove_points_user_not_found" xml:space="preserve">
+        <value>El usuario '{0}' no tiene puntos.</value>
+    </data>
+    <data name="leaderboard_help" xml:space="preserve">
+        <value>Mostrar la clasificación</value>
+    </data>
+    <data name="leaderboard_empty" xml:space="preserve">
+        <value>No se encontraron puntos.</value>
+    </data>
+    <data name="clear_points_help" xml:space="preserve">
+        <value>Reiniciar todos los puntos después de un evento</value>
+    </data>
+    <data name="clear_points_success" xml:space="preserve">
+        <value>Se han reiniciado a cero los puntos de todos los usuarios.</value>
+    </data>
+    <data name="points_added_to" xml:space="preserve">
+        <value>punto(s) agregado(s) a</value>
+    </data>
+    <data name="points_removed_from" xml:space="preserve">
+        <value>punto(s) eliminado(s) de</value>
+    </data>
+    <data name="points_new_total" xml:space="preserve">
+        <value>Nuevo total de puntos para</value>
+    </data>
+    <data name="leaderboard_title" xml:space="preserve">
+        <value>Clasificación</value>
+    </data>
+    <data name="leaderboard_user" xml:space="preserve">
+        <value>Usuario</value>
+    </data>
+    <data name="leaderboard_points" xml:space="preserve">
+        <value>Puntos</value>
+    </data>
     <data name="ask_error" xml:space="preserve">
         <value>¡Se produjo un error al responder!</value>
     </data>

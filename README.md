@@ -1,14 +1,14 @@
 # Elsa-Mina
 
-[![deploy](https://github.com/slimf1/Elsa-Mina/actions/workflows/deploy.yml/badge.svg)](https://github.com/slimf1/Elsa-Mina/actions/workflows/deploy.yml)
-[![test](https://github.com/slimf1/Elsa-Mina/actions/workflows/test.yml/badge.svg)](https://github.com/slimf1/Elsa-Mina/actions/workflows/test.yml)
+[![deploy](https://github.com/SlimSeb/Elsa-Mina/actions/workflows/deploy.yml/badge.svg)](https://github.com/SlimSeb/Elsa-Mina/actions/workflows/deploy.yml)
+[![test](https://github.com/SlimSeb/Elsa-Mina/actions/workflows/test.yml/badge.svg)](https://github.com/SlimSeb/Elsa-Mina/actions/workflows/test.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=slimf1_Elsa-Mina&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=slimf1_Elsa-Mina)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=slimf1_Elsa-Mina&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=slimf1_Elsa-Mina)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=slimf1_Elsa-Mina&metric=coverage)](https://sonarcloud.io/summary/new_code?id=slimf1_Elsa-Mina)
 
 A chat bot for Pokémon Showdown, used in the French Room and private communities.
 
-**[Live Demo](https://psim.us/fr)** • **[Report Bug](https://github.com/slimf1/Elsa-Mina/issues)**
+**[Live Demo](https://psim.us/fr)** • **[Report Bug](https://github.com/SlimSeb/Elsa-Mina/issues)**
 
 ## Prerequisites
 - .NET 10.0 or higher
@@ -18,7 +18,7 @@ A chat bot for Pokémon Showdown, used in the French Room and private communitie
 ## Quick Start
 1. Clone the repository
 ```bash
-git clone https://github.com/slimf1/Elsa-Mina.git
+git clone https://github.com/SlimSeb/Elsa-Mina.git
 cd Elsa-Mina
 ```
 

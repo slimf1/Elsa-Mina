@@ -560,6 +560,54 @@
     <data name="arcade_level_delete_failure" xml:space="preserve">
         <value>Si è verificato un errore rimuovendo la soglia: {0}</value>
     </data>
+    <data name="arcade_level_get_help" xml:space="preserve">
+        <value>Sintassi: -palier (utente)</value>
+    </data>
+    <data name="arcade_level_get_not_found" xml:space="preserve">
+        <value>{0} non appartiene a nessuna soglia.</value>
+    </data>
+    <data name="arcade_level_get_success" xml:space="preserve">
+        <value>**{0}** appartiene alla Soglia **{1}**.</value>
+    </data>
+    <data name="add_points_help" xml:space="preserve">
+        <value>Sintassi: -addp utente, punti</value>
+    </data>
+    <data name="remove_points_help" xml:space="preserve">
+        <value>Sintassi: -removepoints utente, nb_punto</value>
+    </data>
+    <data name="remove_points_user_not_found" xml:space="preserve">
+        <value>L'utente '{0}' non ha punti.</value>
+    </data>
+    <data name="leaderboard_help" xml:space="preserve">
+        <value>Visualizza la classifica</value>
+    </data>
+    <data name="leaderboard_empty" xml:space="preserve">
+        <value>Nessun punto trovato.</value>
+    </data>
+    <data name="clear_points_help" xml:space="preserve">
+        <value>Resetta tutti i punti dopo un evento</value>
+    </data>
+    <data name="clear_points_success" xml:space="preserve">
+        <value>I punti di tutti gli utenti sono stati azzerati.</value>
+    </data>
+    <data name="points_added_to" xml:space="preserve">
+        <value>punto/i aggiunto/i a</value>
+    </data>
+    <data name="points_removed_from" xml:space="preserve">
+        <value>punto/i rimosso/i da</value>
+    </data>
+    <data name="points_new_total" xml:space="preserve">
+        <value>Nuovo totale punti per</value>
+    </data>
+    <data name="leaderboard_title" xml:space="preserve">
+        <value>Classifica</value>
+    </data>
+    <data name="leaderboard_user" xml:space="preserve">
+        <value>Utente</value>
+    </data>
+    <data name="leaderboard_points" xml:space="preserve">
+        <value>Punti</value>
+    </data>
     <data name="ask_error" xml:space="preserve">
         <value>Si è verificato un errore durante la risposta!</value>
     </data>
