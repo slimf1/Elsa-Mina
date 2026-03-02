@@ -954,4 +954,85 @@
     <data name="play_time_error" xml:space="preserve">
         <value>Impossible de récupérer le temps de jeu.</value>
     </data>
+    <data name="slots_description_bulbasaur" xml:space="preserve">
+        <value>une plante</value>
+    </data>
+    <data name="slots_description_squirtle" xml:space="preserve">
+        <value>une carapace</value>
+    </data>
+    <data name="slots_description_charmander" xml:space="preserve">
+        <value>une flamme</value>
+    </data>
+    <data name="slots_description_pikachu" xml:space="preserve">
+        <value>un éclair</value>
+    </data>
+    <data name="slots_description_eevee" xml:space="preserve">
+        <value>un câlin</value>
+    </data>
+    <data name="slots_description_snorlax" xml:space="preserve">
+        <value>un ronflement</value>
+    </data>
+    <data name="slots_description_dragonite" xml:space="preserve">
+        <value>un vol</value>
+    </data>
+    <data name="slots_description_mew" xml:space="preserve">
+        <value>un pouvoir mystique</value>
+    </data>
+    <data name="slots_description_mewtwo" xml:space="preserve">
+        <value>une attaque psy</value>
+    </data>
+    <data name="slots_description_dialga" xml:space="preserve">
+        <value>un voyage temporel</value>
+    </data>
+    <data name="slots_description_palkia" xml:space="preserve">
+        <value>un voyage spatial</value>
+    </data>
+    <data name="slots_description_giratina" xml:space="preserve">
+        <value>un passage dans le monde distorsion</value>
+    </data>
+    <data name="slots_blacklisted_room" xml:space="preserve">
+        <value>Cette commande n'est pas disponible dans cette room.</value>
+    </data>
+    <data name="slots_cooldown" xml:space="preserve">
+        <value>Tu dois attendre encore {0}h {1}min avant de pouvoir réutiliser cette commande.</value>
+    </data>
+    <data name="slots_win_prize" xml:space="preserve">
+        <value>Tu as gagné {0}!</value>
+    </data>
+    <data name="slots_win_0" xml:space="preserve">
+        <value>a fait un combo parfait!</value>
+    </data>
+    <data name="slots_win_1" xml:space="preserve">
+        <value>a une chance incroyable aujourd'hui!</value>
+    </data>
+    <data name="slots_win_2" xml:space="preserve">
+        <value>devrait jouer au loto!</value>
+    </data>
+    <data name="slots_win_3" xml:space="preserve">
+        <value>est béni par Arceus!</value>
+    </data>
+    <data name="slots_win_4" xml:space="preserve">
+        <value>a la chance du débutant!</value>
+    </data>
+    <data name="slots_win_5" xml:space="preserve">
+        <value>a fait un tirage légendaire!</value>
+    </data>
+    <data name="slots_lose_0" xml:space="preserve">
+        <value>n'a pas beaucoup de chance aujourd'hui!</value>
+    </data>
+    <data name="slots_lose_1" xml:space="preserve">
+        <value>devrait réessayer!</value>
+    </data>
+    <data name="slots_lose_2" xml:space="preserve">
+        <value>était si proche!</value>
+    </data>
+    <data name="slots_lose_3" xml:space="preserve">
+        <value>a besoin d'un peu plus de chance!</value>
+    </data>
+    <data name="slots_lose_4" xml:space="preserve">
+        <value>devrait demander à Jirachi un vœu!</value>
+    </data>
+    <data name="slots_lose_5" xml:space="preserve">
+        <value>a presque réussi!</value>
+    </data>
 </root>

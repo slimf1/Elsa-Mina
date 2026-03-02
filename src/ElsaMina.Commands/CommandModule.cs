@@ -9,6 +9,7 @@ using ElsaMina.Commands.Arcade.Events;
 using ElsaMina.Commands.Arcade.Levels;
 using ElsaMina.Commands.Arcade.Points;
 using ElsaMina.Commands.Arcade.Sheets;
+using ElsaMina.Commands.Arcade.Slots;
 using ElsaMina.Commands.Badges;
 using ElsaMina.Commands.Badges.BadgeEditPanel;
 using ElsaMina.Commands.Badges.BadgeDisplay;
@@ -137,6 +138,7 @@ public class CommandModule : Module
         builder.RegisterCommand<HallOfFameCommand>();
         builder.RegisterCommand<GeniusSearchCommand>();
         builder.RegisterCommand<ArcadeHallOfFameCommand>();
+        builder.RegisterCommand<SlotsFunCommand>();
         builder.RegisterCommand<TimerCommand>();
         builder.RegisterCommand<RunningCommands>();
         builder.RegisterCommand<CancelRunningCommand>();
