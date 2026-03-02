@@ -56,7 +56,7 @@ public class RemovePointsCommand : Command
             .OrderByDescending(up => up.Points)
             .ToListAsync(cancellationToken);
 
-        var template = await _templatesManager.GetTemplateAsync("Points/PointsUpdate", new PointsUpdateViewModel
+        var template = await _templatesManager.GetTemplateAsync("Arcade/Points/PointsUpdate", new PointsUpdateViewModel
         {
             Culture = context.Culture,
             Username = user,

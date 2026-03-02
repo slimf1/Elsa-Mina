@@ -6,7 +6,7 @@ using ElsaMina.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 
-namespace ElsaMina.UnitTests.Commands.Points;
+namespace ElsaMina.UnitTests.Commands.Arcade.Points;
 
 public class ClearPointsCommandTest
 {

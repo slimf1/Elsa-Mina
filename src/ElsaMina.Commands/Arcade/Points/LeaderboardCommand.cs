@@ -37,7 +37,7 @@ public class LeaderboardCommand : Command
             return;
         }
 
-        var template = await _templatesManager.GetTemplateAsync("Points/Leaderboard", new LeaderboardViewModel
+        var template = await _templatesManager.GetTemplateAsync("Arcade/Points/Leaderboard", new LeaderboardViewModel
         {
             Culture = context.Culture,
             Leaderboard = allUserPoints.ToDictionary(up => up.Id, up => up.Points)

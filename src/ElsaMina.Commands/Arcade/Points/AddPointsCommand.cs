@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.Commands.Arcade.Points;
 
-[NamedCommand("addp")]
+[NamedCommand("addp", "addpoints")]
 public class AddPointsCommand : Command
 {
     private readonly IBotDbContextFactory _dbContextFactory;
@@ -63,7 +63,7 @@ public class AddPointsCommand : Command
             .OrderByDescending(up => up.Points)
             .ToListAsync(cancellationToken);
 
-        var template = await _templatesManager.GetTemplateAsync("Points/PointsUpdate", new PointsUpdateViewModel
+        var template = await _templatesManager.GetTemplateAsync("Arcade/Points/PointsUpdate", new PointsUpdateViewModel
         {
             Culture = context.Culture,
             Username = user,
