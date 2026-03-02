@@ -1035,4 +1035,112 @@
     <data name="slots_lose_5" xml:space="preserve">
         <value>a presque réussi!</value>
     </data>
+    <data name="arcade_in_help" xml:space="preserve">
+        <value>Rejoindre les inscriptions du tournoi arcade en cours. Syntaxe : -in</value>
+    </data>
+    <data name="arcade_in_pm_specify_room" xml:space="preserve">
+        <value>Veuillez spécifier une room en utilisant cette commande en MP. Syntaxe : -in [room]</value>
+    </data>
+    <data name="arcade_pm_room_not_found" xml:space="preserve">
+        <value>Room introuvable.</value>
+    </data>
+    <data name="arcade_no_active_inscriptions" xml:space="preserve">
+        <value>Aucune inscription de tournoi arcade n'est actuellement active.</value>
+    </data>
+    <data name="arcade_inscriptions_timer_expired" xml:space="preserve">
+        <value>Les inscriptions sont fermées (timer expiré).</value>
+    </data>
+    <data name="arcade_in_banned" xml:space="preserve">
+        <value>Vous avez été retiré de ce tournoi et ne pouvez pas vous réinscrire.</value>
+    </data>
+    <data name="arcade_in_already_registered" xml:space="preserve">
+        <value>Vous êtes déjà inscrit à ce tournoi.</value>
+    </data>
+    <data name="arcade_in_success" xml:space="preserve">
+        <value>Vous avez été inscrit au tournoi arcade ! ({0} participants)</value>
+    </data>
+    <data name="arcade_leave_help" xml:space="preserve">
+        <value>Quitter les inscriptions du tournoi arcade en cours. Syntaxe : -leave</value>
+    </data>
+    <data name="arcade_leave_pm_specify_room" xml:space="preserve">
+        <value>Veuillez spécifier une room en utilisant cette commande en MP. Syntaxe : -leave [room]</value>
+    </data>
+    <data name="arcade_leave_not_registered" xml:space="preserve">
+        <value>Vous n'êtes pas inscrit à ce tournoi.</value>
+    </data>
+    <data name="arcade_leave_success" xml:space="preserve">
+        <value>Vous avez été retiré du tournoi arcade. ({0} participants)</value>
+    </data>
+    <data name="arcade_start_help" xml:space="preserve">
+        <value>Démarrer les inscriptions du tournoi arcade. Syntaxe : -arcadestart [titre], [timer en minutes]</value>
+    </data>
+    <data name="arcade_start_already_active" xml:space="preserve">
+        <value>Les inscriptions du tournoi arcade sont déjà actives.</value>
+    </data>
+    <data name="arcade_timer_positive_integer" xml:space="preserve">
+        <value>Le timer doit être un nombre entier positif de minutes.</value>
+    </data>
+    <data name="arcade_timer_parse_error" xml:space="preserve">
+        <value>Valeur de timer invalide. Veuillez fournir un nombre de minutes.</value>
+    </data>
+    <data name="arcade_start_with_timer" xml:space="preserve">
+        <value>Inscriptions "{0}" démarrées avec un timer de {1} minutes ! Utilisez -in pour rejoindre, -leave pour partir.</value>
+    </data>
+    <data name="arcade_start_no_timer" xml:space="preserve">
+        <value>Inscriptions "{0}" démarrées ! Utilisez -in pour rejoindre, -leave pour partir.</value>
+    </data>
+    <data name="arcade_stop_help" xml:space="preserve">
+        <value>Arrêter les inscriptions du tournoi arcade. Syntaxe : -arcadestop</value>
+    </data>
+    <data name="arcade_stop_no_participants" xml:space="preserve">
+        <value>Inscriptions du tournoi arcade arrêtées. Aucun participant.</value>
+    </data>
+    <data name="arcade_list_help" xml:space="preserve">
+        <value>Voir les participants actuels du tournoi arcade. Syntaxe : -arcadelist</value>
+    </data>
+    <data name="arcade_list_no_data" xml:space="preserve">
+        <value>Aucune donnée de tournoi arcade trouvée pour cette room.</value>
+    </data>
+    <data name="arcade_list_no_participants" xml:space="preserve">
+        <value>Aucun participant inscrit. Les inscriptions sont actuellement {0}.</value>
+    </data>
+    <data name="arcade_list_status_active" xml:space="preserve">
+        <value>actives</value>
+    </data>
+    <data name="arcade_list_status_inactive" xml:space="preserve">
+        <value>inactives</value>
+    </data>
+    <data name="arcade_list_result" xml:space="preserve">
+        <value>Participants du tournoi arcade ({0}) - Statut : {1}{2} : {3}</value>
+    </data>
+    <data name="arcade_list_timer_remaining" xml:space="preserve">
+        <value> (Timer : {0} minutes restantes)</value>
+    </data>
+    <data name="arcade_remove_help" xml:space="preserve">
+        <value>Retirer un participant du tournoi arcade. Syntaxe : -arcaderemove [nom d'utilisateur]</value>
+    </data>
+    <data name="arcade_remove_not_registered" xml:space="preserve">
+        <value>L'utilisateur "{0}" n'est pas inscrit au tournoi.</value>
+    </data>
+    <data name="arcade_remove_success" xml:space="preserve">
+        <value>L'utilisateur "{0}" a été retiré du tournoi arcade et ne peut pas se réinscrire.</value>
+    </data>
+    <data name="arcade_timer_help" xml:space="preserve">
+        <value>Ajouter ou modifier le timer pour les inscriptions actives. Syntaxe : -arcadetimer [minutes]</value>
+    </data>
+    <data name="arcade_timer_success" xml:space="preserve">
+        <value>Timer défini pour {0} minutes.</value>
+    </data>
+    <data name="arcade_add_help" xml:space="preserve">
+        <value>Ajouter un participant au tournoi arcade. Syntaxe : -arcadeadd [nom d'utilisateur]</value>
+    </data>
+    <data name="arcade_add_already_registered" xml:space="preserve">
+        <value>L'utilisateur "{0}" est déjà inscrit au tournoi.</value>
+    </data>
+    <data name="arcade_add_banned" xml:space="preserve">
+        <value>L'utilisateur "{0}" a été retiré de ce tournoi et ne peut pas être réajouté.</value>
+    </data>
+    <data name="arcade_add_success" xml:space="preserve">
+        <value>L'utilisateur "{0}" a été ajouté au tournoi arcade.</value>
+    </data>
 </root>

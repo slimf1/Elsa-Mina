@@ -184,7 +184,7 @@ public class RemovePointsCommandTest
         await _command.RunAsync(_context);
 
         await _templatesManager.Received(1).GetTemplateAsync(
-            "Points/PointsUpdate",
+            "Arcade/Points/PointsUpdate",
             Arg.Is<PointsUpdateViewModel>(vm =>
                 vm.Username == "user1" &&
                 vm.PointsAdded == 5.0 &&
@@ -249,7 +249,7 @@ public class RemovePointsCommandTest
         await _command.RunAsync(_context);
 
         await _templatesManager.Received(1).GetTemplateAsync(
-            "Points/PointsUpdate",
+            "Arcade/Points/PointsUpdate",
             Arg.Is<PointsUpdateViewModel>(vm =>
                 vm.Leaderboard.Count == 2 &&
                 vm.Leaderboard["user1"] == 15 &&
@@ -273,7 +273,7 @@ public class RemovePointsCommandTest
         await _command.RunAsync(_context);
 
         await _templatesManager.Received(1).GetTemplateAsync(
-            "Points/PointsUpdate",
+            "Arcade/Points/PointsUpdate",
             Arg.Is<PointsUpdateViewModel>(vm =>
                 vm.Leaderboard.Count == 1 &&
                 vm.Leaderboard.ContainsKey("user1") &&

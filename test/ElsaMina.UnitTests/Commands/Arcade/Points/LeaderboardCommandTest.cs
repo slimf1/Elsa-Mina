@@ -91,7 +91,7 @@ public class LeaderboardCommandTest
         await _command.RunAsync(_context);
 
         await _templatesManager.Received(1).GetTemplateAsync(
-            "Points/Leaderboard",
+            "Arcade/Points/Leaderboard",
             Arg.Is<LeaderboardViewModel>(vm =>
                 vm.Leaderboard.Count == 3 &&
                 vm.Leaderboard["user1"] == 15 &&
@@ -115,7 +115,7 @@ public class LeaderboardCommandTest
         await _command.RunAsync(_context);
 
         await _templatesManager.Received(1).GetTemplateAsync(
-            "Points/Leaderboard",
+            "Arcade/Points/Leaderboard",
             Arg.Is<LeaderboardViewModel>(vm =>
                 vm.Leaderboard.Count == 2 &&
                 !vm.Leaderboard.ContainsKey("user2")
@@ -154,7 +154,7 @@ public class LeaderboardCommandTest
         await _command.RunAsync(_context);
 
         await _templatesManager.Received(1).GetTemplateAsync(
-            "Points/Leaderboard",
+            "Arcade/Points/Leaderboard",
             Arg.Is<LeaderboardViewModel>(vm =>
                 vm.Leaderboard.Count == 3 &&
                 vm.Leaderboard.Keys.ElementAt(0) == "user2" &&
@@ -177,7 +177,7 @@ public class LeaderboardCommandTest
         await _command.RunAsync(_context);
 
         await _templatesManager.Received(1).GetTemplateAsync(
-            "Points/Leaderboard",
+            "Arcade/Points/Leaderboard",
             Arg.Is<LeaderboardViewModel>(vm =>
                 vm.Leaderboard["user1"] == 10.5 &&
                 vm.Leaderboard["user2"] == 7.25
@@ -205,7 +205,7 @@ public class LeaderboardCommandTest
             await setupContext.SaveChangesAsync();
         }
 
-        var cancellationToken = new CancellationToken();
+        var cancellationToken = CancellationToken.None;
 
         await _command.RunAsync(_context, cancellationToken);
 
@@ -224,7 +224,7 @@ public class LeaderboardCommandTest
         await _command.RunAsync(_context);
 
         await _templatesManager.Received(1).GetTemplateAsync(
-            "Points/Leaderboard",
+            "Arcade/Points/Leaderboard",
             Arg.Is<LeaderboardViewModel>(vm =>
                 vm.Leaderboard.Count == 1 &&
                 vm.Leaderboard["onlyuser"] == 100
@@ -245,7 +245,7 @@ public class LeaderboardCommandTest
         await _command.RunAsync(_context);
 
         await _templatesManager.Received(1).GetTemplateAsync(
-            "Points/Leaderboard",
+            "Arcade/Points/Leaderboard",
             Arg.Is<LeaderboardViewModel>(vm =>
                 vm.Leaderboard.Count == 1 &&
                 !vm.Leaderboard.ContainsKey("user1")

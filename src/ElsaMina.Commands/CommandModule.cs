@@ -9,6 +9,7 @@ using ElsaMina.Commands.Arcade.Events;
 using ElsaMina.Commands.Arcade.Levels;
 using ElsaMina.Commands.Arcade.Points;
 using ElsaMina.Commands.Arcade.Sheets;
+using ElsaMina.Commands.Arcade.Inscriptions;
 using ElsaMina.Commands.Arcade.Slots;
 using ElsaMina.Commands.Badges;
 using ElsaMina.Commands.Badges.BadgeEditPanel;
@@ -138,6 +139,14 @@ public class CommandModule : Module
         builder.RegisterCommand<HallOfFameCommand>();
         builder.RegisterCommand<GeniusSearchCommand>();
         builder.RegisterCommand<ArcadeHallOfFameCommand>();
+        builder.RegisterCommand<ArcadeInCommand>();
+        builder.RegisterCommand<ArcadeLeaveCommand>();
+        builder.RegisterCommand<ArcadeStartCommand>();
+        builder.RegisterCommand<ArcadeStopCommand>();
+        builder.RegisterCommand<ArcadeListCommand>();
+        builder.RegisterCommand<ArcadeRemoveCommand>();
+        builder.RegisterCommand<ArcadeTimerCommand>();
+        builder.RegisterCommand<ArcadeAddCommand>();
         builder.RegisterCommand<SlotsFunCommand>();
         builder.RegisterCommand<TimerCommand>();
         builder.RegisterCommand<RunningCommands>();
@@ -183,5 +192,6 @@ public class CommandModule : Module
         {
             e.Instance.Initialize().Wait(); // Risque d'ANR mais obligé pour garantir la bonne initialisation...
         });
+        builder.RegisterType<ArcadeInscriptionsManager>().As<IArcadeInscriptionsManager>().SingleInstance();
     }
 }

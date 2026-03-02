@@ -1,4 +1,3 @@
-using ElsaMina.Commands.Arcade;
 using ElsaMina.Commands.Arcade.Levels;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
@@ -8,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 
-namespace ElsaMina.UnitTests.Commands.Arcade;
+namespace ElsaMina.UnitTests.Commands.Arcade.Levels;
 
 public class SetArcadeLevelCommandTests
 {
