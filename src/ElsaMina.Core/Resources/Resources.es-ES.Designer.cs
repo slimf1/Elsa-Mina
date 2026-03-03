@@ -1119,6 +1119,102 @@ namespace ElsaMina.Core.Resources {
             }
         }
         
+        internal static string arcade_level_get_help {
+            get {
+                return ResourceManager.GetString("arcade_level_get_help", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_level_get_not_found {
+            get {
+                return ResourceManager.GetString("arcade_level_get_not_found", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_level_get_success {
+            get {
+                return ResourceManager.GetString("arcade_level_get_success", resourceCulture);
+            }
+        }
+        
+        internal static string add_points_help {
+            get {
+                return ResourceManager.GetString("add_points_help", resourceCulture);
+            }
+        }
+        
+        internal static string remove_points_help {
+            get {
+                return ResourceManager.GetString("remove_points_help", resourceCulture);
+            }
+        }
+        
+        internal static string remove_points_user_not_found {
+            get {
+                return ResourceManager.GetString("remove_points_user_not_found", resourceCulture);
+            }
+        }
+        
+        internal static string leaderboard_help {
+            get {
+                return ResourceManager.GetString("leaderboard_help", resourceCulture);
+            }
+        }
+        
+        internal static string leaderboard_empty {
+            get {
+                return ResourceManager.GetString("leaderboard_empty", resourceCulture);
+            }
+        }
+        
+        internal static string clear_points_help {
+            get {
+                return ResourceManager.GetString("clear_points_help", resourceCulture);
+            }
+        }
+        
+        internal static string clear_points_success {
+            get {
+                return ResourceManager.GetString("clear_points_success", resourceCulture);
+            }
+        }
+        
+        internal static string points_added_to {
+            get {
+                return ResourceManager.GetString("points_added_to", resourceCulture);
+            }
+        }
+        
+        internal static string points_removed_from {
+            get {
+                return ResourceManager.GetString("points_removed_from", resourceCulture);
+            }
+        }
+        
+        internal static string points_new_total {
+            get {
+                return ResourceManager.GetString("points_new_total", resourceCulture);
+            }
+        }
+        
+        internal static string leaderboard_title {
+            get {
+                return ResourceManager.GetString("leaderboard_title", resourceCulture);
+            }
+        }
+        
+        internal static string leaderboard_user {
+            get {
+                return ResourceManager.GetString("leaderboard_user", resourceCulture);
+            }
+        }
+        
+        internal static string leaderboard_points {
+            get {
+                return ResourceManager.GetString("leaderboard_points", resourceCulture);
+            }
+        }
+        
         internal static string ask_error {
             get {
                 return ResourceManager.GetString("ask_error", resourceCulture);
@@ -1515,6 +1611,12 @@ namespace ElsaMina.Core.Resources {
             }
         }
         
+        internal static string hall_of_fame_trophy {
+            get {
+                return ResourceManager.GetString("hall_of_fame_trophy", resourceCulture);
+            }
+        }
+        
         internal static string hall_of_fame_trophies {
             get {
                 return ResourceManager.GetString("hall_of_fame_trophies", resourceCulture);
@@ -1812,6 +1914,384 @@ namespace ElsaMina.Core.Resources {
         internal static string play_time_error {
             get {
                 return ResourceManager.GetString("play_time_error", resourceCulture);
+            }
+        }
+        
+        internal static string slots_description_bulbasaur {
+            get {
+                return ResourceManager.GetString("slots_description_bulbasaur", resourceCulture);
+            }
+        }
+        
+        internal static string slots_description_squirtle {
+            get {
+                return ResourceManager.GetString("slots_description_squirtle", resourceCulture);
+            }
+        }
+        
+        internal static string slots_description_charmander {
+            get {
+                return ResourceManager.GetString("slots_description_charmander", resourceCulture);
+            }
+        }
+        
+        internal static string slots_description_pikachu {
+            get {
+                return ResourceManager.GetString("slots_description_pikachu", resourceCulture);
+            }
+        }
+        
+        internal static string slots_description_eevee {
+            get {
+                return ResourceManager.GetString("slots_description_eevee", resourceCulture);
+            }
+        }
+        
+        internal static string slots_description_snorlax {
+            get {
+                return ResourceManager.GetString("slots_description_snorlax", resourceCulture);
+            }
+        }
+        
+        internal static string slots_description_dragonite {
+            get {
+                return ResourceManager.GetString("slots_description_dragonite", resourceCulture);
+            }
+        }
+        
+        internal static string slots_description_mew {
+            get {
+                return ResourceManager.GetString("slots_description_mew", resourceCulture);
+            }
+        }
+        
+        internal static string slots_description_mewtwo {
+            get {
+                return ResourceManager.GetString("slots_description_mewtwo", resourceCulture);
+            }
+        }
+        
+        internal static string slots_description_dialga {
+            get {
+                return ResourceManager.GetString("slots_description_dialga", resourceCulture);
+            }
+        }
+        
+        internal static string slots_description_palkia {
+            get {
+                return ResourceManager.GetString("slots_description_palkia", resourceCulture);
+            }
+        }
+        
+        internal static string slots_description_giratina {
+            get {
+                return ResourceManager.GetString("slots_description_giratina", resourceCulture);
+            }
+        }
+        
+        internal static string slots_blacklisted_room {
+            get {
+                return ResourceManager.GetString("slots_blacklisted_room", resourceCulture);
+            }
+        }
+        
+        internal static string slots_cooldown {
+            get {
+                return ResourceManager.GetString("slots_cooldown", resourceCulture);
+            }
+        }
+        
+        internal static string slots_win_prize {
+            get {
+                return ResourceManager.GetString("slots_win_prize", resourceCulture);
+            }
+        }
+        
+        internal static string slots_win_0 {
+            get {
+                return ResourceManager.GetString("slots_win_0", resourceCulture);
+            }
+        }
+        
+        internal static string slots_win_1 {
+            get {
+                return ResourceManager.GetString("slots_win_1", resourceCulture);
+            }
+        }
+        
+        internal static string slots_win_2 {
+            get {
+                return ResourceManager.GetString("slots_win_2", resourceCulture);
+            }
+        }
+        
+        internal static string slots_win_3 {
+            get {
+                return ResourceManager.GetString("slots_win_3", resourceCulture);
+            }
+        }
+        
+        internal static string slots_win_4 {
+            get {
+                return ResourceManager.GetString("slots_win_4", resourceCulture);
+            }
+        }
+        
+        internal static string slots_win_5 {
+            get {
+                return ResourceManager.GetString("slots_win_5", resourceCulture);
+            }
+        }
+        
+        internal static string slots_lose_0 {
+            get {
+                return ResourceManager.GetString("slots_lose_0", resourceCulture);
+            }
+        }
+        
+        internal static string slots_lose_1 {
+            get {
+                return ResourceManager.GetString("slots_lose_1", resourceCulture);
+            }
+        }
+        
+        internal static string slots_lose_2 {
+            get {
+                return ResourceManager.GetString("slots_lose_2", resourceCulture);
+            }
+        }
+        
+        internal static string slots_lose_3 {
+            get {
+                return ResourceManager.GetString("slots_lose_3", resourceCulture);
+            }
+        }
+        
+        internal static string slots_lose_4 {
+            get {
+                return ResourceManager.GetString("slots_lose_4", resourceCulture);
+            }
+        }
+        
+        internal static string slots_lose_5 {
+            get {
+                return ResourceManager.GetString("slots_lose_5", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_in_help {
+            get {
+                return ResourceManager.GetString("arcade_in_help", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_in_pm_specify_room {
+            get {
+                return ResourceManager.GetString("arcade_in_pm_specify_room", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_pm_room_not_found {
+            get {
+                return ResourceManager.GetString("arcade_pm_room_not_found", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_no_active_inscriptions {
+            get {
+                return ResourceManager.GetString("arcade_no_active_inscriptions", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_inscriptions_timer_expired {
+            get {
+                return ResourceManager.GetString("arcade_inscriptions_timer_expired", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_in_banned {
+            get {
+                return ResourceManager.GetString("arcade_in_banned", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_in_already_registered {
+            get {
+                return ResourceManager.GetString("arcade_in_already_registered", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_in_success {
+            get {
+                return ResourceManager.GetString("arcade_in_success", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_leave_help {
+            get {
+                return ResourceManager.GetString("arcade_leave_help", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_leave_pm_specify_room {
+            get {
+                return ResourceManager.GetString("arcade_leave_pm_specify_room", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_leave_not_registered {
+            get {
+                return ResourceManager.GetString("arcade_leave_not_registered", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_leave_success {
+            get {
+                return ResourceManager.GetString("arcade_leave_success", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_start_help {
+            get {
+                return ResourceManager.GetString("arcade_start_help", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_start_already_active {
+            get {
+                return ResourceManager.GetString("arcade_start_already_active", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_timer_positive_integer {
+            get {
+                return ResourceManager.GetString("arcade_timer_positive_integer", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_timer_parse_error {
+            get {
+                return ResourceManager.GetString("arcade_timer_parse_error", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_start_with_timer {
+            get {
+                return ResourceManager.GetString("arcade_start_with_timer", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_start_no_timer {
+            get {
+                return ResourceManager.GetString("arcade_start_no_timer", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_stop_help {
+            get {
+                return ResourceManager.GetString("arcade_stop_help", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_stop_no_participants {
+            get {
+                return ResourceManager.GetString("arcade_stop_no_participants", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_list_help {
+            get {
+                return ResourceManager.GetString("arcade_list_help", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_list_no_data {
+            get {
+                return ResourceManager.GetString("arcade_list_no_data", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_list_no_participants {
+            get {
+                return ResourceManager.GetString("arcade_list_no_participants", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_list_status_active {
+            get {
+                return ResourceManager.GetString("arcade_list_status_active", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_list_status_inactive {
+            get {
+                return ResourceManager.GetString("arcade_list_status_inactive", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_list_result {
+            get {
+                return ResourceManager.GetString("arcade_list_result", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_list_timer_remaining {
+            get {
+                return ResourceManager.GetString("arcade_list_timer_remaining", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_remove_help {
+            get {
+                return ResourceManager.GetString("arcade_remove_help", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_remove_not_registered {
+            get {
+                return ResourceManager.GetString("arcade_remove_not_registered", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_remove_success {
+            get {
+                return ResourceManager.GetString("arcade_remove_success", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_timer_help {
+            get {
+                return ResourceManager.GetString("arcade_timer_help", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_timer_success {
+            get {
+                return ResourceManager.GetString("arcade_timer_success", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_add_help {
+            get {
+                return ResourceManager.GetString("arcade_add_help", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_add_already_registered {
+            get {
+                return ResourceManager.GetString("arcade_add_already_registered", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_add_banned {
+            get {
+                return ResourceManager.GetString("arcade_add_banned", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_add_success {
+            get {
+                return ResourceManager.GetString("arcade_add_success", resourceCulture);
             }
         }
     }

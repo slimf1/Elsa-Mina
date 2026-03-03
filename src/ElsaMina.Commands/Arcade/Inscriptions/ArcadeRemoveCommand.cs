@@ -51,20 +51,20 @@ public class ArcadeRemoveCommand : Command
             var winnerId = state.Participants.First();
             var winnerName = context.Room.Users.TryGetValue(winnerId, out IUser winnerUser) ? winnerUser.Name : winnerId;
             var html = $"<b>🏆 {state.Title} - Tournoi terminé !</b><br><b>Gagnant :</b> {winnerName}";
-            context.Reply($"/addhtmlbox {html}");
+            context.ReplyHtml(html);
             state.IsActive = false;
         }
         else if (remainingCount == 0)
         {
             var html = $"<b>⏰ {state.Title} - Tournoi terminé</b><br>Aucun participant restant.";
-            context.Reply($"/addhtmlbox {html}");
+            context.ReplyHtml(html);
             state.IsActive = false;
         }
         else
         {
             var participantNames = state.Participants.Select(userId =>
             {
-                if (context.Room.Users.TryGetValue(userId, out IUser user))
+                if (context.Room.Users.TryGetValue(userId, out var user))
                 {
                     return user.Name;
                 }
@@ -72,7 +72,7 @@ public class ArcadeRemoveCommand : Command
             }).ToList();
 
             var html = $"<b>📋 {state.Title} - Mise à jour</b><br><b>Participants restants ({remainingCount}) :</b> {string.Join(", ", participantNames)}";
-            context.Reply($"/addhtmlbox {html}");
+            context.ReplyHtml(html);
         }
 
         return Task.CompletedTask;

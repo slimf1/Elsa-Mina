@@ -87,10 +87,14 @@ public class LadderCommand : Command
                 : null;
             foreach (var player in players)
             {
-                var playerId = string.IsNullOrWhiteSpace(player.UserId) ? string.Empty : player.UserId.ToLowerAlphaNum();
+                var playerId = string.IsNullOrWhiteSpace(player.UserId)
+                    ? string.Empty
+                    : player.UserId.ToLowerAlphaNum();
                 if (string.IsNullOrWhiteSpace(playerId))
                 {
-                    playerId = string.IsNullOrWhiteSpace(player.Username) ? string.Empty : player.Username.ToLowerAlphaNum();
+                    playerId = string.IsNullOrWhiteSpace(player.Username)
+                        ? string.Empty
+                        : player.Username.ToLowerAlphaNum();
                 }
 
                 if (string.IsNullOrWhiteSpace(playerId))
@@ -127,7 +131,8 @@ public class LadderCommand : Command
                     TopList = players
                 });
 
-            context.ReplyHtml(template.RemoveNewlines().RemoveWhitespacesBetweenTags(), rankAware: true);
+            context.ReplyHtml(template.RemoveNewlines().RemoveWhitespacesBetweenTags().CollapseAttributeWhitespace(),
+                rankAware: true);
         }
         catch (Exception exception)
         {

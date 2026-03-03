@@ -60,7 +60,7 @@ public class RoomUserDataServiceTest
         await _db.SaveChangesAsync();
 
         // Act
-        var result = await _service.GetUserData(roomId, userId);
+        var result = await _service.GetOrCreateRoomSpecificUserDataAsync(roomId, userId);
 
         // Assert
         Assert.That(result.Id, Is.EqualTo(userId));
@@ -75,7 +75,7 @@ public class RoomUserDataServiceTest
         var userId = "user1";
 
         // Act
-        var result = await _service.GetUserData(roomId, userId);
+        var result = await _service.GetOrCreateRoomSpecificUserDataAsync(roomId, userId);
 
         // Assert
         Assert.That(result.Id, Is.EqualTo(userId));

@@ -28,20 +28,17 @@ public class ArcadeStopCommand : Command
         _inscriptionsManager.TryGetState(context.RoomId, out var state);
 
         var participantNames = state.Participants.Select(userId =>
-        {
-            if (context.Room.Users.TryGetValue(userId, out IUser user))
-            {
-                return user.Name;
-            }
-            return userId;
-        }).ToList();
+            context.Room.Users.TryGetValue(userId, out var user)
+                ? user.Name
+                : userId).ToList();
 
         _inscriptionsManager.StopInscriptions(context.RoomId);
 
         if (participantNames.Count > 0)
         {
-            var html = $"<b>🛑 {state.Title} - Arrêté manuellement</b><br><b>Participants finaux ({participantNames.Count}) :</b> {string.Join(", ", participantNames)}";
-            context.Reply($"/addhtmlbox {html}");
+            var html =
+                $"<b>🛑 {state.Title} - Arrêté manuellement</b><br><b>Participants finaux ({participantNames.Count}) :</b> {string.Join(", ", participantNames)}";
+            context.ReplyHtml(html);
         }
         else
         {

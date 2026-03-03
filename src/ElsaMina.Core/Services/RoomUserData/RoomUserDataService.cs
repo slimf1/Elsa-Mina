@@ -25,14 +25,6 @@ public class RoomUserDataService : IRoomUserDataService
 
     public IReadOnlyDictionary<Tuple<string, string>, string> JoinPhrases => _joinPhrases;
 
-    public async Task<RoomUser> GetUserData(
-        string roomId,
-        string userId,
-        CancellationToken cancellationToken = default)
-    {
-        return await GetUserAndCreateIfNotExistsAsync(roomId, userId, cancellationToken);
-    }
-
     public async Task InitializeJoinPhrasesAsync(CancellationToken cancellationToken = default)
     {
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
@@ -47,7 +39,7 @@ public class RoomUserDataService : IRoomUserDataService
         }
     }
 
-    private async Task<RoomUser> GetUserAndCreateIfNotExistsAsync(
+    public async Task<RoomUser> GetOrCreateRoomSpecificUserDataAsync(
         string roomId,
         string userId,
         CancellationToken cancellationToken = default)
@@ -94,7 +86,7 @@ public class RoomUserDataService : IRoomUserDataService
         string badgeId,
         CancellationToken cancellationToken = default)
     {
-        await GetUserAndCreateIfNotExistsAsync(roomId, userId, cancellationToken);
+        await GetOrCreateRoomSpecificUserDataAsync(roomId, userId, cancellationToken);
 
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
@@ -144,7 +136,7 @@ public class RoomUserDataService : IRoomUserDataService
 
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
-        var user = await GetUserAndCreateIfNotExistsAsync(roomId, userId, cancellationToken);
+        var user = await GetOrCreateRoomSpecificUserDataAsync(roomId, userId, cancellationToken);
 
         user.Title = title;
 
@@ -165,7 +157,7 @@ public class RoomUserDataService : IRoomUserDataService
 
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
-        var user = await GetUserAndCreateIfNotExistsAsync(roomId, userId, cancellationToken);
+        var user = await GetOrCreateRoomSpecificUserDataAsync(roomId, userId, cancellationToken);
 
         user.Avatar = avatar;
         dbContext.RoomUsers.Update(user);
@@ -186,7 +178,7 @@ public class RoomUserDataService : IRoomUserDataService
 
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
-        var user = await GetUserAndCreateIfNotExistsAsync(roomId, userId, cancellationToken);
+        var user = await GetOrCreateRoomSpecificUserDataAsync(roomId, userId, cancellationToken);
 
         user.JoinPhrase = joinPhrase;
 

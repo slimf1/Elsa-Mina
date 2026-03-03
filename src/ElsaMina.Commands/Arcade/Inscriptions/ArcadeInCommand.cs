@@ -29,14 +29,14 @@ public class ArcadeInCommand : Command
         {
             if (string.IsNullOrWhiteSpace(context.Target))
             {
-                context.Reply(context.GetString("arcade_in_pm_specify_room"));
+                context.ReplyLocalizedMessage("arcade_in_pm_specify_room");
                 return Task.CompletedTask;
             }
 
             roomId = context.Target.ToLowerAlphaNum();
             if (!_roomsManager.HasRoom(roomId))
             {
-                context.Reply(context.GetString("arcade_pm_room_not_found"));
+                context.ReplyLocalizedMessage("arcade_pm_room_not_found");
                 return Task.CompletedTask;
             }
         }
@@ -47,7 +47,7 @@ public class ArcadeInCommand : Command
 
         if (!_inscriptionsManager.HasActiveInscriptions(roomId))
         {
-            context.Reply(context.GetString("arcade_no_active_inscriptions"));
+            context.ReplyLocalizedMessage("arcade_no_active_inscriptions");
             return Task.CompletedTask;
         }
 
@@ -55,7 +55,7 @@ public class ArcadeInCommand : Command
 
         if (state.IsTimerExpired)
         {
-            context.Reply(context.GetString("arcade_inscriptions_timer_expired"));
+            context.ReplyLocalizedMessage("arcade_inscriptions_timer_expired");
             return Task.CompletedTask;
         }
 
@@ -63,18 +63,18 @@ public class ArcadeInCommand : Command
 
         if (state.BannedUsers.Contains(userId))
         {
-            context.Reply(context.GetString("arcade_in_banned"));
+            context.ReplyLocalizedMessage("arcade_in_banned");
             return Task.CompletedTask;
         }
 
         if (state.Participants.Contains(userId))
         {
-            context.Reply(context.GetString("arcade_in_already_registered"));
+            context.ReplyLocalizedMessage("arcade_in_already_registered");
             return Task.CompletedTask;
         }
 
         state.Participants.Add(userId);
-        context.Reply(context.GetString("arcade_in_success", state.Participants.Count));
+        context.ReplyLocalizedMessage("arcade_in_success", state.Participants.Count);
 
         if (context.IsPrivateMessage)
         {

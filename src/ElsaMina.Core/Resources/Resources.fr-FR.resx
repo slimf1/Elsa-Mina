@@ -1143,4 +1143,34 @@
     <data name="arcade_add_success" xml:space="preserve">
         <value>L'utilisateur "{0}" a été ajouté au tournoi arcade.</value>
     </data>
+    <data name="top_tournament_players_help" xml:space="preserve">
+        <value>Affiche les 20 meilleurs joueurs de tournois dans cette salle.</value>
+    </data>
+    <data name="top_tournament_players_title" xml:space="preserve">
+        <value>Meilleurs joueurs de tournois dans {0}</value>
+    </data>
+    <data name="top_tournament_players_user" xml:space="preserve">
+        <value>Utilisateur</value>
+    </data>
+    <data name="top_tournament_players_wins" xml:space="preserve">
+        <value>Victoires</value>
+    </data>
+    <data name="top_tournament_players_runner_up" xml:space="preserve">
+        <value>Finaliste</value>
+    </data>
+    <data name="top_tournament_players_third_place" xml:space="preserve">
+        <value>3ème place</value>
+    </data>
+    <data name="top_tournament_players_win_rate" xml:space="preserve">
+        <value>Taux de victoire</value>
+    </data>
+    <data name="top_tournament_players_entered" xml:space="preserve">
+        <value>Participations</value>
+    </data>
+    <data name="top_tournament_players_no_data" xml:space="preserve">
+        <value>Aucune donnée de tournoi trouvée pour cette salle.</value>
+    </data>
+    <data name="top_tournament_players_error" xml:space="preserve">
+        <value>Impossible de récupérer les données de tournoi.</value>
+    </data>
 </root>

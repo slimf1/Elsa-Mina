@@ -29,14 +29,14 @@ public class ArcadeLeaveCommand : Command
         {
             if (string.IsNullOrWhiteSpace(context.Target))
             {
-                context.Reply(context.GetString("arcade_leave_pm_specify_room"));
+                context.ReplyLocalizedMessage("arcade_leave_pm_specify_room");
                 return Task.CompletedTask;
             }
 
             roomId = context.Target.ToLowerAlphaNum();
             if (!_roomsManager.HasRoom(roomId))
             {
-                context.Reply(context.GetString("arcade_pm_room_not_found"));
+                context.ReplyLocalizedMessage("arcade_pm_room_not_found");
                 return Task.CompletedTask;
             }
         }
@@ -47,7 +47,7 @@ public class ArcadeLeaveCommand : Command
 
         if (!_inscriptionsManager.HasActiveInscriptions(roomId))
         {
-            context.Reply(context.GetString("arcade_no_active_inscriptions"));
+            context.ReplyLocalizedMessage("arcade_no_active_inscriptions");
             return Task.CompletedTask;
         }
 
@@ -56,12 +56,12 @@ public class ArcadeLeaveCommand : Command
 
         if (!state.Participants.Contains(userId))
         {
-            context.Reply(context.GetString("arcade_leave_not_registered"));
+            context.ReplyLocalizedMessage("arcade_leave_not_registered");
             return Task.CompletedTask;
         }
 
         state.Participants.Remove(userId);
-        context.Reply(context.GetString("arcade_leave_success", state.Participants.Count));
+        context.ReplyLocalizedMessage("arcade_leave_success", state.Participants.Count);
 
         return Task.CompletedTask;
     }

@@ -272,6 +272,9 @@ namespace ElsaMina.DataAccess.Migrations
                     b.Property<int>("RunnerUpCount")
                         .HasColumnType("integer");
 
+                    b.Property<int>("ThirdPlaceCount")
+                        .HasColumnType("integer");
+
                     b.Property<int>("TournamentsEnteredCount")
                         .HasColumnType("integer");
 

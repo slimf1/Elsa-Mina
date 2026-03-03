@@ -10,6 +10,7 @@ public class TournamentRecord
     public int TournamentsEnteredCount { get; set; }
     public int WinsCount { get; set; }
     public int RunnerUpCount { get; set; }
+    public int ThirdPlaceCount { get; set; }
     public int PlayedGames { get; set; }
     public int WonGames { get; set; }
     public RoomUser RoomUser { get; set; }

@@ -158,6 +158,7 @@ public class CommandModule : Module
         builder.RegisterCommand<PlayTimeCommand>();
         builder.RegisterCommand<CurrentLadderTrackersCommand>();
         builder.RegisterCommand<GuessingGameAnswerCommand>();
+        builder.RegisterCommand<TopTournamentPlayersCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();
@@ -169,6 +170,7 @@ public class CommandModule : Module
         builder.RegisterHandler<ArcadeEventsHandler>();
         builder.RegisterHandler<PollEndHandler>();
         builder.RegisterHandler<OtherRoomTournamentAnnounceHandler>();
+        builder.RegisterHandler<TourEndHandler>();
 
         builder.RegisterType<CountriesGame>().AsSelf();
         builder.RegisterType<ConnectFourGame>().AsSelf();

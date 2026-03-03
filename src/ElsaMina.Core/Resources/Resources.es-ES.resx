@@ -1148,4 +1148,34 @@
     <data name="arcade_add_success" xml:space="preserve">
         <value>User "{0}" has been added to the arcade tournament.</value>
     </data>
+    <data name="top_tournament_players_help" xml:space="preserve">
+        <value>Displays the top 20 tournament players in this room.</value>
+    </data>
+    <data name="top_tournament_players_title" xml:space="preserve">
+        <value>Top tournament players in {0}</value>
+    </data>
+    <data name="top_tournament_players_user" xml:space="preserve">
+        <value>User</value>
+    </data>
+    <data name="top_tournament_players_wins" xml:space="preserve">
+        <value>Wins</value>
+    </data>
+    <data name="top_tournament_players_runner_up" xml:space="preserve">
+        <value>Runner-up</value>
+    </data>
+    <data name="top_tournament_players_third_place" xml:space="preserve">
+        <value>3rd place</value>
+    </data>
+    <data name="top_tournament_players_win_rate" xml:space="preserve">
+        <value>Win rate</value>
+    </data>
+    <data name="top_tournament_players_entered" xml:space="preserve">
+        <value>Entered</value>
+    </data>
+    <data name="top_tournament_players_no_data" xml:space="preserve">
+        <value>No tournament data found for this room.</value>
+    </data>
+    <data name="top_tournament_players_error" xml:space="preserve">
+        <value>Could not retrieve tournament data.</value>
+    </data>
 </root>
