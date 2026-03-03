@@ -11,8 +11,6 @@
   <Folder Name="/Scripts/">
     <File Path="scripts\build.sh" />
     <File Path="scripts\full_publish.sh" />
-    <File Path="scripts\import_teams.py" />
-    <File Path="scripts\migrate-db.py" />
     <File Path="scripts\publish.sh" />
     <File Path="scripts\shared.sh" />
     <File Path="scripts\restart_remote.sh" />
