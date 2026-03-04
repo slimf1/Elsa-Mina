@@ -139,6 +139,7 @@ public class CommandModule : Module
         builder.RegisterCommand<HallOfFameCommand>();
         builder.RegisterCommand<GeniusSearchCommand>();
         builder.RegisterCommand<ArcadeHallOfFameCommand>();
+        builder.RegisterCommand<ArcadeSheetAddPointsCommand>();
         builder.RegisterCommand<ArcadeInCommand>();
         builder.RegisterCommand<ArcadeLeaveCommand>();
         builder.RegisterCommand<ArcadeStartCommand>();
@@ -159,6 +160,7 @@ public class CommandModule : Module
         builder.RegisterCommand<CurrentLadderTrackersCommand>();
         builder.RegisterCommand<GuessingGameAnswerCommand>();
         builder.RegisterCommand<TopTournamentPlayersCommand>();
+        builder.RegisterCommand<ArcadeSheetAddPointsCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();

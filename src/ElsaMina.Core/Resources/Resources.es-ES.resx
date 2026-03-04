@@ -845,6 +845,15 @@
     <data name="hall_of_fame_no_trophies">
         <value>Nessun trofeo trovato</value>
     </data>
+    <data name="arcade_sheets_addpoints_help" xml:space="preserve">
+        <value>Sintaxis: -addpoints (usuario), (puntos)</value>
+    </data>
+    <data name="arcade_sheets_addpoints_success" xml:space="preserve">
+        <value>Actualización realizada.</value>
+    </data>
+    <data name="arcade_sheets_addpoints_new_player" xml:space="preserve">
+        <value>Actualización realizada (nuevo jugador).</value>
+    </data>
     <data name="setlocale_invalid_locale" xml:space="preserve">
         <value>El idioma "{0}" no se ha encontrado.</value>
     </data>

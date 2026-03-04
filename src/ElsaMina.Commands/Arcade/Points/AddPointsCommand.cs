@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.Commands.Arcade.Points;
 
-[NamedCommand("addp", "addpoints")]
+[NamedCommand("addp")]
 public class AddPointsCommand : Command
 {
     private readonly IBotDbContextFactory _dbContextFactory;

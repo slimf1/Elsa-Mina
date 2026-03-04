@@ -831,6 +831,15 @@
     <data name="hall_of_fame_no_trophies" xml:space="preserve">
         <value>No trophies found</value>
     </data>
+    <data name="arcade_sheets_addpoints_help" xml:space="preserve">
+        <value>Syntax: -addpoints (user), (points)</value>
+    </data>
+    <data name="arcade_sheets_addpoints_success" xml:space="preserve">
+        <value>Update successful.</value>
+    </data>
+    <data name="arcade_sheets_addpoints_new_player" xml:space="preserve">
+        <value>Update successful (new player).</value>
+    </data>
     <data name="profile_header_avatar" xml:space="preserve">
         <value>Avatar</value>
     </data>
