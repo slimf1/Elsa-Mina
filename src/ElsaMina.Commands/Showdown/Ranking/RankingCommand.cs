@@ -1,4 +1,3 @@
-using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Formats;
@@ -61,7 +60,7 @@ public class RankingCommand : Command
                     Culture = context.Culture,
                     Username = username,
                     Rankings = isReversed
-                        ? sortedRankings.TakeLast(RANKS_SHOWN_COUNT)
+                        ? sortedRankings.TakeLast(RANKS_SHOWN_COUNT).Reverse()
                         : sortedRankings.Take(RANKS_SHOWN_COUNT)
                 }
             );

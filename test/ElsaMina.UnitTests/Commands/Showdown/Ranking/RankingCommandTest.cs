@@ -93,7 +93,7 @@ public class RankingCommandTests
         await _rankingCommand.RunAsync(_context);
 
         // Assert
-        string[] expectedFormats = ["gen4ou", "gen5ou", "gen6ou", "gen7ou", "gen8ou"];
+        string[] expectedFormats = ["gen8ou", "gen7ou", "gen6ou", "gen5ou", "gen4ou"];
         await _templatesManager.Received()
             .GetTemplateAsync("Showdown/Ranking/RankingShowcase",
                 Arg.Is<RankingShowcaseViewModel>(vm =>
