@@ -211,7 +211,7 @@ public class RemovePointsCommandTest
 
         await _command.RunAsync(_context);
 
-        _context.Received(1).Reply("/addhtmlbox <b>Points removed</b>");
+        _context.Received(1).ReplyHtml("<b>Points removed</b>");
     }
 
     [Test]

@@ -66,6 +66,6 @@ public class RemovePointsCommand : Command
             Leaderboard = allUserPoints.ToDictionary(up => up.Id, up => up.Points)
         });
 
-        context.Reply($"/addhtmlbox {template.RemoveNewlines()}");
+        context.ReplyHtml(template.RemoveNewlines());
     }
 }

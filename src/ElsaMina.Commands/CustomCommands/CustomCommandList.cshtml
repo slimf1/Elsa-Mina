@@ -1,0 +1,28 @@
+@using ElsaMina.Core.Services.Templates
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.CustomCommands.CustomCommandListViewModel>
+@{
+    const string border = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};";
+    const string headerStyle = $"{border} padding: 4px 8px; text-align: left; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
+    const string cellStyle = $"{border} padding: 4px 8px; vertical-align: top;";
+}
+
+<b>@GetString("customcommandlist_title")</b><br>
+<table style="border-collapse: collapse; width: 100%;">
+    <thead>
+    <tr>
+        <th style="@headerStyle">@GetString("customcommandlist_name")</th>
+        <th style="@headerStyle">@GetString("customcommandlist_content")</th>
+        <th style="@headerStyle">@GetString("customcommandlist_author")</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var command in Model.Commands)
+    {
+        <tr>
+            <td style="@cellStyle"><b>@command.Id</b></td>
+            <td style="@cellStyle">@command.Content</td>
+            <td style="@cellStyle">@command.Author</td>
+        </tr>
+    }
+    </tbody>
+</table>

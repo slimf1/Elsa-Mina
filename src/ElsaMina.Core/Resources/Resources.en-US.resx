@@ -72,6 +72,21 @@
     <data name="addcommand_success" xml:space="preserve">
         <value>Successfully added new command : **{0}**.</value>
     </data>
+    <data name="customcommandlist_title" xml:space="preserve">
+        <value>Custom commands</value>
+    </data>
+    <data name="customcommandlist_name" xml:space="preserve">
+        <value>Command</value>
+    </data>
+    <data name="customcommandlist_content" xml:space="preserve">
+        <value>Content</value>
+    </data>
+    <data name="customcommandlist_author" xml:space="preserve">
+        <value>Author</value>
+    </data>
+    <data name="customcommandlist_no_commands" xml:space="preserve">
+        <value>No custom commands have been added to this room.</value>
+    </data>
     <data name="room_dashboard" xml:space="preserve">
         <value>{0}'s dashboard</value>
     </data>

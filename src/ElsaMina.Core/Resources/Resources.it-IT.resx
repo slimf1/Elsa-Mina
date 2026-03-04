@@ -77,6 +77,21 @@
     <data name="addcommand_success" xml:space="preserve">
         <value>Il comando **{0}** è stato aggiunto con successo.</value>
     </data>
+    <data name="customcommandlist_title" xml:space="preserve">
+        <value>Comandi personalizzati</value>
+    </data>
+    <data name="customcommandlist_name" xml:space="preserve">
+        <value>Comando</value>
+    </data>
+    <data name="customcommandlist_content" xml:space="preserve">
+        <value>Contenuto</value>
+    </data>
+    <data name="customcommandlist_author" xml:space="preserve">
+        <value>Autore</value>
+    </data>
+    <data name="customcommandlist_no_commands" xml:space="preserve">
+        <value>Non è stato aggiunto alcun comando personalizzato a questa stanza.</value>
+    </data>
     <data name="room_dashboard" xml:space="preserve">
         <value>Pannello di amministrazione di {0}</value>
     </data>
