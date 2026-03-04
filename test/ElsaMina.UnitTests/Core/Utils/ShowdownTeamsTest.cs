@@ -6,6 +6,8 @@ namespace ElsaMina.UnitTests.Core.Utils;
 
 public class ShowdownTeamsTest
 {
+    // TODO : make the bot cross-platform as this doesn't work on Windows
+    
     [Test]
     public void Test_DeserializeTeamExport_ShouldReturnEmptyTeam_WhenExportIsEmpty()
     {
