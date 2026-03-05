@@ -840,6 +840,15 @@
     <data name="arcade_sheets_addpoints_new_player" xml:space="preserve">
         <value>Update successful (new player).</value>
     </data>
+    <data name="arcade_sheets_points_help" xml:space="preserve">
+        <value>Syntax: -arcadepoints (username)</value>
+    </data>
+    <data name="arcade_sheets_points_has_points" xml:space="preserve">
+        <value>{0} has {1} points in the Arcade Hall of Fame.</value>
+    </data>
+    <data name="arcade_sheets_points_no_points" xml:space="preserve">
+        <value>{0} has no points in the Arcade Hall of Fame.</value>
+    </data>
     <data name="profile_header_avatar" xml:space="preserve">
         <value>Avatar</value>
     </data>

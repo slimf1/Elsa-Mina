@@ -108,7 +108,7 @@ public class GoogleSheet : ISheet
         var batch = new BatchUpdateValuesRequest
         {
             Data = data,
-            ValueInputOption = "RAW"
+            ValueInputOption = "USER_ENTERED"
         };
 
         var request = _service.Spreadsheets.Values.BatchUpdate(batch, _spreadsheetId);

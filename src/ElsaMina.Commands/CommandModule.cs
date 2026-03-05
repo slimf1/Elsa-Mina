@@ -161,6 +161,7 @@ public class CommandModule : Module
         builder.RegisterCommand<GuessingGameAnswerCommand>();
         builder.RegisterCommand<TopTournamentPlayersCommand>();
         builder.RegisterCommand<ArcadeSheetAddPointsCommand>();
+        builder.RegisterCommand<ArcadePointsCommand>();
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();

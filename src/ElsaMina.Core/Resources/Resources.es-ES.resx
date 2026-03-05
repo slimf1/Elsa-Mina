@@ -854,6 +854,15 @@
     <data name="arcade_sheets_addpoints_new_player" xml:space="preserve">
         <value>Actualización realizada (nuevo jugador).</value>
     </data>
+    <data name="arcade_sheets_points_help" xml:space="preserve">
+        <value>Sintaxis: -arcadepoints (usuario)</value>
+    </data>
+    <data name="arcade_sheets_points_has_points" xml:space="preserve">
+        <value>{0} tiene {1} puntos en el Arcade Hall of Fame.</value>
+    </data>
+    <data name="arcade_sheets_points_no_points" xml:space="preserve">
+        <value>{0} no tiene puntos en el Arcade Hall of Fame.</value>
+    </data>
     <data name="setlocale_invalid_locale" xml:space="preserve">
         <value>El idioma "{0}" no se ha encontrado.</value>
     </data>
