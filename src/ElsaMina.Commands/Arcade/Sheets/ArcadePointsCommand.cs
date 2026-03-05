@@ -1,5 +1,6 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Commands;
+using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Sheets;
 
@@ -8,16 +9,16 @@ namespace ElsaMina.Commands.Arcade.Sheets;
 [NamedCommand("arcadepoints", Aliases = ["points"])]
 public class ArcadePointsCommand : Command
 {
-    private const string SPREADSHEET_NAME = "Arcade - Planning";
-    private const string SHEET_NAME = "Hall of Fame";
     private const int USERNAME_COLUMN = 1;
     private const int POINTS_COLUMN = 2;
 
     private readonly ISheetProvider _sheetProvider;
+    private readonly IConfiguration _configuration;
 
-    public ArcadePointsCommand(ISheetProvider sheetProvider)
+    public ArcadePointsCommand(ISheetProvider sheetProvider, IConfiguration configuration)
     {
         _sheetProvider = sheetProvider;
+        _configuration = configuration;
     }
 
     public override Rank RequiredRank => Rank.Voiced;
@@ -35,7 +36,8 @@ public class ArcadePointsCommand : Command
 
         var normalizedTarget = target.Replace(" ", "").ToLower();
 
-        using var sheet = await _sheetProvider.GetSheetAsync(SPREADSHEET_NAME, SHEET_NAME, cancellationToken);
+        using var sheet = await _sheetProvider.GetSheetAsync(_configuration.ArcadeSpreadsheetName,
+            _configuration.ArcadeHallOfFameSheetName, cancellationToken);
 
         var usernames = await sheet.GetColumnAsync(USERNAME_COLUMN, cancellationToken);
         var points = await sheet.GetColumnAsync(POINTS_COLUMN, cancellationToken);

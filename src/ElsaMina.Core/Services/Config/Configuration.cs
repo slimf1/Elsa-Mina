@@ -31,6 +31,8 @@ public class Configuration : IConfiguration
     public string ElevenLabsApiKey { get; set; }
     public TimeSpan PlayTimeUpdatesInterval { get; set; }
     public string SheetsAccessAccountCredentialsFile { get; set; }
+    public string ArcadeSpreadsheetName { get; set; }
+    public string ArcadeHallOfFameSheetName { get; set; }
     public IReadOnlyDictionary<string, IEnumerable<string>> TourAnnounces { get; set; }
     public int UserUpdateBatchSize { get; set; }
     public TimeSpan UserUpdateFlushInterval { get; set; }

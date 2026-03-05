@@ -31,6 +31,8 @@ public interface IConfiguration : IS3CredentialsProvider, ILoggingConfiguration
     string ElevenLabsApiKey { get; }
     TimeSpan PlayTimeUpdatesInterval { get; }
     string SheetsAccessAccountCredentialsFile { get; set; }
+    string ArcadeSpreadsheetName { get; }
+    string ArcadeHallOfFameSheetName { get; }
     IReadOnlyDictionary<string, IEnumerable<string>> TourAnnounces { get; }
     int UserUpdateBatchSize { get; set; }
     TimeSpan UserUpdateFlushInterval { get; set; }

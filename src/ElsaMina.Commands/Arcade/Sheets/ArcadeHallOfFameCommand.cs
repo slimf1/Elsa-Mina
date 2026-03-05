@@ -1,10 +1,10 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Commands;
+using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
 using ElsaMina.Sheets;
-using RazorLight;
 
 namespace ElsaMina.Commands.Arcade.Sheets;
 
@@ -13,18 +13,22 @@ public class ArcadeHallOfFameCommand : Command
 {
     private readonly ISheetProvider _sheetProvider;
     private readonly ITemplatesManager _templatesManager;
+    private readonly IConfiguration _configuration;
 
-    public ArcadeHallOfFameCommand(ISheetProvider sheetProvider, ITemplatesManager templatesManager)
+    public ArcadeHallOfFameCommand(ISheetProvider sheetProvider, ITemplatesManager templatesManager,
+        IConfiguration configuration)
     {
         _sheetProvider = sheetProvider;
         _templatesManager = templatesManager;
+        _configuration = configuration;
     }
 
     public override Rank RequiredRank => Rank.Voiced;
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        var sheet = await _sheetProvider.GetSheetAsync("Arcade - Planning", "Hall of Fame", cancellationToken);
+        var sheet = await _sheetProvider.GetSheetAsync(_configuration.ArcadeSpreadsheetName,
+            _configuration.ArcadeHallOfFameSheetName, cancellationToken);
         var entries = await GetHallOfFameEntriesAsync(sheet, cancellationToken);
 
         var viewModel = new ArcadeHallOfFameViewModel
