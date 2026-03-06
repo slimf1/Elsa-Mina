@@ -22,6 +22,8 @@
   "MistralApiKey": "",
   "ChatGptApiKey": "",
   "ElevenLabsApiKey": "",
+  "TenorApiKey": "",
+  "UnsplashApiKey": "",
   "PlayTimeUpdatesInterval": "01:00:00",
   "S3BucketName": "",
   "S3EndpointUrl": "",

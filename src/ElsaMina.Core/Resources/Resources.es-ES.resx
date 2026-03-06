@@ -1211,4 +1211,22 @@
     <data name="top_tournament_players_error" xml:space="preserve">
         <value>Could not retrieve tournament data.</value>
     </data>
+    <data name="random_image_error" xml:space="preserve">
+        <value>Lo siento, no se pudo obtener una imagen en este momento.</value>
+    </data>
+    <data name="walk_missing_url" xml:space="preserve">
+        <value>Proporciona un enlace de imagen válido. Sintaxis: -walk &lt;image_url&gt;</value>
+    </data>
+    <data name="rand_warning_snake" xml:space="preserve">
+        <value>¡Advertencia! Esta imagen puede contener serpientes que podrían no ser adecuadas para todos los públicos.</value>
+    </data>
+    <data name="rand_warning_spider" xml:space="preserve">
+        <value>¡Advertencia! Esta imagen puede contener arañas que podrían no ser adecuadas para todos los públicos.</value>
+    </data>
+    <data name="rand_warning_shark" xml:space="preserve">
+        <value>¡Advertencia! Esta imagen puede contener tiburones que podrían no ser adecuadas para todos los públicos.</value>
+    </data>
+    <data name="rand_warning_mouse" xml:space="preserve">
+        <value>¡Advertencia! Esta imagen puede contener ratones que podrían no ser adecuadas para todos los públicos.</value>
+    </data>
 </root>

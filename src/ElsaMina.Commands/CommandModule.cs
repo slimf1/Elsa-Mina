@@ -6,14 +6,14 @@ using ElsaMina.Commands.Ai.LanguageModel.Mistral;
 using ElsaMina.Commands.Ai.LanguageModel.OpenAi;
 using ElsaMina.Commands.Ai.TextToSpeech;
 using ElsaMina.Commands.Arcade.Events;
+using ElsaMina.Commands.Arcade.Inscriptions;
 using ElsaMina.Commands.Arcade.Levels;
 using ElsaMina.Commands.Arcade.Points;
 using ElsaMina.Commands.Arcade.Sheets;
-using ElsaMina.Commands.Arcade.Inscriptions;
 using ElsaMina.Commands.Arcade.Slots;
 using ElsaMina.Commands.Badges;
-using ElsaMina.Commands.Badges.BadgeEditPanel;
 using ElsaMina.Commands.Badges.BadgeDisplay;
+using ElsaMina.Commands.Badges.BadgeEditPanel;
 using ElsaMina.Commands.Badges.BadgeHolders;
 using ElsaMina.Commands.Badges.HallOfFame;
 using ElsaMina.Commands.ConnectFour;
@@ -35,6 +35,7 @@ using ElsaMina.Commands.Misc.Genius;
 using ElsaMina.Commands.Misc.Legacy;
 using ElsaMina.Commands.Misc.Pairings;
 using ElsaMina.Commands.Misc.Pokemon;
+using ElsaMina.Commands.Misc.RandomImages;
 using ElsaMina.Commands.Misc.Wiki;
 using ElsaMina.Commands.Misc.Youtube;
 using ElsaMina.Commands.Polls;
@@ -167,6 +168,8 @@ public class CommandModule : Module
         builder.RegisterCommand<ArcadeSheetAddPointsCommand>();
         builder.RegisterCommand<ArcadePointsCommand>();
 
+        RegisterRandomImagesCommands(builder);
+
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();
         builder.RegisterHandler<DisplayTeamOnLinkHandler>();
@@ -202,5 +205,43 @@ public class CommandModule : Module
             e.Instance.Initialize().Wait(); // Risque d'ANR mais obligé pour garantir la bonne initialisation...
         });
         builder.RegisterType<ArcadeInscriptionsManager>().As<IArcadeInscriptionsManager>().SingleInstance();
+        builder.RegisterType<UnsplashService>().As<IUnsplashService>().SingleInstance();
+        builder.RegisterType<TenorService>().As<ITenorService>().SingleInstance();
+    }
+
+    private static void RegisterRandomImagesCommands(ContainerBuilder builder)
+    {
+        builder.RegisterCommand<RandCatCommand>();
+        builder.RegisterCommand<RandDogCommand>();
+        builder.RegisterCommand<RandImageCommand>();
+        builder.RegisterCommand<RandTurtleCommand>();
+        builder.RegisterCommand<RandCapyCommand>();
+        builder.RegisterCommand<RandGoatCommand>();
+        builder.RegisterCommand<RandElephantCommand>();
+        builder.RegisterCommand<RandPigCommand>();
+        builder.RegisterCommand<RandBirdCommand>();
+        builder.RegisterCommand<RandDolphinCommand>();
+        builder.RegisterCommand<RandWolfCommand>();
+        builder.RegisterCommand<RandTigerCommand>();
+        builder.RegisterCommand<RandCheetahCommand>();
+        builder.RegisterCommand<RandLionCommand>();
+        builder.RegisterCommand<RandJaguarCommand>();
+        builder.RegisterCommand<RandButterflyCommand>();
+        builder.RegisterCommand<RandMouseCommand>();
+        builder.RegisterCommand<RandMonkeyCommand>();
+        builder.RegisterCommand<RandBearCommand>();
+        builder.RegisterCommand<RandRabbitCommand>();
+        builder.RegisterCommand<RandFrogCommand>();
+        builder.RegisterCommand<RandSnakeCommand>();
+        builder.RegisterCommand<RandSpiderCommand>();
+        builder.RegisterCommand<RandSharkCommand>();
+        builder.RegisterCommand<RandRacletteCommand>();
+        builder.RegisterCommand<RandHeartGifCommand>();
+        builder.RegisterCommand<RandCommand>();
+        builder.RegisterCommand<RandGifCommand>();
+        builder.RegisterCommand<RandMp4Command>();
+        builder.RegisterCommand<RandFurretCommand>();
+        builder.RegisterCommand<WalkCommand>();
+        builder.RegisterCommand<RandHelpCommand>();
     }
 }

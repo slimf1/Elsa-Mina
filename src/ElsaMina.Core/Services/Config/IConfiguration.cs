@@ -29,6 +29,8 @@ public interface IConfiguration : IS3CredentialsProvider, ILoggingConfiguration
     string ChatGptApiKey { get; }
     string GeminiApiKey { get; }
     string ElevenLabsApiKey { get; }
+    string TenorApiKey { get; }
+    string UnsplashApiKey { get; }
     TimeSpan PlayTimeUpdatesInterval { get; }
     string SheetsAccessAccountCredentialsFile { get; set; }
     string ArcadeSpreadsheetName { get; }
