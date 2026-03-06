@@ -1238,4 +1238,46 @@
     <data name="random_tournament_wall" xml:space="preserve">
         <value>Torneo: {0}</value>
     </data>
+    <data name="vf_game_started" xml:space="preserve">
+        <value>Voltorb Flip avviato al livello {0}!</value>
+    </data>
+    <data name="vf_game_already_running" xml:space="preserve">
+        <value>Un altro gioco è già in corso in questa stanza.</value>
+    </data>
+    <data name="vf_game_no_game" xml:space="preserve">
+        <value>Nessuna partita di Voltorb Flip è in corso.</value>
+    </data>
+    <data name="vf_game_round_active" xml:space="preserve">
+        <value>Un round è già in corso. Concludilo prima!</value>
+    </data>
+    <data name="vf_game_voltorb_hit" xml:space="preserve">
+        <value>{0} ha girato un Voltorb! Livello impostato a {1}.</value>
+    </data>
+    <data name="vf_game_win" xml:space="preserve">
+        <value>{0} ha trovato tutti i moltiplicatori e ha vinto {1} monete! Avanzamento al livello {2}!</value>
+    </data>
+    <data name="vf_game_quit" xml:space="preserve">
+        <value>{0} ha abbandonato il round, mantenendo {1} monete. Livello: {2}.</value>
+    </data>
+    <data name="vf_game_cancelled" xml:space="preserve">
+        <value>La partita di Voltorb Flip è stata annullata.</value>
+    </data>
+    <data name="vf_panel_title" xml:space="preserve">
+        <value>Voltorb Flip</value>
+    </data>
+    <data name="vf_panel_level" xml:space="preserve">
+        <value>Livello {0}</value>
+    </data>
+    <data name="vf_panel_coins" xml:space="preserve">
+        <value>Monete: {0}</value>
+    </data>
+    <data name="vf_panel_how_to_flip" xml:space="preserve">
+        <value>Clicca su una casella per girarla!</value>
+    </data>
+    <data name="vf_panel_quit" xml:space="preserve">
+        <value>Abbandona round</value>
+    </data>
+    <data name="vf_panel_new_round" xml:space="preserve">
+        <value>Nuovo round</value>
+    </data>
 </root>
