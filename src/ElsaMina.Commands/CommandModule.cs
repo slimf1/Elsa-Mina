@@ -32,6 +32,7 @@ using ElsaMina.Commands.Misc.Colors;
 using ElsaMina.Commands.Misc.Dailymotion;
 using ElsaMina.Commands.Misc.Facts;
 using ElsaMina.Commands.Misc.Genius;
+using ElsaMina.Commands.Misc.Legacy;
 using ElsaMina.Commands.Misc.Pairings;
 using ElsaMina.Commands.Misc.Pokemon;
 using ElsaMina.Commands.Misc.Wiki;
@@ -131,6 +132,9 @@ public class CommandModule : Module
         builder.RegisterCommand<ShowPollsCommand>();
         builder.RegisterCommand<PairingsCommand>();
         builder.RegisterCommand<EvroMakerCommand>();
+        builder.RegisterCommand<DebilifyCommand>();
+        builder.RegisterCommand<WeebifyCommand>();
+        builder.RegisterCommand<ElectionCommand>();
         builder.RegisterCommand<DailymotionCommand>();
         builder.RegisterCommand<MemoryUsageCommand>();
         builder.RegisterCommand<UptimeCommand>();

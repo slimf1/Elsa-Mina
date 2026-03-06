@@ -16,7 +16,7 @@ public static class TimeSpanStringExtensions
         )",
             RegexOptions.IgnoreCase
             | RegexOptions.Compiled
-            | RegexOptions.IgnorePatternWhitespace);
+            | RegexOptions.IgnorePatternWhitespace, Constants.REGEX_MATCH_TIMEOUT);
     
     private static readonly Dictionary<string, Func<double, TimeSpan>> TIME_UNITS =
         new(StringComparer.OrdinalIgnoreCase)

@@ -3,7 +3,7 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Probabilities;
 
-namespace ElsaMina.Commands.Misc;
+namespace ElsaMina.Commands.Misc.Legacy;
 
 // Note : this is dumb shit kept here for historical purposes 
 [NamedCommand("evromaker")]

@@ -22,7 +22,7 @@ if pids="$(pgrep "$PROC_PATTERN")"; then
   echo "Kill signal sent"
 
   i=0
-  while [ "$i" -lt 20 ]; do
+  while [[ "$i" -lt 20 ]]; do
     if ! pgrep "$PROC_PATTERN" > /dev/null; then
       echo "All instances stopped after $((i * 5 / 10))s"
       break

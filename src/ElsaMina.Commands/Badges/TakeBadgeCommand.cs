@@ -35,7 +35,7 @@ public class TakeBadgeCommand : Command
 
         try
         {
-            await _roomUserDataService.TakeBadgeFromUserAsync(context.RoomId, userId, badgeId);
+            await _roomUserDataService.TakeBadgeFromUserAsync(context.RoomId, userId, badgeId, cancellationToken);
             context.ReplyLocalizedMessage("takebadge_success", userId, badgeId);
         }
         catch (ArgumentException)

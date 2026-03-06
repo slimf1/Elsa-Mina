@@ -135,8 +135,7 @@ public class CommandExecutor : ICommandExecutor
         return true;
     }
 
-    public IReadOnlyCollection<RunningCommand> RunningCommands
-        => _runningCommands.Values.ToArray();
+    public IEnumerable<RunningCommand> RunningCommands => _runningCommands.Values;
 
     #endregion
 

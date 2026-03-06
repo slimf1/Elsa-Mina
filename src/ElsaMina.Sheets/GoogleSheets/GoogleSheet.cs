@@ -5,6 +5,7 @@ namespace ElsaMina.Sheets.GoogleSheets;
 
 public class GoogleSheet : ISheet
 {
+    private const string USER_ENTERED_INPUT_OPTION = "USER_ENTERED";
     private readonly SheetsService _service;
     private readonly string _spreadsheetId;
     private readonly string _rangePrefix;
@@ -108,7 +109,7 @@ public class GoogleSheet : ISheet
         var batch = new BatchUpdateValuesRequest
         {
             Data = data,
-            ValueInputOption = "USER_ENTERED"
+            ValueInputOption = USER_ENTERED_INPUT_OPTION
         };
 
         var request = _service.Spreadsheets.Values.BatchUpdate(batch, _spreadsheetId);
