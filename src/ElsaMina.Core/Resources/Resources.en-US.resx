@@ -1224,4 +1224,10 @@
     <data name="rand_warning_mouse" xml:space="preserve">
         <value>Warning! This image may include mice which might not be suitable for all audiences.</value>
     </data>
+    <data name="rank_former_staff" xml:space="preserve">
+        <value>Former staff</value>
+    </data>
+    <data name="profile_tournament_records" xml:space="preserve">
+        <value>Tournament records</value>
+    </data>
 </root>

@@ -52,6 +52,7 @@
                     '%' => "rank_driver",
                     '+' => "rank_voice",
                     '★' => "rank_host",
+                    '♡' => "rank_former_staff",
                     _ => null
                 };
             }
@@ -76,8 +77,27 @@
             {
                 <span style="text-decoration: underline">@GetString("profile_best_rank")</span>
                 <span>: @Model.BestRanking.FormatId (@Model.BestRanking.Elo.ToString("F0", Model.Culture))</span>
+                <br />
             }
-            
+            @if (Model.TournamentRecord != null && Model.TournamentRecord.TournamentsEnteredCount > 0)
+            {
+                var record = Model.TournamentRecord;
+                var winRate = record.PlayedGames > 0
+                    ? $"{(double)record.WonGames / record.PlayedGames:P0}"
+                    : "—";
+                <span style="text-decoration: underline">@GetString("profile_tournament_records")</span>
+                <span>:
+                    <span title="@GetString("top_tournament_players_wins")">🏆 @record.WinsCount</span>
+                    ·
+                    <span title="@GetString("top_tournament_players_runner_up")">🥈 @record.RunnerUpCount</span>
+                    ·
+                    <span title="@GetString("top_tournament_players_third_place")">🥉 @record.ThirdPlaceCount</span>
+                    ·
+                    <span title="@GetString("top_tournament_players_win_rate")">@winRate</span>
+                    ·
+                    <span title="@GetString("top_tournament_players_entered")">(@record.TournamentsEnteredCount)</span>
+                </span>
+            }
         </td>
         <td style="@badgesCellStyle">
             @if (Model.Badges != null && Model.Badges.Any())
@@ -99,7 +119,7 @@
         <td
             style="@bioCellStyle"
             colspan="3">
-            @if (!string.IsNullOrEmpty(Model.Title)) 
+            @if (!string.IsNullOrEmpty(Model.Title))
             {
                 <span style="text-decoration: underline">@GetString("profile_title")</span>
                 <span>: @Model.Title</span>

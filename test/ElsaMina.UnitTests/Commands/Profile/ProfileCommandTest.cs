@@ -377,6 +377,89 @@ public class ProfileCommandTest
     }
 
     [Test]
+    public async Task RunAsync_ShouldPopulateTournamentRecord_WhenUserHasOne()
+    {
+        // Arrange
+        var options = CreateOptions();
+        await using (var setup = new BotDbContext(options))
+        {
+            await setup.Database.EnsureCreatedAsync();
+            setup.Users.Add(new SavedUser { UserId = "alice", UserName = "Alice" });
+            setup.RoomUsers.Add(new RoomUser { Id = "alice", RoomId = "room1" });
+            setup.TournamentRecords.Add(new TournamentRecord
+            {
+                UserId = "alice",
+                RoomId = "room1",
+                WinsCount = 3,
+                RunnerUpCount = 2,
+                ThirdPlaceCount = 1,
+                TournamentsEnteredCount = 10,
+                WonGames = 20,
+                PlayedGames = 30
+            });
+            await setup.SaveChangesAsync();
+        }
+
+        await using var execCtx = new BotDbContext(options);
+        var factory = CreateFactoryReturning(execCtx);
+        var sut = CreateSut(factory, out var details, out var templates, out var userData, out var ranks, out var formats);
+
+        details.GetUserDetailsAsync("alice", Arg.Any<CancellationToken>())
+               .Returns(new UserDetailsDto { Name = "Alice" });
+        templates.GetTemplateAsync("Profile/Profile", Arg.Any<object>())
+                 .Returns("rendered");
+
+        var context = Substitute.For<IContext>();
+        context.Target.Returns("alice");
+        context.RoomId.Returns("room1");
+        context.Room.Culture.Returns(new CultureInfo("en-US"));
+
+        // Act
+        await sut.RunAsync(context);
+
+        // Assert
+        await templates.Received().GetTemplateAsync("Profile/Profile",
+            Arg.Is<ProfileViewModel>(vm =>
+                vm.TournamentRecord != null &&
+                vm.TournamentRecord.WinsCount == 3 &&
+                vm.TournamentRecord.RunnerUpCount == 2 &&
+                vm.TournamentRecord.ThirdPlaceCount == 1 &&
+                vm.TournamentRecord.TournamentsEnteredCount == 10
+            )
+        );
+    }
+
+    [Test]
+    public async Task RunAsync_ShouldHaveNullTournamentRecord_WhenUserHasNone()
+    {
+        // Arrange
+        var options = CreateOptions();
+        await using var ctx = new BotDbContext(options);
+        await ctx.Database.EnsureCreatedAsync();
+        var factory = CreateFactoryReturning(ctx);
+
+        var sut = CreateSut(factory, out var details, out var templates, out var userData, out var ranks, out var formats);
+
+        details.GetUserDetailsAsync("alice", Arg.Any<CancellationToken>())
+               .Returns(new UserDetailsDto { Name = "Alice" });
+        templates.GetTemplateAsync("Profile/Profile", Arg.Any<object>())
+                 .Returns("rendered");
+
+        var context = Substitute.For<IContext>();
+        context.Target.Returns("alice");
+        context.RoomId.Returns("room1");
+        context.Room.Culture.Returns(new CultureInfo("en-US"));
+
+        // Act
+        await sut.RunAsync(context);
+
+        // Assert
+        await templates.Received().GetTemplateAsync("Profile/Profile",
+            Arg.Is<ProfileViewModel>(vm => vm.TournamentRecord == null)
+        );
+    }
+
+    [Test]
     public async Task RunAsync_ShouldExtractUserRoomRankCorrectly()
     {
         // Arrange

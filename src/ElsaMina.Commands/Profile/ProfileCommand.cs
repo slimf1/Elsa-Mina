@@ -61,6 +61,7 @@ public class ProfileCommand : Command
             .Include(roomUser => roomUser.User)
             .Include(roomUser => roomUser.Badges)
             .ThenInclude(badgeHolding => badgeHolding.Badge)
+            .Include(roomUser => roomUser.TournamentRecord)
             .FirstOrDefaultAsync(userData => userData.Id == userId && userData.RoomId == context.RoomId,
                 cancellationToken);
         var userDetailsTask = _userDetailsManager.GetUserDetailsAsync(userId, cancellationToken);
@@ -93,7 +94,8 @@ public class ProfileCommand : Command
             Badges = storedUserData?.Badges.Select(holding => holding.Badge),
             Title = storedUserData?.Title,
             RegisterDate = registerDate,
-            BestRanking = bestRanking
+            BestRanking = bestRanking,
+            TournamentRecord = storedUserData?.TournamentRecord
         };
         var template = await _templatesManager.GetTemplateAsync("Profile/Profile", viewModel);
         context.ReplyHtml(template.RemoveNewlines(), rankAware: true);

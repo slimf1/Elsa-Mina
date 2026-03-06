@@ -15,4 +15,5 @@ public class ProfileViewModel : LocalizableViewModel
     public IEnumerable<Badge> Badges { get; init; }
     public DateTimeOffset RegisterDate { get; init; }
     public RankingDataDto BestRanking { get; init; }
+    public TournamentRecord TournamentRecord { get; init; }
 }

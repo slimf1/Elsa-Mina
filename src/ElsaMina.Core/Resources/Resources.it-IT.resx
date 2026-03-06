@@ -1229,4 +1229,10 @@
     <data name="rand_warning_mouse" xml:space="preserve">
         <value>Attenzione! Questa immagine potrebbe contenere topi che potrebbero non essere adatti a tutti i pubblici.</value>
     </data>
+    <data name="rank_former_staff" xml:space="preserve">
+        <value>Ex staff</value>
+    </data>
+    <data name="profile_tournament_records" xml:space="preserve">
+        <value>Storico tornei</value>
+    </data>
 </root>
