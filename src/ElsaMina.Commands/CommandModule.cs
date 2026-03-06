@@ -165,6 +165,7 @@ public class CommandModule : Module
         builder.RegisterCommand<CurrentLadderTrackersCommand>();
         builder.RegisterCommand<GuessingGameAnswerCommand>();
         builder.RegisterCommand<TopTournamentPlayersCommand>();
+        builder.RegisterCommand<RandomTournamentCommand>();
         builder.RegisterCommand<ArcadeSheetAddPointsCommand>();
         builder.RegisterCommand<ArcadePointsCommand>();
 

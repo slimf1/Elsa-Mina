@@ -1230,4 +1230,7 @@
     <data name="profile_tournament_records" xml:space="preserve">
         <value>Tournament records</value>
     </data>
+    <data name="random_tournament_wall" xml:space="preserve">
+        <value>Tournament: {0}</value>
+    </data>
 </root>
