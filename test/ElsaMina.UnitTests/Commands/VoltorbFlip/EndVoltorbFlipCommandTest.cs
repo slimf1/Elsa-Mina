@@ -1,0 +1,103 @@
+using ElsaMina.Commands.VoltorbFlip;
+using ElsaMina.Core;
+using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Services.Rooms;
+using NSubstitute;
+using NSubstitute.ReturnsExtensions;
+
+namespace ElsaMina.UnitTests.Commands.VoltorbFlip;
+
+public class EndVoltorbFlipCommandTest
+{
+    private EndVoltorbFlipCommand _command;
+    private IContext _context;
+    private IRoom _room;
+    private IVoltorbFlipGame _voltorbFlipGame;
+
+    [SetUp]
+    public void SetUp()
+    {
+        _command = new EndVoltorbFlipCommand();
+        _context = Substitute.For<IContext>();
+        _room = Substitute.For<IRoom>();
+        _voltorbFlipGame = Substitute.For<IVoltorbFlipGame>();
+    }
+
+    [Test]
+    public void Test_RequiredRank_ShouldReturnVoiced()
+    {
+        Assert.That(_command.RequiredRank, Is.EqualTo(Rank.Voiced));
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldCancelGame_WhenVoltorbFlipGameExists()
+    {
+        // Arrange
+        _context.Room.Returns(_room);
+        _room.Game.Returns(_voltorbFlipGame);
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        _voltorbFlipGame.Received(1).Cancel();
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldReplyCancelled_WhenVoltorbFlipGameExists()
+    {
+        // Arrange
+        _context.Room.Returns(_room);
+        _room.Game.Returns(_voltorbFlipGame);
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        _context.Received(1).ReplyLocalizedMessage("vf_game_cancelled");
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldReplyNoGame_WhenRoomIsNull()
+    {
+        // Arrange
+        _context.Room.ReturnsNull();
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        _context.Received(1).ReplyLocalizedMessage("vf_game_no_game");
+        _voltorbFlipGame.DidNotReceive().Cancel();
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldReplyNoGame_WhenRoomHasNoGame()
+    {
+        // Arrange
+        _context.Room.Returns(_room);
+        _room.Game.ReturnsNull();
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        _context.Received(1).ReplyLocalizedMessage("vf_game_no_game");
+        _voltorbFlipGame.DidNotReceive().Cancel();
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldReplyNoGame_WhenOtherGameExists()
+    {
+        // Arrange
+        _context.Room.Returns(_room);
+        _room.Game.Returns(Substitute.For<IGame>());
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        _context.Received(1).ReplyLocalizedMessage("vf_game_no_game");
+        _voltorbFlipGame.DidNotReceive().Cancel();
+    }
+}

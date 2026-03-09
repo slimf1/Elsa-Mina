@@ -1280,4 +1280,28 @@
     <data name="vf_panel_new_round" xml:space="preserve">
         <value>Nuovo round</value>
     </data>
+    <data name="vf_panel_objective" xml:space="preserve">
+        <value>Gira tutte le caselle ×2 e ×3 per vincere il round.</value>
+    </data>
+    <data name="vf_panel_legend_one" xml:space="preserve">
+        <value>×1 — Casella sicura, nessun bonus</value>
+    </data>
+    <data name="vf_panel_legend_two" xml:space="preserve">
+        <value>×2 — Raddoppia le tue monete</value>
+    </data>
+    <data name="vf_panel_legend_three" xml:space="preserve">
+        <value>×3 — Triplica le tue monete</value>
+    </data>
+    <data name="vf_panel_legend_voltorb" xml:space="preserve">
+        <value>V — Voltorb! Perdi tutte le monete</value>
+    </data>
+    <data name="vf_panel_hint" xml:space="preserve">
+        <value>I totali per riga/colonna sono indizi strategici.</value>
+    </data>
+    <data name="vf_panel_options" xml:space="preserve">
+        <value>Opzioni</value>
+    </data>
+    <data name="vf_panel_stop" xml:space="preserve">
+        <value>Ferma la partita</value>
+    </data>
 </root>

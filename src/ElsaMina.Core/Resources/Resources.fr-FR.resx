@@ -1275,4 +1275,28 @@
     <data name="vf_panel_new_round" xml:space="preserve">
         <value>Nouvelle manche</value>
     </data>
+    <data name="vf_panel_objective" xml:space="preserve">
+        <value>Retournez toutes les cases ×2 et ×3 pour gagner la manche.</value>
+    </data>
+    <data name="vf_panel_legend_one" xml:space="preserve">
+        <value>×1 — Case sûre, pas de bonus</value>
+    </data>
+    <data name="vf_panel_legend_two" xml:space="preserve">
+        <value>×2 — Double vos pièces</value>
+    </data>
+    <data name="vf_panel_legend_three" xml:space="preserve">
+        <value>×3 — Triple vos pièces</value>
+    </data>
+    <data name="vf_panel_legend_voltorb" xml:space="preserve">
+        <value>V — Voltorb ! Perdez toutes vos pièces</value>
+    </data>
+    <data name="vf_panel_hint" xml:space="preserve">
+        <value>Les totaux par ligne/colonne sont des indices stratégiques.</value>
+    </data>
+    <data name="vf_panel_options" xml:space="preserve">
+        <value>Options</value>
+    </data>
+    <data name="vf_panel_stop" xml:space="preserve">
+        <value>Arrêter la partie</value>
+    </data>
 </root>

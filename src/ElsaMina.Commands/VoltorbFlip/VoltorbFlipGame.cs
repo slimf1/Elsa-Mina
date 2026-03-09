@@ -9,6 +9,8 @@ namespace ElsaMina.Commands.VoltorbFlip;
 
 public class VoltorbFlipGame : Game, IVoltorbFlipGame
 {
+    private static int NextGameId { get; set; } = 1;
+    
     private readonly IRandomService _randomService;
     private readonly ITemplatesManager _templatesManager;
     private readonly IConfiguration _configuration;
@@ -18,6 +20,7 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
     private int _revealedThrees;
     private int _targetTwos;
     private int _targetThrees;
+    private readonly int _gameId;
 
     public VoltorbFlipGame(IRandomService randomService,
         ITemplatesManager templatesManager,
@@ -26,6 +29,8 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
         _randomService = randomService;
         _templatesManager = templatesManager;
         _configuration = configuration;
+        
+        _gameId = NextGameId++;
     }
 
     public override string Identifier => nameof(VoltorbFlipGame);
@@ -40,6 +45,7 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
     public int[] RowVoltorbs { get; private set; }
     public int[] ColVoltorbs { get; private set; }
     public IContext Context { get; set; }
+    private string GameIdentifier => $"vf-{Context.RoomId}-{_gameId}";
 
     public async Task StartNewRound()
     {
@@ -100,12 +106,15 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
         }
 
         Context.ReplyLocalizedMessage("vf_game_started", Level);
-        await DisplayBoard(false);
+        await DisplayBoard(showAll: false, firstTime: true);
     }
 
     public async Task FlipTile(IUser user, int row, int col)
     {
-        if (!IsRoundActive) return;
+        if (!IsRoundActive)
+        {
+            return;
+        }
 
         const int size = VoltorbFlipConstants.GRID_SIZE;
         if (row < 0 || row >= size || col < 0 || col >= size)
@@ -127,7 +136,7 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
             var newLevel = ComputeNewLevelOnLossOrQuit();
             Level = newLevel;
             Context.ReplyLocalizedMessage("vf_game_voltorb_hit", user.Name, newLevel);
-            await DisplayBoard(true);
+            await DisplayBoard(showAll: true, firstTime: false);
             return;
         }
 
@@ -140,6 +149,7 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
         {
             _revealedThrees++;
         }
+
         UpdateCoins();
 
         if (_revealedTwos >= _targetTwos && _revealedThrees >= _targetThrees)
@@ -149,11 +159,11 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
             var newLevel = Math.Min(Level + 1, VoltorbFlipConstants.MAX_LEVEL);
             Level = newLevel;
             Context.ReplyLocalizedMessage("vf_game_win", user.Name, earnedCoins, newLevel);
-            await DisplayBoard(true);
+            await DisplayBoard(showAll: true, firstTime: true);
             return;
         }
 
-        await DisplayBoard(false);
+        await DisplayBoard(showAll: false, firstTime: true);
     }
 
     public async Task QuitRound(IUser user)
@@ -168,7 +178,7 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
         var newLevel = ComputeNewLevelOnLossOrQuit();
         Level = newLevel;
         Context.ReplyLocalizedMessage("vf_game_quit", user.Name, earnedCoins, newLevel);
-        await DisplayBoard(true);
+        await DisplayBoard(showAll: true, firstTime: true);
     }
 
     public void Cancel()
@@ -231,7 +241,7 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
             : Level;
     }
 
-    private async Task DisplayBoard(bool showAll)
+    private async Task DisplayBoard(bool showAll, bool firstTime)
     {
         var template = await _templatesManager.GetTemplateAsync("VoltorbFlip/VoltorbFlipBoard",
             new VoltorbFlipModel
@@ -244,6 +254,6 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
                 ShowAll = showAll
             });
 
-        Context.SendUpdatableHtml($"vf-{Context.RoomId}", template.RemoveNewlines(), true);
+        Context.SendUpdatableHtml(GameIdentifier, template.RemoveNewlines(), !firstTime);
     }
 }

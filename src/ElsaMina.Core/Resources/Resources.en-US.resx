@@ -1275,4 +1275,28 @@
     <data name="vf_panel_new_round" xml:space="preserve">
         <value>Start new round</value>
     </data>
+    <data name="vf_panel_objective" xml:space="preserve">
+        <value>Flip all ×2 and ×3 tiles to win the round.</value>
+    </data>
+    <data name="vf_panel_legend_one" xml:space="preserve">
+        <value>×1 — Safe tile, no coin bonus</value>
+    </data>
+    <data name="vf_panel_legend_two" xml:space="preserve">
+        <value>×2 — Doubles your coins</value>
+    </data>
+    <data name="vf_panel_legend_three" xml:space="preserve">
+        <value>×3 — Triples your coins</value>
+    </data>
+    <data name="vf_panel_legend_voltorb" xml:space="preserve">
+        <value>V — Voltorb! Lose all coins</value>
+    </data>
+    <data name="vf_panel_hint" xml:space="preserve">
+        <value>Row/column totals are shown as strategy hints.</value>
+    </data>
+    <data name="vf_panel_options" xml:space="preserve">
+        <value>Options</value>
+    </data>
+    <data name="vf_panel_stop" xml:space="preserve">
+        <value>Stop game</value>
+    </data>
 </root>

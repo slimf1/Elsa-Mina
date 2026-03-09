@@ -6,120 +6,117 @@
     var game = Model.CurrentGame;
     const int size = VoltorbFlipConstants.GRID_SIZE;
 
-    const string borderStyle = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};";
-    const string headerBgStyle = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR}; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
+    const string cellStyle = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};";
+    const string cellStyleWithBg = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR}; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
 
-    string GetTileBackground(int row, int col)
-    {
-        var tileValue = game.TileValues[row, col];
-        if (!game.IsRevealed[row, col] && !Model.ShowAll)
-            return "background-color: #bbb;";
-        return tileValue switch
-        {
-            0 => "background-color: #e55;",
-            2 => "background-color: #ff9;",
-            3 => "background-color: #f90;",
-            _ => "background-color: #e8e8e8;"
-        };
-    }
-
-    string GetTileText(int row, int col)
-    {
-        if (!game.IsRevealed[row, col] && !Model.ShowAll)
-        {
-            return "?";
-        }
-        var tileValue = game.TileValues[row, col];
-        return tileValue == 0 ? "V" : tileValue.ToString();
-    }
-
-    string GetTileFontStyle(int row, int col)
-    {
-        if (!game.IsRevealed[row, col] && !Model.ShowAll)
-        {
-            return "";
-        }
-        var tileValue = game.TileValues[row, col];
-        return tileValue is 0 or 2 or 3 ? "font-weight: bold;" : "";
-    }
+    const string voltorbSpriteUrl = "https://i.imgur.com/mrFUlA2.png";
+    const string tileCellStyle = "background-color: #B48C85; color: black; font-weight: bold;";
+    const string hiddenCellStyle = "background-color: #3C7E67; background-image: linear-gradient(45deg, #51A073 25%, transparent 25%, transparent 75%, #51A073 75%), linear-gradient(45deg, #51A073 25%, transparent 25%, transparent 75%, #51A073 75%); background-size: 24px 24px; background-position: 0 0, 12px 12px; color: black; font-weight: bold;";
 }
 
-<div style="font-family: monospace; padding: 8px; display: inline-block;">
-    <div style="margin-bottom: 6px;">
-        <strong>@GetString("vf_panel_title")</strong>
-        &nbsp;—&nbsp;
-        @GetString("vf_panel_level", game.Level)
-        &nbsp;—&nbsp;
-        @GetString("vf_panel_coins", game.CurrentCoins)
-    </div>
-
-    <table style="border-collapse: collapse;">
-        @for (var row = 0; row < size; row++)
-        {
-            <tr>
-                @for (var col = 0; col < size; col++)
+<table style="border-collapse: collapse; width: 100%;">
+    <thead>
+        <tr>
+            <th style="@cellStyleWithBg">@GetString("vf_panel_title")</th>
+            <th style="@cellStyleWithBg">@GetString("vf_panel_level", game.Level) — @GetString("vf_panel_coins", game.CurrentCoins)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="@cellStyle">
+                <table style="border-collapse: collapse; margin: auto;">
+                    @for (var row = 0; row < size; row++)
+                    {
+                        <tr>
+                            @for (var col = 0; col < size; col++)
+                            {
+                                <td style="padding: 2px; @cellStyle">
+                                    @if (!game.IsRevealed[row, col] && !Model.ShowAll && game.IsRoundActive)
+                                    {
+                                        <button
+                                            class="button"
+                                            name="send"
+                                            value="/botmsg @Model.BotName,@(Model.Trigger)vfflip @Model.RoomId, @row, @col"
+                                            style="width: 36px; height: 36px; @hiddenCellStyle border: none; cursor: pointer;">
+                                        </button>
+                                    }
+                                    else if (game.TileValues[row, col] == 0)
+                                    {
+                                        <div style="width: 36px; height: 36px; text-align: center; @tileCellStyle padding: 6px 0 0 0; box-sizing: border-box;">
+                                            <img src="@voltorbSpriteUrl" width="24" height="24" alt="Voltorb" style="display: inline-block;" />
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div style="width: 36px; height: 36px; text-align: center; line-height: 36px; @tileCellStyle">
+                                            @game.TileValues[row, col]
+                                        </div>
+                                    }
+                                </td>
+                            }
+                            <td style="padding: 2px 6px; text-align: center; font-size: 0.8em; @cellStyleWithBg vertical-align: middle;">
+                                <div>@game.RowSums[row]</div>
+                                <div style="color: #c00;">@(game.RowVoltorbs[row])V</div>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        @for (var col = 0; col < size; col++)
+                        {
+                            <td style="padding: 2px; text-align: center; font-size: 0.8em; @cellStyleWithBg">
+                                <div>@game.ColSums[col]</div>
+                                <div style="color: #c00;">@(game.ColVoltorbs[col])V</div>
+                            </td>
+                        }
+                        <td></td>
+                    </tr>
+                </table>
+            </td>
+            <td style="padding: 20px; @cellStyle vertical-align: top;">
+                <span style="font-weight: bold;">@GetString("vf_panel_title")</span><br/>
+                <br/>
+                <span>@GetString("vf_panel_objective")</span><br/>
+                <span>@GetString("vf_panel_hint")</span><br/>
+                <br/>
+                <span style="background-color: #e8e8e8; padding: 1px 4px;">1</span>&nbsp;@GetString("vf_panel_legend_one")<br/>
+                <span style="background-color: #ff9; font-weight: bold; padding: 1px 4px;">2</span>&nbsp;@GetString("vf_panel_legend_two")<br/>
+                <span style="background-color: #f90; font-weight: bold; padding: 1px 4px;">3</span>&nbsp;@GetString("vf_panel_legend_three")<br/>
+                <img src="@voltorbSpriteUrl" width="16" height="16" style="vertical-align: middle;" alt="Voltorb" />&nbsp;@GetString("vf_panel_legend_voltorb")<br/>
+                <br/>
+                @if (!game.IsEnded)
                 {
-                    <td style="padding: 2px; @borderStyle">
-                        @if (!game.IsRevealed[row, col] && !Model.ShowAll && game.IsRoundActive)
+                    <details>
+                        <summary>@GetString("vf_panel_options")</summary>
+                        <br/>
+                        @if (game.IsRoundActive)
                         {
                             <button
                                 class="button"
                                 name="send"
-                                value="/botmsg @Model.BotName,@(Model.Trigger)vfflip @Model.RoomId, @row, @col"
-                                style="width: 36px; height: 36px; @GetTileBackground(row, col) border: none; cursor: pointer; font-family: monospace;">
-                                ?
+                                value="/botmsg @Model.BotName,@(Model.Trigger)vfquit @Model.RoomId">
+                                @GetString("vf_panel_quit")
                             </button>
+                            <br/><br/>
                         }
                         else
                         {
-                            <div style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; @GetTileBackground(row, col) @GetTileFontStyle(row, col)">
-                                @GetTileText(row, col)
-                            </div>
+                            <button
+                                class="button"
+                                name="send"
+                                value="@(Model.Trigger)voltorbflip">
+                                @GetString("vf_panel_new_round")
+                            </button>
+                            <br/><br/>
                         }
-                    </td>
+                        <button
+                            class="button"
+                            name="send"
+                            value="@(Model.Trigger)vfend">
+                            @GetString("vf_panel_stop")
+                        </button>
+                    </details>
                 }
-                <td style="padding: 2px 6px; text-align: center; font-size: 0.8em; @headerBgStyle vertical-align: middle;">
-                    <div>@game.RowSums[row]</div>
-                    <div style="color: #c00;">@(game.RowVoltorbs[row])V</div>
-                </td>
-            </tr>
-        }
-        <tr>
-            @for (var col = 0; col < size; col++)
-            {
-                <td style="padding: 2px; text-align: center; font-size: 0.8em; @headerBgStyle">
-                    <div>@game.ColSums[col]</div>
-                    <div style="color: #c00;">@(game.ColVoltorbs[col])V</div>
-                </td>
-            }
-            <td></td>
+            </td>
         </tr>
-    </table>
-
-    @if (game.IsRoundActive)
-    {
-        <div style="margin-top: 6px; font-size: 0.85em;">
-            @GetString("vf_panel_how_to_flip")
-            &nbsp;
-            <button
-                class="button"
-                name="send"
-                value="/w @Model.BotName,@(Model.Trigger)vfquit @Model.RoomId"
-                style="font-size: 0.9em;">
-                @GetString("vf_panel_quit")
-            </button>
-        </div>
-    }
-    else if (!game.IsEnded)
-    {
-        <div style="margin-top: 6px;">
-            <button
-                class="button"
-                name="send"
-                value="@(Model.Trigger)voltorbflip"
-                style="font-size: 0.9em;">
-                @GetString("vf_panel_new_round")
-            </button>
-        </div>
-    }
-</div>
+    </tbody>
+</table>
