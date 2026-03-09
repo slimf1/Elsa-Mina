@@ -56,6 +56,7 @@ using ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
 using ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
 using ElsaMina.Commands.Tournaments;
 using ElsaMina.Commands.Users;
+using ElsaMina.Commands.VoltorbFlip;
 using ElsaMina.Commands.Users.PlayTimes;
 using ElsaMina.Core.Utils;
 
@@ -168,6 +169,10 @@ public class CommandModule : Module
         builder.RegisterCommand<RandomTournamentCommand>();
         builder.RegisterCommand<ArcadeSheetAddPointsCommand>();
         builder.RegisterCommand<ArcadePointsCommand>();
+        builder.RegisterCommand<StartVoltorbFlipCommand>();
+        builder.RegisterCommand<FlipVoltorbFlipCommand>();
+        builder.RegisterCommand<QuitVoltorbFlipCommand>();
+        builder.RegisterCommand<EndVoltorbFlipCommand>();
 
         RegisterRandomImagesCommands(builder);
 
@@ -185,6 +190,7 @@ public class CommandModule : Module
 
         builder.RegisterType<CountriesGame>().AsSelf();
         builder.RegisterType<ConnectFourGame>().AsSelf();
+        builder.RegisterType<VoltorbFlipGame>().AsSelf();
         builder.RegisterType<PokeDescGame>().AsSelf();
         builder.RegisterType<PokeCriesGame>().AsSelf();
         builder.RegisterType<GatekeepersGame>().AsSelf();

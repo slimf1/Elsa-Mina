@@ -1233,4 +1233,70 @@
     <data name="random_tournament_wall" xml:space="preserve">
         <value>Tournament: {0}</value>
     </data>
+    <data name="vf_game_started" xml:space="preserve">
+        <value>Voltorb Flip started at level {0}!</value>
+    </data>
+    <data name="vf_game_already_running" xml:space="preserve">
+        <value>Another game is already running in this room.</value>
+    </data>
+    <data name="vf_game_no_game" xml:space="preserve">
+        <value>There is no Voltorb Flip game running.</value>
+    </data>
+    <data name="vf_game_round_active" xml:space="preserve">
+        <value>A round is already active. Quit it first!</value>
+    </data>
+    <data name="vf_game_voltorb_hit" xml:space="preserve">
+        <value>{0} flipped a Voltorb! Level set to {1}.</value>
+    </data>
+    <data name="vf_game_win" xml:space="preserve">
+        <value>{0} found all multipliers and won {1} coins! Advancing to level {2}!</value>
+    </data>
+    <data name="vf_game_quit" xml:space="preserve">
+        <value>{0} quit the round, keeping {1} coins. Now at level {2}.</value>
+    </data>
+    <data name="vf_game_cancelled" xml:space="preserve">
+        <value>The Voltorb Flip game has been cancelled.</value>
+    </data>
+    <data name="vf_panel_title" xml:space="preserve">
+        <value>Voltorb Flip</value>
+    </data>
+    <data name="vf_panel_level" xml:space="preserve">
+        <value>Level {0}</value>
+    </data>
+    <data name="vf_panel_coins" xml:space="preserve">
+        <value>Coins: {0}</value>
+    </data>
+    <data name="vf_panel_how_to_flip" xml:space="preserve">
+        <value>Click a tile to flip it!</value>
+    </data>
+    <data name="vf_panel_quit" xml:space="preserve">
+        <value>Quit round</value>
+    </data>
+    <data name="vf_panel_new_round" xml:space="preserve">
+        <value>Start new round</value>
+    </data>
+    <data name="vf_panel_objective" xml:space="preserve">
+        <value>Flip all ×2 and ×3 tiles to win the round.</value>
+    </data>
+    <data name="vf_panel_legend_one" xml:space="preserve">
+        <value>×1 — Safe tile, no coin bonus</value>
+    </data>
+    <data name="vf_panel_legend_two" xml:space="preserve">
+        <value>×2 — Doubles your coins</value>
+    </data>
+    <data name="vf_panel_legend_three" xml:space="preserve">
+        <value>×3 — Triples your coins</value>
+    </data>
+    <data name="vf_panel_legend_voltorb" xml:space="preserve">
+        <value>V — Voltorb! Lose all coins</value>
+    </data>
+    <data name="vf_panel_hint" xml:space="preserve">
+        <value>Row/column totals are shown as strategy hints.</value>
+    </data>
+    <data name="vf_panel_options" xml:space="preserve">
+        <value>Options</value>
+    </data>
+    <data name="vf_panel_stop" xml:space="preserve">
+        <value>Stop game</value>
+    </data>
 </root>

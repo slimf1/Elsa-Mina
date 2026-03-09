@@ -1,0 +1,482 @@
+using ElsaMina.Commands.VoltorbFlip;
+using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Services.DependencyInjection;
+using ElsaMina.Core.Services.Probabilities;
+using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.Templates;
+using NSubstitute;
+
+namespace ElsaMina.UnitTests.Commands.VoltorbFlip;
+
+public class VoltorbFlipGameTest
+{
+    private VoltorbFlipGame _game;
+    private IRandomService _mockRandomService;
+    private ITemplatesManager _mockTemplatesManager;
+    private IConfiguration _mockConfiguration;
+    private IDependencyContainerService _mockDependencyContainerService;
+    private IContext _mockContext;
+    private IUser _mockUser;
+
+    // Config: 1 voltorb, 1 two, 0 threes — with ShuffleInPlace doing nothing the layout is:
+    // [0,0]=Voltorb  [0,1]=2  [0,2]=1  [0,3]=1  [0,4]=1
+    // [1..4, 0..4] = all 1s
+    private static readonly (int Twos, int Threes, int Voltorbs) TestConfig = (1, 0, 1);
+
+    [SetUp]
+    public void SetUp()
+    {
+        _mockRandomService = Substitute.For<IRandomService>();
+        _mockTemplatesManager = Substitute.For<ITemplatesManager>();
+        _mockConfiguration = Substitute.For<IConfiguration>();
+        _mockContext = Substitute.For<IContext>();
+        _mockDependencyContainerService = Substitute.For<IDependencyContainerService>();
+
+        DependencyContainerService.Current = _mockDependencyContainerService;
+
+        _mockConfiguration.Name.Returns("Bot");
+        _mockConfiguration.Trigger.Returns("-");
+        _mockTemplatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>())
+            .Returns(Task.FromResult(string.Empty));
+        _mockRandomService
+            .RandomElement(Arg.Any<IEnumerable<(int Twos, int Threes, int Voltorbs)>>())
+            .Returns(TestConfig);
+
+        _mockUser = Substitute.For<IUser>();
+        _mockUser.Name.Returns("TestPlayer");
+
+        _game = new VoltorbFlipGame(_mockRandomService, _mockTemplatesManager, _mockConfiguration);
+        _game.Context = _mockContext;
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        DependencyContainerService.Current = null;
+    }
+
+    #region StartNewRound
+
+    [Test]
+    public async Task Test_StartNewRound_ShouldSetRoundActive()
+    {
+        await _game.StartNewRound();
+
+        Assert.That(_game.IsRoundActive, Is.True);
+    }
+
+    [Test]
+    public async Task Test_StartNewRound_ShouldMarkGameAsStarted()
+    {
+        await _game.StartNewRound();
+
+        Assert.That(_game.IsStarted, Is.True);
+    }
+
+    [Test]
+    public async Task Test_StartNewRound_ShouldNotRestartGame_WhenCalledOnSubsequentRound()
+    {
+        await _game.StartNewRound();
+        await _game.QuitRound(_mockUser);
+
+        await _game.StartNewRound();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(_game.IsStarted, Is.True);
+            Assert.That(_game.IsEnded, Is.False);
+        });
+    }
+
+    [Test]
+    public async Task Test_StartNewRound_ShouldResetCoinsToZero()
+    {
+        await _game.StartNewRound();
+
+        Assert.That(_game.CurrentCoins, Is.EqualTo(0));
+    }
+
+    [Test]
+    public async Task Test_StartNewRound_ShouldInitializeBoardArrays()
+    {
+        await _game.StartNewRound();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(_game.TileValues, Is.Not.Null);
+            Assert.That(_game.IsRevealed, Is.Not.Null);
+            Assert.That(_game.RowSums, Is.Not.Null);
+            Assert.That(_game.ColSums, Is.Not.Null);
+            Assert.That(_game.RowVoltorbs, Is.Not.Null);
+            Assert.That(_game.ColVoltorbs, Is.Not.Null);
+        });
+    }
+
+    [Test]
+    public async Task Test_StartNewRound_ShouldRenderBoard()
+    {
+        await _game.StartNewRound();
+
+        await _mockTemplatesManager.Received(1)
+            .GetTemplateAsync("VoltorbFlip/VoltorbFlipBoard", Arg.Any<object>());
+    }
+
+    [Test]
+    public async Task Test_StartNewRound_ShouldResetRevealedTiles_WhenStartingSecondRound()
+    {
+        await _game.StartNewRound();
+        await _game.FlipTile(_mockUser, 0, 2); // Reveal a tile
+        await _game.QuitRound(_mockUser);
+
+        await _game.StartNewRound();
+
+        Assert.That(_game.IsRevealed[0, 2], Is.False);
+    }
+
+    #endregion
+
+    #region Row/Column statistics
+
+    [Test]
+    public async Task Test_StartNewRound_ShouldComputeCorrectRowSums()
+    {
+        // Row 0: Voltorb(0) + 2 + 1 + 1 + 1 = 5; rows 1-4: 5 ones = 5
+        await _game.StartNewRound();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(_game.RowSums[0], Is.EqualTo(5));
+            Assert.That(_game.RowSums[1], Is.EqualTo(5));
+        });
+    }
+
+    [Test]
+    public async Task Test_StartNewRound_ShouldComputeCorrectRowVoltorbs()
+    {
+        // Row 0 has the Voltorb at [0,0]; all other rows have none
+        await _game.StartNewRound();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(_game.RowVoltorbs[0], Is.EqualTo(1));
+            Assert.That(_game.RowVoltorbs[1], Is.EqualTo(0));
+            Assert.That(_game.RowVoltorbs[2], Is.EqualTo(0));
+        });
+    }
+
+    [Test]
+    public async Task Test_StartNewRound_ShouldComputeCorrectColSums()
+    {
+        // Col 0: Voltorb + 4 ones = 4; col 1: 2 + 4 ones = 6; cols 2-4: 5 ones = 5
+        await _game.StartNewRound();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(_game.ColSums[0], Is.EqualTo(4));
+            Assert.That(_game.ColSums[1], Is.EqualTo(6));
+            Assert.That(_game.ColSums[2], Is.EqualTo(5));
+        });
+    }
+
+    [Test]
+    public async Task Test_StartNewRound_ShouldComputeCorrectColVoltorbs()
+    {
+        // Voltorb is at [0,0] so only col 0 has a Voltorb
+        await _game.StartNewRound();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(_game.ColVoltorbs[0], Is.EqualTo(1));
+            Assert.That(_game.ColVoltorbs[1], Is.EqualTo(0));
+        });
+    }
+
+    #endregion
+
+    #region FlipTile
+
+    [Test]
+    public async Task Test_FlipTile_ShouldDoNothing_WhenRoundIsNotActive()
+    {
+        await _game.FlipTile(_mockUser, 0, 0);
+
+        Assert.That(_game.IsRevealed, Is.Null);
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldDoNothing_WhenRowIsOutOfBounds()
+    {
+        await _game.StartNewRound();
+
+        await _game.FlipTile(_mockUser, -1, 0);
+        await _game.FlipTile(_mockUser, VoltorbFlipConstants.GRID_SIZE, 0);
+
+        Assert.That(_game.CurrentCoins, Is.EqualTo(0));
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldDoNothing_WhenColIsOutOfBounds()
+    {
+        await _game.StartNewRound();
+
+        await _game.FlipTile(_mockUser, 0, -1);
+        await _game.FlipTile(_mockUser, 0, VoltorbFlipConstants.GRID_SIZE);
+
+        Assert.That(_game.CurrentCoins, Is.EqualTo(0));
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldDoNothing_WhenTileAlreadyRevealed()
+    {
+        await _game.StartNewRound();
+        await _game.FlipTile(_mockUser, 0, 2); // 1x tile → coins = 1
+
+        await _game.FlipTile(_mockUser, 0, 2); // flip again
+
+        // 2 calls expected: 1 from StartNewRound + 1 from first FlipTile; second flip should not add another
+        _mockContext.Received(2).SendUpdatableHtml(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<bool>());
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldRevealTile_WhenFlipped()
+    {
+        await _game.StartNewRound();
+
+        await _game.FlipTile(_mockUser, 0, 2);
+
+        Assert.That(_game.IsRevealed[0, 2], Is.True);
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldEndRound_WhenVoltorbFlipped()
+    {
+        await _game.StartNewRound();
+
+        await _game.FlipTile(_mockUser, 0, 0); // Voltorb at [0,0]
+
+        Assert.That(_game.IsRoundActive, Is.False);
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldSendVoltorbMessage_WhenVoltorbFlipped()
+    {
+        await _game.StartNewRound();
+
+        await _game.FlipTile(_mockUser, 0, 0);
+
+        _mockContext.Received(1).ReplyLocalizedMessage("vf_game_voltorb_hit", _mockUser.Name, Arg.Any<int>());
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldKeepLevel_WhenVoltorbFlippedWithEnoughRevealedCards()
+    {
+        // At level 1: reveal 1 non-Voltorb tile first (revealed=1 >= level=1) → keep level
+        await _game.StartNewRound();
+        await _game.FlipTile(_mockUser, 0, 2); // 1x tile
+        await _game.FlipTile(_mockUser, 0, 0); // Voltorb
+
+        Assert.That(_game.Level, Is.EqualTo(1));
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldDropToMinLevel_WhenVoltorbFlippedWithNoRevealedCards()
+    {
+        // At level 1: flip Voltorb immediately → revealed=0 < level=1 → max(1, 0) = 1
+        await _game.StartNewRound();
+        await _game.FlipTile(_mockUser, 0, 0); // Voltorb immediately
+
+        Assert.That(_game.Level, Is.EqualTo(1));
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldDropLevel_WhenVoltorbFlippedWithInsufficientRevealedCards()
+    {
+        // Win once (level → 2), then flip Voltorb on new round with 0 revealed → drop to max(1,0)=1
+        await _game.StartNewRound();
+        await _game.FlipTile(_mockUser, 0, 1); // Win → level 2
+        await _game.StartNewRound();
+        await _game.FlipTile(_mockUser, 0, 0); // Voltorb immediately, 0 < 2 → level 1
+
+        Assert.That(_game.Level, Is.EqualTo(1));
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldSetCoinsToTileValue_WhenFirstTileFlipped()
+    {
+        await _game.StartNewRound();
+
+        await _game.FlipTile(_mockUser, 0, 1); // 2x tile → coins = 2
+
+        // Won the round (only 2x tile), check the win message carries correct coins
+        _mockContext.Received(1).ReplyLocalizedMessage("vf_game_win", _mockUser.Name, 2, Arg.Any<int>());
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldSetCoinsToOne_WhenFirstOneTileFlipped()
+    {
+        await _game.StartNewRound();
+
+        await _game.FlipTile(_mockUser, 0, 2); // 1x tile
+
+        Assert.That(_game.CurrentCoins, Is.EqualTo(1));
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldMultiplyCoins_WhenMultipleTilesFlipped()
+    {
+        // Flip 1x then 2x (but 2x wins the round): coins = 2^1 * 3^0 = 2
+        await _game.StartNewRound();
+        await _game.FlipTile(_mockUser, 0, 2); // 1x → coins = 1
+        await _game.FlipTile(_mockUser, 0, 1); // 2x → win, coins = 2
+
+        _mockContext.Received(1).ReplyLocalizedMessage("vf_game_win", _mockUser.Name, 2, Arg.Any<int>());
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldWinRound_WhenAllMultiplierTilesRevealed()
+    {
+        // Config has 1 two, 0 threes → flipping the single 2x tile wins
+        await _game.StartNewRound();
+
+        await _game.FlipTile(_mockUser, 0, 1); // Only 2x tile
+
+        Assert.That(_game.IsRoundActive, Is.False);
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldSendWinMessage_WhenRoundWon()
+    {
+        await _game.StartNewRound();
+
+        await _game.FlipTile(_mockUser, 0, 1);
+
+        _mockContext.Received(1).ReplyLocalizedMessage("vf_game_win", _mockUser.Name, Arg.Any<int>(), Arg.Any<int>());
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldAdvanceLevel_WhenRoundWon()
+    {
+        await _game.StartNewRound();
+
+        await _game.FlipTile(_mockUser, 0, 1); // Win
+
+        Assert.That(_game.Level, Is.EqualTo(2));
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldNotExceedMaxLevel_WhenWinningAtMaxLevel()
+    {
+        for (var i = 0; i < VoltorbFlipConstants.MAX_LEVEL; i++)
+        {
+            await _game.StartNewRound();
+            await _game.FlipTile(_mockUser, 0, 1); // Win each round
+        }
+
+        Assert.That(_game.Level, Is.EqualTo(VoltorbFlipConstants.MAX_LEVEL));
+    }
+
+    #endregion
+
+    #region QuitRound
+
+    [Test]
+    public async Task Test_QuitRound_ShouldDoNothing_WhenRoundNotActive()
+    {
+        await _game.QuitRound(_mockUser);
+
+        _mockContext.DidNotReceive().ReplyLocalizedMessage(Arg.Any<string>(), Arg.Any<object[]>());
+    }
+
+    [Test]
+    public async Task Test_QuitRound_ShouldDeactivateRound()
+    {
+        await _game.StartNewRound();
+
+        await _game.QuitRound(_mockUser);
+
+        Assert.That(_game.IsRoundActive, Is.False);
+    }
+
+    [Test]
+    public async Task Test_QuitRound_ShouldSendQuitMessage_WithZeroCoins_WhenNoTilesFlipped()
+    {
+        await _game.StartNewRound();
+
+        await _game.QuitRound(_mockUser);
+
+        _mockContext.Received(1).ReplyLocalizedMessage("vf_game_quit", _mockUser.Name, Arg.Is(0), Arg.Any<int>());
+    }
+
+    [Test]
+    public async Task Test_QuitRound_ShouldSendQuitMessage_WithEarnedCoins_WhenTilesFlipped()
+    {
+        await _game.StartNewRound();
+        await _game.FlipTile(_mockUser, 0, 2); // 1x tile → coins = 1
+
+        await _game.QuitRound(_mockUser);
+
+        _mockContext.Received(1).ReplyLocalizedMessage("vf_game_quit", _mockUser.Name, 1, Arg.Any<int>());
+    }
+
+    [Test]
+    public async Task Test_QuitRound_ShouldKeepLevel_WhenRevealedCountMeetsCurrentLevel()
+    {
+        // At level 1: reveal 1 non-Voltorb tile (revealed=1 >= level=1) → keep level
+        await _game.StartNewRound();
+        await _game.FlipTile(_mockUser, 0, 2); // 1x tile
+
+        await _game.QuitRound(_mockUser);
+
+        Assert.That(_game.Level, Is.EqualTo(1));
+    }
+
+    [Test]
+    public async Task Test_QuitRound_ShouldDropLevel_WhenRevealedCountBelowCurrentLevel()
+    {
+        // Win once (level → 2), then quit immediately on new round → 0 < 2 → drop to 1
+        await _game.StartNewRound();
+        await _game.FlipTile(_mockUser, 0, 1); // Win
+        await _game.StartNewRound();
+
+        await _game.QuitRound(_mockUser);
+
+        Assert.That(_game.Level, Is.EqualTo(1));
+    }
+
+    #endregion
+
+    #region Cancel
+
+    [Test]
+    public async Task Test_Cancel_ShouldEndGame()
+    {
+        await _game.StartNewRound();
+
+        _game.Cancel();
+
+        Assert.That(_game.IsEnded, Is.True);
+    }
+
+    [Test]
+    public async Task Test_Cancel_ShouldDeactivateRound()
+    {
+        await _game.StartNewRound();
+
+        _game.Cancel();
+
+        Assert.That(_game.IsRoundActive, Is.False);
+    }
+
+    [Test]
+    public async Task Test_Cancel_ShouldWork_WhenNoRoundIsActive()
+    {
+        await _game.StartNewRound();
+        await _game.QuitRound(_mockUser);
+
+        Assert.DoesNotThrow(() => _game.Cancel());
+        Assert.That(_game.IsEnded, Is.True);
+    }
+
+    #endregion
+}
