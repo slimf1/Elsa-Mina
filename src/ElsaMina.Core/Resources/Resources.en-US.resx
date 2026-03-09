@@ -1233,6 +1233,15 @@
     <data name="random_tournament_wall" xml:space="preserve">
         <value>Tournament: {0}</value>
     </data>
+    <data name="vf_game_waiting" xml:space="preserve">
+        <value>A Voltorb Flip game is already waiting for a player.</value>
+    </data>
+    <data name="vf_panel_waiting_for_player" xml:space="preserve">
+        <value>A game is waiting for a player to join!</value>
+    </data>
+    <data name="vf_panel_join" xml:space="preserve">
+        <value>Play!</value>
+    </data>
     <data name="vf_game_started" xml:space="preserve">
         <value>Voltorb Flip started at level {0}!</value>
     </data>

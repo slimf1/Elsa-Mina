@@ -50,7 +50,7 @@ public class StartVoltorbFlipCommandTest
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldStartNewGame_WhenNoGameExists()
+    public async Task Test_RunAsync_ShouldCreateGame_WhenNoGameExists()
     {
         // Arrange
         _room.Game = null;
@@ -64,7 +64,7 @@ public class StartVoltorbFlipCommandTest
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldCallStartNewRound_WhenNoGameExists()
+    public async Task Test_RunAsync_ShouldShowAnnounce_WhenNoGameExists()
     {
         // Arrange
         _room.Game = null;
@@ -73,7 +73,8 @@ public class StartVoltorbFlipCommandTest
         await _command.RunAsync(_context);
 
         // Assert
-        Assert.That(_game.IsRoundActive, Is.True);
+        _context.Received(1).SendUpdatableHtml(Arg.Any<string>(), Arg.Any<string>(), false);
+        Assert.That(_game.IsRoundActive, Is.False);
     }
 
     [Test]
@@ -91,10 +92,27 @@ public class StartVoltorbFlipCommandTest
     }
 
     [Test]
+    public async Task Test_RunAsync_ShouldReplyWaiting_WhenVoltorbFlipGameIsNotYetStarted()
+    {
+        // Arrange
+        var existingGame = Substitute.For<IVoltorbFlipGame>();
+        existingGame.IsStarted.Returns(false);
+        _room.Game.Returns(existingGame);
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        _context.Received(1).ReplyLocalizedMessage("vf_game_waiting");
+        _dependencyContainerService.DidNotReceive().Resolve<VoltorbFlipGame>();
+    }
+
+    [Test]
     public async Task Test_RunAsync_ShouldReplyRoundActive_WhenVoltorbFlipGameHasActiveRound()
     {
         // Arrange
         var existingGame = Substitute.For<IVoltorbFlipGame>();
+        existingGame.IsStarted.Returns(true);
         existingGame.IsRoundActive.Returns(true);
         _room.Game.Returns(existingGame);
 
@@ -111,6 +129,7 @@ public class StartVoltorbFlipCommandTest
     {
         // Arrange
         var existingGame = Substitute.For<IVoltorbFlipGame>();
+        existingGame.IsStarted.Returns(true);
         existingGame.IsRoundActive.Returns(false);
         _room.Game.Returns(existingGame);
 
@@ -127,6 +146,7 @@ public class StartVoltorbFlipCommandTest
     {
         // Arrange
         var existingGame = Substitute.For<IVoltorbFlipGame>();
+        existingGame.IsStarted.Returns(true);
         existingGame.IsRoundActive.Returns(false);
         _room.Game.Returns(existingGame);
 

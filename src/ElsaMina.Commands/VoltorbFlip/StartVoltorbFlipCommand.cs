@@ -23,6 +23,12 @@ public class StartVoltorbFlipCommand : Command
 
         if (room.Game is IVoltorbFlipGame voltorbFlip)
         {
+            if (!voltorbFlip.IsStarted)
+            {
+                context.ReplyLocalizedMessage("vf_game_waiting");
+                return;
+            }
+
             if (voltorbFlip.IsRoundActive)
             {
                 context.ReplyLocalizedMessage("vf_game_round_active");
@@ -42,8 +48,7 @@ public class StartVoltorbFlipCommand : Command
 
         var game = _dependencyContainerService.Resolve<VoltorbFlipGame>();
         game.Context = context;
-        game.Owner = context.Sender;
         room.Game = game;
-        await game.StartNewRound();
+        await game.DisplayAnnounce();
     }
 }

@@ -49,6 +49,23 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
     public IContext Context { get; set; }
     public IUser Owner { get; set; }
     private string GameIdentifier => $"vf-{Context.RoomId}-{_gameId}";
+    private string AnnounceId => GameIdentifier;
+
+    public async Task DisplayAnnounce()
+    {
+        var template = await _templatesManager.GetTemplateAsync("VoltorbFlip/VoltorbFlipAnnounce",
+            new VoltorbFlipModel
+            {
+                Culture = Context.Culture,
+                CurrentGame = this,
+                BotName = _configuration.Name,
+                Trigger = _configuration.Trigger,
+                RoomId = Context.RoomId
+            });
+
+        _inactivityTimer.Restart();
+        Context.SendUpdatableHtml(AnnounceId, template.RemoveNewlines(), false);
+    }
 
     public async Task StartNewRound()
     {
@@ -109,6 +126,7 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
         }
 
         _inactivityTimer.Restart();
+
         Context.ReplyLocalizedMessage("vf_game_started", Level);
         await DisplayBoard(showAll: false, firstTime: true);
     }

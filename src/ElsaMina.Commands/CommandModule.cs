@@ -170,6 +170,7 @@ public class CommandModule : Module
         builder.RegisterCommand<ArcadeSheetAddPointsCommand>();
         builder.RegisterCommand<ArcadePointsCommand>();
         builder.RegisterCommand<StartVoltorbFlipCommand>();
+        builder.RegisterCommand<JoinVoltorbFlipCommand>();
         builder.RegisterCommand<FlipVoltorbFlipCommand>();
         builder.RegisterCommand<QuitVoltorbFlipCommand>();
         builder.RegisterCommand<EndVoltorbFlipCommand>();

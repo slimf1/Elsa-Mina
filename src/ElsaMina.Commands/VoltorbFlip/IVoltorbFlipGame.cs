@@ -18,6 +18,7 @@ public interface IVoltorbFlipGame : IGame
     IContext Context { get; set; }
     IUser Owner { get; set; }
 
+    Task DisplayAnnounce();
     Task StartNewRound();
     Task FlipTile(IUser user, int row, int col);
     Task QuitRound(IUser user);
