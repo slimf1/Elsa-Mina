@@ -42,6 +42,7 @@ public class StartVoltorbFlipCommand : Command
 
         var game = _dependencyContainerService.Resolve<VoltorbFlipGame>();
         game.Context = context;
+        game.Owner = context.Sender;
         room.Game = game;
         await game.StartNewRound();
     }

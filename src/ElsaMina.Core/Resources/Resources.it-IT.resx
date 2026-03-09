@@ -1262,6 +1262,12 @@
     <data name="vf_game_cancelled" xml:space="preserve">
         <value>La partita di Voltorb Flip è stata annullata.</value>
     </data>
+    <data name="vf_game_not_owner" xml:space="preserve">
+        <value>Solo il giocatore che ha avviato questa partita di Voltorb Flip può farlo.</value>
+    </data>
+    <data name="vf_game_timeout" xml:space="preserve">
+        <value>La partita di Voltorb Flip è terminata per inattività.</value>
+    </data>
     <data name="vf_panel_title" xml:space="preserve">
         <value>Voltorb Flip</value>
     </data>
@@ -1297,6 +1303,9 @@
     </data>
     <data name="vf_panel_hint" xml:space="preserve">
         <value>I totali per riga/colonna sono indizi strategici.</value>
+    </data>
+    <data name="vf_panel_timeout_hint" xml:space="preserve">
+        <value>La partita termina automaticamente dopo 30 secondi di inattività.</value>
     </data>
     <data name="vf_panel_options" xml:space="preserve">
         <value>Opzioni</value>

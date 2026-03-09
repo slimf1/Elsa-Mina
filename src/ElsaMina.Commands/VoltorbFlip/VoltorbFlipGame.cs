@@ -21,6 +21,7 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
     private int _targetTwos;
     private int _targetThrees;
     private readonly int _gameId;
+    private readonly PeriodicTimerRunner _inactivityTimer;
 
     public VoltorbFlipGame(IRandomService randomService,
         ITemplatesManager templatesManager,
@@ -29,7 +30,8 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
         _randomService = randomService;
         _templatesManager = templatesManager;
         _configuration = configuration;
-        
+        _inactivityTimer = new PeriodicTimerRunner(VoltorbFlipConstants.INACTIVITY_TIMEOUT, OnInactivityTimeout, runOnce: true);
+
         _gameId = NextGameId++;
     }
 
@@ -45,6 +47,7 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
     public int[] RowVoltorbs { get; private set; }
     public int[] ColVoltorbs { get; private set; }
     public IContext Context { get; set; }
+    public IUser Owner { get; set; }
     private string GameIdentifier => $"vf-{Context.RoomId}-{_gameId}";
 
     public async Task StartNewRound()
@@ -105,13 +108,14 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
             OnStart();
         }
 
+        _inactivityTimer.Restart();
         Context.ReplyLocalizedMessage("vf_game_started", Level);
         await DisplayBoard(showAll: false, firstTime: true);
     }
 
     public async Task FlipTile(IUser user, int row, int col)
     {
-        if (!IsRoundActive)
+        if (!IsRoundActive || user.UserId != Owner.UserId)
         {
             return;
         }
@@ -163,12 +167,13 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
             return;
         }
 
+        _inactivityTimer.Restart();
         await DisplayBoard(showAll: false, firstTime: true);
     }
 
     public async Task QuitRound(IUser user)
     {
-        if (!IsRoundActive)
+        if (!IsRoundActive || user.UserId != Owner.UserId)
         {
             return;
         }
@@ -184,7 +189,20 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
     public void Cancel()
     {
         IsRoundActive = false;
+        _inactivityTimer.Stop();
         OnEnd();
+    }
+
+    private async Task OnInactivityTimeout()
+    {
+        if (IsEnded)
+        {
+            return;
+        }
+
+        Context.ReplyLocalizedMessage("vf_game_timeout");
+        Cancel();
+        await DisplayBoard(showAll: true, firstTime: false);
     }
 
     private void ComputeRowColStats()

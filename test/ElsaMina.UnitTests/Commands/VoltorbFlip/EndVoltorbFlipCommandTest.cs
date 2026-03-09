@@ -87,6 +87,27 @@ public class EndVoltorbFlipCommandTest
     }
 
     [Test]
+    public async Task Test_RunAsync_ShouldReplyNotOwner_WhenSenderIsNotOwner()
+    {
+        // Arrange
+        var owner = Substitute.For<IUser>();
+        owner.UserId.Returns("owner");
+        var sender = Substitute.For<IUser>();
+        sender.UserId.Returns("otherplayer");
+        _voltorbFlipGame.Owner.Returns(owner);
+        _context.Sender.Returns(sender);
+        _context.Room.Returns(_room);
+        _room.Game.Returns(_voltorbFlipGame);
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        _context.Received(1).ReplyLocalizedMessage("vf_game_not_owner");
+        _voltorbFlipGame.DidNotReceive().Cancel();
+    }
+
+    [Test]
     public async Task Test_RunAsync_ShouldReplyNoGame_WhenOtherGameExists()
     {
         // Arrange

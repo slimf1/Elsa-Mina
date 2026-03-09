@@ -13,6 +13,12 @@ public class EndVoltorbFlipCommand : Command
     {
         if (context.Room?.Game is IVoltorbFlipGame voltorbFlip)
         {
+            if (context.Sender.UserId != voltorbFlip.Owner.UserId)
+            {
+                context.ReplyLocalizedMessage("vf_game_not_owner");
+                return Task.CompletedTask;
+            }
+
             voltorbFlip.Cancel();
             context.ReplyLocalizedMessage("vf_game_cancelled");
         }
