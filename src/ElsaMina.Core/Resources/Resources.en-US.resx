@@ -1299,6 +1299,9 @@
     <data name="vf_panel_hint" xml:space="preserve">
         <value>Row/column totals are shown as strategy hints.</value>
     </data>
+    <data name="vf_panel_timeout_hint" xml:space="preserve">
+        <value>The game ends automatically after 30 seconds of inactivity.</value>
+    </data>
     <data name="vf_panel_options" xml:space="preserve">
         <value>Options</value>
     </data>

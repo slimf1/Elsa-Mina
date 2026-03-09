@@ -1304,6 +1304,9 @@
     <data name="vf_panel_hint" xml:space="preserve">
         <value>I totali per riga/colonna sono indizi strategici.</value>
     </data>
+    <data name="vf_panel_timeout_hint" xml:space="preserve">
+        <value>La partita termina automaticamente dopo 30 secondi di inattività.</value>
+    </data>
     <data name="vf_panel_options" xml:space="preserve">
         <value>Opzioni</value>
     </data>
