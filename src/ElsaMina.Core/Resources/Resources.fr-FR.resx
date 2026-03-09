@@ -1257,6 +1257,12 @@
     <data name="vf_game_cancelled" xml:space="preserve">
         <value>La partie de Voltorb Flip a été annulée.</value>
     </data>
+    <data name="vf_game_not_owner" xml:space="preserve">
+        <value>Seul le joueur qui a lancé cette partie de Voltorb Flip peut faire cela.</value>
+    </data>
+    <data name="vf_game_timeout" xml:space="preserve">
+        <value>La partie de Voltorb Flip s'est terminée par inactivité.</value>
+    </data>
     <data name="vf_panel_title" xml:space="preserve">
         <value>Voltorb Flip</value>
     </data>

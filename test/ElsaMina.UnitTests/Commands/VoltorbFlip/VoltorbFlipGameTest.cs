@@ -45,9 +45,11 @@ public class VoltorbFlipGameTest
 
         _mockUser = Substitute.For<IUser>();
         _mockUser.Name.Returns("TestPlayer");
+        _mockUser.UserId.Returns("testplayer");
 
         _game = new VoltorbFlipGame(_mockRandomService, _mockTemplatesManager, _mockConfiguration);
         _game.Context = _mockContext;
+        _game.Owner = _mockUser;
     }
 
     [TearDown]
@@ -202,6 +204,18 @@ public class VoltorbFlipGameTest
         await _game.FlipTile(_mockUser, 0, 0);
 
         Assert.That(_game.IsRevealed, Is.Null);
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldDoNothing_WhenUserIsNotOwner()
+    {
+        await _game.StartNewRound();
+        var otherUser = Substitute.For<IUser>();
+        otherUser.UserId.Returns("otherplayer");
+
+        await _game.FlipTile(otherUser, 0, 2);
+
+        Assert.That(_game.IsRevealed[0, 2], Is.False);
     }
 
     [Test]
@@ -379,6 +393,18 @@ public class VoltorbFlipGameTest
     #endregion
 
     #region QuitRound
+
+    [Test]
+    public async Task Test_QuitRound_ShouldDoNothing_WhenUserIsNotOwner()
+    {
+        await _game.StartNewRound();
+        var otherUser = Substitute.For<IUser>();
+        otherUser.UserId.Returns("otherplayer");
+
+        await _game.QuitRound(otherUser);
+
+        Assert.That(_game.IsRoundActive, Is.True);
+    }
 
     [Test]
     public async Task Test_QuitRound_ShouldDoNothing_WhenRoundNotActive()

@@ -16,6 +16,7 @@ public interface IVoltorbFlipGame : IGame
     int[] ColVoltorbs { get; }
     bool IsEnded { get; }
     IContext Context { get; set; }
+    IUser Owner { get; set; }
 
     Task StartNewRound();
     Task FlipTile(IUser user, int row, int col);
