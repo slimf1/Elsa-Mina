@@ -4,7 +4,7 @@ public static class VoltorbFlipConstants
 {
     public const int GRID_SIZE = 5;
     public const int MAX_LEVEL = 8;
-    public static readonly TimeSpan INACTIVITY_TIMEOUT = TimeSpan.FromSeconds(30);
+    public static readonly TimeSpan INACTIVITY_TIMEOUT = TimeSpan.FromMinutes(1);
 
     // Each level has 5 possible board configurations: (twos, threes, voltorbs)
     public static readonly (int Twos, int Threes, int Voltorbs)[][] LEVEL_CONFIGURATIONS =

@@ -9,6 +9,14 @@ namespace ElsaMina.UnitTests.Commands.VoltorbFlip;
 
 public class EndVoltorbFlipCommandTest
 {
+    // Concrete IUser to avoid NSubstitute auto-substitute sharing between Owner and Sender
+    private record TestUser(string UserId) : IUser
+    {
+        public string Name => UserId;
+        public bool IsIdle => false;
+        public Rank Rank => Rank.Regular;
+    }
+
     private EndVoltorbFlipCommand _command;
     private IContext _context;
     private IRoom _room;
@@ -85,16 +93,14 @@ public class EndVoltorbFlipCommandTest
         _context.Received(1).ReplyLocalizedMessage("vf_game_no_game");
         _voltorbFlipGame.DidNotReceive().Cancel();
     }
-
+    
     [Test]
     public async Task Test_RunAsync_ShouldReplyNotOwner_WhenSenderIsNotOwner()
     {
-        // Arrange
-        var owner = Substitute.For<IUser>();
-        owner.UserId.Returns("owner");
-        var sender = Substitute.For<IUser>();
-        sender.UserId.Returns("otherplayer");
-        _voltorbFlipGame.Owner.Returns(owner);
+        // Arrange — use concrete TestUser to avoid NSubstitute auto-substitute sharing
+        var owner = new TestUser("owner-id");
+        var sender = new TestUser("sender-id");
+        _voltorbFlipGame.Owner = owner;
         _context.Sender.Returns(sender);
         _context.Room.Returns(_room);
         _room.Game.Returns(_voltorbFlipGame);

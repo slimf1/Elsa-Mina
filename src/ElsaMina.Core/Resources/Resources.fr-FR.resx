@@ -1309,7 +1309,10 @@
         <value>Les totaux par ligne/colonne sont des indices stratégiques.</value>
     </data>
     <data name="vf_panel_timeout_hint" xml:space="preserve">
-        <value>La partie se termine automatiquement après 30 secondes d'inactivité.</value>
+        <value>La partie se termine automatiquement après 60 secondes d'inactivité.</value>
+    </data>
+    <data name="vf_panel_mark_mode" xml:space="preserve">
+        <value>Mode annotation</value>
     </data>
     <data name="vf_panel_options" xml:space="preserve">
         <value>Options</value>

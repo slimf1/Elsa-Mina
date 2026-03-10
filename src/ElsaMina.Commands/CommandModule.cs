@@ -172,6 +172,7 @@ public class CommandModule : Module
         builder.RegisterCommand<StartVoltorbFlipCommand>();
         builder.RegisterCommand<JoinVoltorbFlipCommand>();
         builder.RegisterCommand<FlipVoltorbFlipCommand>();
+        builder.RegisterCommand<ToggleMarkVoltorbFlipCommand>();
         builder.RegisterCommand<QuitVoltorbFlipCommand>();
         builder.RegisterCommand<EndVoltorbFlipCommand>();
 

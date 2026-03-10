@@ -48,6 +48,8 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
     public int[] ColVoltorbs { get; private set; }
     public IContext Context { get; set; }
     public IUser Owner { get; set; }
+    public bool IsMarkingMode { get; private set; }
+    public bool[,] IsMarked { get; private set; }
     private string GameIdentifier => $"vf-{Context.RoomId}-{_gameId}";
     private string AnnounceId => GameIdentifier;
 
@@ -72,6 +74,8 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
         const int size = VoltorbFlipConstants.GRID_SIZE;
         TileValues = new int[size, size];
         IsRevealed = new bool[size, size];
+        IsMarked = new bool[size, size];
+        IsMarkingMode = false;
         RowSums = new int[size];
         ColSums = new int[size];
         RowVoltorbs = new int[size];
@@ -149,6 +153,14 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
             return;
         }
 
+        if (IsMarkingMode)
+        {
+            IsMarked[row, col] = !IsMarked[row, col];
+            _inactivityTimer.Restart();
+            await DisplayBoard(showAll: false, firstTime: false);
+            return;
+        }
+
         IsRevealed[row, col] = true;
         var value = TileValues[row, col];
 
@@ -202,6 +214,18 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
         Level = newLevel;
         Context.ReplyLocalizedMessage("vf_game_quit", user.Name, earnedCoins, newLevel);
         await DisplayBoard(showAll: true, firstTime: true);
+    }
+
+    public async Task ToggleMarkingMode(IUser user)
+    {
+        if (!IsRoundActive || user.UserId != Owner.UserId)
+        {
+            return;
+        }
+
+        IsMarkingMode = !IsMarkingMode;
+        _inactivityTimer.Restart();
+        await DisplayBoard(showAll: false, firstTime: false);
     }
 
     public void Cancel()

@@ -15,12 +15,15 @@ public interface IVoltorbFlipGame : IGame
     int[] RowVoltorbs { get; }
     int[] ColVoltorbs { get; }
     bool IsEnded { get; }
+    bool IsMarkingMode { get; }
+    bool[,] IsMarked { get; }
     IContext Context { get; set; }
     IUser Owner { get; set; }
 
     Task DisplayAnnounce();
     Task StartNewRound();
     Task FlipTile(IUser user, int row, int col);
+    Task ToggleMarkingMode(IUser user);
     Task QuitRound(IUser user);
     void Cancel();
 }

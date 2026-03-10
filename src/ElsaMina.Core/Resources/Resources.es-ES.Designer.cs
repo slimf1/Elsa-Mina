@@ -153,6 +153,36 @@ namespace ElsaMina.Core.Resources {
             }
         }
         
+        internal static string customcommandlist_title {
+            get {
+                return ResourceManager.GetString("customcommandlist_title", resourceCulture);
+            }
+        }
+        
+        internal static string customcommandlist_name {
+            get {
+                return ResourceManager.GetString("customcommandlist_name", resourceCulture);
+            }
+        }
+        
+        internal static string customcommandlist_content {
+            get {
+                return ResourceManager.GetString("customcommandlist_content", resourceCulture);
+            }
+        }
+        
+        internal static string customcommandlist_author {
+            get {
+                return ResourceManager.GetString("customcommandlist_author", resourceCulture);
+            }
+        }
+        
+        internal static string customcommandlist_no_commands {
+            get {
+                return ResourceManager.GetString("customcommandlist_no_commands", resourceCulture);
+            }
+        }
+        
         internal static string room_dashboard {
             get {
                 return ResourceManager.GetString("room_dashboard", resourceCulture);
@@ -1659,6 +1689,42 @@ namespace ElsaMina.Core.Resources {
             }
         }
         
+        internal static string arcade_sheets_addpoints_help {
+            get {
+                return ResourceManager.GetString("arcade_sheets_addpoints_help", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_sheets_addpoints_success {
+            get {
+                return ResourceManager.GetString("arcade_sheets_addpoints_success", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_sheets_addpoints_new_player {
+            get {
+                return ResourceManager.GetString("arcade_sheets_addpoints_new_player", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_sheets_points_help {
+            get {
+                return ResourceManager.GetString("arcade_sheets_points_help", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_sheets_points_has_points {
+            get {
+                return ResourceManager.GetString("arcade_sheets_points_has_points", resourceCulture);
+            }
+        }
+        
+        internal static string arcade_sheets_points_no_points {
+            get {
+                return ResourceManager.GetString("arcade_sheets_points_no_points", resourceCulture);
+            }
+        }
+        
         internal static string setlocale_invalid_locale {
             get {
                 return ResourceManager.GetString("setlocale_invalid_locale", resourceCulture);
@@ -2292,6 +2358,288 @@ namespace ElsaMina.Core.Resources {
         internal static string arcade_add_success {
             get {
                 return ResourceManager.GetString("arcade_add_success", resourceCulture);
+            }
+        }
+        
+        internal static string top_tournament_players_help {
+            get {
+                return ResourceManager.GetString("top_tournament_players_help", resourceCulture);
+            }
+        }
+        
+        internal static string top_tournament_players_title {
+            get {
+                return ResourceManager.GetString("top_tournament_players_title", resourceCulture);
+            }
+        }
+        
+        internal static string top_tournament_players_user {
+            get {
+                return ResourceManager.GetString("top_tournament_players_user", resourceCulture);
+            }
+        }
+        
+        internal static string top_tournament_players_wins {
+            get {
+                return ResourceManager.GetString("top_tournament_players_wins", resourceCulture);
+            }
+        }
+        
+        internal static string top_tournament_players_runner_up {
+            get {
+                return ResourceManager.GetString("top_tournament_players_runner_up", resourceCulture);
+            }
+        }
+        
+        internal static string top_tournament_players_third_place {
+            get {
+                return ResourceManager.GetString("top_tournament_players_third_place", resourceCulture);
+            }
+        }
+        
+        internal static string top_tournament_players_win_rate {
+            get {
+                return ResourceManager.GetString("top_tournament_players_win_rate", resourceCulture);
+            }
+        }
+        
+        internal static string top_tournament_players_entered {
+            get {
+                return ResourceManager.GetString("top_tournament_players_entered", resourceCulture);
+            }
+        }
+        
+        internal static string top_tournament_players_no_data {
+            get {
+                return ResourceManager.GetString("top_tournament_players_no_data", resourceCulture);
+            }
+        }
+        
+        internal static string top_tournament_players_error {
+            get {
+                return ResourceManager.GetString("top_tournament_players_error", resourceCulture);
+            }
+        }
+        
+        internal static string random_image_error {
+            get {
+                return ResourceManager.GetString("random_image_error", resourceCulture);
+            }
+        }
+        
+        internal static string walk_missing_url {
+            get {
+                return ResourceManager.GetString("walk_missing_url", resourceCulture);
+            }
+        }
+        
+        internal static string rand_warning_snake {
+            get {
+                return ResourceManager.GetString("rand_warning_snake", resourceCulture);
+            }
+        }
+        
+        internal static string rand_warning_spider {
+            get {
+                return ResourceManager.GetString("rand_warning_spider", resourceCulture);
+            }
+        }
+        
+        internal static string rand_warning_shark {
+            get {
+                return ResourceManager.GetString("rand_warning_shark", resourceCulture);
+            }
+        }
+        
+        internal static string rand_warning_mouse {
+            get {
+                return ResourceManager.GetString("rand_warning_mouse", resourceCulture);
+            }
+        }
+        
+        internal static string rank_former_staff {
+            get {
+                return ResourceManager.GetString("rank_former_staff", resourceCulture);
+            }
+        }
+        
+        internal static string profile_tournament_records {
+            get {
+                return ResourceManager.GetString("profile_tournament_records", resourceCulture);
+            }
+        }
+        
+        internal static string random_tournament_wall {
+            get {
+                return ResourceManager.GetString("random_tournament_wall", resourceCulture);
+            }
+        }
+        
+        internal static string vf_game_waiting {
+            get {
+                return ResourceManager.GetString("vf_game_waiting", resourceCulture);
+            }
+        }
+        
+        internal static string vf_panel_waiting_for_player {
+            get {
+                return ResourceManager.GetString("vf_panel_waiting_for_player", resourceCulture);
+            }
+        }
+        
+        internal static string vf_panel_join {
+            get {
+                return ResourceManager.GetString("vf_panel_join", resourceCulture);
+            }
+        }
+        
+        internal static string vf_game_started {
+            get {
+                return ResourceManager.GetString("vf_game_started", resourceCulture);
+            }
+        }
+        
+        internal static string vf_game_already_running {
+            get {
+                return ResourceManager.GetString("vf_game_already_running", resourceCulture);
+            }
+        }
+        
+        internal static string vf_game_no_game {
+            get {
+                return ResourceManager.GetString("vf_game_no_game", resourceCulture);
+            }
+        }
+        
+        internal static string vf_game_round_active {
+            get {
+                return ResourceManager.GetString("vf_game_round_active", resourceCulture);
+            }
+        }
+        
+        internal static string vf_game_voltorb_hit {
+            get {
+                return ResourceManager.GetString("vf_game_voltorb_hit", resourceCulture);
+            }
+        }
+        
+        internal static string vf_game_win {
+            get {
+                return ResourceManager.GetString("vf_game_win", resourceCulture);
+            }
+        }
+        
+        internal static string vf_game_quit {
+            get {
+                return ResourceManager.GetString("vf_game_quit", resourceCulture);
+            }
+        }
+        
+        internal static string vf_game_cancelled {
+            get {
+                return ResourceManager.GetString("vf_game_cancelled", resourceCulture);
+            }
+        }
+        
+        internal static string vf_game_not_owner {
+            get {
+                return ResourceManager.GetString("vf_game_not_owner", resourceCulture);
+            }
+        }
+        
+        internal static string vf_game_timeout {
+            get {
+                return ResourceManager.GetString("vf_game_timeout", resourceCulture);
+            }
+        }
+        
+        internal static string vf_panel_title {
+            get {
+                return ResourceManager.GetString("vf_panel_title", resourceCulture);
+            }
+        }
+        
+        internal static string vf_panel_level {
+            get {
+                return ResourceManager.GetString("vf_panel_level", resourceCulture);
+            }
+        }
+        
+        internal static string vf_panel_coins {
+            get {
+                return ResourceManager.GetString("vf_panel_coins", resourceCulture);
+            }
+        }
+        
+        internal static string vf_panel_how_to_flip {
+            get {
+                return ResourceManager.GetString("vf_panel_how_to_flip", resourceCulture);
+            }
+        }
+        
+        internal static string vf_panel_quit {
+            get {
+                return ResourceManager.GetString("vf_panel_quit", resourceCulture);
+            }
+        }
+        
+        internal static string vf_panel_new_round {
+            get {
+                return ResourceManager.GetString("vf_panel_new_round", resourceCulture);
+            }
+        }
+        
+        internal static string vf_panel_objective {
+            get {
+                return ResourceManager.GetString("vf_panel_objective", resourceCulture);
+            }
+        }
+        
+        internal static string vf_panel_legend_one {
+            get {
+                return ResourceManager.GetString("vf_panel_legend_one", resourceCulture);
+            }
+        }
+        
+        internal static string vf_panel_legend_two {
+            get {
+                return ResourceManager.GetString("vf_panel_legend_two", resourceCulture);
+            }
+        }
+        
+        internal static string vf_panel_legend_three {
+            get {
+                return ResourceManager.GetString("vf_panel_legend_three", resourceCulture);
+            }
+        }
+        
+        internal static string vf_panel_legend_voltorb {
+            get {
+                return ResourceManager.GetString("vf_panel_legend_voltorb", resourceCulture);
+            }
+        }
+        
+        internal static string vf_panel_hint {
+            get {
+                return ResourceManager.GetString("vf_panel_hint", resourceCulture);
+            }
+        }
+        
+        internal static string vf_panel_timeout_hint {
+            get {
+                return ResourceManager.GetString("vf_panel_timeout_hint", resourceCulture);
+            }
+        }
+        
+        internal static string vf_panel_options {
+            get {
+                return ResourceManager.GetString("vf_panel_options", resourceCulture);
+            }
+        }
+        
+        internal static string vf_panel_stop {
+            get {
+                return ResourceManager.GetString("vf_panel_stop", resourceCulture);
             }
         }
     }

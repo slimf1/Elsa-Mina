@@ -37,7 +37,11 @@
                                             class="button"
                                             name="send"
                                             value="/botmsg @Model.BotName,@(Model.Trigger)vfflip @Model.RoomId, @row, @col"
-                                            style="width: 36px; height: 36px; @hiddenCellStyle border: none; cursor: pointer;">
+                                            style="width: 36px; height: 36px; @hiddenCellStyle border: none; cursor: pointer; text-align: left; vertical-align: top; padding: 2px;">
+                                            @if (game.IsMarked[row, col])
+                                            {
+                                                <span style="display: inline-block; width: 8px; height: 8px; background-color: #FFD700; border-radius: 1px;"></span>
+                                            }
                                         </button>
                                     }
                                     else if (game.TileValues[row, col] == 0)
@@ -84,6 +88,17 @@
                 <span style="background-color: #f90; font-weight: bold; padding: 1px 4px;">3</span>&nbsp;@GetString("vf_panel_legend_three")<br/>
                 <img src="@voltorbSpriteUrl" width="16" height="16" style="vertical-align: middle;" alt="Voltorb" />&nbsp;@GetString("vf_panel_legend_voltorb")<br/>
                 <br/>
+                @if (game.IsRoundActive)
+                {
+                    <button
+                        class="button"
+                        name="send"
+                        value="/botmsg @Model.BotName,@(Model.Trigger)vftogglemark @Model.RoomId"
+                        style="@(game.IsMarkingMode ? "background-color: #FFD700; font-weight: bold;" : "")">
+                        @GetString("vf_panel_mark_mode")
+                    </button>
+                    <br/><br/>
+                }
                 @if (!game.IsEnded)
                 {
                     <details>

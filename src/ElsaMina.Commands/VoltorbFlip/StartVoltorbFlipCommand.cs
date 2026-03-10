@@ -35,6 +35,7 @@ public class StartVoltorbFlipCommand : Command
                 return;
             }
 
+            voltorbFlip.Owner = context.Sender;
             voltorbFlip.Context = context;
             await voltorbFlip.StartNewRound();
             return;

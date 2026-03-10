@@ -392,6 +392,100 @@ public class VoltorbFlipGameTest
 
     #endregion
 
+    #region ToggleMarkingMode
+
+    [Test]
+    public async Task Test_ToggleMarkingMode_ShouldEnableMarkingMode_WhenCalledOnce()
+    {
+        await _game.StartNewRound();
+
+        await _game.ToggleMarkingMode(_mockUser);
+
+        Assert.That(_game.IsMarkingMode, Is.True);
+    }
+
+    [Test]
+    public async Task Test_ToggleMarkingMode_ShouldDisableMarkingMode_WhenCalledTwice()
+    {
+        await _game.StartNewRound();
+
+        await _game.ToggleMarkingMode(_mockUser);
+        await _game.ToggleMarkingMode(_mockUser);
+
+        Assert.That(_game.IsMarkingMode, Is.False);
+    }
+
+    [Test]
+    public async Task Test_ToggleMarkingMode_ShouldDoNothing_WhenUserIsNotOwner()
+    {
+        await _game.StartNewRound();
+        var otherUser = Substitute.For<IUser>();
+        otherUser.UserId.Returns("otherplayer");
+
+        await _game.ToggleMarkingMode(otherUser);
+
+        Assert.That(_game.IsMarkingMode, Is.False);
+    }
+
+    [Test]
+    public async Task Test_ToggleMarkingMode_ShouldDoNothing_WhenRoundNotActive()
+    {
+        await _game.ToggleMarkingMode(_mockUser);
+
+        Assert.That(_game.IsMarkingMode, Is.False);
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldMarkCell_WhenInMarkingMode()
+    {
+        await _game.StartNewRound();
+        await _game.ToggleMarkingMode(_mockUser);
+
+        await _game.FlipTile(_mockUser, 0, 2);
+
+        Assert.That(_game.IsMarked[0, 2], Is.True);
+        Assert.That(_game.IsRevealed[0, 2], Is.False);
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldUnmarkCell_WhenInMarkingModeAndCellAlreadyMarked()
+    {
+        await _game.StartNewRound();
+        await _game.ToggleMarkingMode(_mockUser);
+        await _game.FlipTile(_mockUser, 0, 2); // mark
+
+        await _game.FlipTile(_mockUser, 0, 2); // unmark
+
+        Assert.That(_game.IsMarked[0, 2], Is.False);
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldNotFlipCell_WhenInMarkingMode()
+    {
+        await _game.StartNewRound();
+        await _game.ToggleMarkingMode(_mockUser);
+
+        await _game.FlipTile(_mockUser, 0, 2);
+
+        Assert.That(_game.CurrentCoins, Is.EqualTo(0));
+    }
+
+    [Test]
+    public async Task Test_StartNewRound_ShouldResetMarkingModeAndMarks_WhenStartingNewRound()
+    {
+        await _game.StartNewRound();
+        await _game.ToggleMarkingMode(_mockUser);
+        await _game.FlipTile(_mockUser, 0, 2); // mark a cell
+        _game.Owner = _mockUser;
+
+        await _game.StartNewRound();
+
+        Assert.That(_game.IsMarkingMode, Is.False);
+        Assert.That(_game.IsMarked[0, 2], Is.False);
+    }
+
+    #endregion
+
     #region QuitRound
 
     [Test]
