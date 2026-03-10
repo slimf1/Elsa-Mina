@@ -1,3 +1,5 @@
+using ElsaMina.Commands.Profile;
+using ElsaMina.Core;
 using ElsaMina.Core.Handlers;
 using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.Core.Utils;
@@ -11,11 +13,18 @@ public class TourEndHandler : Handler
 {
     private readonly IBotDbContextFactory _botDbContextFactory;
     private readonly IRoomUserDataService _roomUserDataService;
+    private readonly IProfileService _profileService;
+    private readonly IBot _bot;
 
-    public TourEndHandler(IBotDbContextFactory botDbContextFactory, IRoomUserDataService roomUserDataService)
+    public TourEndHandler(IBotDbContextFactory botDbContextFactory,
+        IRoomUserDataService roomUserDataService,
+        IProfileService profileService,
+        IBot bot)
     {
         _botDbContextFactory = botDbContextFactory;
         _roomUserDataService = roomUserDataService;
+        _profileService = profileService;
+        _bot = bot;
     }
 
     public override async Task HandleReceivedMessageAsync(string[] parts, string roomId = null,
@@ -64,6 +73,21 @@ public class TourEndHandler : Handler
         catch (Exception ex)
         {
             Log.Error(ex, "Error saving tournament results for room {RoomId}", roomId);
+        }
+
+        if (result.Winner == null)
+        {
+            return;
+        }
+
+        try
+        {
+            var profileHtml = await _profileService.GetProfileHtmlAsync(result.Winner, roomId, cancellationToken);
+            _bot.Say(roomId, $"/addhtmlbox {profileHtml.RemoveNewlines()}");
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error displaying winner profile for {Winner} in room {RoomId}", result.Winner, roomId);
         }
     }
 }
