@@ -1275,6 +1275,12 @@
     <data name="vf_panel_title" xml:space="preserve">
         <value>Voltorb Flip</value>
     </data>
+    <data name="vf_panel_player" xml:space="preserve">
+        <value>Joueur : {0}</value>
+    </data>
+    <data name="vf_panel_total_coins" xml:space="preserve">
+        <value>Pièces totales : {0}</value>
+    </data>
     <data name="vf_panel_level" xml:space="preserve">
         <value>Niveau {0}</value>
     </data>

@@ -9,24 +9,22 @@ public class EndVoltorbFlipCommand : Command
 {
     public override Rank RequiredRank => Rank.Voiced;
 
-    public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)
+    public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         if (context.Room?.Game is IVoltorbFlipGame voltorbFlip)
         {
             if (voltorbFlip.Owner != null && context.Sender.UserId != voltorbFlip.Owner.UserId)
             {
                 context.ReplyLocalizedMessage("vf_game_not_owner");
-                return Task.CompletedTask;
+                return;
             }
 
-            voltorbFlip.Cancel();
+            await voltorbFlip.CancelAsync();
             context.ReplyLocalizedMessage("vf_game_cancelled");
         }
         else
         {
             context.ReplyLocalizedMessage("vf_game_no_game");
         }
-
-        return Task.CompletedTask;
     }
 }

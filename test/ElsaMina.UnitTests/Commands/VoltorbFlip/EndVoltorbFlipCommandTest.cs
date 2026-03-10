@@ -48,7 +48,7 @@ public class EndVoltorbFlipCommandTest
         await _command.RunAsync(_context);
 
         // Assert
-        _voltorbFlipGame.Received(1).Cancel();
+        await _voltorbFlipGame.Received(1).CancelAsync();
     }
 
     [Test]
@@ -76,7 +76,7 @@ public class EndVoltorbFlipCommandTest
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("vf_game_no_game");
-        _voltorbFlipGame.DidNotReceive().Cancel();
+        await _voltorbFlipGame.DidNotReceive().CancelAsync();
     }
 
     [Test]
@@ -91,9 +91,9 @@ public class EndVoltorbFlipCommandTest
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("vf_game_no_game");
-        _voltorbFlipGame.DidNotReceive().Cancel();
+        await _voltorbFlipGame.DidNotReceive().CancelAsync();
     }
-    
+
     [Test]
     public async Task Test_RunAsync_ShouldReplyNotOwner_WhenSenderIsNotOwner()
     {
@@ -110,7 +110,7 @@ public class EndVoltorbFlipCommandTest
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("vf_game_not_owner");
-        _voltorbFlipGame.DidNotReceive().Cancel();
+        await _voltorbFlipGame.DidNotReceive().CancelAsync();
     }
 
     [Test]
@@ -125,6 +125,6 @@ public class EndVoltorbFlipCommandTest
 
         // Assert
         _context.Received(1).ReplyLocalizedMessage("vf_game_no_game");
-        _voltorbFlipGame.DidNotReceive().Cancel();
+        await _voltorbFlipGame.DidNotReceive().CancelAsync();
     }
 }

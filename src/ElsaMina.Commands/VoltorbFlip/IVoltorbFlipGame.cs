@@ -8,6 +8,7 @@ public interface IVoltorbFlipGame : IGame
     int Level { get; }
     bool IsRoundActive { get; }
     int CurrentCoins { get; }
+    int TotalCoins { get; }
     int[,] TileValues { get; }
     bool[,] IsRevealed { get; }
     int[] RowSums { get; }
@@ -25,5 +26,5 @@ public interface IVoltorbFlipGame : IGame
     Task FlipTile(IUser user, int row, int col);
     Task ToggleMarkingMode(IUser user);
     Task QuitRound(IUser user);
-    void Cancel();
+    Task CancelAsync();
 }

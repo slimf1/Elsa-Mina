@@ -5,6 +5,8 @@ using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
+using ElsaMina.DataAccess;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 
 namespace ElsaMina.UnitTests.Commands.VoltorbFlip;
@@ -18,6 +20,8 @@ public class VoltorbFlipGameTest
     private IDependencyContainerService _mockDependencyContainerService;
     private IContext _mockContext;
     private IUser _mockUser;
+    private IBotDbContextFactory _dbContextFactory;
+    private DbContextOptions<BotDbContext> _dbOptions;
 
     // Config: 1 voltorb, 1 two, 0 threes — with ShuffleInPlace doing nothing the layout is:
     // [0,0]=Voltorb  [0,1]=2  [0,2]=1  [0,3]=1  [0,4]=1
@@ -27,6 +31,17 @@ public class VoltorbFlipGameTest
     [SetUp]
     public void SetUp()
     {
+        _dbOptions = new DbContextOptionsBuilder<BotDbContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
+
+        using var dbContext = new BotDbContext(_dbOptions);
+        dbContext.Database.EnsureCreated();
+
+        _dbContextFactory = Substitute.For<IBotDbContextFactory>();
+        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>())
+            .Returns(_ => Task.FromResult(new BotDbContext(_dbOptions)));
+
         _mockRandomService = Substitute.For<IRandomService>();
         _mockTemplatesManager = Substitute.For<ITemplatesManager>();
         _mockConfiguration = Substitute.For<IConfiguration>();
@@ -47,7 +62,7 @@ public class VoltorbFlipGameTest
         _mockUser.Name.Returns("TestPlayer");
         _mockUser.UserId.Returns("testplayer");
 
-        _game = new VoltorbFlipGame(_mockRandomService, _mockTemplatesManager, _mockConfiguration);
+        _game = new VoltorbFlipGame(_mockRandomService, _mockTemplatesManager, _mockConfiguration, _dbContextFactory);
         _game.Context = _mockContext;
         _game.Owner = _mockUser;
     }
@@ -77,12 +92,12 @@ public class VoltorbFlipGameTest
     }
 
     [Test]
-    public async Task Test_StartNewRound_ShouldNotRestartGame_WhenCalledOnSubsequentRound()
+    public async Task Test_StartNewRound_ShouldStartNewSession_WhenCalledAfterRoundEnds()
     {
         await _game.StartNewRound();
-        await _game.QuitRound(_mockUser);
+        await _game.QuitRound(_mockUser); // game ends
 
-        await _game.StartNewRound();
+        await _game.StartNewRound(); // starts a new session
 
         Assert.Multiple(() =>
         {
@@ -134,6 +149,36 @@ public class VoltorbFlipGameTest
         await _game.StartNewRound();
 
         Assert.That(_game.IsRevealed[0, 2], Is.False);
+    }
+
+    [Test]
+    public async Task Test_StartNewRound_ShouldLoadLevelFromDb_WhenPlayerHasSavedData()
+    {
+        // Arrange — seed saved level 5
+        await using (var db = new BotDbContext(_dbOptions))
+        {
+            db.VoltorbFlipLevels.Add(new DataAccess.Models.VoltorbFlipLevel
+            {
+                UserId = "testplayer",
+                Level = 5,
+                Coins = 100
+            });
+            await db.SaveChangesAsync();
+        }
+
+        await _game.StartNewRound();
+
+        Assert.That(_game.Level, Is.EqualTo(5));
+        Assert.That(_game.TotalCoins, Is.EqualTo(100));
+    }
+
+    [Test]
+    public async Task Test_StartNewRound_ShouldDefaultToLevel1_WhenNoSavedData()
+    {
+        await _game.StartNewRound();
+
+        Assert.That(_game.Level, Is.EqualTo(1));
+        Assert.That(_game.TotalCoins, Is.EqualTo(0));
     }
 
     #endregion
@@ -263,13 +308,17 @@ public class VoltorbFlipGameTest
     }
 
     [Test]
-    public async Task Test_FlipTile_ShouldEndRound_WhenVoltorbFlipped()
+    public async Task Test_FlipTile_ShouldEndGame_WhenVoltorbFlipped()
     {
         await _game.StartNewRound();
 
         await _game.FlipTile(_mockUser, 0, 0); // Voltorb at [0,0]
 
-        Assert.That(_game.IsRoundActive, Is.False);
+        Assert.Multiple(() =>
+        {
+            Assert.That(_game.IsRoundActive, Is.False);
+            Assert.That(_game.IsEnded, Is.True);
+        });
     }
 
     [Test]
@@ -348,14 +397,18 @@ public class VoltorbFlipGameTest
     }
 
     [Test]
-    public async Task Test_FlipTile_ShouldWinRound_WhenAllMultiplierTilesRevealed()
+    public async Task Test_FlipTile_ShouldEndGame_WhenAllMultiplierTilesRevealed()
     {
         // Config has 1 two, 0 threes → flipping the single 2x tile wins
         await _game.StartNewRound();
 
         await _game.FlipTile(_mockUser, 0, 1); // Only 2x tile
 
-        Assert.That(_game.IsRoundActive, Is.False);
+        Assert.Multiple(() =>
+        {
+            Assert.That(_game.IsRoundActive, Is.False);
+            Assert.That(_game.IsEnded, Is.True);
+        });
     }
 
     [Test]
@@ -388,6 +441,33 @@ public class VoltorbFlipGameTest
         }
 
         Assert.That(_game.Level, Is.EqualTo(VoltorbFlipConstants.MAX_LEVEL));
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldSaveLevelToDb_WhenVoltorbFlipped()
+    {
+        await _game.StartNewRound();
+
+        await _game.FlipTile(_mockUser, 0, 0); // Voltorb
+
+        await using var db = new BotDbContext(_dbOptions);
+        var record = await db.VoltorbFlipLevels.FindAsync("testplayer");
+        Assert.That(record, Is.Not.Null);
+        Assert.That(record.Level, Is.EqualTo(1));
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldSaveLevelAndCoinsToDb_WhenRoundWon()
+    {
+        await _game.StartNewRound();
+
+        await _game.FlipTile(_mockUser, 0, 1); // Win with 2x tile → coins = 2, level → 2
+
+        await using var db = new BotDbContext(_dbOptions);
+        var record = await db.VoltorbFlipLevels.FindAsync("testplayer");
+        Assert.That(record, Is.Not.Null);
+        Assert.That(record.Level, Is.EqualTo(2));
+        Assert.That(record.Coins, Is.EqualTo(2));
     }
 
     #endregion
@@ -509,13 +589,17 @@ public class VoltorbFlipGameTest
     }
 
     [Test]
-    public async Task Test_QuitRound_ShouldDeactivateRound()
+    public async Task Test_QuitRound_ShouldEndGame()
     {
         await _game.StartNewRound();
 
         await _game.QuitRound(_mockUser);
 
-        Assert.That(_game.IsRoundActive, Is.False);
+        Assert.Multiple(() =>
+        {
+            Assert.That(_game.IsRoundActive, Is.False);
+            Assert.That(_game.IsEnded, Is.True);
+        });
     }
 
     [Test]
@@ -564,38 +648,63 @@ public class VoltorbFlipGameTest
         Assert.That(_game.Level, Is.EqualTo(1));
     }
 
-    #endregion
-
-    #region Cancel
-
     [Test]
-    public async Task Test_Cancel_ShouldEndGame()
+    public async Task Test_QuitRound_ShouldSaveLevelToDb_WhenQuit()
     {
         await _game.StartNewRound();
 
-        _game.Cancel();
+        await _game.QuitRound(_mockUser);
+
+        await using var db = new BotDbContext(_dbOptions);
+        var record = await db.VoltorbFlipLevels.FindAsync("testplayer");
+        Assert.That(record, Is.Not.Null);
+        Assert.That(record.Level, Is.EqualTo(1));
+    }
+
+    #endregion
+
+    #region CancelAsync
+
+    [Test]
+    public async Task Test_CancelAsync_ShouldEndGame()
+    {
+        await _game.StartNewRound();
+
+        await _game.CancelAsync();
 
         Assert.That(_game.IsEnded, Is.True);
     }
 
     [Test]
-    public async Task Test_Cancel_ShouldDeactivateRound()
+    public async Task Test_CancelAsync_ShouldDeactivateRound()
     {
         await _game.StartNewRound();
 
-        _game.Cancel();
+        await _game.CancelAsync();
 
         Assert.That(_game.IsRoundActive, Is.False);
     }
 
     [Test]
-    public async Task Test_Cancel_ShouldWork_WhenNoRoundIsActive()
+    public async Task Test_CancelAsync_ShouldWork_WhenNoRoundIsActive()
     {
         await _game.StartNewRound();
         await _game.QuitRound(_mockUser);
 
-        Assert.DoesNotThrow(() => _game.Cancel());
+        Assert.DoesNotThrowAsync(async () => await _game.CancelAsync());
         Assert.That(_game.IsEnded, Is.True);
+    }
+
+    [Test]
+    public async Task Test_CancelAsync_ShouldSaveLevelToDb_WhenOwnerIsSet()
+    {
+        await _game.StartNewRound();
+
+        await _game.CancelAsync();
+
+        await using var db = new BotDbContext(_dbOptions);
+        var record = await db.VoltorbFlipLevels.FindAsync("testplayer");
+        Assert.That(record, Is.Not.Null);
     }
 
     #endregion

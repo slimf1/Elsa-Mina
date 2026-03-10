@@ -78,6 +78,11 @@
             </td>
             <td style="padding: 20px; @cellStyle vertical-align: top;">
                 <span style="font-weight: bold;">@GetString("vf_panel_title")</span><br/>
+                @if (game.Owner != null)
+                {
+                    <span style="color: #666; font-size: 0.9em;">@GetString("vf_panel_player", game.Owner.Name)</span><br/>
+                    <span style="color: #666; font-size: 0.9em;">@GetString("vf_panel_total_coins", game.TotalCoins)</span><br/>
+                }
                 <br/>
                 <span>@GetString("vf_panel_objective")</span><br/>
                 <span>@GetString("vf_panel_hint")</span><br/>

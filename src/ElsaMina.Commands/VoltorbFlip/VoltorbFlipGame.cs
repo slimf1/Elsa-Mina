@@ -4,6 +4,8 @@ using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
+using ElsaMina.DataAccess;
+using ElsaMina.DataAccess.Models;
 
 namespace ElsaMina.Commands.VoltorbFlip;
 
@@ -14,6 +16,7 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
     private readonly IRandomService _randomService;
     private readonly ITemplatesManager _templatesManager;
     private readonly IConfiguration _configuration;
+    private readonly IBotDbContextFactory _dbContextFactory;
 
     private int _revealedCount;
     private int _revealedTwos;
@@ -25,11 +28,13 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
 
     public VoltorbFlipGame(IRandomService randomService,
         ITemplatesManager templatesManager,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        IBotDbContextFactory dbContextFactory)
     {
         _randomService = randomService;
         _templatesManager = templatesManager;
         _configuration = configuration;
+        _dbContextFactory = dbContextFactory;
         _inactivityTimer = new PeriodicTimerRunner(VoltorbFlipConstants.INACTIVITY_TIMEOUT, OnInactivityTimeout, runOnce: true);
 
         _gameId = NextGameId++;
@@ -40,6 +45,7 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
     public int Level { get; private set; } = 1;
     public bool IsRoundActive { get; private set; }
     public int CurrentCoins { get; private set; }
+    public int TotalCoins { get; private set; }
     public int[,] TileValues { get; private set; }
     public bool[,] IsRevealed { get; private set; }
     public int[] RowSums { get; private set; }
@@ -71,6 +77,10 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
 
     public async Task StartNewRound()
     {
+        var savedData = await LoadPlayerDataAsync();
+        Level = savedData?.Level ?? 1;
+        TotalCoins = savedData?.Coins ?? 0;
+
         const int size = VoltorbFlipConstants.GRID_SIZE;
         TileValues = new int[size, size];
         IsRevealed = new bool[size, size];
@@ -167,9 +177,11 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
         if (value == 0)
         {
             IsRoundActive = false;
-            var newLevel = ComputeNewLevelOnLossOrQuit();
-            Level = newLevel;
-            Context.ReplyLocalizedMessage("vf_game_voltorb_hit", user.Name, newLevel);
+            Level = ComputeNewLevelOnLossOrQuit();
+            Context.ReplyLocalizedMessage("vf_game_voltorb_hit", user.Name, Level);
+            await SavePlayerDataAsync();
+            _inactivityTimer.Stop();
+            OnEnd();
             await DisplayBoard(showAll: true, firstTime: false);
             return;
         }
@@ -190,9 +202,11 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
         {
             IsRoundActive = false;
             var earnedCoins = CurrentCoins;
-            var newLevel = Math.Min(Level + 1, VoltorbFlipConstants.MAX_LEVEL);
-            Level = newLevel;
-            Context.ReplyLocalizedMessage("vf_game_win", user.Name, earnedCoins, newLevel);
+            Level = Math.Min(Level + 1, VoltorbFlipConstants.MAX_LEVEL);
+            Context.ReplyLocalizedMessage("vf_game_win", user.Name, earnedCoins, Level);
+            await SavePlayerDataAsync(earnedCoins);
+            _inactivityTimer.Stop();
+            OnEnd();
             await DisplayBoard(showAll: true, firstTime: true);
             return;
         }
@@ -210,9 +224,11 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
 
         IsRoundActive = false;
         var earnedCoins = CurrentCoins;
-        var newLevel = ComputeNewLevelOnLossOrQuit();
-        Level = newLevel;
-        Context.ReplyLocalizedMessage("vf_game_quit", user.Name, earnedCoins, newLevel);
+        Level = ComputeNewLevelOnLossOrQuit();
+        Context.ReplyLocalizedMessage("vf_game_quit", user.Name, earnedCoins, Level);
+        await SavePlayerDataAsync(earnedCoins);
+        _inactivityTimer.Stop();
+        OnEnd();
         await DisplayBoard(showAll: true, firstTime: true);
     }
 
@@ -228,10 +244,21 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
         await DisplayBoard(showAll: false, firstTime: false);
     }
 
-    public void Cancel()
+    public async Task CancelAsync()
     {
         IsRoundActive = false;
         _inactivityTimer.Stop();
+        if (Owner != null)
+        {
+            try
+            {
+                await SavePlayerDataAsync();
+            }
+            catch
+            {
+                // ignore DB errors on cancel
+            }
+        }
         OnEnd();
     }
 
@@ -243,8 +270,37 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
         }
 
         Context.ReplyLocalizedMessage("vf_game_timeout");
-        Cancel();
+        await CancelAsync();
         await DisplayBoard(showAll: true, firstTime: false);
+    }
+
+    private async Task<VoltorbFlipLevel> LoadPlayerDataAsync()
+    {
+        await using var db = await _dbContextFactory.CreateDbContextAsync();
+        return await db.VoltorbFlipLevels.FindAsync(Owner.UserId);
+    }
+
+    private async Task SavePlayerDataAsync(int coinsEarned = 0)
+    {
+        await using var db = await _dbContextFactory.CreateDbContextAsync();
+        var record = await db.VoltorbFlipLevels.FindAsync(Owner.UserId);
+        if (record == null)
+        {
+            TotalCoins = coinsEarned;
+            await db.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel
+            {
+                UserId = Owner.UserId,
+                Level = Level,
+                Coins = coinsEarned
+            });
+        }
+        else
+        {
+            record.Level = Level;
+            record.Coins += coinsEarned;
+            TotalCoins = record.Coins;
+        }
+        await db.SaveChangesAsync();
     }
 
     private void ComputeRowColStats()

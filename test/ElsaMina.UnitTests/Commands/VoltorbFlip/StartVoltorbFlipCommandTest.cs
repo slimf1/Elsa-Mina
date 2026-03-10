@@ -6,6 +6,7 @@ using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
+using ElsaMina.DataAccess;
 using NSubstitute;
 
 namespace ElsaMina.UnitTests.Commands.VoltorbFlip;
@@ -39,7 +40,8 @@ public class StartVoltorbFlipCommandTest
         var randomService = Substitute.For<IRandomService>();
         randomService.RandomElement(Arg.Any<IList<(int Twos, int Threes, int Voltorbs)>>())
             .Returns((1, 0, 1));
-        _game = new VoltorbFlipGame(randomService, _templatesManager, _configuration);
+        var dbContextFactory = Substitute.For<IBotDbContextFactory>();
+        _game = new VoltorbFlipGame(randomService, _templatesManager, _configuration, dbContextFactory);
         _dependencyContainerService.Resolve<VoltorbFlipGame>().Returns(_game);
     }
 
