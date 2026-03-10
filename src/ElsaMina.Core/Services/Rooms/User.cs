@@ -8,6 +8,7 @@ public sealed class User : IUser, IEquatable<User>
     {
         [' '] = Rank.Regular,
         ['+'] = Rank.Voiced,
+        ['♡'] = Rank.FormerStaff,
         ['%'] = Rank.Driver,
         ['@'] = Rank.Mod,
         ['*'] = Rank.Bot,

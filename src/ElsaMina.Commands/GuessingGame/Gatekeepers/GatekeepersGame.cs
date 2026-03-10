@@ -13,7 +13,7 @@ public class GatekeepersGame : GuessingGame
     private const string TEMPLATE_PATH = "GuessingGame/Gatekeepers/GatekeepersGamePanel";
 
     private const string FOOTPRINT_SPRITE_URL = // C'est très con oui
-        "https://raw.githubusercontent.com/SlimSeb/Elsa-Mina/refs/heads/main/src/ElsaMina.Commands/Data/Footprints/{0}.png";
+        "https://raw.githubusercontent.com/SlimSeb/SpriteCollection/refs/heads/main/Gen5Footprints/{0}.png";
 
     private static readonly TimeSpan SHOW_PORTRAITS_AT = TimeSpan.FromSeconds(10);
     private static readonly TimeSpan SHOW_SILHOUETTES_AT = TimeSpan.FromSeconds(5);

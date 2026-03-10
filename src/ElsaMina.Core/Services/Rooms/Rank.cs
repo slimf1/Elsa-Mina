@@ -4,10 +4,11 @@ public enum Rank
 {
     Regular = 0,
     Voiced = 1,
-    Driver = 2,
-    Mod = 3,
-    Bot = 4,
-    RoomOwner = 5,
-    Leader = 6,
-    Admin = 7
+    FormerStaff = 2,
+    Driver = 3,
+    Mod = 4,
+    Bot = 5,
+    RoomOwner = 6,
+    Leader = 7,
+    Admin = 8
 }
