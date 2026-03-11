@@ -66,10 +66,7 @@ public class ProfileService : IProfileService
         var culture = room?.Culture;
         var avatarUrl = GetAvatar(storedUserData, showdownUserDetails);
         var bestRanking = ranksTask.Result?.MaxBy(ranking => ranking.Elo);
-        if (bestRanking != null)
-        {
-            bestRanking.FormatId = _formatsManager.GetCleanFormat(bestRanking.FormatId);
-        }
+        bestRanking?.FormatId = _formatsManager.GetCleanFormat(bestRanking.FormatId);
 
         var userRoomRank = GetUserRoomRank(roomId, showdownUserDetails);
         var userName = showdownUserDetails?.Name != userId && !string.IsNullOrEmpty(showdownUserDetails?.Name)

@@ -21,6 +21,7 @@ using ElsaMina.Commands.CustomCommands;
 using ElsaMina.Commands.Development;
 using ElsaMina.Commands.Development.Commands;
 using ElsaMina.Commands.GuessingGame;
+using ElsaMina.Commands.GuessingGame.Capitals;
 using ElsaMina.Commands.GuessingGame.Countries;
 using ElsaMina.Commands.GuessingGame.Gatekeepers;
 using ElsaMina.Commands.GuessingGame.PokeCries;
@@ -191,6 +192,7 @@ public class CommandModule : Module
         builder.RegisterHandler<TourEndHandler>();
 
         builder.RegisterType<CountriesGame>().AsSelf();
+        builder.RegisterType<CapitalCitiesGame>().AsSelf();
         builder.RegisterType<ConnectFourGame>().AsSelf();
         builder.RegisterType<VoltorbFlipGame>().AsSelf();
         builder.RegisterType<PokeDescGame>().AsSelf();

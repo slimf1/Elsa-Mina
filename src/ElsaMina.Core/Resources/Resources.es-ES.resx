@@ -290,6 +290,15 @@
     <data name="countries_game_start" xml:space="preserve">
         <value>¡Se ha iniciado un countriesgame! Escribe directamente el nombre del país en el chat.</value>
     </data>
+    <data name="capitals_game_start" xml:space="preserve">
+        <value>¡Se ha iniciado un juego de capitales! Escribe directamente la capital del país indicado en el chat.</value>
+    </data>
+    <data name="capitals_game_question_country" xml:space="preserve">
+        <value>¿Cuál es la capital de {0}?</value>
+    </data>
+    <data name="capitals_game_question_capital" xml:space="preserve">
+        <value>¿Qué país tiene {0} como capital?</value>
+    </data>
     <data name="end_guessing_game_no_game" xml:space="preserve">
         <value>No hay ninguna partida en curso en esta sala.</value>
     </data>
