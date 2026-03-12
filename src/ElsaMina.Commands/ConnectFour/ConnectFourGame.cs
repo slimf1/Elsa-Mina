@@ -5,6 +5,7 @@ using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
+using JetBrains.Annotations;
 
 namespace ElsaMina.Commands.ConnectFour;
 
@@ -21,6 +22,14 @@ public class ConnectFourGame : Game, IConnectFourGame
 
     private readonly PeriodicTimerRunner _turnTimeoutTimer;
     private bool _ended;
+
+    [UsedImplicitly]
+    public ConnectFourGame(IRandomService randomService,
+        ITemplatesManager templatesManager,
+        IConfiguration configuration,
+        IBot bot) : this(randomService, templatesManager, configuration, bot, ConnectFourConstants.TIMEOUT_DELAY)
+    {
+    }
 
     public ConnectFourGame(IRandomService randomService,
         ITemplatesManager templatesManager,
