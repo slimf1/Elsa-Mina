@@ -1,12 +1,13 @@
 using ElsaMina.Core.Handlers.DefaultHandlers.Rooms;
 using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Services.PlayTime;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 
-namespace ElsaMina.UnitTests.Core.Services.Rooms;
+namespace ElsaMina.UnitTests.Core.Services.PlayTime;
 
 public class PlayTimeUpdateServiceTest
 {

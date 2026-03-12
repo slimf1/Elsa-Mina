@@ -1,4 +1,4 @@
-namespace ElsaMina.Core.Services.Rooms;
+namespace ElsaMina.Core.Services.PlayTime;
 
 public interface IPlayTimeUpdateService : IDisposable
 {

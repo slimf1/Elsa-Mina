@@ -1,12 +1,13 @@
 using ElsaMina.Core.Handlers.DefaultHandlers.Rooms;
 using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.Logging;
 using Microsoft.EntityFrameworkCore;
 
-namespace ElsaMina.Core.Services.Rooms;
+namespace ElsaMina.Core.Services.PlayTime;
 
 public class PlayTimeUpdateService : IPlayTimeUpdateService
 {
@@ -42,42 +43,48 @@ public class PlayTimeUpdateService : IPlayTimeUpdateService
         await _playTimeUpdateSemaphoreSlim.WaitAsync();
         try
         {
-            await _userSaveQueue.AcquireLockAsync();
-            try
-            {
-                Log.Information("Processing play time updates...");
-
-                await using var dbContext = await _dbContextFactory.CreateDbContextAsync();
-
-                foreach (var room in _roomsManager.Rooms)
-                {
-                    var roomId = room.RoomId;
-                    var updates = room.PendingPlayTimeUpdates.ToList();
-
-                    foreach (var (userId, playTime) in updates)
-                    {
-                        try
-                        {
-                            await IncrementUserPlayTime(dbContext, roomId, userId, playTime);
-                            room.PendingPlayTimeUpdates.Remove(userId);
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.Error(ex, "Failed to update play time for {0} in room {1}", userId, room.RoomId);
-                        }
-                    }
-                }
-
-                await dbContext.SaveChangesAsync();
-            }
-            finally
-            {
-                _userSaveQueue.ReleaseLock();
-            }
+            await UpdatePlayTimesAsync();
         }
         finally
         {
             _playTimeUpdateSemaphoreSlim.Release();
+        }
+    }
+
+    // This is a mess
+    private async Task UpdatePlayTimesAsync()
+    {
+        await _userSaveQueue.AcquireLockAsync();
+        try
+        {
+            Log.Information("Processing play time updates...");
+
+            await using var dbContext = await _dbContextFactory.CreateDbContextAsync();
+
+            foreach (var room in _roomsManager.Rooms)
+            {
+                var roomId = room.RoomId;
+                var updates = room.PendingPlayTimeUpdates.ToList();
+
+                foreach (var (userId, playTime) in updates)
+                {
+                    try
+                    {
+                        await IncrementUserPlayTime(dbContext, roomId, userId, playTime);
+                        room.PendingPlayTimeUpdates.Remove(userId);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex, "Failed to update play time for {0} in room {1}", userId, room.RoomId);
+                    }
+                }
+            }
+
+            await dbContext.SaveChangesAsync();
+        }
+        finally
+        {
+            _userSaveQueue.ReleaseLock();
         }
     }
 
