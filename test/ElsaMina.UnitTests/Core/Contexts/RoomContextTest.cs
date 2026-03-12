@@ -1,6 +1,9 @@
 using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.UserDetails;
 using NSubstitute;
 
 namespace ElsaMina.UnitTests.Core.Contexts;
@@ -10,7 +13,10 @@ public class RoomContextTest
     private const string TEST_ROOM_ID = "testRoom";
     private const string TEST_USER_ID = "testUser";
 
-    private IContextProvider _contextProvider;
+    private IConfiguration _configuration;
+    private IResourcesService _resourcesService;
+    private IRoomsManager _roomsManager;
+    private IUserDetailsManager _userDetailsManager;
     private IBot _bot;
     private IUser _sender;
     private IRoom _room;
@@ -19,7 +25,10 @@ public class RoomContextTest
 
     private void CreateRoomContext(string message, string target, string command, long timestamp)
     {
-        _contextProvider = Substitute.For<IContextProvider>();
+        _configuration = Substitute.For<IConfiguration>();
+        _resourcesService = Substitute.For<IResourcesService>();
+        _roomsManager = Substitute.For<IRoomsManager>();
+        _userDetailsManager = Substitute.For<IUserDetailsManager>();
         _bot = Substitute.For<IBot>();
         _sender = Substitute.For<IUser>();
         _room = Substitute.For<IRoom>();
@@ -27,7 +36,10 @@ public class RoomContextTest
         _sender.UserId.Returns(TEST_USER_ID);
 
         _roomContext = new RoomContext(
-            _contextProvider,
+            _configuration,
+            _resourcesService,
+            _roomsManager,
+            _userDetailsManager,
             _bot,
             message,
             target,
@@ -40,6 +52,7 @@ public class RoomContextTest
     [Test]
     [TestCase(Rank.Regular, ExpectedResult = false)]
     [TestCase(Rank.Voiced, ExpectedResult = false)]
+    [TestCase(Rank.FormerStaff, ExpectedResult = false)]
     [TestCase(Rank.Driver, ExpectedResult = false)]
     [TestCase(Rank.Mod, ExpectedResult = true)]
     [TestCase(Rank.Bot, ExpectedResult = true)]
@@ -65,7 +78,7 @@ public class RoomContextTest
         CreateRoomContext("", "", "test-command", 1);
         _sender.UserId.Returns("wl-dude");
         _sender.Rank.Returns(userRank);
-        _contextProvider.IsUserWhitelisted("wl-dude").Returns(true);
+        _configuration.Whitelist.Returns(["wl-dude"]);
 
         // Act
         var value = _roomContext.HasRankOrHigher(requiredRank);

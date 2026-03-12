@@ -1,4 +1,3 @@
-using System.Globalization;
 using Autofac;
 using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
@@ -10,9 +9,11 @@ using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.PrivateMessages;
+using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Start;
 using ElsaMina.Core.Services.System;
+using ElsaMina.Core.Services.UserDetails;
 using ElsaMina.Core.Utils;
 using NSubstitute;
 
@@ -27,7 +28,8 @@ public class BotHandleReceivedMessageIntegrationTest
     private ISystemService _systemService;
     private IStartManager _startManager;
     private IConfiguration _configuration;
-    private IContextProvider _contextProvider;
+    private IResourcesService _resourcesService;
+    private IUserDetailsManager _userDetailsManager;
     private IAddedCommandsManager _addedCommandsManager;
     private DependencyContainerService _dependencyContainerService;
     private IContainer _container;
@@ -42,7 +44,8 @@ public class BotHandleReceivedMessageIntegrationTest
         _systemService = Substitute.For<ISystemService>();
         _startManager = Substitute.For<IStartManager>();
         _configuration = Substitute.For<IConfiguration>();
-        _contextProvider = Substitute.For<IContextProvider>();
+        _resourcesService = Substitute.For<IResourcesService>();
+        _userDetailsManager = Substitute.For<IUserDetailsManager>();
         _addedCommandsManager = Substitute.For<IAddedCommandsManager>();
         _dependencyContainerService = new DependencyContainerService();
 
@@ -50,8 +53,8 @@ public class BotHandleReceivedMessageIntegrationTest
         _roomsManager.HasRoom(Arg.Any<string>()).Returns(true);
         _configuration.Trigger.Returns("!");
         _configuration.RoomBlacklist.Returns(Array.Empty<string>());
-        _contextProvider.DefaultRoom.Returns("lobby");
-        _contextProvider.DefaultCulture.Returns(CultureInfo.InvariantCulture);
+        _configuration.DefaultRoom.Returns("lobby");
+        _configuration.DefaultLocaleCode.Returns("");
 
         var handlerManager = new HandlerManager(_dependencyContainerService);
         _bot = new Bot(
@@ -67,7 +70,8 @@ public class BotHandleReceivedMessageIntegrationTest
         builder.RegisterInstance(_bot).As<IBot>();
         builder.RegisterInstance(_roomsManager).As<IRoomsManager>();
         builder.RegisterInstance(_configuration).As<IConfiguration>();
-        builder.RegisterInstance(_contextProvider).As<IContextProvider>();
+        builder.RegisterInstance(_resourcesService).As<IResourcesService>();
+        builder.RegisterInstance(_userDetailsManager).As<IUserDetailsManager>();
         builder.RegisterInstance(_addedCommandsManager).As<IAddedCommandsManager>();
 
         builder.RegisterType<PmSendersManager>().As<IPmSendersManager>().SingleInstance();
@@ -90,12 +94,15 @@ public class BotHandleReceivedMessageIntegrationTest
     }
 
     [Test]
-    public async Task HandleReceivedMessageAsync_WhenPmCommandIsReceived_ShouldSendExpectedOutput()
+    public async Task Test_HandleReceivedMessageAsync_WhenPmCommandIsReceived_ShouldSendExpectedOutput()
     {
+        // Arrange
         const string receivedMessage = "|pm|+Earth|ElsaMina|!echo hello world";
 
+        // Act
         await _bot.HandleReceivedMessageAsync(receivedMessage);
 
+        // Assert
         var probe = _container.Resolve<ICommandExecutionProbe>();
         var commandOutput = await probe.WaitAsync(TimeSpan.FromSeconds(2));
 

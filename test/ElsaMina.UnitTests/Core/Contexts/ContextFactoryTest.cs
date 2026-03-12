@@ -2,7 +2,9 @@ using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.PrivateMessages;
+using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.UserDetails;
 using NSubstitute;
 using DateTimeOffset = System.DateTimeOffset;
 
@@ -11,26 +13,29 @@ namespace ElsaMina.UnitTests.Core.Contexts;
 public class ContextFactoryTest
 {
     private ContextFactory _contextFactory;
-    private IContextProvider _contextProvider;
-    private IBot _bot;
-    private IRoomsManager _roomsManager;
     private IConfiguration _configuration;
+    private IResourcesService _resourcesService;
+    private IRoomsManager _roomsManager;
+    private IUserDetailsManager _userDetailsManager;
+    private IBot _bot;
     private IPmSendersManager _pmSendersManager;
 
     [SetUp]
     public void SetUp()
     {
-        _contextProvider = Substitute.For<IContextProvider>();
-        _bot = Substitute.For<IBot>();
-        _roomsManager = Substitute.For<IRoomsManager>();
         _configuration = Substitute.For<IConfiguration>();
+        _resourcesService = Substitute.For<IResourcesService>();
+        _roomsManager = Substitute.For<IRoomsManager>();
+        _userDetailsManager = Substitute.For<IUserDetailsManager>();
+        _bot = Substitute.For<IBot>();
         _pmSendersManager = Substitute.For<IPmSendersManager>();
 
         _contextFactory = new ContextFactory(
-            _contextProvider,
-            _bot,
-            _roomsManager,
             _configuration,
+            _resourcesService,
+            _roomsManager,
+            _userDetailsManager,
+            _bot,
             _pmSendersManager
         );
     }

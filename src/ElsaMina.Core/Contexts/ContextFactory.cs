@@ -1,6 +1,8 @@
-﻿using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.PrivateMessages;
+using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.UserDetails;
 using ElsaMina.Core.Utils;
 using ElsaMina.Logging;
 
@@ -10,22 +12,25 @@ public class ContextFactory : IContextFactory
 {
     private const string BOT_MESSAGE_PREFIX = "/botmsg ";
 
-    private readonly IContextProvider _contextProvider;
-    private readonly IBot _bot;
-    private readonly IRoomsManager _roomsManager;
     private readonly IConfiguration _configuration;
+    private readonly IResourcesService _resourcesService;
+    private readonly IRoomsManager _roomsManager;
+    private readonly IUserDetailsManager _userDetailsManager;
+    private readonly IBot _bot;
     private readonly IPmSendersManager _pmSendersManager;
 
-    public ContextFactory(IContextProvider contextProvider,
-        IBot bot,
+    public ContextFactory(IConfiguration configuration,
+        IResourcesService resourcesService,
         IRoomsManager roomsManager,
-        IConfiguration configuration,
+        IUserDetailsManager userDetailsManager,
+        IBot bot,
         IPmSendersManager pmSendersManager)
     {
-        _contextProvider = contextProvider;
-        _bot = bot;
-        _roomsManager = roomsManager;
         _configuration = configuration;
+        _resourcesService = resourcesService;
+        _roomsManager = roomsManager;
+        _userDetailsManager = userDetailsManager;
+        _bot = bot;
         _pmSendersManager = pmSendersManager;
     }
 
@@ -53,8 +58,8 @@ public class ContextFactory : IContextFactory
                     return null;
                 }
 
-                return new RoomContext(_contextProvider, _bot, message, target,
-                    user, command, room, timestamp);
+                return new RoomContext(_configuration, _resourcesService, _roomsManager, _userDetailsManager,
+                    _bot, message, target, user, command, room, timestamp);
             }
             case > 2 when parts[1] == "pm":
             {
@@ -65,8 +70,8 @@ public class ContextFactory : IContextFactory
                 }
 
                 var (target, command) = GetTargetAndCommand(message);
-                return new PmContext(_contextProvider, _bot, message, target, _pmSendersManager.GetUser(parts[2]),
-                    command);
+                return new PmContext(_configuration, _resourcesService, _roomsManager, _userDetailsManager,
+                    _bot, message, target, _pmSendersManager.GetUser(parts[2]), command);
             }
             default:
                 return null;

@@ -1,20 +1,33 @@
-﻿using System.Globalization;
+using System.Globalization;
+using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.UserDetails;
+using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Core.Contexts;
 
 public abstract class Context : IContext
 {
-    private readonly IContextProvider _contextProvider;
+    private readonly IConfiguration _configuration;
+    private readonly IResourcesService _resourcesService;
+    private readonly IRoomsManager _roomsManager;
+    private readonly IUserDetailsManager _userDetailsManager;
 
-    protected Context(IContextProvider contextProvider,
+    protected Context(IConfiguration configuration,
+        IResourcesService resourcesService,
+        IRoomsManager roomsManager,
+        IUserDetailsManager userDetailsManager,
         IBot bot,
         string message,
         string target,
         IUser sender,
         string command)
     {
-        _contextProvider = contextProvider;
+        _configuration = configuration;
+        _resourcesService = resourcesService;
+        _roomsManager = roomsManager;
+        _userDetailsManager = userDetailsManager;
 
         Bot = bot;
         Message = message;
@@ -27,14 +40,16 @@ public abstract class Context : IContext
     public string Message { get; }
     public string Target { get; }
     public IUser Sender { get; }
-    public IRoom Room => _contextProvider.GetRoom(RoomId);
+    public IRoom Room => _roomsManager.GetRoom(RoomId);
     public string Command { get; }
-    public bool IsSenderWhitelisted => _contextProvider.IsUserWhitelisted(Sender.UserId);
+    public bool IsSenderWhitelisted => _configuration.Whitelist.Contains(Sender.UserId);
+
+    protected string DefaultRoom => _configuration.DefaultRoom;
+    protected CultureInfo DefaultCulture => new(_configuration.DefaultLocaleCode);
 
     public void ReplyHtmlPage(string pageName, string html)
     {
-        Bot.Say(_contextProvider.DefaultRoom,
-            $"/sendhtmlpage {Sender.UserId}, {pageName}, {html}");
+        Bot.Say(_configuration.DefaultRoom, $"/sendhtmlpage {Sender.UserId}, {pageName}, {html}");
     }
 
     public void SendMessageIn(string roomId, string message)
@@ -44,10 +59,14 @@ public abstract class Context : IContext
 
     public void SendHtmlPageTo(string userId, string pageName, string html)
     {
-        Bot.Say(_contextProvider.DefaultRoom, $"/sendhtmlpage {userId}, {pageName}, {html}");
+        Bot.Say(_configuration.DefaultRoom, $"/sendhtmlpage {userId}, {pageName}, {html}");
     }
 
-    public string GetString(string key) => _contextProvider.GetString(key, Culture);
+    public string GetString(string key)
+    {
+        var localizedString = _resourcesService.GetString(key, Culture ?? DefaultCulture);
+        return string.IsNullOrWhiteSpace(localizedString) ? key : localizedString;
+    }
 
     public string GetString(string key, params object[] formatArguments)
     {
@@ -77,16 +96,16 @@ public abstract class Context : IContext
         }
 
         ReplyLocalizedMessage("command_execution_error");
-        if (!string.IsNullOrWhiteSpace(_contextProvider.BugReportLink))
+        if (!string.IsNullOrWhiteSpace(_configuration.BugReportLink))
         {
-            ReplyLocalizedMessage("command_execution_report_bug", _contextProvider.BugReportLink);
+            ReplyLocalizedMessage("command_execution_report_bug", _configuration.BugReportLink);
         }
         Reply($"!code {exception.GetType().FullName}: {exception.Message}\n{exception.StackTrace}");
     }
 
     public Task<Rank> GetUserRankInRoom(string roomId, CancellationToken cancellationToken = default)
     {
-        return _contextProvider.GetUserRankInRoom(roomId, Sender.UserId, cancellationToken);
+        return GetUserRankInRoomAsync(roomId, Sender.UserId, cancellationToken);
     }
 
     public async Task<bool> HasSufficientRankInRoom(string roomId, Rank requiredRank,
@@ -99,6 +118,18 @@ public abstract class Context : IContext
 
         var rank = await GetUserRankInRoom(roomId, cancellationToken);
         return rank >= requiredRank;
+    }
+
+    private async Task<Rank> GetUserRankInRoomAsync(string roomId, string userId, CancellationToken cancellationToken)
+    {
+        var userDetails = await _userDetailsManager.GetUserDetailsAsync(userId, cancellationToken);
+        if (userDetails == null)
+        {
+            return Rank.Regular;
+        }
+
+        var room = userDetails.Rooms.Keys.FirstOrDefault(key => key.ToLowerAlphaNum() == roomId);
+        return room == null ? Rank.Regular : User.GetRankFromCharacter(room[0]);
     }
 
     public abstract string RoomId { get; }
