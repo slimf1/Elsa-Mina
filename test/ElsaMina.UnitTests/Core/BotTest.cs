@@ -16,6 +16,7 @@ public class BotTest
     private IHandlerManager _handlerManager;
     private ISystemService _systemService;
     private IStartManager _startManager;
+    private IPlayTimeUpdateService _playTimeUpdateService;
 
     private Bot _bot;
 
@@ -28,8 +29,10 @@ public class BotTest
         _handlerManager = Substitute.For<IHandlerManager>();
         _systemService = Substitute.For<ISystemService>();
         _startManager = Substitute.For<IStartManager>();
+        _playTimeUpdateService = Substitute.For<IPlayTimeUpdateService>();
 
-        _bot = new Bot(_client, _clockService, _roomsManager, _handlerManager, _systemService, _startManager);
+        _bot = new Bot(_client, _clockService, _roomsManager, _handlerManager, _systemService, _startManager,
+            _playTimeUpdateService);
     }
 
     [Test]
@@ -51,6 +54,16 @@ public class BotTest
 
         // Assert
         _roomsManager.Received(1).Clear();
+    }
+
+    [Test]
+    public void Test_OnExit_ShouldProcessPendingPlayTimeUpdates()
+    {
+        // Act
+        _bot.OnExit();
+
+        // Assert
+        _playTimeUpdateService.Received(1).ProcessPendingPlayTimeUpdatesAsync();
     }
 
     [Test]

@@ -49,6 +49,8 @@ public class CoreModule : Module
         builder.RegisterType<ContextFactory>().As<IContextFactory>().SingleInstance();
         builder.RegisterType<CommandExecutor>().As<ICommandExecutor>().SingleInstance();
         builder.RegisterType<RoomsManager>().As<IRoomsManager>().SingleInstance();
+        builder.RegisterType<RoomFactory>().As<IRoomFactory>().SingleInstance();
+        builder.RegisterType<PlayTimeUpdateService>().As<IPlayTimeUpdateService>().SingleInstance();
         builder.RegisterType<FormatsManager>().As<IFormatsManager>().SingleInstance();
         builder.RegisterType<LoginService>().As<ILoginService>().SingleInstance();
         builder.RegisterType<ResourcesService>().As<IResourcesService>().SingleInstance();

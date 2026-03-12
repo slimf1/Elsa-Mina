@@ -18,6 +18,7 @@ public class RoomTest
 
     private IBotDbContextFactory _dbContextFactory;
     private RoomsManager _roomsManager;
+    private PlayTimeUpdateService _playTimeUpdateService;
     private IUserSaveQueue _userSaveQueue;
 
     [SetUp]
@@ -48,18 +49,19 @@ public class RoomTest
         dependencyContainerService.Resolve<IRoomParameterStore>()
             .Returns(_ => new EfRoomParameterStore(_dbContextFactory, parametersFactory));
 
-        _roomsManager = new RoomsManager(
-            configuration,
-            parametersFactory,
-            _dbContextFactory,
-            _userSaveQueue,
+        var roomFactory = new RoomFactory(configuration, parametersFactory, _dbContextFactory,
             dependencyContainerService);
+
+        _roomsManager = new RoomsManager(parametersFactory, roomFactory);
+
+        _playTimeUpdateService = new PlayTimeUpdateService(configuration, _dbContextFactory, _userSaveQueue,
+            _roomsManager);
     }
 
     [TearDown]
     public async Task TearDown()
     {
-        _roomsManager.Dispose();
+        _playTimeUpdateService.Dispose();
         await _userSaveQueue.DisposeAsync();
     }
 
@@ -130,7 +132,7 @@ public class RoomTest
         var room = _roomsManager.GetRoom(ROOM_ID);
         room.PendingPlayTimeUpdates["earth"] = TimeSpan.FromMinutes(5);
 
-        await _roomsManager.ProcessPendingPlayTimeUpdates();
+        await _playTimeUpdateService.ProcessPendingPlayTimeUpdatesAsync();
 
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync();
         var roomUser = await dbContext.RoomUsers.SingleAsync(x => x.Id == "earth" && x.RoomId == ROOM_ID);

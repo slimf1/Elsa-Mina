@@ -259,6 +259,6 @@ public class SlotsFunCommandTest
         // Assert
         await _templatesManager.Received(1).GetTemplateAsync(
             "Arcade/Slots/SlotsFun",
-            Arg.Is<SlotsFunViewModel>(vm => vm.UserName == "Sacha" && vm.UserColor != null));
+            Arg.Is<SlotsFunViewModel>(vm => vm.UserName == "Sacha"));
     }
 }

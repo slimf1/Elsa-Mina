@@ -1,11 +1,5 @@
-﻿using ElsaMina.Core.Handlers.DefaultHandlers.Rooms;
-using ElsaMina.Core.Services.Config;
-using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Rooms.Parameters;
-using ElsaMina.DataAccess;
-using ElsaMina.DataAccess.Models;
-using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 
 namespace ElsaMina.UnitTests.Core.Services.Rooms;
@@ -13,50 +7,12 @@ namespace ElsaMina.UnitTests.Core.Services.Rooms;
 public class RoomsManagerTest
 {
     private RoomsManager _sut;
-    private IConfiguration _configuration;
     private IParametersDefinitionFactory _parametersDefinitionFactory;
-    private IBotDbContextFactory _dbContextFactory;
-    private IUserSaveQueue _userSaveQueue;
-    private IDependencyContainerService _dependencyContainerService;
-    private DbContextOptions<BotDbContext> _dbContextOptions;
-    private IRoomParameterStore _roomParameterStore;
-
-    // Helper method to create unique in-memory options for each test run
-    private DbContextOptions<BotDbContext> CreateOptions() =>
-        new DbContextOptionsBuilder<BotDbContext>()
-            .UseInMemoryDatabase(Guid.NewGuid().ToString())
-            .Options;
-
-    // Helper method to mock the factory to return a new context connected to the shared options
-    private IBotDbContextFactory CreateFactory(DbContextOptions<BotDbContext> options)
-    {
-        var factory = Substitute.For<IBotDbContextFactory>();
-        factory.CreateDbContextAsync(Arg.Any<CancellationToken>())
-            .Returns(_ => Task.FromResult(new BotDbContext(options)));
-        return factory;
-    }
-
-    // Helper method to seed the database
-    private async Task SeedDatabaseAsync(IEnumerable<SavedRoom> rooms)
-    {
-        // Arrange
-        await using var context = new BotDbContext(_dbContextOptions);
-        await context.Database.EnsureCreatedAsync();
-        context.RoomInfo.AddRange(rooms);
-        await context.SaveChangesAsync();
-    }
+    private IRoomFactory _roomFactory;
 
     [SetUp]
     public void Setup()
     {
-        // Arrange
-        _dbContextOptions = CreateOptions();
-
-        // Mocks
-        _configuration = Substitute.For<IConfiguration>();
-        _configuration.DefaultLocaleCode.Returns("en-US");
-        _configuration.PlayTimeUpdatesInterval.Returns(TimeSpan.FromDays(10)); // Timer interval
-
         _parametersDefinitionFactory = Substitute.For<IParametersDefinitionFactory>();
         _parametersDefinitionFactory.GetParametersDefinitions().Returns(
             new Dictionary<Parameter, IParameterDefinition>
@@ -64,108 +20,121 @@ public class RoomsManagerTest
                 { Parameter.Locale, Substitute.For<IParameterDefinition>() }
             });
 
-        _dbContextFactory = CreateFactory(_dbContextOptions);
-        _userSaveQueue = Substitute.For<IUserSaveQueue>();
-        _dependencyContainerService = Substitute.For<IDependencyContainerService>();
-        _roomParameterStore = Substitute.For<IRoomParameterStore>();
-        _dependencyContainerService.Resolve<IRoomParameterStore>().Returns(_roomParameterStore);
-        _roomParameterStore.GetValueAsync(Parameter.Locale, Arg.Any<CancellationToken>()).Returns("fr-FR");
+        _roomFactory = Substitute.For<IRoomFactory>();
 
-        _dependencyContainerService.Resolve<IRoomParameterStore>().Returns(_roomParameterStore);
-
-        _sut = new RoomsManager(_configuration, _parametersDefinitionFactory, _dbContextFactory, _userSaveQueue,
-            _dependencyContainerService);
-
-        // Clear any room state from previous tests
-        _sut.Clear();
+        _sut = new RoomsManager(_parametersDefinitionFactory, _roomFactory);
     }
 
     [Test]
-    public async Task InitializeRoomAsync_WhenRoomIsNew_ShouldInsertNewRoomEntityAndAddRoom()
+    public async Task Test_InitializeRoomAsync_ShouldDelegateToFactoryAndStoreRoom()
     {
         // Arrange
-        const string roomId = "newroomid";
-        const string roomTitle = "New Room Title";
-        var lines = new[] { $"|title|{roomTitle}", "|users|,user1,user2" };
+        const string roomId = "testroom";
+        var lines = new[] { "|title|Test Room", "|users|,user1" };
+        var room = Substitute.For<IRoom>();
+        room.RoomId.Returns(roomId);
+        _roomFactory.CreateRoomAsync(roomId, Arg.Any<string[]>(), Arg.Any<CancellationToken>())
+            .Returns(room);
 
         // Act
         await _sut.InitializeRoomAsync(roomId, lines);
 
         // Assert
-        await using var assertContext = new BotDbContext(_dbContextOptions);
-        var dbRoom = await assertContext.RoomInfo.FirstOrDefaultAsync(r => r.Id == "newroomid");
-
-        Assert.Multiple(() =>
-        {
-            Assert.That(dbRoom, Is.Not.Null);
-            Assert.That(dbRoom.Title, Is.EqualTo(roomTitle));
-            Assert.That(_sut.HasRoom(roomId), Is.True);
-        });
-
-        _roomParameterStore.Received(1).InitializeFromRoomEntity(Arg.Is<SavedRoom>(r => r.Id == roomId));
-        await _roomParameterStore.Received(1).GetValueAsync(Parameter.Locale, Arg.Any<CancellationToken>());
+        Assert.That(_sut.HasRoom(roomId), Is.True);
+        Assert.That(_sut.GetRoom(roomId), Is.SameAs(room));
+        await _roomFactory.Received(1).CreateRoomAsync(roomId, Arg.Any<string[]>(), Arg.Any<CancellationToken>());
     }
 
     [Test]
-    public async Task InitializeRoomAsync_WhenRoomExists_ShouldUpdateTitleAndLoadParameters()
-    {
-        // Arrange
-        const string roomId = "existingroom";
-        const string oldTitle = "Old Title";
-        const string newTitle = "New Updated Title";
-
-        await SeedDatabaseAsync([
-            new SavedRoom
-            {
-                Id = roomId, Title = oldTitle,
-                ParameterValues = [new RoomBotParameterValue { ParameterId = "Locale", Value = "es-ES" }]
-            }
-        ]);
-
-        var lines = new[] { $"|title|{newTitle}", "|users|,user1" };
-
-        // Act
-        await _sut.InitializeRoomAsync(roomId, lines);
-
-        // Assert
-        await using var assertContext = new BotDbContext(_dbContextOptions);
-        var dbRoom = await assertContext.RoomInfo.FirstOrDefaultAsync(r => r.Id == roomId);
-
-        Assert.Multiple(() =>
-        {
-            Assert.That(dbRoom, Is.Not.Null);
-            Assert.That(dbRoom.Title, Is.EqualTo(newTitle)); // Title should be updated
-            Assert.That(_sut.HasRoom(roomId), Is.True);
-        });
-
-        // Verify room was configured using existing entity
-        _roomParameterStore.Received(1).InitializeFromRoomEntity(Arg.Is<SavedRoom>(r => r.Title == newTitle));
-        await _roomParameterStore.Received(1).GetValueAsync(Parameter.Locale, Arg.Any<CancellationToken>());
-    }
-
-    [Test]
-    public void HasRoom_WhenRoomIsInitialized_ReturnsTrue()
+    public async Task Test_RemoveRoom_ShouldRemoveRoomFromRegistry()
     {
         // Arrange
         const string roomId = "testroom";
         var room = Substitute.For<IRoom>();
         room.RoomId.Returns(roomId);
+        _roomFactory.CreateRoomAsync(roomId, Arg.Any<string[]>(), Arg.Any<CancellationToken>())
+            .Returns(room);
+        await _sut.InitializeRoomAsync(roomId, ["|title|Test"]);
 
-        // Use reflection or a test helper to add the room directly to the private dictionary for setup ease
-        _sut.InitializeRoomAsync(roomId, ["|title|Test"]).GetAwaiter().GetResult();
+        // Act
+        _sut.RemoveRoom(roomId);
 
-        // Act & Assert
-        Assert.That(_sut.HasRoom(roomId), Is.True);
+        // Assert
+        Assert.That(_sut.HasRoom(roomId), Is.False);
     }
 
     [Test]
-    public async Task ProcessPendingPlayTimeUpdates_ShouldAcquireAndReleaseLock()
+    public async Task Test_AddUserToRoom_ShouldCallAddUserOnRoom()
     {
         // Arrange
-        await _sut.ProcessPendingPlayTimeUpdates();
+        const string roomId = "testroom";
+        var room = Substitute.For<IRoom>();
+        room.RoomId.Returns(roomId);
+        _roomFactory.CreateRoomAsync(roomId, Arg.Any<string[]>(), Arg.Any<CancellationToken>())
+            .Returns(room);
+        await _sut.InitializeRoomAsync(roomId, ["|title|Test"]);
+
+        // Act
+        _sut.AddUserToRoom(roomId, "+NewUser");
 
         // Assert
-        await _userSaveQueue.Received(1).AcquireLockAsync(Arg.Any<CancellationToken>());
-        _userSaveQueue.Received(1).ReleaseLock();
+        room.Received(1).AddUser("+NewUser");
+    }
+
+    [Test]
+    public async Task Test_RemoveUserFromRoom_ShouldCallRemoveUserOnRoom()
+    {
+        // Arrange
+        const string roomId = "testroom";
+        var room = Substitute.For<IRoom>();
+        room.RoomId.Returns(roomId);
+        _roomFactory.CreateRoomAsync(roomId, Arg.Any<string[]>(), Arg.Any<CancellationToken>())
+            .Returns(room);
+        await _sut.InitializeRoomAsync(roomId, ["|title|Test"]);
+
+        // Act
+        _sut.RemoveUserFromRoom(roomId, "@SomeUser");
+
+        // Assert
+        room.Received(1).RemoveUser("@SomeUser");
+    }
+
+    [Test]
+    public async Task Test_RenameUserInRoom_ShouldCallRenameUserOnRoom()
+    {
+        // Arrange
+        const string roomId = "testroom";
+        var room = Substitute.For<IRoom>();
+        room.RoomId.Returns(roomId);
+        _roomFactory.CreateRoomAsync(roomId, Arg.Any<string[]>(), Arg.Any<CancellationToken>())
+            .Returns(room);
+        await _sut.InitializeRoomAsync(roomId, ["|title|Test"]);
+
+        // Act
+        _sut.RenameUserInRoom(roomId, "OldName", "NewName");
+
+        // Assert
+        room.Received(1).RenameUser("OldName", "NewName");
+    }
+
+    [Test]
+    public async Task Test_Clear_ShouldRemoveAllRooms()
+    {
+        // Arrange
+        var room1 = Substitute.For<IRoom>();
+        room1.RoomId.Returns("room1");
+        var room2 = Substitute.For<IRoom>();
+        room2.RoomId.Returns("room2");
+        _roomFactory.CreateRoomAsync("room1", Arg.Any<string[]>(), Arg.Any<CancellationToken>()).Returns(room1);
+        _roomFactory.CreateRoomAsync("room2", Arg.Any<string[]>(), Arg.Any<CancellationToken>()).Returns(room2);
+        await _sut.InitializeRoomAsync("room1", ["|title|Room1"]);
+        await _sut.InitializeRoomAsync("room2", ["|title|Room2"]);
+
+        // Act
+        _sut.Clear();
+
+        // Assert
+        Assert.That(_sut.HasRoom("room1"), Is.False);
+        Assert.That(_sut.HasRoom("room2"), Is.False);
     }
 }

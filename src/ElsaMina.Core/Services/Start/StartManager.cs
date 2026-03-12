@@ -12,23 +12,24 @@ public class StartManager : IStartManager
     private readonly ICustomColorsManager _customColorsManager;
     private readonly IRoomUserDataService _roomUserDataService;
     private readonly IDexManager _dexManager;
-    private readonly IRoomsManager _roomsManager;
+    private readonly IPlayTimeUpdateService _playTimeUpdateService;
 
     public StartManager(ITemplatesManager templatesManager,
         ICustomColorsManager customColorsManager,
         IRoomUserDataService roomUserDataService,
-        IDexManager dexManager, IRoomsManager roomsManager)
+        IDexManager dexManager,
+        IPlayTimeUpdateService playTimeUpdateService)
     {
         _templatesManager = templatesManager;
         _customColorsManager = customColorsManager;
         _roomUserDataService = roomUserDataService;
         _dexManager = dexManager;
-        _roomsManager = roomsManager;
+        _playTimeUpdateService = playTimeUpdateService;
     }
 
     public async Task LoadStaticDataAsync(CancellationToken cancellationToken = default)
     {
-        _roomsManager.Initialize();
+        _playTimeUpdateService.Initialize();
         await Task.WhenAll(
             _templatesManager.CompileTemplatesAsync(),
             _customColorsManager.FetchCustomColorsAsync(cancellationToken),

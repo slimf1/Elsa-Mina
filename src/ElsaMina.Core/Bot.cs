@@ -19,6 +19,7 @@ public class Bot : IBot
     private readonly IHandlerManager _handlerManager;
     private readonly ISystemService _systemService;
     private readonly IStartManager _startManager;
+    private readonly IPlayTimeUpdateService _playTimeUpdateService;
 
     private readonly SemaphoreSlim _initializeRoomSemaphore = new(1, 1);
     private readonly CancellationTokenSource _cancellationTokenSource = new();
@@ -33,7 +34,8 @@ public class Bot : IBot
         IRoomsManager roomsManager,
         IHandlerManager handlerManager,
         ISystemService systemService,
-        IStartManager startManager)
+        IStartManager startManager,
+        IPlayTimeUpdateService playTimeUpdateService)
     {
         _client = client;
         _clockService = clockService;
@@ -41,6 +43,7 @@ public class Bot : IBot
         _handlerManager = handlerManager;
         _systemService = systemService;
         _startManager = startManager;
+        _playTimeUpdateService = playTimeUpdateService;
     }
 
     public async Task StartAsync()
@@ -63,7 +66,7 @@ public class Bot : IBot
     public void OnExit()
     {
         Log.Information("Exiting bot...");
-        _roomsManager.ProcessPendingPlayTimeUpdates();
+        _playTimeUpdateService.ProcessPendingPlayTimeUpdatesAsync();
     }
 
     public TimeSpan UpTime => _clockService.CurrentUtcDateTimeOffset - _connectionTime;

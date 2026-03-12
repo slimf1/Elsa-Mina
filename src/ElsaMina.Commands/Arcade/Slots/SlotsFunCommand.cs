@@ -117,7 +117,6 @@ public class SlotsFunCommand : Command
         {
             Culture = context.Culture,
             UserName = context.Sender.Name,
-            UserColor = context.Sender.Name.ToColorHexCodeWithCustoms(),
             OutcomeMessage = outcomeMessage,
             SlotImageOne = imageOne,
             SlotImageTwo = imageTwo,

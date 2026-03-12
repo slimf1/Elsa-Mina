@@ -27,6 +27,7 @@ public class BotHandleReceivedMessageIntegrationTest
     private IRoomsManager _roomsManager;
     private ISystemService _systemService;
     private IStartManager _startManager;
+    private IPlayTimeUpdateService _playTimeUpdateService;
     private IConfiguration _configuration;
     private IResourcesService _resourcesService;
     private IUserDetailsManager _userDetailsManager;
@@ -47,6 +48,7 @@ public class BotHandleReceivedMessageIntegrationTest
         _resourcesService = Substitute.For<IResourcesService>();
         _userDetailsManager = Substitute.For<IUserDetailsManager>();
         _addedCommandsManager = Substitute.For<IAddedCommandsManager>();
+        _playTimeUpdateService = Substitute.For<IPlayTimeUpdateService>();
         _dependencyContainerService = new DependencyContainerService();
 
         _clockService.CurrentUtcDateTimeOffset.Returns(DateTimeOffset.UtcNow);
@@ -63,7 +65,8 @@ public class BotHandleReceivedMessageIntegrationTest
             _roomsManager,
             handlerManager,
             _systemService,
-            _startManager);
+            _startManager,
+            _playTimeUpdateService);
 
         var builder = new ContainerBuilder();
         builder.RegisterInstance(_dependencyContainerService).As<IDependencyContainerService>();
@@ -91,6 +94,7 @@ public class BotHandleReceivedMessageIntegrationTest
         _client?.Dispose();
         _container?.Dispose();
         _bot?.Dispose();
+        _playTimeUpdateService?.Dispose();
     }
 
     [Test]
