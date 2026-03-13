@@ -83,7 +83,7 @@ public class ProfileService : IProfileService
             Status = GetStatus(showdownUserDetails),
             Badges = storedUserData?.Badges.Select(holding => holding.Badge),
             Title = storedUserData?.Title,
-            RegisterDate = registerDate,
+            RegisterDate = TimeZoneInfo.ConvertTime(registerDate, room?.TimeZone ?? TimeZoneInfo.Local),
             BestRanking = bestRanking,
             TournamentRecord = storedUserData?.TournamentRecord
         };

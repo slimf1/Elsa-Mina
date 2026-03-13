@@ -131,6 +131,8 @@ public class CommandModule : Module
         builder.RegisterCommand<StopRepeatCommand>();
         builder.RegisterCommand<RepeatsListCommand>();
         builder.RegisterCommand<WikipediaSearchCommand>();
+        builder.RegisterCommand<PokepediaSearchCommand>();
+        builder.RegisterCommand<BulbapediaSearchCommand>();
         builder.RegisterCommand<AfdSpriteCommand>();
         builder.RegisterCommand<ShowPollsCommand>();
         builder.RegisterCommand<PairingsCommand>();

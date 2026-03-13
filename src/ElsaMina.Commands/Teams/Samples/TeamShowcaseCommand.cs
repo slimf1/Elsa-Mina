@@ -34,7 +34,8 @@ public class TeamShowcaseCommand : Command
         var template = await _templatesManager.GetTemplateAsync("Teams/SampleTeam", new SampleTeamViewModel
         {
             Culture = context.Culture,
-            Team = team
+            Team = team,
+            TimeZone = context.Room?.TimeZone ?? TimeZoneInfo.Local
         });
 
         context.ReplyHtml(template.RemoveNewlines(), rankAware: true);
