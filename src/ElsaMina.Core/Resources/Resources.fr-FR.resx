@@ -810,6 +810,9 @@
     <data name="badge_display_no_holders" xml:space="preserve">
         <value>Aucun</value>
     </data>
+    <data name="badgelist_room_not_found" xml:space="preserve">
+        <value>Impossible de trouver le salon "{0}".</value>
+    </data>
     <data name="hall_of_fame_rank" xml:space="preserve">
         <value>Rang</value>
     </data>

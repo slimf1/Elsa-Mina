@@ -15,6 +15,7 @@ using ElsaMina.Commands.Badges;
 using ElsaMina.Commands.Badges.BadgeDisplay;
 using ElsaMina.Commands.Badges.BadgeEditPanel;
 using ElsaMina.Commands.Badges.BadgeHolders;
+using ElsaMina.Commands.Badges.BadgeList;
 using ElsaMina.Commands.Badges.HallOfFame;
 using ElsaMina.Commands.ConnectFour;
 using ElsaMina.Commands.CustomCommands;
@@ -145,6 +146,7 @@ public class CommandModule : Module
         builder.RegisterCommand<UptimeCommand>();
         builder.RegisterCommand<BadgeDisplayCommand>();
         builder.RegisterCommand<BadgeHoldersCommand>();
+        builder.RegisterCommand<BadgeListCommand>();
         builder.RegisterCommand<HallOfFameCommand>();
         builder.RegisterCommand<GeniusSearchCommand>();
         builder.RegisterCommand<ArcadeHallOfFameCommand>();

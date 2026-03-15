@@ -1,0 +1,10 @@
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Badges.BadgeList.BadgeListViewModel>
+
+<div style="overflow-y: auto; max-height: 100px;">
+    @foreach (var badge in Model.Badges)
+    {
+        await IncludeAsync("Badges/Badge", badge);
+        <b title="@badge.Id">@badge.Name</b>
+        <br/>
+    }
+</div>

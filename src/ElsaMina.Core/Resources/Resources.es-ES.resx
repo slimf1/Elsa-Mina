@@ -815,6 +815,9 @@
     <data name="badge_display_no_holders" xml:space="preserve">
         <value>Ninguno</value>
     </data>
+    <data name="badgelist_room_not_found" xml:space="preserve">
+        <value>No se pudo encontrar la sala "{0}".</value>
+    </data>
     <data name="profile_header_avatar" xml:space="preserve">
         <value>Avatar</value>
     </data>

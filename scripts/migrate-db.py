@@ -15,7 +15,7 @@ import psycopg2
 from datetime import datetime, timezone
 
 LOG_INTERVAL = 500  # print progress every N rows
-MAX_PLAYTIME_SECONDS = 200 * 3_600  # 200 hours — only users above this are inserted into RoomUsers
+MAX_PLAYTIME_SECONDS = 10 * 3_600  # 10 hours — only users above this are inserted into RoomUsers
 
 def log_progress(i, total, label="rows"):
     if i % LOG_INTERVAL == 0 or i == total:
