@@ -813,6 +813,39 @@
     <data name="badgelist_room_not_found" xml:space="preserve">
         <value>Impossible de trouver le salon "{0}".</value>
     </data>
+    <data name="pokerace_already_running" xml:space="preserve">
+        <value>Une course de Pokémon est déjà en cours ! Utilisez -racejoin [Pokémon] pour participer.</value>
+    </data>
+    <data name="pokerace_other_game_running" xml:space="preserve">
+        <value>Un autre jeu est déjà en cours dans cette salle.</value>
+    </data>
+    <data name="pokerace_not_running" xml:space="preserve">
+        <value>Aucune course de Pokémon n'est en cours. Utilisez -pokerace pour en démarrer une.</value>
+    </data>
+    <data name="pokerace_race_already_started" xml:space="preserve">
+        <value>La course a déjà commencé !</value>
+    </data>
+    <data name="pokerace_min_players_required" xml:space="preserve">
+        <value>Il faut au moins {0} participants pour commencer la course !</value>
+    </data>
+    <data name="pokerace_cancelled" xml:space="preserve">
+        <value>La course de Pokémon a été annulée.</value>
+    </data>
+    <data name="pokerace_join_already_chosen" xml:space="preserve">
+        <value>Vous avez déjà choisi {0} !</value>
+    </data>
+    <data name="pokerace_join_pokemon_taken" xml:space="preserve">
+        <value>{0} a déjà été choisi par un autre dresseur !</value>
+    </data>
+    <data name="pokerace_join_invalid_pokemon" xml:space="preserve">
+        <value>{0} n'est pas disponible. Choisissez parmi : {1}</value>
+    </data>
+    <data name="pokerace_join_success" xml:space="preserve">
+        <value>{0} a choisi {1} pour la course !</value>
+    </data>
+    <data name="pokerace_auto_start_not_enough_players" xml:space="preserve">
+        <value>La course n'a pas pu démarrer automatiquement : pas assez de participants (minimum {0}).</value>
+    </data>
     <data name="hall_of_fame_rank" xml:space="preserve">
         <value>Rang</value>
     </data>

@@ -818,6 +818,39 @@
     <data name="badgelist_room_not_found" xml:space="preserve">
         <value>No se pudo encontrar la sala "{0}".</value>
     </data>
+    <data name="pokerace_already_running" xml:space="preserve">
+        <value>¡Ya hay una carrera Pokémon en curso! Usa -racejoin [Pokémon] para unirte.</value>
+    </data>
+    <data name="pokerace_other_game_running" xml:space="preserve">
+        <value>Otro juego ya está en curso en esta sala.</value>
+    </data>
+    <data name="pokerace_not_running" xml:space="preserve">
+        <value>No hay ninguna carrera Pokémon en curso. Usa -pokerace para iniciar una.</value>
+    </data>
+    <data name="pokerace_race_already_started" xml:space="preserve">
+        <value>¡La carrera ya ha comenzado!</value>
+    </data>
+    <data name="pokerace_min_players_required" xml:space="preserve">
+        <value>¡Se necesitan al menos {0} participantes para comenzar la carrera!</value>
+    </data>
+    <data name="pokerace_cancelled" xml:space="preserve">
+        <value>La carrera Pokémon ha sido cancelada.</value>
+    </data>
+    <data name="pokerace_join_already_chosen" xml:space="preserve">
+        <value>¡Ya has elegido {0}!</value>
+    </data>
+    <data name="pokerace_join_pokemon_taken" xml:space="preserve">
+        <value>¡{0} ya fue elegido por otro entrenador!</value>
+    </data>
+    <data name="pokerace_join_invalid_pokemon" xml:space="preserve">
+        <value>{0} no está disponible. Elige entre: {1}</value>
+    </data>
+    <data name="pokerace_join_success" xml:space="preserve">
+        <value>¡{0} ha elegido {1} para la carrera!</value>
+    </data>
+    <data name="pokerace_auto_start_not_enough_players" xml:space="preserve">
+        <value>La carrera no pudo iniciarse automáticamente: no hay suficientes participantes (mínimo {0}).</value>
+    </data>
     <data name="profile_header_avatar" xml:space="preserve">
         <value>Avatar</value>
     </data>

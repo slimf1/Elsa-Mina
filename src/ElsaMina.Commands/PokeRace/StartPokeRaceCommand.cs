@@ -1,0 +1,41 @@
+using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Services.Commands;
+using ElsaMina.Core.Services.DependencyInjection;
+using ElsaMina.Core.Services.Rooms;
+
+namespace ElsaMina.Commands.PokeRace;
+
+[NamedCommand("pokerace", Aliases = ["coursepokerace"])]
+public class StartPokeRaceCommand : Command
+{
+    private readonly IDependencyContainerService _dependencyContainerService;
+
+    public StartPokeRaceCommand(IDependencyContainerService dependencyContainerService)
+    {
+        _dependencyContainerService = dependencyContainerService;
+    }
+
+    public override Rank RequiredRank => Rank.Driver;
+
+    public override Task RunAsync(IContext context, CancellationToken cancellationToken = default)
+    {
+        if (context.Room.Game is IPokeRaceGame)
+        {
+            context.ReplyLocalizedMessage("pokerace_already_running");
+            return Task.CompletedTask;
+        }
+
+        if (context.Room.Game is not null)
+        {
+            context.ReplyLocalizedMessage("pokerace_other_game_running");
+            return Task.CompletedTask;
+        }
+
+        var game = _dependencyContainerService.Resolve<PokeRaceGame>();
+        game.Context = context;
+        context.Room.Game = game;
+        game.BeginJoinPhase();
+
+        return Task.CompletedTask;
+    }
+}

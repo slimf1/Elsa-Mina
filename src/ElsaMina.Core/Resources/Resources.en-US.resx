@@ -813,6 +813,39 @@
     <data name="badgelist_room_not_found" xml:space="preserve">
         <value>Could not find the "{0}" room.</value>
     </data>
+    <data name="pokerace_already_running" xml:space="preserve">
+        <value>A Pokémon race is already running! Use -racejoin [Pokémon] to join.</value>
+    </data>
+    <data name="pokerace_other_game_running" xml:space="preserve">
+        <value>Another game is already running in this room.</value>
+    </data>
+    <data name="pokerace_not_running" xml:space="preserve">
+        <value>No Pokémon race is running. Use -pokerace to start one.</value>
+    </data>
+    <data name="pokerace_race_already_started" xml:space="preserve">
+        <value>The race has already started!</value>
+    </data>
+    <data name="pokerace_min_players_required" xml:space="preserve">
+        <value>At least {0} participants are needed to start the race!</value>
+    </data>
+    <data name="pokerace_cancelled" xml:space="preserve">
+        <value>The Pokémon race has been cancelled.</value>
+    </data>
+    <data name="pokerace_join_already_chosen" xml:space="preserve">
+        <value>You have already chosen {0}!</value>
+    </data>
+    <data name="pokerace_join_pokemon_taken" xml:space="preserve">
+        <value>{0} has already been chosen by another trainer!</value>
+    </data>
+    <data name="pokerace_join_invalid_pokemon" xml:space="preserve">
+        <value>{0} is not available. Choose from: {1}</value>
+    </data>
+    <data name="pokerace_join_success" xml:space="preserve">
+        <value>{0} has chosen {1} for the race!</value>
+    </data>
+    <data name="pokerace_auto_start_not_enough_players" xml:space="preserve">
+        <value>The race could not start automatically: not enough participants (minimum {0}).</value>
+    </data>
     <data name="hall_of_fame_rank" xml:space="preserve">
         <value>Rank</value>
     </data>
