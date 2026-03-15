@@ -36,6 +36,7 @@ public interface IConfiguration : IS3CredentialsProvider, ILoggingConfiguration
     string ArcadeSpreadsheetName { get; }
     string ArcadeHallOfFameSheetName { get; }
     IReadOnlyDictionary<string, IEnumerable<string>> TourAnnounces { get; }
+    IReadOnlyDictionary<string, string> DiscordWebhooks { get; }
     int UserUpdateBatchSize { get; set; }
     TimeSpan UserUpdateFlushInterval { get; set; }
 }

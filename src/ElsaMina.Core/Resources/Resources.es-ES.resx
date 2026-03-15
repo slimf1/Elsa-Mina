@@ -1490,4 +1490,19 @@
     <data name="vf_panel_stop" xml:space="preserve">
         <value>Detener partida</value>
     </data>
+    <data name="watchlist_add_help" xml:space="preserve">
+        <value>Añade un usuario a la lista de vigilancia de una sala. Sintaxis: -addwatchlist sala, usuario, rango</value>
+    </data>
+    <data name="watchlist_remove_help" xml:space="preserve">
+        <value>Elimina un usuario de la lista de vigilancia de una sala. Sintaxis: -removewatchlist sala, usuario, rango</value>
+    </data>
+    <data name="watchlist_user_added" xml:space="preserve">
+        <value>{0} ha sido añadido a la lista de vigilancia de la sala {1} con el rango {2}.</value>
+    </data>
+    <data name="watchlist_user_removed" xml:space="preserve">
+        <value>{0} (rango {1}) ha sido eliminado de la lista de vigilancia de la sala {2}.</value>
+    </data>
+    <data name="watchlist_user_not_found" xml:space="preserve">
+        <value>{0} (rango {1}) no está en la lista de vigilancia de la sala {2}.</value>
+    </data>
 </root>

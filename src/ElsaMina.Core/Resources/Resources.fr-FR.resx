@@ -1485,4 +1485,19 @@
     <data name="vf_panel_stop" xml:space="preserve">
         <value>Arrêter la partie</value>
     </data>
+    <data name="watchlist_add_help" xml:space="preserve">
+        <value>Ajoute un utilisateur à la watchlist d'un salon. Syntaxe : -addwatchlist salon, utilisateur, rang</value>
+    </data>
+    <data name="watchlist_remove_help" xml:space="preserve">
+        <value>Retire un utilisateur de la watchlist d'un salon. Syntaxe : -removewatchlist salon, utilisateur, rang</value>
+    </data>
+    <data name="watchlist_user_added" xml:space="preserve">
+        <value>{0} a été ajouté à la watchlist du salon {1} avec le rang {2}.</value>
+    </data>
+    <data name="watchlist_user_removed" xml:space="preserve">
+        <value>{0} (rang {1}) a été retiré de la watchlist du salon {2}.</value>
+    </data>
+    <data name="watchlist_user_not_found" xml:space="preserve">
+        <value>{0} (rang {1}) n'est pas dans la watchlist du salon {2}.</value>
+    </data>
 </root>

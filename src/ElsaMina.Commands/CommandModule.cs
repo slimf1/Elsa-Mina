@@ -63,6 +63,7 @@ using ElsaMina.Commands.PokeRace;
 using ElsaMina.Commands.Tournaments.Hebdo;
 using ElsaMina.Commands.VoltorbFlip;
 using ElsaMina.Commands.Users.PlayTimes;
+using ElsaMina.Commands.Watchlist;
 using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands;
@@ -203,6 +204,13 @@ public class CommandModule : Module
         builder.RegisterHandler<PollEndHandler>();
         builder.RegisterHandler<OtherRoomTournamentAnnounceHandler>();
         builder.RegisterHandler<TourEndHandler>();
+        builder.RegisterHandler<StaffIntroChangeHandler>();
+        builder.RegisterHandler<StaffIntroContentHandler>();
+
+        builder.RegisterCommand<AddWatchlistCommand>();
+        builder.RegisterCommand<RemoveWatchlistCommand>();
+
+        builder.RegisterType<WatchlistService>().As<IWatchlistService>().SingleInstance();
 
         builder.RegisterType<CountriesGame>().AsSelf();
         builder.RegisterType<CapitalCitiesGame>().AsSelf();

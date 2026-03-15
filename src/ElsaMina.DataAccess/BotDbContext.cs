@@ -24,6 +24,8 @@ public class BotDbContext : DbContext
     public DbSet<SavedUser> Users { get; set; }
     public DbSet<VoltorbFlipLevel> VoltorbFlipLevels { get; set; }
     public DbSet<ShopItem> ShopItems { get; set; }
+    public DbSet<WatchlistEntry> WatchlistEntries { get; set; }
+    public DbSet<StaffIntro> StaffIntros { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

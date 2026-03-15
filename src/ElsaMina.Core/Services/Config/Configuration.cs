@@ -36,6 +36,7 @@ public class Configuration : IConfiguration
     public string ArcadeSpreadsheetName { get; set; }
     public string ArcadeHallOfFameSheetName { get; set; }
     public IReadOnlyDictionary<string, IEnumerable<string>> TourAnnounces { get; set; }
+    public IReadOnlyDictionary<string, string> DiscordWebhooks { get; set; } = new Dictionary<string, string>();
     public int UserUpdateBatchSize { get; set; }
     public TimeSpan UserUpdateFlushInterval { get; set; }
     public string S3BucketName { get; set; } = string.Empty;

@@ -1485,4 +1485,19 @@
     <data name="vf_panel_stop" xml:space="preserve">
         <value>Stop game</value>
     </data>
+    <data name="watchlist_add_help" xml:space="preserve">
+        <value>Adds a user to a room's watchlist. Syntax: -addwatchlist room, user, rank</value>
+    </data>
+    <data name="watchlist_remove_help" xml:space="preserve">
+        <value>Removes a user from a room's watchlist. Syntax: -removewatchlist room, user, rank</value>
+    </data>
+    <data name="watchlist_user_added" xml:space="preserve">
+        <value>{0} has been added to the watchlist of room {1} with rank {2}.</value>
+    </data>
+    <data name="watchlist_user_removed" xml:space="preserve">
+        <value>{0} (rank {1}) has been removed from the watchlist of room {2}.</value>
+    </data>
+    <data name="watchlist_user_not_found" xml:space="preserve">
+        <value>{0} (rank {1}) is not in the watchlist of room {2}.</value>
+    </data>
 </root>

@@ -1490,4 +1490,19 @@
     <data name="vf_panel_stop" xml:space="preserve">
         <value>Ferma la partita</value>
     </data>
+    <data name="watchlist_add_help" xml:space="preserve">
+        <value>Aggiunge un utente alla watchlist di una stanza. Sintassi: -addwatchlist stanza, utente, rango</value>
+    </data>
+    <data name="watchlist_remove_help" xml:space="preserve">
+        <value>Rimuove un utente dalla watchlist di una stanza. Sintassi: -removewatchlist stanza, utente, rango</value>
+    </data>
+    <data name="watchlist_user_added" xml:space="preserve">
+        <value>{0} è stato aggiunto alla watchlist della stanza {1} con il rango {2}.</value>
+    </data>
+    <data name="watchlist_user_removed" xml:space="preserve">
+        <value>{0} (rango {1}) è stato rimosso dalla watchlist della stanza {2}.</value>
+    </data>
+    <data name="watchlist_user_not_found" xml:space="preserve">
+        <value>{0} (rango {1}) non è nella watchlist della stanza {2}.</value>
+    </data>
 </root>
