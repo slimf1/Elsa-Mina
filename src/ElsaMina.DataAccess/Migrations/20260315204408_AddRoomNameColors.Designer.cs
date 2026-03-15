@@ -3,6 +3,7 @@ using System;
 using ElsaMina.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ElsaMina.DataAccess.Migrations
 {
     [DbContext(typeof(BotDbContext))]
-    partial class BotDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260315204408_AddRoomNameColors")]
+    partial class AddRoomNameColors
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,19 +112,6 @@ namespace ElsaMina.DataAccess.Migrations
                     b.ToTable("BadgeHoldings");
                 });
 
-            modelBuilder.Entity("ElsaMina.DataAccess.Models.NameColor", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Color")
-                        .HasColumnType("text");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("NameColors");
-                });
-
             modelBuilder.Entity("ElsaMina.DataAccess.Models.RoomBotParameterValue", b =>
                 {
                     b.Property<string>("RoomId")
@@ -136,6 +126,22 @@ namespace ElsaMina.DataAccess.Migrations
                     b.HasKey("RoomId", "ParameterId");
 
                     b.ToTable("RoomBotParameterValues");
+                });
+
+            modelBuilder.Entity("ElsaMina.DataAccess.Models.RoomNameColor", b =>
+                {
+                    b.Property<string>("RoomId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Color")
+                        .HasColumnType("text");
+
+                    b.HasKey("RoomId", "UserId");
+
+                    b.ToTable("RoomNameColors");
                 });
 
             modelBuilder.Entity("ElsaMina.DataAccess.Models.RoomTeam", b =>

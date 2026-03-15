@@ -9,13 +9,18 @@ namespace ElsaMina.UnitTests.Core.Utils;
 public class ShowdownColorsTests
 {
     private ICustomColorsManager _customColorsManager;
+    private IRoomColorsCache _roomColorsCache;
 
     [SetUp]
     public void SetUp()
     {
         _customColorsManager = Substitute.For<ICustomColorsManager>();
+        _roomColorsCache = Substitute.For<IRoomColorsCache>();
+        _roomColorsCache.GetColor(Arg.Any<string>()).Returns((string)null);
+
         var containerService = Substitute.For<IDependencyContainerService>();
         containerService.Resolve<ICustomColorsManager>().Returns(_customColorsManager);
+        containerService.Resolve<IRoomColorsCache>().Returns(_roomColorsCache);
         DependencyContainerService.Current = containerService;
     }
 
@@ -76,6 +81,16 @@ public class ShowdownColorsTests
 
         // Assert
         Assert.That(rgbString, Is.EqualTo("RGB(255, 128, 64)"));
+    }
+
+    [Test]
+    public void Test_ToColorHexCodeWithCustoms_ShouldUseNameColor_WhenNameColorCacheHasEntry()
+    {
+        _roomColorsCache.GetColor("customuser").Returns("#abcdef");
+
+        var result = "customUser".ToColorHexCodeWithCustoms();
+
+        Assert.That(result, Is.EqualTo("#abcdef"));
     }
 
     [Test]

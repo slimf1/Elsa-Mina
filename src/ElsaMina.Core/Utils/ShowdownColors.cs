@@ -77,6 +77,14 @@ public static class ShowdownColors
     public static string ToColorHexCodeWithCustoms(this string userName)
     {
         var userId = userName.ToLowerAlphaNum();
+
+        var roomColorsCache = DependencyContainerService.Current.Resolve<IRoomColorsCache>();
+        var nameColor = roomColorsCache.GetColor(userId);
+        if (nameColor != null)
+        {
+            return nameColor;
+        }
+
         var customColorsManager = DependencyContainerService.Current.Resolve<ICustomColorsManager>();
         if (customColorsManager.CustomColorsMapping.TryGetValue(userId, out var userCustomColor))
         {

@@ -32,6 +32,8 @@ using ElsaMina.Commands.JoinPhrases;
 using ElsaMina.Commands.Misc;
 using ElsaMina.Commands.Misc.Bitcoin;
 using ElsaMina.Commands.Misc.Colors;
+using ElsaMina.Core.Services.CustomColors;
+using ElsaMina.DataAccess;
 using ElsaMina.Commands.Misc.Dailymotion;
 using ElsaMina.Commands.Misc.Facts;
 using ElsaMina.Commands.Misc.Genius;
@@ -108,6 +110,8 @@ public class CommandModule : Module
         builder.RegisterCommand<DeleteTeamCommand>();
         builder.RegisterCommand<SayCommand>();
         builder.RegisterCommand<NameColorInfoCommand>();
+        builder.RegisterCommand<SetColorCommand>();
+        builder.RegisterCommand<RemoveColorCommand>();
         builder.RegisterCommand<FactsCommand>();
         builder.RegisterCommand<BitcoinCommand>();
         builder.RegisterCommand<SetJoinPhraseCommand>();
@@ -213,8 +217,6 @@ public class CommandModule : Module
         builder.RegisterCommand<AddWatchlistCommand>();
         builder.RegisterCommand<RemoveWatchlistCommand>();
 
-        builder.RegisterType<WatchlistService>().As<IWatchlistService>().SingleInstance();
-
         builder.RegisterType<CountriesGame>().AsSelf();
         builder.RegisterType<CapitalCitiesGame>().AsSelf();
         builder.RegisterType<ConnectFourGame>().AsSelf();
@@ -224,6 +226,11 @@ public class CommandModule : Module
         builder.RegisterType<PokeCriesGame>().AsSelf();
         builder.RegisterType<GatekeepersGame>().AsSelf();
 
+        builder.RegisterType<WatchlistService>().As<IWatchlistService>().SingleInstance();
+        builder.RegisterType<NameColorsService>()
+            .As<INameColorsService>()
+            .As<IRoomColorsCache>()
+            .SingleInstance();
         builder.RegisterType<ElevenLabsAiTextToSpeechProvider>().As<IAiTextToSpeechProvider>().SingleInstance();
         builder.RegisterType<Gemini25FlashProvider>().AsSelf().SingleInstance();
         builder.RegisterType<MistralMediumProvider>().AsSelf().SingleInstance();

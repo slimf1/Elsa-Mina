@@ -11,18 +11,21 @@ public class StartManager : IStartManager
 {
     private readonly ITemplatesManager _templatesManager;
     private readonly ICustomColorsManager _customColorsManager;
+    private readonly IRoomColorsCache _roomColorsCache;
     private readonly IRoomUserDataService _roomUserDataService;
     private readonly IDexManager _dexManager;
     private readonly IPlayTimeUpdateService _playTimeUpdateService;
 
     public StartManager(ITemplatesManager templatesManager,
         ICustomColorsManager customColorsManager,
+        IRoomColorsCache roomColorsCache,
         IRoomUserDataService roomUserDataService,
         IDexManager dexManager,
         IPlayTimeUpdateService playTimeUpdateService)
     {
         _templatesManager = templatesManager;
         _customColorsManager = customColorsManager;
+        _roomColorsCache = roomColorsCache;
         _roomUserDataService = roomUserDataService;
         _dexManager = dexManager;
         _playTimeUpdateService = playTimeUpdateService;
@@ -34,6 +37,7 @@ public class StartManager : IStartManager
         await Task.WhenAll(
             _templatesManager.CompileTemplatesAsync(),
             _customColorsManager.FetchCustomColorsAsync(cancellationToken),
+            _roomColorsCache.LoadAsync(cancellationToken),
             _roomUserDataService.InitializeJoinPhrasesAsync(cancellationToken),
             _dexManager.LoadDexAsync(cancellationToken)
         );

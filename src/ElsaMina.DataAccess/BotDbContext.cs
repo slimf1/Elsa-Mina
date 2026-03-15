@@ -26,6 +26,7 @@ public class BotDbContext : DbContext
     public DbSet<ShopItem> ShopItems { get; set; }
     public DbSet<WatchlistEntry> WatchlistEntries { get; set; }
     public DbSet<StaffIntro> StaffIntros { get; set; }
+    public DbSet<NameColor> NameColors { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
