@@ -1,6 +1,5 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Commands;
-using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;

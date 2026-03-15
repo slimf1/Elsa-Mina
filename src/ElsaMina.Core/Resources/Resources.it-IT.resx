@@ -1259,6 +1259,12 @@
     <data name="top_tournament_players_error" xml:space="preserve">
         <value>Could not retrieve tournament data.</value>
     </data>
+    <data name="hebdo_wrong_room" xml:space="preserve">
+        <value>Questo comando può essere utilizzato solo nella room arcade.</value>
+    </data>
+    <data name="tour_help_title" xml:space="preserve">
+        <value>Comandi torneo disponibili:</value>
+    </data>
     <data name="top_tournament_players_footer_new_label" xml:space="preserve">
         <value>Novità:</value>
     </data>

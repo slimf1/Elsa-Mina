@@ -59,6 +59,7 @@ using ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
 using ElsaMina.Commands.Tournaments;
 using ElsaMina.Commands.Users;
 using ElsaMina.Commands.PokeRace;
+using ElsaMina.Commands.Tournaments.Hebdo;
 using ElsaMina.Commands.VoltorbFlip;
 using ElsaMina.Commands.Users.PlayTimes;
 using ElsaMina.Core.Utils;
@@ -187,6 +188,7 @@ public class CommandModule : Module
         builder.RegisterCommand<EndRaceCommand>();
 
         RegisterRandomImagesCommands(builder);
+        RegisterTournamentCommands(builder);
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();
@@ -229,6 +231,34 @@ public class CommandModule : Module
         builder.RegisterType<ArcadeInscriptionsManager>().As<IArcadeInscriptionsManager>().SingleInstance();
         builder.RegisterType<UnsplashService>().As<IUnsplashService>().SingleInstance();
         builder.RegisterType<TenorService>().As<ITenorService>().SingleInstance();
+    }
+
+    private static void RegisterTournamentCommands(ContainerBuilder builder)
+    {
+        builder.RegisterCommand<SharedPowerCommand>();
+        builder.RegisterCommand<TourHelpCommand>();
+        builder.RegisterCommand<HebdoSvCommand>();
+        builder.RegisterCommand<HebdoSsCommand>();
+        builder.RegisterCommand<HebdoSmCommand>();
+        builder.RegisterCommand<HebdoAaaCommand>();
+        builder.RegisterCommand<HebdoBhCommand>();
+        builder.RegisterCommand<HebdoMnMCommand>();
+        builder.RegisterCommand<HebdoGgCommand>();
+        builder.RegisterCommand<HebdoStabCommand>();
+        builder.RegisterCommand<HebdoPiCCommand>();
+        builder.RegisterCommand<HebdoInheCommand>();
+        builder.RegisterCommand<HebdoCamoCommand>();
+        builder.RegisterCommand<HebdoNfeCommand>();
+        builder.RegisterCommand<Hebdo1V1Command>();
+        builder.RegisterCommand<HebdoAgCommand>();
+        builder.RegisterCommand<HebdoLcuuCommand>();
+        builder.RegisterCommand<HebdoUbersUuCommand>();
+        builder.RegisterCommand<HebdoZuCommand>();
+        builder.RegisterCommand<HebdoAdvruCommand>();
+        builder.RegisterCommand<HebdoBwruCommand>();
+        builder.RegisterCommand<HebdoOrasruCommand>();
+        builder.RegisterCommand<HebdoSmruCommand>();
+        builder.RegisterCommand<HebdoSsruCommand>();
     }
 
     private static void RegisterRandomImagesCommands(ContainerBuilder builder)
