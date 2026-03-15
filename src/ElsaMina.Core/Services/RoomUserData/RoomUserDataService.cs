@@ -150,7 +150,7 @@ public class RoomUserDataService : IRoomUserDataService
         string avatar,
         CancellationToken cancellationToken = default)
     {
-        if (avatar != null && !avatar.IsValidImageLink())
+        if (!string.IsNullOrEmpty(avatar) && !avatar.IsValidImageLink())
         {
             throw new ArgumentException("Invalid URL");
         }
