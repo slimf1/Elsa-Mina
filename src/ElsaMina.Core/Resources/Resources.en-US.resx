@@ -255,6 +255,9 @@
     <data name="profile_register_date" xml:space="preserve">
         <value>Registered</value>
     </data>
+    <data name="profile_play_time" xml:space="preserve">
+        <value>Play time</value>
+    </data>
     <data name="profile_title" xml:space="preserve">
         <value>Title</value>
     </data>

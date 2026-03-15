@@ -85,7 +85,8 @@ public class ProfileService : IProfileService
             Title = storedUserData?.Title,
             RegisterDate = TimeZoneInfo.ConvertTime(registerDate, room?.TimeZone ?? TimeZoneInfo.Local),
             BestRanking = bestRanking,
-            TournamentRecord = storedUserData?.TournamentRecord
+            TournamentRecord = storedUserData?.TournamentRecord,
+            PlayTime = storedUserData?.PlayTime ?? TimeSpan.Zero
         };
 
         return await _templatesManager.GetTemplateAsync("Profile/Profile", viewModel);
