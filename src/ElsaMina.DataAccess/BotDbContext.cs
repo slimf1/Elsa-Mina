@@ -23,6 +23,7 @@ public class BotDbContext : DbContext
     public DbSet<TournamentRecord> TournamentRecords { get; set; }
     public DbSet<SavedUser> Users { get; set; }
     public DbSet<VoltorbFlipLevel> VoltorbFlipLevels { get; set; }
+    public DbSet<ShopItem> ShopItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

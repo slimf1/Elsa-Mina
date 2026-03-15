@@ -1,0 +1,34 @@
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Shop.ShopViewModel>
+
+@{
+    const string tableStyle = "border-collapse: collapse; width: 100%";
+    const string cellStyle = "border: 1px solid #68A; text-align: left; padding: 4px";
+    const string headerRowStyle = "border: 1px solid #68A; text-align: center; padding: 0; height: 1px; background-color: rgba(102, 136, 170, 0.45); font-style: italic";
+    const string headerStyle = "border: 1px solid #68A; text-align: center";
+}
+<table border="1" style="@tableStyle">
+    <tr style="@headerRowStyle">
+        <th style="@headerStyle">@GetString("shop_tier_column")</th>
+        <th style="@headerStyle">@GetString("shop_article_column")</th>
+        <th style="@headerStyle">@GetString("shop_price_column")</th>
+    </tr>
+    @foreach (var (palier, articles) in Model.Items)
+    {
+        for (var index = 0; index < articles.Count; index++)
+        {
+            var article = articles[index];
+            <tr>
+                <td style="@cellStyle">
+                    @if (index == 0)
+                    {
+                        <b>@GetString("shop_tier_label") @palier</b>
+                    }
+                </td>
+                <td style="@cellStyle">@article.Article</td>
+                <td style="@cellStyle">@article.Price @GetString("shop_points_unit")</td>
+            </tr>
+        }
+    }
+</table>
+<br>
+<b><a href="https://docs.google.com/document/d/10gLnY2nRCKoe4yWXyrebv14xspwmIDIfVtb0q4zq7oI/edit" target="_blank" rel="noopener">@GetString("shop_link_label")</a></b>, @GetString("shop_footer_text") <code>-arcadepoints (votre pseudo)</code> @GetString("shop_footer_text_2") <code>-arcadehof</code> @GetString("shop_footer_text_3") <b>*<span class="username" style="color: #1ea767">@Model.BotName</span></b>. @GetString("shop_footer_disclaimer")

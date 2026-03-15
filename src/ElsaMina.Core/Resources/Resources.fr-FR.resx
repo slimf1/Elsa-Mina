@@ -1257,6 +1257,75 @@
     <data name="hebdo_wrong_room" xml:space="preserve">
         <value>Cette commande ne peut être utilisée que dans la room arcade.</value>
     </data>
+    <data name="shop_display_help" xml:space="preserve">
+        <value>Affiche le shop Arcade.</value>
+    </data>
+    <data name="shop_edit_help" xml:space="preserve">
+        <value>Ouvre l&apos;éditeur du shop.</value>
+    </data>
+    <data name="shop_edit_item_help" xml:space="preserve">
+        <value>Modifie un article. Syntaxe : -edititem (id),(palier),(article),(prix)</value>
+    </data>
+    <data name="shop_add_item_help" xml:space="preserve">
+        <value>Ajoute un article. Syntaxe : -additem (article),(prix),(palier)</value>
+    </data>
+    <data name="shop_remove_item_help" xml:space="preserve">
+        <value>Supprime un article. Syntaxe : -removeitem (palier),(article)</value>
+    </data>
+    <data name="shop_invalid_id" xml:space="preserve">
+        <value>L&apos;ID de l&apos;article doit être un nombre entier.</value>
+    </data>
+    <data name="shop_item_edited" xml:space="preserve">
+        <value>Article avec l&apos;ID {0} modifié avec succès.</value>
+    </data>
+    <data name="shop_item_not_found" xml:space="preserve">
+        <value>Aucun article trouvé avec l&apos;ID {0}.</value>
+    </data>
+    <data name="shop_item_added" xml:space="preserve">
+        <value>Article &quot;{0}&quot; ajouté au palier {1} avec un prix de {2} points et l&apos;ID {3}.</value>
+    </data>
+    <data name="shop_invalid_palier" xml:space="preserve">
+        <value>Palier invalide. Veuillez utiliser 1, 2, 3 ou 4.</value>
+    </data>
+    <data name="shop_item_removed" xml:space="preserve">
+        <value>Article &quot;{0}&quot; supprimé du palier {1}.</value>
+    </data>
+    <data name="shop_item_not_in_palier" xml:space="preserve">
+        <value>L&apos;article &quot;{0}&quot; n&apos;a pas été trouvé dans le palier {1}.</value>
+    </data>
+    <data name="shop_tier_column" xml:space="preserve">
+        <value>Palier</value>
+    </data>
+    <data name="shop_article_column" xml:space="preserve">
+        <value>Article</value>
+    </data>
+    <data name="shop_price_column" xml:space="preserve">
+        <value>Prix</value>
+    </data>
+    <data name="shop_tier_label" xml:space="preserve">
+        <value>Palier</value>
+    </data>
+    <data name="shop_points_unit" xml:space="preserve">
+        <value>points</value>
+    </data>
+    <data name="shop_link_label" xml:space="preserve">
+        <value>L&apos;Arcade Shop</value>
+    </data>
+    <data name="shop_footer_text" xml:space="preserve">
+        <value>le nouveau système du Hall of Fame d&apos;Arcade, ouvre ses portes ! Vous pouvez consulter vos points en faisant</value>
+    </data>
+    <data name="shop_footer_text_2" xml:space="preserve">
+        <value>ainsi que ceux des autres avec</value>
+    </data>
+    <data name="shop_footer_text_3" xml:space="preserve">
+        <value>en mp à</value>
+    </data>
+    <data name="shop_footer_disclaimer" xml:space="preserve">
+        <value>Pour rappel, les récompenses sont données sous réserve d&apos;un bon comportement sur Arcade et sur Français.</value>
+    </data>
+    <data name="shop_edit_submit" xml:space="preserve">
+        <value>Modifier</value>
+    </data>
     <data name="tour_help_title" xml:space="preserve">
         <value>Liste des commandes tournois disponibles :</value>
     </data>

@@ -56,6 +56,7 @@ using ElsaMina.Commands.Teams.TeamPreviewOnLink;
 using ElsaMina.Commands.Teams.TeamProviders;
 using ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
 using ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
+using ElsaMina.Commands.Shop;
 using ElsaMina.Commands.Tournaments;
 using ElsaMina.Commands.Users;
 using ElsaMina.Commands.PokeRace;
@@ -189,6 +190,7 @@ public class CommandModule : Module
 
         RegisterRandomImagesCommands(builder);
         RegisterTournamentCommands(builder);
+        RegisterShopCommands(builder);
 
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();
@@ -259,6 +261,16 @@ public class CommandModule : Module
         builder.RegisterCommand<HebdoOrasruCommand>();
         builder.RegisterCommand<HebdoSmruCommand>();
         builder.RegisterCommand<HebdoSsruCommand>();
+    }
+
+    private static void RegisterShopCommands(ContainerBuilder builder)
+    {
+        builder.RegisterType<ShopService>().As<IShopService>().SingleInstance();
+        builder.RegisterCommand<DisplayShopCommand>();
+        builder.RegisterCommand<EditShopCommand>();
+        builder.RegisterCommand<EditItemCommand>();
+        builder.RegisterCommand<AddItemCommand>();
+        builder.RegisterCommand<RemoveItemCommand>();
     }
 
     private static void RegisterRandomImagesCommands(ContainerBuilder builder)

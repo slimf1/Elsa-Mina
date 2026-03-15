@@ -1,0 +1,18 @@
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Shop.ShopViewModel>
+
+<b>ID | @GetString("shop_tier_column") | @GetString("shop_article_column") | @GetString("shop_price_column")</b><br><br>
+@foreach (var (palier, articles) in Model.Items)
+{
+    foreach (var article in articles)
+    {
+        <form method="post" data-submitsend="/pm @Model.BotName, -edititem @article.Id,{msg},{msg2},{msg3}">
+            @article.Id |
+            <input type="text" disabled="" style="width: 10px" name="msg" value="@palier"> |
+            <input type="text" name="msg2" value="@article.Article"> |
+            <input type="text" name="msg3" value="@article.Price">
+            <span style="margin: 0 5px;">|</span>
+            <input type="submit" value="@GetString("shop_edit_submit")" name="submit">
+        </form>
+        <br><br>
+    }
+}
