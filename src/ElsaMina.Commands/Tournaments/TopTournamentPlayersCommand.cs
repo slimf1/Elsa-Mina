@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.Commands.Tournaments;
 
-[NamedCommand("tourtop", Aliases = ["tourclassement", "tournamentrecords", "tourleaderboard"])]
+[NamedCommand("tourtop", Aliases = ["tourclassement", "tournamentrecords", "tourleaderboard", "board"])]
 public class TopTournamentPlayersCommand : Command
 {
     private const int TOP_COUNT = 20;
@@ -78,7 +78,9 @@ public class TopTournamentPlayersCommand : Command
                     TopList = topList
                 });
 
-            context.ReplyHtml(template.RemoveNewlines().RemoveWhitespacesBetweenTags().CollapseAttributeWhitespace(),
+            var footer = context.GetString("top_tournament_players_footer");
+            context.ReplyHtml(
+                template.RemoveNewlines().RemoveWhitespacesBetweenTags().CollapseAttributeWhitespace() + footer,
                 rankAware: true);
         }
         catch (Exception exception)

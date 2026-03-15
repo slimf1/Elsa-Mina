@@ -1259,6 +1259,9 @@
     <data name="top_tournament_players_error" xml:space="preserve">
         <value>Could not retrieve tournament data.</value>
     </data>
+    <data name="top_tournament_players_footer" xml:space="preserve">
+        <value></value>
+    </data>
     <data name="random_image_error" xml:space="preserve">
         <value>Spiacenti, impossibile ottenere un'immagine al momento.</value>
     </data>

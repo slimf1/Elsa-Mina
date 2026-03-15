@@ -24,9 +24,8 @@ public static class FileSystem
 
     public static string MakeRelativePath(string filePath, string referencePath)
     {
-        var fileUri = new Uri(filePath);
-        var referenceUri = new Uri(referencePath);
-        return Uri.UnescapeDataString(referenceUri.MakeRelativeUri(fileUri).ToString())
-            .Replace(Path.PathSeparator, Path.DirectorySeparatorChar);
+        var parentDirectory = Path.GetDirectoryName(referencePath)!;
+        return Path.GetRelativePath(parentDirectory, filePath)
+            .Replace(Path.DirectorySeparatorChar, '/');
     }
 }
