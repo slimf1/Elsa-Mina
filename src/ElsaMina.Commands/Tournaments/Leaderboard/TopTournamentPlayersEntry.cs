@@ -1,4 +1,4 @@
-namespace ElsaMina.Commands.Tournaments;
+namespace ElsaMina.Commands.Tournaments.Leaderboard;
 
 public record TopTournamentPlayersEntry(
     int Rank,

@@ -6,9 +6,9 @@ using ElsaMina.Core.Services.Formats;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 
-namespace ElsaMina.Commands.Tournaments;
+namespace ElsaMina.Commands.Tournaments.Handlers;
 
-public class OtherRoomTournamentAnnounceHandler : Handler // TODO : unit test ^^
+public class OtherRoomTournamentAnnounceHandler : Handler
 {
     private readonly IConfiguration _configuration;
     private readonly IBot _bot;

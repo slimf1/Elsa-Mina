@@ -1,5 +1,5 @@
 using ElsaMina.Commands.Profile;
-using ElsaMina.Commands.Tournaments;
+using ElsaMina.Commands.Tournaments.Handlers;
 using ElsaMina.Core;
 using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.DataAccess;
@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 
-namespace ElsaMina.UnitTests.Commands.Tournaments;
+namespace ElsaMina.UnitTests.Commands.Tournaments.Handlers;
 
 public class TourEndHandlerTest
 {

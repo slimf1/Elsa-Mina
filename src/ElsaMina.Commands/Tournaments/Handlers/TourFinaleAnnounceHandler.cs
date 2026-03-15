@@ -4,7 +4,7 @@ using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using Newtonsoft.Json;
 
-namespace ElsaMina.Commands.Tournaments;
+namespace ElsaMina.Commands.Tournaments.Handlers;
 
 public class TourFinaleAnnounceHandler : Handler
 {

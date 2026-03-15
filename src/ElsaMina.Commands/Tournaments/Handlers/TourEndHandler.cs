@@ -7,7 +7,7 @@ using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.Logging;
 
-namespace ElsaMina.Commands.Tournaments;
+namespace ElsaMina.Commands.Tournaments.Handlers;
 
 public class TourEndHandler : Handler
 {

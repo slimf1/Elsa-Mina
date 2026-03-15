@@ -7,7 +7,7 @@ using ElsaMina.DataAccess;
 using ElsaMina.Logging;
 using Microsoft.EntityFrameworkCore;
 
-namespace ElsaMina.Commands.Tournaments;
+namespace ElsaMina.Commands.Tournaments.Leaderboard;
 
 [NamedCommand("tourtop", Aliases = ["tourclassement", "tournamentrecords", "tourleaderboard", "board"])]
 public class TopTournamentPlayersCommand : Command
@@ -70,14 +70,14 @@ public class TopTournamentPlayersCommand : Command
                 .ToList();
 
             var roomLabel = _roomsManager.GetRoom(roomId)?.Name ?? roomId;
-            var table = await _templatesManager.GetTemplateAsync("Tournaments/TopTournamentPlayersTable",
+            var table = await _templatesManager.GetTemplateAsync("Tournaments/Leaderboard/TopTournamentPlayersTable",
                 new TopTournamentPlayersViewModel
                 {
                     Culture = context.Culture,
                     Room = roomLabel,
                     TopList = topList
                 });
-            var footer = await _templatesManager.GetTemplateAsync("Tournaments/TopTournamentPlayersFooter",
+            var footer = await _templatesManager.GetTemplateAsync("Tournaments/Leaderboard/TopTournamentPlayersFooter",
                 new LocalizableViewModel
                 {
                     Culture = context.Culture

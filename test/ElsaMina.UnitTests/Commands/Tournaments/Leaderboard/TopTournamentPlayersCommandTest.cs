@@ -1,5 +1,5 @@
 using System.Globalization;
-using ElsaMina.Commands.Tournaments;
+using ElsaMina.Commands.Tournaments.Leaderboard;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 
-namespace ElsaMina.UnitTests.Commands.Tournaments;
+namespace ElsaMina.UnitTests.Commands.Tournaments.Leaderboard;
 
 public class TopTournamentPlayersCommandTest
 {
@@ -121,7 +121,7 @@ public class TopTournamentPlayersCommandTest
         await _command.RunAsync(_context);
 
         await _templatesManager.Received(1).GetTemplateAsync(
-            "Tournaments/TopTournamentPlayersTable",
+            "Tournaments/Leaderboard/TopTournamentPlayersTable",
             Arg.Is<TopTournamentPlayersViewModel>(vm =>
                 vm.Room == "arcade" &&
                 vm.Culture.Name == "" &&

@@ -1,6 +1,6 @@
 using ElsaMina.Core.Services.Templates;
 
-namespace ElsaMina.Commands.Tournaments;
+namespace ElsaMina.Commands.Tournaments.Leaderboard;
 
 public class TopTournamentPlayersViewModel : LocalizableViewModel
 {
