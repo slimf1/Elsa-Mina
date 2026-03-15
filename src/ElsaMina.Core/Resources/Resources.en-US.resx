@@ -1254,8 +1254,41 @@
     <data name="top_tournament_players_error" xml:space="preserve">
         <value>Could not retrieve tournament data.</value>
     </data>
-    <data name="top_tournament_players_footer" xml:space="preserve">
-        <value>&lt;br&gt;&lt;div style="color:#4488cc;font-size:9pt;text-align:center;margin-bottom:4px"&gt;&lt;b&gt;New:&lt;/b&gt; Bio now at 20 wins &amp;amp; Custom Color added at 30 wins!&lt;/div&gt;&lt;details&gt; &lt;summary&gt;Rewards&lt;/summary&gt; Want to earn more rewards? We have a leaderboard that tracks the total number of wins (check it with &lt;code&gt;-board&lt;/code&gt; in a private message to &lt;b&gt;&lt;span class="username" style="color: #1ea767"&gt;Elsa-Mina&lt;/span&gt;&lt;/b&gt;)! With a set number of wins, you can earn these rewards:&lt;br&gt;&lt;br&gt; &lt;li&gt;&lt;b&gt;20 Wins&lt;/b&gt;: A bio on &lt;span class="username" style="color: #1ea767"&gt;Elsa-Mina&lt;/span&gt;&lt;/li&gt; &lt;li&gt;&lt;b&gt;30 Wins&lt;/b&gt;: A custom color on &lt;span class="username" style="color: #1ea767"&gt;Elsa-Mina&lt;/span&gt;&lt;/li&gt; &lt;li&gt;&lt;b&gt;40 Wins:&lt;/b&gt; An avatar on &lt;span class="username" style="color: #1ea767"&gt;Elsa-Mina&lt;/span&gt;&lt;/li&gt; &lt;li&gt;&lt;b&gt;50 Wins:&lt;/b&gt; A roomprizewinner (^) for three months&lt;/li&gt; &lt;li&gt;&lt;b&gt;100 Wins:&lt;/b&gt; A roomprizewinner (^) for six months&lt;/li&gt;&lt;li&gt;&lt;b&gt;150 Wins:&lt;/b&gt; A roomprizewinner (^) for one year&lt;/li&gt;&lt;/details&gt;&lt;/center&gt;</value>
+    <data name="top_tournament_players_footer_new_label" xml:space="preserve">
+        <value>New:</value>
+    </data>
+    <data name="top_tournament_players_footer_new_text" xml:space="preserve">
+        <value>Bio now at 20 wins &amp; Custom Color added at 30 wins!</value>
+    </data>
+    <data name="top_tournament_players_footer_rewards_title" xml:space="preserve">
+        <value>Rewards</value>
+    </data>
+    <data name="top_tournament_players_footer_description_prefix" xml:space="preserve">
+        <value>Want to earn more rewards? We have a leaderboard that tracks the total number of wins (check it with</value>
+    </data>
+    <data name="top_tournament_players_footer_description_infix" xml:space="preserve">
+        <value>in a private message to</value>
+    </data>
+    <data name="top_tournament_players_footer_description_suffix" xml:space="preserve">
+        <value>)! With a set number of wins, you can earn these rewards:</value>
+    </data>
+    <data name="top_tournament_players_footer_20_wins" xml:space="preserve">
+        <value>A bio on</value>
+    </data>
+    <data name="top_tournament_players_footer_30_wins" xml:space="preserve">
+        <value>A custom color on</value>
+    </data>
+    <data name="top_tournament_players_footer_40_wins" xml:space="preserve">
+        <value>An avatar on</value>
+    </data>
+    <data name="top_tournament_players_footer_50_wins" xml:space="preserve">
+        <value>A roomprizewinner (^) for three months</value>
+    </data>
+    <data name="top_tournament_players_footer_100_wins" xml:space="preserve">
+        <value>A roomprizewinner (^) for six months</value>
+    </data>
+    <data name="top_tournament_players_footer_150_wins" xml:space="preserve">
+        <value>A roomprizewinner (^) for one year</value>
     </data>
     <data name="random_image_error" xml:space="preserve">
         <value>Sorry, could not retrieve an image at the moment.</value>

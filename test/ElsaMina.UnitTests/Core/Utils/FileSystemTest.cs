@@ -4,16 +4,16 @@ namespace ElsaMina.UnitTests.Core.Utils;
 
 public class FileSystemTest
 {
-    // TODO : make the bot cross-platform as this doesn't work on Windows
-
     [Test]
     public void Test_MakeRelativePath_ShouldReturnRelativePath()
     {
         // Arrange
-        const string absolutePath = "/Library/Stuff/Lol/Test/Stuff.png";
+        var root = Path.GetPathRoot(Path.GetTempPath())!;
+        var absolutePath = Path.Combine(root, "Library", "Stuff", "Lol", "Test", "Stuff.png");
+        var referencePath = Path.Combine(root, "Library", "Stuff", "Lol");
 
         // Act
-        var result = FileSystem.MakeRelativePath(absolutePath, referencePath: "/Library/Stuff/Lol");
+        var result = FileSystem.MakeRelativePath(absolutePath, referencePath: referencePath);
 
         // Assert
         Assert.That(result, Is.EqualTo("Lol/Test/Stuff.png"));

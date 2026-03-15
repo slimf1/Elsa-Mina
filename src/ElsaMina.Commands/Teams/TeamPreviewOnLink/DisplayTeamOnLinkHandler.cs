@@ -14,6 +14,7 @@ namespace ElsaMina.Commands.Teams.TeamPreviewOnLink;
 public class DisplayTeamOnLinkHandler : ChatMessageHandler
 {
     private const int USER_DELAY = 30;
+    private const int MAX_TEAM_SIZE = 6;
 
     private readonly Dictionary<string, DateTime> _lastTeamTimes = new();
 
@@ -74,12 +75,18 @@ public class DisplayTeamOnLinkHandler : ChatMessageHandler
             return;
         }
 
+        var team = ShowdownTeams.DeserializeTeamExport(sharedTeam.TeamExport);
+        if (team.Count > MAX_TEAM_SIZE || team.Count == 0 || team.Any(set => string.IsNullOrEmpty(set.Species)))
+        {
+            return;
+        }
+
         var template = await _templatesManager.GetTemplateAsync("Teams/TeamPreview", new TeamPreviewViewModel
         {
             Author = sharedTeam.Author,
             Culture = context.Culture,
             Sender = context.Sender.Name,
-            Team = ShowdownTeams.DeserializeTeamExport(sharedTeam.TeamExport)
+            Team = team
         });
 
         context.ReplyHtml(template.RemoveNewlines());

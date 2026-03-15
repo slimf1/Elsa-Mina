@@ -9,7 +9,8 @@
             @{ await IncludeAsync("Teams/SampleTeam", new SampleTeamViewModel
                {
                    Culture = Model.Culture,
-                   Team = team
+                   Team = team,
+                   TimeZone = Model.TimeZone
                }); }
         </div>
     }

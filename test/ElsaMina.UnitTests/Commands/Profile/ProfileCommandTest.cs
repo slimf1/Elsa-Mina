@@ -1,7 +1,5 @@
 using ElsaMina.Commands.Profile;
 using ElsaMina.Core.Contexts;
-using ElsaMina.Core.Services.UserDetails;
-using ElsaMina.DataAccess.Models;
 using NSubstitute;
 
 // GetAvatar tests are in ProfileServiceTest
@@ -50,6 +48,49 @@ public class ProfileCommandTest
     }
 
     [Test]
+    public async Task Test_RunAsync_ShouldUseContextRoomId_WhenNoRoomProvided()
+    {
+        var context = Substitute.For<IContext>();
+        context.Target.Returns("alice");
+        context.RoomId.Returns("currentroom");
+        _profileService.GetProfileHtmlAsync("alice", "currentroom", Arg.Any<CancellationToken>())
+            .Returns("rendered");
+
+        await _sut.RunAsync(context);
+
+        await _profileService.Received(1).GetProfileHtmlAsync("alice", "currentroom", Arg.Any<CancellationToken>());
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldUseProvidedRoomId_WhenSecondParameterGiven()
+    {
+        var context = Substitute.For<IContext>();
+        context.Target.Returns("alice, otherRoom");
+        context.RoomId.Returns("currentroom");
+        _profileService.GetProfileHtmlAsync("alice", "otherroom", Arg.Any<CancellationToken>())
+            .Returns("rendered");
+
+        await _sut.RunAsync(context);
+
+        await _profileService.Received(1).GetProfileHtmlAsync("alice", "otherroom", Arg.Any<CancellationToken>());
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldUseSenderWithProvidedRoom_WhenOnlyRoomGiven()
+    {
+        var context = Substitute.For<IContext>();
+        context.Target.Returns(", otherroom");
+        context.Sender.UserId.Returns("alice");
+        context.RoomId.Returns("currentroom");
+        _profileService.GetProfileHtmlAsync("alice", "otherroom", Arg.Any<CancellationToken>())
+            .Returns("rendered");
+
+        await _sut.RunAsync(context);
+
+        await _profileService.Received(1).GetProfileHtmlAsync("alice", "otherroom", Arg.Any<CancellationToken>());
+    }
+
+    [Test]
     public async Task Test_RunAsync_ShouldNotReply_WhenUserIdIsNull()
     {
         var context = Substitute.For<IContext>();
@@ -60,5 +101,4 @@ public class ProfileCommandTest
 
         context.DidNotReceive().ReplyHtml(Arg.Any<string>());
     }
-
 }

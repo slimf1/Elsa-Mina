@@ -1,5 +1,6 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Commands;
+using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
@@ -70,17 +71,24 @@ public class TopTournamentPlayersCommand : Command
                 .ToList();
 
             var roomLabel = _roomsManager.GetRoom(roomId)?.Name ?? roomId;
-            var template = await _templatesManager.GetTemplateAsync("Tournaments/TopTournamentPlayersTable",
+            var table = await _templatesManager.GetTemplateAsync("Tournaments/TopTournamentPlayersTable",
                 new TopTournamentPlayersViewModel
                 {
                     Culture = context.Culture,
                     Room = roomLabel,
                     TopList = topList
                 });
+            var footer = await _templatesManager.GetTemplateAsync("Tournaments/TopTournamentPlayersFooter",
+                new LocalizableViewModel
+                {
+                    Culture = context.Culture
+                });
 
-            var footer = context.GetString("top_tournament_players_footer");
             context.ReplyHtml(
-                template.RemoveNewlines().RemoveWhitespacesBetweenTags().CollapseAttributeWhitespace() + footer,
+                table.RemoveNewlines().RemoveWhitespacesBetweenTags().CollapseAttributeWhitespace(),
+                rankAware: true);
+            context.ReplyHtml(
+                footer.RemoveNewlines().CollapseAttributeWhitespace(),
                 rankAware: true);
         }
         catch (Exception exception)

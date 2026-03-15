@@ -66,10 +66,15 @@ public class DisplayTeamsOnTourHandler : Handler
         }
 
         var room = _roomsManager.GetRoom(roomId);
+        if (room == null)
+        {
+            return;
+        }
         var template = await _templatesManager.GetTemplateAsync("Teams/TeamList", new TeamListViewModel
         {
             Culture = room.Culture,
-            Teams = teams
+            Teams = teams,
+            TimeZone = room.TimeZone ?? TimeZoneInfo.Local
         });
 
         _bot.Say(roomId, $"/addhtmlbox {template.RemoveNewlines()}");

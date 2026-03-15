@@ -5,5 +5,6 @@ namespace ElsaMina.Commands.Teams;
 
 public class TeamListViewModel : LocalizableViewModel
 {
-    public IEnumerable<Team> Teams { get; set; }
+    public IEnumerable<Team> Teams { get; init; }
+    public TimeZoneInfo TimeZone { get; init; }
 }

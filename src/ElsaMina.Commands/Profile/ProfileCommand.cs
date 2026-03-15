@@ -22,16 +22,18 @@ public class ProfileCommand : Command
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        var userId = string.IsNullOrEmpty(context.Target)
+        var parts = (context.Target ?? string.Empty).Split(",", 2);
+        var userId = string.IsNullOrWhiteSpace(parts[0])
             ? context.Sender.UserId
-            : context.Target.ToLowerAlphaNum();
+            : parts[0].ToLowerAlphaNum();
 
         if (userId == null)
         {
             return;
         }
 
-        var template = await _profileService.GetProfileHtmlAsync(userId, context.RoomId, cancellationToken);
+        var roomId = parts.Length == 2 ? parts[1].ToLowerAlphaNum() : context.RoomId;
+        var template = await _profileService.GetProfileHtmlAsync(userId, roomId, cancellationToken);
         context.ReplyHtml(template.RemoveNewlines(), rankAware: true);
     }
 }

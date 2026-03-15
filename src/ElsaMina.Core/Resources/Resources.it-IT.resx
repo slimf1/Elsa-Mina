@@ -1259,8 +1259,41 @@
     <data name="top_tournament_players_error" xml:space="preserve">
         <value>Could not retrieve tournament data.</value>
     </data>
-    <data name="top_tournament_players_footer" xml:space="preserve">
-        <value>&lt;br&gt;&lt;div style="color:#4488cc;font-size:9pt;text-align:center;margin-bottom:4px"&gt;&lt;b&gt;Novità:&lt;/b&gt; Bio ora a 20 vittorie &amp;amp; Custom Color aggiunta a 30 vittorie!&lt;/div&gt;&lt;details&gt; &lt;summary&gt;Ricompense&lt;/summary&gt; Vuoi ottenere altre ricompense? Abbiamo una classifica che registra il numero totale di vittorie (puoi consultarla con &lt;code&gt;-board&lt;/code&gt; in un messaggio privato a &lt;b&gt;&lt;span class="username" style="color: #1ea767"&gt;Elsa-Mina&lt;/span&gt;&lt;/b&gt;)! Con un numero definito di vittorie, puoi ottenere queste ricompense:&lt;br&gt;&lt;br&gt; &lt;li&gt;&lt;b&gt;20 Vittorie&lt;/b&gt;: Una bio su &lt;span class="username" style="color: #1ea767"&gt;Elsa-Mina&lt;/span&gt;&lt;/li&gt; &lt;li&gt;&lt;b&gt;30 Vittorie&lt;/b&gt;: Un custom color su &lt;span class="username" style="color: #1ea767"&gt;Elsa-Mina&lt;/span&gt;&lt;/li&gt; &lt;li&gt;&lt;b&gt;40 Vittorie:&lt;/b&gt; Un avatar su &lt;span class="username" style="color: #1ea767"&gt;Elsa-Mina&lt;/span&gt;&lt;/li&gt; &lt;li&gt;&lt;b&gt;50 Vittorie:&lt;/b&gt; Un roomprizewinner (^) per tre mesi&lt;/li&gt; &lt;li&gt;&lt;b&gt;100 Vittorie:&lt;/b&gt; Un roomprizewinner (^) per sei mesi&lt;/li&gt;&lt;li&gt;&lt;b&gt;150 Vittorie:&lt;/b&gt; Un roomprizewinner (^) per un anno&lt;/li&gt;&lt;/details&gt;&lt;/center&gt;</value>
+    <data name="top_tournament_players_footer_new_label" xml:space="preserve">
+        <value>Novità:</value>
+    </data>
+    <data name="top_tournament_players_footer_new_text" xml:space="preserve">
+        <value>Bio ora a 20 vittorie &amp; Custom Color aggiunta a 30 vittorie!</value>
+    </data>
+    <data name="top_tournament_players_footer_rewards_title" xml:space="preserve">
+        <value>Ricompense</value>
+    </data>
+    <data name="top_tournament_players_footer_description_prefix" xml:space="preserve">
+        <value>Vuoi ottenere altre ricompense? Abbiamo una classifica che registra il numero totale di vittorie (puoi consultarla con</value>
+    </data>
+    <data name="top_tournament_players_footer_description_infix" xml:space="preserve">
+        <value>in un messaggio privato a</value>
+    </data>
+    <data name="top_tournament_players_footer_description_suffix" xml:space="preserve">
+        <value>)! Con un numero definito di vittorie, puoi ottenere queste ricompense:</value>
+    </data>
+    <data name="top_tournament_players_footer_20_wins" xml:space="preserve">
+        <value>Una bio su</value>
+    </data>
+    <data name="top_tournament_players_footer_30_wins" xml:space="preserve">
+        <value>Un custom color su</value>
+    </data>
+    <data name="top_tournament_players_footer_40_wins" xml:space="preserve">
+        <value>Un avatar su</value>
+    </data>
+    <data name="top_tournament_players_footer_50_wins" xml:space="preserve">
+        <value>Un roomprizewinner (^) per tre mesi</value>
+    </data>
+    <data name="top_tournament_players_footer_100_wins" xml:space="preserve">
+        <value>Un roomprizewinner (^) per sei mesi</value>
+    </data>
+    <data name="top_tournament_players_footer_150_wins" xml:space="preserve">
+        <value>Un roomprizewinner (^) per un anno</value>
     </data>
     <data name="random_image_error" xml:space="preserve">
         <value>Spiacenti, impossibile ottenere un'immagine al momento.</value>

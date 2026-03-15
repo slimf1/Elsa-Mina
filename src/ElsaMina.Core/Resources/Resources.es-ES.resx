@@ -1259,8 +1259,41 @@
     <data name="top_tournament_players_error" xml:space="preserve">
         <value>Could not retrieve tournament data.</value>
     </data>
-    <data name="top_tournament_players_footer" xml:space="preserve">
-        <value>&lt;br&gt;&lt;div style="color:#4488cc;font-size:9pt;text-align:center;margin-bottom:4px"&gt;&lt;b&gt;Novedad:&lt;/b&gt; ¡Bio ahora a 20 victorias &amp;amp; Custom Color añadido a 30 victorias!&lt;/div&gt;&lt;details&gt; &lt;summary&gt;Recompensas&lt;/summary&gt; ¿Quieres obtener más recompensas? ¡Tenemos una clasificación que registra el número total de victorias (puedes consultarla con &lt;code&gt;-board&lt;/code&gt; en mensaje privado a &lt;b&gt;&lt;span class="username" style="color: #1ea767"&gt;Elsa-Mina&lt;/span&gt;&lt;/b&gt;)! Con un número determinado de victorias, puedes obtener estas recompensas:&lt;br&gt;&lt;br&gt; &lt;li&gt;&lt;b&gt;20 Victorias&lt;/b&gt;: Una bio en &lt;span class="username" style="color: #1ea767"&gt;Elsa-Mina&lt;/span&gt;&lt;/li&gt; &lt;li&gt;&lt;b&gt;30 Victorias&lt;/b&gt;: Un custom color en &lt;span class="username" style="color: #1ea767"&gt;Elsa-Mina&lt;/span&gt;&lt;/li&gt; &lt;li&gt;&lt;b&gt;40 Victorias:&lt;/b&gt; Un avatar en &lt;span class="username" style="color: #1ea767"&gt;Elsa-Mina&lt;/span&gt;&lt;/li&gt; &lt;li&gt;&lt;b&gt;50 Victorias:&lt;/b&gt; Un roomprizewinner (^) durante tres meses&lt;/li&gt; &lt;li&gt;&lt;b&gt;100 Victorias:&lt;/b&gt; Un roomprizewinner (^) durante seis meses&lt;/li&gt;&lt;li&gt;&lt;b&gt;150 Victorias:&lt;/b&gt; Un roomprizewinner (^) durante un año&lt;/li&gt;&lt;/details&gt;&lt;/center&gt;</value>
+    <data name="top_tournament_players_footer_new_label" xml:space="preserve">
+        <value>Novedad:</value>
+    </data>
+    <data name="top_tournament_players_footer_new_text" xml:space="preserve">
+        <value>¡Bio ahora a 20 victorias &amp; Custom Color añadido a 30 victorias!</value>
+    </data>
+    <data name="top_tournament_players_footer_rewards_title" xml:space="preserve">
+        <value>Recompensas</value>
+    </data>
+    <data name="top_tournament_players_footer_description_prefix" xml:space="preserve">
+        <value>¿Quieres obtener más recompensas? ¡Tenemos una clasificación que registra el número total de victorias (puedes consultarla con</value>
+    </data>
+    <data name="top_tournament_players_footer_description_infix" xml:space="preserve">
+        <value>en mensaje privado a</value>
+    </data>
+    <data name="top_tournament_players_footer_description_suffix" xml:space="preserve">
+        <value>)! Con un número determinado de victorias, puedes obtener estas recompensas:</value>
+    </data>
+    <data name="top_tournament_players_footer_20_wins" xml:space="preserve">
+        <value>Una bio en</value>
+    </data>
+    <data name="top_tournament_players_footer_30_wins" xml:space="preserve">
+        <value>Un custom color en</value>
+    </data>
+    <data name="top_tournament_players_footer_40_wins" xml:space="preserve">
+        <value>Un avatar en</value>
+    </data>
+    <data name="top_tournament_players_footer_50_wins" xml:space="preserve">
+        <value>Un roomprizewinner (^) durante tres meses</value>
+    </data>
+    <data name="top_tournament_players_footer_100_wins" xml:space="preserve">
+        <value>Un roomprizewinner (^) durante seis meses</value>
+    </data>
+    <data name="top_tournament_players_footer_150_wins" xml:space="preserve">
+        <value>Un roomprizewinner (^) durante un año</value>
     </data>
     <data name="random_image_error" xml:space="preserve">
         <value>Lo siento, no se pudo obtener una imagen en este momento.</value>

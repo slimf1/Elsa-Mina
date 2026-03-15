@@ -58,7 +58,8 @@ public class TeamListCommand : Command
         var template = await _templatesManager.GetTemplateAsync("Teams/TeamList", new TeamListViewModel
         {
             Culture = context.Culture,
-            Teams = teams
+            Teams = teams,
+            TimeZone = context.Room?.TimeZone ?? TimeZoneInfo.Local
         });
 
         var html = template.RemoveNewlines().RemoveWhitespacesBetweenTags();

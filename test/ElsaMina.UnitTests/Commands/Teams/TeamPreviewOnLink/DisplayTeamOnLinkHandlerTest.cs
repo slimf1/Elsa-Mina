@@ -166,4 +166,67 @@ public class DisplayTeamOnLinkHandlerTest
 
         _context.Received().ReplyHtml(expectedHtml.RemoveNewlines());
     }
+
+    [Test]
+    public async Task Test_HandleReceivedMessageAsync_ShouldNotSendHtml_WhenTeamIsEmpty()
+    {
+        // Arrange
+        _configuration.Trigger.Returns("-");
+        _configuration.Name.Returns("Bot");
+        _context.Message.Returns("team link");
+
+        var teamLinkMatch = Substitute.For<ITeamLinkMatch>();
+        var sharedTeam = new SharedTeam { Author = "Author", TeamExport = "" };
+        teamLinkMatch.GetTeamExport().Returns(Task.FromResult(sharedTeam));
+        _teamLinkMatchFactory.FindTeamLinkMatch("team link").Returns(teamLinkMatch);
+
+        // Act
+        await _handler.HandleMessageAsync(_context);
+
+        // Assert
+        await _templatesManager.DidNotReceive().GetTemplateAsync(Arg.Any<string>(), Arg.Any<TeamPreviewViewModel>());
+    }
+
+    [Test]
+    public async Task Test_HandleReceivedMessageAsync_ShouldNotSendHtml_WhenTeamExceedsMaxSize()
+    {
+        // Arrange
+        _configuration.Trigger.Returns("-");
+        _configuration.Name.Returns("Bot");
+        _context.Message.Returns("team link");
+
+        const string sevenPokemonExport =
+            "Bulbasaur\n\nCharmander\n\nSquirtle\n\nPikachu\n\nMewtwo\n\nGengar\n\nEevee";
+        var teamLinkMatch = Substitute.For<ITeamLinkMatch>();
+        var sharedTeam = new SharedTeam { Author = "Author", TeamExport = sevenPokemonExport };
+        teamLinkMatch.GetTeamExport().Returns(Task.FromResult(sharedTeam));
+        _teamLinkMatchFactory.FindTeamLinkMatch("team link").Returns(teamLinkMatch);
+
+        // Act
+        await _handler.HandleMessageAsync(_context);
+
+        // Assert
+        await _templatesManager.DidNotReceive().GetTemplateAsync(Arg.Any<string>(), Arg.Any<TeamPreviewViewModel>());
+    }
+
+    [Test]
+    public async Task Test_HandleReceivedMessageAsync_ShouldNotSendHtml_WhenTeamHasSetWithEmptySpecies()
+    {
+        // Arrange
+        _configuration.Trigger.Returns("-");
+        _configuration.Name.Returns("Bot");
+        _context.Message.Returns("team link");
+
+        // "Nickname ()" parses to a set with Species = ""
+        var teamLinkMatch = Substitute.For<ITeamLinkMatch>();
+        var sharedTeam = new SharedTeam { Author = "Author", TeamExport = "Nickname ()" };
+        teamLinkMatch.GetTeamExport().Returns(Task.FromResult(sharedTeam));
+        _teamLinkMatchFactory.FindTeamLinkMatch("team link").Returns(teamLinkMatch);
+
+        // Act
+        await _handler.HandleMessageAsync(_context);
+
+        // Assert
+        await _templatesManager.DidNotReceive().GetTemplateAsync(Arg.Any<string>(), Arg.Any<TeamPreviewViewModel>());
+    }
 }
