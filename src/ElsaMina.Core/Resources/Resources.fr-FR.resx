@@ -1485,6 +1485,27 @@
     <data name="vf_panel_stop" xml:space="preserve">
         <value>Arrêter la partie</value>
     </data>
+    <data name="caa_addpoints_help" xml:space="preserve">
+        <value>Ajoute des points à un joueur dans la spreadsheet CAA. Syntaxe : -addcaapoints (joueur), (points)</value>
+    </data>
+    <data name="caa_addpoints_success" xml:space="preserve">
+        <value>Mise à jour effectuée : {0} a maintenant {1} points.</value>
+    </data>
+    <data name="caa_addpoints_new_player" xml:space="preserve">
+        <value>Mise à jour effectuée (nouveau joueur) : {0} avec {1} points.</value>
+    </data>
+    <data name="caa_title" xml:space="preserve">
+        <value>Calendrier de l'Avent d'Arcade 2025</value>
+    </data>
+    <data name="caa_column_rank" xml:space="preserve">
+        <value>Rang</value>
+    </data>
+    <data name="caa_column_username" xml:space="preserve">
+        <value>Pseudo</value>
+    </data>
+    <data name="caa_column_points" xml:space="preserve">
+        <value>Points</value>
+    </data>
     <data name="watchlist_add_help" xml:space="preserve">
         <value>Ajoute un utilisateur à la watchlist d'un salon. Syntaxe : -addwatchlist salon, utilisateur, rang</value>
     </data>

@@ -35,6 +35,8 @@ public interface IConfiguration : IS3CredentialsProvider, ILoggingConfiguration
     string SheetsAccessAccountCredentialsFile { get; set; }
     string ArcadeSpreadsheetName { get; }
     string ArcadeHallOfFameSheetName { get; }
+    string CaaSpreadsheetName { get; }
+    string CaaSheetName { get; }
     IReadOnlyDictionary<string, IEnumerable<string>> TourAnnounces { get; }
     IReadOnlyDictionary<string, string> DiscordWebhooks { get; }
     int UserUpdateBatchSize { get; set; }
