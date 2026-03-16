@@ -501,6 +501,21 @@
     <data name="pokecries_started" xml:space="preserve">
         <value>Ein PokeCries-Spiel wurde erstellt! Schreibe den Namen des entsprechenden Pokémon direkt in den Chat.</value>
     </data>
+    <data name="dicoenglish_help" xml:space="preserve">
+        <value>Sucht die Definition eines englischen Wortes. Syntax: -dict &lt;Wort&gt;</value>
+    </data>
+    <data name="dicoenglish_definition" xml:space="preserve">
+        <value>Definition von „{0}": {1}</value>
+    </data>
+    <data name="dicoenglish_not_found" xml:space="preserve">
+        <value>Keine Definition für „{0}" gefunden.</value>
+    </data>
+    <data name="dicoenglish_suggestions" xml:space="preserve">
+        <value>Wort „{0}" nicht gefunden. Meintest du: {1}?</value>
+    </data>
+    <data name="dicoenglish_error" xml:space="preserve">
+        <value>Bei der Suche nach der Definition ist ein Fehler aufgetreten.</value>
+    </data>
     <data name="youtube_no_results" xml:space="preserve">
         <value>Kein Video gefunden.</value>
     </data>

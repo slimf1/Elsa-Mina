@@ -2,6 +2,7 @@ using System.Net;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Http;
 using ElsaMina.Core.Services.Login;
+using ElsaMina.Core.Services.System;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 
@@ -11,102 +12,143 @@ public class LoginServiceTest
 {
     private IHttpService _httpService;
     private IConfiguration _configuration;
+    private ISystemService _systemService;
     private LoginService _loginService;
+
+    private const string CHALLSTR = "sampleChallstr";
+    private const string USERNAME = "User";
+    private const string USER_ID = "user";
 
     [SetUp]
     public void SetUp()
     {
         _httpService = Substitute.For<IHttpService>();
         _configuration = Substitute.For<IConfiguration>();
-        _loginService = new LoginService(_httpService, _configuration);
+        _systemService = Substitute.For<ISystemService>();
+        _configuration.Name.Returns(USERNAME);
+        _configuration.Password.Returns("password");
+        _configuration.LoginRetryDelay.Returns(TimeSpan.FromMilliseconds(1));
+        _loginService = new LoginService(_httpService, _configuration, _systemService);
     }
 
+    private static IHttpResponse<LoginResponseDto> MakeSuccessResponse() =>
+        new HttpResponse<LoginResponseDto>
+        {
+            Data = new LoginResponseDto
+            {
+                CurrentUser = new CurrentUserDto { UserId = USER_ID, Username = USERNAME },
+                Assertion = "assertion-token"
+            }
+        };
+
     [Test]
-    public async Task Test_Login_ShouldReturnLoginResponse_WhenLoginSuccessful()
+    public async Task Test_Login_ShouldReturnLoginResponse_WhenLoginSucceedsOnFirstAttempt()
     {
         // Arrange
-        var challstr = "sampleChallstr";
-        var expectedResponse = new LoginResponseDto { /* set expected properties */ };
-        var loginResponse = new HttpResponse<LoginResponseDto> { Data = expectedResponse };
-        _configuration.Name.Returns("user");
-        _configuration.Password.Returns("password");
-
         _httpService
-            .PostUrlEncodedFormAsync<LoginResponseDto>(Arg.Is(LoginService.LOGIN_URL), Arg.Any<Dictionary<string, string>>(), true)
-            .Returns(loginResponse);
+            .PostUrlEncodedFormAsync<LoginResponseDto>(Arg.Any<string>(), Arg.Any<Dictionary<string, string>>(),
+                Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<CancellationToken>())
+            .Returns(MakeSuccessResponse());
 
         // Act
-        var result = await _loginService.Login(challstr);
+        var result = await _loginService.Login(CHALLSTR);
 
         // Assert
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.EqualTo(expectedResponse));
-    }
-
-    [Test]
-    public async Task Test_Login_ShouldReturnNull_WhenHttpExceptionThrown()
-    {
-        // Arrange
-        var challstr = "sampleChallstr";
-        _configuration.Name.Returns("user");
-        _configuration.Password.Returns("password");
-
-        _httpService
-            .PostUrlEncodedFormAsync<LoginResponseDto>(Arg.Is(LoginService.LOGIN_URL), Arg.Any<Dictionary<string, string>>(), true)
-            .Throws(new HttpException(HttpStatusCode.InternalServerError, "Internal Server Error"));
-
-        // Act
-        var result = await _loginService.Login(challstr);
-
-        // Assert
-        Assert.That(result, Is.Null);
-    }
-
-    [Test]
-    public async Task Test_Login_ShouldReturnNull_WhenGeneralExceptionThrown()
-    {
-        // Arrange
-        var challstr = "sampleChallstr";
-        _configuration.Name.Returns("user");
-        _configuration.Password.Returns("password");
-
-        _httpService
-            .PostUrlEncodedFormAsync<LoginResponseDto>(Arg.Is(LoginService.LOGIN_URL), Arg.Any<Dictionary<string, string>>(), true)
-            .Throws(new Exception("Unexpected error"));
-
-        // Act
-        var result = await _loginService.Login(challstr);
-
-        // Assert
-        Assert.That(result, Is.Null);
+        Assert.That(result.CurrentUser.UserId, Is.EqualTo(USER_ID));
     }
 
     [Test]
     public async Task Test_Login_ShouldSendCorrectFormData()
     {
         // Arrange
-        var challstr = "sampleChallstr";
-        _configuration.Name.Returns("user");
-        _configuration.Password.Returns("password");
-        var expectedForm = new Dictionary<string, string>
-        {
-            ["challstr"] = challstr,
-            ["name"] = "user",
-            ["pass"] = "password",
-            ["act"] = "login"
-        };
+        _httpService
+            .PostUrlEncodedFormAsync<LoginResponseDto>(Arg.Any<string>(), Arg.Any<Dictionary<string, string>>(),
+                Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<CancellationToken>())
+            .Returns(MakeSuccessResponse());
 
         // Act
-        await _loginService.Login(challstr);
+        await _loginService.Login(CHALLSTR);
 
         // Assert
         await _httpService.Received().PostUrlEncodedFormAsync<LoginResponseDto>(
             Arg.Is(LoginService.LOGIN_URL),
-            Arg.Is<Dictionary<string, string>>(form => 
-                form["challstr"] == expectedForm["challstr"] &&
-                form["name"] == expectedForm["name"] &&
-                form["pass"] == expectedForm["pass"] &&
-                form["act"] == expectedForm["act"]),
-            true);
+            Arg.Is<Dictionary<string, string>>(form =>
+                form["challstr"] == CHALLSTR &&
+                form["name"] == USERNAME &&
+                form["pass"] == "password" &&
+                form["act"] == "login"),
+            Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<CancellationToken>());
+    }
+
+    [Test]
+    public async Task Test_Login_ShouldRetry_WhenHttpExceptionThrown()
+    {
+        // Arrange
+        _httpService
+            .PostUrlEncodedFormAsync<LoginResponseDto>(Arg.Any<string>(), Arg.Any<Dictionary<string, string>>(),
+                Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<CancellationToken>())
+            .Returns(
+                _ => throw new HttpException(HttpStatusCode.InternalServerError, "Server Error"),
+                _ => MakeSuccessResponse());
+
+        // Act
+        var result = await _loginService.Login(CHALLSTR);
+
+        // Assert
+        Assert.That(result, Is.Not.Null);
+        await _httpService.Received(2).PostUrlEncodedFormAsync<LoginResponseDto>(
+            Arg.Any<string>(), Arg.Any<Dictionary<string, string>>(),
+            Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<CancellationToken>());
+        await _systemService.Received(1).SleepAsync(Arg.Any<TimeSpan>(), Arg.Any<CancellationToken>());
+    }
+
+    [Test]
+    public async Task Test_Login_ShouldRetry_WhenGeneralExceptionThrown()
+    {
+        // Arrange
+        _httpService
+            .PostUrlEncodedFormAsync<LoginResponseDto>(Arg.Any<string>(), Arg.Any<Dictionary<string, string>>(),
+                Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<CancellationToken>())
+            .Returns(
+                _ => throw new Exception("Timeout"),
+                _ => MakeSuccessResponse());
+
+        // Act
+        var result = await _loginService.Login(CHALLSTR);
+
+        // Assert
+        Assert.That(result, Is.Not.Null);
+        await _httpService.Received(2).PostUrlEncodedFormAsync<LoginResponseDto>(
+            Arg.Any<string>(), Arg.Any<Dictionary<string, string>>(),
+            Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<CancellationToken>());
+        await _systemService.Received(1).SleepAsync(Arg.Any<TimeSpan>(), Arg.Any<CancellationToken>());
+    }
+
+    [Test]
+    public async Task Test_Login_ShouldRetry_WhenUserIdMismatch()
+    {
+        // Arrange
+        var mismatchResponse = new HttpResponse<LoginResponseDto>
+        {
+            Data = new LoginResponseDto
+            {
+                CurrentUser = new CurrentUserDto { UserId = "wronguser", Username = "WrongUser" }
+            }
+        };
+        _httpService
+            .PostUrlEncodedFormAsync<LoginResponseDto>(Arg.Any<string>(), Arg.Any<Dictionary<string, string>>(),
+                Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<CancellationToken>())
+            .Returns(mismatchResponse, MakeSuccessResponse());
+
+        // Act
+        var result = await _loginService.Login(CHALLSTR);
+
+        // Assert
+        Assert.That(result.CurrentUser.UserId, Is.EqualTo(USER_ID));
+        await _httpService.Received(2).PostUrlEncodedFormAsync<LoginResponseDto>(
+            Arg.Any<string>(), Arg.Any<Dictionary<string, string>>(),
+            Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<CancellationToken>());
+        await _systemService.Received(1).SleepAsync(Arg.Any<TimeSpan>(), Arg.Any<CancellationToken>());
     }
 }

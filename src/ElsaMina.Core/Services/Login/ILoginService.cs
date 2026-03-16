@@ -2,5 +2,5 @@
 
 public interface ILoginService
 {
-    Task<LoginResponseDto> Login(string challstr);
+    Task<LoginResponseDto> Login(string challstr, CancellationToken cancellationToken = default);
 }

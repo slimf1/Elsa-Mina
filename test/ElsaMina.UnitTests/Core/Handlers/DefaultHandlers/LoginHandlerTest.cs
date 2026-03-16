@@ -1,39 +1,44 @@
 using ElsaMina.Core;
 using ElsaMina.Core.Handlers.DefaultHandlers;
-using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Login;
-using ElsaMina.Core.Services.System;
 using NSubstitute;
-using NSubstitute.ReturnsExtensions;
 
 namespace ElsaMina.UnitTests.Core.Handlers.DefaultHandlers;
 
 public class LoginHandlerTest
 {
     private ILoginService _loginService;
-    private IConfiguration _configuration;
     private IClient _client;
-    private ISystemService _systemService;
     private LoginHandler _handler;
 
     [SetUp]
     public void SetUp()
     {
         _loginService = Substitute.For<ILoginService>();
-        _configuration = Substitute.For<IConfiguration>();
         _client = Substitute.For<IClient>();
-        _systemService = Substitute.For<ISystemService>();
-
-        _handler = new LoginHandler(_loginService, _configuration, _systemService, _client);
+        _handler = new LoginHandler(_loginService, _client);
     }
 
     [Test]
-    public async Task Test_HandleReceivedMessage_ShouldLogin_WhenChallstrHasBeenReceived()
+    public async Task Test_HandleReceivedMessageAsync_ShouldIgnore_WhenMessageIsNotChallstr()
+    {
+        // Arrange
+        string[] message = ["", "othermessage", "data"];
+
+        // Act
+        await _handler.HandleReceivedMessageAsync(message);
+
+        // Assert
+        await _loginService.DidNotReceive().Login(Arg.Any<string>(), Arg.Any<CancellationToken>());
+        _client.DidNotReceive().Send(Arg.Any<string>());
+    }
+
+    [Test]
+    public async Task Test_HandleReceivedMessageAsync_ShouldSendTrn_WhenLoginSucceeds()
     {
         // Arrange
         string[] message = ["", "challstr", "4", "nonce"];
-        _configuration.Name.Returns("LeBot");
-        _loginService.Login("4|nonce").Returns(new LoginResponseDto
+        _loginService.Login("4|nonce", Arg.Any<CancellationToken>()).Returns(new LoginResponseDto
         {
             Assertion = "assertion",
             CurrentUser = new CurrentUserDto
@@ -48,23 +53,6 @@ public class LoginHandlerTest
         await _handler.HandleReceivedMessageAsync(message);
 
         // Assert
-        _systemService.DidNotReceive().Kill();
         _client.Received(1).Send("|/trn LeBot,0,assertion");
-    }
-
-    [Test]
-    public async Task Test_HandleReceivedMessage_ShouldKill_WhenLoginFails()
-    {
-        // Arrange
-        string[] message = ["", "challstr", "4", "nonce"];
-        _configuration.Name.Returns("LeBot");
-        _loginService.Login("4|nonce").ReturnsNull();
-
-        // Act
-        await _handler.HandleReceivedMessageAsync(message);
-
-        // Assert
-        _systemService.Received(1).Kill();
-        _client.DidNotReceive().Send(Arg.Any<string>());
     }
 }

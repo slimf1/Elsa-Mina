@@ -504,6 +504,21 @@
     <data name="youtube_no_results" xml:space="preserve">
         <value>Could not find any video.</value>
     </data>
+    <data name="dicoenglish_help" xml:space="preserve">
+        <value>Look up an English word definition. Syntax: -dict &lt;word&gt;</value>
+    </data>
+    <data name="dicoenglish_definition" xml:space="preserve">
+        <value>Definition of "{0}": {1}</value>
+    </data>
+    <data name="dicoenglish_not_found" xml:space="preserve">
+        <value>No definition found for "{0}".</value>
+    </data>
+    <data name="dicoenglish_suggestions" xml:space="preserve">
+        <value>Word "{0}" not found. Did you mean: {1}?</value>
+    </data>
+    <data name="dicoenglish_error" xml:space="preserve">
+        <value>An error occurred while looking up the definition.</value>
+    </data>
     <data name="youtube_watch" xml:space="preserve">
         <value>Watch on YouTube</value>
     </data>

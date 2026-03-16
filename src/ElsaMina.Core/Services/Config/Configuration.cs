@@ -32,6 +32,7 @@ public class Configuration : IConfiguration
     public string TenorApiKey { get; set; }
     public string UnsplashApiKey { get; set; }
     public TimeSpan PlayTimeUpdatesInterval { get; set; }
+    public TimeSpan LoginRetryDelay { get; set; }
     public string SheetsAccessAccountCredentialsFile { get; set; }
     public string ArcadeSpreadsheetName { get; set; }
     public string ArcadeHallOfFameSheetName { get; set; }

@@ -32,6 +32,7 @@ public interface IConfiguration : IS3CredentialsProvider, ILoggingConfiguration
     string TenorApiKey { get; }
     string UnsplashApiKey { get; }
     TimeSpan PlayTimeUpdatesInterval { get; }
+    TimeSpan LoginRetryDelay { get; }
     string SheetsAccessAccountCredentialsFile { get; set; }
     string ArcadeSpreadsheetName { get; }
     string ArcadeHallOfFameSheetName { get; }
