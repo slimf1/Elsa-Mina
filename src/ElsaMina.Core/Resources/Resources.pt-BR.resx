@@ -1,0 +1,1611 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="help" xml:space="preserve">
+        <value>Elsa-Mina v{0} : Bot em desenvolvimento</value>
+    </data>
+    <data name="badge_help_message" xml:space="preserve">
+        <value>Adiciona um novo emblema. Sintaxe : -add-badge &lt;nome&gt;, &lt;imagem&gt;. Use -add-trophy para adicionar um troféu.</value>
+    </data>
+    <data name="badge_edit_help_message" xml:space="preserve">
+        <value>Edita um emblema. Sintaxe : -editbadge &lt;emblema&gt;, &lt;nome&gt;, &lt;imagem&gt; [, &lt;sala&gt;]</value>
+    </data>
+    <data name="badge_edit_not_found" xml:space="preserve">
+        <value>Não foi possível encontrar o emblema {0}.</value>
+    </data>
+    <data name="badge_edit_success" xml:space="preserve">
+        <value>O emblema "{0}" foi atualizado.</value>
+    </data>
+    <data name="badge_edit_failure" xml:space="preserve">
+        <value>Ocorreu um erro ao atualizar o emblema : {0}</value>
+    </data>
+    <data name="badge_edit_panel_title" xml:space="preserve">
+        <value>Editor de emblemas de {0}</value>
+    </data>
+    <data name="badge_edit_panel_id" xml:space="preserve">
+        <value>ID do emblema</value>
+    </data>
+    <data name="badge_edit_panel_name" xml:space="preserve">
+        <value>Nome</value>
+    </data>
+    <data name="badge_edit_panel_image" xml:space="preserve">
+        <value>URL da imagem</value>
+    </data>
+    <data name="badge_edit_panel_no_badges" xml:space="preserve">
+        <value>Nenhum emblema encontrado para {0}.</value>
+    </data>
+    <data name="badge_add_success_message" xml:space="preserve">
+        <value>Novo emblema adicionado com sucesso.</value>
+    </data>
+    <data name="badge_add_failure_message" xml:space="preserve">
+        <value>Ocorreu um erro ao adicionar o emblema : {0}</value>
+    </data>
+    <data name="addcommand_name_too_long" xml:space="preserve">
+        <value>O nome do comando é muito longo.</value>
+    </data>
+    <data name="addcommand_content_too_long" xml:space="preserve">
+        <value>O conteúdo do comando é muito longo.</value>
+    </data>
+    <data name="addcommand_bad_first_char" xml:space="preserve">
+        <value>O conteúdo do comando não pode começar com este caractere.</value>
+    </data>
+    <data name="addcommand_already_exist" xml:space="preserve">
+        <value>O comando já existe.</value>
+    </data>
+    <data name="addcommand_success" xml:space="preserve">
+        <value>Comando **{0}** adicionado com sucesso.</value>
+    </data>
+    <data name="customcommandlist_title" xml:space="preserve">
+        <value>Comandos personalizados</value>
+    </data>
+    <data name="customcommandlist_name" xml:space="preserve">
+        <value>Comando</value>
+    </data>
+    <data name="customcommandlist_content" xml:space="preserve">
+        <value>Conteúdo</value>
+    </data>
+    <data name="customcommandlist_author" xml:space="preserve">
+        <value>Autor</value>
+    </data>
+    <data name="customcommandlist_no_commands" xml:space="preserve">
+        <value>Nenhum comando personalizado foi adicionado a esta sala.</value>
+    </data>
+    <data name="room_dashboard" xml:space="preserve">
+        <value>Painel de administração de {0}</value>
+    </data>
+    <data name="submit" xml:space="preserve">
+        <value>Confirmar</value>
+    </data>
+    <data name="dashboard_room_doesnt_exist" xml:space="preserve">
+        <value>Sala {0} não encontrada.</value>
+    </data>
+    <data name="dashboard_locale_name" xml:space="preserve">
+        <value>Idioma</value>
+    </data>
+    <data name="dashboard_locale_description" xml:space="preserve">
+        <value>O idioma usado pelo bot nesta sala.</value>
+    </data>
+    <data name="dashboard_errors_name" xml:space="preserve">
+        <value>Mostrar erros de comandos</value>
+    </data>
+    <data name="dashboard_errors_description" xml:space="preserve">
+        <value>Mostra o stack trace de um comando que travou.</value>
+    </data>
+    <data name="dashboard_autocorrect_name" xml:space="preserve">
+        <value>Mostrar sugestões de comandos</value>
+    </data>
+    <data name="dashboard_autocorrect_description" xml:space="preserve">
+        <value>Mostra comandos sugeridos quando alguém tenta usar um comando que não existe.</value>
+    </data>
+    <data name="room_config_success" xml:space="preserve">
+        <value>A configuração da sala {0} foi atualizada.</value>
+    </data>
+    <data name="room_config_failure" xml:space="preserve">
+        <value>Ocorreu um erro ao atualizar a configuração : {0}</value>
+    </data>
+    <data name="room_config_room_not_found" xml:space="preserve">
+        <value>Não foi possível encontrar a sala '{0}'</value>
+    </data>
+    <data name="room_config_locale_not_found" xml:space="preserve">
+        <value>Não foi possível encontrar o idioma '{0}'</value>
+    </data>
+    <data name="editcommand_help" xml:space="preserve">
+        <value>Edita um comando adicionado. Sintaxe : -editcommand &lt;nome&gt;, &lt;conteúdo&gt;</value>
+    </data>
+    <data name="editcommand_failure" xml:space="preserve">
+        <value>Não foi possível atualizar o comando : {0}</value>
+    </data>
+    <data name="editcommand_success" xml:space="preserve">
+        <value>O comando {0} foi atualizado</value>
+    </data>
+    <data name="deletecommand_help" xml:space="preserve">
+        <value>Exclui um comando adicionado. Sintaxe : -deletecommand &lt;comando&gt;</value>
+    </data>
+    <data name="deletecommand_failure" xml:space="preserve">
+        <value>Não foi possível excluir o comando : {0}</value>
+    </data>
+    <data name="deletecommand_success" xml:space="preserve">
+        <value>O comando {0} foi excluído</value>
+    </data>
+    <data name="badge_add_already_exist" xml:space="preserve">
+        <value>O emblema {0} já existe.</value>
+    </data>
+    <data name="badge_give_help_message" xml:space="preserve">
+        <value>Dá um emblema a alguém. Sintaxe : -givebadge &lt;usuário&gt;, &lt;emblema&gt;</value>
+    </data>
+    <data name="badge_give_could_not_find_badge" xml:space="preserve">
+        <value>Não foi possível encontrar o emblema {0}.</value>
+    </data>
+    <data name="badge_give_error" xml:space="preserve">
+        <value>Ocorreu um erro ao conceder o emblema : {0}</value>
+    </data>
+    <data name="badge_give_success" xml:space="preserve">
+        <value>O usuário "{0}" recebeu o emblema "{1}".</value>
+    </data>
+    <data name="cancel_command_usage" xml:space="preserve">
+        <value>Uso: cancel-command &lt;execution-id&gt;</value>
+    </data>
+    <data name="cancel_command_success" xml:space="preserve">
+        <value>Comando {0} cancelado</value>
+    </data>
+    <data name="cancel_command_not_found" xml:space="preserve">
+        <value>Nenhum comando em execução encontrado para {0}</value>
+    </data>
+    <data name="rank_bot" xml:space="preserve">
+        <value>Bot</value>
+    </data>
+    <data name="rank_driver" xml:space="preserve">
+        <value>Driver</value>
+    </data>
+    <data name="rank_mod" xml:space="preserve">
+        <value>Moderador</value>
+    </data>
+    <data name="rank_owner" xml:space="preserve">
+        <value>Dono da Sala</value>
+    </data>
+    <data name="rank_prizewinner" xml:space="preserve">
+        <value>Vencedor de Torneio</value>
+    </data>
+    <data name="rank_voice" xml:space="preserve">
+        <value>Voice</value>
+    </data>
+    <data name="profile_status" xml:space="preserve">
+        <value>Status</value>
+    </data>
+    <data name="rank_host" xml:space="preserve">
+        <value>Host</value>
+    </data>
+    <data name="badge_delete_doesnt_exist" xml:space="preserve">
+        <value>O emblema "{0}" não existe.</value>
+    </data>
+    <data name="badge_delete_failure" xml:space="preserve">
+        <value>Ocorreu um erro ao excluir o emblema : {0}</value>
+    </data>
+    <data name="badge_delete_success" xml:space="preserve">
+        <value>O emblema "{0}" foi removido.</value>
+    </data>
+    <data name="takebadge_badge_doesnt_exist" xml:space="preserve">
+        <value>O usuário "{0}" não possui o emblema "{1}"</value>
+    </data>
+    <data name="takebadge_failure" xml:space="preserve">
+        <value>Ocorreu um erro ao remover o emblema : {0}</value>
+    </data>
+    <data name="takebadge_help_message" xml:space="preserve">
+        <value>Remove o emblema de um usuário. Sintaxe : -takebadge &lt;usuário&gt;, &lt;emblema&gt;</value>
+    </data>
+    <data name="takebadge_success" xml:space="preserve">
+        <value>O usuário "{0}" não possui mais o emblema "{1}".</value>
+    </data>
+    <data name="avatar_help_message" xml:space="preserve">
+        <value>Atualiza o avatar de um usuário. Sintaxe : -avatar &lt;usuário&gt;, &lt;URL do avatar&gt;</value>
+    </data>
+    <data name="avatar_success" xml:space="preserve">
+        <value>O avatar do usuário foi atualizado.</value>
+    </data>
+    <data name="avatar_failure" xml:space="preserve">
+        <value>Ocorreu um erro ao atualizar o avatar : {0}</value>
+    </data>
+    <data name="title_failure" xml:space="preserve">
+        <value>Ocorreu um erro ao atualizar o título : {0}</value>
+    </data>
+    <data name="title_help_message" xml:space="preserve">
+        <value>Atualiza a bio de um usuário. Sintaxe : -title &lt;usuário&gt;, &lt;bio&gt;</value>
+    </data>
+    <data name="title_success" xml:space="preserve">
+        <value>A bio foi atualizada.</value>
+    </data>
+    <data name="profile_no_title" xml:space="preserve">
+        <value>Sem bio</value>
+    </data>
+    <data name="profile_no_badge" xml:space="preserve">
+        <value>Sem emblema</value>
+    </data>
+    <data name="allcommands_alias" xml:space="preserve">
+        <value>Apelidos</value>
+    </data>
+    <data name="allcommands_allowed_in_pm" xml:space="preserve">
+        <value>Permitido em MP</value>
+    </data>
+    <data name="allcommands_wl_only" xml:space="preserve">
+        <value>Somente Whitelist</value>
+    </data>
+    <data name="allcommands_pm_only" xml:space="preserve">
+        <value>Somente MP</value>
+    </data>
+    <data name="allcommands_required_rank" xml:space="preserve">
+        <value>Rank necessário</value>
+    </data>
+    <data name="profile_register_date" xml:space="preserve">
+        <value>Registrado em</value>
+    </data>
+    <data name="profile_play_time" xml:space="preserve">
+        <value>Tempo de jogo</value>
+    </data>
+    <data name="profile_title" xml:space="preserve">
+        <value>Bio</value>
+    </data>
+    <data name="guessing_game_final_scores" xml:space="preserve">
+        <value>Pontuações finais</value>
+    </data>
+    <data name="guessing_game_game_ended" xml:space="preserve">
+        <value>Tempo esgotado! A resposta era : {0}</value>
+    </data>
+    <data name="guessing_game_point" xml:space="preserve">
+        <value>Ponto</value>
+    </data>
+    <data name="guessing_game_turn_count" xml:space="preserve">
+        <value>**Rodada #{0}**</value>
+    </data>
+    <data name="guessing_game_answer_not_found" xml:space="preserve">
+        <value>Ninguém encontrou a resposta a tempo! A resposta era: {0}</value>
+    </data>
+    <data name="guessing_game_answer_rate_limit" xml:space="preserve">
+        <value>Você está respondendo muito rápido! Aguarde um momento antes de tentar novamente.</value>
+    </data>
+    <data name="guessing_game_round_won" xml:space="preserve">
+        <value>{0} ganhou esta rodada! Agora tem {1} ponto{2}</value>
+    </data>
+    <data name="guessing_game_result_ended" xml:space="preserve">
+        <value>O jogo acabou!</value>
+    </data>
+    <data name="countries_game_start" xml:space="preserve">
+        <value>Um jogo de países começou! Responda com o nome do país diretamente no chat.</value>
+    </data>
+    <data name="capitals_game_start" xml:space="preserve">
+        <value>Um jogo de capitais começou! Responda com a capital do país indicado diretamente no chat.</value>
+    </data>
+    <data name="capitals_game_question_country" xml:space="preserve">
+        <value>Qual é a capital de {0}?</value>
+    </data>
+    <data name="capitals_game_question_capital" xml:space="preserve">
+        <value>Qual país tem {0} como capital?</value>
+    </data>
+    <data name="end_guessing_game_no_game" xml:space="preserve">
+        <value>Não há nenhum jogo em andamento nesta sala.</value>
+    </data>
+    <data name="end_guessing_game_success" xml:space="preserve">
+        <value>Jogo encerrado.</value>
+    </data>
+    <data name="team_preview_title" xml:space="preserve">
+        <value>Time de {0}</value>
+    </data>
+    <data name="team_preview_author" xml:space="preserve">
+        <value>(Criado por {0})</value>
+    </data>
+    <data name="team_preview_click_icons" xml:space="preserve">
+        <value>Clique nos ícones para exibir a versão importável</value>
+    </data>
+    <data name="dashboard_team_previews_name" xml:space="preserve">
+        <value>Prévia de time</value>
+    </data>
+    <data name="dashboard_team_previews_description" xml:space="preserve">
+        <value>Exibe o time de um link Pokepaste ou CoupCritique</value>
+    </data>
+    <data name="add_team_help_message" xml:space="preserve">
+        <value>Adiciona um time aos exemplos. Sintaxe: -add-team &lt;link&gt;, &lt;nome&gt;, &lt;tier&gt;</value>
+    </data>
+    <data name="add_team_name_too_long" xml:space="preserve">
+        <value>O nome do time é muito longo.</value>
+    </data>
+    <data name="add_team_no_provider" xml:space="preserve">
+        <value>Não foi possível encontrar o time pelo link. Por favor, forneça um link Pokepaste ou CoupCritique.</value>
+    </data>
+    <data name="add_team_no_export_error" xml:space="preserve">
+        <value>Nenhum exportador de time encontrado.</value>
+    </data>
+    <data name="add_team_success" xml:space="preserve">
+        <value>Time adicionado com o ID "{0}"</value>
+    </data>
+    <data name="add_team_failure" xml:space="preserve">
+        <value>Ocorreu um erro ao adicionar o time : {0}</value>
+    </data>
+    <data name="add_team_to_room_no_arg" xml:space="preserve">
+        <value>Por favor, especifique o ID do time.</value>
+    </data>
+    <data name="add_team_to_room_no_team" xml:space="preserve">
+        <value>Não foi possível encontrar este time.</value>
+    </data>
+    <data name="add_team_to_room_team_already_in_room" xml:space="preserve">
+        <value>Este time já está nesta sala.</value>
+    </data>
+    <data name="add_team_to_room_success" xml:space="preserve">
+        <value>Time adicionado à sala.</value>
+    </data>
+    <data name="add_team_to_room_failure" xml:space="preserve">
+        <value>Ocorreu um erro ao adicionar uma sala ao time : {0}</value>
+    </data>
+    <data name="sample_team_description" xml:space="preserve">
+        <value>Adicionado por {0} em {1}</value>
+    </data>
+    <data name="sample_team_info" xml:space="preserve">
+        <value>Salas: {0}, Formato: {1}</value>
+    </data>
+    <data name="deleteteam_team_not_found" xml:space="preserve">
+        <value>Time não encontrado.</value>
+    </data>
+    <data name="deleteteam_team_deleted_successfully" xml:space="preserve">
+        <value>O time foi excluído.</value>
+    </data>
+    <data name="deleteteam_team_deletion_error" xml:space="preserve">
+        <value>Ocorreu um erro ao excluir o time : {0}</value>
+    </data>
+    <data name="team_showcase_not_found" xml:space="preserve">
+        <value>Este time não foi encontrado.</value>
+    </data>
+    <data name="aboutrepeat_not_found" xml:space="preserve">
+        <value>Nenhuma repetição encontrada.</value>
+    </data>
+    <data name="aboutrepeat_helpmessage" xml:space="preserve">
+        <value>Sintaxe: -repeat &lt;id&gt;, &lt;mensagem&gt;, &lt;duração em minutos&gt;</value>
+    </data>
+    <data name="parameter_name_has_command_auto_correct" xml:space="preserve">
+        <value>Autocorreção de comandos</value>
+    </data>
+    <data name="parameter_name_is_showing_error_messages" xml:space="preserve">
+        <value>Mensagens de erro de comandos</value>
+    </data>
+    <data name="parameter_name_is_showing_team_links_preview" xml:space="preserve">
+        <value>Prévia de links de times</value>
+    </data>
+    <data name="parameter_name_locale" xml:space="preserve">
+        <value>Idioma</value>
+    </data>
+    <data name="parameter_description_has_command_auto_correct" xml:space="preserve">
+        <value>Mostra sugestões de comandos quando um nome de comando tentado é semelhante a um existente</value>
+    </data>
+    <data name="parameter_description_is_showing_error_messages" xml:space="preserve">
+        <value>Mostra a mensagem de erro e o stack trace da exceção quando a execução de um comando falha</value>
+    </data>
+    <data name="parameter_description_is_showing_team_links_preview" xml:space="preserve">
+        <value>Mostra uma prévia de um time Pokémon quando um link Pokepaste ou CoupCritique é compartilhado no chat</value>
+    </data>
+    <data name="parameter_description_locale" xml:space="preserve">
+        <value>O idioma usado para os comandos</value>
+    </data>
+    <data name="c4_game_name" xml:space="preserve">
+        <value>Conecta Quatro</value>
+    </data>
+    <data name="c4_game_rules" xml:space="preserve">
+        <value>Conecte {0} em fila para ganhar o jogo!</value>
+    </data>
+    <data name="c4_game_current_turn" xml:space="preserve">
+        <value>É a vez de {0} ({1}) !</value>
+    </data>
+    <data name="c4_game_how_to_play" xml:space="preserve">
+        <value>Clique nas células para jogar</value>
+    </data>
+    <data name="c4_game_timeout" xml:space="preserve">
+        <value>(Você tem {0} segundos para jogar)</value>
+    </data>
+    <data name="c4_game_players" xml:space="preserve">
+        <value>Jogadores: {0}</value>
+    </data>
+    <data name="vs" xml:space="preserve">
+        <value>VS.</value>
+    </data>
+    <data name="c4_game_turn" xml:space="preserve">
+        <value>Turno: {0}</value>
+    </data>
+    <data name="c4_game_party_id" xml:space="preserve">
+        <value>Jogo: {0}</value>
+    </data>
+    <data name="c4_game_tie_end" xml:space="preserve">
+        <value>O jogo terminou em empate.</value>
+    </data>
+    <data name="c4_game_win_message" xml:space="preserve">
+        <value>{0} ganhou o jogo!</value>
+    </data>
+    <data name="team_list_empty" xml:space="preserve">
+        <value>Nenhum time encontrado.</value>
+    </data>
+    <data name="name_color_help" xml:space="preserve">
+        <value>Exibe as informações de cor de um nome de usuário.</value>
+    </data>
+    <data name="setjoinphrase_help_message" xml:space="preserve">
+        <value>Define a frase de entrada de um usuário para esta sala. Sintaxe : -setjoinphrase &lt;usuário&gt;, &lt;frase&gt;</value>
+    </data>
+    <data name="setjoinphrase_success" xml:space="preserve">
+        <value>A frase de entrada foi adicionada com sucesso.</value>
+    </data>
+    <data name="setjoinphrase_failure" xml:space="preserve">
+        <value>Não foi possível adicionar a frase de entrada : {0}</value>
+    </data>
+    <data name="replay_preview_watch" xml:space="preserve">
+        <value>Assistir ao replay</value>
+    </data>
+    <data name="format" xml:space="preserve">
+        <value>Formato</value>
+    </data>
+    <data name="date" xml:space="preserve">
+        <value>Data</value>
+    </data>
+    <data name="views" xml:space="preserve">
+        <value>Visualizações</value>
+    </data>
+    <data name="rating" xml:space="preserve">
+        <value>Rating</value>
+    </data>
+    <data name="parameter_name_is_showing_replays_preview" xml:space="preserve">
+        <value>Prévia de replays</value>
+    </data>
+    <data name="parameter_description_is_showing_replays_preview" xml:space="preserve">
+        <value>Mostra os jogadores e times de um replay</value>
+    </data>
+    <data name="guessing_game_specify" xml:space="preserve">
+        <value>Por favor, especifique o número de rodadas.</value>
+    </data>
+    <data name="c4_game_on_timeout" xml:space="preserve">
+        <value>{0} foi desclassificado(a) por não conseguir jogar a tempo.</value>
+    </data>
+    <data name="c4_game_start_already_exist" xml:space="preserve">
+        <value>Já há um jogo em andamento.</value>
+    </data>
+    <data name="c4_game_start_announce" xml:space="preserve">
+        <value>Um jogo de Conecta Quatro foi criado. Use {0}c4j para entrar.</value>
+    </data>
+    <data name="c4_game_cancelled" xml:space="preserve">
+        <value>O jogo foi cancelado.</value>
+    </data>
+    <data name="c4_game_ongoing_game" xml:space="preserve">
+        <value>Não há nenhum jogo em andamento.</value>
+    </data>
+    <data name="guessing_game_invalid_number_turns" xml:space="preserve">
+        <value>Número de rodadas inválido (deve estar entre 1 e {0})</value>
+    </data>
+    <data name="guessing_game_currently_ongoing" xml:space="preserve">
+        <value>Já há um jogo em andamento.</value>
+    </data>
+    <data name="guessing_game_invalid_command" xml:space="preserve">
+        <value>Comando inválido.</value>
+    </data>
+    <data name="pokedesc_start" xml:space="preserve">
+        <value>Um jogo de PokeDesc foi iniciado! Digite o nome do Pokémon correspondente diretamente no chat.</value>
+    </data>
+    <data name="pokecries_started" xml:space="preserve">
+        <value>Um jogo de PokeCries foi criado! Escreva o nome do Pokémon correspondente diretamente no chat.</value>
+    </data>
+    <data name="youtube_no_results" xml:space="preserve">
+        <value>Nenhum vídeo encontrado.</value>
+    </data>
+    <data name="youtube_watch" xml:space="preserve">
+        <value>Assistir no YouTube</value>
+    </data>
+    <data name="youtube_video_info" xml:space="preserve">
+        <value>Enviado por {0} em {1}</value>
+    </data>
+    <data name="youtube_error_occurred" xml:space="preserve">
+        <value>Ocorreu um erro.</value>
+    </data>
+    <data name="bitcoin_error" xml:space="preserve">
+        <value>Ocorreu um erro.</value>
+    </data>
+    <data name="fact_error" xml:space="preserve">
+        <value>Ocorreu um erro.</value>
+    </data>
+    <data name="c4_panel_title" xml:space="preserve">
+        <value>Um jogo de Conecta Quatro foi criado!</value>
+    </data>
+    <data name="c4_panel_players" xml:space="preserve">
+        <value>Jogadores inscritos: {0}</value>
+    </data>
+    <data name="c4_panel_join" xml:space="preserve">
+        <value>Entrar no jogo</value>
+    </data>
+    <data name="c4_panel_ongoing_game" xml:space="preserve">
+        <value>Um jogo de Conecta Quatro está em andamento... Jogadores: {0}</value>
+    </data>
+    <data name="tour_finale_announce_message" xml:space="preserve">
+        <value>Veja a final do torneio : &lt;&lt;{0}&gt;&gt;</value>
+    </data>
+    <data name="arcade_level_invalid_value" xml:space="preserve">
+        <value>Nível inválido. Por favor, use 2, 3 ou 4.</value>
+    </data>
+    <data name="arcade_level_update" xml:space="preserve">
+        <value>Nível de {0} atualizado = {1}</value>
+    </data>
+    <data name="arcade_level_add" xml:space="preserve">
+        <value>Nível de {0} adicionado = {1}</value>
+    </data>
+    <data name="arcade_level_help" xml:space="preserve">
+        <value>Sintaxe: addpalier (usuário), (nível)</value>
+    </data>
+    <data name="arcade_levels_level" xml:space="preserve">
+        <value>Nível</value>
+    </data>
+    <data name="arcade_levels_players" xml:space="preserve">
+        <value>Jogadores</value>
+    </data>
+    <data name="display_paliers_help" xml:space="preserve">
+        <value>Exibe os níveis do arcade.</value>
+    </data>
+    <data name="arcade_level_delete_help" xml:space="preserve">
+        <value>Remove alguém dos níveis do arcade.</value>
+    </data>
+    <data name="arcade_level_delete_not_found" xml:space="preserve">
+        <value>Jogador não encontrado.</value>
+    </data>
+    <data name="arcade_level_delete_success" xml:space="preserve">
+        <value>O jogador foi removido.</value>
+    </data>
+    <data name="c4_game_player_forfeited" xml:space="preserve">
+        <value>{0} desistiu.</value>
+    </data>
+    <data name="c4_game_forfeit" xml:space="preserve">
+        <value>Desistir</value>
+    </data>
+    <data name="c4_game_options" xml:space="preserve">
+        <value>Opções</value>
+    </data>
+    <data name="arcade_level_update_error" xml:space="preserve">
+        <value>Ocorreu um erro ao atualizar o nível do arcade : {0}</value>
+    </data>
+    <data name="arcade_level_no_users" xml:space="preserve">
+        <value>Nenhum nível de arcade encontrado.</value>
+    </data>
+    <data name="arcade_level_delete_failure" xml:space="preserve">
+        <value>Ocorreu um erro ao excluir o nível do arcade : {0}</value>
+    </data>
+    <data name="arcade_level_get_help" xml:space="preserve">
+        <value>Sintaxe: -palier (usuário)</value>
+    </data>
+    <data name="arcade_level_get_not_found" xml:space="preserve">
+        <value>{0} não pertence a nenhum nível.</value>
+    </data>
+    <data name="arcade_level_get_success" xml:space="preserve">
+        <value>**{0}** pertence ao Nível **{1}**.</value>
+    </data>
+    <data name="add_points_help" xml:space="preserve">
+        <value>Sintaxe: -addp usuário, pontos</value>
+    </data>
+    <data name="remove_points_help" xml:space="preserve">
+        <value>Sintaxe: -removepoints usuário, qtd_pontos</value>
+    </data>
+    <data name="remove_points_user_not_found" xml:space="preserve">
+        <value>O usuário '{0}' não tem pontos.</value>
+    </data>
+    <data name="leaderboard_help" xml:space="preserve">
+        <value>Exibe o placar</value>
+    </data>
+    <data name="leaderboard_empty" xml:space="preserve">
+        <value>Nenhum ponto encontrado.</value>
+    </data>
+    <data name="clear_points_help" xml:space="preserve">
+        <value>Reinicia todos os pontos após um evento</value>
+    </data>
+    <data name="clear_points_success" xml:space="preserve">
+        <value>Todos os pontos dos usuários foram reiniciados para zero.</value>
+    </data>
+    <data name="points_added_to" xml:space="preserve">
+        <value>ponto(s) adicionado(s) a</value>
+    </data>
+    <data name="points_removed_from" xml:space="preserve">
+        <value>ponto(s) removido(s) de</value>
+    </data>
+    <data name="points_new_total" xml:space="preserve">
+        <value>Novo total de pontos para</value>
+    </data>
+    <data name="leaderboard_title" xml:space="preserve">
+        <value>Placar</value>
+    </data>
+    <data name="leaderboard_user" xml:space="preserve">
+        <value>Usuário</value>
+    </data>
+    <data name="leaderboard_points" xml:space="preserve">
+        <value>Pontos</value>
+    </data>
+    <data name="ask_error" xml:space="preserve">
+        <value>Ocorreu um erro ao buscar uma resposta!</value>
+    </data>
+    <data name="ask_prompt" xml:space="preserve">
+        <value>Você é {1}, um chatbot na sala Pokemon Showdown {2}. Vários usuários podem falar com você; o último solicitante é {0}. As mensagens da conversa incluem o nome do falante como "User: mensagem". Responda à última mensagem do usuário usando o contexto de conversa fornecido. Mantenha a resposta em uma única linha, máximo de 300 caracteres. Não prefixe seu nome. Sem formatação exceto ** para negrito, `` para código e __ para itálico.</value>
+    </data>
+    <data name="allcommands_room_restriction" xml:space="preserve">
+        <value>Disponível nas salas : {0}</value>
+    </data>
+    <data name="rankcommand_help" xml:space="preserve">
+        <value>Mostra os 5 ratings mais altos (classificados por GXE) de um usuário. Sintaxe: -rank &lt;usuário&gt;. Use -lowestrank para os ranks mais baixos.</value>
+    </data>
+    <data name="rankcommand_no_ratings" xml:space="preserve">
+        <value>Este usuário ainda não jogou na ladder.</value>
+    </data>
+    <data name="rankcommand_error" xml:space="preserve">
+        <value>Ocorreu um erro.</value>
+    </data>
+    <data name="rankcommand_title" xml:space="preserve">
+        <value>Rankings de {0}</value>
+    </data>
+    <data name="rankcommand_elo" xml:space="preserve">
+        <value>Elo</value>
+    </data>
+    <data name="rankcommand_gxe" xml:space="preserve">
+        <value>GXE</value>
+    </data>
+    <data name="rankcommand_wins" xml:space="preserve">
+        <value>V</value>
+    </data>
+    <data name="rankcommand_losses" xml:space="preserve">
+        <value>D</value>
+    </data>
+    <data name="rankcommand_wr" xml:space="preserve">
+        <value>TV</value>
+    </data>
+    <data name="rankcommand_format" xml:space="preserve">
+        <value>Formato</value>
+    </data>
+    <data name="profile_best_rank" xml:space="preserve">
+        <value>Melhor formato</value>
+    </data>
+    <data name="ladder_title" xml:space="preserve">
+        <value>Ladder {0}</value>
+    </data>
+    <data name="ladder_username" xml:space="preserve">
+        <value>Jogador</value>
+    </data>
+    <data name="ladder_elo" xml:space="preserve">
+        <value>Elo</value>
+    </data>
+    <data name="ladder_gxe" xml:space="preserve">
+        <value>GXE</value>
+    </data>
+    <data name="ladder_wins" xml:space="preserve">
+        <value>V</value>
+    </data>
+    <data name="ladder_losses" xml:space="preserve">
+        <value>D</value>
+    </data>
+    <data name="ladder_wr" xml:space="preserve">
+        <value>TV</value>
+    </data>
+    <data name="ladder_help" xml:space="preserve">
+        <value>Exibe a ladder de um tier. Sintaxe: -ladder &lt;tier&gt;, &lt;prefixo (opt.)&gt;</value>
+    </data>
+    <data name="ladder_no_players" xml:space="preserve">
+        <value>Nenhum jogador encontrado.</value>
+    </data>
+    <data name="ladder_error" xml:space="preserve">
+        <value>Não foi possível recuperar a ladder.</value>
+    </data>
+    <data name="command_execution_error" xml:space="preserve">
+        <value>A execução do comando gerou um erro.</value>
+    </data>
+    <data name="command_execution_report_bug" xml:space="preserve">
+        <value>Por favor [[reporte um problema &lt;{0}&gt;]]</value>
+    </data>
+    <data name="repeat_start_error" xml:space="preserve">
+        <value>Não foi possível iniciar a repetição</value>
+    </data>
+    <data name="repeat_start_rank" xml:space="preserve">
+        <value>Você não tem permissão para fazer isso aqui.</value>
+    </data>
+    <data name="repeat_start_success" xml:space="preserve">
+        <value>Repetição iniciada.</value>
+    </data>
+    <data name="repeat_stop" xml:space="preserve">
+        <value>Parar</value>
+    </data>
+    <data name="repeat_message" xml:space="preserve">
+        <value>Mensagem</value>
+    </data>
+    <data name="repeat_delay" xml:space="preserve">
+        <value>Intervalo (minutos)</value>
+    </data>
+    <data name="repeat_actions" xml:space="preserve">
+        <value>Ações</value>
+    </data>
+    <data name="repeat_add" xml:space="preserve">
+        <value>Adicionar repetição</value>
+    </data>
+    <data name="repeat_stop_invalid_id" xml:space="preserve">
+        <value>ID inválido.</value>
+    </data>
+    <data name="repeat_stop_doesntexist" xml:space="preserve">
+        <value>Esta repetição não existe.</value>
+    </data>
+    <data name="repeat_stop_rights" xml:space="preserve">
+        <value>Você não tem permissão para fazer isso aqui.</value>
+    </data>
+    <data name="repeat_stop_error" xml:space="preserve">
+        <value>Esta repetição não pôde ser interrompida.</value>
+    </data>
+    <data name="repeat_stop_success" xml:space="preserve">
+        <value>Repetição encerrada.</value>
+    </data>
+    <data name="speak_error" xml:space="preserve">
+        <value>Ocorreu um erro!</value>
+    </data>
+    <data name="replay_preview_title" xml:space="preserve">
+        <value>Replay de {0}</value>
+    </data>
+    <data name="wiki_page_not_found" xml:space="preserve">
+        <value>Nenhuma página encontrada.</value>
+    </data>
+    <data name="wiki_error" xml:space="preserve">
+        <value>Ocorreu um erro ao buscar a página : {0}</value>
+    </data>
+    <data name="pokemon_name_required" xml:space="preserve">
+        <value>Por favor, forneça um nome de Pokémon.</value>
+    </data>
+    <data name="show_polls_history_entry" xml:space="preserve">
+        <value>ID da enquete: {0}, Encerrada em: {1} &lt;br/&gt;{2}&lt;br/&gt;</value>
+    </data>
+    <data name="show_polls_history_header" xml:space="preserve">
+        <value>Histórico de enquetes para {0}:&lt;br&gt;</value>
+    </data>
+    <data name="show_polls_history_sent" xml:space="preserve">
+        <value>Histórico de enquetes enviado.</value>
+    </data>
+    <data name="show_polls_no_polls" xml:space="preserve">
+        <value>Nenhuma enquete foi registrada para a sala {0}.</value>
+    </data>
+    <data name="show_polls_room_not_exist" xml:space="preserve">
+        <value>A sala {0} não existe.</value>
+    </data>
+    <data name="countries_game_turn_ending_soon" xml:space="preserve">
+        <value>O tempo está acabando! {0} segundos restantes.</value>
+    </data>
+    <data name="dailymotion_watch_video" xml:space="preserve">
+        <value>Assistir no Dailymotion</value>
+    </data>
+    <data name="dailymotion_no_video_found" xml:space="preserve">
+        <value>Nenhum vídeo encontrado</value>
+    </data>
+    <data name="dailymotion_fetch_error" xml:space="preserve">
+        <value>Ocorreu um erro ao buscar o vídeo : {0}</value>
+    </data>
+    <data name="uptime" xml:space="preserve">
+        <value>Tempo ativo : {0}</value>
+    </data>
+    <data name="tour_announce_message" xml:space="preserve">
+        <value>Um torneio de {0} foi criado na sala &lt;&lt;{1}&gt;&gt;</value>
+    </data>
+    <data name="deletecommand_not_found" xml:space="preserve">
+        <value>Não foi possível encontrar o comando com ID '{0}'</value>
+    </data>
+    <data name="badge_display_not_found" xml:space="preserve">
+        <value>Não foi possível encontrar o emblema {0}.</value>
+    </data>
+    <data name="badge_display_is_trophy" xml:space="preserve">
+        <value>Troféu</value>
+    </data>
+    <data name="badge_display_is_team_tournament" xml:space="preserve">
+        <value>Torneio em equipe</value>
+    </data>
+    <data name="badge_display_holders" xml:space="preserve">
+        <value>Detentores</value>
+    </data>
+    <data name="badge_display_no_holders" xml:space="preserve">
+        <value>Nenhum</value>
+    </data>
+    <data name="badgelist_room_not_found" xml:space="preserve">
+        <value>Não foi possível encontrar a sala "{0}".</value>
+    </data>
+    <data name="pokerace_already_running" xml:space="preserve">
+        <value>Uma corrida de Pokémon já está em andamento! Use -racejoin [Pokémon] para participar.</value>
+    </data>
+    <data name="pokerace_other_game_running" xml:space="preserve">
+        <value>Outro jogo já está em andamento nesta sala.</value>
+    </data>
+    <data name="pokerace_not_running" xml:space="preserve">
+        <value>Nenhuma corrida de Pokémon está em andamento. Use -pokerace para iniciar uma.</value>
+    </data>
+    <data name="pokerace_race_already_started" xml:space="preserve">
+        <value>A corrida já começou!</value>
+    </data>
+    <data name="pokerace_min_players_required" xml:space="preserve">
+        <value>São necessários pelo menos {0} participantes para iniciar a corrida!</value>
+    </data>
+    <data name="pokerace_cancelled" xml:space="preserve">
+        <value>A corrida de Pokémon foi cancelada.</value>
+    </data>
+    <data name="pokerace_join_already_chosen" xml:space="preserve">
+        <value>Você já escolheu {0}!</value>
+    </data>
+    <data name="pokerace_join_pokemon_taken" xml:space="preserve">
+        <value>{0} já foi escolhido por outro treinador!</value>
+    </data>
+    <data name="pokerace_join_invalid_pokemon" xml:space="preserve">
+        <value>{0} não está disponível. Escolha entre: {1}</value>
+    </data>
+    <data name="pokerace_join_success" xml:space="preserve">
+        <value>{0} escolheu {1} para a corrida!</value>
+    </data>
+    <data name="pokerace_auto_start_not_enough_players" xml:space="preserve">
+        <value>A corrida não pôde iniciar automaticamente: participantes insuficientes (mínimo {0}).</value>
+    </data>
+    <data name="hall_of_fame_rank" xml:space="preserve">
+        <value>Rank</value>
+    </data>
+    <data name="hall_of_fame_user" xml:space="preserve">
+        <value>Jogador</value>
+    </data>
+    <data name="hall_of_fame_trophy" xml:space="preserve">
+        <value>troféu</value>
+    </data>
+    <data name="hall_of_fame_trophies" xml:space="preserve">
+        <value>troféus</value>
+    </data>
+    <data name="hall_of_fame_total" xml:space="preserve">
+        <value>Total</value>
+    </data>
+    <data name="hall_of_fame_trophies_header" xml:space="preserve">
+        <value>Troféus</value>
+    </data>
+    <data name="hall_of_fame_solo" xml:space="preserve">
+        <value>solo</value>
+    </data>
+    <data name="hall_of_fame_team" xml:space="preserve">
+        <value>em equipe</value>
+    </data>
+    <data name="hall_of_fame_title" xml:space="preserve">
+        <value>Hall da Fama</value>
+    </data>
+    <data name="hall_of_fame_no_trophies" xml:space="preserve">
+        <value>Nenhum troféu encontrado</value>
+    </data>
+    <data name="arcade_sheets_addpoints_help" xml:space="preserve">
+        <value>Sintaxe: -addpoints (usuário), (pontos)</value>
+    </data>
+    <data name="arcade_sheets_addpoints_success" xml:space="preserve">
+        <value>Atualização bem-sucedida.</value>
+    </data>
+    <data name="arcade_sheets_addpoints_new_player" xml:space="preserve">
+        <value>Atualização bem-sucedida (novo jogador).</value>
+    </data>
+    <data name="arcade_sheets_points_help" xml:space="preserve">
+        <value>Sintaxe: -arcadepoints (nome de usuário)</value>
+    </data>
+    <data name="arcade_sheets_points_has_points" xml:space="preserve">
+        <value>{0} tem {1} pontos no Hall da Fama do Arcade.</value>
+    </data>
+    <data name="arcade_sheets_points_no_points" xml:space="preserve">
+        <value>{0} não tem pontos no Hall da Fama do Arcade.</value>
+    </data>
+    <data name="profile_header_avatar" xml:space="preserve">
+        <value>Avatar</value>
+    </data>
+    <data name="profile_header_badges" xml:space="preserve">
+        <value>Emblemas</value>
+    </data>
+    <data name="profile_header_info" xml:space="preserve">
+        <value>Info</value>
+    </data>
+    <data name="setlocale_invalid_locale" xml:space="preserve">
+        <value>Idioma "{0}" não encontrado.</value>
+    </data>
+    <data name="setlocale_room_not_found" xml:space="preserve">
+        <value>Sala "{0}" não encontrada.</value>
+    </data>
+    <data name="setlocale_success" xml:space="preserve">
+        <value>Idioma da sala {0} atualizado para {1}.</value>
+    </data>
+    <data name="setlocale_failure" xml:space="preserve">
+        <value>Não foi possível atualizar o idioma.</value>
+    </data>
+    <data name="command_autocorrect_suggestion" xml:space="preserve">
+        <value>Comando "{0}" não encontrado. Você quis dizer: __{1}__ ?</value>
+    </data>
+    <data name="genius_help_message" xml:space="preserve">
+        <value>Busca uma música pelas suas letras usando o Genius. Uso: -genius &lt;letra&gt;</value>
+    </data>
+    <data name="genius_release_date" xml:space="preserve">
+        <value>Lançado em: {0}</value>
+    </data>
+    <data name="genius_artist" xml:space="preserve">
+        <value>Por: {0}</value>
+    </data>
+    <data name="genius_page_views" xml:space="preserve">
+        <value>Visualizações da página: {0}</value>
+    </data>
+    <data name="genius_link" xml:space="preserve">
+        <value>Ler letra no Genius</value>
+    </data>
+    <data name="genius_not_found" xml:space="preserve">
+        <value>Não foi possível encontrar nenhuma música a partir dessa letra ou dessas palavras-chave.</value>
+    </data>
+    <data name="timer_command_help" xml:space="preserve">
+        <value>Define um timer para enviar uma mensagem após uma duração especificada. Uso: -timer &lt;duração&gt; (ex.: 3min 50secs, 0.5h, 2 days)</value>
+    </data>
+    <data name="timer_command_success" xml:space="preserve">
+        <value>Tempo esgotado! O timer de {0} terminou.</value>
+    </data>
+    <data name="timer_command_started" xml:space="preserve">
+        <value>Timer iniciado.</value>
+    </data>
+    <data name="seen_command_help" xml:space="preserve">
+        <value>Mostra a última ação registrada de um usuário. Sintaxe: -seen &lt;usuário&gt;</value>
+    </data>
+    <data name="seen_command_not_found" xml:space="preserve">
+        <value>Nenhuma ação recente encontrada para o usuário {0}.</value>
+    </data>
+    <data name="seen_command_error" xml:space="preserve">
+        <value>Ocorreu um erro ao buscar os dados de atividade do usuário {0}: {1}</value>
+    </data>
+    <data name="seen_command_last_seen" xml:space="preserve">
+        <value>O usuário {0} foi visto pela última vez em {1} {2} sala {3}</value>
+    </data>
+    <data name="seen_command_action_chatting" xml:space="preserve">
+        <value>conversando em</value>
+    </data>
+    <data name="seen_command_action_joining" xml:space="preserve">
+        <value>entrando em</value>
+    </data>
+    <data name="seen_command_action_leaving" xml:space="preserve">
+        <value>saindo de</value>
+    </data>
+    <data name="current_ladder_trackers_none" xml:space="preserve">
+        <value>Nenhum rastreamento de sala encontrado para {0}.</value>
+    </data>
+    <data name="current_ladder_trackers_entry" xml:space="preserve">
+        <value>{0} - prefixo: {1}</value>
+    </data>
+    <data name="parameter_name_timezone" xml:space="preserve">
+        <value>Fuso horário</value>
+    </data>
+    <data name="parameter_description_timezone" xml:space="preserve">
+        <value>O fuso horário usado nas datas exibidas</value>
+    </data>
+    <data name="toggletracking_help_message" xml:space="preserve">
+        <value>Enviará um anúncio quando uma nova batalha começar em um formato específico se o nome de usuário de um jogador corresponder ao prefixo fornecido. Sintaxe: -track &lt;formato&gt;, &lt;prefixo&gt;</value>
+    </data>
+    <data name="toggletracking_success" xml:space="preserve">
+        <value>Rastreamento de batalhas {0} iniciado para o prefixo {1}.</value>
+    </data>
+    <data name="toggletracking_failure" xml:space="preserve">
+        <value>Falha ao iniciar o rastreamento de batalhas.</value>
+    </data>
+    <data name="toggletracking_stop_success" xml:space="preserve">
+        <value>Rastreamento de batalhas {0} interrompido para o prefixo {1}.</value>
+    </data>
+    <data name="battletracker_battle_started" xml:space="preserve">
+        <value>Uma batalha de {0} começou entre {1} e {2} (Elo mín.: {3})</value>
+    </data>
+    <data name="gatekeepers_rules_title" xml:space="preserve">
+        <value>Regras</value>
+    </data>
+    <data name="gatekeepers_rules" xml:space="preserve">
+        <value>Um Pokémon está escondido atrás de sua pegada. Clique no ícone para marcar um ponto! Os retratos são revelados após 10 segundos, as silhuetas após 5.</value>
+    </data>
+    <data name="top_play_times_help" xml:space="preserve">
+        <value>Exibe os 20 principais usuários por tempo de jogo nesta sala.</value>
+    </data>
+    <data name="top_play_times_title" xml:space="preserve">
+        <value>Maiores tempos de jogo em {0}</value>
+    </data>
+    <data name="top_play_times_user" xml:space="preserve">
+        <value>Usuário</value>
+    </data>
+    <data name="top_play_times_play_time" xml:space="preserve">
+        <value>Tempo de jogo</value>
+    </data>
+    <data name="top_play_times_no_data" xml:space="preserve">
+        <value>Nenhum dado de tempo de jogo encontrado para esta sala.</value>
+    </data>
+    <data name="top_play_times_error" xml:space="preserve">
+        <value>Não foi possível recuperar os tempos de jogo.</value>
+    </data>
+    <data name="play_time_format" xml:space="preserve">
+        <value>d'd 'hh'h 'mm'm 'ss's'</value>
+    </data>
+    <data name="play_time_help" xml:space="preserve">
+        <value>Exibe o tempo de jogo de um usuário nesta sala. Sintaxe: -playtime [usuário[, sala]]</value>
+    </data>
+    <data name="play_time_result" xml:space="preserve">
+        <value>{0} passou **{1}** em **{2}**.</value>
+    </data>
+    <data name="play_time_no_data" xml:space="preserve">
+        <value>Nenhum tempo de jogo encontrado para {0} nesta sala.</value>
+    </data>
+    <data name="play_time_error" xml:space="preserve">
+        <value>Não foi possível recuperar o tempo de jogo.</value>
+    </data>
+    <data name="slots_description_bulbasaur" xml:space="preserve">
+        <value>uma planta</value>
+    </data>
+    <data name="slots_description_squirtle" xml:space="preserve">
+        <value>uma concha</value>
+    </data>
+    <data name="slots_description_charmander" xml:space="preserve">
+        <value>uma chama</value>
+    </data>
+    <data name="slots_description_pikachu" xml:space="preserve">
+        <value>um raio</value>
+    </data>
+    <data name="slots_description_eevee" xml:space="preserve">
+        <value>um abraço</value>
+    </data>
+    <data name="slots_description_snorlax" xml:space="preserve">
+        <value>um ronco</value>
+    </data>
+    <data name="slots_description_dragonite" xml:space="preserve">
+        <value>um voo</value>
+    </data>
+    <data name="slots_description_mew" xml:space="preserve">
+        <value>um poder místico</value>
+    </data>
+    <data name="slots_description_mewtwo" xml:space="preserve">
+        <value>um ataque psíquico</value>
+    </data>
+    <data name="slots_description_dialga" xml:space="preserve">
+        <value>uma viagem no tempo</value>
+    </data>
+    <data name="slots_description_palkia" xml:space="preserve">
+        <value>uma viagem pelo espaço</value>
+    </data>
+    <data name="slots_description_giratina" xml:space="preserve">
+        <value>uma passagem pelo Mundo Distorção</value>
+    </data>
+    <data name="slots_blacklisted_room" xml:space="preserve">
+        <value>Este comando não está disponível nesta sala.</value>
+    </data>
+    <data name="slots_cooldown" xml:space="preserve">
+        <value>Você deve aguardar mais {0}h {1}min antes de usar este comando novamente.</value>
+    </data>
+    <data name="slots_win_prize" xml:space="preserve">
+        <value>Você ganhou {0}!</value>
+    </data>
+    <data name="slots_win_0" xml:space="preserve">
+        <value>fez uma combinação perfeita!</value>
+    </data>
+    <data name="slots_win_1" xml:space="preserve">
+        <value>tem uma sorte incrível hoje!</value>
+    </data>
+    <data name="slots_win_2" xml:space="preserve">
+        <value>deveria jogar na loteria!</value>
+    </data>
+    <data name="slots_win_3" xml:space="preserve">
+        <value>é abençoado por Arceus!</value>
+    </data>
+    <data name="slots_win_4" xml:space="preserve">
+        <value>tem sorte de iniciante!</value>
+    </data>
+    <data name="slots_win_5" xml:space="preserve">
+        <value>fez uma jogada lendária!</value>
+    </data>
+    <data name="slots_lose_0" xml:space="preserve">
+        <value>não tem muita sorte hoje!</value>
+    </data>
+    <data name="slots_lose_1" xml:space="preserve">
+        <value>deve tentar novamente!</value>
+    </data>
+    <data name="slots_lose_2" xml:space="preserve">
+        <value>estava tão perto!</value>
+    </data>
+    <data name="slots_lose_3" xml:space="preserve">
+        <value>precisa de um pouco mais de sorte!</value>
+    </data>
+    <data name="slots_lose_4" xml:space="preserve">
+        <value>deveria pedir um desejo ao Jirachi!</value>
+    </data>
+    <data name="slots_lose_5" xml:space="preserve">
+        <value>quase conseguiu!</value>
+    </data>
+    <data name="arcade_in_help" xml:space="preserve">
+        <value>Entre nas inscrições do torneio arcade em andamento. Sintaxe: -in</value>
+    </data>
+    <data name="arcade_in_pm_specify_room" xml:space="preserve">
+        <value>Por favor, especifique uma sala ao usar este comando em MP. Sintaxe: -in [sala]</value>
+    </data>
+    <data name="arcade_pm_room_not_found" xml:space="preserve">
+        <value>Sala não encontrada.</value>
+    </data>
+    <data name="arcade_no_active_inscriptions" xml:space="preserve">
+        <value>Nenhuma inscrição de torneio arcade está ativa no momento.</value>
+    </data>
+    <data name="arcade_inscriptions_timer_expired" xml:space="preserve">
+        <value>As inscrições estão encerradas (timer expirado).</value>
+    </data>
+    <data name="arcade_in_banned" xml:space="preserve">
+        <value>Você foi removido deste torneio e não pode se inscrever novamente.</value>
+    </data>
+    <data name="arcade_in_already_registered" xml:space="preserve">
+        <value>Você já está inscrito neste torneio.</value>
+    </data>
+    <data name="arcade_in_success" xml:space="preserve">
+        <value>Você foi inscrito no torneio arcade! ({0} participantes)</value>
+    </data>
+    <data name="arcade_leave_help" xml:space="preserve">
+        <value>Saia das inscrições do torneio arcade em andamento. Sintaxe: -leave</value>
+    </data>
+    <data name="arcade_leave_pm_specify_room" xml:space="preserve">
+        <value>Por favor, especifique uma sala ao usar este comando em MP. Sintaxe: -leave [sala]</value>
+    </data>
+    <data name="arcade_leave_not_registered" xml:space="preserve">
+        <value>Você não está inscrito neste torneio.</value>
+    </data>
+    <data name="arcade_leave_success" xml:space="preserve">
+        <value>Você foi removido do torneio arcade. ({0} participantes)</value>
+    </data>
+    <data name="arcade_start_help" xml:space="preserve">
+        <value>Inicia as inscrições do torneio arcade. Sintaxe: -arcadestart [título], [timer em minutos]</value>
+    </data>
+    <data name="arcade_start_already_active" xml:space="preserve">
+        <value>As inscrições do torneio arcade já estão ativas.</value>
+    </data>
+    <data name="arcade_timer_positive_integer" xml:space="preserve">
+        <value>O timer deve ser um número inteiro positivo de minutos.</value>
+    </data>
+    <data name="arcade_timer_parse_error" xml:space="preserve">
+        <value>Valor de timer inválido. Por favor, forneça um número de minutos.</value>
+    </data>
+    <data name="arcade_start_with_timer" xml:space="preserve">
+        <value>Inscrições "{0}" iniciadas com um timer de {1} minutos! Use -in para entrar, -leave para sair.</value>
+    </data>
+    <data name="arcade_start_no_timer" xml:space="preserve">
+        <value>Inscrições "{0}" iniciadas! Use -in para entrar, -leave para sair.</value>
+    </data>
+    <data name="arcade_stop_help" xml:space="preserve">
+        <value>Para as inscrições do torneio arcade. Sintaxe: -arcadestop</value>
+    </data>
+    <data name="arcade_stop_no_participants" xml:space="preserve">
+        <value>Inscrições do torneio arcade encerradas. Nenhum participante.</value>
+    </data>
+    <data name="arcade_list_help" xml:space="preserve">
+        <value>Visualiza os participantes atuais do torneio arcade. Sintaxe: -arcadelist</value>
+    </data>
+    <data name="arcade_list_no_data" xml:space="preserve">
+        <value>Nenhum dado de torneio arcade encontrado para esta sala.</value>
+    </data>
+    <data name="arcade_list_no_participants" xml:space="preserve">
+        <value>Nenhum participante inscrito. As inscrições estão atualmente {0}.</value>
+    </data>
+    <data name="arcade_list_status_active" xml:space="preserve">
+        <value>ativas</value>
+    </data>
+    <data name="arcade_list_status_inactive" xml:space="preserve">
+        <value>inativas</value>
+    </data>
+    <data name="arcade_list_result" xml:space="preserve">
+        <value>Participantes do torneio arcade ({0}) - Status: {1}{2}: {3}</value>
+    </data>
+    <data name="arcade_list_timer_remaining" xml:space="preserve">
+        <value> (Timer: {0} minutos restantes)</value>
+    </data>
+    <data name="arcade_remove_help" xml:space="preserve">
+        <value>Remove um participante do torneio arcade. Sintaxe: -arcaderemove [nome de usuário]</value>
+    </data>
+    <data name="arcade_remove_not_registered" xml:space="preserve">
+        <value>O usuário "{0}" não está inscrito no torneio.</value>
+    </data>
+    <data name="arcade_remove_success" xml:space="preserve">
+        <value>O usuário "{0}" foi removido do torneio arcade e não pode se inscrever novamente.</value>
+    </data>
+    <data name="arcade_timer_help" xml:space="preserve">
+        <value>Adiciona ou altera o timer para inscrições ativas. Sintaxe: -arcadetimer [minutos]</value>
+    </data>
+    <data name="arcade_timer_success" xml:space="preserve">
+        <value>Timer definido para {0} minutos.</value>
+    </data>
+    <data name="arcade_add_help" xml:space="preserve">
+        <value>Adiciona um participante ao torneio arcade. Sintaxe: -arcadeadd [nome de usuário]</value>
+    </data>
+    <data name="arcade_add_already_registered" xml:space="preserve">
+        <value>O usuário "{0}" já está inscrito no torneio.</value>
+    </data>
+    <data name="arcade_add_banned" xml:space="preserve">
+        <value>O usuário "{0}" foi removido deste torneio e não pode ser readicionado.</value>
+    </data>
+    <data name="arcade_add_success" xml:space="preserve">
+        <value>O usuário "{0}" foi adicionado ao torneio arcade.</value>
+    </data>
+    <data name="top_tournament_players_help" xml:space="preserve">
+        <value>Exibe os 20 principais jogadores de torneio nesta sala.</value>
+    </data>
+    <data name="top_tournament_players_title" xml:space="preserve">
+        <value>Melhores jogadores de torneio em {0}</value>
+    </data>
+    <data name="top_tournament_players_user" xml:space="preserve">
+        <value>Usuário</value>
+    </data>
+    <data name="top_tournament_players_wins" xml:space="preserve">
+        <value>Vitórias</value>
+    </data>
+    <data name="top_tournament_players_runner_up" xml:space="preserve">
+        <value>Vice-campeão</value>
+    </data>
+    <data name="top_tournament_players_third_place" xml:space="preserve">
+        <value>3º lugar</value>
+    </data>
+    <data name="top_tournament_players_win_rate" xml:space="preserve">
+        <value>Taxa de vitória</value>
+    </data>
+    <data name="profile_tournament_wl" xml:space="preserve">
+        <value>{0}V/{1}D</value>
+    </data>
+    <data name="top_tournament_players_entered" xml:space="preserve">
+        <value>Participações</value>
+    </data>
+    <data name="top_tournament_players_no_data" xml:space="preserve">
+        <value>Nenhum dado de torneio encontrado para esta sala.</value>
+    </data>
+    <data name="top_tournament_players_error" xml:space="preserve">
+        <value>Não foi possível recuperar os dados do torneio.</value>
+    </data>
+    <data name="hebdo_wrong_room" xml:space="preserve">
+        <value>Este comando só pode ser usado na sala arcade.</value>
+    </data>
+    <data name="shop_display_help" xml:space="preserve">
+        <value>Exibe a loja do arcade.</value>
+    </data>
+    <data name="shop_edit_help" xml:space="preserve">
+        <value>Abre o editor da loja.</value>
+    </data>
+    <data name="shop_edit_item_help" xml:space="preserve">
+        <value>Edita um item. Sintaxe: -edititem (id),(nível),(artigo),(preço)</value>
+    </data>
+    <data name="shop_add_item_help" xml:space="preserve">
+        <value>Adiciona um item. Sintaxe: -additem (artigo),(preço),(nível)</value>
+    </data>
+    <data name="shop_remove_item_help" xml:space="preserve">
+        <value>Remove um item. Sintaxe: -removeitem (nível),(artigo)</value>
+    </data>
+    <data name="shop_invalid_id" xml:space="preserve">
+        <value>O ID do item deve ser um número inteiro.</value>
+    </data>
+    <data name="shop_item_edited" xml:space="preserve">
+        <value>Item com ID {0} atualizado com sucesso.</value>
+    </data>
+    <data name="shop_item_not_found" xml:space="preserve">
+        <value>Nenhum item encontrado com ID {0}.</value>
+    </data>
+    <data name="shop_item_added" xml:space="preserve">
+        <value>Item &quot;{0}&quot; adicionado ao nível {1} por {2} pontos com ID {3}.</value>
+    </data>
+    <data name="shop_invalid_palier" xml:space="preserve">
+        <value>Nível inválido. Por favor, use 1, 2, 3 ou 4.</value>
+    </data>
+    <data name="shop_item_removed" xml:space="preserve">
+        <value>Item &quot;{0}&quot; removido do nível {1}.</value>
+    </data>
+    <data name="shop_item_not_in_palier" xml:space="preserve">
+        <value>Item &quot;{0}&quot; não encontrado no nível {1}.</value>
+    </data>
+    <data name="shop_tier_column" xml:space="preserve">
+        <value>Nível</value>
+    </data>
+    <data name="shop_article_column" xml:space="preserve">
+        <value>Item</value>
+    </data>
+    <data name="shop_price_column" xml:space="preserve">
+        <value>Preço</value>
+    </data>
+    <data name="shop_tier_label" xml:space="preserve">
+        <value>Nível</value>
+    </data>
+    <data name="shop_points_unit" xml:space="preserve">
+        <value>pontos</value>
+    </data>
+    <data name="shop_link_label" xml:space="preserve">
+        <value>A Loja do Arcade</value>
+    </data>
+    <data name="shop_footer_text" xml:space="preserve">
+        <value>o novo sistema de Hall da Fama do Arcade, está aberto! Você pode verificar seus pontos com</value>
+    </data>
+    <data name="shop_footer_text_2" xml:space="preserve">
+        <value>e os dos outros com</value>
+    </data>
+    <data name="shop_footer_text_3" xml:space="preserve">
+        <value>em mensagem privada para</value>
+    </data>
+    <data name="shop_footer_disclaimer" xml:space="preserve">
+        <value>As recompensas são concedidas sujeito a bom comportamento no Arcade e no Français.</value>
+    </data>
+    <data name="shop_edit_submit" xml:space="preserve">
+        <value>Editar</value>
+    </data>
+    <data name="tour_help_title" xml:space="preserve">
+        <value>Comandos de torneio disponíveis:</value>
+    </data>
+    <data name="top_tournament_players_footer_new_label" xml:space="preserve">
+        <value>Novo:</value>
+    </data>
+    <data name="top_tournament_players_footer_new_text" xml:space="preserve">
+        <value>Bio agora em 20 vitórias &amp; Custom Color adicionada em 30 vitórias!</value>
+    </data>
+    <data name="top_tournament_players_footer_rewards_title" xml:space="preserve">
+        <value>Recompensas</value>
+    </data>
+    <data name="top_tournament_players_footer_description_prefix" xml:space="preserve">
+        <value>Quer ganhar mais recompensas? Temos um placar que registra o número total de vitórias (veja com</value>
+    </data>
+    <data name="top_tournament_players_footer_description_infix" xml:space="preserve">
+        <value>em mensagem privada para</value>
+    </data>
+    <data name="top_tournament_players_footer_description_suffix" xml:space="preserve">
+        <value>)! Com um determinado número de vitórias, você pode ganhar estas recompensas:</value>
+    </data>
+    <data name="top_tournament_players_footer_20_wins" xml:space="preserve">
+        <value>Uma bio em</value>
+    </data>
+    <data name="top_tournament_players_footer_30_wins" xml:space="preserve">
+        <value>Uma custom color em</value>
+    </data>
+    <data name="top_tournament_players_footer_40_wins" xml:space="preserve">
+        <value>Um avatar em</value>
+    </data>
+    <data name="top_tournament_players_footer_50_wins" xml:space="preserve">
+        <value>Um roomprizewinner (^) por três meses</value>
+    </data>
+    <data name="top_tournament_players_footer_100_wins" xml:space="preserve">
+        <value>Um roomprizewinner (^) por seis meses</value>
+    </data>
+    <data name="top_tournament_players_footer_150_wins" xml:space="preserve">
+        <value>Um roomprizewinner (^) por um ano</value>
+    </data>
+    <data name="random_image_error" xml:space="preserve">
+        <value>Desculpe, não foi possível recuperar uma imagem no momento.</value>
+    </data>
+    <data name="walk_missing_url" xml:space="preserve">
+        <value>Por favor, forneça uma URL de imagem válida. Sintaxe: -walk &lt;image_url&gt;</value>
+    </data>
+    <data name="rand_warning_snake" xml:space="preserve">
+        <value>Aviso! Esta imagem pode conter cobras que podem não ser adequadas para todos os públicos.</value>
+    </data>
+    <data name="rand_warning_spider" xml:space="preserve">
+        <value>Aviso! Esta imagem pode conter aranhas que podem não ser adequadas para todos os públicos.</value>
+    </data>
+    <data name="rand_warning_shark" xml:space="preserve">
+        <value>Aviso! Esta imagem pode conter tubarões que podem não ser adequadas para todos os públicos.</value>
+    </data>
+    <data name="rand_warning_mouse" xml:space="preserve">
+        <value>Aviso! Esta imagem pode conter ratos que podem não ser adequadas para todos os públicos.</value>
+    </data>
+    <data name="rank_former_staff" xml:space="preserve">
+        <value>Ex-staff</value>
+    </data>
+    <data name="profile_tournament_records" xml:space="preserve">
+        <value>Histórico de torneios</value>
+    </data>
+    <data name="random_tournament_wall" xml:space="preserve">
+        <value>Torneio: {0}</value>
+    </data>
+    <data name="vf_game_waiting" xml:space="preserve">
+        <value>Um jogo de Voltorb Flip já está aguardando um jogador.</value>
+    </data>
+    <data name="vf_panel_waiting_for_player" xml:space="preserve">
+        <value>Um jogo está aguardando um jogador para entrar!</value>
+    </data>
+    <data name="vf_panel_join" xml:space="preserve">
+        <value>Jogar!</value>
+    </data>
+    <data name="vf_game_started" xml:space="preserve">
+        <value>Voltorb Flip iniciado no nível {0}!</value>
+    </data>
+    <data name="vf_game_already_running" xml:space="preserve">
+        <value>Outro jogo já está em andamento nesta sala.</value>
+    </data>
+    <data name="vf_game_no_game" xml:space="preserve">
+        <value>Não há nenhum jogo de Voltorb Flip em andamento.</value>
+    </data>
+    <data name="vf_game_round_active" xml:space="preserve">
+        <value>Uma rodada já está ativa. Termine-a primeiro!</value>
+    </data>
+    <data name="vf_game_voltorb_hit" xml:space="preserve">
+        <value>{0} virou um Voltorb! Nível definido para {1}.</value>
+    </data>
+    <data name="vf_game_win" xml:space="preserve">
+        <value>{0} encontrou todos os multiplicadores e ganhou {1} moedas! Avançando para o nível {2}!</value>
+    </data>
+    <data name="vf_game_quit" xml:space="preserve">
+        <value>{0} saiu da rodada, mantendo {1} moedas. Agora no nível {2}.</value>
+    </data>
+    <data name="vf_game_cancelled" xml:space="preserve">
+        <value>O jogo de Voltorb Flip foi cancelado.</value>
+    </data>
+    <data name="vf_game_not_owner" xml:space="preserve">
+        <value>Somente o jogador que iniciou este jogo de Voltorb Flip pode fazer isso.</value>
+    </data>
+    <data name="vf_game_timeout" xml:space="preserve">
+        <value>O jogo de Voltorb Flip terminou por inatividade.</value>
+    </data>
+    <data name="vf_panel_title" xml:space="preserve">
+        <value>Voltorb Flip</value>
+    </data>
+    <data name="vf_panel_player" xml:space="preserve">
+        <value>Jogador: {0}</value>
+    </data>
+    <data name="vf_panel_total_coins" xml:space="preserve">
+        <value>Moedas totais: {0}</value>
+    </data>
+    <data name="vf_panel_level" xml:space="preserve">
+        <value>Nível {0}</value>
+    </data>
+    <data name="vf_panel_coins" xml:space="preserve">
+        <value>Moedas: {0}</value>
+    </data>
+    <data name="vf_panel_how_to_flip" xml:space="preserve">
+        <value>Clique em uma peça para virá-la!</value>
+    </data>
+    <data name="vf_panel_quit" xml:space="preserve">
+        <value>Sair da rodada</value>
+    </data>
+    <data name="vf_panel_new_round" xml:space="preserve">
+        <value>Iniciar nova rodada</value>
+    </data>
+    <data name="vf_panel_objective" xml:space="preserve">
+        <value>Vire todas as peças ×2 e ×3 para ganhar a rodada.</value>
+    </data>
+    <data name="vf_panel_legend_one" xml:space="preserve">
+        <value>×1 — Peça segura, sem bônus de moedas</value>
+    </data>
+    <data name="vf_panel_legend_two" xml:space="preserve">
+        <value>×2 — Dobra suas moedas</value>
+    </data>
+    <data name="vf_panel_legend_three" xml:space="preserve">
+        <value>×3 — Triplica suas moedas</value>
+    </data>
+    <data name="vf_panel_legend_voltorb" xml:space="preserve">
+        <value>V — Voltorb! Perde todas as moedas</value>
+    </data>
+    <data name="vf_panel_hint" xml:space="preserve">
+        <value>Os totais de linha/coluna são exibidos como dicas estratégicas.</value>
+    </data>
+    <data name="vf_panel_timeout_hint" xml:space="preserve">
+        <value>O jogo termina automaticamente após 60 segundos de inatividade.</value>
+    </data>
+    <data name="vf_panel_mark_mode" xml:space="preserve">
+        <value>Modo de marcação</value>
+    </data>
+    <data name="vf_panel_options" xml:space="preserve">
+        <value>Opções</value>
+    </data>
+    <data name="vf_panel_stop" xml:space="preserve">
+        <value>Parar jogo</value>
+    </data>
+    <data name="setcolor_help" xml:space="preserve">
+        <value>Define uma cor de nome personalizada para um usuário. Sintaxe: -setcolor &lt;usuário&gt;, &lt;#hexcor&gt; (ex.: -setcolor Distrib, #9d6b15)</value>
+    </data>
+    <data name="setcolor_invalid_hex" xml:space="preserve">
+        <value>Cor hexadecimal inválida. Use o formato #RGB ou #RRGGBB (ex.: #9d6b15).</value>
+    </data>
+    <data name="setcolor_success" xml:space="preserve">
+        <value>Cor de nome {0} salva para {1}.</value>
+    </data>
+    <data name="removecolor_help" xml:space="preserve">
+        <value>Remove a cor de nome personalizada de um usuário. Sintaxe: -removecolor &lt;usuário&gt;</value>
+    </data>
+    <data name="removecolor_success" xml:space="preserve">
+        <value>Cor de nome removida para {0}.</value>
+    </data>
+    <data name="removecolor_not_found" xml:space="preserve">
+        <value>Nenhuma cor personalizada encontrada para {0}.</value>
+    </data>
+    <data name="caa_addpoints_help" xml:space="preserve">
+        <value>Adiciona pontos a um jogador na planilha CAA. Sintaxe: -addcaapoints (usuário), (pontos)</value>
+    </data>
+    <data name="caa_addpoints_success" xml:space="preserve">
+        <value>Atualizado: {0} agora tem {1} pontos.</value>
+    </data>
+    <data name="caa_addpoints_new_player" xml:space="preserve">
+        <value>Atualizado (novo jogador): {0} com {1} pontos.</value>
+    </data>
+    <data name="caa_title" xml:space="preserve">
+        <value>Calendrier de l'Avent d'Arcade 2025</value>
+    </data>
+    <data name="caa_column_rank" xml:space="preserve">
+        <value>Rank</value>
+    </data>
+    <data name="caa_column_username" xml:space="preserve">
+        <value>Nome de usuário</value>
+    </data>
+    <data name="caa_column_points" xml:space="preserve">
+        <value>Pontos</value>
+    </data>
+    <data name="watchlist_add_help" xml:space="preserve">
+        <value>Adiciona um usuário à lista de observação de uma sala. Sintaxe: -addwatchlist sala, usuário, rank</value>
+    </data>
+    <data name="watchlist_remove_help" xml:space="preserve">
+        <value>Remove um usuário da lista de observação de uma sala. Sintaxe: -removewatchlist sala, usuário, rank</value>
+    </data>
+    <data name="watchlist_user_added" xml:space="preserve">
+        <value>{0} foi adicionado à lista de observação da sala {1} com rank {2}.</value>
+    </data>
+    <data name="watchlist_user_removed" xml:space="preserve">
+        <value>{0} (rank {1}) foi removido da lista de observação da sala {2}.</value>
+    </data>
+    <data name="watchlist_user_not_found" xml:space="preserve">
+        <value>{0} (rank {1}) não está na lista de observação da sala {2}.</value>
+    </data>
+    <data name="hebdo_sv_help" xml:space="preserve">
+        <value>Inicia o torneio semanal de SV OU na sala arcade.</value>
+    </data>
+    <data name="hebdo_ss_help" xml:space="preserve">
+        <value>Inicia o torneio semanal de SS OU na sala arcade.</value>
+    </data>
+    <data name="hebdo_sm_help" xml:space="preserve">
+        <value>Inicia o torneio semanal de SM OU na sala arcade.</value>
+    </data>
+    <data name="hebdo_1v1_help" xml:space="preserve">
+        <value>Inicia o torneio semanal de 1v1 na sala arcade.</value>
+    </data>
+    <data name="hebdo_nfe_help" xml:space="preserve">
+        <value>Inicia o torneio semanal de NFE na sala arcade.</value>
+    </data>
+    <data name="hebdo_lcuu_help" xml:space="preserve">
+        <value>Inicia o torneio semanal de LC UU na sala arcade.</value>
+    </data>
+    <data name="hebdo_ubersuu_help" xml:space="preserve">
+        <value>Inicia o torneio semanal de Ubers UU na sala arcade.</value>
+    </data>
+    <data name="hebdo_zu_help" xml:space="preserve">
+        <value>Inicia o torneio semanal de ZU na sala arcade.</value>
+    </data>
+    <data name="hebdo_ag_help" xml:space="preserve">
+        <value>Inicia o torneio semanal de Anything Goes na sala arcade.</value>
+    </data>
+    <data name="hebdo_aaa_help" xml:space="preserve">
+        <value>Inicia o torneio semanal de Almost Any Ability na sala arcade.</value>
+    </data>
+    <data name="hebdo_bh_help" xml:space="preserve">
+        <value>Inicia o torneio semanal de Balanced Hackmons na sala arcade.</value>
+    </data>
+    <data name="hebdo_camo_help" xml:space="preserve">
+        <value>Inicia o torneio semanal de Camomons na sala arcade.</value>
+    </data>
+    <data name="hebdo_inhe_help" xml:space="preserve">
+        <value>Inicia o torneio semanal de Inheritance na sala arcade.</value>
+    </data>
+    <data name="hebdo_gg_help" xml:space="preserve">
+        <value>Inicia o torneio semanal de Godly Gift na sala arcade.</value>
+    </data>
+    <data name="hebdo_mnm_help" xml:space="preserve">
+        <value>Inicia o torneio semanal de Mix and Mega na sala arcade.</value>
+    </data>
+    <data name="hebdo_pic_help" xml:space="preserve">
+        <value>Inicia o torneio semanal de Partners in Crime na sala arcade.</value>
+    </data>
+    <data name="hebdo_stab_help" xml:space="preserve">
+        <value>Inicia o torneio semanal de STABmons na sala arcade.</value>
+    </data>
+    <data name="hebdo_advru_help" xml:space="preserve">
+        <value>Inicia o torneio RU Classic ADV na sala arcade.</value>
+    </data>
+    <data name="hebdo_bwru_help" xml:space="preserve">
+        <value>Inicia o torneio RU Classic BW na sala arcade.</value>
+    </data>
+    <data name="hebdo_orasru_help" xml:space="preserve">
+        <value>Inicia o torneio RU Classic ORAS na sala arcade.</value>
+    </data>
+    <data name="hebdo_smru_help" xml:space="preserve">
+        <value>Inicia o torneio RU Classic SM na sala arcade.</value>
+    </data>
+    <data name="hebdo_ssru_help" xml:space="preserve">
+        <value>Inicia o torneio RU Classic SS na sala arcade.</value>
+    </data>
+</root>
