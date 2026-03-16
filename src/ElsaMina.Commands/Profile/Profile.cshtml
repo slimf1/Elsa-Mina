@@ -88,8 +88,8 @@
             @if (Model.TournamentRecord != null && Model.TournamentRecord.TournamentsEnteredCount > 0)
             {
                 var record = Model.TournamentRecord;
-                var winRate = record.PlayedGames > 0
-                    ? $"{(double)record.WonGames / record.PlayedGames:P0}"
+                var wl = record.PlayedGames > 0
+                    ? string.Format(GetString("profile_tournament_wl"), record.WonGames, record.PlayedGames - record.WonGames)
                     : "—";
                 <span style="text-decoration: underline">@GetString("profile_tournament_records")</span>
                 <span>:
@@ -99,7 +99,7 @@
                     ·
                     <span title="@GetString("top_tournament_players_third_place")">🥉 @record.ThirdPlaceCount</span>
                     ·
-                    <span title="@GetString("top_tournament_players_win_rate")">@winRate</span>
+                    <span title="@GetString("top_tournament_players_win_rate")">@wl</span>
                     ·
                     <span title="@GetString("top_tournament_players_entered")">(@record.TournamentsEnteredCount)</span>
                 </span>

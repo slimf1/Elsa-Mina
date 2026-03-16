@@ -1250,6 +1250,9 @@
     <data name="top_tournament_players_win_rate" xml:space="preserve">
         <value>Win rate</value>
     </data>
+    <data name="profile_tournament_wl" xml:space="preserve">
+        <value>{0}V/{1}D</value>
+    </data>
     <data name="top_tournament_players_entered" xml:space="preserve">
         <value>Entered</value>
     </data>

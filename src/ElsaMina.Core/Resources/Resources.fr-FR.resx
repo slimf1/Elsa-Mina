@@ -253,10 +253,10 @@
         <value>Rang requis</value>
     </data>
     <data name="profile_register_date" xml:space="preserve">
-        <value>Enregistré le</value>
+        <value>Inscrit le</value>
     </data>
     <data name="profile_play_time" xml:space="preserve">
-        <value>Temps de présence</value>
+        <value>Temps de jeu</value>
     </data>
     <data name="profile_title" xml:space="preserve">
         <value>Bio</value>
@@ -1244,6 +1244,9 @@
     </data>
     <data name="top_tournament_players_win_rate" xml:space="preserve">
         <value>Taux de victoire</value>
+    </data>
+    <data name="profile_tournament_wl" xml:space="preserve">
+        <value>{0}V/{1}D</value>
     </data>
     <data name="top_tournament_players_entered" xml:space="preserve">
         <value>Participations</value>

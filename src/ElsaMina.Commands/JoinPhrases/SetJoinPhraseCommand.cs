@@ -8,7 +8,8 @@ using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.JoinPhrases;
 
-[NamedCommand("setjoinphrase")]
+[NamedCommand("setjoinphrase",
+    Aliases = ["deletejoinphrase", "delete-joinphrase", "removejoinphrase", "remove-joinphrase"])]
 public class SetJoinPhraseCommand : Command
 {
     private readonly IRoomUserDataService _roomUserDataService;
@@ -23,15 +24,26 @@ public class SetJoinPhraseCommand : Command
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        var parts = context.Target.Split(',');
-        if (parts.Length != 2)
+        string userId;
+        string joinPhrase;
+        if (context.Command is "deletejoinphrase" or "delete-joinphrase" or "removejoinphrase" or "remove-joinphrase")
         {
-            ReplyLocalizedHelpMessage(context);
-            return;
+            userId = context.Target.ToLowerAlphaNum();
+            joinPhrase = string.Empty;
+        }
+        else
+        {
+            var parts = context.Target.Split(',');
+            if (parts.Length != 2)
+            {
+                ReplyLocalizedHelpMessage(context);
+                return;
+            }
+
+            userId = parts[0].ToLowerAlphaNum();
+            joinPhrase = parts[1].Trim();
         }
 
-        var userId = parts[0].ToLowerAlphaNum();
-        var joinPhrase = parts[1].Trim();
         try
         {
             await _roomUserDataService.SetUserJoinPhraseAsync(context.RoomId, userId, joinPhrase, cancellationToken);

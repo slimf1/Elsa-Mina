@@ -42,6 +42,7 @@ public class SetJoinPhraseCommandTest
     {
         // Arrange
         var context = Substitute.For<IContext>();
+        context.Command.Returns("setjoinphrase");
         context.Target.Returns("invalidInput");
 
         // Act
@@ -56,6 +57,7 @@ public class SetJoinPhraseCommandTest
     {
         // Arrange
         var context = Substitute.For<IContext>();
+        context.Command.Returns("setjoinphrase");
         context.Target.Returns($"{TEST_USER_ID},{JOIN_PHRASE}");
         context.RoomId.Returns(TEST_ROOM_ID);
 
@@ -67,14 +69,35 @@ public class SetJoinPhraseCommandTest
         context.Received(1).ReplyLocalizedMessage("setjoinphrase_success");
     }
 
+    [TestCase("deletejoinphrase")]
+    [TestCase("delete-joinphrase")]
+    [TestCase("removejoinphrase")]
+    [TestCase("remove-joinphrase")]
+    public async Task Test_RunAsync_ShouldRemoveJoinPhrase_WhenCommandIsRemove(string command)
+    {
+        // Arrange
+        var context = Substitute.For<IContext>();
+        context.Command.Returns(command);
+        context.Target.Returns(TEST_USER_ID);
+        context.RoomId.Returns(TEST_ROOM_ID);
+
+        // Act
+        await _command.RunAsync(context);
+
+        // Assert
+        await _roomUserDataService.Received(1).SetUserJoinPhraseAsync(TEST_ROOM_ID, TEST_USER_ID, string.Empty);
+        context.Received(1).ReplyLocalizedMessage("setjoinphrase_success");
+    }
+
     [Test]
     public async Task Test_RunAsync_ShouldReplyFailureMessage_WhenExceptionOccurs()
     {
         // Arrange
         var context = Substitute.For<IContext>();
+        context.Command.Returns("setjoinphrase");
         context.Target.Returns($"{TEST_USER_ID},{JOIN_PHRASE}");
         context.RoomId.Returns(TEST_ROOM_ID);
-        
+
         var exception = new Exception("Database error");
         _roomUserDataService.SetUserJoinPhraseAsync(TEST_ROOM_ID, TEST_USER_ID, JOIN_PHRASE).Throws(exception);
 
