@@ -1539,4 +1539,70 @@
     <data name="watchlist_user_not_found" xml:space="preserve">
         <value>{0} (rang {1}) n'est pas dans la watchlist du salon {2}.</value>
     </data>
+    <data name="hebdo_sv_help" xml:space="preserve">
+        <value>Lance le tournoi hebdomadaire SV OU dans la room arcade.</value>
+    </data>
+    <data name="hebdo_ss_help" xml:space="preserve">
+        <value>Lance le tournoi hebdomadaire SS OU dans la room arcade.</value>
+    </data>
+    <data name="hebdo_sm_help" xml:space="preserve">
+        <value>Lance le tournoi hebdomadaire SM OU dans la room arcade.</value>
+    </data>
+    <data name="hebdo_1v1_help" xml:space="preserve">
+        <value>Lance le tournoi hebdomadaire 1v1 dans la room arcade.</value>
+    </data>
+    <data name="hebdo_nfe_help" xml:space="preserve">
+        <value>Lance le tournoi hebdomadaire NFE dans la room arcade.</value>
+    </data>
+    <data name="hebdo_lcuu_help" xml:space="preserve">
+        <value>Lance le tournoi hebdomadaire LC UU dans la room arcade.</value>
+    </data>
+    <data name="hebdo_ubersuu_help" xml:space="preserve">
+        <value>Lance le tournoi hebdomadaire Ubers UU dans la room arcade.</value>
+    </data>
+    <data name="hebdo_zu_help" xml:space="preserve">
+        <value>Lance le tournoi hebdomadaire ZU dans la room arcade.</value>
+    </data>
+    <data name="hebdo_ag_help" xml:space="preserve">
+        <value>Lance le tournoi hebdomadaire Anything Goes dans la room arcade.</value>
+    </data>
+    <data name="hebdo_aaa_help" xml:space="preserve">
+        <value>Lance le tournoi hebdomadaire Almost Any Ability dans la room arcade.</value>
+    </data>
+    <data name="hebdo_bh_help" xml:space="preserve">
+        <value>Lance le tournoi hebdomadaire Balanced Hackmons dans la room arcade.</value>
+    </data>
+    <data name="hebdo_camo_help" xml:space="preserve">
+        <value>Lance le tournoi hebdomadaire Camomons dans la room arcade.</value>
+    </data>
+    <data name="hebdo_inhe_help" xml:space="preserve">
+        <value>Lance le tournoi hebdomadaire Inheritance dans la room arcade.</value>
+    </data>
+    <data name="hebdo_gg_help" xml:space="preserve">
+        <value>Lance le tournoi hebdomadaire Godly Gift dans la room arcade.</value>
+    </data>
+    <data name="hebdo_mnm_help" xml:space="preserve">
+        <value>Lance le tournoi hebdomadaire Mix and Mega dans la room arcade.</value>
+    </data>
+    <data name="hebdo_pic_help" xml:space="preserve">
+        <value>Lance le tournoi hebdomadaire Partners in Crime dans la room arcade.</value>
+    </data>
+    <data name="hebdo_stab_help" xml:space="preserve">
+        <value>Lance le tournoi hebdomadaire STABmons dans la room arcade.</value>
+    </data>
+    <data name="hebdo_advru_help" xml:space="preserve">
+        <value>Lance le tournoi RU Classic ADV dans la room arcade.</value>
+    </data>
+    <data name="hebdo_bwru_help" xml:space="preserve">
+        <value>Lance le tournoi RU Classic BW dans la room arcade.</value>
+    </data>
+    <data name="hebdo_orasru_help" xml:space="preserve">
+        <value>Lance le tournoi RU Classic ORAS dans la room arcade.</value>
+    </data>
+    <data name="hebdo_smru_help" xml:space="preserve">
+        <value>Lance le tournoi RU Classic SM dans la room arcade.</value>
+    </data>
+    <data name="hebdo_ssru_help" xml:space="preserve">
+        <value>Lance le tournoi RU Classic SS dans la room arcade.</value>
+    </data>
 </root>

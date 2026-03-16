@@ -1544,4 +1544,70 @@
     <data name="watchlist_user_not_found" xml:space="preserve">
         <value>{0} (rango {1}) non è nella watchlist della stanza {2}.</value>
     </data>
+    <data name="hebdo_sv_help" xml:space="preserve">
+        <value>Avvia il torneo settimanale SV OU nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_ss_help" xml:space="preserve">
+        <value>Avvia il torneo settimanale SS OU nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_sm_help" xml:space="preserve">
+        <value>Avvia il torneo settimanale SM OU nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_1v1_help" xml:space="preserve">
+        <value>Avvia il torneo settimanale 1v1 nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_nfe_help" xml:space="preserve">
+        <value>Avvia il torneo settimanale NFE nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_lcuu_help" xml:space="preserve">
+        <value>Avvia il torneo settimanale LC UU nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_ubersuu_help" xml:space="preserve">
+        <value>Avvia il torneo settimanale Ubers UU nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_zu_help" xml:space="preserve">
+        <value>Avvia il torneo settimanale ZU nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_ag_help" xml:space="preserve">
+        <value>Avvia il torneo settimanale Anything Goes nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_aaa_help" xml:space="preserve">
+        <value>Avvia il torneo settimanale Almost Any Ability nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_bh_help" xml:space="preserve">
+        <value>Avvia il torneo settimanale Balanced Hackmons nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_camo_help" xml:space="preserve">
+        <value>Avvia il torneo settimanale Camomons nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_inhe_help" xml:space="preserve">
+        <value>Avvia il torneo settimanale Inheritance nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_gg_help" xml:space="preserve">
+        <value>Avvia il torneo settimanale Godly Gift nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_mnm_help" xml:space="preserve">
+        <value>Avvia il torneo settimanale Mix and Mega nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_pic_help" xml:space="preserve">
+        <value>Avvia il torneo settimanale Partners in Crime nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_stab_help" xml:space="preserve">
+        <value>Avvia il torneo settimanale STABmons nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_advru_help" xml:space="preserve">
+        <value>Avvia il torneo RU Classic ADV nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_bwru_help" xml:space="preserve">
+        <value>Avvia il torneo RU Classic BW nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_orasru_help" xml:space="preserve">
+        <value>Avvia il torneo RU Classic ORAS nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_smru_help" xml:space="preserve">
+        <value>Avvia il torneo RU Classic SM nella stanza arcade.</value>
+    </data>
+    <data name="hebdo_ssru_help" xml:space="preserve">
+        <value>Avvia il torneo RU Classic SS nella stanza arcade.</value>
+    </data>
 </root>

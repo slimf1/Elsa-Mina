@@ -1,6 +1,7 @@
 using ElsaMina.Commands.Showdown.Ranking;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Formats;
+using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
@@ -41,7 +42,7 @@ public class RankingCommandTests
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldSendHtml_WhenRankingsAreFound()
+    public async Task Test_RunAsync_ShouldReplyHtml_WhenRankingsAreFound_AndUserIsNotVoiced()
     {
         // Arrange
         var rankings = new List<RankingDataDto>
@@ -50,6 +51,7 @@ public class RankingCommandTests
             new() { FormatId = "gen7ou", Gxe = 85 }
         };
         _context.Target.Returns("player1");
+        _context.HasRankOrHigher(Rank.Voiced).Returns(false);
         _showdownRanksProvider.GetRankingDataAsync(Arg.Any<string>())
             .Returns(rankings);
         _formatsManager.GetCleanFormat(Arg.Any<string>())
@@ -64,6 +66,35 @@ public class RankingCommandTests
         await _templatesManager.Received()
             .GetTemplateAsync("Showdown/Ranking/RankingShowcase", Arg.Any<RankingShowcaseViewModel>());
         _context.Received().ReplyHtml("formatted_html", rankAware: true);
+        _context.DidNotReceive().SendUpdatableHtml(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<bool>());
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldSendUpdatableHtml_WhenRankingsAreFound_AndUserIsVoiced()
+    {
+        // Arrange
+        var rankings = new List<RankingDataDto>
+        {
+            new() { FormatId = "gen8ou", Gxe = 90 },
+            new() { FormatId = "gen7ou", Gxe = 85 }
+        };
+        _context.Target.Returns("player1");
+        _context.HasRankOrHigher(Rank.Voiced).Returns(true);
+        _showdownRanksProvider.GetRankingDataAsync(Arg.Any<string>())
+            .Returns(rankings);
+        _formatsManager.GetCleanFormat(Arg.Any<string>())
+            .Returns(x => x[0]);
+        _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<RankingShowcaseViewModel>())
+            .Returns(Task.FromResult("formatted_html"));
+
+        // Act
+        await _rankingCommand.RunAsync(_context);
+
+        // Assert
+        await _templatesManager.Received()
+            .GetTemplateAsync("Showdown/Ranking/RankingShowcase", Arg.Any<RankingShowcaseViewModel>());
+        _context.Received().SendUpdatableHtml("rank-player1", "formatted_html", isChanging: false);
+        _context.DidNotReceive().ReplyHtml(Arg.Any<string>(),  Arg.Any<string>(), Arg.Any<bool>());
     }
 
     [Test]
@@ -84,6 +115,7 @@ public class RankingCommandTests
         _formatsManager.GetCleanFormat(Arg.Any<string>()).Returns(t => t.Args()[0]);
         _context.Target.Returns("player1");
         _context.Command.Returns("lowestrank");
+        _context.HasRankOrHigher(Rank.Voiced).Returns(false);
         _showdownRanksProvider.GetRankingDataAsync(Arg.Any<string>())
             .Returns(rankings);
         _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<RankingShowcaseViewModel>())

@@ -41,8 +41,9 @@ public class RankingCommand : Command
 
         try
         {
+            var userId = username.ToLowerAlphaNum();
             var result =
-                await _showdownRanksProvider.GetRankingDataAsync(username.ToLowerAlphaNum(), cancellationToken);
+                await _showdownRanksProvider.GetRankingDataAsync(userId, cancellationToken);
             var sortedRankings = result.OrderByDescending(rankingDto => rankingDto.Gxe).ToList();
 
             sortedRankings.ForEach(rankingDto =>
@@ -65,7 +66,14 @@ public class RankingCommand : Command
                 }
             );
 
-            context.ReplyHtml(template.RemoveNewlines(), rankAware: true);
+            if (context.HasRankOrHigher(Rank.Voiced))
+            {
+                context.SendUpdatableHtml($"rank-{userId}", template.RemoveNewlines(), isChanging: false);
+            }
+            else
+            {
+                context.ReplyHtml(template.RemoveNewlines(), rankAware: true);
+            }
         }
         catch (Exception exception)
         {

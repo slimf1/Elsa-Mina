@@ -6,7 +6,7 @@
     const string headerStyle = "border-bottom: 1px solid #94b8b8; padding: 4px";
 }
 <div style="max-height: 200px; overflow-y: auto">
-    <table style="margin: auto; border: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; border-radius: 12px; padding: 4px">
+    <table style="border: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; border-radius: 12px; padding: 4px">
         <thead>
         <tr>
             <th style="@headerStyle">@GetString("rankcommand_format")</th>
@@ -20,10 +20,10 @@
         <tbody>
         @foreach (var rating in Model.Rankings)
         {
-            <tr style="color: @rating.GxeBasedColor.ToRgbString()">
+            <tr>
                 <td>@rating.FormatId</td>
                 <td style="text-align: center">@rating.Elo.ToString("F0", Model.Culture)</td>
-                <td style="text-align: center">@rating.Gxe.ToString("F1", Model.Culture)</td>
+                <td style="text-align: center; color: @rating.GxeBasedColor.ToRgbString()">@rating.Gxe.ToString("F1", Model.Culture)</td>
                 <td style="text-align: center">@rating.Wins</td>
                 <td style="text-align: center">@rating.Losses</td>
                 <td style="text-align: center">@rating.WinRate.ToString("F2", Model.Culture) %</td>

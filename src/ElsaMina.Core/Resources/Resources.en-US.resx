@@ -1539,4 +1539,70 @@
     <data name="watchlist_user_not_found" xml:space="preserve">
         <value>{0} (rank {1}) is not in the watchlist of room {2}.</value>
     </data>
+    <data name="hebdo_sv_help" xml:space="preserve">
+        <value>Starts the weekly SV OU tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_ss_help" xml:space="preserve">
+        <value>Starts the weekly SS OU tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_sm_help" xml:space="preserve">
+        <value>Starts the weekly SM OU tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_1v1_help" xml:space="preserve">
+        <value>Starts the weekly 1v1 tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_nfe_help" xml:space="preserve">
+        <value>Starts the weekly NFE tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_lcuu_help" xml:space="preserve">
+        <value>Starts the weekly LC UU tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_ubersuu_help" xml:space="preserve">
+        <value>Starts the weekly Ubers UU tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_zu_help" xml:space="preserve">
+        <value>Starts the weekly ZU tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_ag_help" xml:space="preserve">
+        <value>Starts the weekly Anything Goes tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_aaa_help" xml:space="preserve">
+        <value>Starts the weekly Almost Any Ability tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_bh_help" xml:space="preserve">
+        <value>Starts the weekly Balanced Hackmons tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_camo_help" xml:space="preserve">
+        <value>Starts the weekly Camomons tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_inhe_help" xml:space="preserve">
+        <value>Starts the weekly Inheritance tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_gg_help" xml:space="preserve">
+        <value>Starts the weekly Godly Gift tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_mnm_help" xml:space="preserve">
+        <value>Starts the weekly Mix and Mega tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_pic_help" xml:space="preserve">
+        <value>Starts the weekly Partners in Crime tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_stab_help" xml:space="preserve">
+        <value>Starts the weekly STABmons tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_advru_help" xml:space="preserve">
+        <value>Starts the RU Classic ADV tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_bwru_help" xml:space="preserve">
+        <value>Starts the RU Classic BW tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_orasru_help" xml:space="preserve">
+        <value>Starts the RU Classic ORAS tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_smru_help" xml:space="preserve">
+        <value>Starts the RU Classic SM tournament in the arcade room.</value>
+    </data>
+    <data name="hebdo_ssru_help" xml:space="preserve">
+        <value>Starts the RU Classic SS tournament in the arcade room.</value>
+    </data>
 </root>
