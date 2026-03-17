@@ -4,6 +4,7 @@
 @inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Teams.SampleTeamViewModel>
 
 @{
+    const int teamSize = 6;
     const string cellStyle = "text-align: center;" +
                              $"background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};" +
                              "margin: 4px;" +
@@ -13,7 +14,6 @@
                              "float: left;" +
                              $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};" +
                              "border-radius: 4px;";
-    var i = 0;
     var sets = JsonConvert.DeserializeObject<IEnumerable<PokemonSet>>(Model.Team.TeamJson);
 }
 
@@ -22,14 +22,7 @@
     href="@Model.Team.Link">
     <div
         style="@cellStyle">
-        @foreach (var set in sets)
-        {
-            <psicon pokemon="@set.Species" />
-            @if (++i >= 6)
-            {
-                break;
-            }
-        }
+        @Raw(string.Concat(sets.Take(teamSize).Select(set => $"<psicon pokemon=\"{set.Species}\" />")))
         <br />
         <b>
             @Model.Team.Name
