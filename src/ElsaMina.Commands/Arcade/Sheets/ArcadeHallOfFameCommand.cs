@@ -42,7 +42,7 @@ public class ArcadeHallOfFameCommand : Command
         context.ReplyHtml(template.RemoveNewlines().RemoveWhitespacesBetweenTags());
     }
 
-    private async Task<ArcadeHallOfFameEntry[]> GetHallOfFameEntriesAsync(ISheet sheet,
+    private static async Task<ArcadeHallOfFameEntry[]> GetHallOfFameEntriesAsync(ISheet sheet,
         CancellationToken cancellationToken)
     {
         var ranks = await sheet.GetColumnAsync(0, cancellationToken);

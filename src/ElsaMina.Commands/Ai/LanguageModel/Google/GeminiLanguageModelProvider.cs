@@ -12,7 +12,7 @@ public abstract class GeminiLanguageModelProvider : ILanguageModelProvider
     private readonly IConfiguration _configuration;
     private readonly IHttpService _httpService;
 
-    public GeminiLanguageModelProvider(IConfiguration configuration, IHttpService httpService)
+    protected GeminiLanguageModelProvider(IConfiguration configuration, IHttpService httpService)
     {
         _configuration = configuration;
         _httpService = httpService;

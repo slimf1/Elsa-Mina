@@ -15,7 +15,7 @@ public abstract class GptLanguageModelProvider : ILanguageModelProvider
     private readonly IHttpService _httpService;
     private readonly IConfiguration _configuration;
 
-    public GptLanguageModelProvider(IHttpService httpService, IConfiguration configuration)
+    protected GptLanguageModelProvider(IHttpService httpService, IConfiguration configuration)
     {
         _httpService = httpService;
         _configuration = configuration;

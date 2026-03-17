@@ -148,8 +148,11 @@ public class PlayTimeUpdateServiceTest
     [Test]
     public async Task Test_WaitForPlayTimeUpdatesAsync_ShouldCompleteImmediately_WhenNoUpdateIsRunning()
     {
-        // Act / Assert — should not block
+        // Act => should not block
         await _sut.WaitForPlayTimeUpdatesAsync().WaitAsync(TimeSpan.FromSeconds(1));
+        
+        // Assert
+        Assert.Pass();
     }
 
     private static IRoom BuildRoomSubstitute(string roomId, IDictionary<string, TimeSpan> pendingUpdates)

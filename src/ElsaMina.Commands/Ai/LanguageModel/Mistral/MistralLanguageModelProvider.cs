@@ -14,7 +14,7 @@ public abstract class MistralLanguageModelProvider : ILanguageModelProvider
     private readonly IHttpService _httpService;
     private readonly IConfiguration _configuration;
 
-    public MistralLanguageModelProvider(IHttpService httpService, IConfiguration configuration)
+    protected MistralLanguageModelProvider(IHttpService httpService, IConfiguration configuration)
     {
         _httpService = httpService;
         _configuration = configuration;
