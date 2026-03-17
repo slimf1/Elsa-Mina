@@ -1,0 +1,33 @@
+@using ElsaMina.Core.Services.Templates
+@using ElsaMina.Core.Utils
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.VoltorbFlip.VoltorbFlipLeaderboardViewModel>
+@{
+    const string headerStyle = $"border-bottom: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR}; padding: 4px";
+}
+<div style="max-height: 200px; overflow-y: auto">
+    <table style="margin: auto; border: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; border-radius: 12px; padding: 4px">
+        <thead>
+        <tr>
+            <th colspan="4" scope="colgroup">@GetString("voltorbflip_leaderboard_title")</th>
+        </tr>
+        <tr>
+            <th scope="col" style="@headerStyle">#</th>
+            <th scope="col" style="@headerStyle">@GetString("leaderboard_user")</th>
+            <th scope="col" style="@headerStyle">@GetString("voltorbflip_leaderboard_level")</th>
+            <th scope="col" style="@headerStyle">@GetString("voltorbflip_leaderboard_coins")</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for (int i = 0; i < Model.Leaderboard.Count; i++)
+        {
+            var entry = Model.Leaderboard[i];
+            <tr>
+                <td style="text-align:center">@(i + 1)</td>
+                <td style="color: @entry.UserId.ToColorHexCodeWithCustoms()">@entry.UserId</td>
+                <td style="text-align:center">@entry.Level</td>
+                <td style="text-align:center">@entry.Coins</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

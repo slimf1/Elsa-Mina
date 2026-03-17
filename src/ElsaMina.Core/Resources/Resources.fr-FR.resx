@@ -1623,4 +1623,19 @@
     <data name="hebdo_ssru_help" xml:space="preserve">
         <value>Lance le tournoi RU Classic SS dans la room arcade.</value>
     </data>
+    <data name="voltorbflip_leaderboard_help" xml:space="preserve">
+        <value>Affiche le classement Voltorb Flip</value>
+    </data>
+    <data name="voltorbflip_leaderboard_empty" xml:space="preserve">
+        <value>Aucune donnée Voltorb Flip trouvée.</value>
+    </data>
+    <data name="voltorbflip_leaderboard_title" xml:space="preserve">
+        <value>Classement Voltorb Flip</value>
+    </data>
+    <data name="voltorbflip_leaderboard_level" xml:space="preserve">
+        <value>Niveau</value>
+    </data>
+    <data name="voltorbflip_leaderboard_coins" xml:space="preserve">
+        <value>Pièces</value>
+    </data>
 </root>

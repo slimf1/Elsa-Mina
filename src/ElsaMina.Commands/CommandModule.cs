@@ -198,6 +198,7 @@ public class CommandModule : Module
         builder.RegisterCommand<JoinPokeRaceCommand>();
         builder.RegisterCommand<StartRaceCommand>();
         builder.RegisterCommand<EndRaceCommand>();
+        builder.RegisterCommand<VoltorbFlipLeaderboardCommand>();
 
         RegisterRandomImagesCommands(builder);
         RegisterTournamentCommands(builder);

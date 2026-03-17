@@ -1623,4 +1623,19 @@
     <data name="hebdo_ssru_help" xml:space="preserve">
         <value>Starts the RU Classic SS tournament in the arcade room.</value>
     </data>
+    <data name="voltorbflip_leaderboard_help" xml:space="preserve">
+        <value>Display the Voltorb Flip leaderboard</value>
+    </data>
+    <data name="voltorbflip_leaderboard_empty" xml:space="preserve">
+        <value>No Voltorb Flip data found.</value>
+    </data>
+    <data name="voltorbflip_leaderboard_title" xml:space="preserve">
+        <value>Voltorb Flip Leaderboard</value>
+    </data>
+    <data name="voltorbflip_leaderboard_level" xml:space="preserve">
+        <value>Level</value>
+    </data>
+    <data name="voltorbflip_leaderboard_coins" xml:space="preserve">
+        <value>Coins</value>
+    </data>
 </root>
