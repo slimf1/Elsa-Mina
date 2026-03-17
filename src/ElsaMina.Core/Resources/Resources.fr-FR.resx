@@ -1623,6 +1623,15 @@
     <data name="hebdo_ssru_help" xml:space="preserve">
         <value>Lance le tournoi RU Classic SS dans la room arcade.</value>
     </data>
+    <data name="bugreport_help" xml:space="preserve">
+        <value>Signaler un bug</value>
+    </data>
+    <data name="bugreport_reply" xml:space="preserve">
+        <value>Pour signaler un bug, veuillez utiliser le lien suivant : {0}</value>
+    </data>
+    <data name="bugreport_not_configured" xml:space="preserve">
+        <value>Le lien de signalement de bug n'est pas configuré.</value>
+    </data>
     <data name="voltorbflip_leaderboard_help" xml:space="preserve">
         <value>Affiche le classement Voltorb Flip</value>
     </data>

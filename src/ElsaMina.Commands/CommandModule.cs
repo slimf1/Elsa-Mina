@@ -123,6 +123,7 @@ public class CommandModule : Module
         builder.RegisterCommand<EndConnectFourCommand>();
         builder.RegisterCommand<YoutubeCommand>();
         builder.RegisterCommand<DictionaryCommand>();
+        builder.RegisterCommand<BugReportCommand>();
         builder.RegisterCommand<SetArcadeLevelCommand>();
         builder.RegisterCommand<DisplayArcadeLevelsCommand>();
         builder.RegisterCommand<DeleteArcadeLevelCommand>();
