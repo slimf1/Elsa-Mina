@@ -1647,4 +1647,10 @@
     <data name="voltorbflip_leaderboard_coins" xml:space="preserve">
         <value>Coins</value>
     </data>
+    <data name="pokemon_translate_help" xml:space="preserve">
+        <value>Translates a Pokémon name into all available languages. Usage: -ptranslate &lt;name&gt;</value>
+    </data>
+    <data name="pokemon_translate_not_found" xml:space="preserve">
+        <value>No Pokémon found with the name "{0}".</value>
+    </data>
 </root>

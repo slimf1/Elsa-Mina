@@ -148,6 +148,7 @@ public class CommandModule : Module
         builder.RegisterCommand<PokepediaSearchCommand>();
         builder.RegisterCommand<BulbapediaSearchCommand>();
         builder.RegisterCommand<AfdSpriteCommand>();
+        builder.RegisterCommand<PokemonTranslateCommand>();
         builder.RegisterCommand<ShowPollsCommand>();
         builder.RegisterCommand<PairingsCommand>();
         builder.RegisterCommand<EvroMakerCommand>();
