@@ -1,20 +1,22 @@
-﻿using System.Net.Http.Headers;
-using System.Text;
+﻿using System.Text;
 using Newtonsoft.Json;
 
 namespace ElsaMina.Core.Services.Http;
 
 public class HttpService : IHttpService
 {
-    private readonly HttpClient _httpClient = new()
+    private readonly HttpClient _httpClient;
+
+    public HttpService()
     {
-        Timeout = TimeSpan.FromSeconds(30),
-        // User agent
-        DefaultRequestHeaders =
+        _httpClient = new HttpClient
         {
-            UserAgent = { ProductInfoHeaderValue.Parse("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36") }
-        }
-    };
+            Timeout = TimeSpan.FromSeconds(30),
+            // User agent
+        }; 
+        _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", 
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36");
+    }
 
     public async Task<IHttpResponse<TResponse>> PostJsonAsync<TRequest, TResponse>(
         string uri,
