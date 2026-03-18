@@ -110,6 +110,7 @@ public class CommandModule : Module
         builder.RegisterCommand<TeamShowcaseCommand>();
         builder.RegisterCommand<TeamListCommand>();
         builder.RegisterCommand<DeleteTeamCommand>();
+        builder.RegisterCommand<DeleteAllTeamsByTierCommand>();
         builder.RegisterCommand<SayCommand>();
         builder.RegisterCommand<NameColorInfoCommand>();
         builder.RegisterCommand<SetColorCommand>();

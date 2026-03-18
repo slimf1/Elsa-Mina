@@ -1652,6 +1652,18 @@
     <data name="voltorbflip_leaderboard_coins" xml:space="preserve">
         <value>Monedas</value>
     </data>
+    <data name="deleteallteams_help" xml:space="preserve">
+        <value>Elimina todos los equipos de un tier específico en esta sala. Uso: -deleteallteams &lt;tier&gt;</value>
+    </data>
+    <data name="deleteallteams_no_teams_found" xml:space="preserve">
+        <value>No se encontraron equipos del tier "{0}" en esta sala.</value>
+    </data>
+    <data name="deleteallteams_success" xml:space="preserve">
+        <value>{0} equipo(s) del tier "{1}" han sido eliminados de esta sala.</value>
+    </data>
+    <data name="deleteallteams_error" xml:space="preserve">
+        <value>Se produjo un error al eliminar los equipos: {0}</value>
+    </data>
     <data name="pokemon_translate_help" xml:space="preserve">
         <value>Traduce un nombre de Pokémon a todos los idiomas disponibles. Uso: -ptranslate &lt;nombre&gt;</value>
     </data>
