@@ -1,5 +1,4 @@
 ﻿using System.Net.Http.Headers;
-using System.Net.Sockets;
 using System.Text;
 using Newtonsoft.Json;
 
@@ -7,30 +6,15 @@ namespace ElsaMina.Core.Services.Http;
 
 public class HttpService : IHttpService
 {
-    private readonly SocketsHttpHandler _handler = new()
+    private readonly HttpClient _httpClient = new()
     {
-        ConnectCallback = async (context, cancellationToken) =>
+        Timeout = TimeSpan.FromSeconds(30),
+        // User agent
+        DefaultRequestHeaders =
         {
-            var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            await socket.ConnectAsync(context.DnsEndPoint.Host, context.DnsEndPoint.Port, cancellationToken);
-            return new NetworkStream(socket, ownsSocket: true);
+            UserAgent = { ProductInfoHeaderValue.Parse("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36") }
         }
     };
-    
-    private readonly HttpClient _httpClient;
-
-    public HttpService()
-    {
-        _httpClient = new HttpClient(_handler)
-        {
-            Timeout = TimeSpan.FromSeconds(30),
-            // User agent
-            DefaultRequestHeaders =
-            {
-                UserAgent = { new ProductInfoHeaderValue("ElsaMina", "1.0") }
-            }
-        }; 
-    }
 
     public async Task<IHttpResponse<TResponse>> PostJsonAsync<TRequest, TResponse>(
         string uri,
