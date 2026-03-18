@@ -42,7 +42,18 @@ public class CountriesGame : GuessingGame
             : nextCountry.Location;
         CurrentValidAnswers = [nextCountry.EnglishName, nextCountry.FrenchName];
         var (width, height) = await _imageService.GetRemoteImageDimensions(image);
-        (width, height) = _imageService.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);
+
+        if (width <= 0 || height <= 0)
+        {
+            // Failsafe in case we get rate limited by imgur
+            width = MAX_WIDTH;
+            height = MAX_HEIGHT;
+        }
+        else
+        {
+            (width, height) = _imageService.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);
+        }
+
         Context.ReplyHtml($"""<img src="{image}" width="{width}" height="{height}" />""");
     }
 }
