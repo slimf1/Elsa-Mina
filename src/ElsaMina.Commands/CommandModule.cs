@@ -66,6 +66,7 @@ using ElsaMina.Commands.PokeRace;
 using ElsaMina.Commands.Tournaments.Handlers;
 using ElsaMina.Commands.Tournaments.Hebdo;
 using ElsaMina.Commands.Tournaments.Leaderboard;
+using ElsaMina.Commands.Tournaments.Rpplf;
 using ElsaMina.Commands.VoltorbFlip;
 using ElsaMina.Commands.Users.PlayTimes;
 using ElsaMina.Commands.Watchlist;
@@ -286,6 +287,9 @@ public class CommandModule : Module
         builder.RegisterCommand<HebdoOrasruCommand>();
         builder.RegisterCommand<HebdoSmruCommand>();
         builder.RegisterCommand<HebdoSsruCommand>();
+        builder.RegisterCommand<Gen9RpplfCommand>();
+        builder.RegisterCommand<Gen8RpplfCommand>();
+        builder.RegisterCommand<Gen7RpplfCommand>();
     }
 
     private static void RegisterShopCommands(ContainerBuilder builder)
