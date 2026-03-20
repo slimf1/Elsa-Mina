@@ -69,6 +69,7 @@ public class GuessingGameTest
     [Test]
     public void Test_OnAnswer_ShouldIgnore_WhenSameUserAnswersTwiceWithinRateLimit()
     {
+        _game.SetHasCooldown(true);
         _game.OnAnswer("Player1", "charizard"); // first attempt (wrong, records time)
         _game.OnAnswer("Player1", "pikachu");   // second attempt within 2s → rate-limited
 
@@ -78,6 +79,7 @@ public class GuessingGameTest
     [Test]
     public void Test_OnAnswer_ShouldSendRateLimitPm_WhenSameUserAnswersTwiceWithinRateLimit()
     {
+        _game.SetHasCooldown(true);
         _context.RoomId.Returns("testroom");
         _context.GetString("guessing_game_answer_rate_limit").Returns("You are answering too fast!");
 
@@ -91,11 +93,32 @@ public class GuessingGameTest
     [Test]
     public void Test_OnAnswer_ShouldAllow_WhenSameUserAnswersAfterRateLimit()
     {
+        _game.SetHasCooldown(true);
         _game.OnAnswer("Player1", "charizard"); // first attempt (wrong, records time)
         _clockService.CurrentUtcDateTime.Returns(BASE_TIME.AddSeconds(3));
         _game.OnAnswer("Player1", "pikachu");   // second attempt after 3s → allowed
 
         _context.Received(1).ReplyLocalizedMessage("guessing_game_round_won", "Player1", 1, string.Empty);
+    }
+
+    [Test]
+    public void Test_OnAnswer_ShouldNotRateLimit_WhenHasCooldownIsFalse()
+    {
+        // HasCooldown defaults to false
+        _game.OnAnswer("Player1", "charizard"); // first attempt (wrong)
+        _game.OnAnswer("Player1", "pikachu");   // second attempt immediately → should be allowed
+
+        _context.Received(1).ReplyLocalizedMessage("guessing_game_round_won", "Player1", 1, string.Empty);
+    }
+
+    [Test]
+    public void Test_OnAnswer_ShouldNotSendRateLimitPm_WhenHasCooldownIsFalse()
+    {
+        // HasCooldown defaults to false
+        _game.OnAnswer("Player1", "charizard");
+        _game.OnAnswer("Player1", "pikachu");
+
+        _context.DidNotReceive().SendMessageIn(Arg.Any<string>(), Arg.Is<string>(s => s.Contains("pm")));
     }
 
     [Test]
@@ -127,6 +150,10 @@ public class GuessingGameTest
         }
 
         public override string Identifier => "test";
+
+        private bool _hasCooldown;
+        protected override bool HasCooldown => _hasCooldown;
+        public void SetHasCooldown(bool value) => _hasCooldown = value;
 
         public void SetValidAnswers(IEnumerable<string> answers)
         {

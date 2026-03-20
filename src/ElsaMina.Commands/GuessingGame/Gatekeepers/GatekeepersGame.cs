@@ -43,6 +43,8 @@ public class GatekeepersGame : GuessingGame
 
     public override string Identifier => nameof(GatekeepersGame);
 
+    protected override bool HasCooldown => true;
+
     private string HtmlId => $"gatekeepers-{_gameId}-t{CurrentTurn}";
 
     protected override void OnGameStart()

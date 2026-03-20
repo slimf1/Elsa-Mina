@@ -45,6 +45,8 @@ public abstract class GuessingGame : Game, IGuessingGame
 
     public IContext Context { get; set; }
 
+    protected virtual bool HasCooldown => false;
+
     public async Task Start()
     {
         OnStart();
@@ -114,15 +116,19 @@ public abstract class GuessingGame : Game, IGuessingGame
 
         var userId = userName.ToLowerAlphaNum();
         var now = _clockService.CurrentUtcDateTime;
-        if (_lastAnswerTimes.TryGetValue(userId, out var lastAnswerTime) &&
-            now - lastAnswerTime < ANSWER_RATE_LIMIT)
-        {
-            var rateLimitMessage = Context.GetString("guessing_game_answer_rate_limit");
-            Context.SendMessageIn(Context.RoomId, $"/pm {userId}, {rateLimitMessage}");
-            return;
-        }
 
-        _lastAnswerTimes[userId] = now;
+        if (HasCooldown)
+        {
+            if (_lastAnswerTimes.TryGetValue(userId, out var lastAnswerTime) &&
+                now - lastAnswerTime < ANSWER_RATE_LIMIT)
+            {
+                var rateLimitMessage = Context.GetString("guessing_game_answer_rate_limit");
+                Context.SendMessageIn(Context.RoomId, $"/pm {userId}, {rateLimitMessage}");
+                return;
+            }
+
+            _lastAnswerTimes[userId] = now;
+        }
         var maxLevenshteinDistance = answer.Length > MIN_LENGTH_FOR_AUTOCORRECT ? 1 : 0;
         if (!CurrentValidAnswers.Any(validAnswer =>
                 validAnswer.ToLowerAlphaNum().LevenshteinDistance(answer.ToLowerAlphaNum()) <=
