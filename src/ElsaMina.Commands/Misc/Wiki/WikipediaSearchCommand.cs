@@ -13,12 +13,10 @@ public class WikipediaSearchCommand : Command
     private const string WIKIPEDIA_API_URL = "https://{0}.wikipedia.org/w/api.php";
 
     private readonly IHttpService _httpService;
-    private readonly IImageService _imageService;
 
-    public WikipediaSearchCommand(IHttpService httpService, IImageService imageService)
+    public WikipediaSearchCommand(IHttpService httpService)
     {
         _httpService = httpService;
-        _imageService = imageService;
     }
 
     public override bool IsAllowedInPrivateMessage => true;
@@ -50,7 +48,7 @@ public class WikipediaSearchCommand : Command
             if (thumbnail != null)
             {
                 var (width, height) =
-                    _imageService.ResizeWithSameAspectRatio(thumbnail.Width, thumbnail.Height, 150, 120);
+                    ImageUtils.ResizeWithSameAspectRatio(thumbnail.Width, thumbnail.Height, 150, 120);
                 imageTag =
                     $"""<img src="{thumbnail.Source}" width="{width}" height="{height}" style="float:left; margin-right: 8px;"/>""";
             }

@@ -14,9 +14,7 @@ public class PokepediaSearchCommandTest
     [SetUp]
     public void SetUp()
     {
-        _command = new PokepediaSearchCommand(
-            Substitute.For<IHttpService>(),
-            Substitute.For<IImageService>());
+        _command = new PokepediaSearchCommand(Substitute.For<IHttpService>());
     }
 
     [Test]

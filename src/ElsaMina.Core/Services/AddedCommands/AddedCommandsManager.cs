@@ -57,7 +57,7 @@ public class AddedCommandsManager : IAddedCommandsManager
     private async Task DisplayRemoteImage(IContext context, string content)
     {
         var (width, height) = await _imageService.GetRemoteImageDimensions(content);
-        (width, height) = _imageService.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);
+        (width, height) = ImageUtils.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);
         context.ReplyHtml($"""<img src="{content}" width="{width}" height="{height}" />""", rankAware: true);
     }
 

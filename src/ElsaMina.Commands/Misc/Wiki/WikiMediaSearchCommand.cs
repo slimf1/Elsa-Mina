@@ -13,13 +13,14 @@ public abstract class WikiMediaSearchCommand : Command
     protected abstract string ApiUrl { get; }
     protected abstract string GetPageUrl(string title);
 
-    private readonly IHttpService _httpService;
-    private readonly IImageService _imageService;
+    private const int MAX_THUMBNAIL_IMAGE_WIDTH = 150;
+    private const int MAX_THUMBNAIL_IMAGE_HEIGHT = 120;
 
-    protected WikiMediaSearchCommand(IHttpService httpService, IImageService imageService)
+    private readonly IHttpService _httpService;
+
+    protected WikiMediaSearchCommand(IHttpService httpService)
     {
         _httpService = httpService;
-        _imageService = imageService;
     }
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
@@ -43,8 +44,8 @@ public abstract class WikiMediaSearchCommand : Command
             var imageTag = string.Empty;
             if (thumbnail != null)
             {
-                var (width, height) =
-                    _imageService.ResizeWithSameAspectRatio(thumbnail.Width, thumbnail.Height, 150, 120);
+                var (width, height) = ImageUtils.ResizeWithSameAspectRatio(thumbnail.Width, thumbnail.Height,
+                    MAX_THUMBNAIL_IMAGE_WIDTH, MAX_THUMBNAIL_IMAGE_HEIGHT);
                 imageTag =
                     $"""<img src="{thumbnail.Source}" width="{width}" height="{height}" style="float:left; margin-right: 8px;"/>""";
             }
@@ -172,6 +173,7 @@ public abstract class WikiMediaSearchCommand : Command
                 {
                     break;
                 }
+
                 text = text[(endIndex + 1)..].TrimStart();
                 changed = true;
             }
@@ -202,6 +204,7 @@ public abstract class WikiMediaSearchCommand : Command
                 {
                     break;
                 }
+
                 text = text[(endIndex + 1)..].TrimStart();
                 changed = true;
             }

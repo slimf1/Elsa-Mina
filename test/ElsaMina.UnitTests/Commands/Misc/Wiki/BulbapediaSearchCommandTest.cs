@@ -14,9 +14,7 @@ public class BulbapediaSearchCommandTest
     [SetUp]
     public void SetUp()
     {
-        _command = new BulbapediaSearchCommand(
-            Substitute.For<IHttpService>(),
-            Substitute.For<IImageService>());
+        _command = new BulbapediaSearchCommand(Substitute.For<IHttpService>());
     }
 
     [Test]

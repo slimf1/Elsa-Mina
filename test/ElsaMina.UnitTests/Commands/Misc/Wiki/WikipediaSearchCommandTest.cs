@@ -20,7 +20,7 @@ public class WikipediaSearchCommandTest
     {
         _mockHttpService = Substitute.For<IHttpService>();
         _imageService = Substitute.For<IImageService>();
-        _command = new WikipediaSearchCommand(_mockHttpService, _imageService);
+        _command = new WikipediaSearchCommand(_mockHttpService);
     }
 
     [Test]

@@ -15,6 +15,6 @@ public class BulbapediaSearchCommand : WikiMediaSearchCommand
     public override bool IsAllowedInPrivateMessage => true;
     public override Rank RequiredRank => Rank.Regular;
 
-    public BulbapediaSearchCommand(IHttpService httpService, IImageService imageService)
-        : base(httpService, imageService) { }
+    public BulbapediaSearchCommand(IHttpService httpService)
+        : base(httpService) { }
 }

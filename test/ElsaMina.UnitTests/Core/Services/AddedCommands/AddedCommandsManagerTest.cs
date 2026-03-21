@@ -74,8 +74,6 @@ public class AddedCommandsManagerTest
 
         _imageService.GetRemoteImageDimensions(Arg.Any<string>())
             .Returns(Task.FromResult((400, 300)));
-        _imageService.ResizeWithSameAspectRatio(400, 300, Arg.Any<int>(), Arg.Any<int>())
-            .Returns((400, 300));
 
         // Act
         await _manager.TryExecuteAddedCommand("imageCommand", context);
@@ -109,8 +107,6 @@ public class AddedCommandsManagerTest
 
         _imageService.GetRemoteImageDimensions("https://example.com/large.png")
             .Returns(Task.FromResult((800, 600)));
-        _imageService.ResizeWithSameAspectRatio(800, 600, 400, 300)
-            .Returns((400, 300));
 
         await _manager.TryExecuteAddedCommand("large", context);
 
@@ -129,8 +125,6 @@ public class AddedCommandsManagerTest
 
         _imageService.GetRemoteImageDimensions("https://example.com/small.png")
             .Returns(Task.FromResult((200, 150)));
-        _imageService.ResizeWithSameAspectRatio(200, 150, Arg.Any<int>(), Arg.Any<int>())
-            .Returns((200, 150));
 
         await _manager.TryExecuteAddedCommand("small", context);
 

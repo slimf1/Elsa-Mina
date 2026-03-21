@@ -22,20 +22,18 @@ public class WikiMediaSearchCommandTest
         public override Rank RequiredRank => Rank.Regular;
         public override bool IsAllowedInPrivateMessage => true;
 
-        public TestableWikiMediaSearchCommand(IHttpService httpService, IImageService imageService)
-            : base(httpService, imageService) { }
+        public TestableWikiMediaSearchCommand(IHttpService httpService)
+            : base(httpService) { }
     }
 
     private IHttpService _mockHttpService;
-    private IImageService _mockImageService;
     private TestableWikiMediaSearchCommand _command;
 
     [SetUp]
     public void SetUp()
     {
         _mockHttpService = Substitute.For<IHttpService>();
-        _mockImageService = Substitute.For<IImageService>();
-        _command = new TestableWikiMediaSearchCommand(_mockHttpService, _mockImageService);
+        _command = new TestableWikiMediaSearchCommand(_mockHttpService);
     }
 
     private void SetupSearchResponse(int pageId = 1, string title = "Test Page",
@@ -119,7 +117,6 @@ public class WikiMediaSearchCommandTest
         SetupSearchResponse();
         SetupParseResponse("Some description.");
         SetupThumbnailResponse(new Thumbnail { Source = "https://img.example.com/pic.png", Width = 300, Height = 200 });
-        _mockImageService.ResizeWithSameAspectRatio(300, 200, 150, 120).Returns((150, 100));
 
         // Act
         await _command.RunAsync(context);
