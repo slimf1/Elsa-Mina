@@ -51,6 +51,8 @@ public class StartVoltorbFlipCommand : Command
             return;
         }
 
+        context.Culture = room.Culture;
+
         var userId = context.Sender.UserId;
         var existingGame = _gameManager.GetGame(roomId, userId);
         if (existingGame != null)
