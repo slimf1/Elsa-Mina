@@ -54,6 +54,11 @@ public class DeleteEventRoleCommand : Command
             return;
         }
 
+        if (context.IsPrivateMessage)
+        {
+            context.Culture = room.Culture;
+        }
+
         await _eventRoleMappingService.DeleteMappingAsync(eventName, roomId, cancellationToken);
         context.ReplyLocalizedMessage("eventroles_deleted", eventName);
 
