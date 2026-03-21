@@ -199,10 +199,10 @@ public class TopTournamentPlayersCommandTest
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldLimitResultsToTwenty()
+    public async Task Test_RunAsync_ShouldLimitResultsToFifty()
     {
         await using var dbContext = new BotDbContext(_dbOptions);
-        foreach (var index in Enumerable.Range(1, 25))
+        foreach (var index in Enumerable.Range(1, 60))
         {
             await SeedPlayerAsync(dbContext, $"user{index}", "arcade", winsCount: index);
         }
@@ -212,7 +212,7 @@ public class TopTournamentPlayersCommandTest
 
         await _templatesManager.Received(1).GetTemplateAsync(
             Arg.Any<string>(),
-            Arg.Is<TopTournamentPlayersViewModel>(vm => vm.TopList.Count() == 20));
+            Arg.Is<TopTournamentPlayersViewModel>(vm => vm.TopList.Count() == 50));
     }
 
     [Test]

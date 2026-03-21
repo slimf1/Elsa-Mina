@@ -41,9 +41,9 @@ public class AskElsaCommandTest
     }
     
     [Test]
-    public void Test_RequiredRank_ShouldBeVoiced()
+    public void Test_RequiredRank_ShouldBeDriver()
     {
-        Assert.That(_command.RequiredRank, Is.EqualTo(Rank.Voiced));
+        Assert.That(_command.RequiredRank, Is.EqualTo(Rank.Driver));
     }
 
     [Test]
