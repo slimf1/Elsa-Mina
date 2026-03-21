@@ -30,6 +30,8 @@ public class ToggleMarkVoltorbFlipCommand : Command
         {
             if (voltorbFlip.IsPrivateMode)
             {
+                var room = _roomsManager.GetRoom(roomId);
+                if (room != null) context.Culture = room.Culture;
                 voltorbFlip.Context = context;
             }
             await voltorbFlip.ToggleMarkingMode(context.Sender);
