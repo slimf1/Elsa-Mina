@@ -1,0 +1,60 @@
+@using ElsaMina.Core.Services.Templates
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Arcade.Events.EventRoleMappingViewModel>
+
+@{
+    const string borderColor = StyleConstants.PRIMARY_BORDER_COLOR;
+    const string bgColor = StyleConstants.PRIMARY_BACKGROUND_COLOR;
+    const string cellStyle = $"border:1px solid {borderColor};padding:4px";
+    const string headerBg = $"background:{bgColor}";
+    const string btnRed = "background:#f44336;color:white;border:none;padding:3px 8px;cursor:pointer;border-radius:3px";
+    const string inputStyle = "border:1px solid #ccc;padding:4px;width:95%;margin:2px 0";
+}
+
+<div style="padding:8px;font-family:Verdana,sans-serif">
+    <h2 style="text-align:center;color:#6688AA">@GetString("eventroles_dashboard_title")</h2>
+    <hr/>
+
+    @if (Model.Mappings.Count > 0)
+    {
+        <h3>@GetString("eventroles_configured")</h3>
+        <table style="border-collapse:collapse;width:100%">
+            <tr style="@headerBg">
+                <th style="@cellStyle">@GetString("eventroles_col_event")</th>
+                <th style="@cellStyle">@GetString("eventroles_col_roleid")</th>
+                <th style="@cellStyle">Actions</th>
+            </tr>
+            @foreach (var mapping in Model.Mappings)
+            {
+                <tr>
+                    <td style="@cellStyle"><b>@mapping.EventName</b></td>
+                    <td style="@cellStyle;font-family:monospace">@mapping.DiscordRoleId</td>
+                    <td style="@cellStyle">
+                        <button class="button" name="send" value="/w @Model.BotName,@(Model.Trigger)deleteeventrole @mapping.EventName;;@Model.RoomId" style="@btnRed">@GetString("eventroles_btn_delete")</button>
+                    </td>
+                </tr>
+            }
+        </table>
+        <br/>
+    }
+    else
+    {
+        <p><i>@GetString("eventroles_none")</i></p>
+    }
+
+    <hr/>
+    <h3>@GetString("eventroles_add_new")</h3>
+    <form data-submitsend="/w @Model.BotName,@(Model.Trigger)saveeventrole @Model.RoomId;;{eventname};;{roleid}">
+        <table style="width:100%">
+            <tr>
+                <td><b>@GetString("eventroles_field_event")</b></td>
+                <td><input type="text" name="eventname" placeholder="ex: Tournoi Hebdo" style="@inputStyle" required/></td>
+            </tr>
+            <tr>
+                <td><b>@GetString("eventroles_field_roleid")</b></td>
+                <td><input type="text" name="roleid" placeholder="ex: 1234567890123456789" style="@inputStyle" required/></td>
+            </tr>
+        </table>
+        <br/>
+        <button class="button" type="submit" style="background:#4CAF50;color:white;border:none;padding:6px 16px;cursor:pointer;border-radius:4px">@GetString("eventroles_btn_add")</button>
+    </form>
+</div>

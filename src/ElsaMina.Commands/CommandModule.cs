@@ -231,6 +231,10 @@ public class CommandModule : Module
         builder.RegisterCommand<DeleteTourCommand>();
         builder.RegisterCommand<LaunchTourCommand>();
 
+        builder.RegisterCommand<ConfigEventRolesCommand>();
+        builder.RegisterCommand<SaveEventRoleCommand>();
+        builder.RegisterCommand<DeleteEventRoleCommand>();
+
         builder.RegisterType<CountriesGame>().AsSelf();
         builder.RegisterType<CapitalCitiesGame>().AsSelf();
         builder.RegisterType<ConnectFourGame>().AsSelf();
@@ -241,6 +245,7 @@ public class CommandModule : Module
         builder.RegisterType<GatekeepersGame>().AsSelf();
 
         builder.RegisterType<VoltorbFlipGameManager>().As<IVoltorbFlipGameManager>().SingleInstance();
+        builder.RegisterType<EventRoleMappingService>().As<IEventRoleMappingService>().SingleInstance();
         builder.RegisterType<TourConfigService>().As<ITourConfigService>().SingleInstance();
         builder.RegisterType<TourConfigLauncher>().As<Core.Services.Commands.IDynamicCommandProvider>().SingleInstance();
         builder.RegisterType<WatchlistService>().As<IWatchlistService>().SingleInstance();

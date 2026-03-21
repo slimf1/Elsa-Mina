@@ -1764,4 +1764,55 @@
     <data name="tourconfig_launchtour_usage" xml:space="preserve">
         <value>Utilisation : -launchtour id[,room]</value>
     </data>
+    <data name="eventroles_dashboard_title" xml:space="preserve">
+        <value>Configuration des pings Discord par événement</value>
+    </data>
+    <data name="eventroles_configured" xml:space="preserve">
+        <value>Événements configurés</value>
+    </data>
+    <data name="eventroles_none" xml:space="preserve">
+        <value>Aucun mapping événement/rôle configuré pour cette room.</value>
+    </data>
+    <data name="eventroles_add_new" xml:space="preserve">
+        <value>Ajouter un nouveau mapping</value>
+    </data>
+    <data name="eventroles_col_event" xml:space="preserve">
+        <value>Nom de l'événement</value>
+    </data>
+    <data name="eventroles_col_roleid" xml:space="preserve">
+        <value>ID du rôle Discord</value>
+    </data>
+    <data name="eventroles_field_event" xml:space="preserve">
+        <value>Nom de l'événement :</value>
+    </data>
+    <data name="eventroles_field_roleid" xml:space="preserve">
+        <value>ID du rôle Discord :</value>
+    </data>
+    <data name="eventroles_btn_add" xml:space="preserve">
+        <value>Ajouter</value>
+    </data>
+    <data name="eventroles_btn_delete" xml:space="preserve">
+        <value>Supprimer</value>
+    </data>
+    <data name="eventroles_room_not_found" xml:space="preserve">
+        <value>Room introuvable ou le bot n'y est pas présent.</value>
+    </data>
+    <data name="eventroles_missing_data" xml:space="preserve">
+        <value>Données manquantes.</value>
+    </data>
+    <data name="eventroles_invalid_format" xml:space="preserve">
+        <value>Format invalide.</value>
+    </data>
+    <data name="eventroles_name_required" xml:space="preserve">
+        <value>Le nom de l'événement est obligatoire.</value>
+    </data>
+    <data name="eventroles_roleid_required" xml:space="preserve">
+        <value>L'ID du rôle Discord est obligatoire.</value>
+    </data>
+    <data name="eventroles_saved" xml:space="preserve">
+        <value>Mapping pour « {0} » sauvegardé avec succès.</value>
+    </data>
+    <data name="eventroles_deleted" xml:space="preserve">
+        <value>Mapping pour « {0} » supprimé.</value>
+    </data>
 </root>

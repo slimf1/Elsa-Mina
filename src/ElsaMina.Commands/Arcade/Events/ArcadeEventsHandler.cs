@@ -32,12 +32,15 @@ public class ArcadeEventsHandler : Handler
     private readonly IHttpService _httpService;
     private readonly IConfiguration _configuration;
     private readonly IBot _bot;
+    private readonly IEventRoleMappingService _eventRoleMappingService;
 
-    public ArcadeEventsHandler(IHttpService httpService, IConfiguration configuration, IBot bot)
+    public ArcadeEventsHandler(IHttpService httpService, IConfiguration configuration, IBot bot,
+        IEventRoleMappingService eventRoleMappingService)
     {
         _httpService = httpService;
         _configuration = configuration;
         _bot = bot;
+        _eventRoleMappingService = eventRoleMappingService;
     }
 
     public override async Task HandleReceivedMessageAsync(string[] parts, string roomId = null,
@@ -88,6 +91,9 @@ public class ArcadeEventsHandler : Handler
 
         try
         {
+            var roleMapping = await _eventRoleMappingService.GetMappingAsync(detailEventName, roomId, cancellationToken);
+            var rolePing = roleMapping != null ? $"<@&{roleMapping.DiscordRoleId}>" : string.Empty;
+
             var embedDescription =
                 $"L'événement '{detailEventName}' a commencé dans la room [Arcade](https://play.pokemonshowdown.com/arcade) !\n\n**Description:** {eventDescription}";
 
@@ -95,7 +101,7 @@ public class ArcadeEventsHandler : Handler
             {
                 AvatarUrl = WEBHOOK_AVATAR_URL,
                 Username = WEBHOOK_USERNAME,
-                Content = string.Empty,
+                Content = rolePing,
                 Embeds =
                 [
                     new ArcadeEventWebhookEmbed

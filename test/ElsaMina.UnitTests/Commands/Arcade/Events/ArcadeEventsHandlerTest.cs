@@ -37,7 +37,8 @@ public class ArcadeEventsHandlerTests
 
         _configuration.ArcadeWebhookUrl.Returns("http://webhook.url");
 
-        _handler = new ArcadeEventsHandler(_httpService, _configuration, _bot);
+        var eventRoleMappingService = Substitute.For<IEventRoleMappingService>();
+        _handler = new ArcadeEventsHandler(_httpService, _configuration, _bot, eventRoleMappingService);
     }
 
     [Test]

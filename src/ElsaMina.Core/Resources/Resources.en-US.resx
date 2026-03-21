@@ -1764,4 +1764,55 @@
     <data name="tourconfig_launchtour_usage" xml:space="preserve">
         <value>Usage: -launchtour id[,room]</value>
     </data>
+    <data name="eventroles_dashboard_title" xml:space="preserve">
+        <value>Discord Event Role Ping Configuration</value>
+    </data>
+    <data name="eventroles_configured" xml:space="preserve">
+        <value>Configured Events</value>
+    </data>
+    <data name="eventroles_none" xml:space="preserve">
+        <value>No event/role mappings configured for this room.</value>
+    </data>
+    <data name="eventroles_add_new" xml:space="preserve">
+        <value>Add a new mapping</value>
+    </data>
+    <data name="eventroles_col_event" xml:space="preserve">
+        <value>Event Name</value>
+    </data>
+    <data name="eventroles_col_roleid" xml:space="preserve">
+        <value>Discord Role ID</value>
+    </data>
+    <data name="eventroles_field_event" xml:space="preserve">
+        <value>Event name:</value>
+    </data>
+    <data name="eventroles_field_roleid" xml:space="preserve">
+        <value>Discord Role ID:</value>
+    </data>
+    <data name="eventroles_btn_add" xml:space="preserve">
+        <value>Add</value>
+    </data>
+    <data name="eventroles_btn_delete" xml:space="preserve">
+        <value>Delete</value>
+    </data>
+    <data name="eventroles_room_not_found" xml:space="preserve">
+        <value>Room not found or the bot is not in it.</value>
+    </data>
+    <data name="eventroles_missing_data" xml:space="preserve">
+        <value>Missing data.</value>
+    </data>
+    <data name="eventroles_invalid_format" xml:space="preserve">
+        <value>Invalid format.</value>
+    </data>
+    <data name="eventroles_name_required" xml:space="preserve">
+        <value>Event name is required.</value>
+    </data>
+    <data name="eventroles_roleid_required" xml:space="preserve">
+        <value>Discord Role ID is required.</value>
+    </data>
+    <data name="eventroles_saved" xml:space="preserve">
+        <value>Mapping for "{0}" saved successfully.</value>
+    </data>
+    <data name="eventroles_deleted" xml:space="preserve">
+        <value>Mapping for "{0}" deleted.</value>
+    </data>
 </root>
