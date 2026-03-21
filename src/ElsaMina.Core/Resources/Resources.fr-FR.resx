@@ -1449,6 +1449,12 @@
     <data name="vf_game_timeout" xml:space="preserve">
         <value>La partie de Voltorb Flip s'est terminée par inactivité.</value>
     </data>
+    <data name="vf_game_pm_missing_room" xml:space="preserve">
+        <value>Veuillez spécifier une room. Utilisation : -voltorbflip nomdelaroom</value>
+    </data>
+    <data name="vf_game_pm_invalid_room" xml:space="preserve">
+        <value>La room spécifiée n'a pas été trouvée ou le bot n'y est pas présent.</value>
+    </data>
     <data name="vf_panel_title" xml:space="preserve">
         <value>Voltorb Flip</value>
     </data>
@@ -1502,6 +1508,9 @@
     </data>
     <data name="vf_panel_stop" xml:space="preserve">
         <value>Arrêter la partie</value>
+    </data>
+    <data name="vf_panel_play_again" xml:space="preserve">
+        <value>Rejouer</value>
     </data>
     <data name="setcolor_help" xml:space="preserve">
         <value>Définit une couleur de pseudo personnalisée pour un utilisateur. Syntaxe : -setcolor &lt;joueur&gt;, &lt;#hexcouleur&gt; (ex : -setcolor Distrib, #9d6b15)</value>

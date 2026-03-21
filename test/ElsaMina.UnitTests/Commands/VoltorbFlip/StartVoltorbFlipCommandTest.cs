@@ -14,6 +14,8 @@ namespace ElsaMina.UnitTests.Commands.VoltorbFlip;
 public class StartVoltorbFlipCommandTest
 {
     private IDependencyContainerService _dependencyContainerService;
+    private IRoomsManager _roomsManager;
+    private IVoltorbFlipGameManager _gameManager;
     private IConfiguration _configuration;
     private ITemplatesManager _templatesManager;
     private StartVoltorbFlipCommand _command;
@@ -25,9 +27,11 @@ public class StartVoltorbFlipCommandTest
     public void SetUp()
     {
         _dependencyContainerService = Substitute.For<IDependencyContainerService>();
+        _roomsManager = Substitute.For<IRoomsManager>();
+        _gameManager = Substitute.For<IVoltorbFlipGameManager>();
         _configuration = Substitute.For<IConfiguration>();
         _templatesManager = Substitute.For<ITemplatesManager>();
-        _command = new StartVoltorbFlipCommand(_dependencyContainerService);
+        _command = new StartVoltorbFlipCommand(_dependencyContainerService, _roomsManager, _gameManager);
 
         _context = Substitute.For<IContext>();
         _room = Substitute.For<IRoom>();

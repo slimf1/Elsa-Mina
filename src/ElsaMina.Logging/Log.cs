@@ -44,7 +44,7 @@ public static class Log
         config.WriteTo.File("log.txt", rollingInterval: RollingInterval.Day);
 
         var lokiUrl = Configuration.LokiUrl;
-        var lokiUser = Configuration.LoginUser;
+        var lokiUser = Configuration.LokiUser;
         var lokiApiKey = Configuration.LokiApiKey;
 
         if (!string.IsNullOrWhiteSpace(lokiUrl) &&

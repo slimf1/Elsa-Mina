@@ -8,10 +8,12 @@ namespace ElsaMina.Commands.VoltorbFlip;
 public class FlipVoltorbFlipCommand : Command
 {
     private readonly IRoomsManager _roomsManager;
+    private readonly IVoltorbFlipGameManager _gameManager;
 
-    public FlipVoltorbFlipCommand(IRoomsManager roomsManager)
+    public FlipVoltorbFlipCommand(IRoomsManager roomsManager, IVoltorbFlipGameManager gameManager)
     {
         _roomsManager = roomsManager;
+        _gameManager = gameManager;
     }
 
     public override bool IsPrivateMessageOnly => true;
@@ -36,9 +38,15 @@ public class FlipVoltorbFlipCommand : Command
             return;
         }
 
-        var room = _roomsManager.GetRoom(roomId);
-        if (room?.Game is IVoltorbFlipGame voltorbFlip)
+        var voltorbFlip = _gameManager.GetGame(roomId, context.Sender.UserId)
+            ?? _roomsManager.GetRoom(roomId)?.Game as IVoltorbFlipGame;
+
+        if (voltorbFlip != null)
         {
+            if (voltorbFlip.IsPrivateMode)
+            {
+                voltorbFlip.Context = context;
+            }
             await voltorbFlip.FlipTile(context.Sender, row, col);
         }
     }
