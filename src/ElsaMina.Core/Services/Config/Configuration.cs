@@ -48,6 +48,6 @@ public class Configuration : IConfiguration
     public string S3SecretKey { get; set; } = string.Empty;
     public string S3BaseUrl { get; set; } = string.Empty;
     public string LokiUrl { get; set; } = string.Empty;
-    public string LoginUser { get; set; } = string.Empty;
+    public string LokiUser { get; set; } = string.Empty;
     public string LokiApiKey { get; set; } = string.Empty;
 }

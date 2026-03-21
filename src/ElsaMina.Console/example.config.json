@@ -32,7 +32,7 @@
   "S3SecretKey": "",
   "S3BaseUrl": "",
   "LokiUrl": "",
-  "LoginUser": "",
+  "LokiUser": "",
   "LokiApiKey": "",
   "SheetsAccessAccountCredentialsFile": "",
   "CaaSpreadsheetName": "",
