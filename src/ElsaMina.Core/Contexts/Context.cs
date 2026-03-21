@@ -143,4 +143,5 @@ public abstract class Context : IContext
     public abstract void ReplyHtml(string html, string roomId = null, bool rankAware = false);
     public abstract void SendHtmlTo(string userId, string html, string roomId = null);
     public abstract void SendUpdatableHtml(string htmlId, string html, bool isChanging);
+    public abstract void SendPrivateUpdatableHtml(string userId, string roomId, string htmlId, string html, bool isChanging);
 }

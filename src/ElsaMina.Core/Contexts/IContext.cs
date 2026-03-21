@@ -31,5 +31,6 @@ public interface IContext
     void ReplyHtml(string html, string roomId = null, bool rankAware = false);
     void SendHtmlTo(string userId, string html, string roomId = null);
     void SendUpdatableHtml(string htmlId, string html, bool isChanging);
+    void SendPrivateUpdatableHtml(string userId, string roomId, string htmlId, string html, bool isChanging);
     Task HandleErrorAsync(Exception exception, CancellationToken cancellationToken = default);
 }

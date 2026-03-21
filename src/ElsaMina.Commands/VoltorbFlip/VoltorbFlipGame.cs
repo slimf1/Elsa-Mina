@@ -52,11 +52,15 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
     public int[] ColSums { get; private set; }
     public int[] RowVoltorbs { get; private set; }
     public int[] ColVoltorbs { get; private set; }
+    public bool IsPrivateMode { get; set; }
+    public string TargetRoomId { get; set; }
+    public string TargetUserId { get; set; }
     public IContext Context { get; set; }
     public IUser Owner { get; set; }
     public bool IsMarkingMode { get; private set; }
     public bool[,] IsMarked { get; private set; }
-    private string GameIdentifier => $"vf-{Context.RoomId}-{_gameId}";
+    private string EffectiveRoomId => IsPrivateMode ? TargetRoomId : Context.RoomId;
+    private string GameIdentifier => $"vf-{EffectiveRoomId}-{_gameId}";
     private string AnnounceId => GameIdentifier;
 
     public async Task DisplayAnnounce()
@@ -68,11 +72,20 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
                 CurrentGame = this,
                 BotName = _configuration.Name,
                 Trigger = _configuration.Trigger,
-                RoomId = Context.RoomId
+                RoomId = EffectiveRoomId,
+                IsPrivateMode = IsPrivateMode
             });
 
         _inactivityTimer.Restart();
-        Context.SendUpdatableHtml(AnnounceId, template.RemoveNewlines(), false);
+
+        if (IsPrivateMode)
+        {
+            Context.SendPrivateUpdatableHtml(TargetUserId, TargetRoomId, AnnounceId, template.RemoveNewlines(), false);
+        }
+        else
+        {
+            Context.SendUpdatableHtml(AnnounceId, template.RemoveNewlines(), false);
+        }
     }
 
     public async Task StartNewRound()
@@ -366,10 +379,18 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
                 CurrentGame = this,
                 BotName = _configuration.Name,
                 Trigger = _configuration.Trigger,
-                RoomId = Context.RoomId,
-                ShowAll = showAll
+                RoomId = EffectiveRoomId,
+                ShowAll = showAll,
+                IsPrivateMode = IsPrivateMode
             });
 
-        Context.SendUpdatableHtml(GameIdentifier, template.RemoveNewlines(), !firstTime);
+        if (IsPrivateMode)
+        {
+            Context.SendPrivateUpdatableHtml(TargetUserId, TargetRoomId, GameIdentifier, template.RemoveNewlines(), !firstTime);
+        }
+        else
+        {
+            Context.SendUpdatableHtml(GameIdentifier, template.RemoveNewlines(), !firstTime);
+        }
     }
 }

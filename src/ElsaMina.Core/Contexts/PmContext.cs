@@ -50,4 +50,10 @@ public class PmContext : Context
         var command = isChanging ? "pmchangeuhtml" : "pmuhtml";
         Bot.Say(RoomId, $"/{command} {Sender.UserId}, {htmlId}, {html}");
     }
+
+    public override void SendPrivateUpdatableHtml(string userId, string roomId, string htmlId, string html, bool isChanging)
+    {
+        var command = isChanging ? "changeprivateuhtml" : "sendprivateuhtml";
+        Bot.Say(roomId ?? RoomId, $"/{command} {userId}, {htmlId}, {html}");
+    }
 }
