@@ -21,7 +21,7 @@ public class CommandExecutorTest
         _dependencyContainerService = Substitute.For<IDependencyContainerService>();
         _addedCommandsManager = Substitute.For<IAddedCommandsManager>();
         _context = Substitute.For<IContext>();
-        _commandExecutor = new CommandExecutor(_dependencyContainerService, _addedCommandsManager);
+        _commandExecutor = new CommandExecutor(_dependencyContainerService, _addedCommandsManager, Enumerable.Empty<IDynamicCommandProvider>());
     }
 
     [Test]

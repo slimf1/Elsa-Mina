@@ -1,0 +1,63 @@
+@using ElsaMina.Core.Services.Templates
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.TourConfigurator.TourConfigDashboardViewModel>
+
+@{
+    const string borderColor = StyleConstants.PRIMARY_BORDER_COLOR;
+    const string bgColor = StyleConstants.PRIMARY_BACKGROUND_COLOR;
+    const string cellStyle = $"border:1px solid {borderColor};padding:4px";
+    const string headerBg = $"background:{bgColor}";
+    const string btnGreen = "background:#4CAF50;color:white;border:none;padding:3px 8px;cursor:pointer;border-radius:3px";
+    const string btnBlue = "background:#2196F3;color:white;border:none;padding:3px 8px;cursor:pointer;border-radius:3px";
+    const string btnRed = "background:#f44336;color:white;border:none;padding:3px 8px;cursor:pointer;border-radius:3px";
+}
+
+<div style="padding:8px;font-family:Verdana,sans-serif">
+    <h2 style="text-align:center;color:#6688AA">@GetString("tourconfig_dashboard_title")</h2>
+    <hr/>
+
+    @if (Model.TourConfigs.Count > 0)
+    {
+        <h3>@GetString("tourconfig_configured_tours")</h3>
+        <table style="border-collapse:collapse;width:100%">
+            <tr style="@headerBg">
+                <th style="@cellStyle">ID</th>
+                <th style="@cellStyle">@GetString("tourconfig_col_name")</th>
+                <th style="@cellStyle">@GetString("tourconfig_col_tier")</th>
+                <th style="@cellStyle">@GetString("tourconfig_col_autostart")</th>
+                <th style="@cellStyle">Actions</th>
+            </tr>
+            @foreach (var config in Model.TourConfigs)
+            {
+                <tr>
+                    <td style="@cellStyle"><b>@config.Id</b></td>
+                    <td style="@cellStyle">@(config.TourName ?? "")</td>
+                    <td style="@cellStyle">@config.Tier</td>
+                    <td style="@cellStyle;text-align:center">@config.Autostart</td>
+                    <td style="@cellStyle">
+                        <button class="button" name="send" value="/w @Model.BotName,@(Model.Trigger)launchtour @config.Id,@Model.RoomId" style="@btnGreen">@GetString("tourconfig_btn_launch")</button>
+                        <button class="button" name="send" value="/w @Model.BotName,@(Model.Trigger)edittourform @config.Id,@Model.RoomId" style="@btnBlue">@GetString("tourconfig_btn_edit")</button>
+                        <button class="button" name="send" value="/w @Model.BotName,@(Model.Trigger)deletetour @config.Id,@Model.RoomId" style="@btnRed">@GetString("tourconfig_btn_delete")</button>
+                    </td>
+                </tr>
+            }
+        </table>
+        <br/>
+    }
+    else
+    {
+        <p><i>@GetString("tourconfig_no_tours")</i></p>
+    }
+
+    <hr/>
+    <h3>@GetString("tourconfig_create_new")</h3>
+    @{
+        await IncludeAsync("TourConfigurator/TourConfigForm", new ElsaMina.Commands.TourConfigurator.TourConfigFormViewModel
+        {
+            Culture = Model.Culture,
+            BotName = Model.BotName,
+            Trigger = Model.Trigger,
+            RoomId = Model.RoomId,
+            ExistingConfig = null
+        });
+    }
+</div>

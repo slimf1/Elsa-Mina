@@ -66,7 +66,7 @@ using ElsaMina.Commands.PokeRace;
 using ElsaMina.Commands.Tournaments.Handlers;
 using ElsaMina.Commands.Tournaments.Hebdo;
 using ElsaMina.Commands.Tournaments.Leaderboard;
-using ElsaMina.Commands.Tournaments.Rpplf;
+using ElsaMina.Commands.TourConfigurator;
 using ElsaMina.Commands.VoltorbFlip;
 using ElsaMina.Commands.Users.PlayTimes;
 using ElsaMina.Commands.Watchlist;
@@ -225,6 +225,12 @@ public class CommandModule : Module
         builder.RegisterCommand<AddWatchlistCommand>();
         builder.RegisterCommand<RemoveWatchlistCommand>();
 
+        builder.RegisterCommand<ConfigTourCommand>();
+        builder.RegisterCommand<SaveTourCommand>();
+        builder.RegisterCommand<EditTourFormCommand>();
+        builder.RegisterCommand<DeleteTourCommand>();
+        builder.RegisterCommand<LaunchTourCommand>();
+
         builder.RegisterType<CountriesGame>().AsSelf();
         builder.RegisterType<CapitalCitiesGame>().AsSelf();
         builder.RegisterType<ConnectFourGame>().AsSelf();
@@ -234,6 +240,8 @@ public class CommandModule : Module
         builder.RegisterType<PokeCriesGame>().AsSelf();
         builder.RegisterType<GatekeepersGame>().AsSelf();
 
+        builder.RegisterType<TourConfigService>().As<ITourConfigService>().SingleInstance();
+        builder.RegisterType<TourConfigLauncher>().As<Core.Services.Commands.IDynamicCommandProvider>().SingleInstance();
         builder.RegisterType<WatchlistService>().As<IWatchlistService>().SingleInstance();
         builder.RegisterType<NameColorsService>()
             .As<INameColorsService>()
@@ -287,9 +295,6 @@ public class CommandModule : Module
         builder.RegisterCommand<HebdoOrasruCommand>();
         builder.RegisterCommand<HebdoSmruCommand>();
         builder.RegisterCommand<HebdoSsruCommand>();
-        builder.RegisterCommand<Gen9RpplfCommand>();
-        builder.RegisterCommand<Gen8RpplfCommand>();
-        builder.RegisterCommand<Gen7RpplfCommand>();
     }
 
     private static void RegisterShopCommands(ContainerBuilder builder)

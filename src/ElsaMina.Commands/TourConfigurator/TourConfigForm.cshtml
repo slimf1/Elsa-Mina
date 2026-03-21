@@ -1,0 +1,60 @@
+@using ElsaMina.Core.Services.Templates
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.TourConfigurator.TourConfigFormViewModel>
+
+@{
+    var isEdit = Model.ExistingConfig != null;
+    var config = Model.ExistingConfig;
+    var inputStyle = "border:1px solid #ccc;padding:4px;width:95%;margin:2px 0";
+}
+
+<form data-submitsend="/w @Model.BotName,@(Model.Trigger)savetour @Model.RoomId;;{id};;{tier};;{format};;{autostart};;{autodq};;{tourname};;{rules}">
+    <table style="width:100%">
+        <tr>
+            <td><b>@GetString("tourconfig_field_id")</b></td>
+            <td>
+                @if (isEdit)
+                {
+                    <input type="text" name="id" value="@config.Id" readonly style="@inputStyle;background:#eee"/>
+                }
+                else
+                {
+                    <input type="text" name="id" placeholder="ex: gen9rpplf" style="@inputStyle" required/>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td><b>@GetString("tourconfig_field_tier")</b></td>
+            <td><input type="text" name="tier" value="@(isEdit ? config.Tier : "")" placeholder="ex: gen9ubers" style="@inputStyle"/></td>
+        </tr>
+        <tr>
+            <td><b>@GetString("tourconfig_field_format")</b></td>
+            <td><input type="text" name="format" value="@(isEdit ? config.Format : "elim")" placeholder="elim ou rr" style="@inputStyle"/></td>
+        </tr>
+        <tr>
+            <td><b>@GetString("tourconfig_field_autostart")</b></td>
+            <td><input type="text" name="autostart" value="@(isEdit ? config.Autostart : 10)" placeholder="10" style="@inputStyle"/></td>
+        </tr>
+        <tr>
+            <td><b>@GetString("tourconfig_field_autodq")</b></td>
+            <td><input type="text" name="autodq" value="@(isEdit && config.AutoDq.HasValue ? config.AutoDq.Value : "")" placeholder="" style="@inputStyle"/></td>
+        </tr>
+        <tr>
+            <td><b>@GetString("tourconfig_field_tourname")</b></td>
+            <td><input type="text" name="tourname" value="@(isEdit ? config.TourName : "")" placeholder="ex: [Gen 9] RPPLF" style="@inputStyle"/></td>
+        </tr>
+        <tr>
+            <td><b>@GetString("tourconfig_field_rules")</b></td>
+            <td><textarea name="rules" rows="3" style="@inputStyle" placeholder="ex: +Razor Fang, -Light Clay, ...">@(isEdit ? config.Rules : "")</textarea></td>
+        </tr>
+    </table>
+    <br/>
+    @if (isEdit)
+    {
+        <button class="button" type="submit" style="background:#2196F3;color:white;border:none;padding:6px 16px;cursor:pointer;border-radius:4px">@GetString("tourconfig_btn_save")</button>
+        <button class="button" name="send" value="/w @Model.BotName,@(Model.Trigger)configtour @Model.RoomId" style="background:#888;color:white;border:none;padding:4px 12px;cursor:pointer;border-radius:3px;margin-left:8px">@GetString("tourconfig_btn_back")</button>
+    }
+    else
+    {
+        <button class="button" type="submit" style="background:#4CAF50;color:white;border:none;padding:6px 16px;cursor:pointer;border-radius:4px">@GetString("tourconfig_btn_create")</button>
+    }
+</form>
