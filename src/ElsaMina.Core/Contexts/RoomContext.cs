@@ -86,4 +86,10 @@ public class RoomContext : Context
         var command = isChanging ? "changeuhtml" : "adduhtml";
         Bot.Say(RoomId, $"/{command} {htmlId}, {html}");
     }
+
+    public override void SendPrivateUpdatableHtml(string userId, string roomId, string htmlId, string html, bool isChanging)
+    {
+        var command = isChanging ? "changeprivateuhtml" : "sendprivateuhtml";
+        Bot.Say(roomId ?? RoomId, $"/{command} {userId}, {htmlId}, {html}");
+    }
 }

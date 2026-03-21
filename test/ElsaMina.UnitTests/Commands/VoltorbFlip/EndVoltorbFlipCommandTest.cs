@@ -17,6 +17,8 @@ public class EndVoltorbFlipCommandTest
         public Rank Rank => Rank.Regular;
     }
 
+    private IRoomsManager _roomsManager;
+    private IVoltorbFlipGameManager _gameManager;
     private EndVoltorbFlipCommand _command;
     private IContext _context;
     private IRoom _room;
@@ -25,7 +27,9 @@ public class EndVoltorbFlipCommandTest
     [SetUp]
     public void SetUp()
     {
-        _command = new EndVoltorbFlipCommand();
+        _roomsManager = Substitute.For<IRoomsManager>();
+        _gameManager = Substitute.For<IVoltorbFlipGameManager>();
+        _command = new EndVoltorbFlipCommand(_roomsManager, _gameManager);
         _context = Substitute.For<IContext>();
         _room = Substitute.For<IRoom>();
         _voltorbFlipGame = Substitute.For<IVoltorbFlipGame>();

@@ -9,6 +9,7 @@ namespace ElsaMina.UnitTests.Commands.VoltorbFlip;
 public class QuitVoltorbFlipCommandTest
 {
     private IRoomsManager _roomsManager;
+    private IVoltorbFlipGameManager _gameManager;
     private QuitVoltorbFlipCommand _command;
     private IContext _context;
     private IRoom _room;
@@ -19,7 +20,8 @@ public class QuitVoltorbFlipCommandTest
     public void SetUp()
     {
         _roomsManager = Substitute.For<IRoomsManager>();
-        _command = new QuitVoltorbFlipCommand(_roomsManager);
+        _gameManager = Substitute.For<IVoltorbFlipGameManager>();
+        _command = new QuitVoltorbFlipCommand(_roomsManager, _gameManager);
         _context = Substitute.For<IContext>();
         _room = Substitute.For<IRoom>();
         _voltorbFlipGame = Substitute.For<IVoltorbFlipGame>();
@@ -28,6 +30,7 @@ public class QuitVoltorbFlipCommandTest
         _context.Sender.Returns(_sender);
         _room.Game.Returns(_voltorbFlipGame);
         _roomsManager.GetRoom("test-room").Returns(_room);
+        _gameManager.GetGame(Arg.Any<string>(), Arg.Any<string>()).ReturnsNull();
     }
 
     [Test]

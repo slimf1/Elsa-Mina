@@ -1454,6 +1454,12 @@
     <data name="vf_game_timeout" xml:space="preserve">
         <value>La partita di Voltorb Flip è terminata per inattività.</value>
     </data>
+    <data name="vf_game_pm_missing_room" xml:space="preserve">
+        <value>Specifica una stanza. Uso: -voltorbflip nomestanza</value>
+    </data>
+    <data name="vf_game_pm_invalid_room" xml:space="preserve">
+        <value>La stanza specificata non è stata trovata o il bot non è presente.</value>
+    </data>
     <data name="vf_panel_title" xml:space="preserve">
         <value>Voltorb Flip</value>
     </data>
@@ -1507,6 +1513,9 @@
     </data>
     <data name="vf_panel_stop" xml:space="preserve">
         <value>Ferma la partita</value>
+    </data>
+    <data name="vf_panel_play_again" xml:space="preserve">
+        <value>Gioca ancora</value>
     </data>
     <data name="setcolor_help" xml:space="preserve">
         <value>Imposta un colore personalizzato per il nickname di un utente. Sintassi: -setcolor &lt;utente&gt;, &lt;#coloreesadecimale&gt; (es. -setcolor Distrib, #9d6b15)</value>

@@ -234,6 +234,7 @@ public class CommandModule : Module
         builder.RegisterType<PokeCriesGame>().AsSelf();
         builder.RegisterType<GatekeepersGame>().AsSelf();
 
+        builder.RegisterType<VoltorbFlipGameManager>().As<IVoltorbFlipGameManager>().SingleInstance();
         builder.RegisterType<WatchlistService>().As<IWatchlistService>().SingleInstance();
         builder.RegisterType<NameColorsService>()
             .As<INameColorsService>()

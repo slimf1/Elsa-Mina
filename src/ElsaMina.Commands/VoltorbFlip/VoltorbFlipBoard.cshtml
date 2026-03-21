@@ -124,7 +124,7 @@
                             <button
                                 class="button"
                                 name="send"
-                                value="@(Model.Trigger)voltorbflip">
+                                value="@(Model.IsPrivateMode ? $"/botmsg {Model.BotName},{Model.Trigger}voltorbflip {Model.RoomId}" : $"{Model.Trigger}voltorbflip")">
                                 @GetString("vf_panel_new_round")
                             </button>
                             <br/><br/>
@@ -132,10 +132,20 @@
                         <button
                             class="button"
                             name="send"
-                            value="@(Model.Trigger)vfend">
+                            value="@(Model.IsPrivateMode ? $"/botmsg {Model.BotName},{Model.Trigger}vfend {Model.RoomId}" : $"{Model.Trigger}vfend")">
                             @GetString("vf_panel_stop")
                         </button>
                     </details>
+                }
+                else
+                {
+                    <br/>
+                    <button
+                        class="button"
+                        name="send"
+                        value="@(Model.IsPrivateMode ? $"/botmsg {Model.BotName},{Model.Trigger}voltorbflip {Model.RoomId}" : $"{Model.Trigger}voltorbflip")">
+                        @GetString("vf_panel_play_again")
+                    </button>
                 }
             </td>
         </tr>

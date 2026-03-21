@@ -18,6 +18,9 @@ public interface IVoltorbFlipGame : IGame
     bool IsEnded { get; }
     bool IsMarkingMode { get; }
     bool[,] IsMarked { get; }
+    bool IsPrivateMode { get; }
+    string TargetRoomId { get; }
+    string TargetUserId { get; }
     IContext Context { get; set; }
     IUser Owner { get; set; }
 
