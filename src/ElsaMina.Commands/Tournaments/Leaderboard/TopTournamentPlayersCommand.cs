@@ -12,7 +12,7 @@ namespace ElsaMina.Commands.Tournaments.Leaderboard;
 [NamedCommand("tourtop", Aliases = ["tourclassement", "tournamentrecords", "tourleaderboard", "board"])]
 public class TopTournamentPlayersCommand : Command
 {
-    private const int TOP_COUNT = 20;
+    private const int TOP_COUNT = 50;
 
     private readonly IBotDbContextFactory _botDbContextFactory;
     private readonly ITemplatesManager _templatesManager;
