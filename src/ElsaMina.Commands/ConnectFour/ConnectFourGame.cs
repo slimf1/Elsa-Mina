@@ -339,12 +339,8 @@ public class ConnectFourGame : Game, IConnectFourGame
                 Trigger = _configuration.Trigger
             });
 
-        var pageName = $"c4-game-{Context.RoomId}-{GameId}";
-        var sanitizedTemplate = template.RemoveNewlines();
-        foreach (var player in Players)
-        {
-            _bot.Say(Context.RoomId, $"/sendhtmlpage {player.Name}, {pageName}, {sanitizedTemplate}");
-        }
+        var gridId = $"c4-game-{Context.RoomId}-{GameId}";
+        Context.SendUpdatableHtml(gridId, template.RemoveNewlines(), TurnCount > 1 || _ended);
     }
 
     #endregion

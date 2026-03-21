@@ -273,6 +273,7 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
             }
         }
         OnEnd();
+        await DisplayBoard(showAll: true, firstTime: false);
     }
 
     private async Task OnInactivityTimeout()

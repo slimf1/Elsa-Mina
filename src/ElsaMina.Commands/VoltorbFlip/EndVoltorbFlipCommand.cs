@@ -38,6 +38,12 @@ public class EndVoltorbFlipCommand : Command
             return;
         }
 
+        var room = _roomsManager.GetRoom(roomId);
+        if (room != null)
+        {
+            context.Culture = room.Culture;
+        }
+
         var voltorbFlip = _gameManager.GetGame(roomId, context.Sender.UserId);
         if (voltorbFlip == null)
         {
@@ -45,6 +51,7 @@ public class EndVoltorbFlipCommand : Command
             return;
         }
 
+        voltorbFlip.Context = context;
         await voltorbFlip.CancelAsync();
         context.ReplyLocalizedMessage("vf_game_cancelled");
     }
