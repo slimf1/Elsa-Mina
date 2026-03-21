@@ -18,6 +18,7 @@
     <File Path="scripts\test.sh" />
   </Folder>
   <Folder Name="/Scripts/DataMigrationScripts/">
+    <File Path="scripts\import-wintours.py" />
     <File Path="scripts\import_teams.py" />
     <File Path="scripts\migrate-db.py" />
     <File Path="scripts\migrate_shop.py" />
