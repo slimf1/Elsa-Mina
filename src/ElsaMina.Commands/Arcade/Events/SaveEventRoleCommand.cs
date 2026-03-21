@@ -99,7 +99,7 @@ public class SaveEventRoleCommand : Command
             RoomId = roomId,
             Mappings = mappings
         };
-        var template = await _templatesManager.GetTemplateAsync("Arcade/EventRoleMappingDashboard", viewModel);
+        var template = await _templatesManager.GetTemplateAsync("Arcade/Events/EventRoleMappingDashboard", viewModel);
         context.ReplyHtmlPage($"{roomId}eventroles", template.RemoveNewlines());
     }
 }

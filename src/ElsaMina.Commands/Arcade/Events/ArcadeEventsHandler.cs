@@ -94,6 +94,10 @@ public class ArcadeEventsHandler : Handler
             var roleMapping = await _eventRoleMappingService.GetMappingAsync(detailEventName, roomId, cancellationToken);
             var rolePing = roleMapping != null ? $"<@&{roleMapping.DiscordRoleId}>" : string.Empty;
 
+            var notificationTitle = roleMapping != null
+                ? $"{NOTIFICATION_TITLE} — {detailEventName}"
+                : NOTIFICATION_TITLE;
+
             var embedDescription =
                 $"L'événement '{detailEventName}' a commencé dans la room [Arcade](https://play.pokemonshowdown.com/arcade) !\n\n**Description:** {eventDescription}";
 
@@ -106,7 +110,7 @@ public class ArcadeEventsHandler : Handler
                 [
                     new ArcadeEventWebhookEmbed
                     {
-                        Title = NOTIFICATION_TITLE,
+                        Title = notificationTitle,
                         Color = NOTIFICATION_COLOR,
                         Description = embedDescription
                     }
