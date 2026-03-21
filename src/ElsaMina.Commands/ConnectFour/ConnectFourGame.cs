@@ -88,7 +88,7 @@ public class ConnectFourGame : Game, IConnectFourGame
                 Trigger = _configuration.Trigger
             });
 
-        Context.SendUpdatableHtml(AnnounceId, template.RemoveNewlines(), true);
+        Context.SendUpdatableHtml(AnnounceId, template.RemoveNewlines(), false);
     }
 
     public async Task JoinGame(IUser user)
