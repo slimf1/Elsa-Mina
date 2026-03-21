@@ -12,15 +12,18 @@ public class CommandExecutor : ICommandExecutor
 {
     private readonly IDependencyContainerService _dependencyContainerService;
     private readonly IAddedCommandsManager _addedCommandsManager;
+    private readonly IEnumerable<IDynamicCommandProvider> _dynamicCommandProviders;
 
     private readonly ConcurrentDictionary<Guid, RunningCommand> _runningCommands = new();
 
     public CommandExecutor(
         IDependencyContainerService dependencyContainerService,
-        IAddedCommandsManager addedCommandsManager)
+        IAddedCommandsManager addedCommandsManager,
+        IEnumerable<IDynamicCommandProvider> dynamicCommandProviders)
     {
         _dependencyContainerService = dependencyContainerService;
         _addedCommandsManager = addedCommandsManager;
+        _dynamicCommandProviders = dynamicCommandProviders;
     }
 
     #region Public API
@@ -55,6 +58,14 @@ public class CommandExecutor : ICommandExecutor
         {
             Log.Information("Trying command {0} as a custom command", commandName);
             if (await _addedCommandsManager.TryExecuteAddedCommand(commandName, context))
+            {
+                return;
+            }
+        }
+
+        foreach (var provider in _dynamicCommandProviders)
+        {
+            if (await provider.TryExecuteAsync(commandName, context))
             {
                 return;
             }
