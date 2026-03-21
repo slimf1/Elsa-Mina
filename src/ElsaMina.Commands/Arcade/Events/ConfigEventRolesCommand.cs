@@ -42,6 +42,11 @@ public class ConfigEventRolesCommand : Command
             return;
         }
 
+        if (context.IsPrivateMessage)
+        {
+            context.Culture = room.Culture;
+        }
+
         var mappings = await _eventRoleMappingService.GetMappingsForRoomAsync(roomId, cancellationToken);
 
         var viewModel = new EventRoleMappingViewModel

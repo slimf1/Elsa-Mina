@@ -75,6 +75,11 @@ public class SaveEventRoleCommand : Command
             return;
         }
 
+        if (context.IsPrivateMessage)
+        {
+            context.Culture = room.Culture;
+        }
+
         var mapping = new EventRoleMapping
         {
             EventName = eventName,
