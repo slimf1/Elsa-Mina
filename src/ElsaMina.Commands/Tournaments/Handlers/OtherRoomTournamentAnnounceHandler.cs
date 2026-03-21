@@ -50,7 +50,7 @@ public class OtherRoomTournamentAnnounceHandler : Handler
                     _resourcesService.GetString("tour_announce_message", culture),
                     format,
                     broadcastingRoomId);
-                _bot.Say(receivingRoomId, message);
+                _bot.Say(receivingRoomId, $"/wall {message}");
             }
         }
 

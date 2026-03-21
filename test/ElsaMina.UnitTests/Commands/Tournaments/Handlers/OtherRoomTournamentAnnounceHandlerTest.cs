@@ -186,7 +186,7 @@ public class OtherRoomTournamentAnnounceHandlerTest
         await _handler.HandleReceivedMessageAsync(parts, "broadcastroom");
 
         _bot.Received(1).Say("receivingroom",
-            "A tournament in [Gen 9] OU was announced in broadcastroom!");
+            "/wall A tournament in [Gen 9] OU was announced in broadcastroom!");
     }
 
     [Test]
