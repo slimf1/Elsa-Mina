@@ -23,6 +23,7 @@ public class VoltorbFlipLeaderboardCommand : Command
     }
 
     public override Rank RequiredRank => Rank.Voiced;
+    public override bool IsAllowedInPrivateMessage => true;
     public override string HelpMessageKey => "voltorbflip_leaderboard_help";
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
