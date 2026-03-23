@@ -1,6 +1,6 @@
 using ElsaMina.Core.Services.Battles;
 
-namespace ElsaMina.Core.Handlers;
+namespace ElsaMina.Core.Handlers.DefaultHandlers;
 
 public class BattleHandler : Handler
 {

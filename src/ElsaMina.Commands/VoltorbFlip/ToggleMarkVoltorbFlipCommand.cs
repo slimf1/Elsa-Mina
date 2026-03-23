@@ -21,7 +21,17 @@ public class ToggleMarkVoltorbFlipCommand : Command
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        var roomId = context.Target.Trim();
+        var parts = context.Target.Split(',');
+        var roomId = parts[0].Trim();
+
+        if (parts.Length < 2 || !int.TryParse(parts[1].Trim(), out var markerTypeInt)
+            || !Enum.IsDefined(typeof(VoltorbFlipMarkerType), markerTypeInt)
+            || markerTypeInt == (int)VoltorbFlipMarkerType.None)
+        {
+            return;
+        }
+
+        var markerType = (VoltorbFlipMarkerType)markerTypeInt;
 
         var voltorbFlip = _gameManager.GetGame(roomId, context.Sender.UserId)
             ?? _roomsManager.GetRoom(roomId)?.Game as IVoltorbFlipGame;
@@ -34,7 +44,7 @@ public class ToggleMarkVoltorbFlipCommand : Command
                 if (room != null) context.Culture = room.Culture;
                 voltorbFlip.Context = context;
             }
-            await voltorbFlip.ToggleMarkingMode(context.Sender);
+            await voltorbFlip.SetMarkerType(context.Sender, markerType);
         }
     }
 }

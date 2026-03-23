@@ -17,7 +17,8 @@ public interface IVoltorbFlipGame : IGame
     int[] ColVoltorbs { get; }
     bool IsEnded { get; }
     bool IsMarkingMode { get; }
-    bool[,] IsMarked { get; }
+    VoltorbFlipMarkerType ActiveMarkerType { get; }
+    VoltorbFlipMarkerType[,] Markers { get; }
     bool IsPrivateMode { get; }
     string TargetRoomId { get; }
     string TargetUserId { get; }
@@ -27,7 +28,7 @@ public interface IVoltorbFlipGame : IGame
     Task DisplayAnnounce();
     Task StartNewRound();
     Task FlipTile(IUser user, int row, int col);
-    Task ToggleMarkingMode(IUser user);
+    Task SetMarkerType(IUser user, VoltorbFlipMarkerType markerType);
     Task QuitRound(IUser user);
     Task CancelAsync();
 }

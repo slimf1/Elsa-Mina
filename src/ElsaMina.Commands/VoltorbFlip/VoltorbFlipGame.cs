@@ -57,8 +57,9 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
     public string TargetUserId { get; set; }
     public IContext Context { get; set; }
     public IUser Owner { get; set; }
-    public bool IsMarkingMode { get; private set; }
-    public bool[,] IsMarked { get; private set; }
+    public bool IsMarkingMode => ActiveMarkerType != VoltorbFlipMarkerType.None;
+    public VoltorbFlipMarkerType ActiveMarkerType { get; private set; }
+    public VoltorbFlipMarkerType[,] Markers { get; private set; }
     private string EffectiveRoomId => IsPrivateMode ? TargetRoomId : Context.RoomId;
     private string GameIdentifier => $"vf-{EffectiveRoomId}-{_gameId}";
     private string AnnounceId => GameIdentifier;
@@ -97,8 +98,8 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
         const int size = VoltorbFlipConstants.GRID_SIZE;
         TileValues = new int[size, size];
         IsRevealed = new bool[size, size];
-        IsMarked = new bool[size, size];
-        IsMarkingMode = false;
+        Markers = new VoltorbFlipMarkerType[size, size];
+        ActiveMarkerType = VoltorbFlipMarkerType.None;
         RowSums = new int[size];
         ColSums = new int[size];
         RowVoltorbs = new int[size];
@@ -178,7 +179,9 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
 
         if (IsMarkingMode)
         {
-            IsMarked[row, col] = !IsMarked[row, col];
+            Markers[row, col] = Markers[row, col] == ActiveMarkerType
+                ? VoltorbFlipMarkerType.None
+                : ActiveMarkerType;
             _inactivityTimer.Restart();
             await DisplayBoard(showAll: false, firstTime: false);
             return;
@@ -245,14 +248,16 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
         await DisplayBoard(showAll: true, firstTime: true);
     }
 
-    public async Task ToggleMarkingMode(IUser user)
+    public async Task SetMarkerType(IUser user, VoltorbFlipMarkerType markerType)
     {
         if (!IsRoundActive || user.UserId != Owner.UserId)
         {
             return;
         }
 
-        IsMarkingMode = !IsMarkingMode;
+        ActiveMarkerType = ActiveMarkerType == markerType
+            ? VoltorbFlipMarkerType.None
+            : markerType;
         _inactivityTimer.Restart();
         await DisplayBoard(showAll: false, firstTime: false);
     }

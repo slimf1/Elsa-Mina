@@ -1,6 +1,17 @@
 @using ElsaMina.Commands.VoltorbFlip
 @using ElsaMina.Core.Services.Templates
 @inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.VoltorbFlip.VoltorbFlipModel>
+@functions {
+    static string MarkerDotStyle(VoltorbFlipMarkerType markerType) => markerType switch {
+        VoltorbFlipMarkerType.Voltorb => "display: inline-block; width: 8px; height: 8px; background-color: #ff4444; border-radius: 50%;",
+        VoltorbFlipMarkerType.One    => "display: inline-block; width: 8px; height: 8px; background-color: #c0c0c0; border-radius: 1px;",
+        VoltorbFlipMarkerType.Two    => "display: inline-block; width: 8px; height: 8px; background-color: #FFD700; border-radius: 1px;",
+        VoltorbFlipMarkerType.Three  => "display: inline-block; width: 8px; height: 8px; background-color: #ff9900; border-radius: 1px;",
+        _ => "display: none;"
+    };
+    static string MarkerButtonStyle(bool isActive) =>
+        isActive ? "font-weight: bold; outline: 2px solid #333;" : "";
+}
 
 @{
     var game = Model.CurrentGame;
@@ -38,9 +49,9 @@
                                             name="send"
                                             value="/botmsg @Model.BotName,@(Model.Trigger)vfflip @Model.RoomId, @row, @col"
                                             style="width: 36px; height: 36px; @hiddenCellStyle border: none; cursor: pointer; text-align: left; vertical-align: top; padding: 2px;">
-                                            @if (game.IsMarked[row, col])
+                                            @if (game.Markers[row, col] != VoltorbFlipMarkerType.None)
                                             {
-                                                <span style="display: inline-block; width: 8px; height: 8px; background-color: #FFD700; border-radius: 1px;"></span>
+                                                <span style="@MarkerDotStyle(game.Markers[row, col])"></span>
                                             }
                                         </button>
                                     }
@@ -95,12 +106,34 @@
                 <br/>
                 @if (game.IsRoundActive)
                 {
+                    <span>@GetString("vf_panel_mark_mode"): </span>
                     <button
                         class="button"
                         name="send"
-                        value="/botmsg @Model.BotName,@(Model.Trigger)vftogglemark @Model.RoomId"
-                        style="@(game.IsMarkingMode ? "background-color: #FFD700; font-weight: bold;" : "")">
-                        @GetString("vf_panel_mark_mode")
+                        value="/botmsg @Model.BotName,@(Model.Trigger)vftogglemark @Model.RoomId, 1"
+                        style="@MarkerButtonStyle(game.ActiveMarkerType == VoltorbFlipMarkerType.Voltorb)">
+                        <img src="@voltorbSpriteUrl" width="12" height="12" alt="Voltorb" style="vertical-align: middle;" />
+                    </button>
+                    <button
+                        class="button"
+                        name="send"
+                        value="/botmsg @Model.BotName,@(Model.Trigger)vftogglemark @Model.RoomId, 2"
+                        style="background-color: #e8e8e8; @MarkerButtonStyle(game.ActiveMarkerType == VoltorbFlipMarkerType.One)">
+                        1
+                    </button>
+                    <button
+                        class="button"
+                        name="send"
+                        value="/botmsg @Model.BotName,@(Model.Trigger)vftogglemark @Model.RoomId, 3"
+                        style="background-color: #ff9; @MarkerButtonStyle(game.ActiveMarkerType == VoltorbFlipMarkerType.Two)">
+                        2
+                    </button>
+                    <button
+                        class="button"
+                        name="send"
+                        value="/botmsg @Model.BotName,@(Model.Trigger)vftogglemark @Model.RoomId, 4"
+                        style="background-color: #f90; @MarkerButtonStyle(game.ActiveMarkerType == VoltorbFlipMarkerType.Three)">
+                        3
                     </button>
                     <br/><br/>
                 }

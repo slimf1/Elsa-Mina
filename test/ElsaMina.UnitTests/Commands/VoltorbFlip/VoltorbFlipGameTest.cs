@@ -472,78 +472,165 @@ public class VoltorbFlipGameTest
 
     #endregion
 
-    #region ToggleMarkingMode
+    #region SetMarkerType
 
     [Test]
-    public async Task Test_ToggleMarkingMode_ShouldEnableMarkingMode_WhenCalledOnce()
+    public async Task Test_SetMarkerType_ShouldHaveNoActiveMarker_BeforeRoundStarts()
     {
-        await _game.StartNewRound();
-
-        await _game.ToggleMarkingMode(_mockUser);
-
-        Assert.That(_game.IsMarkingMode, Is.True);
-    }
-
-    [Test]
-    public async Task Test_ToggleMarkingMode_ShouldDisableMarkingMode_WhenCalledTwice()
-    {
-        await _game.StartNewRound();
-
-        await _game.ToggleMarkingMode(_mockUser);
-        await _game.ToggleMarkingMode(_mockUser);
-
+        Assert.That(_game.ActiveMarkerType, Is.EqualTo(VoltorbFlipMarkerType.None));
         Assert.That(_game.IsMarkingMode, Is.False);
     }
 
     [Test]
-    public async Task Test_ToggleMarkingMode_ShouldDoNothing_WhenUserIsNotOwner()
+    public async Task Test_SetMarkerType_ShouldEnableMarkingMode_WhenCalledWithAMarkerType()
+    {
+        await _game.StartNewRound();
+
+        await _game.SetMarkerType(_mockUser, VoltorbFlipMarkerType.Voltorb);
+
+        Assert.That(_game.IsMarkingMode, Is.True);
+        Assert.That(_game.ActiveMarkerType, Is.EqualTo(VoltorbFlipMarkerType.Voltorb));
+    }
+
+    [Test]
+    public async Task Test_SetMarkerType_ShouldDisableMarkingMode_WhenCalledTwiceWithSameType()
+    {
+        await _game.StartNewRound();
+
+        await _game.SetMarkerType(_mockUser, VoltorbFlipMarkerType.Voltorb);
+        await _game.SetMarkerType(_mockUser, VoltorbFlipMarkerType.Voltorb);
+
+        Assert.That(_game.IsMarkingMode, Is.False);
+        Assert.That(_game.ActiveMarkerType, Is.EqualTo(VoltorbFlipMarkerType.None));
+    }
+
+    [Test]
+    public async Task Test_SetMarkerType_ShouldSwitchMarkerType_WhenCalledWithDifferentType()
+    {
+        await _game.StartNewRound();
+
+        await _game.SetMarkerType(_mockUser, VoltorbFlipMarkerType.Voltorb);
+        await _game.SetMarkerType(_mockUser, VoltorbFlipMarkerType.Two);
+
+        Assert.That(_game.ActiveMarkerType, Is.EqualTo(VoltorbFlipMarkerType.Two));
+    }
+
+    [Test]
+    public async Task Test_SetMarkerType_ShouldDoNothing_WhenUserIsNotOwner()
     {
         await _game.StartNewRound();
         var otherUser = Substitute.For<IUser>();
         otherUser.UserId.Returns("otherplayer");
 
-        await _game.ToggleMarkingMode(otherUser);
+        await _game.SetMarkerType(otherUser, VoltorbFlipMarkerType.Voltorb);
 
         Assert.That(_game.IsMarkingMode, Is.False);
     }
 
     [Test]
-    public async Task Test_ToggleMarkingMode_ShouldDoNothing_WhenRoundNotActive()
+    public async Task Test_SetMarkerType_ShouldDoNothing_WhenRoundNotActive()
     {
-        await _game.ToggleMarkingMode(_mockUser);
+        await _game.SetMarkerType(_mockUser, VoltorbFlipMarkerType.Voltorb);
 
         Assert.That(_game.IsMarkingMode, Is.False);
+    }
+
+    [Test]
+    public async Task Test_SetMarkerType_ShouldSetActiveMarkerTypeToOne_WhenCalledWithOne()
+    {
+        await _game.StartNewRound();
+
+        await _game.SetMarkerType(_mockUser, VoltorbFlipMarkerType.One);
+
+        Assert.That(_game.ActiveMarkerType, Is.EqualTo(VoltorbFlipMarkerType.One));
+    }
+
+    [Test]
+    public async Task Test_SetMarkerType_ShouldSetActiveMarkerTypeToThree_WhenCalledWithThree()
+    {
+        await _game.StartNewRound();
+
+        await _game.SetMarkerType(_mockUser, VoltorbFlipMarkerType.Three);
+
+        Assert.That(_game.ActiveMarkerType, Is.EqualTo(VoltorbFlipMarkerType.Three));
     }
 
     [Test]
     public async Task Test_FlipTile_ShouldMarkCell_WhenInMarkingMode()
     {
         await _game.StartNewRound();
-        await _game.ToggleMarkingMode(_mockUser);
+        await _game.SetMarkerType(_mockUser, VoltorbFlipMarkerType.Voltorb);
 
         await _game.FlipTile(_mockUser, 0, 2);
 
-        Assert.That(_game.IsMarked[0, 2], Is.True);
+        Assert.That(_game.Markers[0, 2], Is.EqualTo(VoltorbFlipMarkerType.Voltorb));
         Assert.That(_game.IsRevealed[0, 2], Is.False);
     }
 
     [Test]
-    public async Task Test_FlipTile_ShouldUnmarkCell_WhenInMarkingModeAndCellAlreadyMarked()
+    public async Task Test_FlipTile_ShouldMarkCellWithOneMarker_WhenActiveMarkerIsOne()
     {
         await _game.StartNewRound();
-        await _game.ToggleMarkingMode(_mockUser);
+        await _game.SetMarkerType(_mockUser, VoltorbFlipMarkerType.One);
+
+        await _game.FlipTile(_mockUser, 0, 2);
+
+        Assert.That(_game.Markers[0, 2], Is.EqualTo(VoltorbFlipMarkerType.One));
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldMarkCellWithTwoMarker_WhenActiveMarkerIsTwo()
+    {
+        await _game.StartNewRound();
+        await _game.SetMarkerType(_mockUser, VoltorbFlipMarkerType.Two);
+
+        await _game.FlipTile(_mockUser, 0, 2);
+
+        Assert.That(_game.Markers[0, 2], Is.EqualTo(VoltorbFlipMarkerType.Two));
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldMarkCellWithThreeMarker_WhenActiveMarkerIsThree()
+    {
+        await _game.StartNewRound();
+        await _game.SetMarkerType(_mockUser, VoltorbFlipMarkerType.Three);
+
+        await _game.FlipTile(_mockUser, 0, 2);
+
+        Assert.That(_game.Markers[0, 2], Is.EqualTo(VoltorbFlipMarkerType.Three));
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldUnmarkCell_WhenInMarkingModeAndCellAlreadyMarkedWithSameType()
+    {
+        await _game.StartNewRound();
+        await _game.SetMarkerType(_mockUser, VoltorbFlipMarkerType.Voltorb);
         await _game.FlipTile(_mockUser, 0, 2); // mark
 
         await _game.FlipTile(_mockUser, 0, 2); // unmark
 
-        Assert.That(_game.IsMarked[0, 2], Is.False);
+        Assert.That(_game.Markers[0, 2], Is.EqualTo(VoltorbFlipMarkerType.None));
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldReplaceMarker_WhenInMarkingModeAndCellMarkedWithDifferentType()
+    {
+        await _game.StartNewRound();
+        await _game.SetMarkerType(_mockUser, VoltorbFlipMarkerType.Voltorb);
+        await _game.FlipTile(_mockUser, 0, 2); // mark as Voltorb
+        await _game.SetMarkerType(_mockUser, VoltorbFlipMarkerType.Voltorb); // deactivate voltorb mode
+        await _game.SetMarkerType(_mockUser, VoltorbFlipMarkerType.Two); // activate Two mode
+
+        await _game.FlipTile(_mockUser, 0, 2); // replace marker
+
+        Assert.That(_game.Markers[0, 2], Is.EqualTo(VoltorbFlipMarkerType.Two));
     }
 
     [Test]
     public async Task Test_FlipTile_ShouldNotFlipCell_WhenInMarkingMode()
     {
         await _game.StartNewRound();
-        await _game.ToggleMarkingMode(_mockUser);
+        await _game.SetMarkerType(_mockUser, VoltorbFlipMarkerType.One);
 
         await _game.FlipTile(_mockUser, 0, 2);
 
@@ -551,17 +638,17 @@ public class VoltorbFlipGameTest
     }
 
     [Test]
-    public async Task Test_StartNewRound_ShouldResetMarkingModeAndMarks_WhenStartingNewRound()
+    public async Task Test_StartNewRound_ShouldResetMarkingModeAndMarkers_WhenStartingNewRound()
     {
         await _game.StartNewRound();
-        await _game.ToggleMarkingMode(_mockUser);
+        await _game.SetMarkerType(_mockUser, VoltorbFlipMarkerType.Voltorb);
         await _game.FlipTile(_mockUser, 0, 2); // mark a cell
         _game.Owner = _mockUser;
 
         await _game.StartNewRound();
 
         Assert.That(_game.IsMarkingMode, Is.False);
-        Assert.That(_game.IsMarked[0, 2], Is.False);
+        Assert.That(_game.Markers[0, 2], Is.EqualTo(VoltorbFlipMarkerType.None));
     }
 
     #endregion

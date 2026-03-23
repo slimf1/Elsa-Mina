@@ -28,7 +28,7 @@ public class ToggleMarkVoltorbFlipCommandTest
         _sender = Substitute.For<IUser>();
 
         _context.Sender.Returns(_sender);
-        _context.Target.Returns("test-room");
+        _context.Target.Returns("test-room, 1");
         _room.Game.Returns(_voltorbFlipGame);
         _roomsManager.GetRoom("test-room").Returns(_room);
         _gameManager.GetGame(Arg.Any<string>(), Arg.Any<string>()).ReturnsNull();
@@ -47,26 +47,131 @@ public class ToggleMarkVoltorbFlipCommandTest
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldCallToggleMarkingMode_WhenVoltorbFlipGameExists()
+    public async Task Test_RunAsync_ShouldCallSetMarkerType_WhenVoltorbFlipGameExists()
     {
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        await _voltorbFlipGame.Received(1).ToggleMarkingMode(_sender);
+        await _voltorbFlipGame.Received(1).SetMarkerType(_sender, VoltorbFlipMarkerType.Voltorb);
     }
 
     [Test]
     public async Task Test_RunAsync_ShouldTrimRoomId()
     {
         // Arrange
-        _context.Target.Returns("  test-room  ");
+        _context.Target.Returns("  test-room  , 1");
 
         // Act
         await _command.RunAsync(_context);
 
         // Assert
-        await _voltorbFlipGame.Received(1).ToggleMarkingMode(_sender);
+        await _voltorbFlipGame.Received(1).SetMarkerType(_sender, VoltorbFlipMarkerType.Voltorb);
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldPassCorrectMarkerType_WhenMarkerTypeIsOne()
+    {
+        // Arrange
+        _context.Target.Returns("test-room, 2");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await _voltorbFlipGame.Received(1).SetMarkerType(_sender, VoltorbFlipMarkerType.One);
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldPassCorrectMarkerType_WhenMarkerTypeIsTwo()
+    {
+        // Arrange
+        _context.Target.Returns("test-room, 3");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await _voltorbFlipGame.Received(1).SetMarkerType(_sender, VoltorbFlipMarkerType.Two);
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldPassCorrectMarkerType_WhenMarkerTypeIsThree()
+    {
+        // Arrange
+        _context.Target.Returns("test-room, 4");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await _voltorbFlipGame.Received(1).SetMarkerType(_sender, VoltorbFlipMarkerType.Three);
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldDoNothing_WhenMarkerTypeIsMissing()
+    {
+        // Arrange
+        _context.Target.Returns("test-room");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await _voltorbFlipGame.DidNotReceive().SetMarkerType(Arg.Any<IUser>(), Arg.Any<VoltorbFlipMarkerType>());
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldDoNothing_WhenMarkerTypeIsZero()
+    {
+        // Arrange
+        _context.Target.Returns("test-room, 0");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await _voltorbFlipGame.DidNotReceive().SetMarkerType(Arg.Any<IUser>(), Arg.Any<VoltorbFlipMarkerType>());
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldDoNothing_WhenMarkerTypeIsOutOfRange()
+    {
+        // Arrange
+        _context.Target.Returns("test-room, 99");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await _voltorbFlipGame.DidNotReceive().SetMarkerType(Arg.Any<IUser>(), Arg.Any<VoltorbFlipMarkerType>());
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldDoNothing_WhenMarkerTypeIsNotNumeric()
+    {
+        // Arrange
+        _context.Target.Returns("test-room, abc");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await _voltorbFlipGame.DidNotReceive().SetMarkerType(Arg.Any<IUser>(), Arg.Any<VoltorbFlipMarkerType>());
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldCallSetMarkerType_WhenGameFoundViaGameManager()
+    {
+        // Arrange
+        _sender.UserId.Returns("testplayer");
+        _gameManager.GetGame("test-room", "testplayer").Returns(_voltorbFlipGame);
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await _voltorbFlipGame.Received(1).SetMarkerType(_sender, VoltorbFlipMarkerType.Voltorb);
     }
 
     [Test]
@@ -79,7 +184,7 @@ public class ToggleMarkVoltorbFlipCommandTest
         await _command.RunAsync(_context);
 
         // Assert
-        await _voltorbFlipGame.DidNotReceive().ToggleMarkingMode(Arg.Any<IUser>());
+        await _voltorbFlipGame.DidNotReceive().SetMarkerType(Arg.Any<IUser>(), Arg.Any<VoltorbFlipMarkerType>());
     }
 
     [Test]
@@ -92,7 +197,7 @@ public class ToggleMarkVoltorbFlipCommandTest
         await _command.RunAsync(_context);
 
         // Assert
-        await _voltorbFlipGame.DidNotReceive().ToggleMarkingMode(Arg.Any<IUser>());
+        await _voltorbFlipGame.DidNotReceive().SetMarkerType(Arg.Any<IUser>(), Arg.Any<VoltorbFlipMarkerType>());
     }
 
     [Test]
@@ -105,6 +210,6 @@ public class ToggleMarkVoltorbFlipCommandTest
         await _command.RunAsync(_context);
 
         // Assert
-        await _voltorbFlipGame.DidNotReceive().ToggleMarkingMode(Arg.Any<IUser>());
+        await _voltorbFlipGame.DidNotReceive().SetMarkerType(Arg.Any<IUser>(), Arg.Any<VoltorbFlipMarkerType>());
     }
 }

@@ -20,6 +20,9 @@ public sealed class BattleStateDto
     [JsonProperty("side")] 
     public Side Side { get; set; } = new();
 
-    [JsonProperty("rqid")] 
+    [JsonProperty("noCancel", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool NoCancel { get; set; }
+
+    [JsonProperty("rqid")]
     public int Rqid { get; set; }
 }
