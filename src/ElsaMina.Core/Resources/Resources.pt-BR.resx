@@ -1656,6 +1656,9 @@
     <data name="voltorbflip_leaderboard_coins" xml:space="preserve">
         <value>Moedas</value>
     </data>
+    <data name="voltorbflip_leaderboard_max_level" xml:space="preserve">
+        <value>Melhor nível</value>
+    </data>
     <data name="deleteallteams_help" xml:space="preserve">
         <value>Exclui todos os times de um tier específico nesta sala. Uso: -deleteallteams &lt;tier&gt;</value>
     </data>

@@ -64,9 +64,9 @@ public class VoltorbFlipLeaderboardCommandTest
     {
         using (var setupContext = new BotDbContext(_dbOptions))
         {
-            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user1", Level = 3, Coins = 150 });
-            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user2", Level = 5, Coins = 300 });
-            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user3", Level = 1, Coins = 50 });
+            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user1", Level = 3, MaxLevel = 5, Coins = 150 });
+            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user2", Level = 5, MaxLevel = 7, Coins = 300 });
+            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user3", Level = 1, MaxLevel = 3, Coins = 50 });
             await setupContext.SaveChangesAsync();
         }
 
@@ -83,9 +83,9 @@ public class VoltorbFlipLeaderboardCommandTest
     {
         using (var setupContext = new BotDbContext(_dbOptions))
         {
-            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user1", Level = 2, Coins = 100 });
-            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user2", Level = 5, Coins = 500 });
-            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user3", Level = 3, Coins = 250 });
+            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user1", Level = 2, MaxLevel = 2, Coins = 100 });
+            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user2", Level = 5, MaxLevel = 5, Coins = 500 });
+            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user3", Level = 3, MaxLevel = 3, Coins = 250 });
             await setupContext.SaveChangesAsync();
         }
 
@@ -109,7 +109,7 @@ public class VoltorbFlipLeaderboardCommandTest
             for (int i = 1; i <= 25; i++)
             {
                 await setupContext.VoltorbFlipLevels.AddAsync(
-                    new VoltorbFlipLevel { UserId = $"user{i}", Level = i, Coins = i * 10 });
+                    new VoltorbFlipLevel { UserId = $"user{i}", Level = i, MaxLevel = i, Coins = i * 10 });
             }
 
             await setupContext.SaveChangesAsync();
@@ -128,7 +128,7 @@ public class VoltorbFlipLeaderboardCommandTest
     {
         using (var setupContext = new BotDbContext(_dbOptions))
         {
-            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user1", Level = 3, Coins = 100 });
+            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user1", Level = 3, MaxLevel = 3, Coins = 100 });
             await setupContext.SaveChangesAsync();
         }
 
@@ -145,7 +145,7 @@ public class VoltorbFlipLeaderboardCommandTest
     {
         using (var setupContext = new BotDbContext(_dbOptions))
         {
-            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user1", Level = 1, Coins = 10 });
+            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user1", Level = 1, MaxLevel = 1, Coins = 10 });
             await setupContext.SaveChangesAsync();
         }
 
@@ -161,7 +161,7 @@ public class VoltorbFlipLeaderboardCommandTest
     {
         using (var setupContext = new BotDbContext(_dbOptions))
         {
-            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user1", Level = 2, Coins = 100 });
+            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user1", Level = 2, MaxLevel = 2, Coins = 100 });
             await setupContext.SaveChangesAsync();
         }
 
@@ -192,7 +192,7 @@ public class VoltorbFlipLeaderboardCommandTest
     {
         using (var setupContext = new BotDbContext(_dbOptions))
         {
-            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "onlyuser", Level = 7, Coins = 999 });
+            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "onlyuser", Level = 7, MaxLevel = 8, Coins = 999 });
             await setupContext.SaveChangesAsync();
         }
 
@@ -204,7 +204,29 @@ public class VoltorbFlipLeaderboardCommandTest
                 vm.Leaderboard.Count == 1 &&
                 vm.Leaderboard[0].UserId == "onlyuser" &&
                 vm.Leaderboard[0].Level == 7 &&
+                vm.Leaderboard[0].MaxLevel == 8 &&
                 vm.Leaderboard[0].Coins == 999
+            )
+        );
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldIncludeMaxLevel_InLeaderboardEntries()
+    {
+        using (var setupContext = new BotDbContext(_dbOptions))
+        {
+            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user1", Level = 3, MaxLevel = 6, Coins = 200 });
+            await setupContext.VoltorbFlipLevels.AddAsync(new VoltorbFlipLevel { UserId = "user2", Level = 1, MaxLevel = 8, Coins = 400 });
+            await setupContext.SaveChangesAsync();
+        }
+
+        await _command.RunAsync(_context);
+
+        await _templatesManager.Received(1).GetTemplateAsync(
+            "VoltorbFlip/VoltorbFlipLeaderboard",
+            Arg.Is<VoltorbFlipLeaderboardViewModel>(vm =>
+                vm.Leaderboard[0].MaxLevel == 8 &&
+                vm.Leaderboard[1].MaxLevel == 6
             )
         );
     }

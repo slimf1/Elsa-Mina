@@ -310,12 +310,14 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
             {
                 UserId = Owner.UserId,
                 Level = Level,
+                MaxLevel = Level,
                 Coins = coinsEarned
             });
         }
         else
         {
             record.Level = Level;
+            record.MaxLevel = Math.Max(record.MaxLevel, Level);
             record.Coins += coinsEarned;
             TotalCoins = record.Coins;
         }

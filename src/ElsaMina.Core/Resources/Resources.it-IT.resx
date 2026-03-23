@@ -1661,6 +1661,9 @@
     <data name="voltorbflip_leaderboard_coins" xml:space="preserve">
         <value>Monete</value>
     </data>
+    <data name="voltorbflip_leaderboard_max_level" xml:space="preserve">
+        <value>Livello massimo</value>
+    </data>
     <data name="deleteallteams_help" xml:space="preserve">
         <value>Elimina tutti i team di un tier specifico da questa stanza. Uso: -deleteallteams &lt;tier&gt;</value>
     </data>

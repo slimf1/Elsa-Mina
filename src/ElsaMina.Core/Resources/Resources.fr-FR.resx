@@ -1656,6 +1656,9 @@
     <data name="voltorbflip_leaderboard_coins" xml:space="preserve">
         <value>Pièces</value>
     </data>
+    <data name="voltorbflip_leaderboard_max_level" xml:space="preserve">
+        <value>Meilleur niveau</value>
+    </data>
     <data name="deleteallteams_help" xml:space="preserve">
         <value>Supprime toutes les équipes d'un tier spécifique de cette room. Utilisation : -deleteallteams &lt;tier&gt;</value>
     </data>

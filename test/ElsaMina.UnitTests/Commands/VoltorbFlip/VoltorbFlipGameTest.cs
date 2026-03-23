@@ -467,7 +467,41 @@ public class VoltorbFlipGameTest
         var record = await db.VoltorbFlipLevels.FindAsync("testplayer");
         Assert.That(record, Is.Not.Null);
         Assert.That(record.Level, Is.EqualTo(2));
+        Assert.That(record.MaxLevel, Is.EqualTo(2));
         Assert.That(record.Coins, Is.EqualTo(2));
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldNotDecreaseMaxLevel_WhenVoltorbHitAfterHigherLevelReached()
+    {
+        // Win once: level goes 1 → 2, MaxLevel = 2
+        await _game.StartNewRound();
+        await _game.FlipTile(_mockUser, 0, 1);
+
+        // Lose immediately: level drops back to 1, MaxLevel should stay 2
+        await _game.StartNewRound();
+        await _game.FlipTile(_mockUser, 0, 0); // Voltorb
+
+        await using var db = new BotDbContext(_dbOptions);
+        var record = await db.VoltorbFlipLevels.FindAsync("testplayer");
+        Assert.That(record.Level, Is.EqualTo(1));
+        Assert.That(record.MaxLevel, Is.EqualTo(2));
+    }
+
+    [Test]
+    public async Task Test_FlipTile_ShouldUpdateMaxLevel_WhenNewHighLevelReached()
+    {
+        // Win round 1: level 1 → 2
+        await _game.StartNewRound();
+        await _game.FlipTile(_mockUser, 0, 1);
+
+        // Win round 2: level 2 → 3
+        await _game.StartNewRound();
+        await _game.FlipTile(_mockUser, 0, 1);
+
+        await using var db = new BotDbContext(_dbOptions);
+        var record = await db.VoltorbFlipLevels.FindAsync("testplayer");
+        Assert.That(record.MaxLevel, Is.EqualTo(3));
     }
 
     #endregion
