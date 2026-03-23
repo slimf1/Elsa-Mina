@@ -22,7 +22,7 @@ public class VoltorbFlipLeaderboardCommand : Command
         _templatesManager = templatesManager;
     }
 
-    public override Rank RequiredRank => Rank.Voiced;
+    public override Rank RequiredRank => Rank.Regular;
     public override bool IsAllowedInPrivateMessage => true;
     public override string HelpMessageKey => "voltorbflip_leaderboard_help";
 
@@ -36,7 +36,7 @@ public class VoltorbFlipLeaderboardCommand : Command
 
         if (leaderboard.Count == 0)
         {
-            context.ReplyLocalizedMessage("voltorbflip_leaderboard_empty");
+            context.ReplyRankAwareLocalizedMessage("voltorbflip_leaderboard_empty");
             return;
         }
 
@@ -47,6 +47,6 @@ public class VoltorbFlipLeaderboardCommand : Command
                 Leaderboard = leaderboard
             });
 
-        context.ReplyHtml(template.RemoveNewlines());
+        context.ReplyHtml(template.RemoveNewlines(), rankAware: true);
     }
 }

@@ -46,7 +46,7 @@ public class VoltorbFlipLeaderboardCommandTest
     {
         Assert.That(_command, Is.Not.Null);
         Assert.That(_command.Name, Is.EqualTo("vfleaderboard"));
-        Assert.That(_command.RequiredRank, Is.EqualTo(Rank.Voiced));
+        Assert.That(_command.RequiredRank, Is.EqualTo(Rank.Regular));
         Assert.That(_command.HelpMessageKey, Is.EqualTo("voltorbflip_leaderboard_help"));
     }
 
@@ -55,7 +55,7 @@ public class VoltorbFlipLeaderboardCommandTest
     {
         await _command.RunAsync(_context);
 
-        _context.Received(1).ReplyLocalizedMessage("voltorbflip_leaderboard_empty");
+        _context.Received(1).ReplyRankAwareLocalizedMessage("voltorbflip_leaderboard_empty");
         await _templatesManager.DidNotReceive().GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>());
     }
 
@@ -137,7 +137,7 @@ public class VoltorbFlipLeaderboardCommandTest
 
         await _command.RunAsync(_context);
 
-        _context.Received(1).ReplyHtml("<b>Leaderboard</b>");
+        _context.Received(1).ReplyHtml("<b>Leaderboard</b>", rankAware: true);
     }
 
     [Test]
