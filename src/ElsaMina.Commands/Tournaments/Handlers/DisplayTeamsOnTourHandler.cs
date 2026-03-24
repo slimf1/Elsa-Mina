@@ -27,6 +27,8 @@ public class DisplayTeamsOnTourHandler : Handler
         _dbContextFactory = dbContextFactory;
     }
 
+    public override IReadOnlySet<string> HandledMessageTypes { get; } = new HashSet<string> { "tournament" };
+
     public override async Task HandleReceivedMessageAsync(string[] parts, string roomId = null,
         CancellationToken cancellationToken = default)
     {

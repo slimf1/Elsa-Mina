@@ -12,6 +12,8 @@ public class StaffIntroChangeHandler : Handler
         _bot = bot;
     }
 
+    public override IReadOnlySet<string> HandledMessageTypes { get; } = new HashSet<string> { "c" };
+
     public override Task HandleReceivedMessageAsync(string[] parts, string roomId = null,
         CancellationToken cancellationToken = default)
     {

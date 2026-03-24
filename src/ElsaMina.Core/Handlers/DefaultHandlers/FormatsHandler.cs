@@ -11,6 +11,8 @@ public class FormatsHandler : Handler
         _formatsManager = formatsManager;
     }
 
+    public override IReadOnlySet<string> HandledMessageTypes { get; } = new HashSet<string> { "formats" };
+
     public override Task HandleReceivedMessageAsync(string[] parts, string roomId = null, CancellationToken cancellationToken = default)
     {
         if (parts.Length >= 5 && parts[1] == "formats")

@@ -14,6 +14,8 @@ public class LoginHandler : Handler
         _client = client;
     }
 
+    public override IReadOnlySet<string> HandledMessageTypes { get; } = new HashSet<string> { "challstr" };
+
     public override async Task HandleReceivedMessageAsync(string[] parts, string roomId = null, CancellationToken cancellationToken = default)
     {
         if (parts.Length <= 2 || parts[1] != "challstr")

@@ -56,10 +56,13 @@ public class HandlerManagerTests
         // Arrange
         var handler1 = Substitute.For<IHandler>();
         handler1.IsEnabled.Returns(true);
+        handler1.HandledMessageTypes.Returns((IReadOnlySet<string>)null);
         var handler2 = Substitute.For<IHandler>();
         handler2.IsEnabled.Returns(false);
+        handler2.HandledMessageTypes.Returns((IReadOnlySet<string>)null);
         var handler3 = Substitute.For<IHandler>();
         handler3.IsEnabled.Returns(true);
+        handler3.HandledMessageTypes.Returns((IReadOnlySet<string>)null);
 
         handler1.Identifier.Returns("Handler1");
         handler2.Identifier.Returns("Handler2");
@@ -79,5 +82,110 @@ public class HandlerManagerTests
         await handler1.Received(1).HandleReceivedMessageAsync(parts, roomId);
         await handler2.DidNotReceive().HandleReceivedMessageAsync(Arg.Any<string[]>(), Arg.Any<string>());
         await handler3.Received(1).HandleReceivedMessageAsync(parts, roomId);
+    }
+
+    [Test]
+    public async Task Test_HandleMessageAsync_ShouldInvokeHandler_WhenHandledMessageTypesIsNull()
+    {
+        // Arrange
+        var handler = Substitute.For<IHandler>();
+        handler.IsEnabled.Returns(true);
+        handler.Identifier.Returns("Handler1");
+        handler.HandledMessageTypes.Returns((IReadOnlySet<string>)null);
+
+        _mockContainerService.Resolve<IEnumerable<IHandler>>().Returns(new[] { handler });
+        _handlerManager.Initialize();
+
+        var parts = new[] { "room", "anytype", "data" };
+
+        // Act
+        await _handlerManager.HandleMessageAsync(parts, "room1");
+
+        // Assert
+        await handler.Received(1).HandleReceivedMessageAsync(parts, "room1");
+    }
+
+    [Test]
+    public async Task Test_HandleMessageAsync_ShouldInvokeHandler_WhenMessageTypeMatchesHandledMessageTypes()
+    {
+        // Arrange
+        var handler = Substitute.For<IHandler>();
+        handler.IsEnabled.Returns(true);
+        handler.Identifier.Returns("Handler1");
+        handler.HandledMessageTypes.Returns(new HashSet<string> { "challstr" });
+
+        _mockContainerService.Resolve<IEnumerable<IHandler>>().Returns(new[] { handler });
+        _handlerManager.Initialize();
+
+        var parts = new[] { "room", "challstr", "data" };
+
+        // Act
+        await _handlerManager.HandleMessageAsync(parts, "room1");
+
+        // Assert
+        await handler.Received(1).HandleReceivedMessageAsync(parts, "room1");
+    }
+
+    [Test]
+    public async Task Test_HandleMessageAsync_ShouldNotInvokeHandler_WhenMessageTypeDoesNotMatchHandledMessageTypes()
+    {
+        // Arrange
+        var handler = Substitute.For<IHandler>();
+        handler.IsEnabled.Returns(true);
+        handler.Identifier.Returns("Handler1");
+        handler.HandledMessageTypes.Returns(new HashSet<string> { "challstr" });
+
+        _mockContainerService.Resolve<IEnumerable<IHandler>>().Returns(new[] { handler });
+        _handlerManager.Initialize();
+
+        var parts = new[] { "room", "updateuser", "data" };
+
+        // Act
+        await _handlerManager.HandleMessageAsync(parts, "room1");
+
+        // Assert
+        await handler.DidNotReceive().HandleReceivedMessageAsync(Arg.Any<string[]>(), Arg.Any<string>());
+    }
+
+    [Test]
+    public async Task Test_HandleMessageAsync_ShouldNotInvokeHandler_WhenPartsHasNoMessageTypeAndHandledMessageTypesIsSet()
+    {
+        // Arrange
+        var handler = Substitute.For<IHandler>();
+        handler.IsEnabled.Returns(true);
+        handler.Identifier.Returns("Handler1");
+        handler.HandledMessageTypes.Returns(new HashSet<string> { "challstr" });
+
+        _mockContainerService.Resolve<IEnumerable<IHandler>>().Returns(new[] { handler });
+        _handlerManager.Initialize();
+
+        var parts = new[] { "room" };
+
+        // Act
+        await _handlerManager.HandleMessageAsync(parts, "room1");
+
+        // Assert
+        await handler.DidNotReceive().HandleReceivedMessageAsync(Arg.Any<string[]>(), Arg.Any<string>());
+    }
+
+    [Test]
+    public async Task Test_HandleMessageAsync_ShouldInvokeHandler_WhenPartsHasNoMessageTypeAndHandledMessageTypesIsNull()
+    {
+        // Arrange
+        var handler = Substitute.For<IHandler>();
+        handler.IsEnabled.Returns(true);
+        handler.Identifier.Returns("Handler1");
+        handler.HandledMessageTypes.Returns((IReadOnlySet<string>)null);
+
+        _mockContainerService.Resolve<IEnumerable<IHandler>>().Returns(new[] { handler });
+        _handlerManager.Initialize();
+
+        var parts = new[] { "room" };
+
+        // Act
+        await _handlerManager.HandleMessageAsync(parts, "room1");
+
+        // Assert
+        await handler.Received(1).HandleReceivedMessageAsync(parts, "room1");
     }
 }

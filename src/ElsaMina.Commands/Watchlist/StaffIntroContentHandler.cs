@@ -11,6 +11,8 @@ public class StaffIntroContentHandler : Handler
         _watchlistService = watchlistService;
     }
 
+    public override IReadOnlySet<string> HandledMessageTypes { get; } = new HashSet<string> { "raw" };
+
     public override Task HandleReceivedMessageAsync(string[] parts, string roomId = null,
         CancellationToken cancellationToken = default)
     {

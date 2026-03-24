@@ -14,6 +14,8 @@ public sealed class QueryResponseHandler : Handler
         _activeBattlesManager = activeBattlesManager;
     }
 
+    public override IReadOnlySet<string> HandledMessageTypes { get; } = new HashSet<string> { "queryresponse" };
+
     public override Task HandleReceivedMessageAsync(string[] parts, string roomId = null, CancellationToken cancellationToken = default)
     {
         if (parts.Length < 4 || parts[1] != "queryresponse")

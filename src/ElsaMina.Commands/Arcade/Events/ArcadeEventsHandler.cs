@@ -43,6 +43,8 @@ public class ArcadeEventsHandler : Handler
         _eventRoleMappingService = eventRoleMappingService;
     }
 
+    public override IReadOnlySet<string> HandledMessageTypes { get; } = new HashSet<string> { "raw" };
+
     public override async Task HandleReceivedMessageAsync(string[] parts, string roomId = null,
         CancellationToken cancellationToken = default)
     {

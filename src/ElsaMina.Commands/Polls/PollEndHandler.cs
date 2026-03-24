@@ -16,6 +16,8 @@ public class PollEndHandler : Handler
         _dbContextFactory = dbContextFactory;
     }
 
+    public override IReadOnlySet<string> HandledMessageTypes { get; } = new HashSet<string> { "html" };
+
     public override async Task HandleReceivedMessageAsync(string[] parts, string roomId = null,
         CancellationToken cancellationToken = default)
     {

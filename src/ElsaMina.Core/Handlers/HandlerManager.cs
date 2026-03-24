@@ -28,17 +28,27 @@ public class HandlerManager : IHandlerManager
         IsInitialized = true;
     }
 
-    public async Task HandleMessageAsync(string[] parts, string roomId = null, CancellationToken cancellationToken = default)
+    public async Task HandleMessageAsync(string[] parts, string roomId = null,
+        CancellationToken cancellationToken = default)
     {
+        var messageType = parts.Length > 1 ? parts[1] : null;
         await Task.WhenAll(
             _handlers
                 .Values
-                .Where(handler => handler.IsEnabled)
+                .Where(handler => IsHandlerAdequate(handler, messageType))
                 .Select(handler => TryHandleMessageAsync(parts, roomId, handler, cancellationToken))
         );
     }
 
-    private static Task TryHandleMessageAsync(string[] parts, string roomId, IHandler handler, CancellationToken cancellationToken)
+    private static bool IsHandlerAdequate(IHandler handler, string messageType)
+    {
+        return handler.IsEnabled
+               && (handler.HandledMessageTypes == null ||
+                   (messageType != null && handler.HandledMessageTypes.Contains(messageType)));
+    }
+
+    private static Task TryHandleMessageAsync(string[] parts, string roomId, IHandler handler,
+        CancellationToken cancellationToken)
     {
         try
         {
