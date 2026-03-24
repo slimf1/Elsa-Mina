@@ -95,7 +95,7 @@ public class BattleService : IBattleService
         {
             BattleDecisionType.TeamPreview => $"/team {decision.Choices[0]}",
             BattleDecisionType.Switch => $"/choose {string.Join(", ", decision.Choices.Select(index => $"switch {index}"))}",
-            BattleDecisionType.Move => $"/choose {string.Join(", ", decision.Choices.Select(index => $"move {index}"))}",
+            BattleDecisionType.Move => $"/choose {string.Join(", ", decision.Choices.Select(index => decision.UseTerastallize ? $"move {index} terastallize" : $"move {index}"))}",
             _ => string.Empty
         };
     }
