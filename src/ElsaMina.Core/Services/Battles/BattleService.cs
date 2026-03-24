@@ -59,7 +59,7 @@ public class BattleService : IBattleService
         if (result.Type == BattleMessageType.RequestUpdated &&
             _decisionService.TryGetDecision(context, out var decision))
         {
-            var command = BuildCommand(decision);
+            var command = BuildCommand(decision, context.Rqid);
             if (!string.IsNullOrWhiteSpace(command))
             {
                 _bot.Say(roomId, command);
@@ -89,14 +89,16 @@ public class BattleService : IBattleService
         _bot.Say(roomId, message);
     }
 
-    private static string BuildCommand(BattleDecision decision)
+    private static string BuildCommand(BattleDecision decision, int rqid)
     {
-        return decision.Type switch
+        var command = decision.Type switch
         {
             BattleDecisionType.TeamPreview => $"/team {decision.Choices[0]}",
             BattleDecisionType.Switch => $"/choose {string.Join(", ", decision.Choices.Select(index => $"switch {index}"))}",
             BattleDecisionType.Move => $"/choose {string.Join(", ", decision.Choices.Select(index => decision.UseTerastallize ? $"move {index} terastallize" : $"move {index}"))}",
             _ => string.Empty
         };
+
+        return string.IsNullOrEmpty(command) ? command : $"{command}|{rqid}";
     }
 }

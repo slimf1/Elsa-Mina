@@ -69,12 +69,14 @@ public class CalcBasedBattleDecisionService : IBattleDecisionService
             var slot = context.ActiveSlots[slotIndex];
             if (slot.Moves.Count == 0)
             {
+                Log.Debug("No moves for slot {SlotIndex}", slotIndex);
                 return ([], false);
             }
 
             var availableMoves = GetAvailableMoveIndices(slot);
             if (availableMoves.Count == 0)
             {
+                Log.Debug("No available moves for slot {SlotIndex}", slotIndex);
                 return ([], false);
             }
 
@@ -85,6 +87,7 @@ public class CalcBasedBattleDecisionService : IBattleDecisionService
                 !TryBuildOurPokemon(activePokemon, out var calcAttacker) ||
                 !TryBuildOpponentPokemon(opponent, out var calcDefender))
             {
+                Log.Debug("Failed to build calc Pokemon for slot {SlotIndex} => random", slotIndex);
                 choices.Add(_randomService.RandomElement(availableMoves));
                 continue;
             }
@@ -344,7 +347,7 @@ public class CalcBasedBattleDecisionService : IBattleDecisionService
         for (var index = 0; index < slot.Moves.Count; index++)
         {
             var move = slot.Moves[index];
-            if (!move.IsDisabled && move.Pp > 0)
+            if (move.Name == "Recharge" || (!move.IsDisabled && move.Pp > 0))
             {
                 available.Add(index + 1);
             }

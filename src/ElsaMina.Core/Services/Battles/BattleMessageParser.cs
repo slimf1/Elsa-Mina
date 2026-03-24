@@ -77,6 +77,13 @@ public class BattleMessageParser : IBattleMessageParser
 
     private static bool TryApplyOpponentMessage(string[] parts, BattleContext context)
     {
+        // SideId is set by the first |request| message. Until then we don't know which side is
+        // ours, so every switch message would be misidentified as opponent — skip entirely.
+        if (string.IsNullOrEmpty(context.SideId))
+        {
+            return false;
+        }
+
         switch (parts[1])
         {
             // Team preview: |poke|p1|Garchomp, L80, M|item
@@ -150,12 +157,9 @@ public class BattleMessageParser : IBattleMessageParser
 
                 var species = ExtractSpeciesFromIdent(parts[2]);
                 var moveName = parts[3];
-                var pokemon = context.OpponentPokemon.FirstOrDefault(p => p.Species == species);
-                if (pokemon != null)
-                {
-                    pokemon.LastUsedMove = moveName;
-                }
-
+                var pokemon = GetOrCreateOpponentPokemon(context, species);
+                EnsureActive(context, pokemon);
+                pokemon.LastUsedMove = moveName;
                 return true;
             }
 
@@ -169,20 +173,18 @@ public class BattleMessageParser : IBattleMessageParser
 
                 var species = ExtractSpeciesFromIdent(parts[2]);
                 ParseHpStatus(parts[3], out var hpPercent, out var status, out var fainted);
-                var pokemon = context.OpponentPokemon.FirstOrDefault(p => p.Species == species);
-                if (pokemon != null)
+                var pokemon = GetOrCreateOpponentPokemon(context, species);
+                EnsureActive(context, pokemon);
+                pokemon.HpPercent = hpPercent;
+                pokemon.IsFainted = fainted;
+                if (fainted)
                 {
-                    pokemon.HpPercent = hpPercent;
-                    pokemon.IsFainted = fainted;
-                    if (fainted)
-                    {
-                        pokemon.IsActive = false;
-                    }
+                    pokemon.IsActive = false;
+                }
 
-                    if (!string.IsNullOrEmpty(status))
-                    {
-                        pokemon.Status = status;
-                    }
+                if (!string.IsNullOrEmpty(status))
+                {
+                    pokemon.Status = status;
                 }
 
                 return true;
@@ -198,11 +200,9 @@ public class BattleMessageParser : IBattleMessageParser
 
                 var species = ExtractSpeciesFromIdent(parts[2]);
                 ParseHpStatus(parts[3], out var hpPercent, out _, out _);
-                var pokemon = context.OpponentPokemon.FirstOrDefault(p => p.Species == species);
-                if (pokemon != null)
-                {
-                    pokemon.HpPercent = hpPercent;
-                }
+                var pokemon = GetOrCreateOpponentPokemon(context, species);
+                EnsureActive(context, pokemon);
+                pokemon.HpPercent = hpPercent;
 
                 return true;
             }
@@ -388,6 +388,16 @@ public class BattleMessageParser : IBattleMessageParser
             int.TryParse(hpPart.AsSpan(slashIndex + 1), out var max) && max > 0)
         {
             hpPercent = (double)current / max * 100.0;
+        }
+    }
+
+    // Marks a pokemon as active if no active opponent exists yet (e.g., initial switch was missed).
+    // Does not override the active flag if another opponent is already marked active.
+    private static void EnsureActive(BattleContext context, OpponentPokemonState pokemon)
+    {
+        if (!pokemon.IsActive && context.OpponentPokemon.All(p => !p.IsActive))
+        {
+            pokemon.IsActive = true;
         }
     }
 
