@@ -33,7 +33,14 @@ public class EditBadgeCommand : Command
         var newName = parts[1].Trim();
         var roomId = context.RoomId;
         string newImage;
-        if (parts.Length > 3)
+        bool? newIsTrophy = null;
+        if (parts.Length >= 5)
+        {
+            roomId = parts[^1].Trim().ToLowerAlphaNum();
+            newIsTrophy = parts[^2].Trim() == "true";
+            newImage = string.Join(",", parts[2..^2]).Trim();
+        }
+        else if (parts.Length > 3)
         {
             roomId = parts[^1].Trim().ToLowerAlphaNum();
             newImage = string.Join(",", parts[2..^1]).Trim();
@@ -53,6 +60,10 @@ public class EditBadgeCommand : Command
 
         badge.Name = newName;
         badge.Image = newImage;
+        if (newIsTrophy.HasValue)
+        {
+            badge.IsTrophy = newIsTrophy.Value;
+        }
 
         try
         {

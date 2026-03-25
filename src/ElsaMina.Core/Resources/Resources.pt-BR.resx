@@ -48,6 +48,18 @@
     <data name="badge_edit_panel_image" xml:space="preserve">
         <value>URL da imagem</value>
     </data>
+    <data name="badge_edit_panel_is_trophy" xml:space="preserve">
+        <value>Troféu</value>
+    </data>
+    <data name="badge_edit_panel_prev" xml:space="preserve">
+        <value>Anterior</value>
+    </data>
+    <data name="badge_edit_panel_next" xml:space="preserve">
+        <value>Próximo</value>
+    </data>
+    <data name="badge_edit_panel_page" xml:space="preserve">
+        <value>Página {0} / {1}</value>
+    </data>
     <data name="badge_edit_panel_no_badges" xml:space="preserve">
         <value>Nenhum emblema encontrado para {0}.</value>
     </data>

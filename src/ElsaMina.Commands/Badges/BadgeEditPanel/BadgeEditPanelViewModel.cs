@@ -11,4 +11,6 @@ public class BadgeEditPanelViewModel : LocalizableViewModel
     public string RoomName { get; set; }
     public string EditCommand { get; set; }
     public IReadOnlyCollection<Badge> Badges { get; set; }
+    public int Page { get; set; }
+    public int TotalPages { get; set; }
 }

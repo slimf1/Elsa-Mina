@@ -31,11 +31,19 @@ public class BadgeEditPanelCommand : Command
     public override bool IsAllowedInPrivateMessage => true;
     public override Rank RequiredRank => Rank.Driver;
 
+    private const int PAGE_SIZE = 10;
+
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        var roomId = string.IsNullOrWhiteSpace(context.Target)
+        var parts = context.Target.Split(",", 2);
+        var roomIdPart = parts[0].Trim();
+        var roomId = string.IsNullOrWhiteSpace(roomIdPart)
             ? context.RoomId
-            : context.Target.ToLowerAlphaNum();
+            : roomIdPart.ToLowerAlphaNum();
+        var page = parts.Length > 1 && int.TryParse(parts[1].Trim(), out var parsedPage)
+            ? Math.Max(1, parsedPage)
+            : 1;
+
         var room = _roomsManager.GetRoom(roomId);
         if (context.IsPrivateMessage && room != null)
         {
@@ -43,16 +51,23 @@ public class BadgeEditPanelCommand : Command
         }
 
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
-        var badges = await dbContext.Badges
-            .Where(badge => badge.RoomId == roomId)
-            .OrderBy(badge => badge.Name)
-            .ToListAsync(cancellationToken);
+        var totalBadges = await dbContext.Badges.CountAsync(badge => badge.RoomId == roomId, cancellationToken);
 
-        if (badges.Count == 0)
+        if (totalBadges == 0)
         {
             context.ReplyLocalizedMessage("badge_edit_panel_no_badges", room?.Name ?? roomId);
             return;
         }
+
+        var totalPages = (int)Math.Ceiling(totalBadges / (double)PAGE_SIZE);
+        page = Math.Clamp(page, 1, totalPages);
+
+        var badges = await dbContext.Badges
+            .Where(badge => badge.RoomId == roomId)
+            .OrderBy(badge => badge.Name)
+            .Skip((page - 1) * PAGE_SIZE)
+            .Take(PAGE_SIZE)
+            .ToListAsync(cancellationToken);
 
         var viewModel = new BadgeEditPanelViewModel
         {
@@ -61,11 +76,13 @@ public class BadgeEditPanelCommand : Command
             RoomName = room?.Name ?? roomId,
             BotName = _configuration.Name,
             Trigger = _configuration.Trigger,
-            EditCommand = $"/w {_configuration.Name},{_configuration.Trigger}editbadge {{badgeId}}, {{name}}, {{image}}, {roomId}",
-            Badges = badges
+            EditCommand = $"/w {_configuration.Name},{_configuration.Trigger}editbadge {{badgeId}}, {{name}}, {{image}}, {{isTrophy}}, {roomId}",
+            Badges = badges,
+            Page = page,
+            TotalPages = totalPages
         };
 
         var template = await _templatesManager.GetTemplateAsync("Badges/BadgeEditPanel/BadgeEditPanel", viewModel);
-        context.ReplyHtmlPage($"badge-edit-{roomId}", template.RemoveNewlines().CollapseAttributeWhitespace());
+        context.ReplyHtmlPage($"badge-edit-{roomId}", template.RemoveNewlines().CollapseAttributeWhitespace().RemoveWhitespacesBetweenTags());
     }
 }

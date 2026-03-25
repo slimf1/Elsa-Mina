@@ -5,14 +5,28 @@
     const string containerStyle = "padding: 1.5rem;";
     const string rowStyle = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};" +
                             "padding: .5rem;" +
-                            "margin-bottom: .5rem;" +
+                            "margin: .5rem;" +
                             $"background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
-    const string labelStyle = "display: inline-block; min-width: 90px;";
-    const string inputStyle = "margin-right: .5rem;";
+    const string labelStyle = "display: inline-block; min-width: 120px;";
 }
 
 <div style="@containerStyle">
     <h2>@GetString("badge_edit_panel_title", Model.RoomName)</h2>
+
+    @if (Model.TotalPages > 1)
+    {
+        <div style="margin-bottom: .5rem;">
+            @if (Model.Page > 1)
+            {
+                <button class="button" name="send" value="/w @Model.BotName,@(Model.Trigger)badge-edit-panel @Model.RoomId, @(Model.Page - 1)">← @GetString("badge_edit_panel_prev")</button>
+            }
+            <span>@GetString("badge_edit_panel_page", Model.Page, Model.TotalPages)</span>
+            @if (Model.Page < Model.TotalPages)
+            {
+                <button class="button" name="send" value="/w @Model.BotName,@(Model.Trigger)badge-edit-panel @Model.RoomId, @(Model.Page + 1)">@GetString("badge_edit_panel_next") →</button>
+            }
+        </div>
+    }
 
     @foreach (var badge in Model.Badges)
     {
@@ -27,7 +41,6 @@
                 <label style="@labelStyle" for="badgeId-@badge.Id">@GetString("badge_edit_panel_id")</label>
                 <input
                     class="textbox searchinput"
-                    style="@inputStyle"
                     type="text"
                     id="badgeId-@badge.Id"
                     name="badgeId"
@@ -38,7 +51,6 @@
                 <label style="@labelStyle" for="name-@badge.Id">@GetString("badge_edit_panel_name")</label>
                 <input
                     class="textbox searchinput"
-                    style="@inputStyle"
                     type="text"
                     id="name-@badge.Id"
                     name="name"
@@ -49,12 +61,20 @@
                 <label style="@labelStyle" for="image-@badge.Id">@GetString("badge_edit_panel_image")</label>
                 <input
                     class="textbox searchinput"
-                    style="@inputStyle"
                     type="text"
                     id="image-@badge.Id"
                     name="image"
                     value="@badge.Image"
                     required />
+            </div>
+            <div>
+                <label style="@labelStyle" for="it-@badge.Id">@GetString("badge_edit_panel_is_trophy")</label>
+                <input
+                    type="checkbox"
+                    id="it-@badge.Id"
+                    name="isTrophy"
+                    value="true"
+                    @(badge.IsTrophy ? "checked" : "") />
             </div>
             <div style="margin-top: .5rem;">
                 <button class="button" type="submit">@GetString("submit")</button>
