@@ -134,3 +134,32 @@ Rooms have configurable parameters (defined in the `Parameter` enum: `Locale`, `
 ## Configuration
 
 `src/ElsaMina.Console/config.json` (copied from `example.config.json`). Key fields: `Host`, `Port`, `Name`, `Password`, `Trigger` (command prefix, default `-`), `Rooms`, `Whitelist`, `DefaultRoom`, `DefaultLocaleCode`, `ConnectionString`, and optional API keys.
+
+
+## Commit Format
+```
+<type>(<scope>): <description>
+
+[optional body]
+
+[optional footer]
+```
+
+### Types
+- feat: New feature
+- fix: Bug fix
+- docs: Documentation changes
+- style: Code style changes
+- refactor: Code refactoring
+- test: Adding or modifying tests
+- chore: Maintenance tasks
+- perf: Performance improvements
+
+### Example Output
+```
+feat(auth): add password reset functionality
+
+- Add forgot password form
+- Implement email verification flow
+- Add password reset endpoint
+```
