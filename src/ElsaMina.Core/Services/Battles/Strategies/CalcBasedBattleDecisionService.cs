@@ -7,7 +7,9 @@ namespace ElsaMina.Core.Services.Battles.Strategies;
 
 public class CalcBasedBattleDecisionService : IBattleDecisionService
 {
-    private static readonly IGeneration Generation = DataIndex.Create(9);
+    private const int MINIMAX_DEPTH = 4;
+
+    private static readonly IGeneration GENERATION = DataIndex.Create(9);
 
     private readonly IRandomService _randomService;
 
@@ -46,6 +48,16 @@ public class CalcBasedBattleDecisionService : IBattleDecisionService
 
         if (context.ActiveSlots.Count > 0)
         {
+            // Single battle: use minimax to weigh moves vs voluntary switches
+            if (context.ActiveSlots.Count == 1 &&
+                TryFindBestAction(context, context.ActiveSlots[0],
+                    out var bestType, out var bestChoice, out var useTera))
+            {
+                decision = new BattleDecision(bestType, [bestChoice], useTera);
+                return true;
+            }
+
+            // Doubles fallback: greedy per-slot move selection
             var (choices, useTerastallize) = BuildMoveChoices(context);
             if (choices.Count == 0)
             {
@@ -58,6 +70,210 @@ public class CalcBasedBattleDecisionService : IBattleDecisionService
 
         return false;
     }
+
+    // ── Minimax (single battle) ───────────────────────────────────────────────
+
+    private record SimState
+    {
+        public double OurHpRatio { get; init; }
+        public double OppHpRatio { get; init; }
+        public int OurBenchAlive { get; init; }
+        public int OppBenchAlive { get; init; }
+    }
+
+    private bool TryFindBestAction(BattleContext context, BattleActiveSlot slot,
+        out BattleDecisionType type, out int choice, out bool useTera)
+    {
+        type = BattleDecisionType.Move;
+        choice = 0;
+        useTera = false;
+
+        var availableMoves = GetAvailableMoveIndices(slot);
+        if (availableMoves.Count == 0)
+        {
+            return false;
+        }
+
+        var activePokemon = context.SidePokemon.FirstOrDefault(p => p.IsActive);
+        var opponent = context.ActiveOpponent;
+
+        if (opponent == null || activePokemon == null ||
+            !TryBuildOurPokemon(activePokemon, out var ourMon) ||
+            !TryBuildOpponentPokemon(opponent, out var oppMon))
+        {
+            Log.Debug("Minimax: falling back to random (no opponent or build failed)");
+            choice = _randomService.RandomElement(availableMoves);
+            type = BattleDecisionType.Move;
+            return true;
+        }
+
+        var ourMaxHp = ourMon.MaxHP(false);
+        var oppMaxHp = oppMon.MaxHP(false);
+        var switchCandidates = slot.Trapped ? [] : GetSwitchCandidates(context);
+
+        var rootState = new SimState
+        {
+            OurHpRatio = ourMaxHp > 0 ? (double)activePokemon.CurrentHp / ourMaxHp : 1.0,
+            OppHpRatio = opponent.HpPercent / 100.0,
+            OurBenchAlive = switchCandidates.Count,
+            OppBenchAlive = context.OpponentPokemon.Count(p => !p.IsFainted && !p.IsActive)
+        };
+
+        var opponentLastMove = opponent.LastUsedMove;
+        var activeOurMoveNames = availableMoves.Select(i => slot.Moves[i - 1].Name).ToList();
+
+        double bestScore = double.MinValue;
+        var bestChoice = availableMoves[0];
+        var bestTera = false;
+        var bestType = BattleDecisionType.Move;
+
+        // Evaluate each available move (and its Tera variant)
+        foreach (var moveIndex in availableMoves)
+        {
+            var moveName = slot.Moves[moveIndex - 1].Name;
+
+            var dealtRatio = ComputeDamageRatio(ourMon, oppMon, moveName, oppMaxHp, pessimistic: false);
+            var stateAfterMove = rootState with { OppHpRatio = Math.Max(0.0, rootState.OppHpRatio - dealtRatio) };
+            var score = EvaluateAfterOurAction(stateAfterMove, ourMon, oppMon,
+                ourMaxHp, oppMaxHp, opponentLastMove, activeOurMoveNames, MINIMAX_DEPTH - 1);
+
+            if (score > bestScore)
+            {
+                bestScore = score;
+                bestChoice = moveIndex;
+                bestTera = false;
+                bestType = BattleDecisionType.Move;
+            }
+
+            // Same move with Terastallization
+            if (!string.IsNullOrEmpty(slot.CanTerastallize) &&
+                TryBuildOurPokemon(activePokemon, out var teraMon))
+            {
+                teraMon.TeraType = slot.CanTerastallize;
+                var teraDealtRatio = ComputeDamageRatio(teraMon, oppMon, moveName, oppMaxHp, pessimistic: false);
+                var teraStateAfter = rootState with { OppHpRatio = Math.Max(0.0, rootState.OppHpRatio - teraDealtRatio) };
+                var teraScore = EvaluateAfterOurAction(teraStateAfter, teraMon, oppMon,
+                    ourMaxHp, oppMaxHp, opponentLastMove, activeOurMoveNames, MINIMAX_DEPTH - 1);
+
+                if (teraScore > bestScore)
+                {
+                    bestScore = teraScore;
+                    bestChoice = moveIndex;
+                    bestTera = true;
+                    bestType = BattleDecisionType.Move;
+                }
+            }
+        }
+
+        // Evaluate each voluntary switch — we don't attack; opponent gets a free move on the new pokemon
+        foreach (var candidateIndex in switchCandidates)
+        {
+            var candidate = context.SidePokemon[candidateIndex - 1];
+            if (!TryBuildOurPokemon(candidate, out var candMon))
+            {
+                continue;
+            }
+
+            var candMaxHp = candMon.MaxHP(false);
+            var candHpRatio = candMaxHp > 0 ? (double)candidate.CurrentHp / candMaxHp : 1.0;
+            var stateAfterSwitch = rootState with { OurHpRatio = candHpRatio };
+            var switchScore = EvaluateAfterOurAction(stateAfterSwitch, candMon, oppMon,
+                candMaxHp, oppMaxHp, opponentLastMove, candidate.Moves, MINIMAX_DEPTH - 1);
+
+            if (switchScore > bestScore)
+            {
+                bestScore = switchScore;
+                bestChoice = candidateIndex;
+                bestTera = false;
+                bestType = BattleDecisionType.Switch;
+            }
+        }
+
+        choice = bestChoice;
+        type = bestType;
+        useTera = bestTera;
+        return true;
+    }
+
+    // Minimize node — opponent responds to our action
+    private static double EvaluateAfterOurAction(SimState state, Pokemon ourMon, Pokemon oppMon,
+        int ourMaxHp, int oppMaxHp, string opponentLastMove, List<string> ourMoveNames, int depth)
+    {
+        if (state.OurHpRatio <= 0 || state.OppHpRatio <= 0 || depth == 0)
+        {
+            return Evaluate(state);
+        }
+
+        if (string.IsNullOrEmpty(opponentLastMove))
+        {
+            return Evaluate(state);
+        }
+
+        var damageToUs = ComputeDamageRatio(oppMon, ourMon, opponentLastMove, ourMaxHp, pessimistic: true);
+        var stateAfterOpp = state with { OurHpRatio = Math.Max(0.0, state.OurHpRatio - damageToUs) };
+
+        return EvaluateAfterOpponentAction(stateAfterOpp, ourMon, oppMon,
+            ourMaxHp, oppMaxHp, opponentLastMove, ourMoveNames, depth - 1);
+    }
+
+    // Maximize node — we respond to the opponent's action
+    private static double EvaluateAfterOpponentAction(SimState state, Pokemon ourMon, Pokemon oppMon,
+        int ourMaxHp, int oppMaxHp, string opponentLastMove, List<string> ourMoveNames, int depth)
+    {
+        if (state.OurHpRatio <= 0 || state.OppHpRatio <= 0 || depth == 0)
+        {
+            return Evaluate(state);
+        }
+
+        var bestScore = double.MinValue;
+        foreach (var moveName in ourMoveNames)
+        {
+            var dealtRatio = ComputeDamageRatio(ourMon, oppMon, moveName, oppMaxHp, pessimistic: false);
+            var newState = state with { OppHpRatio = Math.Max(0.0, state.OppHpRatio - dealtRatio) };
+            var score = EvaluateAfterOurAction(newState, ourMon, oppMon,
+                ourMaxHp, oppMaxHp, opponentLastMove, ourMoveNames, depth - 1);
+            if (score > bestScore)
+            {
+                bestScore = score;
+            }
+        }
+
+        return bestScore == double.MinValue ? Evaluate(state) : bestScore;
+    }
+
+    private static double ComputeDamageRatio(Pokemon attacker, Pokemon defender,
+        string moveName, int defenderMaxHp, bool pessimistic)
+    {
+        if (defenderMaxHp <= 0)
+        {
+            return 0.0;
+        }
+
+        try
+        {
+            var calcMove = new Move(GENERATION, moveName);
+            var result = Calc.Calculate(GENERATION, attacker, defender, calcMove, null);
+            var (minDmg, maxDmg) = result.Range();
+            var damage = pessimistic ? maxDmg : (minDmg + maxDmg) / 2.0;
+            return damage / defenderMaxHp;
+        }
+        catch
+        {
+            return 0.0;
+        }
+    }
+
+    private static double Evaluate(SimState state)
+    {
+        var koBonus = 0.0;
+        if (state.OppHpRatio <= 0) koBonus += 2.0;
+        if (state.OurHpRatio <= 0) koBonus -= 2.0;
+        var hpScore = state.OurHpRatio - state.OppHpRatio;
+        var benchScore = 0.05 * (state.OurBenchAlive - state.OppBenchAlive);
+        return hpScore + koBonus + benchScore;
+    }
+
+    // ── Doubles fallback: greedy move selection ───────────────────────────────
 
     private (List<int> choices, bool useTerastallize) BuildMoveChoices(BattleContext context)
     {
@@ -113,6 +329,52 @@ public class CalcBasedBattleDecisionService : IBattleDecisionService
         return (choices, useTerastallize);
     }
 
+    private static (int moveIndex, double score) ScoreMoves(
+        BattleActiveSlot slot,
+        List<int> availableMoveIndices,
+        Pokemon attacker,
+        Pokemon defender)
+    {
+        var bestIndex = availableMoveIndices[0];
+        var bestScore = double.MinValue;
+
+        foreach (var moveIndex in availableMoveIndices)
+        {
+            var move = slot.Moves[moveIndex - 1];
+            try
+            {
+                var calcMove = new Move(GENERATION, move.Name);
+                var result = Calc.Calculate(GENERATION, attacker, defender, calcMove, null);
+                var score = ComputeMoveScore(result, defender);
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestIndex = moveIndex;
+                }
+            }
+            catch
+            {
+                // Move not in dex or produces no damage (status move) — skip
+            }
+        }
+
+        return (bestIndex, bestScore);
+    }
+
+    private static double ComputeMoveScore(Result result, Pokemon defender)
+    {
+        var (koChance, nHko, _) = result.Kochance(false);
+        var (_, maxDamage) = result.Range();
+        var maxHp = defender.MaxHP(false);
+
+        // Primary: fewest hits to KO (OHKO > 2HKO > ...), secondary: KO chance, tertiary: raw damage %
+        var nkoScore = nHko > 0 ? 1000.0 / nHko : 0.0;
+        var damagePercent = maxHp > 0 ? (double)maxDamage / maxHp : 0.0;
+        return nkoScore + koChance * 100.0 + damagePercent;
+    }
+
+    // ── Forced switch selection ───────────────────────────────────────────────
+
     private List<int> BuildSwitchChoices(BattleContext context)
     {
         var candidates = GetSwitchCandidates(context);
@@ -162,8 +424,8 @@ public class CalcBasedBattleDecisionService : IBattleDecisionService
 
             try
             {
-                var incomingMove = new Move(Generation, opponent.LastUsedMove);
-                var result = Calc.Calculate(Generation, calcOpponent, calcCandidate, incomingMove, null);
+                var incomingMove = new Move(GENERATION, opponent.LastUsedMove);
+                var result = Calc.Calculate(GENERATION, calcOpponent, calcCandidate, incomingMove, null);
                 var (_, maxDamage) = result.Range();
                 var damageTakenPercent = (double)maxDamage / calcCandidate.MaxHP(false);
 
@@ -182,49 +444,7 @@ public class CalcBasedBattleDecisionService : IBattleDecisionService
         return bestIndex;
     }
 
-    private static (int moveIndex, double score) ScoreMoves(
-        BattleActiveSlot slot,
-        List<int> availableMoveIndices,
-        Pokemon attacker,
-        Pokemon defender)
-    {
-        var bestIndex = availableMoveIndices[0];
-        var bestScore = double.MinValue;
-
-        foreach (var moveIndex in availableMoveIndices)
-        {
-            var move = slot.Moves[moveIndex - 1];
-            try
-            {
-                var calcMove = new Move(Generation, move.Name);
-                var result = Calc.Calculate(Generation, attacker, defender, calcMove, null);
-                var score = ComputeMoveScore(result, defender);
-                if (score > bestScore)
-                {
-                    bestScore = score;
-                    bestIndex = moveIndex;
-                }
-            }
-            catch
-            {
-                // Move not in dex or produces no damage (status move) — skip
-            }
-        }
-
-        return (bestIndex, bestScore);
-    }
-
-    private static double ComputeMoveScore(Result result, Pokemon defender)
-    {
-        var (koChance, nHko, _) = result.Kochance(false);
-        var (_, maxDamage) = result.Range();
-        var maxHp = defender.MaxHP(false);
-
-        // Primary: fewest hits to KO (OHKO > 2HKO > ...), secondary: KO chance, tertiary: raw damage %
-        var nkoScore = nHko > 0 ? 1000.0 / nHko : 0.0;
-        var damagePercent = maxHp > 0 ? (double)maxDamage / maxHp : 0.0;
-        return nkoScore + koChance * 100.0 + damagePercent;
-    }
+    // ── Pokemon building helpers ──────────────────────────────────────────────
 
     private static bool TryBuildOurPokemon(BattlePokemonState state, out Pokemon pokemon)
     {
@@ -234,7 +454,7 @@ public class CalcBasedBattleDecisionService : IBattleDecisionService
 
         try
         {
-            pokemon = new Pokemon(Generation, species, new State.Pokemon
+            pokemon = new Pokemon(GENERATION, species, new State.Pokemon
             {
                 Level = level,
                 Item = string.IsNullOrEmpty(state.Item) ? null : state.Item,
@@ -270,7 +490,7 @@ public class CalcBasedBattleDecisionService : IBattleDecisionService
 
         try
         {
-            pokemon = new Pokemon(Generation, state.Species, new State.Pokemon
+            pokemon = new Pokemon(GENERATION, state.Species, new State.Pokemon
             {
                 Level = state.Level,
                 Status = string.IsNullOrEmpty(state.Status) ? null : state.Status,
@@ -289,6 +509,8 @@ public class CalcBasedBattleDecisionService : IBattleDecisionService
             return false;
         }
     }
+
+    // ── Static utility helpers ────────────────────────────────────────────────
 
     private static StatsTableInput BuildBoostsInput(Dictionary<string, int> boosts)
     {
@@ -347,7 +569,7 @@ public class CalcBasedBattleDecisionService : IBattleDecisionService
         for (var index = 0; index < slot.Moves.Count; index++)
         {
             var move = slot.Moves[index];
-            if (move.Name == "Recharge" || (!move.IsDisabled && move.Pp > 0))
+            if (move.Name == "Recharge" || move.MaxPp == 0 || (!move.IsDisabled && move.Pp > 0))
             {
                 available.Add(index + 1);
             }

@@ -9,4 +9,7 @@ public sealed class ActivePokemon
 
     [JsonProperty("canTerastallize")]
     public string CanTerastallize { get; set; } = "";
+
+    [JsonProperty("trapped")]
+    public bool Trapped { get; set; }
 }

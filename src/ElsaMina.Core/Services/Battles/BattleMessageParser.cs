@@ -507,7 +507,7 @@ public class BattleMessageParser : IBattleMessageParser
                 });
             }
 
-            slots.Add(new BattleActiveSlot { Moves = moves, CanTerastallize = activeSlot.CanTerastallize });
+            slots.Add(new BattleActiveSlot { Moves = moves, CanTerastallize = activeSlot.CanTerastallize, Trapped = activeSlot.Trapped });
         }
 
         return slots;
