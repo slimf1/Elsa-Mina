@@ -66,6 +66,6 @@ public class BadgeEditPanelCommand : Command
         };
 
         var template = await _templatesManager.GetTemplateAsync("Badges/BadgeEditPanel/BadgeEditPanel", viewModel);
-        context.ReplyHtmlPage($"badge-edit-{roomId}", template.RemoveNewlines());
+        context.ReplyHtmlPage($"badge-edit-{roomId}", template.RemoveNewlines().CollapseAttributeWhitespace());
     }
 }
