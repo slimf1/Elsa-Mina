@@ -72,9 +72,8 @@
                 <input
                     type="checkbox"
                     id="it-@badge.Id"
-                    name="isTrophy"
-                    value="true"
-                    @(badge.IsTrophy ? "checked" : "") />
+                    name="trophy"
+                    @(badge.IsTrophy ? "checked" : string.Empty) />
             </div>
             <div style="margin-top: .5rem;">
                 <button class="button" type="submit">@GetString("submit")</button>

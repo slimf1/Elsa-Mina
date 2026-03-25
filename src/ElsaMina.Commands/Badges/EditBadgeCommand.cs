@@ -19,6 +19,7 @@ public class EditBadgeCommand : Command
 
     public override Rank RequiredRank => Rank.Driver;
     public override string HelpMessageKey => "badge_edit_help_message";
+    public override bool IsAllowedInPrivateMessage => true;
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
@@ -37,7 +38,7 @@ public class EditBadgeCommand : Command
         if (parts.Length >= 5)
         {
             roomId = parts[^1].Trim().ToLowerAlphaNum();
-            newIsTrophy = parts[^2].Trim() == "true";
+            newIsTrophy = parts[^2].Trim().ToBoolean();
             newImage = string.Join(",", parts[2..^2]).Trim();
         }
         else if (parts.Length > 3)
@@ -48,6 +49,11 @@ public class EditBadgeCommand : Command
         else
         {
             newImage = string.Join(",", parts[2..]).Trim();
+        }
+
+        if (context.IsPrivateMessage && !await context.HasSufficientRankInRoom(roomId, RequiredRank, cancellationToken))
+        {
+            return;
         }
 
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);

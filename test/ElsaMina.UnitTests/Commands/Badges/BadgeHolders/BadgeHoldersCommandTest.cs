@@ -18,12 +18,10 @@ public class BadgeHoldersCommandTest
     private IBotDbContextFactory _dbContextFactory;
     private BadgeHoldersCommand _command;
 
-    private DbContextOptions<BotDbContext> CreateNewInMemoryOptions()
-    {
-        return new DbContextOptionsBuilder<BotDbContext>()
+    private DbContextOptions<BotDbContext> CreateNewInMemoryOptions() =>
+        new DbContextOptionsBuilder<BotDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
-    }
 
     [SetUp]
     public void SetUp()
@@ -45,29 +43,24 @@ public class BadgeHoldersCommandTest
     {
         // Arrange
         var options = CreateNewInMemoryOptions();
-        await using var dbContext = new BotDbContext(options);
-
-        var badge1 = new Badge
+        await using (var seedCtx = new BotDbContext(options))
         {
-            Id = "badge1",
-            Name = "Badge A",
-            RoomId = "room1",
-            IsTrophy = false
-        };
-        var badge2 = new Badge
-        {
-            Id = "badge2",
-            Name = "Badge B",
-            RoomId = "room1",
-            IsTrophy = false
-        };
+            await seedCtx.Database.EnsureCreatedAsync();
 
-        badge1.BadgeHolders.Add(new BadgeHolding { UserId = "user1", BadgeId = badge1.Id, RoomId = badge1.RoomId });
+            var savedUser = new SavedUser { UserId = "user1", UserName = "User One" };
+            var roomUser = new RoomUser { Id = "user1", RoomId = "room1", User = savedUser };
+            var badge1 = new Badge { Id = "badge1", Name = "Badge A", RoomId = "room1", IsTrophy = false };
+            var badge2 = new Badge { Id = "badge2", Name = "Badge B", RoomId = "room1", IsTrophy = false };
+            badge1.BadgeHolders.Add(new BadgeHolding { UserId = "user1", BadgeId = "badge1", RoomId = "room1", RoomUser = roomUser });
 
-        await dbContext.Badges.AddRangeAsync(badge1, badge2);
-        await dbContext.SaveChangesAsync();
+            await seedCtx.Users.AddAsync(savedUser);
+            await seedCtx.RoomUsers.AddAsync(roomUser);
+            await seedCtx.Badges.AddRangeAsync(badge1, badge2);
+            await seedCtx.SaveChangesAsync();
+        }
 
-        _dbContextFactory.CreateDbContextAsync(default).Returns(dbContext);
+        await using var queryCtx = new BotDbContext(options);
+        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>()).Returns(queryCtx);
 
         _context.RoomId.Returns("room1");
         _context.Culture.Returns(System.Globalization.CultureInfo.InvariantCulture);
@@ -94,19 +87,21 @@ public class BadgeHoldersCommandTest
     {
         // Arrange
         var options = CreateNewInMemoryOptions();
-        await using var dbContext = new BotDbContext(options);
+        await using (var seedCtx = new BotDbContext(options))
+        {
+            await seedCtx.Database.EnsureCreatedAsync();
+            await seedCtx.Badges.AddRangeAsync(
+                new Badge { Id = "b1", Name = "Zebra Badge", RoomId = "room1" },
+                new Badge { Id = "b2", Name = "Apple Badge", RoomId = "room1" },
+                new Badge { Id = "b3", Name = "Other Room Badge", RoomId = "other_room" }
+            );
+            await seedCtx.SaveChangesAsync();
+        }
 
-        var badgeInRoomB = new Badge { Id = "b1", Name = "Zebra Badge", RoomId = "room1" };
-        var badgeInRoomA = new Badge { Id = "b2", Name = "Apple Badge", RoomId = "room1" };
-        var badgeOtherRoom = new Badge { Id = "b3", Name = "Other Room Badge", RoomId = "other_room" };
-
-        await dbContext.Badges.AddRangeAsync(badgeInRoomB, badgeInRoomA, badgeOtherRoom);
-        await dbContext.SaveChangesAsync();
-
-        _dbContextFactory.CreateDbContextAsync(default).Returns(dbContext);
+        await using var queryCtx = new BotDbContext(options);
+        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>()).Returns(queryCtx);
 
         _context.RoomId.Returns("room1");
-
         _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>()).Returns("html");
 
         // Act
@@ -115,8 +110,48 @@ public class BadgeHoldersCommandTest
         // Assert
         await _templatesManager.Received(1).GetTemplateAsync(Arg.Any<string>(), Arg.Is<BadgeHoldersViewModel>(vm =>
             vm.Badges.Length == 2 &&
-            vm.Badges[0].Name == "Apple Badge" && // Sorted by Name
+            vm.Badges[0].Name == "Apple Badge" &&
             vm.Badges[1].Name == "Zebra Badge"
+        ));
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldIncludeRoomUserWithUser_WhenBadgeHoldingHasRoomUser()
+    {
+        // Arrange
+        var options = CreateNewInMemoryOptions();
+        await using (var seedCtx = new BotDbContext(options))
+        {
+            await seedCtx.Database.EnsureCreatedAsync();
+
+            var savedUser = new SavedUser { UserId = "user1", UserName = "Test User" };
+            var roomUser = new RoomUser { Id = "user1", RoomId = "room1", User = savedUser };
+            var badge = new Badge { Id = "badge1", Name = "Badge A", RoomId = "room1" };
+            badge.BadgeHolders.Add(new BadgeHolding { UserId = "user1", BadgeId = "badge1", RoomId = "room1", RoomUser = roomUser });
+
+            await seedCtx.Users.AddAsync(savedUser);
+            await seedCtx.RoomUsers.AddAsync(roomUser);
+            await seedCtx.Badges.AddAsync(badge);
+            await seedCtx.SaveChangesAsync();
+        }
+
+        await using var queryCtx = new BotDbContext(options);
+        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>()).Returns(queryCtx);
+
+        _context.RoomId.Returns("room1");
+        _context.Culture.Returns(System.Globalization.CultureInfo.InvariantCulture);
+        _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>()).Returns("html");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync(Arg.Any<string>(), Arg.Is<BadgeHoldersViewModel>(vm =>
+            vm.Badges.Length == 1 &&
+            vm.Badges[0].BadgeHolders.Count == 1 &&
+            vm.Badges[0].BadgeHolders.First().RoomUser != null &&
+            vm.Badges[0].BadgeHolders.First().RoomUser.User != null &&
+            vm.Badges[0].BadgeHolders.First().RoomUser.User.UserName == "Test User"
         ));
     }
 }
