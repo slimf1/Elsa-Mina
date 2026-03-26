@@ -1830,4 +1830,10 @@
     <data name="eventroles_deleted" xml:space="preserve">
         <value>Mapping pour « {0} » supprimé.</value>
     </data>
+    <data name="lagtest_result" xml:space="preserve">
+        <value>Latence : {0} ms</value>
+    </data>
+    <data name="lagtest_timeout" xml:space="preserve">
+        <value>Le test de latence a expiré.</value>
+    </data>
 </root>

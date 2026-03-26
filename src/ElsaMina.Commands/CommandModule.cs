@@ -22,6 +22,7 @@ using ElsaMina.Commands.ConnectFour;
 using ElsaMina.Commands.CustomCommands;
 using ElsaMina.Commands.Development;
 using ElsaMina.Commands.Development.Commands;
+using ElsaMina.Commands.Development.LagTest;
 using ElsaMina.Commands.GuessingGame;
 using ElsaMina.Commands.GuessingGame.Capitals;
 using ElsaMina.Commands.GuessingGame.Countries;
@@ -83,6 +84,7 @@ public class CommandModule : Module
         builder.RegisterCommand<ScriptCommand>();
 #endif
         builder.RegisterCommand<Ping>();
+        builder.RegisterCommand<LagTestCommand>();
         builder.RegisterCommand<AddCustomCommand>();
         builder.RegisterCommand<CustomCommandList>();
         builder.RegisterCommand<AddBadgeCommand>();
@@ -208,6 +210,7 @@ public class CommandModule : Module
         RegisterTournamentCommands(builder);
         RegisterShopCommands(builder);
 
+        builder.RegisterHandler<LagTestHandler>();
         builder.RegisterHandler<JoinRoomOnInviteHandler>();
         builder.RegisterHandler<GuessingGameHandler>();
         builder.RegisterHandler<DisplayTeamOnLinkHandler>();
@@ -270,6 +273,7 @@ public class CommandModule : Module
         {
             e.Instance.Initialize().Wait(); // Risque d'ANR mais obligé pour garantir la bonne initialisation...
         });
+        builder.RegisterType<LagTestManager>().As<ILagTestManager>().SingleInstance();
         builder.RegisterType<ArcadeInscriptionsManager>().As<IArcadeInscriptionsManager>().SingleInstance();
         builder.RegisterType<UnsplashService>().As<IUnsplashService>().SingleInstance();
         builder.RegisterType<TenorService>().As<ITenorService>().SingleInstance();

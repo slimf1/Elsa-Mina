@@ -1689,4 +1689,10 @@
     <data name="pokemon_translate_not_found" xml:space="preserve">
         <value>Nenhum Pokémon encontrado com o nome "{0}".</value>
     </data>
+    <data name="lagtest_result" xml:space="preserve">
+        <value>Latência: {0} ms</value>
+    </data>
+    <data name="lagtest_timeout" xml:space="preserve">
+        <value>O teste de latência expirou.</value>
+    </data>
 </root>

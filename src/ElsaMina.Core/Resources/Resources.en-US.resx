@@ -1830,4 +1830,10 @@
     <data name="eventroles_deleted" xml:space="preserve">
         <value>Mapping for "{0}" deleted.</value>
     </data>
+    <data name="lagtest_result" xml:space="preserve">
+        <value>Lag: {0} ms</value>
+    </data>
+    <data name="lagtest_timeout" xml:space="preserve">
+        <value>Lag test timed out.</value>
+    </data>
 </root>
