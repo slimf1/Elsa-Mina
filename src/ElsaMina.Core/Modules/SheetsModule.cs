@@ -5,6 +5,7 @@ using ElsaMina.Sheets.GoogleSheets;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
 using Google.Apis.Sheets.v4;
+using Newtonsoft.Json;
 
 namespace ElsaMina.Core.Modules;
 
@@ -17,9 +18,9 @@ public class SheetsModule : Module
         builder.Register(ctx =>
         {
             var configuration = ctx.Resolve<IConfiguration>();
-            using var stream = new FileStream(configuration.SheetsAccessAccountCredentialsFile, FileMode.Open,
-                FileAccess.Read);
-            var serviceAccountCredential = ServiceAccountCredential.FromServiceAccountData(stream);
+            // This is stupid but I couldn't find a better way
+            var json = JsonConvert.SerializeObject(configuration.GoogleServiceAccountData);
+            var serviceAccountCredential = CredentialFactory.FromJson<ServiceAccountCredential>(json);
             var credential = GoogleCredential
                 .FromServiceAccountCredential(serviceAccountCredential)
                 .CreateScoped(SheetsService.ScopeConstants.Spreadsheets, DriveService.ScopeConstants.DriveReadonly);

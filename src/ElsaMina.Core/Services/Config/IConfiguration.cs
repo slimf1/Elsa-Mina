@@ -33,7 +33,6 @@ public interface IConfiguration : IS3CredentialsProvider, ILoggingConfiguration
     string UnsplashApiKey { get; }
     TimeSpan PlayTimeUpdatesInterval { get; }
     TimeSpan LoginRetryDelay { get; }
-    string SheetsAccessAccountCredentialsFile { get; set; }
     string ArcadeSpreadsheetName { get; }
     string ArcadeHallOfFameSheetName { get; }
     string CaaSpreadsheetName { get; }
@@ -42,4 +41,5 @@ public interface IConfiguration : IS3CredentialsProvider, ILoggingConfiguration
     IReadOnlyDictionary<string, string> DiscordWebhooks { get; }
     int UserUpdateBatchSize { get; set; }
     TimeSpan UserUpdateFlushInterval { get; set; }
+    IReadOnlyDictionary<string, string> GoogleServiceAccountData { get; set; }
 }

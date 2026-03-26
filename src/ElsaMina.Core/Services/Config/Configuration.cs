@@ -33,7 +33,6 @@ public class Configuration : IConfiguration
     public string UnsplashApiKey { get; set; }
     public TimeSpan PlayTimeUpdatesInterval { get; set; }
     public TimeSpan LoginRetryDelay { get; set; }
-    public string SheetsAccessAccountCredentialsFile { get; set; }
     public string ArcadeSpreadsheetName { get; set; }
     public string ArcadeHallOfFameSheetName { get; set; }
     public string CaaSpreadsheetName { get; set; }
@@ -42,6 +41,7 @@ public class Configuration : IConfiguration
     public IReadOnlyDictionary<string, string> DiscordWebhooks { get; set; } = new Dictionary<string, string>();
     public int UserUpdateBatchSize { get; set; }
     public TimeSpan UserUpdateFlushInterval { get; set; }
+    public IReadOnlyDictionary<string, string> GoogleServiceAccountData { get; set; }
     public string S3BucketName { get; set; } = string.Empty;
     public string S3EndpointUrl { get; set; } = string.Empty;
     public string S3AccessKey { get; set; } = string.Empty;

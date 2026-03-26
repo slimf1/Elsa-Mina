@@ -5,7 +5,6 @@ cd ./ElsaV2/output
 
 echo "Writing config file"
 printf '%s' "$CONFIG_FILE" > config.json
-printf '%s' "$SERVICE_ACCOUNT_CREDENTIALS" > service_account.client_secrets.json
 
 # Match on the comm name (15-char kernel truncation of "ElsaMina.Console" = "ElsaMina.Consol").
 # This only matches the actual binary, never the bash shell running this script.
