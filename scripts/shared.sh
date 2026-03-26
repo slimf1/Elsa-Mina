@@ -1,4 +1,4 @@
 #!/bin/bash
-
-export BUILD_PROPERTIES="-p:DebugType=None -p:DebugSymbols=false"
+# None for now
+export BUILD_PROPERTIES=""
 export CONFIGURATION=Release
