@@ -1,5 +1,4 @@
-﻿using ElsaMina.Core;
-using ElsaMina.Core.Contexts;
+﻿using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.RoomUserData;
@@ -8,7 +7,8 @@ using ElsaMina.Logging;
 
 namespace ElsaMina.Commands.Profile;
 
-[NamedCommand("title", Aliases = ["settitle", "set-title", "set-bio", "setbio", "removetitle", "deletetitle", "delete-title", "remove-title"])]
+[NamedCommand("title", "settitle", "set-title", "set-bio", "setbio", "removetitle", "deletetitle",
+    "delete-title", "remove-title", "addtitle", "addbio", "deletebio", "removebio")]
 public class SetTitleCommand : Command
 {
     private readonly IRoomUserDataService _roomUserDataService;
@@ -26,7 +26,8 @@ public class SetTitleCommand : Command
         string userId;
         string title;
 
-        if (context.Command is "removetitle" or "deletetitle" or "delete-title" or "remove-title")
+        if (context.Command is "removetitle" or "deletetitle" or "delete-title" or "remove-title" or "deletebio"
+            or "removebio")
         {
             userId = context.Target.ToLowerAlphaNum();
             title = string.Empty;
@@ -43,7 +44,7 @@ public class SetTitleCommand : Command
             userId = parts[0].ToLowerAlphaNum();
             title = parts[1].Trim();
         }
-        
+
         try
         {
             await _roomUserDataService.SetUserTitleAsync(context.RoomId, userId, title, cancellationToken);

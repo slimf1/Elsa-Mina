@@ -199,6 +199,7 @@ public sealed class UserSaveQueue : IUserSaveQueue
     public async ValueTask DisposeAsync()
     {
         await _timerBasedBackgroundSaveCts.CancelAsync();
+        _timerBasedBackgroundSaveCts.Dispose();
         _timer.Dispose();
         await FlushAsync(CancellationToken.None);
         await WaitForFlushAsync(CancellationToken.None);
