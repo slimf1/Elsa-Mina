@@ -7,7 +7,7 @@ namespace ElsaMina.Commands.Development.LagTest;
 [NamedCommand("lagtest", Aliases = ["lag"])]
 public class LagTestCommand : Command
 {
-    public override Rank RequiredRank => Rank.Regular;
+    public override Rank RequiredRank => Rank.Voiced;
 
     private readonly ILagTestManager _lagTestManager;
 
@@ -25,10 +25,10 @@ public class LagTestCommand : Command
 
         if (elapsed == TimeSpan.MinValue)
         {
-            context.ReplyRankAwareLocalizedMessage("lagtest_timeout");
+            context.ReplyLocalizedMessage("lagtest_timeout");
             return;
         }
 
-        context.ReplyRankAwareLocalizedMessage("lagtest_result", (long)elapsed.TotalMilliseconds);
+        context.ReplyLocalizedMessage("lagtest_result", (long)elapsed.TotalMilliseconds);
     }
 }

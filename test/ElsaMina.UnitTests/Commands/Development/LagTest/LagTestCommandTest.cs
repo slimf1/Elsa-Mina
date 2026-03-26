@@ -28,7 +28,7 @@ public class LagTestCommandTest
     [Test]
     public void Test_RequiredRank_ShouldBeRegular()
     {
-        Assert.That(_command.RequiredRank, Is.EqualTo(Rank.Regular));
+        Assert.That(_command.RequiredRank, Is.EqualTo(Rank.Voiced));
     }
 
     [Test]
@@ -57,7 +57,7 @@ public class LagTestCommandTest
         await _command.RunAsync(_context);
 
         // Assert
-        _context.Received(1).ReplyRankAwareLocalizedMessage("lagtest_result", 42L);
+        _context.Received(1).ReplyLocalizedMessage("lagtest_result", 42L);
     }
 
     [Test]
@@ -71,8 +71,8 @@ public class LagTestCommandTest
         await _command.RunAsync(_context);
 
         // Assert
-        _context.Received(1).ReplyRankAwareLocalizedMessage("lagtest_timeout");
-        _context.DidNotReceive().ReplyRankAwareLocalizedMessage("lagtest_result", Arg.Any<object[]>());
+        _context.Received(1).ReplyLocalizedMessage("lagtest_timeout");
+        _context.DidNotReceive().ReplyLocalizedMessage("lagtest_result", Arg.Any<object[]>());
     }
 
     [Test]

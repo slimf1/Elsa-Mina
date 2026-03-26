@@ -19,7 +19,7 @@ public class ImageService : IImageService
         try
         {
             var stream = await _httpService.GetStreamAsync(url, cancellationToken);
-            var image = await Image.LoadAsync(stream, cancellationToken);
+            var image = await Image.IdentifyAsync(stream, cancellationToken);
             return (image.Width, image.Height);
         }
         catch (Exception exception)
