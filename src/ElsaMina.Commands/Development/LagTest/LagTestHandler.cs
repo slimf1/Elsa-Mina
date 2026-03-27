@@ -15,6 +15,8 @@ public class LagTestHandler : Handler
         _lagTestManager = lagTestManager;
     }
 
+    public override IReadOnlySet<string> HandledMessageTypes => new HashSet<string> { "c:" };
+
     public override Task HandleReceivedMessageAsync(string[] parts, string roomId = null,
         CancellationToken cancellationToken = default)
     {

@@ -26,6 +26,12 @@ public class LagTestHandlerTest
     }
 
     [Test]
+    public void Test_HandledMessageTypes_ShouldBeCorrect()
+    {
+        Assert.That(_handler.HandledMessageTypes, Is.EqualTo(new[] { "c:" }));
+    } 
+    
+    [Test]
     public async Task Test_HandleReceivedMessageAsync_ShouldIgnore_WhenPartsAreTooShort()
     {
         // Act
