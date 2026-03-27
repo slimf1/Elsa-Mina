@@ -34,7 +34,8 @@ public class ArcadeHallOfFameCommand : Command
         var viewModel = new ArcadeHallOfFameViewModel
         {
             Culture = context.Culture,
-            Entries = entries
+            Entries = entries,
+            SpreadsheetUrl = $"https://docs.google.com/spreadsheets/d/{sheet.SpreadsheetId}"
         };
 
         var template = await _templatesManager.GetTemplateAsync("Arcade/Sheets/ArcadeHallOfFame", viewModel);
