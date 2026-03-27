@@ -1,0 +1,66 @@
+<Project>
+
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- AWS -->
+        <PackageVersion Include="AWSSDK.S3" Version="4.0.19.4" />
+
+        <!-- Autofac -->
+        <PackageVersion Include="Autofac" Version="8.2.0" />
+
+        <!-- Coverage -->
+        <PackageVersion Include="coverlet.collector" Version="6.0.0" />
+        <PackageVersion Include="coverlet.msbuild" Version="6.0.2" />
+
+        <!-- Google APIs -->
+        <PackageVersion Include="Google.Apis.Drive.v3" Version="1.69.0.3699" />
+        <PackageVersion Include="Google.Apis.Sheets.v4" Version="1.72.0.3966" />
+
+        <!-- Grafana / OpenTelemetry -->
+        <PackageVersion Include="GitVersion.MsBuild" Version="6.0.5" />
+        <PackageVersion Include="Grafana.OpenTelemetry" Version="1.6.0" />
+
+        <!-- JetBrains -->
+        <PackageVersion Include="JetBrains.Annotations" Version="2025.2.2" />
+
+        <!-- Microsoft / EF Core -->
+        <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.10.0-3.final" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.Abstractions" Version="10.0.0" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.0" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.0" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0" />
+        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+
+        <!-- Misc -->
+        <PackageVersion Include="NCalcSync" Version="5.4.1" />
+        <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
+        <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
+
+        <!-- NSubstitute / NUnit -->
+        <PackageVersion Include="NSubstitute" Version="5.0.0" />
+        <PackageVersion Include="NUnit" Version="3.14.0" />
+        <PackageVersion Include="NUnit.Analyzers" Version="3.9.0" />
+        <PackageVersion Include="NUnit3TestAdapter" Version="4.5.0" />
+
+        <!-- RazorLight -->
+        <PackageVersion Include="RazorLight" Version="2.3.1" />
+
+        <!-- Serilog -->
+        <PackageVersion Include="Serilog.Enrichers.OpenTelemetry" Version="1.0.0" />
+        <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
+        <PackageVersion Include="Serilog.Sinks.File" Version="7.0.0" />
+        <PackageVersion Include="Serilog.Sinks.Grafana.Loki" Version="8.3.1" />
+
+        <!-- SixLabors -->
+        <PackageVersion Include="SixLabors.ImageSharp" Version="3.1.12" />
+
+        <!-- WebSocket -->
+        <PackageVersion Include="Websocket.Client" Version="5.1.2" />
+    </ItemGroup>
+
+</Project>

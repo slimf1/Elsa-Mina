@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Google.Apis.Drive.v3" Version="1.69.0.3699"/>
-        <PackageReference Include="Google.Apis.Sheets.v4" Version="1.72.0.3966"/>
+        <PackageReference Include="Google.Apis.Drive.v3"/>
+        <PackageReference Include="Google.Apis.Sheets.v4"/>
     </ItemGroup>
 
 </Project>
