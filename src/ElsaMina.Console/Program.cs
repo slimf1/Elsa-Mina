@@ -10,7 +10,11 @@ using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.FileSharing.S3;
 using ElsaMina.Logging;
+using Grafana.OpenTelemetry;
 using Newtonsoft.Json;
+using OpenTelemetry;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Trace;
 
 // Configuration
 Configuration configuration;
@@ -19,9 +23,50 @@ using (var streamReader = new StreamReader("config.json"))
     var json = await streamReader.ReadToEndAsync();
     configuration = JsonConvert.DeserializeObject<Configuration>(json);
 }
+
 Log.Configuration = configuration;
 
-// DI 
+// OpenTelemetry (instrumentation)
+TracerProvider tracerProvider = null;
+MeterProvider meterProvider = null;
+
+var otlpEndpoint = configuration.OtlpEndpoint;
+var oltpHeaders = configuration.OltpHeaders;
+
+if (!string.IsNullOrWhiteSpace(otlpEndpoint) && !string.IsNullOrWhiteSpace(oltpHeaders))
+{
+    var exporter = new OtlpExporter
+    {
+        Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf,
+        Endpoint = new Uri(configuration.OtlpEndpoint),
+        Headers = configuration.OltpHeaders
+    };
+    tracerProvider = Sdk.CreateTracerProviderBuilder()
+        .AddSource(Telemetry.ACTIVITY_SOURCE_NAME)
+        .UseGrafana(settings =>
+        {
+            settings.ServiceName = Telemetry.SERVICE_NAME;
+            settings.ExporterSettings = exporter;
+        })
+        .Build();
+
+    meterProvider = Sdk.CreateMeterProviderBuilder()
+        .AddMeter(Telemetry.METER_NAME)
+        .UseGrafana(settings =>
+        {
+            settings.ServiceName = Telemetry.SERVICE_NAME;
+            settings.ExporterSettings = exporter;
+        })
+        .Build();
+
+    Log.Information("OpenTelemetry initialized - exporting to {0}", otlpEndpoint);
+}
+else
+{
+    Log.Warning("OpenTelemetry not initialized - OtlpEndpoint, OltpInstanceId or OltpAccessToken missing from config");
+}
+
+// DI
 var builder = new ContainerBuilder();
 builder.RegisterInstance(configuration).As<IConfiguration>().As<IS3CredentialsProvider>().SingleInstance();
 builder.RegisterModule<CoreModule>();
@@ -63,6 +108,8 @@ AppDomain.CurrentDomain.ProcessExit += (_, _) =>
 {
     Log.Information("Exiting...");
     bot.OnExit();
+    tracerProvider?.Dispose();
+    meterProvider?.Dispose();
     Log.CloseAndFlush();
 };
 

@@ -42,4 +42,6 @@ public interface IConfiguration : IS3CredentialsProvider, ILoggingConfiguration
     int UserUpdateBatchSize { get; set; }
     TimeSpan UserUpdateFlushInterval { get; set; }
     IReadOnlyDictionary<string, string> GoogleServiceAccountData { get; set; }
+    string OtlpEndpoint { get; }
+    string OltpHeaders { get; }
 }

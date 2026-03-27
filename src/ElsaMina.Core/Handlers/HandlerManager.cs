@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Logging;
 
@@ -47,15 +48,19 @@ public class HandlerManager : IHandlerManager
                    (messageType != null && handler.HandledMessageTypes.Contains(messageType)));
     }
 
-    private static Task TryHandleMessageAsync(string[] parts, string roomId, IHandler handler,
+    private static async Task TryHandleMessageAsync(string[] parts, string roomId, IHandler handler,
         CancellationToken cancellationToken)
     {
+        using var activity = Telemetry.ACTIVITY_SOURCE.StartActivity($"handler.{handler.Identifier}");
+        activity?.SetTag("room", roomId);
         try
         {
-            return handler.HandleReceivedMessageAsync(parts, roomId, cancellationToken);
+            await handler.HandleReceivedMessageAsync(parts, roomId, cancellationToken);
         }
         catch (Exception exception)
         {
+            activity?.SetStatus(ActivityStatusCode.Error, exception.Message);
+            activity?.AddException(exception);
             Log.Error(exception, "Error while handling message in handler {Handler}", handler.Identifier);
             throw;
         }

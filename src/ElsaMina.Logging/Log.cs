@@ -1,5 +1,6 @@
 using Serilog;
 using Serilog.Core;
+using Serilog.Enrichers.OpenTelemetry;
 #if RELEASE
 using Serilog.Sinks.Grafana.Loki;
 #endif 
@@ -18,6 +19,8 @@ public static class Log
     {
         var config = new LoggerConfiguration()
             .Enrich.FromLogContext()
+            .Enrich.WithOpenTelemetryTraceId()
+            .Enrich.WithOpenTelemetrySpanId()
             .MinimumLevel.Debug()
             .WriteTo.Console();
 

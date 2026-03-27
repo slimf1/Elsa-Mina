@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.DependencyInjection;
@@ -98,12 +99,24 @@ public class CommandExecutor : ICommandExecutor
 
         var task = Task.Run(async () =>
         {
+            using var activity = Telemetry.ACTIVITY_SOURCE.StartActivity("command.execute");
+            activity?.SetTag("command.name", command.Name);
+            activity?.SetTag("room", context.RoomId);
+            activity?.SetTag("sender", context.Sender?.UserId);
+
+            var stopwatch = Stopwatch.StartNew();
             try
             {
                 await command.RunAsync(context, token);
+                Telemetry.COMMANDS_EXECUTED.Add(1,
+                    new KeyValuePair<string, object>("command", command.Name),
+                    new KeyValuePair<string, object>("status", "ok"));
             }
             catch (OperationCanceledException)
             {
+                Telemetry.COMMANDS_EXECUTED.Add(1,
+                    new KeyValuePair<string, object>("command", command.Name),
+                    new KeyValuePair<string, object>("status", "cancelled"));
                 Log.Information(
                     "Command {0} ({1}) was cancelled",
                     command.Name,
@@ -111,6 +124,10 @@ public class CommandExecutor : ICommandExecutor
             }
             catch (Exception ex)
             {
+                activity?.SetStatus(ActivityStatusCode.Error, ex.Message);
+                activity?.AddException(ex);
+                Telemetry.COMMAND_ERRORS.Add(1,
+                    new KeyValuePair<string, object>("command", command.Name));
                 Log.Error(
                     ex,
                     "Command {0} ({1}) crashed",
@@ -120,6 +137,8 @@ public class CommandExecutor : ICommandExecutor
             }
             finally
             {
+                Telemetry.COMMAND_DURATION.Record(stopwatch.Elapsed.TotalMilliseconds,
+                    new KeyValuePair<string, object>("command", command.Name));
                 _runningCommands.TryRemove(executionId, out _);
                 linkedCts.Dispose();
             }

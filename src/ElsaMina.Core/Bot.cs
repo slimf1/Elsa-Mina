@@ -56,6 +56,7 @@ public class Bot : IBot
 
     public void OnReconnect()
     {
+        Telemetry.WEB_SOCKET_RECONNECTIONS.Add(1);
         _connectionTime = _clockService.CurrentUtcDateTimeOffset;
     }
 
@@ -117,8 +118,13 @@ public class Bot : IBot
         }
 
         var roomId = room ?? _currentRoom;
+        var messageType = parts.Length > 1 ? parts[1] : string.Empty;
 
         Log.Debug("[Received] ({0}) {1}", room, line);
+
+        Telemetry.MESSAGES_RECEIVED.Add(1,
+            new KeyValuePair<string, object>("room", roomId),
+            new KeyValuePair<string, object>("type", messageType));
 
         if (!_handlerManager.IsInitialized)
         {
@@ -143,6 +149,7 @@ public class Bot : IBot
 
         Log.Debug("[Sending] {0}", message);
 
+        Telemetry.MESSAGES_SENT.Add(1);
         _client.Send(message);
         _lastMessage = message;
         _lastMessageTime = now;

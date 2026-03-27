@@ -50,4 +50,6 @@ public class Configuration : IConfiguration
     public string LokiUrl { get; set; } = string.Empty;
     public string LokiUser { get; set; } = string.Empty;
     public string LokiApiKey { get; set; } = string.Empty;
+    public string OtlpEndpoint { get; set; } = string.Empty;
+    public string OltpHeaders { get; set; } = string.Empty;
 }
