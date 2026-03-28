@@ -5,6 +5,13 @@ using Lusamine.DamageCalc.Data;
 
 namespace ElsaMina.Core.Services.Battles.Strategies;
 
+/// <summary>
+/// Vibe coded slop, left as is for now
+/// todo : 
+/// - rework needed to implement proper minimax
+/// - integrate smogon usage stats for proper move selection
+/// 
+/// </summary>
 public class CalcBasedBattleDecisionService : IBattleDecisionService
 {
     private const int MINIMAX_DEPTH = 4;
