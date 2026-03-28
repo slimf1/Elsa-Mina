@@ -1836,4 +1836,85 @@
     <data name="lagtest_timeout" xml:space="preserve">
         <value>Le test de latence a expiré.</value>
     </data>
+    <data name="lo_panel_title" xml:space="preserve">
+        <value>Lights Out</value>
+    </data>
+    <data name="lo_panel_level" xml:space="preserve">
+        <value>Niveau {0}</value>
+    </data>
+    <data name="lo_panel_moves" xml:space="preserve">
+        <value>{0} coups</value>
+    </data>
+    <data name="lo_panel_player" xml:space="preserve">
+        <value>Joueur : {0}</value>
+    </data>
+    <data name="lo_panel_objective" xml:space="preserve">
+        <value>Objectif : éteindre toutes les lumières !</value>
+    </data>
+    <data name="lo_panel_hint" xml:space="preserve">
+        <value>Cliquer une case inverse son état et celui de ses voisines.</value>
+    </data>
+    <data name="lo_panel_timeout_hint" xml:space="preserve">
+        <value>La partie expire après 2 min d'inactivité.</value>
+    </data>
+    <data name="lo_panel_legend_lit" xml:space="preserve">
+        <value>Allumée</value>
+    </data>
+    <data name="lo_panel_legend_unlit" xml:space="preserve">
+        <value>Éteinte</value>
+    </data>
+    <data name="lo_panel_options" xml:space="preserve">
+        <value>Options</value>
+    </data>
+    <data name="lo_panel_new_round" xml:space="preserve">
+        <value>Nouveau niveau</value>
+    </data>
+    <data name="lo_panel_stop" xml:space="preserve">
+        <value>Arrêter la partie</value>
+    </data>
+    <data name="lo_panel_play_again" xml:space="preserve">
+        <value>Rejouer</value>
+    </data>
+    <data name="lo_game_started" xml:space="preserve">
+        <value>Lights Out — Niveau {0}. Éteignez toutes les lumières !</value>
+    </data>
+    <data name="lo_game_win" xml:space="preserve">
+        <value>{0} a résolu le puzzle en {1} coups ! Prochain niveau : {2}</value>
+    </data>
+    <data name="lo_game_timeout" xml:space="preserve">
+        <value>La partie de Lights Out s'est terminée par inactivité.</value>
+    </data>
+    <data name="lo_game_cancelled" xml:space="preserve">
+        <value>La partie de Lights Out a été annulée.</value>
+    </data>
+    <data name="lo_game_no_game" xml:space="preserve">
+        <value>Aucune partie de Lights Out en cours.</value>
+    </data>
+    <data name="lo_game_not_owner" xml:space="preserve">
+        <value>Seul le joueur qui a lancé cette partie peut faire cela.</value>
+    </data>
+    <data name="lo_game_round_active" xml:space="preserve">
+        <value>Une partie de Lights Out est déjà en cours.</value>
+    </data>
+    <data name="lo_game_already_running" xml:space="preserve">
+        <value>Un autre jeu est déjà en cours dans cette room.</value>
+    </data>
+    <data name="lo_pm_missing_room" xml:space="preserve">
+        <value>Veuillez spécifier une room. Utilisation : -lightsout nomdelaroom</value>
+    </data>
+    <data name="lo_pm_invalid_room" xml:space="preserve">
+        <value>La room spécifiée n'a pas été trouvée ou le bot n'y est pas présent.</value>
+    </data>
+    <data name="lo_leaderboard_title" xml:space="preserve">
+        <value>Classement Lights Out</value>
+    </data>
+    <data name="lo_leaderboard_level" xml:space="preserve">
+        <value>Niveau</value>
+    </data>
+    <data name="lo_leaderboard_best_moves" xml:space="preserve">
+        <value>Meilleur score</value>
+    </data>
+    <data name="lo_leaderboard_empty" xml:space="preserve">
+        <value>Le classement Lights Out est vide.</value>
+    </data>
 </root>

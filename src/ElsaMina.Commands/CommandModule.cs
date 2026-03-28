@@ -30,6 +30,7 @@ using ElsaMina.Commands.GuessingGame.Gatekeepers;
 using ElsaMina.Commands.GuessingGame.PokeCries;
 using ElsaMina.Commands.GuessingGame.PokeDesc;
 using ElsaMina.Commands.JoinPhrases;
+using ElsaMina.Commands.LightsOut;
 using ElsaMina.Commands.Misc;
 using ElsaMina.Commands.Misc.Bitcoin;
 using ElsaMina.Commands.Misc.Colors;
@@ -238,6 +239,11 @@ public class CommandModule : Module
         builder.RegisterCommand<SaveEventRoleCommand>();
         builder.RegisterCommand<DeleteEventRoleCommand>();
 
+        builder.RegisterCommand<StartLightsOutCommand>();
+        builder.RegisterCommand<ToggleLightsOutCommand>();
+        builder.RegisterCommand<EndLightsOutCommand>();
+        builder.RegisterCommand<LightsOutLeaderboardCommand>();
+
         builder.RegisterType<CountriesGame>().AsSelf();
         builder.RegisterType<CapitalCitiesGame>().AsSelf();
         builder.RegisterType<ConnectFourGame>().AsSelf();
@@ -247,6 +253,8 @@ public class CommandModule : Module
         builder.RegisterType<PokeCriesGame>().AsSelf();
         builder.RegisterType<GatekeepersGame>().AsSelf();
 
+        builder.RegisterType<LightsOutGame>().AsSelf();
+        builder.RegisterType<LightsOutGameManager>().As<ILightsOutGameManager>().SingleInstance();
         builder.RegisterType<VoltorbFlipGameManager>().As<IVoltorbFlipGameManager>().SingleInstance();
         builder.RegisterType<EventRoleMappingService>().As<IEventRoleMappingService>().SingleInstance();
         builder.RegisterType<TourConfigService>().As<ITourConfigService>().SingleInstance();
