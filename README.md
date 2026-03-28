@@ -87,14 +87,14 @@ The following scripts are available:
 ### Games & Entertainment
 - **Connect Four** — 2-player board game with join/play/forfeit flow
 - **Lights Out** — Puzzle game with leaderboard tracking
-- **Voltorb Flip** — Multi-player Voltorb Flip with mark and leaderboard support
+- **Voltorb Flip** — Pokémon HGSS' Voltorb Flip with mark and leaderboard support
 - **Guessing Games** — Multiple modes: Pokémon descriptions, cries, country capitals, and more
 - **Poke Race** — Multi-player racing mini-game
 - **Slots** — Slot machine mini-game
 
 ### Tournaments
 - **Weekly Tournament Templates** — 23+ pre-configured formats (OU, RU, BH, AAA, 1v1, ZU, and more)
-- **Random Tournaments** — Generate random tournament pairings
+- **Random Tournaments** — Create random tournament
 - **Tournament Configuration** — Save, edit, and launch custom tournament setups
 - **Tournament Leaderboard** — Track top tournament players per room
 
@@ -103,7 +103,7 @@ The following scripts are available:
 - **Points & Leaderboard** — Track scores across arcade events
 - **Achievement Tiers** — Configurable level tiers with display
 - **Hall of Fame** — Persistent records synced to Google Sheets
-- **CAA Integration** — Dedicated CAA event tracking
+- **CAA Integration** — Dedicated CAA (Advent calendar) event tracking
 
 ### User Profiles & Social
 - **Profiles** — Display user profile with avatar, title, and badge showcase
@@ -123,7 +123,7 @@ The following scripts are available:
 
 ### Pokémon Showdown Integration
 - **Ladder Tracking** — Monitor and display ladder rankings in real time
-- **Battle Tracking** — Subscribe to a player's ongoing battles
+- **Battle Tracking** — Subscribe to new battles from a subset of players
 - **Rank Display** — Fetch and show player ELO/GXE per format
 - **Team Samples** — Add, showcase, and manage team lists per tier
 
@@ -133,7 +133,7 @@ The following scripts are available:
 - **Custom Commands** — Add, edit, delete room-specific commands
 - **Repeating Messages** — Schedule recurring announcements
 - **Shop** — Virtual item shop with configurable listings
-- **Polls** — Display in-room polls
+- **Polls** — Keep a history of created polls
 
 ### Utilities
 - **Timer / Reminder** — Set countdown timers in chat
@@ -143,7 +143,7 @@ The following scripts are available:
 - **Bug Report** — Inline issue reporting shortcut
 
 ### Internationalization
-- **6 supported languages** — American english, french, spanish, italian, portuguese and german
+- **6 supported languages** — english, french, spanish, italian, portuguese, and german
 - **Per-room locale** — each room can set its own language independently
 
 ### Instrumentation & Observability
@@ -160,7 +160,7 @@ The following scripts are available:
 - **RazorLight HTML templates** — `.cshtml` templates pre-compiled at startup and cached in memory for rich HTML responses
 
 ### Per-room Configuration
-- **Parameterable settings** — each room independently controls locale, timezone, command autocorrect, error message visibility, team link previews, and replay previews
+- **Configurable settings** — each room independently controls locale, timezone, command autocorrect, error message visibility, team link previews, and replay previews
 - **Persistent storage** — parameters are stored in the database via Entity Framework and applied at runtime
 
 ### Battle System
@@ -169,7 +169,7 @@ The following scripts are available:
 > The battle system is currently in development and may not be stable.
 
 ### Watchlist
-- **User monitoring** — maintain a per-room list of watched users with associated context
+- **Watchlist monitoring** — maintain a per-room list of watched users with associated context
 - **Staff intro integration** — automatically injects the watchlist into the room's staff intro display
 - **Discord notifications** — sends alerts when a watched user becomes active
 
