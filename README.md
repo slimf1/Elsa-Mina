@@ -63,16 +63,23 @@ dotnet ef migrations remove --project src/ElsaMina.DataAccess
 ```
 
 ## Testing
+The code is unit-tested with NUnit and NSubstitute. Two test projects are available:
+- `ElsaMina.UnitTests` for minimal unit tests.
+- `ElsaMina.IntegrationTests` for more complex integration tests.
+
+To run the tests, run the following command in the root directory:
 ```bash
 ./scripts/test.sh
 ```
 
 ## Scripts
+The following scripts are available:
 ```bash
 ./scripts/restore.sh      # Restore NuGet packages
 ./scripts/build.sh        # Build the solution
 ./scripts/test.sh         # Run all tests
 ./scripts/publish.sh      # Publish for deployment
+./scripts/full_publish.sh # Do a full restore, test, build and publish
 ```
 
 ## Features
