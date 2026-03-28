@@ -59,7 +59,7 @@ public class CoreModule : Module
         builder.RegisterType<HandlerManager>().As<IHandlerManager>().SingleInstance();
         builder.RegisterType<AddedCommandsManager>().As<IAddedCommandsManager>().SingleInstance();
         builder.RegisterType<BattleMessageParser>().As<IBattleMessageParser>().SingleInstance();
-        builder.RegisterType<TypeMatchupBattleDecisionService>().As<IBattleDecisionService>().SingleInstance();
+        builder.RegisterType<CalcBasedBattleDecisionService>().As<IBattleDecisionService>().SingleInstance();
         builder.RegisterType<BattleService>().As<IBattleService>().SingleInstance();
         builder.RegisterType<TemplatesManager>().As<ITemplatesManager>().SingleInstance();
         builder.RegisterType<RoomUserDataService>().As<IRoomUserDataService>().SingleInstance();
@@ -90,6 +90,7 @@ public class CoreModule : Module
         builder.RegisterHandler<CheckConnectionHandler>();
         builder.RegisterHandler<FormatsHandler>();
         builder.RegisterHandler<LoginHandler>();
+        builder.RegisterHandler<AcceptChallengeHandler>();
 
         builder.RegisterType<S3FileSharingService>().As<IFileSharingService>().SingleInstance().OnActivating(
             ctx => ctx.Instance.InitializeAsync().Wait());
