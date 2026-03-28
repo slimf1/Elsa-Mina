@@ -135,6 +135,37 @@ dotnet ef migrations remove --project src/ElsaMina.DataAccess
 - **Pokémon Name Translation** — Cross-language Pokémon name lookup
 - **Bug Report** — Inline issue reporting shortcut
 
+### Internationalization
+- **6 supported languages** — American english, french, spanish, italian, portuguese and german
+- **Per-room locale** — each room can set its own language independently
+
+### Instrumentation & Observability
+- **Structured logging** — Serilog with daily rolling file output and optional Grafana Loki sink
+- **Metrics** — OpenTelemetry counters and histograms for messages received/sent, commands executed, errors, command duration, HTTP requests, and WebSocket reconnections
+
+### Command Engine
+- **Fuzzy autocorrect** — Levenshtein distance matching suggests the closest command on typo (configurable per room)
+- **Message throttling** — outgoing message queue with cooldown and length limits to respect server constraints
+- **Cancellable commands** — long-running commands can be listed and cancelled at runtime
+
+### Resilience & Templating
+- **WebSocket auto-reconnect** — automatic reconnection with configurable error and lost-connection timeouts
+- **RazorLight HTML templates** — `.cshtml` templates pre-compiled at startup and cached in memory for rich HTML responses
+
+### Per-room Configuration
+- **Parameterable settings** — each room independently controls locale, timezone, command autocorrect, error message visibility, team link previews, and replay previews
+- **Persistent storage** — parameters are stored in the database via Entity Framework and applied at runtime
+
+### Battle System
+- **Automated battle bot** — accepts random battle challenges and plays out matches autonomously
+> [!WARNING]  
+> The battle system is currently in development and may not be stable.
+
+### Watchlist
+- **User monitoring** — maintain a per-room list of watched users with associated context
+- **Staff intro integration** — automatically injects the watchlist into the room's staff intro display
+- **Discord notifications** — sends alerts when a watched user becomes active
+
 ## Project Layout
 - `src/ElsaMina.Console`: entry point and configuration
 - `src/ElsaMina.Core`: bot runtime and services
