@@ -21,7 +21,7 @@ public class StartLightsOutCommand : Command
         _gameManager = gameManager;
     }
 
-    public override Rank RequiredRank => Rank.Regular;
+    public override Rank RequiredRank => Rank.Voiced;
     public override bool IsAllowedInPrivateMessage => true;
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
