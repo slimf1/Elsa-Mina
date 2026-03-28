@@ -27,8 +27,6 @@ public class JoinLightsOutCommand : Command
         }
 
         lightsOut.Owner = context.Sender;
-        lightsOut.Context = context;
-        if (room != null) context.Culture = room.Culture;
         await lightsOut.StartNewRound();
     }
 }
