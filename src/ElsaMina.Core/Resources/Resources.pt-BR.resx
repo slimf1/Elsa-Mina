@@ -1689,10 +1689,241 @@
     <data name="pokemon_translate_not_found" xml:space="preserve">
         <value>Nenhum Pokémon encontrado com o nome "{0}".</value>
     </data>
+    <data name="tourconfig_dashboard_title" xml:space="preserve">
+        <value>Configurador de Torneios</value>
+    </data>
+    <data name="tourconfig_configured_tours" xml:space="preserve">
+        <value>Torneios configurados</value>
+    </data>
+    <data name="tourconfig_no_tours" xml:space="preserve">
+        <value>Nenhum torneio configurado para esta sala.</value>
+    </data>
+    <data name="tourconfig_create_new" xml:space="preserve">
+        <value>Criar um novo torneio</value>
+    </data>
+    <data name="tourconfig_edit_title" xml:space="preserve">
+        <value>Editar: {0}</value>
+    </data>
+    <data name="tourconfig_col_name" xml:space="preserve">
+        <value>Nome</value>
+    </data>
+    <data name="tourconfig_col_tier" xml:space="preserve">
+        <value>Tier</value>
+    </data>
+    <data name="tourconfig_col_autostart" xml:space="preserve">
+        <value>Autostart</value>
+    </data>
+    <data name="tourconfig_btn_launch" xml:space="preserve">
+        <value>Lançar</value>
+    </data>
+    <data name="tourconfig_btn_edit" xml:space="preserve">
+        <value>Editar</value>
+    </data>
+    <data name="tourconfig_btn_delete" xml:space="preserve">
+        <value>Excluir</value>
+    </data>
+    <data name="tourconfig_btn_save" xml:space="preserve">
+        <value>Salvar</value>
+    </data>
+    <data name="tourconfig_btn_create" xml:space="preserve">
+        <value>Criar torneio</value>
+    </data>
+    <data name="tourconfig_btn_back" xml:space="preserve">
+        <value>Voltar</value>
+    </data>
+    <data name="tourconfig_field_id" xml:space="preserve">
+        <value>ID (nome do comando):</value>
+    </data>
+    <data name="tourconfig_field_tier" xml:space="preserve">
+        <value>Tier:</value>
+    </data>
+    <data name="tourconfig_field_format" xml:space="preserve">
+        <value>Formato:</value>
+    </data>
+    <data name="tourconfig_field_autostart" xml:space="preserve">
+        <value>Autostart (min):</value>
+    </data>
+    <data name="tourconfig_field_autodq" xml:space="preserve">
+        <value>Autodq (min, vazio se nenhum):</value>
+    </data>
+    <data name="tourconfig_field_tourname" xml:space="preserve">
+        <value>Nome do torneio:</value>
+    </data>
+    <data name="tourconfig_field_rules" xml:space="preserve">
+        <value>Regras:</value>
+    </data>
+    <data name="tourconfig_room_not_found" xml:space="preserve">
+        <value>Sala não encontrada ou o bot não está nela.</value>
+    </data>
+    <data name="tourconfig_missing_data" xml:space="preserve">
+        <value>Dados ausentes.</value>
+    </data>
+    <data name="tourconfig_invalid_format" xml:space="preserve">
+        <value>Formato inválido.</value>
+    </data>
+    <data name="tourconfig_id_required" xml:space="preserve">
+        <value>O ID do torneio é obrigatório.</value>
+    </data>
+    <data name="tourconfig_tier_required" xml:space="preserve">
+        <value>O tier é obrigatório.</value>
+    </data>
+    <data name="tourconfig_saved" xml:space="preserve">
+        <value>Torneio "{0}" salvo com sucesso.</value>
+    </data>
+    <data name="tourconfig_deleted" xml:space="preserve">
+        <value>Torneio "{0}" excluído.</value>
+    </data>
+    <data name="tourconfig_not_found" xml:space="preserve">
+        <value>Torneio "{0}" não encontrado.</value>
+    </data>
+    <data name="tourconfig_launchtour_usage" xml:space="preserve">
+        <value>Uso: -launchtour id[,sala]</value>
+    </data>
+    <data name="eventroles_dashboard_title" xml:space="preserve">
+        <value>Configuração de pings do Discord por evento</value>
+    </data>
+    <data name="eventroles_configured" xml:space="preserve">
+        <value>Eventos configurados</value>
+    </data>
+    <data name="eventroles_none" xml:space="preserve">
+        <value>Nenhuma associação evento/cargo configurada para esta sala.</value>
+    </data>
+    <data name="eventroles_add_new" xml:space="preserve">
+        <value>Adicionar uma nova associação</value>
+    </data>
+    <data name="eventroles_col_event" xml:space="preserve">
+        <value>Nome do evento</value>
+    </data>
+    <data name="eventroles_col_roleid" xml:space="preserve">
+        <value>ID do cargo do Discord</value>
+    </data>
+    <data name="eventroles_field_event" xml:space="preserve">
+        <value>Nome do evento:</value>
+    </data>
+    <data name="eventroles_field_roleid" xml:space="preserve">
+        <value>ID do cargo do Discord:</value>
+    </data>
+    <data name="eventroles_btn_add" xml:space="preserve">
+        <value>Adicionar</value>
+    </data>
+    <data name="eventroles_btn_delete" xml:space="preserve">
+        <value>Excluir</value>
+    </data>
+    <data name="eventroles_room_not_found" xml:space="preserve">
+        <value>Sala não encontrada ou o bot não está nela.</value>
+    </data>
+    <data name="eventroles_missing_data" xml:space="preserve">
+        <value>Dados ausentes.</value>
+    </data>
+    <data name="eventroles_invalid_format" xml:space="preserve">
+        <value>Formato inválido.</value>
+    </data>
+    <data name="eventroles_name_required" xml:space="preserve">
+        <value>O nome do evento é obrigatório.</value>
+    </data>
+    <data name="eventroles_roleid_required" xml:space="preserve">
+        <value>O ID do cargo do Discord é obrigatório.</value>
+    </data>
+    <data name="eventroles_saved" xml:space="preserve">
+        <value>Associação para "{0}" salva com sucesso.</value>
+    </data>
+    <data name="eventroles_deleted" xml:space="preserve">
+        <value>Associação para "{0}" excluída.</value>
+    </data>
     <data name="lagtest_result" xml:space="preserve">
         <value>Latência: {0} ms</value>
     </data>
     <data name="lagtest_timeout" xml:space="preserve">
         <value>O teste de latência expirou.</value>
+    </data>
+    <data name="lo_panel_title" xml:space="preserve">
+        <value>Lights Out</value>
+    </data>
+    <data name="lo_panel_waiting_for_player" xml:space="preserve">
+        <value>Um jogo está esperando por um jogador!</value>
+    </data>
+    <data name="lo_panel_join" xml:space="preserve">
+        <value>Entrar</value>
+    </data>
+    <data name="lo_game_waiting" xml:space="preserve">
+        <value>Já há um jogo de Lights Out esperando por um jogador.</value>
+    </data>
+    <data name="lo_panel_level" xml:space="preserve">
+        <value>Nível {0}</value>
+    </data>
+    <data name="lo_panel_moves" xml:space="preserve">
+        <value>{0} movimentos</value>
+    </data>
+    <data name="lo_panel_player" xml:space="preserve">
+        <value>Jogador: {0}</value>
+    </data>
+    <data name="lo_panel_objective" xml:space="preserve">
+        <value>Objetivo: apague todas as luzes!</value>
+    </data>
+    <data name="lo_panel_hint" xml:space="preserve">
+        <value>Clicar em uma célula altera seu estado e o das células vizinhas.</value>
+    </data>
+    <data name="lo_panel_timeout_hint" xml:space="preserve">
+        <value>O jogo expira após 2 min de inatividade.</value>
+    </data>
+    <data name="lo_panel_legend_lit" xml:space="preserve">
+        <value>Acesa</value>
+    </data>
+    <data name="lo_panel_legend_unlit" xml:space="preserve">
+        <value>Apagada</value>
+    </data>
+    <data name="lo_panel_options" xml:space="preserve">
+        <value>Opções</value>
+    </data>
+    <data name="lo_panel_new_round" xml:space="preserve">
+        <value>Próximo nível</value>
+    </data>
+    <data name="lo_panel_stop" xml:space="preserve">
+        <value>Encerrar jogo</value>
+    </data>
+    <data name="lo_panel_play_again" xml:space="preserve">
+        <value>Jogar novamente</value>
+    </data>
+    <data name="lo_game_started" xml:space="preserve">
+        <value>Lights Out — Nível {0}. Apague todas as luzes!</value>
+    </data>
+    <data name="lo_game_win" xml:space="preserve">
+        <value>{0} resolveu o puzzle em {1} movimentos! Próximo nível: {2}</value>
+    </data>
+    <data name="lo_game_timeout" xml:space="preserve">
+        <value>O jogo de Lights Out terminou por inatividade.</value>
+    </data>
+    <data name="lo_game_cancelled" xml:space="preserve">
+        <value>O jogo de Lights Out foi cancelado.</value>
+    </data>
+    <data name="lo_game_no_game" xml:space="preserve">
+        <value>Nenhum jogo de Lights Out está em andamento.</value>
+    </data>
+    <data name="lo_game_not_owner" xml:space="preserve">
+        <value>Apenas o jogador que iniciou este jogo pode fazer isso.</value>
+    </data>
+    <data name="lo_game_round_active" xml:space="preserve">
+        <value>Já há um jogo de Lights Out em andamento.</value>
+    </data>
+    <data name="lo_game_already_running" xml:space="preserve">
+        <value>Já há outro jogo em andamento nesta sala.</value>
+    </data>
+    <data name="lo_pm_missing_room" xml:space="preserve">
+        <value>Por favor, especifique uma sala. Uso: -lightsout nomedaSala</value>
+    </data>
+    <data name="lo_pm_invalid_room" xml:space="preserve">
+        <value>A sala especificada não foi encontrada ou o bot não está nela.</value>
+    </data>
+    <data name="lo_leaderboard_title" xml:space="preserve">
+        <value>Placar Lights Out</value>
+    </data>
+    <data name="lo_leaderboard_level" xml:space="preserve">
+        <value>Nível</value>
+    </data>
+    <data name="lo_leaderboard_best_moves" xml:space="preserve">
+        <value>Melhor pontuação</value>
+    </data>
+    <data name="lo_leaderboard_empty" xml:space="preserve">
+        <value>O placar de Lights Out está vazio.</value>
     </data>
 </root>
