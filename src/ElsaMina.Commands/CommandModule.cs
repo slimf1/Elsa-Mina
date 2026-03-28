@@ -240,6 +240,7 @@ public class CommandModule : Module
         builder.RegisterCommand<DeleteEventRoleCommand>();
 
         builder.RegisterCommand<StartLightsOutCommand>();
+        builder.RegisterCommand<JoinLightsOutCommand>();
         builder.RegisterCommand<ToggleLightsOutCommand>();
         builder.RegisterCommand<EndLightsOutCommand>();
         builder.RegisterCommand<LightsOutLeaderboardCommand>();

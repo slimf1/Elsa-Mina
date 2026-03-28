@@ -1839,6 +1839,15 @@
     <data name="lo_panel_title" xml:space="preserve">
         <value>Lights Out</value>
     </data>
+    <data name="lo_panel_waiting_for_player" xml:space="preserve">
+        <value>Une partie attend un joueur !</value>
+    </data>
+    <data name="lo_panel_join" xml:space="preserve">
+        <value>Rejoindre</value>
+    </data>
+    <data name="lo_game_waiting" xml:space="preserve">
+        <value>Une partie de Lights Out attend déjà un joueur.</value>
+    </data>
     <data name="lo_panel_level" xml:space="preserve">
         <value>Niveau {0}</value>
     </data>

@@ -17,6 +17,7 @@ public interface ILightsOutGame : IGame
     IContext Context { get; set; }
     IUser Owner { get; set; }
 
+    Task DisplayAnnounce();
     Task StartNewRound();
     Task ToggleCell(IUser user, int row, int col);
     Task CancelAsync();

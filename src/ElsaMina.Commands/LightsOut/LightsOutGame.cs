@@ -50,6 +50,24 @@ public class LightsOutGame : Game, ILightsOutGame
 
     private string EffectiveRoomId => IsPrivateMode ? TargetRoomId : Context.RoomId;
     private string GameIdentifier => $"lo-{EffectiveRoomId}-{_gameId}";
+    private string AnnounceId => GameIdentifier;
+
+    public async Task DisplayAnnounce()
+    {
+        var template = await _templatesManager.GetTemplateAsync("LightsOut/LightsOutAnnounce",
+            new LightsOutModel
+            {
+                Culture = Context.Culture,
+                CurrentGame = this,
+                BotName = _configuration.Name,
+                Trigger = _configuration.Trigger,
+                RoomId = EffectiveRoomId,
+                IsPrivateMode = IsPrivateMode
+            });
+
+        _inactivityTimer.Restart();
+        Context.SendUpdatableHtml(AnnounceId, template.RemoveNewlines(), false);
+    }
 
     public async Task StartNewRound()
     {

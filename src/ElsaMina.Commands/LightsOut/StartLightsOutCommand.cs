@@ -84,6 +84,12 @@ public class StartLightsOutCommand : Command
 
         if (room.Game is ILightsOutGame existingGame)
         {
+            if (!existingGame.IsStarted)
+            {
+                context.ReplyLocalizedMessage("lo_game_waiting");
+                return;
+            }
+
             if (existingGame.IsRoundActive)
             {
                 context.ReplyLocalizedMessage("lo_game_round_active");
@@ -104,8 +110,7 @@ public class StartLightsOutCommand : Command
 
         var game = _dependencyContainerService.Resolve<LightsOutGame>();
         game.Context = context;
-        game.Owner = context.Sender;
         room.Game = game;
-        await game.StartNewRound();
+        await game.DisplayAnnounce();
     }
 }
