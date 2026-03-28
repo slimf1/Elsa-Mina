@@ -17,7 +17,7 @@ public class SlotsFunCommand : Command
     private const int WIN_MESSAGE_COUNT = 6;
     private const int LOSE_MESSAGE_COUNT = 6;
 
-    private static readonly IReadOnlyList<string> BLACKLISTED_ROOMS = ["franais", "salty"];
+    private static readonly IReadOnlyList<string> BLACKLISTED_ROOMS = ["franais", "salty", "botdevelopment"];
 
     private static readonly IReadOnlyList<(string DescriptionKey, string ImageUrl)> SLOT_ENTRIES =
     [

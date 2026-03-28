@@ -47,7 +47,8 @@ public class EndLightsOutCommand : Command
 
         if (context.Room?.Game is ILightsOutGame game)
         {
-            if (game.Owner != null && context.Sender.UserId != game.Owner.UserId)
+            if (game.Owner != null && context.Sender.UserId != game.Owner.UserId
+                                   && !context.HasRankOrHigher(Rank.Driver))
             {
                 context.ReplyLocalizedMessage("lo_game_not_owner");
                 return;

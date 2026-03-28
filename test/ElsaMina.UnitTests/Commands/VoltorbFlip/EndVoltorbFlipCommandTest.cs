@@ -1,5 +1,4 @@
 using ElsaMina.Commands.VoltorbFlip;
-using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Rooms;
 using NSubstitute;
@@ -115,6 +114,26 @@ public class EndVoltorbFlipCommandTest
         // Assert
         _context.Received(1).ReplyLocalizedMessage("vf_game_not_owner");
         await _voltorbFlipGame.DidNotReceive().CancelAsync();
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldCancelGame_WhenSenderIsNotOwnerButHasDriverRank()
+    {
+        // Arrange
+        var owner = new TestUser("owner-id");
+        var sender = new TestUser("sender-id");
+        _voltorbFlipGame.Owner = owner;
+        _context.Sender.Returns(sender);
+        _context.HasRankOrHigher(Rank.Driver).Returns(true);
+        _context.Room.Returns(_room);
+        _room.Game.Returns(_voltorbFlipGame);
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await _voltorbFlipGame.Received(1).CancelAsync();
+        _context.Received(1).ReplyLocalizedMessage("vf_game_cancelled");
     }
 
     [Test]
