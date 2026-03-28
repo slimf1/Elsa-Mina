@@ -36,10 +36,11 @@ cp src/ElsaMina.Console/example.config.json src/ElsaMina.Console/config.json
 4. Run the bot
 ```bash
 cd src/ElsaMina.Console
-dotnet run
+dotnet run ElsaMina.Console.dll
 ```
 
 ## Docker
+You can also run the bot in a Docker container.
 ```bash
 docker build -t elsa-mina .
 docker run -d \
@@ -49,13 +50,12 @@ docker run -d \
 ```
 
 ## Configuration
-Config lives at `src/ElsaMina.Console/config.json`. Use the example file and set:
-- Showdown credentials
-- Room settings
-- PostgreSQL connection string
-- Optional API keys (Google Sheets, S3)
+Config lives at `src/ElsaMina.Console/config.json`. Use the example file and fill in the relevant values..
 
 ## Database
+We use PostgreSQL for persistence. The database connection is managed by Entity Framework Core.
+To update the database schema, run the following commands in the root directory:
+
 ```bash
 dotnet ef migrations add <MigrationName> --project src/ElsaMina.DataAccess
 dotnet ef database update --project src/ElsaMina.DataAccess
@@ -75,11 +75,74 @@ dotnet ef migrations remove --project src/ElsaMina.DataAccess
 ./scripts/publish.sh      # Publish for deployment
 ```
 
+## Features
+
+### Games & Entertainment
+- **Connect Four** — 2-player board game with join/play/forfeit flow
+- **Lights Out** — Puzzle game with leaderboard tracking
+- **Voltorb Flip** — Multi-player Voltorb Flip with mark and leaderboard support
+- **Guessing Games** — Multiple modes: Pokémon descriptions, cries, country capitals, and more
+- **Poke Race** — Multi-player racing mini-game
+- **Slots** — Slot machine mini-game
+
+### Tournaments
+- **Weekly Tournament Templates** — 23+ pre-configured formats (OU, RU, BH, AAA, 1v1, ZU, and more)
+- **Random Tournaments** — Generate random tournament pairings
+- **Tournament Configuration** — Save, edit, and launch custom tournament setups
+- **Tournament Leaderboard** — Track top tournament players per room
+
+### Arcade Commands
+- **Event Registration** — Join/leave arcade events, manage participants
+- **Points & Leaderboard** — Track scores across arcade events
+- **Achievement Tiers** — Configurable level tiers with display
+- **Hall of Fame** — Persistent records synced to Google Sheets
+- **CAA Integration** — Dedicated CAA event tracking
+
+### User Profiles & Social
+- **Profiles** — Display user profile with avatar, title, and badge showcase
+- **Badges & Trophies** — Create, award, and revoke badges with a management panel
+- **Custom Name Colors** — Per-user HTML color for display names
+- **Seen** — Track when a user was last active
+- **Playtime Tracking** — Per-user playtime with top leaderboard
+- **Join Phrases** — Personalized greeting when entering a room
+- **Alts Detection** — Display known alternate accounts
+
+### AI & Media
+- **AI Chat** — Conversational AI with multi-turn history (OpenAI / Google / Mistral)
+- **Text-to-Speech** — Generate audio responses from text
+- **YouTube / Dailymotion Search** — Embed video search results
+- **Lyrics Search** — Look up song lyrics via Genius
+- **Wikipedia / Bulbapedia / Pokepedia** — Inline wiki searches
+
+### Pokémon Showdown Integration
+- **Ladder Tracking** — Monitor and display ladder rankings in real time
+- **Battle Tracking** — Subscribe to a player's ongoing battles
+- **Rank Display** — Fetch and show player ELO/GXE per format
+- **Team Samples** — Add, showcase, and manage team lists per tier
+
+### Room Management
+- **Room Dashboard** — Overview of room configuration and state
+- **Room Config** — Tune parameters: locale, timezone, auto-correct, error messages, preview toggles
+- **Custom Commands** — Add, edit, delete room-specific commands
+- **Repeating Messages** — Schedule recurring announcements
+- **Shop** — Virtual item shop with configurable listings
+- **Polls** — Display in-room polls
+
+### Utilities
+- **Timer / Reminder** — Set countdown timers in chat
+- **Dictionary** — English word definitions
+- **Bitcoin Price** — Live BTC price lookup
+- **Pokémon Name Translation** — Cross-language Pokémon name lookup
+- **Bug Report** — Inline issue reporting shortcut
+
 ## Project Layout
 - `src/ElsaMina.Console`: entry point and configuration
 - `src/ElsaMina.Core`: bot runtime and services
 - `src/ElsaMina.Commands`: command implementations
 - `src/ElsaMina.DataAccess`: database layer
+- `src/ElsaMina.Sheets`: Google Sheets integration
+- `src/ElsaMina.FileSharing`: File sharing services with S3
+- `src/ElsaMina.Logging`: Thin layer of abstraction over Serilog
 
 ## License
 MIT, see `LICENSE`.
