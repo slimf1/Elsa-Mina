@@ -48,7 +48,7 @@ public class RemovePointsCommandTest
 
         Assert.That(command, Is.Not.Null);
         Assert.That(command.Name, Is.EqualTo("removepoints"));
-        Assert.That(command.RequiredRank, Is.EqualTo(Rank.Driver));
+        Assert.That(command.RequiredRank, Is.EqualTo(Rank.Voiced));
         Assert.That(command.HelpMessageKey, Is.EqualTo("remove_points_help"));
     }
 

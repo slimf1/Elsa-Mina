@@ -48,7 +48,7 @@ public class AddPointsCommandTest
 
         Assert.That(command, Is.Not.Null);
         Assert.That(command.Name, Is.EqualTo("addp"));
-        Assert.That(command.RequiredRank, Is.EqualTo(Rank.Driver));
+        Assert.That(command.RequiredRank, Is.EqualTo(Rank.Voiced));
         Assert.That(command.HelpMessageKey, Is.EqualTo("add_points_help"));
     }
 

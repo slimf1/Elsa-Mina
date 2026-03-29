@@ -42,7 +42,7 @@ public class ClearPointsCommandTest
 
         Assert.That(command, Is.Not.Null);
         Assert.That(command.Name, Is.EqualTo("clearpoints"));
-        Assert.That(command.RequiredRank, Is.EqualTo(Rank.Driver));
+        Assert.That(command.RequiredRank, Is.EqualTo(Rank.Voiced));
         Assert.That(command.HelpMessageKey, Is.EqualTo("clear_points_help"));
     }
 
