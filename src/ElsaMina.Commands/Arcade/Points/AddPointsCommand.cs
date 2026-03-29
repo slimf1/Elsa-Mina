@@ -20,7 +20,7 @@ public class AddPointsCommand : Command
         _templatesManager = templatesManager;
     }
 
-    public override Rank RequiredRank => Rank.Driver;
+    public override Rank RequiredRank => Rank.Voiced;
     public override string HelpMessageKey => "add_points_help";
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)

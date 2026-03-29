@@ -15,7 +15,7 @@ public class ClearPointsCommand : Command
         _dbContextFactory = dbContextFactory;
     }
 
-    public override Rank RequiredRank => Rank.Driver;
+    public override Rank RequiredRank => Rank.Voiced;
     public override string HelpMessageKey => "clear_points_help";
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)

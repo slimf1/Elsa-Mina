@@ -20,7 +20,7 @@ public class RemovePointsCommand : Command
         _templatesManager = templatesManager;
     }
 
-    public override Rank RequiredRank => Rank.Driver;
+    public override Rank RequiredRank => Rank.Voiced;
     public override string HelpMessageKey => "remove_points_help";
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
