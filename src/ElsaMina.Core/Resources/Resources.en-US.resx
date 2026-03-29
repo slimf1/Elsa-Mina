@@ -1884,11 +1884,14 @@
     <data name="lo_panel_play_again" xml:space="preserve">
         <value>Play again</value>
     </data>
+    <data name="lo_panel_total_stars" xml:space="preserve">
+        <value>Stars: {0} ★</value>
+    </data>
     <data name="lo_game_started" xml:space="preserve">
-        <value>Lights Out — Level {0}. Turn off all the lights!</value>
+        <value>Lights Out — Level {0} ({1}x{2}). Turn off all the lights!</value>
     </data>
     <data name="lo_game_win" xml:space="preserve">
-        <value>{0} solved the puzzle in {1} moves! Next level: {2}</value>
+        <value>{0} solved the puzzle in {1} moves ({2} ★)! Next level: {3}</value>
     </data>
     <data name="lo_game_timeout" xml:space="preserve">
         <value>The Lights Out game ended due to inactivity.</value>
@@ -1922,6 +1925,9 @@
     </data>
     <data name="lo_leaderboard_best_moves" xml:space="preserve">
         <value>Best score</value>
+    </data>
+    <data name="lo_leaderboard_stars" xml:space="preserve">
+        <value>Stars</value>
     </data>
     <data name="lo_leaderboard_empty" xml:space="preserve">
         <value>The Lights Out leaderboard is empty.</value>

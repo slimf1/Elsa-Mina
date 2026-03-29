@@ -1884,11 +1884,14 @@
     <data name="lo_panel_play_again" xml:space="preserve">
         <value>Rejouer</value>
     </data>
+    <data name="lo_panel_total_stars" xml:space="preserve">
+        <value>Étoiles : {0} ★</value>
+    </data>
     <data name="lo_game_started" xml:space="preserve">
-        <value>Lights Out — Niveau {0}. Éteignez toutes les lumières !</value>
+        <value>Lights Out — Niveau {0} ({1}x{2}). Éteignez toutes les lumières !</value>
     </data>
     <data name="lo_game_win" xml:space="preserve">
-        <value>{0} a résolu le puzzle en {1} coups ! Prochain niveau : {2}</value>
+        <value>{0} a résolu le puzzle en {1} coups ({2} ★) ! Prochain niveau : {3}</value>
     </data>
     <data name="lo_game_timeout" xml:space="preserve">
         <value>La partie de Lights Out s'est terminée par inactivité.</value>
@@ -1922,6 +1925,9 @@
     </data>
     <data name="lo_leaderboard_best_moves" xml:space="preserve">
         <value>Meilleur score</value>
+    </data>
+    <data name="lo_leaderboard_stars" xml:space="preserve">
+        <value>Étoiles</value>
     </data>
     <data name="lo_leaderboard_empty" xml:space="preserve">
         <value>Le classement Lights Out est vide.</value>

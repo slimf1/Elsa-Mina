@@ -6,8 +6,10 @@ namespace ElsaMina.Commands.LightsOut;
 public interface ILightsOutGame : IGame
 {
     int Level { get; }
+    int GridSize { get; }
     int MoveCount { get; }
-    int BestScore { get; }
+    int Stars { get; }
+    int TotalStars { get; }
     bool IsRoundActive { get; }
     bool IsEnded { get; }
     bool[,] Grid { get; }

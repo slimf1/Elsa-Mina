@@ -20,6 +20,7 @@ public class LightsOutGame : Game, ILightsOutGame
 
     private readonly int _gameId;
     private readonly PeriodicTimerRunner _inactivityTimer;
+    private int _presses;
 
     public LightsOutGame(IRandomService randomService,
         ITemplatesManager templatesManager,
@@ -38,8 +39,10 @@ public class LightsOutGame : Game, ILightsOutGame
     public override string Identifier => nameof(LightsOutGame);
 
     public int Level { get; private set; } = 1;
+    public int GridSize { get; private set; } = 5;
     public int MoveCount { get; private set; }
-    public int BestScore { get; private set; }
+    public int Stars { get; private set; }
+    public int TotalStars { get; private set; }
     public bool IsRoundActive { get; private set; }
     public bool[,] Grid { get; private set; }
     public bool IsPrivateMode { get; set; }
@@ -73,11 +76,15 @@ public class LightsOutGame : Game, ILightsOutGame
     {
         var savedData = await LoadPlayerDataAsync();
         Level = savedData?.Level ?? 1;
-        BestScore = savedData?.BestMoves ?? 0;
+        TotalStars = savedData?.TotalStars ?? 0;
 
-        const int size = LightsOutConstants.GRID_SIZE;
-        Grid = new bool[size, size];
+        var config = LightsOutConstants.GetLevelConfig(Level);
+        GridSize = config.GridSize;
+        _presses = config.Presses;
+
+        Grid = new bool[GridSize, GridSize];
         MoveCount = 0;
+        Stars = 0;
 
         GenerateSolvablePuzzle();
 
@@ -88,7 +95,7 @@ public class LightsOutGame : Game, ILightsOutGame
         }
 
         _inactivityTimer.Restart();
-        Context.ReplyLocalizedMessage("lo_game_started", Level);
+        Context.ReplyLocalizedMessage("lo_game_started", Level, GridSize, GridSize);
         await DisplayBoard(firstTime: true);
     }
 
@@ -99,27 +106,23 @@ public class LightsOutGame : Game, ILightsOutGame
             return;
         }
 
-        const int size = LightsOutConstants.GRID_SIZE;
-        if (row < 0 || row >= size || col < 0 || col >= size)
+        if (row < 0 || row >= GridSize || col < 0 || col >= GridSize)
         {
             return;
         }
 
-        Toggle(row, col);
-        if (row > 0) Toggle(row - 1, col);
-        if (row < size - 1) Toggle(row + 1, col);
-        if (col > 0) Toggle(row, col - 1);
-        if (col < size - 1) Toggle(row, col + 1);
-
+        ToggleWithNeighbors(row, col);
         MoveCount++;
         _inactivityTimer.Restart();
 
         if (IsSolved())
         {
             IsRoundActive = false;
+            Stars = ComputeStars();
+            TotalStars += Stars;
             Level = Math.Min(Level + 1, LightsOutConstants.MAX_LEVEL);
-            Context.ReplyLocalizedMessage("lo_game_win", Owner.Name, MoveCount, Level);
-            await SavePlayerDataAsync();
+            Context.ReplyLocalizedMessage("lo_game_win", Owner.Name, MoveCount, Stars, Level);
+            await SavePlayerDataAsync(Stars);
             _inactivityTimer.Stop();
             OnEnd();
         }
@@ -129,10 +132,24 @@ public class LightsOutGame : Game, ILightsOutGame
 
     public async Task CancelAsync()
     {
+        if (IsRoundActive)
+        {
+            Level = Math.Max(1, Level - 1);
+            await SaveLevelOnlyAsync();
+        }
         IsRoundActive = false;
         _inactivityTimer.Stop();
         OnEnd();
         await DisplayBoard(firstTime: false);
+    }
+
+    private void ToggleWithNeighbors(int row, int col)
+    {
+        Toggle(row, col);
+        if (row > 0) Toggle(row - 1, col);
+        if (row < GridSize - 1) Toggle(row + 1, col);
+        if (col > 0) Toggle(row, col - 1);
+        if (col < GridSize - 1) Toggle(row, col + 1);
     }
 
     private void Toggle(int row, int col)
@@ -142,10 +159,9 @@ public class LightsOutGame : Game, ILightsOutGame
 
     private bool IsSolved()
     {
-        const int size = LightsOutConstants.GRID_SIZE;
-        for (var row = 0; row < size; row++)
+        for (var row = 0; row < GridSize; row++)
         {
-            for (var col = 0; col < size; col++)
+            for (var col = 0; col < GridSize; col++)
             {
                 if (Grid[row, col])
                 {
@@ -156,36 +172,27 @@ public class LightsOutGame : Game, ILightsOutGame
         return true;
     }
 
+    private int ComputeStars()
+    {
+        if (MoveCount <= _presses) return 3;
+        if (MoveCount <= _presses * 2) return 2;
+        return 1;
+    }
+
     private void GenerateSolvablePuzzle()
     {
-        const int size = LightsOutConstants.GRID_SIZE;
-
-        // Generate a solvable puzzle by applying random toggles from a solved state
-        // Number of random presses scales with level
-        var pressCount = Level + 2;
-
-        for (var press = 0; press < pressCount; press++)
+        for (var press = 0; press < _presses; press++)
         {
-            var row = _randomService.NextInt(size);
-            var col = _randomService.NextInt(size);
-
-            Toggle(row, col);
-            if (row > 0) Toggle(row - 1, col);
-            if (row < size - 1) Toggle(row + 1, col);
-            if (col > 0) Toggle(row, col - 1);
-            if (col < size - 1) Toggle(row, col + 1);
+            var row = _randomService.NextInt(GridSize);
+            var col = _randomService.NextInt(GridSize);
+            ToggleWithNeighbors(row, col);
         }
 
-        // Make sure the puzzle isn't already solved
         if (IsSolved())
         {
-            var row = _randomService.NextInt(size);
-            var col = _randomService.NextInt(size);
-            Toggle(row, col);
-            if (row > 0) Toggle(row - 1, col);
-            if (row < size - 1) Toggle(row + 1, col);
-            if (col > 0) Toggle(row, col - 1);
-            if (col < size - 1) Toggle(row, col + 1);
+            var row = _randomService.NextInt(GridSize);
+            var col = _randomService.NextInt(GridSize);
+            ToggleWithNeighbors(row, col);
         }
     }
 
@@ -206,7 +213,7 @@ public class LightsOutGame : Game, ILightsOutGame
         return await db.LightsOutScores.FindAsync(Owner.UserId);
     }
 
-    private async Task SavePlayerDataAsync()
+    private async Task SavePlayerDataAsync(int starsEarned)
     {
         await using var db = await _dbContextFactory.CreateDbContextAsync();
         var record = await db.LightsOutScores.FindAsync(Owner.UserId);
@@ -216,18 +223,38 @@ public class LightsOutGame : Game, ILightsOutGame
             {
                 UserId = Owner.UserId,
                 Level = Level,
-                BestMoves = MoveCount
+                BestMoves = MoveCount,
+                TotalStars = starsEarned
             });
         }
         else
         {
             record.Level = Math.Max(record.Level, Level);
+            record.TotalStars += starsEarned;
             if (record.BestMoves == 0 || MoveCount < record.BestMoves)
             {
                 record.BestMoves = MoveCount;
             }
         }
         await db.SaveChangesAsync();
+    }
+
+    private async Task SaveLevelOnlyAsync()
+    {
+        try
+        {
+            await using var db = await _dbContextFactory.CreateDbContextAsync();
+            var record = await db.LightsOutScores.FindAsync(Owner.UserId);
+            if (record != null)
+            {
+                record.Level = Level;
+                await db.SaveChangesAsync();
+            }
+        }
+        catch
+        {
+            // ignore DB errors on cancel
+        }
     }
 
     private async Task DisplayBoard(bool firstTime)

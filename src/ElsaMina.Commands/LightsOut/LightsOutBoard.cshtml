@@ -4,7 +4,7 @@
 
 @{
     var game = Model.CurrentGame;
-    const int size = LightsOutConstants.GRID_SIZE;
+    var size = game.GridSize;
 
     const string borderColor = StyleConstants.PRIMARY_BORDER_COLOR;
     const string bgColor = StyleConstants.PRIMARY_BACKGROUND_COLOR;
@@ -14,13 +14,15 @@
     const string litStyle = "background: linear-gradient(135deg, #FFE44D, #FFB800); border: 2px solid #E6A800; box-shadow: 0 0 8px #FFD70088;";
     const string unlitStyle = "background: linear-gradient(135deg, #3a3a4a, #1e1e2e); border: 2px solid #111;";
     const string gridBg = "background-color: #1a1a2e; padding: 8px; border-radius: 8px;";
+
+    var cellSize = size <= 5 ? 48 : size <= 6 ? 40 : 34;
 }
 
 <table style="border-collapse: collapse; width: 100%;">
     <thead>
         <tr>
             <th style="@cellStyleWithBg">@GetString("lo_panel_title")</th>
-            <th style="@cellStyleWithBg">@GetString("lo_panel_level", game.Level) — @GetString("lo_panel_moves", game.MoveCount)</th>
+            <th style="@cellStyleWithBg">@GetString("lo_panel_level", game.Level) (@(size)x@(size)) — @GetString("lo_panel_moves", game.MoveCount)</th>
         </tr>
     </thead>
     <tbody>
@@ -41,13 +43,12 @@
                                                 class="button"
                                                 name="send"
                                                 value="/botmsg @Model.BotName,@(Model.Trigger)lotoggle @Model.RoomId, @row, @col"
-                                                style="width: 48px; height: 48px; cursor: pointer; border-radius: 6px; font-size: 18px; @(isLit ? litStyle : unlitStyle)">
-                                                                                            </button>
+                                                style="width: @(cellSize)px; height: @(cellSize)px; cursor: pointer; border-radius: 6px; @(isLit ? litStyle : unlitStyle)">
+                                            </button>
                                         }
                                         else
                                         {
-                                            <div style="width: 48px; height: 48px; border-radius: 6px; text-align: center; line-height: 48px; font-size: 18px; @(isLit ? litStyle : unlitStyle)">
-                                                                                            </div>
+                                            <div style="width: @(cellSize)px; height: @(cellSize)px; border-radius: 6px; @(isLit ? litStyle : unlitStyle)"></div>
                                         }
                                     </td>
                                 }
@@ -61,6 +62,11 @@
                 @if (game.Owner != null)
                 {
                     <span style="color: #666; font-size: 0.9em;">@GetString("lo_panel_player", game.Owner.Name)</span><br/>
+                    <span style="color: #666; font-size: 0.9em;">@GetString("lo_panel_total_stars", game.TotalStars)</span><br/>
+                }
+                @if (game.Stars > 0)
+                {
+                    <span style="font-size: 1.2em;">@(new string('★', game.Stars))@(new string('☆', 3 - game.Stars))</span><br/>
                 }
                 <br/>
                 <span>@GetString("lo_panel_objective")</span><br/>

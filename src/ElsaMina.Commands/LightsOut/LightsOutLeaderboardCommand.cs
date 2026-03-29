@@ -30,6 +30,7 @@ public class LightsOutLeaderboardCommand : Command
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
         var leaderboard = await dbContext.LightsOutScores
             .OrderByDescending(entry => entry.Level)
+            .ThenByDescending(entry => entry.TotalStars)
             .ThenBy(entry => entry.BestMoves)
             .Take(MAX_COUNT)
             .ToListAsync(cancellationToken);

@@ -8,12 +8,13 @@
     <table style="margin: auto; border: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; border-radius: 12px; padding: 4px">
         <thead>
         <tr>
-            <th colspan="4" scope="colgroup">@GetString("lo_leaderboard_title")</th>
+            <th colspan="5" scope="colgroup">@GetString("lo_leaderboard_title")</th>
         </tr>
         <tr>
             <th scope="col" style="@headerStyle">#</th>
             <th scope="col" style="@headerStyle">@GetString("leaderboard_user")</th>
             <th scope="col" style="@headerStyle">@GetString("lo_leaderboard_level")</th>
+            <th scope="col" style="@headerStyle">@GetString("lo_leaderboard_stars")</th>
             <th scope="col" style="@headerStyle">@GetString("lo_leaderboard_best_moves")</th>
         </tr>
         </thead>
@@ -25,6 +26,7 @@
                 <td style="text-align:center">@(i + 1)</td>
                 <td style="color: @entry.UserId.ToColorHexCodeWithCustoms()">@entry.UserId</td>
                 <td style="text-align:center">@entry.Level</td>
+                <td style="text-align:center">@entry.TotalStars ★</td>
                 <td style="text-align:center">@entry.BestMoves</td>
             </tr>
         }

@@ -8,4 +8,5 @@ public class LightsOutScore
     public string UserId { get; set; }
     public int Level { get; set; }
     public int BestMoves { get; set; }
+    public int TotalStars { get; set; }
 }
