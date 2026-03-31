@@ -209,6 +209,7 @@ public class CommandModule : Module
         builder.RegisterCommand<StartRaceCommand>();
         builder.RegisterCommand<EndRaceCommand>();
         builder.RegisterCommand<VoltorbFlipLeaderboardCommand>();
+        builder.RegisterCommand<RandomCustomCommand>();
 
         RegisterRandomImagesCommands(builder);
         RegisterTournamentCommands(builder);

@@ -2048,4 +2048,7 @@
     <data name="fi_game_lose" xml:space="preserve">
         <value>{0} ha esaurito le mosse dopo {1}! Riprova.</value>
     </data>
+    <data name="randcustom_error" xml:space="preserve">
+        <value>Si è verificato un errore durante il recupero di un comando personalizzato casuale: {0}</value>
+    </data>
 </root>

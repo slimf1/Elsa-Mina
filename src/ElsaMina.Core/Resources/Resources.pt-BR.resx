@@ -2043,4 +2043,7 @@
     <data name="fi_game_lose" xml:space="preserve">
         <value>{0} ficou sem jogadas após {1}! Tente novamente.</value>
     </data>
+    <data name="randcustom_error" xml:space="preserve">
+        <value>Ocorreu um erro ao buscar um comando personalizado aleatório: {0}</value>
+    </data>
 </root>

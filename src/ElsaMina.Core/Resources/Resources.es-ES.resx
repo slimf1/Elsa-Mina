@@ -2048,4 +2048,7 @@
     <data name="fi_game_lose" xml:space="preserve">
         <value>¡{0} se quedó sin movimientos tras {1}! Inténtalo de nuevo.</value>
     </data>
+    <data name="randcustom_error" xml:space="preserve">
+        <value>Se produjo un error al obtener un comando personalizado aleatorio: {0}</value>
+    </data>
 </root>

@@ -2049,4 +2049,7 @@
     <data name="fi_game_lose" xml:space="preserve">
         <value>{0} ran out of moves after {1}! Try again.</value>
     </data>
+    <data name="randcustom_error" xml:space="preserve">
+        <value>An error occurred while fetching a random custom command: {0}</value>
+    </data>
 </root>

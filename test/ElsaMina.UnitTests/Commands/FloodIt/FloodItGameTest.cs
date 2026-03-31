@@ -180,8 +180,7 @@ public class FloodItGameTest
     {
         await _game.StartNewRound();
 
-        // Level 1 config: MaxMoves = 17
-        Assert.That(_game.MaxMoves, Is.EqualTo(17));
+        Assert.That(_game.MaxMoves, Is.EqualTo(FloodItConstants.GetLevelConfig(1).MaxMoves));
     }
 
     [Test]

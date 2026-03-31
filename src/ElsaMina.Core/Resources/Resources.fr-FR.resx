@@ -2049,4 +2049,7 @@
     <data name="fi_game_lose" xml:space="preserve">
         <value>{0} n'a plus de coups après {1} ! Réessayez.</value>
     </data>
+    <data name="randcustom_error" xml:space="preserve">
+        <value>Une erreur est survenue lors de la récupération d'une commande personnalisée aléatoire : {0}</value>
+    </data>
 </root>
