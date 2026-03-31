@@ -1926,4 +1926,121 @@
     <data name="lo_leaderboard_empty" xml:space="preserve">
         <value>Die Lights-Out-Bestenliste ist leer.</value>
     </data>
+    <data name="smogonstats_moves" xml:space="preserve">
+        <value>Attacken</value>
+    </data>
+    <data name="smogonstats_items" xml:space="preserve">
+        <value>Items</value>
+    </data>
+    <data name="smogonstats_abilities" xml:space="preserve">
+        <value>Fähigkeiten</value>
+    </data>
+    <data name="smogonstats_teammates" xml:space="preserve">
+        <value>Teampartner</value>
+    </data>
+    <data name="smogonstats_see_more" xml:space="preserve">
+        <value>weitere...</value>
+    </data>
+    <data name="smogonstats_help" xml:space="preserve">
+        <value>Zeigt die Nutzungsstatistiken eines Pokémon. Syntax: -smogonstats &lt;pokémon&gt;, &lt;format&gt;[, &lt;monat&gt;[, &lt;level&gt;]]</value>
+    </data>
+    <data name="smogonstats_not_found" xml:space="preserve">
+        <value>{0} wurde in {1} nicht gefunden.</value>
+    </data>
+    <data name="smogonstats_error" xml:space="preserve">
+        <value>Beim Abrufen der Nutzungsdaten ist ein Fehler aufgetreten.</value>
+    </data>
+    <data name="fi_panel_title" xml:space="preserve">
+        <value>Flood It</value>
+    </data>
+    <data name="fi_panel_waiting_for_player" xml:space="preserve">
+        <value>Ein Spiel wartet auf einen Spieler!</value>
+    </data>
+    <data name="fi_panel_join" xml:space="preserve">
+        <value>Beitreten</value>
+    </data>
+    <data name="fi_game_waiting" xml:space="preserve">
+        <value>Ein Flood It-Spiel wartet bereits auf einen Spieler.</value>
+    </data>
+    <data name="fi_panel_level" xml:space="preserve">
+        <value>Level {0}</value>
+    </data>
+    <data name="fi_panel_moves" xml:space="preserve">
+        <value>{0} / {1} Züge</value>
+    </data>
+    <data name="fi_panel_player" xml:space="preserve">
+        <value>Spieler: {0}</value>
+    </data>
+    <data name="fi_panel_objective" xml:space="preserve">
+        <value>Ziel: Das gesamte Spielfeld mit einer Farbe füllen!</value>
+    </data>
+    <data name="fi_panel_hint" xml:space="preserve">
+        <value>Klicke auf eine Zelle, um das Spielfeld mit ihrer Farbe zu fluten.</value>
+    </data>
+    <data name="fi_panel_timeout_hint" xml:space="preserve">
+        <value>Das Spiel endet nach 3 Min. Inaktivität.</value>
+    </data>
+    <data name="fi_panel_options" xml:space="preserve">
+        <value>Optionen</value>
+    </data>
+    <data name="fi_panel_new_round" xml:space="preserve">
+        <value>Nächstes Level</value>
+    </data>
+    <data name="fi_panel_stop" xml:space="preserve">
+        <value>Spiel beenden</value>
+    </data>
+    <data name="fi_panel_play_again" xml:space="preserve">
+        <value>Nochmal spielen</value>
+    </data>
+    <data name="fi_panel_total_stars" xml:space="preserve">
+        <value>Sterne: {0} ★</value>
+    </data>
+    <data name="fi_game_started" xml:space="preserve">
+        <value>Flood It — Level {0} ({1}x{2}). Fülle das gesamte Spielfeld!</value>
+    </data>
+    <data name="fi_game_win" xml:space="preserve">
+        <value>{0} hat das Spielfeld in {1} Zügen geflutet ({2} ★)! Nächstes Level: {3}</value>
+    </data>
+    <data name="fi_game_timeout" xml:space="preserve">
+        <value>Das Flood It-Spiel wurde wegen Inaktivität beendet.</value>
+    </data>
+    <data name="fi_game_cancelled" xml:space="preserve">
+        <value>Das Flood It-Spiel wurde abgebrochen.</value>
+    </data>
+    <data name="fi_game_no_game" xml:space="preserve">
+        <value>Kein Flood It-Spiel läuft gerade.</value>
+    </data>
+    <data name="fi_game_not_owner" xml:space="preserve">
+        <value>Nur der Spieler, der das Spiel gestartet hat, kann das tun.</value>
+    </data>
+    <data name="fi_game_round_active" xml:space="preserve">
+        <value>Ein Flood It-Spiel läuft bereits.</value>
+    </data>
+    <data name="fi_game_already_running" xml:space="preserve">
+        <value>Ein anderes Spiel läuft bereits in diesem Raum.</value>
+    </data>
+    <data name="fi_pm_missing_room" xml:space="preserve">
+        <value>Bitte einen Raum angeben. Verwendung: -floodit raumname</value>
+    </data>
+    <data name="fi_pm_invalid_room" xml:space="preserve">
+        <value>Der angegebene Raum wurde nicht gefunden oder der Bot ist nicht darin.</value>
+    </data>
+    <data name="fi_leaderboard_title" xml:space="preserve">
+        <value>Flood It-Bestenliste</value>
+    </data>
+    <data name="fi_leaderboard_level" xml:space="preserve">
+        <value>Level</value>
+    </data>
+    <data name="fi_leaderboard_best_moves" xml:space="preserve">
+        <value>Bestes Ergebnis</value>
+    </data>
+    <data name="fi_leaderboard_stars" xml:space="preserve">
+        <value>Sterne</value>
+    </data>
+    <data name="fi_leaderboard_empty" xml:space="preserve">
+        <value>Die Flood It-Bestenliste ist leer.</value>
+    </data>
+    <data name="fi_game_lose" xml:space="preserve">
+        <value>{0} hat nach {1} Zügen keine Züge mehr! Versuch es nochmal.</value>
+    </data>
 </root>

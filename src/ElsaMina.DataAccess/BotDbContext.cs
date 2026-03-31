@@ -30,6 +30,7 @@ public class BotDbContext : DbContext
     public DbSet<TourConfig> TourConfigs { get; set; }
     public DbSet<EventRoleMapping> EventRoleMappings { get; set; }
     public DbSet<LightsOutScore> LightsOutScores { get; set; }
+    public DbSet<FloodItScore> FloodItScores { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

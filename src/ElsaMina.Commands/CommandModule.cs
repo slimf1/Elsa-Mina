@@ -30,6 +30,7 @@ using ElsaMina.Commands.GuessingGame.Gatekeepers;
 using ElsaMina.Commands.GuessingGame.PokeCries;
 using ElsaMina.Commands.GuessingGame.PokeDesc;
 using ElsaMina.Commands.JoinPhrases;
+using ElsaMina.Commands.FloodIt;
 using ElsaMina.Commands.LightsOut;
 using ElsaMina.Commands.Misc;
 using ElsaMina.Commands.Misc.Bitcoin;
@@ -56,6 +57,7 @@ using ElsaMina.Commands.Showdown.BattleTracker;
 using ElsaMina.Commands.Showdown.Ladder;
 using ElsaMina.Commands.Showdown.Ranking;
 using ElsaMina.Commands.Showdown.Searching;
+using ElsaMina.Commands.Showdown.SmogonStats;
 using ElsaMina.Commands.Teams.Samples;
 using ElsaMina.Commands.Teams.TeamPreviewOnLink;
 using ElsaMina.Commands.Teams.TeamProviders;
@@ -141,6 +143,7 @@ public class CommandModule : Module
         builder.RegisterCommand<AskElsaCommand>();
         builder.RegisterCommand<SpeakCommand>();
         builder.RegisterCommand<RankingCommand>();
+        builder.RegisterCommand<SmogonStatsCommand>();
         builder.RegisterCommand<LadderCommand>();
         builder.RegisterCommand<SearchCommand>();
         builder.RegisterCommand<ToggleLadderTrackerCommand>();
@@ -245,6 +248,12 @@ public class CommandModule : Module
         builder.RegisterCommand<EndLightsOutCommand>();
         builder.RegisterCommand<LightsOutLeaderboardCommand>();
 
+        builder.RegisterCommand<StartFloodItCommand>();
+        builder.RegisterCommand<JoinFloodItCommand>();
+        builder.RegisterCommand<FloodItColorCommand>();
+        builder.RegisterCommand<EndFloodItCommand>();
+        builder.RegisterCommand<FloodItLeaderboardCommand>();
+
         builder.RegisterType<CountriesGame>().AsSelf();
         builder.RegisterType<CapitalCitiesGame>().AsSelf();
         builder.RegisterType<ConnectFourGame>().AsSelf();
@@ -256,6 +265,8 @@ public class CommandModule : Module
 
         builder.RegisterType<LightsOutGame>().AsSelf();
         builder.RegisterType<LightsOutGameManager>().As<ILightsOutGameManager>().SingleInstance();
+        builder.RegisterType<FloodItGame>().AsSelf();
+        builder.RegisterType<FloodItGameManager>().As<IFloodItGameManager>().SingleInstance();
         builder.RegisterType<VoltorbFlipGameManager>().As<IVoltorbFlipGameManager>().SingleInstance();
         builder.RegisterType<EventRoleMappingService>().As<IEventRoleMappingService>().SingleInstance();
         builder.RegisterType<TourConfigService>().As<ITourConfigService>().SingleInstance();
@@ -273,6 +284,7 @@ public class CommandModule : Module
         builder.RegisterType<LanguageModelResolver>().As<ILanguageModelProvider>().SingleInstance();
         builder.RegisterType<ProfileService>().As<IProfileService>().SingleInstance();
         builder.RegisterType<ShowdownRanksProvider>().As<IShowdownRanksProvider>().SingleInstance();
+        builder.RegisterType<SmogonUsageDataProvider>().As<ISmogonUsageDataProvider>().SingleInstance();
         builder.RegisterType<LadderHistoryManager>().As<ILadderHistoryManager>().SingleInstance();
         builder.RegisterType<LadderTrackerManager>().As<ILadderTrackerManager>().SingleInstance();
         builder.RegisterType<PokepasteProvider>().As<ITeamProvider>().SingleInstance();

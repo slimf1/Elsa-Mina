@@ -1,0 +1,104 @@
+@using ElsaMina.Core.Services.Templates
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Showdown.SmogonStats.SmogonStatsViewModel>
+
+@{
+    const int visibleEntries = 4;
+    const string border = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};";
+    const string headerStyle = $"{border} padding: 4px; text-align: center; font-style: italic; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
+    const string iconCellStyle = $"{border} padding: 8px; text-align: center; vertical-align: middle; width: 80px;";
+    const string statCellStyle = $"{border} padding: 4px 8px; text-align: left; vertical-align: top;";
+}
+
+<table style="border-collapse: collapse; width: 100%;">
+    <thead>
+        <tr>
+            <th colspan="5" style="@headerStyle">
+                <b>@Model.PokemonName</b> · @Model.Format · @Model.Month (@Model.PlayerLevel+)
+            </th>
+        </tr>
+        <tr>
+            <th style="@headerStyle"></th>
+            <th style="@headerStyle">@GetString("smogonstats_moves")</th>
+            <th style="@headerStyle">@GetString("smogonstats_items")</th>
+            <th style="@headerStyle">@GetString("smogonstats_abilities")</th>
+            <th style="@headerStyle">@GetString("smogonstats_teammates")</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="@iconCellStyle">
+                <psicon pokemon="@Model.PokemonName" />
+                <br />
+                <small>#@Model.Rank</small>
+                <br />
+                <b>@Model.Usage.ToString("F1", Model.Culture)%</b>
+                <br />
+                <small>@Model.RawCount.ToString("N0", Model.Culture) / @Model.TotalBattles.ToString("N0", Model.Culture)</small>
+            </td>
+            <td style="@statCellStyle">
+                @foreach (var entry in Model.TopMoves.Take(visibleEntries))
+                {
+                    @(entry.Name + " " + entry.Percentage.ToString("F1", Model.Culture) + "%")<br />
+                }
+                @if (Model.TopMoves.Count > visibleEntries)
+                {
+                    <details>
+                        <summary>@(Model.TopMoves.Count - visibleEntries) @GetString("smogonstats_see_more")</summary>
+                        @foreach (var entry in Model.TopMoves.Skip(visibleEntries))
+                        {
+                            @(entry.Name + " " + entry.Percentage.ToString("F1", Model.Culture) + "%")<br />
+                        }
+                    </details>
+                }
+            </td>
+            <td style="@statCellStyle">
+                @foreach (var entry in Model.TopItems.Take(visibleEntries))
+                {
+                    @(entry.Name + " " + entry.Percentage.ToString("F1", Model.Culture) + "%")<br />
+                }
+                @if (Model.TopItems.Count > visibleEntries)
+                {
+                    <details>
+                        <summary>@(Model.TopItems.Count - visibleEntries) @GetString("smogonstats_see_more")</summary>
+                        @foreach (var entry in Model.TopItems.Skip(visibleEntries))
+                        {
+                            @(entry.Name + " " + entry.Percentage.ToString("F1", Model.Culture) + "%")<br />
+                        }
+                    </details>
+                }
+            </td>
+            <td style="@statCellStyle">
+                @foreach (var entry in Model.TopAbilities.Take(visibleEntries))
+                {
+                    @(entry.Name + " " + entry.Percentage.ToString("F1", Model.Culture) + "%")<br />
+                }
+                @if (Model.TopAbilities.Count > visibleEntries)
+                {
+                    <details>
+                        <summary>@(Model.TopAbilities.Count - visibleEntries) @GetString("smogonstats_see_more")</summary>
+                        @foreach (var entry in Model.TopAbilities.Skip(visibleEntries))
+                        {
+                            @(entry.Name + " " + entry.Percentage.ToString("F1", Model.Culture) + "%")<br />
+                        }
+                    </details>
+                }
+            </td>
+            <td style="@statCellStyle">
+                @foreach (var entry in Model.TopTeammates.Take(visibleEntries))
+                {
+                    @(entry.Name + " " + entry.Percentage.ToString("F1", Model.Culture) + "%")<br />
+                }
+                @if (Model.TopTeammates.Count > visibleEntries)
+                {
+                    <details>
+                        <summary>@(Model.TopTeammates.Count - visibleEntries) @GetString("smogonstats_see_more")</summary>
+                        @foreach (var entry in Model.TopTeammates.Skip(visibleEntries))
+                        {
+                            @(entry.Name + " " + entry.Percentage.ToString("F1", Model.Culture) + "%")<br />
+                        }
+                    </details>
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>
