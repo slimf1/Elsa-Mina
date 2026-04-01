@@ -21,18 +21,18 @@ public class SlotsFunCommand : Command
 
     private static readonly IReadOnlyList<(string DescriptionKey, string ImageUrl)> SLOT_ENTRIES =
     [
-        ("slots_description_bulbasaur", "https://www.shinyhunters.com/images/regular/1.gif"),
-        ("slots_description_squirtle", "https://www.shinyhunters.com/images/regular/2.gif"),
-        ("slots_description_charmander", "https://www.shinyhunters.com/images/regular/3.gif"),
-        ("slots_description_pikachu", "https://www.shinyhunters.com/images/regular/4.gif"),
-        ("slots_description_eevee", "https://www.shinyhunters.com/images/regular/5.gif"),
-        ("slots_description_snorlax", "https://www.shinyhunters.com/images/regular/6.gif"),
-        ("slots_description_dragonite", "https://www.shinyhunters.com/images/regular/7.gif"),
-        ("slots_description_mew", "https://www.shinyhunters.com/images/regular/8.gif"),
-        ("slots_description_mewtwo", "https://www.shinyhunters.com/images/regular/9.gif"),
-        ("slots_description_dialga", "https://www.shinyhunters.com/images/regular/10.gif"),
-        ("slots_description_palkia", "https://www.shinyhunters.com/images/regular/11.gif"),
-        ("slots_description_giratina", "https://www.shinyhunters.com/images/regular/12.gif"),
+        ("slots_description_bulbasaur", "https://play.pokemonshowdown.com/sprites/afd/bulbasaur.png"),
+        ("slots_description_squirtle", "https://play.pokemonshowdown.com/sprites/afd/squirtle.png"),
+        ("slots_description_charmander", "https://play.pokemonshowdown.com/sprites/afd/charmander.png"),
+        ("slots_description_pikachu", "https://play.pokemonshowdown.com/sprites/afd/pikachu.png"),
+        ("slots_description_eevee", "https://play.pokemonshowdown.com/sprites/afd/eevee.png"),
+        ("slots_description_snorlax", "https://play.pokemonshowdown.com/sprites/afd/snorlax.png"),
+        ("slots_description_dragonite", "https://play.pokemonshowdown.com/sprites/afd/dragonite.png"),
+        ("slots_description_mew", "https://play.pokemonshowdown.com/sprites/afd/mew.png"),
+        ("slots_description_mewtwo", "https://play.pokemonshowdown.com/sprites/afd/mewtwo.png"),
+        ("slots_description_dialga", "https://play.pokemonshowdown.com/sprites/afd/dialga.png"),
+        ("slots_description_palkia", "https://play.pokemonshowdown.com/sprites/afd/palkia.png"),
+        ("slots_description_giratina", "https://play.pokemonshowdown.com/sprites/afd/giratina.png"),
     ];
 
     private static readonly IReadOnlyList<string> WIN_MESSAGE_KEYS =
