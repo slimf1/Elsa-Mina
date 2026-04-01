@@ -77,7 +77,7 @@ public class ArcadeEventsHandler : Handler
             return;
         }
 
-        var detailEventName = detailsMatch.Groups[1].Value.Trim();
+        var detailEventName = WebUtility.HtmlDecode(detailsMatch.Groups[1].Value.Trim());
         if (!_pendingEvents.TryRemove(detailEventName, out _))
         {
             Log.Warning("Received details for unknown or already-processed event: {0}", detailEventName);

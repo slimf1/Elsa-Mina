@@ -280,4 +280,70 @@ public class ArcadeEventsHandlerTests
                 body.Embeds[0].Description.Contains("Catch a Pokémon and evolve it!")),
             cancellationToken: Arg.Any<CancellationToken>());
     }
+
+    [Test]
+    public async Task Test_HandleReceivedMessage_ShouldIgnore_WhenMessageTypeIsChat()
+    {
+        // Simulates the bot's own |c:| response being received — parts[1] = "c:", not "raw"
+        var chatParts = new[] { "", "c:", "1775074795", "*Elsa-Mina", "!events view Catch&Evolve #1" };
+
+        await _handler.HandleReceivedMessageAsync(chatParts, "arcade");
+
+        _bot.DidNotReceiveWithAnyArgs().Say(default, default);
+        await _httpService.DidNotReceiveWithAnyArgs()
+            .PostJsonAsync<ArcadeEventWebhookBody, object>(default, default);
+    }
+
+    [Test]
+    public async Task Test_HandleReceivedMessage_ShouldSendWebhook_WhenRealWorldInfoboxWithHtmlEncodedEventName()
+    {
+        // Actual server infobox: event name in <td> is HTML-encoded ("Catch&amp;Evolve #1")
+        // but _pendingEvents stores the decoded name ("Catch&Evolve #1").
+        // The handler must decode the <td> content before looking up the pending event.
+        var startParts = new[]
+        {
+            "", "raw",
+            """<div class="broadcast-blue"><b>The "Catch&amp;Evolve #1" roomevent has started!</b></div>"""
+        };
+        var infoboxParts = new[]
+        {
+            "", "raw",
+            """<div class="infobox-limited"><table border="1" cellspacing="0" cellpadding="3"><th>Event Name:</th><th>Event Description:</th><th>Event Date:</th><tr title="This event will start in: 11 months 31 days"><td>Catch&amp;Evolve #1</td><td>Dans ce tournoi bi-hebdomadaire, vous devrez capturer un Pokémon de votre adversaire puis faire évoluer un Pokémon de votre équipe à chaque victoire ! Les formats du mercredi suivent le schéma suivant: <b>Current Gen</b>, Old Gen. Plus d&apos;informations avec <code>/rfaq ce</code> !</td><td><time>2026-04-01 19:30</time></td></tr></table></div>"""
+        };
+
+        await _handler.HandleReceivedMessageAsync(startParts, "arcade");
+        await _handler.HandleReceivedMessageAsync(infoboxParts, "arcade");
+
+        await _httpService.Received(1).PostJsonAsync<ArcadeEventWebhookBody, object>(
+            "http://webhook.url",
+            Arg.Is<ArcadeEventWebhookBody>(body =>
+                body.Embeds[0].Description.Contains("Catch&Evolve #1")),
+            cancellationToken: Arg.Any<CancellationToken>());
+    }
+
+    [Test]
+    public async Task Test_HandleReceivedMessage_ShouldStripHtmlTagsFromDescription_WhenRealWorldInfobox()
+    {
+        var startParts = new[]
+        {
+            "", "raw",
+            """<div class="broadcast-blue"><b>The "Catch&amp;Evolve #1" roomevent has started!</b></div>"""
+        };
+        var infoboxParts = new[]
+        {
+            "", "raw",
+            """<div class="infobox-limited"><table border="1" cellspacing="0" cellpadding="3"><th>Event Name:</th><th>Event Description:</th><th>Event Date:</th><tr title="This event will start in: 11 months 31 days"><td>Catch&amp;Evolve #1</td><td>Dans ce tournoi bi-hebdomadaire, vous devrez capturer un Pokémon de votre adversaire puis faire évoluer un Pokémon de votre équipe à chaque victoire ! Les formats du mercredi suivent le schéma suivant: <b>Current Gen</b>, Old Gen. Plus d&apos;informations avec <code>/rfaq ce</code> !</td><td><time>2026-04-01 19:30</time></td></tr></table></div>"""
+        };
+
+        await _handler.HandleReceivedMessageAsync(startParts, "arcade");
+        await _handler.HandleReceivedMessageAsync(infoboxParts, "arcade");
+
+        await _httpService.Received(1).PostJsonAsync<ArcadeEventWebhookBody, object>(
+            Arg.Any<string>(),
+            Arg.Is<ArcadeEventWebhookBody>(body =>
+                body.Embeds[0].Description.Contains("Current Gen") &&
+                !body.Embeds[0].Description.Contains("<b>") &&
+                !body.Embeds[0].Description.Contains("<code>")),
+            cancellationToken: Arg.Any<CancellationToken>());
+    }
 }
