@@ -211,4 +211,73 @@ public class ArcadeEventsHandlerTests
             Arg.Any<string>(), Arg.Any<ArcadeEventWebhookBody>(),
             cancellationToken: Arg.Any<CancellationToken>());
     }
+
+    [Test]
+    public async Task Test_HandleReceivedMessage_ShouldDecodeHtmlEntitiesInEventName_WhenSendingEventsViewCommand()
+    {
+        var parts = new[]
+        {
+            "", "raw",
+            """<div class="broadcast-blue"><b>The "Catch&amp;Evolve #1 TEST" roomevent has started!</b></div>"""
+        };
+
+        await _handler.HandleReceivedMessageAsync(parts, "arcade");
+
+        _bot.Received(1).Say("arcade", "!events view Catch&Evolve #1 TEST");
+        _bot.DidNotReceive().Say("arcade", "!events view Catch&amp;Evolve #1 TEST");
+    }
+
+    [Test]
+    public async Task Test_HandleReceivedMessage_ShouldSendEventsViewCommand_WhenEventNameContainsHtmlEntitiesAndSpecialCharacters()
+    {
+        var parts = new[]
+        {
+            "", "raw",
+            """<div class="broadcast-blue"><b>The "Catch&amp;Evolve #1 TEST" roomevent has started!</b></div>"""
+        };
+
+        await _handler.HandleReceivedMessageAsync(parts, "arcade");
+
+        _bot.Received(1).Say("arcade", "!events view Catch&Evolve #1 TEST");
+    }
+
+    [Test]
+    public async Task Test_HandleReceivedMessage_ShouldNotSendWebhook_WhenOnlyEventStartReceivedForHtmlEntityEventName()
+    {
+        var parts = new[]
+        {
+            "", "raw",
+            """<div class="broadcast-blue"><b>The "Catch&amp;Evolve #1 TEST" roomevent has started!</b></div>"""
+        };
+
+        await _handler.HandleReceivedMessageAsync(parts, "arcade");
+
+        await _httpService.DidNotReceiveWithAnyArgs()
+            .PostJsonAsync<ArcadeEventWebhookBody, object>(default, default);
+    }
+
+    [Test]
+    public async Task Test_HandleReceivedMessage_ShouldSendWebhook_WhenEventNameContainsHtmlEntitiesAndDetailsAreReceived()
+    {
+        var startParts = new[]
+        {
+            "", "raw",
+            """<div class="broadcast-blue"><b>The "Catch&amp;Evolve #1 TEST" roomevent has started!</b></div>"""
+        };
+        var infoboxParts = new[]
+        {
+            "", "raw",
+            """infobox-limited <td>Catch&Evolve #1 TEST</td><td>Catch a Pokémon and evolve it!</td><td><time>2023-01-01</time></td>"""
+        };
+
+        await _handler.HandleReceivedMessageAsync(startParts, "arcade");
+        await _handler.HandleReceivedMessageAsync(infoboxParts, "arcade");
+
+        await _httpService.Received(1).PostJsonAsync<ArcadeEventWebhookBody, object>(
+            "http://webhook.url",
+            Arg.Is<ArcadeEventWebhookBody>(body =>
+                body.Embeds[0].Description.Contains("Catch&Evolve #1 TEST") &&
+                body.Embeds[0].Description.Contains("Catch a Pokémon and evolve it!")),
+            cancellationToken: Arg.Any<CancellationToken>());
+    }
 }

@@ -58,7 +58,8 @@ public class ArcadeEventsHandler : Handler
         var eventStartMatch = EVENT_REGEX.Match(rawMessage);
         if (eventStartMatch.Success)
         {
-            var eventName = eventStartMatch.Groups[1].Value;
+            var eventName = WebUtility.HtmlDecode(eventStartMatch.Groups[1].Value);
+            Log.Information("Arcade event started: {0}", eventName);
             _pendingEvents[eventName] = true;
             _bot.Say("arcade", $"!events view {eventName}");
             return;
@@ -72,15 +73,18 @@ public class ArcadeEventsHandler : Handler
         var detailsMatch = INFOBOX_REGEX.Match(rawMessage);
         if (!detailsMatch.Success)
         {
+            Log.Warning("Received infobox-limited message in arcade but could not parse event details");
             return;
         }
 
         var detailEventName = detailsMatch.Groups[1].Value.Trim();
         if (!_pendingEvents.TryRemove(detailEventName, out _))
         {
+            Log.Warning("Received details for unknown or already-processed event: {0}", detailEventName);
             return;
         }
 
+        Log.Information("Processing details for arcade event: {0}", detailEventName);
         var rawDescription = detailsMatch.Groups[2].Value.Trim();
         var eventDescription = HTML_TAG_REGEX.Replace(rawDescription, string.Empty);
 
