@@ -32,6 +32,7 @@ using ElsaMina.Commands.GuessingGame.PokeDesc;
 using ElsaMina.Commands.JoinPhrases;
 using ElsaMina.Commands.FloodIt;
 using ElsaMina.Commands.LightsOut;
+using ElsaMina.Commands.TwentyFortyEight;
 using ElsaMina.Commands.Misc;
 using ElsaMina.Commands.Misc.Bitcoin;
 using ElsaMina.Commands.Misc.Colors;
@@ -255,6 +256,12 @@ public class CommandModule : Module
         builder.RegisterCommand<EndFloodItCommand>();
         builder.RegisterCommand<FloodItLeaderboardCommand>();
 
+        builder.RegisterCommand<StartTwentyFortyEightCommand>();
+        builder.RegisterCommand<JoinTwentyFortyEightCommand>();
+        builder.RegisterCommand<MoveTwentyFortyEightCommand>();
+        builder.RegisterCommand<EndTwentyFortyEightCommand>();
+        builder.RegisterCommand<TwentyFortyEightLeaderboardCommand>();
+
         builder.RegisterType<CountriesGame>().AsSelf();
         builder.RegisterType<CapitalCitiesGame>().AsSelf();
         builder.RegisterType<ConnectFourGame>().AsSelf();
@@ -268,6 +275,8 @@ public class CommandModule : Module
         builder.RegisterType<LightsOutGameManager>().As<ILightsOutGameManager>().SingleInstance();
         builder.RegisterType<FloodItGame>().AsSelf();
         builder.RegisterType<FloodItGameManager>().As<IFloodItGameManager>().SingleInstance();
+        builder.RegisterType<TwentyFortyEightGame>().AsSelf();
+        builder.RegisterType<TwentyFortyEightGameManager>().As<ITwentyFortyEightGameManager>().SingleInstance();
         builder.RegisterType<VoltorbFlipGameManager>().As<IVoltorbFlipGameManager>().SingleInstance();
         builder.RegisterType<EventRoleMappingService>().As<IEventRoleMappingService>().SingleInstance();
         builder.RegisterType<TourConfigService>().As<ITourConfigService>().SingleInstance();

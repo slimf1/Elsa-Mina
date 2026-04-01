@@ -1,0 +1,110 @@
+@using ElsaMina.Commands.TwentyFortyEight
+@using ElsaMina.Core.Services.Templates
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.TwentyFortyEight.TwentyFortyEightModel>
+
+@{
+    var game = Model.CurrentGame;
+    const int size = TwentyFortyEightConstants.GRID_SIZE;
+    const string borderColor = StyleConstants.PRIMARY_BORDER_COLOR;
+    const string bgColor = StyleConstants.PRIMARY_BACKGROUND_COLOR;
+    const string cellStyle = $"border: 1px solid {borderColor};";
+    const string cellStyleWithBg = $"border: 1px solid {borderColor}; background-color: {bgColor};";
+    const int cellSize = 56;
+}
+
+<table style="border-collapse: collapse; width: 100%;">
+    <thead>
+        <tr>
+            <th style="@cellStyleWithBg">@GetString("tfe_panel_title")</th>
+            <th style="@cellStyleWithBg">@GetString("tfe_panel_score", game.Score)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="@cellStyle text-align: center; vertical-align: top; padding: 8px;">
+                <div style="display: inline-block; padding: 8px; background: #bbada0; border-radius: 8px;">
+                    <table style="border-collapse: separate; border-spacing: 4px; margin: auto;">
+                        @for (var row = 0; row < size; row++)
+                        {
+                            <tr>
+                                @for (var col = 0; col < size; col++)
+                                {
+                                    var value = game.Grid[row, col];
+                                    var (tileBg, tileText) = TwentyFortyEightConstants.GetTileStyle(value);
+                                    var fontSize = value >= 1024 ? "0.8em" : value >= 128 ? "1em" : "1.2em";
+                                    <td style="width: @(cellSize)px; height: @(cellSize)px; background-color: @tileBg; border-radius: 4px; text-align: center; vertical-align: middle; font-weight: bold; font-size: @fontSize; color: @tileText; box-sizing: border-box;">
+                                        @(value == 0 ? "" : value.ToString())
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </table>
+                </div>
+                @if (game.IsRoundActive)
+                {
+                    <div style="margin-top: 10px;">
+                        <div>
+                            <button name="send" value="/botmsg @Model.BotName,@(Model.Trigger)2048move @Model.RoomId, u"
+                                style="width: 48px; height: 36px; font-size: 1.1em; cursor: pointer; margin: 2px;">↑</button>
+                        </div>
+                        <div>
+                            <button name="send" value="/botmsg @Model.BotName,@(Model.Trigger)2048move @Model.RoomId, l"
+                                style="width: 48px; height: 36px; font-size: 1.1em; cursor: pointer; margin: 2px;">←</button>
+                            <button name="send" value="/botmsg @Model.BotName,@(Model.Trigger)2048move @Model.RoomId, d"
+                                style="width: 48px; height: 36px; font-size: 1.1em; cursor: pointer; margin: 2px;">↓</button>
+                            <button name="send" value="/botmsg @Model.BotName,@(Model.Trigger)2048move @Model.RoomId, r"
+                                style="width: 48px; height: 36px; font-size: 1.1em; cursor: pointer; margin: 2px;">→</button>
+                        </div>
+                    </div>
+                }
+            </td>
+            <td style="padding: 16px; @cellStyle vertical-align: top; min-width: 160px;">
+                <span style="font-weight: bold; font-size: 1.1em;">@GetString("tfe_panel_title")</span><br/>
+                @if (game.Owner != null)
+                {
+                    <span style="color: #666; font-size: 0.9em;">@GetString("tfe_panel_player", game.Owner.Name)</span><br/>
+                    <span style="color: #666; font-size: 0.9em;">@GetString("tfe_panel_best_score", game.BestScore)</span><br/>
+                    <span style="color: #666; font-size: 0.9em;">@GetString("tfe_panel_wins", game.Wins)</span><br/>
+                }
+                <br/>
+                <span>@GetString("tfe_panel_objective")</span><br/>
+                <span>@GetString("tfe_panel_hint")</span><br/>
+                <span>@GetString("tfe_panel_timeout_hint")</span><br/>
+                <br/>
+                @if (!game.IsEnded)
+                {
+                    <details>
+                        <summary>@GetString("tfe_panel_options")</summary>
+                        <br/>
+                        @if (!game.IsRoundActive)
+                        {
+                            <button
+                                class="button"
+                                name="send"
+                                value="@(Model.IsPrivateMode ? $"/botmsg {Model.BotName},{Model.Trigger}2048 {Model.RoomId}" : $"{Model.Trigger}2048")">
+                                @GetString("tfe_panel_new_round")
+                            </button>
+                            <br/><br/>
+                        }
+                        <button
+                            class="button"
+                            name="send"
+                            value="@(Model.IsPrivateMode ? $"/botmsg {Model.BotName},{Model.Trigger}2048end {Model.RoomId}" : $"{Model.Trigger}2048end")">
+                            @GetString("tfe_panel_stop")
+                        </button>
+                    </details>
+                }
+                else
+                {
+                    <br/>
+                    <button
+                        class="button"
+                        name="send"
+                        value="@(Model.IsPrivateMode ? $"/botmsg {Model.BotName},{Model.Trigger}2048 {Model.RoomId}" : $"{Model.Trigger}2048")">
+                        @GetString("tfe_panel_play_again")
+                    </button>
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

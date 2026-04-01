@@ -2046,4 +2046,100 @@
     <data name="randcustom_error" xml:space="preserve">
         <value>Ocorreu um erro ao buscar um comando personalizado aleatório: {0}</value>
     </data>
+    <data name="tfe_panel_title" xml:space="preserve">
+        <value>2048</value>
+    </data>
+    <data name="tfe_panel_waiting_for_player" xml:space="preserve">
+        <value>Um jogo aguarda um jogador!</value>
+    </data>
+    <data name="tfe_panel_join" xml:space="preserve">
+        <value>Entrar</value>
+    </data>
+    <data name="tfe_game_waiting" xml:space="preserve">
+        <value>Um jogo de 2048 já está aguardando um jogador.</value>
+    </data>
+    <data name="tfe_panel_level" xml:space="preserve">
+        <value>Nível {0}</value>
+    </data>
+    <data name="tfe_panel_score" xml:space="preserve">
+        <value>Pontuação: {0}</value>
+    </data>
+    <data name="tfe_panel_target" xml:space="preserve">
+        <value>Alvo: {0}</value>
+    </data>
+    <data name="tfe_panel_player" xml:space="preserve">
+        <value>Jogador: {0}</value>
+    </data>
+    <data name="tfe_panel_best_score" xml:space="preserve">
+        <value>Melhor: {0}</value>
+    </data>
+    <data name="tfe_panel_wins" xml:space="preserve">
+        <value>Vitórias: {0}</value>
+    </data>
+    <data name="tfe_panel_objective" xml:space="preserve">
+        <value>Objetivo: alcançar a peça 2048!</value>
+    </data>
+    <data name="tfe_panel_hint" xml:space="preserve">
+        <value>Use os botões de seta para deslizar as peças.</value>
+    </data>
+    <data name="tfe_panel_timeout_hint" xml:space="preserve">
+        <value>O jogo expira após 5 min de inatividade.</value>
+    </data>
+    <data name="tfe_panel_options" xml:space="preserve">
+        <value>Opções</value>
+    </data>
+    <data name="tfe_panel_new_round" xml:space="preserve">
+        <value>Próximo nível</value>
+    </data>
+    <data name="tfe_panel_stop" xml:space="preserve">
+        <value>Parar jogo</value>
+    </data>
+    <data name="tfe_panel_play_again" xml:space="preserve">
+        <value>Jogar novamente</value>
+    </data>
+    <data name="tfe_game_started" xml:space="preserve">
+        <value>2048 — alcance a peça 2048! Deslize as peças para combiná-las.</value>
+    </data>
+    <data name="tfe_game_win" xml:space="preserve">
+        <value>{0} atingiu o 2048! Pontuação: {1}.</value>
+    </data>
+    <data name="tfe_game_lose" xml:space="preserve">
+        <value>{0} ficou sem movimentos! Pontuação: {1}.</value>
+    </data>
+    <data name="tfe_game_timeout" xml:space="preserve">
+        <value>O jogo de 2048 terminou por inatividade.</value>
+    </data>
+    <data name="tfe_game_cancelled" xml:space="preserve">
+        <value>O jogo de 2048 foi cancelado.</value>
+    </data>
+    <data name="tfe_game_no_game" xml:space="preserve">
+        <value>Nenhum jogo de 2048 está em andamento.</value>
+    </data>
+    <data name="tfe_game_not_owner" xml:space="preserve">
+        <value>Apenas o jogador que iniciou este jogo pode fazer isso.</value>
+    </data>
+    <data name="tfe_game_round_active" xml:space="preserve">
+        <value>Um jogo de 2048 já está em andamento.</value>
+    </data>
+    <data name="tfe_game_already_running" xml:space="preserve">
+        <value>Outro jogo já está em andamento nesta sala.</value>
+    </data>
+    <data name="tfe_pm_missing_room" xml:space="preserve">
+        <value>Por favor, especifique uma sala. Uso: -2048 nomedaSala</value>
+    </data>
+    <data name="tfe_pm_invalid_room" xml:space="preserve">
+        <value>A sala especificada não foi encontrada ou o bot não está nela.</value>
+    </data>
+    <data name="tfe_leaderboard_title" xml:space="preserve">
+        <value>Classificação 2048</value>
+    </data>
+    <data name="tfe_leaderboard_best_score" xml:space="preserve">
+        <value>Melhor pontuação</value>
+    </data>
+    <data name="tfe_leaderboard_wins" xml:space="preserve">
+        <value>Vitórias</value>
+    </data>
+    <data name="tfe_leaderboard_empty" xml:space="preserve">
+        <value>A classificação de 2048 está vazia.</value>
+    </data>
 </root>

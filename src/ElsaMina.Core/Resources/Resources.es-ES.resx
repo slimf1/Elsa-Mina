@@ -2051,4 +2051,100 @@
     <data name="randcustom_error" xml:space="preserve">
         <value>Se produjo un error al obtener un comando personalizado aleatorio: {0}</value>
     </data>
+    <data name="tfe_panel_title" xml:space="preserve">
+        <value>2048</value>
+    </data>
+    <data name="tfe_panel_waiting_for_player" xml:space="preserve">
+        <value>¡Una partida espera a un jugador!</value>
+    </data>
+    <data name="tfe_panel_join" xml:space="preserve">
+        <value>Unirse</value>
+    </data>
+    <data name="tfe_game_waiting" xml:space="preserve">
+        <value>Ya hay una partida de 2048 esperando a un jugador.</value>
+    </data>
+    <data name="tfe_panel_level" xml:space="preserve">
+        <value>Nivel {0}</value>
+    </data>
+    <data name="tfe_panel_score" xml:space="preserve">
+        <value>Puntuación: {0}</value>
+    </data>
+    <data name="tfe_panel_target" xml:space="preserve">
+        <value>Objetivo: {0}</value>
+    </data>
+    <data name="tfe_panel_player" xml:space="preserve">
+        <value>Jugador: {0}</value>
+    </data>
+    <data name="tfe_panel_best_score" xml:space="preserve">
+        <value>Mejor: {0}</value>
+    </data>
+    <data name="tfe_panel_wins" xml:space="preserve">
+        <value>Victorias: {0}</value>
+    </data>
+    <data name="tfe_panel_objective" xml:space="preserve">
+        <value>¡Objetivo: alcanzar la ficha 2048!</value>
+    </data>
+    <data name="tfe_panel_hint" xml:space="preserve">
+        <value>Usa los botones de flecha para deslizar fichas.</value>
+    </data>
+    <data name="tfe_panel_timeout_hint" xml:space="preserve">
+        <value>La partida expira tras 5 min de inactividad.</value>
+    </data>
+    <data name="tfe_panel_options" xml:space="preserve">
+        <value>Opciones</value>
+    </data>
+    <data name="tfe_panel_new_round" xml:space="preserve">
+        <value>Siguiente nivel</value>
+    </data>
+    <data name="tfe_panel_stop" xml:space="preserve">
+        <value>Parar partida</value>
+    </data>
+    <data name="tfe_panel_play_again" xml:space="preserve">
+        <value>Volver a jugar</value>
+    </data>
+    <data name="tfe_game_started" xml:space="preserve">
+        <value>2048 — ¡alcanza la ficha 2048! Desliza las fichas para combinarlas.</value>
+    </data>
+    <data name="tfe_game_win" xml:space="preserve">
+        <value>¡{0} alcanzó el 2048! Puntuación: {1}.</value>
+    </data>
+    <data name="tfe_game_lose" xml:space="preserve">
+        <value>¡{0} se quedó sin movimientos! Puntuación: {1}.</value>
+    </data>
+    <data name="tfe_game_timeout" xml:space="preserve">
+        <value>La partida de 2048 terminó por inactividad.</value>
+    </data>
+    <data name="tfe_game_cancelled" xml:space="preserve">
+        <value>La partida de 2048 ha sido cancelada.</value>
+    </data>
+    <data name="tfe_game_no_game" xml:space="preserve">
+        <value>No hay ninguna partida de 2048 en curso.</value>
+    </data>
+    <data name="tfe_game_not_owner" xml:space="preserve">
+        <value>Solo el jugador que inició la partida puede hacer eso.</value>
+    </data>
+    <data name="tfe_game_round_active" xml:space="preserve">
+        <value>Ya hay una partida de 2048 en curso.</value>
+    </data>
+    <data name="tfe_game_already_running" xml:space="preserve">
+        <value>Ya hay otro juego en curso en esta sala.</value>
+    </data>
+    <data name="tfe_pm_missing_room" xml:space="preserve">
+        <value>Por favor, especifica una sala. Uso: -2048 nombresala</value>
+    </data>
+    <data name="tfe_pm_invalid_room" xml:space="preserve">
+        <value>La sala especificada no se encontró o el bot no está en ella.</value>
+    </data>
+    <data name="tfe_leaderboard_title" xml:space="preserve">
+        <value>Clasificación 2048</value>
+    </data>
+    <data name="tfe_leaderboard_best_score" xml:space="preserve">
+        <value>Mejor puntuación</value>
+    </data>
+    <data name="tfe_leaderboard_wins" xml:space="preserve">
+        <value>Victorias</value>
+    </data>
+    <data name="tfe_leaderboard_empty" xml:space="preserve">
+        <value>La clasificación de 2048 está vacía.</value>
+    </data>
 </root>

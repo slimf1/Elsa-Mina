@@ -90,7 +90,7 @@ public class SetLocaleCommandTest
 
         await _command.RunAsync(_context);
 
-        _context.Culture = Arg.Is<CultureInfo>(c => c.Name == "fr-FR");
+        Assert.That(_context.Culture.Name, Is.EqualTo("fr-FR"));
     }
 
     [Test]

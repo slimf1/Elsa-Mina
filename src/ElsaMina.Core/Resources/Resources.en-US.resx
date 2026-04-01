@@ -2052,4 +2052,100 @@
     <data name="randcustom_error" xml:space="preserve">
         <value>An error occurred while fetching a random custom command: {0}</value>
     </data>
+    <data name="tfe_panel_title" xml:space="preserve">
+        <value>2048</value>
+    </data>
+    <data name="tfe_panel_waiting_for_player" xml:space="preserve">
+        <value>A game is waiting for a player!</value>
+    </data>
+    <data name="tfe_panel_join" xml:space="preserve">
+        <value>Join</value>
+    </data>
+    <data name="tfe_game_waiting" xml:space="preserve">
+        <value>A 2048 game is already waiting for a player.</value>
+    </data>
+    <data name="tfe_panel_level" xml:space="preserve">
+        <value>Level {0}</value>
+    </data>
+    <data name="tfe_panel_score" xml:space="preserve">
+        <value>Score: {0}</value>
+    </data>
+    <data name="tfe_panel_target" xml:space="preserve">
+        <value>Target: {0}</value>
+    </data>
+    <data name="tfe_panel_player" xml:space="preserve">
+        <value>Player: {0}</value>
+    </data>
+    <data name="tfe_panel_best_score" xml:space="preserve">
+        <value>Best: {0}</value>
+    </data>
+    <data name="tfe_panel_wins" xml:space="preserve">
+        <value>Wins: {0}</value>
+    </data>
+    <data name="tfe_panel_objective" xml:space="preserve">
+        <value>Objective: reach the 2048 tile!</value>
+    </data>
+    <data name="tfe_panel_hint" xml:space="preserve">
+        <value>Use the arrow buttons to slide tiles.</value>
+    </data>
+    <data name="tfe_panel_timeout_hint" xml:space="preserve">
+        <value>Game expires after 5 min of inactivity.</value>
+    </data>
+    <data name="tfe_panel_options" xml:space="preserve">
+        <value>Options</value>
+    </data>
+    <data name="tfe_panel_new_round" xml:space="preserve">
+        <value>Next level</value>
+    </data>
+    <data name="tfe_panel_stop" xml:space="preserve">
+        <value>Stop game</value>
+    </data>
+    <data name="tfe_panel_play_again" xml:space="preserve">
+        <value>Play again</value>
+    </data>
+    <data name="tfe_game_started" xml:space="preserve">
+        <value>2048 — reach the 2048 tile! Slide tiles to combine them.</value>
+    </data>
+    <data name="tfe_game_win" xml:space="preserve">
+        <value>{0} reached 2048! Score: {1}.</value>
+    </data>
+    <data name="tfe_game_lose" xml:space="preserve">
+        <value>{0} is out of moves! Score: {1}.</value>
+    </data>
+    <data name="tfe_game_timeout" xml:space="preserve">
+        <value>The 2048 game ended due to inactivity.</value>
+    </data>
+    <data name="tfe_game_cancelled" xml:space="preserve">
+        <value>The 2048 game has been cancelled.</value>
+    </data>
+    <data name="tfe_game_no_game" xml:space="preserve">
+        <value>No 2048 game is currently running.</value>
+    </data>
+    <data name="tfe_game_not_owner" xml:space="preserve">
+        <value>Only the player who started this game can do that.</value>
+    </data>
+    <data name="tfe_game_round_active" xml:space="preserve">
+        <value>A 2048 game is already in progress.</value>
+    </data>
+    <data name="tfe_game_already_running" xml:space="preserve">
+        <value>Another game is already running in this room.</value>
+    </data>
+    <data name="tfe_pm_missing_room" xml:space="preserve">
+        <value>Please specify a room. Usage: -2048 roomname</value>
+    </data>
+    <data name="tfe_pm_invalid_room" xml:space="preserve">
+        <value>The specified room was not found or the bot is not in it.</value>
+    </data>
+    <data name="tfe_leaderboard_title" xml:space="preserve">
+        <value>2048 Leaderboard</value>
+    </data>
+    <data name="tfe_leaderboard_best_score" xml:space="preserve">
+        <value>Best Score</value>
+    </data>
+    <data name="tfe_leaderboard_wins" xml:space="preserve">
+        <value>Wins</value>
+    </data>
+    <data name="tfe_leaderboard_empty" xml:space="preserve">
+        <value>The 2048 leaderboard is empty.</value>
+    </data>
 </root>

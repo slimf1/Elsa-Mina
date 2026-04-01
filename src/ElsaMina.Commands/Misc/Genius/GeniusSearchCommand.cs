@@ -73,8 +73,16 @@ public class GeniusSearchCommand : Command
 
             var thumbnailUrl = mostViewedHit.Result.SongArtImageUrl;
             var (width, height) = await _imageService.GetRemoteImageDimensions(thumbnailUrl, cancellationToken);
-            (width, height) = ImageUtils.ResizeWithSameAspectRatio(width, height,
-                MAX_THUMBNAIL_WIDTH, MAX_THUMBNAIL_HEIGHT);
+            if (width < 0 || height < 0)
+            {
+                width = MAX_THUMBNAIL_WIDTH;
+                height = MAX_THUMBNAIL_HEIGHT;
+            }
+            else
+            {
+                (width, height) = ImageUtils.ResizeWithSameAspectRatio(width, height,
+                    MAX_THUMBNAIL_WIDTH, MAX_THUMBNAIL_HEIGHT);
+            }
             DateOnly releaseDate = default;
             if (mostViewedHit.Result.ReleaseDateComponents is { Year: not null, Month: not null, Day: not null })
             {

@@ -2046,4 +2046,100 @@
     <data name="randcustom_error" xml:space="preserve">
         <value>Beim Abrufen eines zufälligen benutzerdefinierten Befehls ist ein Fehler aufgetreten: {0}</value>
     </data>
+    <data name="tfe_panel_title" xml:space="preserve">
+        <value>2048</value>
+    </data>
+    <data name="tfe_panel_waiting_for_player" xml:space="preserve">
+        <value>Ein Spiel wartet auf einen Spieler!</value>
+    </data>
+    <data name="tfe_panel_join" xml:space="preserve">
+        <value>Beitreten</value>
+    </data>
+    <data name="tfe_game_waiting" xml:space="preserve">
+        <value>Ein 2048-Spiel wartet bereits auf einen Spieler.</value>
+    </data>
+    <data name="tfe_panel_level" xml:space="preserve">
+        <value>Level {0}</value>
+    </data>
+    <data name="tfe_panel_score" xml:space="preserve">
+        <value>Punkte: {0}</value>
+    </data>
+    <data name="tfe_panel_target" xml:space="preserve">
+        <value>Ziel: {0}</value>
+    </data>
+    <data name="tfe_panel_player" xml:space="preserve">
+        <value>Spieler: {0}</value>
+    </data>
+    <data name="tfe_panel_best_score" xml:space="preserve">
+        <value>Beste: {0}</value>
+    </data>
+    <data name="tfe_panel_wins" xml:space="preserve">
+        <value>Siege: {0}</value>
+    </data>
+    <data name="tfe_panel_objective" xml:space="preserve">
+        <value>Ziel: die 2048-Kachel erreichen!</value>
+    </data>
+    <data name="tfe_panel_hint" xml:space="preserve">
+        <value>Benutze die Pfeiltasten zum Verschieben.</value>
+    </data>
+    <data name="tfe_panel_timeout_hint" xml:space="preserve">
+        <value>Spiel endet nach 5 Min. Inaktivität.</value>
+    </data>
+    <data name="tfe_panel_options" xml:space="preserve">
+        <value>Optionen</value>
+    </data>
+    <data name="tfe_panel_new_round" xml:space="preserve">
+        <value>Nächstes Level</value>
+    </data>
+    <data name="tfe_panel_stop" xml:space="preserve">
+        <value>Spiel beenden</value>
+    </data>
+    <data name="tfe_panel_play_again" xml:space="preserve">
+        <value>Nochmal spielen</value>
+    </data>
+    <data name="tfe_game_started" xml:space="preserve">
+        <value>2048 — erreiche die 2048-Kachel! Verschiebe die Kacheln.</value>
+    </data>
+    <data name="tfe_game_win" xml:space="preserve">
+        <value>{0} hat 2048 erreicht! Punkte: {1}.</value>
+    </data>
+    <data name="tfe_game_lose" xml:space="preserve">
+        <value>{0} hat keine Züge mehr! Punkte: {1}.</value>
+    </data>
+    <data name="tfe_game_timeout" xml:space="preserve">
+        <value>Das 2048-Spiel wurde wegen Inaktivität beendet.</value>
+    </data>
+    <data name="tfe_game_cancelled" xml:space="preserve">
+        <value>Das 2048-Spiel wurde abgebrochen.</value>
+    </data>
+    <data name="tfe_game_no_game" xml:space="preserve">
+        <value>Kein 2048-Spiel läuft gerade.</value>
+    </data>
+    <data name="tfe_game_not_owner" xml:space="preserve">
+        <value>Nur der Spieler, der das Spiel gestartet hat, kann das tun.</value>
+    </data>
+    <data name="tfe_game_round_active" xml:space="preserve">
+        <value>Ein 2048-Spiel läuft bereits.</value>
+    </data>
+    <data name="tfe_game_already_running" xml:space="preserve">
+        <value>Ein anderes Spiel läuft bereits in diesem Raum.</value>
+    </data>
+    <data name="tfe_pm_missing_room" xml:space="preserve">
+        <value>Bitte gib einen Raum an. Verwendung: -2048 raumname</value>
+    </data>
+    <data name="tfe_pm_invalid_room" xml:space="preserve">
+        <value>Der angegebene Raum wurde nicht gefunden oder der Bot ist nicht darin.</value>
+    </data>
+    <data name="tfe_leaderboard_title" xml:space="preserve">
+        <value>2048 Bestenliste</value>
+    </data>
+    <data name="tfe_leaderboard_best_score" xml:space="preserve">
+        <value>Bestes Ergebnis</value>
+    </data>
+    <data name="tfe_leaderboard_wins" xml:space="preserve">
+        <value>Siege</value>
+    </data>
+    <data name="tfe_leaderboard_empty" xml:space="preserve">
+        <value>Die 2048-Bestenliste ist leer.</value>
+    </data>
 </root>

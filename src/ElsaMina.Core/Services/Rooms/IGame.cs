@@ -6,4 +6,5 @@ public interface IGame
     event Action GameEnded;
     string Identifier { get; }
     bool IsStarted { get; }
+    bool IsEnded { get; }
 }
