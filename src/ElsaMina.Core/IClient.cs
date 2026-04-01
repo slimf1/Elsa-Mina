@@ -9,7 +9,7 @@ public interface IClient : IDisposable
     Task SendAsync(string message, CancellationToken cancellationToken);
     Task Close();
     IObservable<string> MessageReceived { get; }
-    IObservable<string> DisconnectionHappened { get; }
+    IObservable<DisconnectionInfo> DisconnectionHappened { get; }
     IObservable<ReconnectionInfo> ReconnectionHappened { get; }
     bool IsConnected { get; }
 }

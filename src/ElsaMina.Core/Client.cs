@@ -29,18 +29,8 @@ public class Client : IClient
         .MessageReceived
         .Select(message => message.Text);
 
-    public IObservable<string> DisconnectionHappened => _websocketClient
-        .DisconnectionHappened
-        .Select(disconnectionInfo =>
-        {
-            var exception = disconnectionInfo.Exception;
-            if (exception != null)
-            {
-                return $"{exception.Message}\n{exception.StackTrace}";
-            }
-
-            return disconnectionInfo.CloseStatus?.ToString() ?? disconnectionInfo.CloseStatusDescription;
-        });
+    public IObservable<DisconnectionInfo> DisconnectionHappened => _websocketClient
+        .DisconnectionHappened;
 
     public IObservable<ReconnectionInfo> ReconnectionHappened => _websocketClient.ReconnectionHappened;
 
