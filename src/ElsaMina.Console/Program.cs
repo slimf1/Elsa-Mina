@@ -91,16 +91,22 @@ client.MessageReceived
     .Subscribe();
 
 // Disconnect event
-client.DisconnectionHappened.Subscribe(error =>
+client.DisconnectionHappened.Subscribe(info =>
 {
-    Log.Error("Got disconnected : {0}", error);
+    Log.Warning(
+        "Disconnected. Type: {type}, Status: {status}, Desc: {desc}, Exception: {ex}",
+        info.Type,
+        info.CloseStatus,
+        info.CloseStatusDescription,
+        info.Exception?.Message
+    );
     bot.OnDisconnect();
 });
 
 // Reconnection
 client.ReconnectionHappened.Subscribe(info =>
 {
-    Log.Information("Reconnecting : {0}", info.Type);
+    Log.Warning("Reconnecting : {0}", info.Type);
     bot.OnReconnect();
 });
 
