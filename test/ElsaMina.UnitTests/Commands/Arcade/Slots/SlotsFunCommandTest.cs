@@ -171,7 +171,7 @@ public class SlotsFunCommandTest
         // resultIndex=0 (bulbasaur), winThreshold=68; NextInt(100)=99 >= 68 → win
         _randomService.NextInt(12).Returns(0);
         _randomService.NextInt(100).Returns(99);
-        const string bulbasaurImage = "https://play.pokemonshowdown.com/sprites/afd/bulbasaur.png";
+        const string bulbasaurImage = "https://www.shinyhunters.com/images/regular/1.gif";
 
         // Act
         await _command.RunAsync(_context);
@@ -202,9 +202,9 @@ public class SlotsFunCommandTest
         await _templatesManager.Received(1).GetTemplateAsync(
             "Arcade/Slots/SlotsFun",
             Arg.Is<SlotsFunViewModel>(vm =>
-                vm.SlotImageOne == "https://play.pokemonshowdown.com/sprites/afd/bulbasaur.png" &&
-                vm.SlotImageTwo == "https://play.pokemonshowdown.com/sprites/afd/squirtle.png" &&
-                vm.SlotImageThree == "https://play.pokemonshowdown.com/sprites/afd/charmander.png"));
+                vm.SlotImageOne == "https://www.shinyhunters.com/images/regular/1.gif" &&
+                vm.SlotImageTwo == "https://www.shinyhunters.com/images/regular/2.gif" &&
+                vm.SlotImageThree == "https://www.shinyhunters.com/images/regular/3.gif"));
         _context.Received(1).ReplyHtml("html");
     }
 
@@ -224,9 +224,9 @@ public class SlotsFunCommandTest
         await _templatesManager.Received(1).GetTemplateAsync(
             "Arcade/Slots/SlotsFun",
             Arg.Is<SlotsFunViewModel>(vm =>
-                vm.SlotImageOne == "https://play.pokemonshowdown.com/sprites/afd/bulbasaur.png" &&
-                vm.SlotImageTwo == "https://play.pokemonshowdown.com/sprites/afd/squirtle.png" &&
-                vm.SlotImageThree == "https://play.pokemonshowdown.com/sprites/afd/charmander.png"));
+                vm.SlotImageOne == "https://www.shinyhunters.com/images/regular/1.gif" &&
+                vm.SlotImageTwo == "https://www.shinyhunters.com/images/regular/2.gif" &&
+                vm.SlotImageThree == "https://www.shinyhunters.com/images/regular/3.gif"));
     }
 
     [Test]

@@ -24,7 +24,6 @@ public class StartTwentyFortyEightCommand : Command
 
     public override Rank RequiredRank => Rank.Voiced;
     public override bool IsAllowedInPrivateMessage => true;
-    public override bool IsWhitelistOnly => true; // Temporaire
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
