@@ -14,7 +14,7 @@
     &mdash; <small>@GetString("team_preview_click_icons")</small>
 </span>
 @{
-    var teamMembersCount = Math.Min(Model.Team.Count(), 6);
+    var teamMembersCount = Math.Min(Model.Team.Count, 6);
 }
 <details>
     <summary>
@@ -34,7 +34,7 @@
                 @if (set1 != null)
                 {
                     set1.Name = null;
-                    <td style="padding: 0 4px;">
+                    <td style="padding: 8px;">
                         <span style="white-space: pre-line;">
                            @ShowdownTeams.GetSetExport(set1).Trim()
                         </span>
@@ -43,7 +43,7 @@
                 @if (set2 != null)
                 {
                     set2.Name = null;
-                    <td style="padding: 0 4px;">
+                    <td style="padding: 8px;">
                         <span style="white-space: pre-line;">
                             @ShowdownTeams.GetSetExport(set2).Trim()
                         </span>
