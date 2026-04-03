@@ -8,6 +8,7 @@ using ElsaMina.Core.Services.PlayTime;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Start;
 using ElsaMina.Core.Services.System;
+using ElsaMina.Core.Services.Telemetry;
 using NSubstitute;
 
 namespace ElsaMina.IntegrationTests.Core;
@@ -36,9 +37,10 @@ public class BotRoomInitializationIntegrationTest
         configuration.RoomBlacklist.Returns(Array.Empty<string>());
         configuration.DefaultLocaleCode.Returns("");
 
-        var handlerManager = new HandlerManager(dependencyContainerService);
+        var telemetry = Substitute.For<ITelemetryService>();
+        var handlerManager = new HandlerManager(dependencyContainerService, telemetry);
         _bot = new Bot(client, clockService, _roomsManager, handlerManager,
-            systemService, startManager, playTimeUpdateService);
+            systemService, startManager, playTimeUpdateService, telemetry);
 
         var builder = new ContainerBuilder();
         builder.RegisterInstance(dependencyContainerService).As<IDependencyContainerService>();

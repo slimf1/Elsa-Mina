@@ -26,6 +26,7 @@ using ElsaMina.Core.Services.Rooms.Parameters;
 using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.Core.Services.Start;
 using ElsaMina.Core.Services.System;
+using ElsaMina.Core.Services.Telemetry;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Services.UserData;
 using ElsaMina.Core.Services.UserDetails;
@@ -44,6 +45,7 @@ public class CoreModule : Module
         builder.RegisterModule<DataAccessModule>();
         builder.RegisterModule<SheetsModule>();
 
+        builder.RegisterType<TelemetryService>().As<ITelemetryService>().SingleInstance();
         builder.RegisterType<DependencyContainerService>().As<IDependencyContainerService>().SingleInstance();
         builder.RegisterType<HttpService>().As<IHttpService>().SingleInstance();
         builder.RegisterType<ClockService>().As<IClockService>().SingleInstance();

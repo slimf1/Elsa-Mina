@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using ElsaMina.Core.Services.DependencyInjection;
+using ElsaMina.Core.Services.Telemetry;
 using ElsaMina.Logging;
 
 namespace ElsaMina.Core.Handlers;
@@ -8,12 +9,14 @@ namespace ElsaMina.Core.Handlers;
 public class HandlerManager : IHandlerManager
 {
     private readonly IDependencyContainerService _containerService;
+    private readonly ITelemetryService _telemetryService;
 
     private readonly ConcurrentDictionary<string, IHandler> _handlers = [];
 
-    public HandlerManager(IDependencyContainerService containerService)
+    public HandlerManager(IDependencyContainerService containerService, ITelemetryService telemetryService)
     {
         _containerService = containerService;
+        _telemetryService = telemetryService;
     }
 
     public bool IsInitialized { get; private set; }
@@ -48,10 +51,10 @@ public class HandlerManager : IHandlerManager
                    (messageType != null && handler.HandledMessageTypes.Contains(messageType)));
     }
 
-    private static async Task TryHandleMessageAsync(string[] parts, string roomId, IHandler handler,
+    private async Task TryHandleMessageAsync(string[] parts, string roomId, IHandler handler,
         CancellationToken cancellationToken)
     {
-        using var activity = Telemetry.ACTIVITY_SOURCE.StartActivity($"handler.{handler.Identifier}");
+        using var activity = _telemetryService.StartActivity($"handler.{handler.Identifier}");
         activity?.SetTag("room", roomId);
         try
         {

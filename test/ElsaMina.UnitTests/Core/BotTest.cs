@@ -5,6 +5,7 @@ using ElsaMina.Core.Services.PlayTime;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Start;
 using ElsaMina.Core.Services.System;
+using ElsaMina.Core.Services.Telemetry;
 using NSubstitute;
 
 namespace ElsaMina.UnitTests.Core;
@@ -18,6 +19,7 @@ public class BotTest
     private ISystemService _systemService;
     private IStartManager _startManager;
     private IPlayTimeUpdateService _playTimeUpdateService;
+    private ITelemetryService _telemetryService;
 
     private Bot _bot;
 
@@ -31,9 +33,10 @@ public class BotTest
         _systemService = Substitute.For<ISystemService>();
         _startManager = Substitute.For<IStartManager>();
         _playTimeUpdateService = Substitute.For<IPlayTimeUpdateService>();
+        _telemetryService = Substitute.For<ITelemetryService>();
 
         _bot = new Bot(_client, _clockService, _roomsManager, _handlerManager, _systemService, _startManager,
-            _playTimeUpdateService);
+            _playTimeUpdateService, _telemetryService);
     }
 
     [Test]

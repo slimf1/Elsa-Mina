@@ -4,6 +4,7 @@ using ElsaMina.Core.Services.PlayTime;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Start;
 using ElsaMina.Core.Services.System;
+using ElsaMina.Core.Services.Telemetry;
 using ElsaMina.Logging;
 
 namespace ElsaMina.Core;
@@ -21,6 +22,7 @@ public class Bot : IBot
     private readonly ISystemService _systemService;
     private readonly IStartManager _startManager;
     private readonly IPlayTimeUpdateService _playTimeUpdateService;
+    private readonly ITelemetryService _telemetryService;
 
     private readonly SemaphoreSlim _initializeRoomSemaphore = new(1, 1);
     private readonly CancellationTokenSource _cancellationTokenSource = new();
@@ -36,7 +38,8 @@ public class Bot : IBot
         IHandlerManager handlerManager,
         ISystemService systemService,
         IStartManager startManager,
-        IPlayTimeUpdateService playTimeUpdateService)
+        IPlayTimeUpdateService playTimeUpdateService,
+        ITelemetryService telemetryService)
     {
         _client = client;
         _clockService = clockService;
@@ -45,6 +48,7 @@ public class Bot : IBot
         _systemService = systemService;
         _startManager = startManager;
         _playTimeUpdateService = playTimeUpdateService;
+        _telemetryService = telemetryService;
     }
 
     public async Task StartAsync()
@@ -56,7 +60,7 @@ public class Bot : IBot
 
     public void OnReconnect()
     {
-        Telemetry.WEB_SOCKET_RECONNECTIONS.Add(1);
+        _telemetryService.RecordWebSocketReconnection();
         _connectionTime = _clockService.CurrentUtcDateTimeOffset;
     }
 
@@ -122,9 +126,7 @@ public class Bot : IBot
 
         Log.Debug("[Received] ({0}) {1}", room, line);
 
-        Telemetry.MESSAGES_RECEIVED.Add(1,
-            new KeyValuePair<string, object>("room", roomId),
-            new KeyValuePair<string, object>("type", messageType));
+        _telemetryService.RecordMessageReceived(roomId, messageType);
 
         if (!_handlerManager.IsInitialized)
         {
@@ -149,7 +151,7 @@ public class Bot : IBot
 
         Log.Debug("[Sending] {0}", message);
 
-        Telemetry.MESSAGES_SENT.Add(1);
+        _telemetryService.RecordMessageSent();
         _client.Send(message);
         _lastMessage = message;
         _lastMessageTime = now;

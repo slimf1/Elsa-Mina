@@ -14,6 +14,7 @@ using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Start;
 using ElsaMina.Core.Services.System;
+using ElsaMina.Core.Services.Telemetry;
 using ElsaMina.Core.Services.UserDetails;
 using ElsaMina.Core.Utils;
 using NSubstitute;
@@ -59,7 +60,8 @@ public class BotHandleReceivedMessageIntegrationTest
         _configuration.DefaultRoom.Returns("lobby");
         _configuration.DefaultLocaleCode.Returns("");
 
-        var handlerManager = new HandlerManager(_dependencyContainerService);
+        var telemetry = Substitute.For<ITelemetryService>();
+        var handlerManager = new HandlerManager(_dependencyContainerService, telemetry);
         _bot = new Bot(
             _client,
             _clockService,
@@ -67,7 +69,8 @@ public class BotHandleReceivedMessageIntegrationTest
             handlerManager,
             _systemService,
             _startManager,
-            _playTimeUpdateService);
+            _playTimeUpdateService,
+            telemetry);
 
         var builder = new ContainerBuilder();
         builder.RegisterInstance(_dependencyContainerService).As<IDependencyContainerService>();
@@ -77,6 +80,7 @@ public class BotHandleReceivedMessageIntegrationTest
         builder.RegisterInstance(_resourcesService).As<IResourcesService>();
         builder.RegisterInstance(_userDetailsManager).As<IUserDetailsManager>();
         builder.RegisterInstance(_addedCommandsManager).As<IAddedCommandsManager>();
+        builder.RegisterInstance(telemetry).As<ITelemetryService>();
 
         builder.RegisterType<PmSendersManager>().As<IPmSendersManager>().SingleInstance();
         builder.RegisterType<ContextFactory>().As<IContextFactory>().SingleInstance();

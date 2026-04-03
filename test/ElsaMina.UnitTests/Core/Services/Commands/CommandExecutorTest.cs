@@ -4,6 +4,7 @@ using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Rooms.Parameters;
+using ElsaMina.Core.Services.Telemetry;
 using NSubstitute;
 
 namespace ElsaMina.UnitTests.Core.Services.Commands;
@@ -12,6 +13,7 @@ public class CommandExecutorTest
 {
     private IDependencyContainerService _dependencyContainerService;
     private IAddedCommandsManager _addedCommandsManager;
+    private ITelemetryService _telemetryService;
     private CommandExecutor _commandExecutor;
     private IContext _context;
 
@@ -20,8 +22,10 @@ public class CommandExecutorTest
     {
         _dependencyContainerService = Substitute.For<IDependencyContainerService>();
         _addedCommandsManager = Substitute.For<IAddedCommandsManager>();
+        _telemetryService = Substitute.For<ITelemetryService>();
         _context = Substitute.For<IContext>();
-        _commandExecutor = new CommandExecutor(_dependencyContainerService, _addedCommandsManager, Enumerable.Empty<IDynamicCommandProvider>());
+        _commandExecutor = new CommandExecutor(_dependencyContainerService, _addedCommandsManager,
+            Enumerable.Empty<IDynamicCommandProvider>(), _telemetryService);
     }
 
     [Test]

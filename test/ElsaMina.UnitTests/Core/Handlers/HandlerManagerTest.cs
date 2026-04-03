@@ -1,5 +1,6 @@
 using ElsaMina.Core.Handlers;
 using ElsaMina.Core.Services.DependencyInjection;
+using ElsaMina.Core.Services.Telemetry;
 using NSubstitute;
 
 namespace ElsaMina.UnitTests.Core.Handlers;
@@ -7,13 +8,15 @@ namespace ElsaMina.UnitTests.Core.Handlers;
 public class HandlerManagerTests
 {
     private IDependencyContainerService _mockContainerService;
+    private ITelemetryService _telemetryService;
     private HandlerManager _handlerManager;
 
     [SetUp]
     public void SetUp()
     {
         _mockContainerService = Substitute.For<IDependencyContainerService>();
-        _handlerManager = new HandlerManager(_mockContainerService);
+        _telemetryService = Substitute.For<ITelemetryService>();
+        _handlerManager = new HandlerManager(_mockContainerService, _telemetryService);
     }
 
     [Test]

@@ -14,6 +14,7 @@ using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Start;
 using ElsaMina.Core.Services.System;
+using ElsaMina.Core.Services.Telemetry;
 using ElsaMina.Core.Services.UserDetails;
 using ElsaMina.Core.Utils;
 using NSubstitute;
@@ -76,9 +77,10 @@ public class BotChatCommandIntegrationTest
         _roomsManager.HasRoom(Arg.Any<string>()).Returns(true);
         _roomsManager.GetRoom(ROOM_ID).Returns(_room);
 
-        var handlerManager = new HandlerManager(_dependencyContainerService);
+        var telemetry = Substitute.For<ITelemetryService>();
+        var handlerManager = new HandlerManager(_dependencyContainerService, telemetry);
         _bot = new Bot(_client, clockService, _roomsManager, handlerManager,
-            systemService, startManager, playTimeUpdateService);
+            systemService, startManager, playTimeUpdateService, telemetry);
 
         var builder = new ContainerBuilder();
         builder.RegisterInstance(_dependencyContainerService).As<IDependencyContainerService>();
@@ -88,6 +90,7 @@ public class BotChatCommandIntegrationTest
         builder.RegisterInstance(resourcesService).As<IResourcesService>();
         builder.RegisterInstance(userDetailsManager).As<IUserDetailsManager>();
         builder.RegisterInstance(addedCommandsManager).As<IAddedCommandsManager>();
+        builder.RegisterInstance(telemetry).As<ITelemetryService>();
         builder.RegisterType<PmSendersManager>().As<IPmSendersManager>().SingleInstance();
         builder.RegisterType<ContextFactory>().As<IContextFactory>().SingleInstance();
         builder.RegisterType<CommandExecutor>().As<ICommandExecutor>().SingleInstance();

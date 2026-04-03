@@ -13,6 +13,7 @@ using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Start;
 using ElsaMina.Core.Services.System;
+using ElsaMina.Core.Services.Telemetry;
 using ElsaMina.Core.Services.UserDetails;
 using ElsaMina.Core.Utils;
 using NSubstitute;
@@ -65,9 +66,10 @@ public class GuessingGameHandlerIntegrationTest
         _roomsManager.HasRoom(Arg.Any<string>()).Returns(true);
         _roomsManager.GetRoom(ROOM_ID).Returns(_room);
 
-        var handlerManager = new HandlerManager(_dependencyContainerService);
+        var telemetry = Substitute.For<ITelemetryService>();
+        var handlerManager = new HandlerManager(_dependencyContainerService, telemetry);
         _bot = new Bot(_client, clockService, _roomsManager, handlerManager,
-            systemService, startManager, playTimeUpdateService);
+            systemService, startManager, playTimeUpdateService, telemetry);
 
         var builder = new ContainerBuilder();
         builder.RegisterInstance(_dependencyContainerService).As<IDependencyContainerService>();

@@ -8,6 +8,7 @@ using ElsaMina.Core;
 using ElsaMina.Core.Modules;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.DependencyInjection;
+using ElsaMina.Core.Services.Telemetry;
 using ElsaMina.FileSharing.S3;
 using ElsaMina.Logging;
 using Grafana.OpenTelemetry;
@@ -42,19 +43,19 @@ if (!string.IsNullOrWhiteSpace(otlpEndpoint) && !string.IsNullOrWhiteSpace(oltpH
         Headers = configuration.OltpHeaders
     };
     tracerProvider = Sdk.CreateTracerProviderBuilder()
-        .AddSource(Telemetry.ACTIVITY_SOURCE_NAME)
+        .AddSource(TelemetryService.ACTIVITY_SOURCE_NAME)
         .UseGrafana(settings =>
         {
-            settings.ServiceName = Telemetry.SERVICE_NAME;
+            settings.ServiceName = TelemetryService.SERVICE_NAME;
             settings.ExporterSettings = exporter;
         })
         .Build();
 
     meterProvider = Sdk.CreateMeterProviderBuilder()
-        .AddMeter(Telemetry.METER_NAME)
+        .AddMeter(TelemetryService.METER_NAME)
         .UseGrafana(settings =>
         {
-            settings.ServiceName = Telemetry.SERVICE_NAME;
+            settings.ServiceName = TelemetryService.SERVICE_NAME;
             settings.ExporterSettings = exporter;
         })
         .Build();

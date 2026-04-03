@@ -4,6 +4,7 @@ using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.AddedCommands;
 using ElsaMina.Core.Services.DependencyInjection;
 using ElsaMina.Core.Services.Rooms.Parameters;
+using ElsaMina.Core.Services.Telemetry;
 using ElsaMina.Core.Utils;
 using ElsaMina.Logging;
 
@@ -14,17 +15,20 @@ public class CommandExecutor : ICommandExecutor
     private readonly IDependencyContainerService _dependencyContainerService;
     private readonly IAddedCommandsManager _addedCommandsManager;
     private readonly IEnumerable<IDynamicCommandProvider> _dynamicCommandProviders;
+    private readonly ITelemetryService _telemetryService;
 
     private readonly ConcurrentDictionary<Guid, RunningCommand> _runningCommands = new();
 
     public CommandExecutor(
         IDependencyContainerService dependencyContainerService,
         IAddedCommandsManager addedCommandsManager,
-        IEnumerable<IDynamicCommandProvider> dynamicCommandProviders)
+        IEnumerable<IDynamicCommandProvider> dynamicCommandProviders,
+        ITelemetryService telemetryService)
     {
         _dependencyContainerService = dependencyContainerService;
         _addedCommandsManager = addedCommandsManager;
         _dynamicCommandProviders = dynamicCommandProviders;
+        _telemetryService = telemetryService;
     }
 
     #region Public API
@@ -99,7 +103,7 @@ public class CommandExecutor : ICommandExecutor
 
         var task = Task.Run(async () =>
         {
-            using var activity = Telemetry.ACTIVITY_SOURCE.StartActivity("command.execute");
+            using var activity = _telemetryService.StartActivity("command.execute");
             activity?.SetTag("command.name", command.Name);
             activity?.SetTag("room", context.RoomId);
             activity?.SetTag("sender", context.Sender?.UserId);
@@ -108,15 +112,11 @@ public class CommandExecutor : ICommandExecutor
             try
             {
                 await command.RunAsync(context, token);
-                Telemetry.COMMANDS_EXECUTED.Add(1,
-                    new KeyValuePair<string, object>("command", command.Name),
-                    new KeyValuePair<string, object>("status", "ok"));
+                _telemetryService.RecordCommandExecuted(command.Name, "ok");
             }
             catch (OperationCanceledException)
             {
-                Telemetry.COMMANDS_EXECUTED.Add(1,
-                    new KeyValuePair<string, object>("command", command.Name),
-                    new KeyValuePair<string, object>("status", "cancelled"));
+                _telemetryService.RecordCommandExecuted(command.Name, "cancelled");
                 Log.Information(
                     "Command {0} ({1}) was cancelled",
                     command.Name,
@@ -126,8 +126,7 @@ public class CommandExecutor : ICommandExecutor
             {
                 activity?.SetStatus(ActivityStatusCode.Error, ex.Message);
                 activity?.AddException(ex);
-                Telemetry.COMMAND_ERRORS.Add(1,
-                    new KeyValuePair<string, object>("command", command.Name));
+                _telemetryService.RecordCommandError(command.Name);
                 Log.Error(
                     ex,
                     "Command {0} ({1}) crashed",
@@ -137,8 +136,7 @@ public class CommandExecutor : ICommandExecutor
             }
             finally
             {
-                Telemetry.COMMAND_DURATION.Record(stopwatch.Elapsed.TotalMilliseconds,
-                    new KeyValuePair<string, object>("command", command.Name));
+                _telemetryService.RecordCommandDuration(stopwatch.Elapsed.TotalMilliseconds, command.Name);
                 _runningCommands.TryRemove(executionId, out _);
                 linkedCts.Dispose();
             }

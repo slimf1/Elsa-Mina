@@ -2,12 +2,15 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using ElsaMina.Core.Services.Telemetry;
 using Newtonsoft.Json;
 
 namespace ElsaMina.Core.Services.Http;
 
 public class HttpService : IHttpService
 {
+    private readonly ITelemetryService _telemetryService;
+
     private readonly SocketsHttpHandler _handler = new()
     {
         AutomaticDecompression = DecompressionMethods.All,
@@ -25,8 +28,9 @@ public class HttpService : IHttpService
 
     private readonly HttpClient _httpClient;
 
-    public HttpService()
+    public HttpService(ITelemetryService telemetryService)
     {
+        _telemetryService = telemetryService;
         _httpClient = new HttpClient(_handler)
         {
             Timeout = TimeSpan.FromSeconds(30),
@@ -102,7 +106,7 @@ public class HttpService : IHttpService
     public async Task<Stream> GetStreamAsync(string uri, CancellationToken cancellationToken = default)
     {
         var host = new Uri(uri).Host;
-        using var activity = Telemetry.ACTIVITY_SOURCE.StartActivity($"GET {host}");
+        using var activity = _telemetryService.StartActivity($"GET {host}");
         activity?.SetTag("http.request.method", "GET");
         activity?.SetTag("server.address", host);
         activity?.SetTag("url.full", uri);
@@ -111,13 +115,8 @@ public class HttpService : IHttpService
         try
         {
             var stream = await _httpClient.GetStreamAsync(uri, cancellationToken);
-            Telemetry.HTTP_REQUESTS_TOTAL.Add(1,
-                new KeyValuePair<string, object>("method", "GET"),
-                new KeyValuePair<string, object>("host", host),
-                new KeyValuePair<string, object>("status", 200));
-            Telemetry.HTTP_REQUEST_DURATION.Record(stopwatch.Elapsed.TotalMilliseconds,
-                new KeyValuePair<string, object>("method", "GET"),
-                new KeyValuePair<string, object>("host", host));
+            _telemetryService.RecordHttpRequest("GET", host, 200);
+            _telemetryService.RecordHttpRequestDuration(stopwatch.Elapsed.TotalMilliseconds, "GET", host);
             return stream;
         }
         catch (Exception ex)
@@ -157,7 +156,7 @@ public class HttpService : IHttpService
         CancellationToken cancellationToken)
     {
         var host = new Uri(uri).Host;
-        using var activity = Telemetry.ACTIVITY_SOURCE.StartActivity($"{method.Method} {host}");
+        using var activity = _telemetryService.StartActivity($"{method.Method} {host}");
         activity?.SetTag("http.request.method", method.Method);
         activity?.SetTag("server.address", host);
         activity?.SetTag("url.full", uri);
@@ -171,13 +170,8 @@ public class HttpService : IHttpService
         var statusCode = (int)response.StatusCode;
         activity?.SetTag("http.response.status_code", statusCode);
 
-        Telemetry.HTTP_REQUESTS_TOTAL.Add(1,
-            new KeyValuePair<string, object>("method", method.Method),
-            new KeyValuePair<string, object>("host", host),
-            new KeyValuePair<string, object>("status", statusCode));
-        Telemetry.HTTP_REQUEST_DURATION.Record(stopwatch.Elapsed.TotalMilliseconds,
-            new KeyValuePair<string, object>("method", method.Method),
-            new KeyValuePair<string, object>("host", host));
+        _telemetryService.RecordHttpRequest(method.Method, host, statusCode);
+        _telemetryService.RecordHttpRequestDuration(stopwatch.Elapsed.TotalMilliseconds, method.Method, host);
 
         var stringContent = await response.Content.ReadAsStringAsync(cancellationToken);
 
@@ -207,7 +201,7 @@ public class HttpService : IHttpService
         CancellationToken cancellationToken)
     {
         var host = new Uri(uri).Host;
-        using var activity = Telemetry.ACTIVITY_SOURCE.StartActivity($"{method.Method} {host}");
+        using var activity = _telemetryService.StartActivity($"{method.Method} {host}");
         activity?.SetTag("http.request.method", method.Method);
         activity?.SetTag("server.address", host);
         activity?.SetTag("url.full", uri);
@@ -221,13 +215,8 @@ public class HttpService : IHttpService
         var statusCode = (int)response.StatusCode;
         activity?.SetTag("http.response.status_code", statusCode);
 
-        Telemetry.HTTP_REQUESTS_TOTAL.Add(1,
-            new KeyValuePair<string, object>("method", method.Method),
-            new KeyValuePair<string, object>("host", host),
-            new KeyValuePair<string, object>("status", statusCode));
-        Telemetry.HTTP_REQUEST_DURATION.Record(stopwatch.Elapsed.TotalMilliseconds,
-            new KeyValuePair<string, object>("method", method.Method),
-            new KeyValuePair<string, object>("host", host));
+        _telemetryService.RecordHttpRequest(method.Method, host, statusCode);
+        _telemetryService.RecordHttpRequestDuration(stopwatch.Elapsed.TotalMilliseconds, method.Method, host);
 
         if (!response.IsSuccessStatusCode)
         {
