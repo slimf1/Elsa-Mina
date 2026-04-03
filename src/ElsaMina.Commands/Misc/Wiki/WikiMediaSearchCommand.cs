@@ -66,7 +66,7 @@ public abstract class WikiMediaSearchCommand : Command
         {
             ["action"] = "query",
             ["generator"] = "search",
-            ["gsrsearch"] = HttpUtility.UrlEncode(searchTerms),
+            ["gsrsearch"] = searchTerms,
             ["prop"] = "pageprops",
             ["format"] = "json"
         };
