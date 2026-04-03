@@ -1109,6 +1109,12 @@
     <data name="games_muted_event" xml:space="preserve">
         <value>Los juegos públicos no están disponibles temporalmente mientras hay un evento arcade en curso.</value>
     </data>
+    <data name="games_muted" xml:space="preserve">
+        <value>Los mini-juegos han sido desactivados por {0} minutos.</value>
+    </data>
+    <data name="games_unmuted" xml:space="preserve">
+        <value>Los mini-juegos han sido reactivados.</value>
+    </data>
     <data name="slots_cooldown" xml:space="preserve">
         <value>Debes esperar {0}h {1}min más antes de volver a usar este comando.</value>
     </data>
