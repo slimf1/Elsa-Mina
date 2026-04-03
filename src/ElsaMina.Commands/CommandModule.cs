@@ -243,6 +243,8 @@ public class CommandModule : Module
         builder.RegisterCommand<ConfigEventRolesCommand>();
         builder.RegisterCommand<SaveEventRoleCommand>();
         builder.RegisterCommand<DeleteEventRoleCommand>();
+        builder.RegisterCommand<MuteGamesCommand>();
+        builder.RegisterCommand<UnmuteGamesCommand>();
 
         builder.RegisterCommand<StartLightsOutCommand>();
         builder.RegisterCommand<JoinLightsOutCommand>();

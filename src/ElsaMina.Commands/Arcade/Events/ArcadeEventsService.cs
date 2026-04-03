@@ -18,6 +18,11 @@ public class ArcadeEventsService : IArcadeEventsService
         _muteExpirationDate[roomId] = _clockService.CurrentUtcDateTimeOffset.Add(duration);
     }
 
+    public void UnmuteGames(string roomId)
+    {
+        _muteExpirationDate.TryRemove(roomId, out _);
+    }
+
     public bool AreGamesMuted(string roomId)
     {
         return _muteExpirationDate.TryGetValue(roomId, out var expiry)
