@@ -1,5 +1,5 @@
+using ElsaMina.Commands.Arcade.Events;
 using ElsaMina.Commands.TwentyFortyEight;
-using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.DependencyInjection;
@@ -18,6 +18,7 @@ public class StartTwentyFortyEightCommandTest
     private IDependencyContainerService _dependencyContainerService;
     private IRoomsManager _roomsManager;
     private ITwentyFortyEightGameManager _gameManager;
+    private IArcadeEventsService _arcadeEventsService;
     private IConfiguration _configuration;
     private ITemplatesManager _templatesManager;
     private StartTwentyFortyEightCommand _command;
@@ -32,9 +33,10 @@ public class StartTwentyFortyEightCommandTest
         _dependencyContainerService = Substitute.For<IDependencyContainerService>();
         _roomsManager = Substitute.For<IRoomsManager>();
         _gameManager = Substitute.For<ITwentyFortyEightGameManager>();
+        _arcadeEventsService = Substitute.For<IArcadeEventsService>();
         _configuration = Substitute.For<IConfiguration>();
         _templatesManager = Substitute.For<ITemplatesManager>();
-        _command = new StartTwentyFortyEightCommand(_dependencyContainerService, _roomsManager, _gameManager);
+        _command = new StartTwentyFortyEightCommand(_dependencyContainerService, _roomsManager, _gameManager, _arcadeEventsService);
 
         _context = Substitute.For<IContext>();
         _room = Substitute.For<IRoom>();
@@ -80,6 +82,18 @@ public class StartTwentyFortyEightCommandTest
     }
 
     #region Room mode
+
+    [Test]
+    public async Task Test_RunAsync_ShouldReplyMutedEvent_WhenGamesAreMuted()
+    {
+        _room.Game = null;
+        _arcadeEventsService.AreGamesMuted("test-room").Returns(true);
+
+        await _command.RunAsync(_context);
+
+        _context.Received(1).ReplyLocalizedMessage("games_muted_event");
+        _dependencyContainerService.DidNotReceive().Resolve<TwentyFortyEightGame>();
+    }
 
     [Test]
     public async Task Test_RunAsync_ShouldCreateGameAndShowAnnounce_WhenRoomHasNoGame()

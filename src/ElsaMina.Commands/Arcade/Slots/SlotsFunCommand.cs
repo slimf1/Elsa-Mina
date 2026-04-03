@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using ElsaMina.Commands.Arcade.Events;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Commands;
@@ -47,12 +48,15 @@ public class SlotsFunCommand : Command
     private readonly IRandomService _randomService;
     private readonly IClockService _clockService;
     private readonly ITemplatesManager _templatesManager;
+    private readonly IArcadeEventsService _arcadeEventsService;
 
-    public SlotsFunCommand(IRandomService randomService, IClockService clockService, ITemplatesManager templatesManager)
+    public SlotsFunCommand(IRandomService randomService, IClockService clockService, ITemplatesManager templatesManager,
+        IArcadeEventsService arcadeEventsService)
     {
         _randomService = randomService;
         _clockService = clockService;
         _templatesManager = templatesManager;
+        _arcadeEventsService = arcadeEventsService;
     }
 
     public override bool IsAllowedInPrivateMessage => true;
@@ -63,6 +67,12 @@ public class SlotsFunCommand : Command
         if (!context.IsPrivateMessage && BLACKLISTED_ROOMS.Contains(context.RoomId))
         {
             context.Reply($"/pm {context.Sender.UserId}, {context.GetString("slots_blacklisted_room")}");
+            return;
+        }
+
+        if (!context.IsPrivateMessage && _arcadeEventsService.AreGamesMuted(context.RoomId))
+        {
+            context.ReplyLocalizedMessage("games_muted_event");
             return;
         }
 

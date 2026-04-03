@@ -306,6 +306,7 @@ public class CommandModule : Module
         });
         builder.RegisterType<LagTestManager>().As<ILagTestManager>().SingleInstance();
         builder.RegisterType<ArcadeInscriptionsManager>().As<IArcadeInscriptionsManager>().SingleInstance();
+        builder.RegisterType<ArcadeEventsService>().As<IArcadeEventsService>().SingleInstance();
         builder.RegisterType<UnsplashService>().As<IUnsplashService>().SingleInstance();
         builder.RegisterType<TenorService>().As<ITenorService>().SingleInstance();
     }

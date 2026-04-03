@@ -1,3 +1,4 @@
+using ElsaMina.Commands.Arcade.Events;
 using ElsaMina.Commands.VoltorbFlip;
 using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
@@ -16,6 +17,7 @@ public class StartVoltorbFlipCommandTest
     private IDependencyContainerService _dependencyContainerService;
     private IRoomsManager _roomsManager;
     private IVoltorbFlipGameManager _gameManager;
+    private IArcadeEventsService _arcadeEventsService;
     private IConfiguration _configuration;
     private ITemplatesManager _templatesManager;
     private StartVoltorbFlipCommand _command;
@@ -29,9 +31,10 @@ public class StartVoltorbFlipCommandTest
         _dependencyContainerService = Substitute.For<IDependencyContainerService>();
         _roomsManager = Substitute.For<IRoomsManager>();
         _gameManager = Substitute.For<IVoltorbFlipGameManager>();
+        _arcadeEventsService = Substitute.For<IArcadeEventsService>();
         _configuration = Substitute.For<IConfiguration>();
         _templatesManager = Substitute.For<ITemplatesManager>();
-        _command = new StartVoltorbFlipCommand(_dependencyContainerService, _roomsManager, _gameManager);
+        _command = new StartVoltorbFlipCommand(_dependencyContainerService, _roomsManager, _gameManager, _arcadeEventsService);
 
         _context = Substitute.For<IContext>();
         _room = Substitute.For<IRoom>();
@@ -53,6 +56,18 @@ public class StartVoltorbFlipCommandTest
     public void Test_RequiredRank_ShouldReturnVoiced()
     {
         Assert.That(_command.RequiredRank, Is.EqualTo(Rank.Voiced));
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldReplyMutedEvent_WhenGamesAreMuted()
+    {
+        _room.Game = null;
+        _arcadeEventsService.AreGamesMuted("test-room").Returns(true);
+
+        await _command.RunAsync(_context);
+
+        _context.Received(1).ReplyLocalizedMessage("games_muted_event");
+        _dependencyContainerService.DidNotReceive().Resolve<VoltorbFlipGame>();
     }
 
     [Test]

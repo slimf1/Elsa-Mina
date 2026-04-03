@@ -1,3 +1,4 @@
+using ElsaMina.Commands.Arcade.Events;
 using ElsaMina.Commands.FloodIt;
 using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
@@ -18,6 +19,7 @@ public class StartFloodItCommandTest
     private IDependencyContainerService _dependencyContainerService;
     private IRoomsManager _roomsManager;
     private IFloodItGameManager _gameManager;
+    private IArcadeEventsService _arcadeEventsService;
     private IConfiguration _configuration;
     private ITemplatesManager _templatesManager;
     private StartFloodItCommand _command;
@@ -32,9 +34,10 @@ public class StartFloodItCommandTest
         _dependencyContainerService = Substitute.For<IDependencyContainerService>();
         _roomsManager = Substitute.For<IRoomsManager>();
         _gameManager = Substitute.For<IFloodItGameManager>();
+        _arcadeEventsService = Substitute.For<IArcadeEventsService>();
         _configuration = Substitute.For<IConfiguration>();
         _templatesManager = Substitute.For<ITemplatesManager>();
-        _command = new StartFloodItCommand(_dependencyContainerService, _roomsManager, _gameManager);
+        _command = new StartFloodItCommand(_dependencyContainerService, _roomsManager, _gameManager, _arcadeEventsService);
 
         _context = Substitute.For<IContext>();
         _room = Substitute.For<IRoom>();
@@ -178,6 +181,31 @@ public class StartFloodItCommandTest
     }
 
     #endregion
+
+    [Test]
+    public async Task Test_RunAsync_ShouldReplyMutedEvent_WhenGamesAreMuted()
+    {
+        _room.Game = null;
+        _arcadeEventsService.AreGamesMuted("test-room").Returns(true);
+
+        await _command.RunAsync(_context);
+
+        _context.Received(1).ReplyLocalizedMessage("games_muted_event");
+        _dependencyContainerService.DidNotReceive().Resolve<FloodItGame>();
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldNotCheckMute_WhenIsPrivateMessage()
+    {
+        _context.IsPrivateMessage.Returns(true);
+        _context.Target.Returns("test-room");
+        _roomsManager.GetRoom("test-room").Returns(_room);
+        _arcadeEventsService.AreGamesMuted(Arg.Any<string>()).Returns(true);
+
+        await _command.RunAsync(_context);
+
+        _context.DidNotReceive().ReplyLocalizedMessage("games_muted_event");
+    }
 
     #region Private message mode
 

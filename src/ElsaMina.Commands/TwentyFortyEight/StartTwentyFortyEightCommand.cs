@@ -1,3 +1,4 @@
+using ElsaMina.Commands.Arcade.Events;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.DependencyInjection;
@@ -11,15 +12,18 @@ public class StartTwentyFortyEightCommand : Command
     private readonly IDependencyContainerService _dependencyContainerService;
     private readonly IRoomsManager _roomsManager;
     private readonly ITwentyFortyEightGameManager _gameManager;
+    private readonly IArcadeEventsService _arcadeEventsService;
 
     public StartTwentyFortyEightCommand(
         IDependencyContainerService dependencyContainerService,
         IRoomsManager roomsManager,
-        ITwentyFortyEightGameManager gameManager)
+        ITwentyFortyEightGameManager gameManager,
+        IArcadeEventsService arcadeEventsService)
     {
         _dependencyContainerService = dependencyContainerService;
         _roomsManager = roomsManager;
         _gameManager = gameManager;
+        _arcadeEventsService = arcadeEventsService;
     }
 
     public override Rank RequiredRank => Rank.Voiced;
@@ -81,6 +85,12 @@ public class StartTwentyFortyEightCommand : Command
 
     private async Task HandleRoomMessageAsync(IContext context)
     {
+        if (_arcadeEventsService.AreGamesMuted(context.RoomId))
+        {
+            context.ReplyLocalizedMessage("games_muted_event");
+            return;
+        }
+
         var room = context.Room;
 
         if (room.Game is ITwentyFortyEightGame existingGame)

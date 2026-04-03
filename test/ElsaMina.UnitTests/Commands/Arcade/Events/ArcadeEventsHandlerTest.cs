@@ -19,6 +19,7 @@ public class ArcadeEventsHandlerTests
     private IHttpService _httpService;
     private IConfiguration _configuration;
     private IBot _bot;
+    private IArcadeEventsService _arcadeEventsService;
 
     [SetUp]
     public void SetUp()
@@ -38,7 +39,8 @@ public class ArcadeEventsHandlerTests
         _configuration.ArcadeWebhookUrl.Returns("http://webhook.url");
 
         var eventRoleMappingService = Substitute.For<IEventRoleMappingService>();
-        _handler = new ArcadeEventsHandler(_httpService, _configuration, _bot, eventRoleMappingService);
+        _arcadeEventsService = Substitute.For<IArcadeEventsService>();
+        _handler = new ArcadeEventsHandler(_httpService, _configuration, _bot, eventRoleMappingService, _arcadeEventsService);
     }
 
     [Test]
@@ -279,6 +281,26 @@ public class ArcadeEventsHandlerTests
                 body.Embeds[0].Description.Contains("Catch&Evolve #1 TEST") &&
                 body.Embeds[0].Description.Contains("Catch a Pokémon and evolve it!")),
             cancellationToken: Arg.Any<CancellationToken>());
+    }
+
+    [Test]
+    public async Task Test_HandleReceivedMessage_ShouldMuteGamesFor45Minutes_WhenEventStartDetected()
+    {
+        var parts = new[] { "", "raw", EVENT_START_MESSAGE };
+
+        await _handler.HandleReceivedMessageAsync(parts, "arcade");
+
+        _arcadeEventsService.Received(1).MuteGames("arcade", TimeSpan.FromMinutes(45));
+    }
+
+    [Test]
+    public async Task Test_HandleReceivedMessage_ShouldNotMuteGames_WhenRoomIsNotArcade()
+    {
+        var parts = new[] { "", "raw", EVENT_START_MESSAGE };
+
+        await _handler.HandleReceivedMessageAsync(parts, "general");
+
+        _arcadeEventsService.DidNotReceiveWithAnyArgs().MuteGames(default, default);
     }
 
     [Test]

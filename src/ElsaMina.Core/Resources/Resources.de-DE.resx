@@ -1101,6 +1101,9 @@
     <data name="slots_blacklisted_room" xml:space="preserve">
         <value>Dieser Befehl ist in diesem Raum nicht verfügbar.</value>
     </data>
+    <data name="games_muted_event" xml:space="preserve">
+        <value>Öffentliche Spiele sind vorübergehend nicht verfügbar, während ein Arcade-Event läuft.</value>
+    </data>
     <data name="slots_cooldown" xml:space="preserve">
         <value>Du musst noch {0}h {1}min warten, bevor du diesen Befehl wieder verwenden kannst.</value>
     </data>

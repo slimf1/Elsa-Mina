@@ -1,4 +1,5 @@
 using System.Globalization;
+using ElsaMina.Commands.Arcade.Events;
 using ElsaMina.Commands.Arcade.Slots;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Clock;
@@ -16,6 +17,7 @@ public class SlotsFunCommandTest
     private IRandomService _randomService;
     private IClockService _clockService;
     private ITemplatesManager _templatesManager;
+    private IArcadeEventsService _arcadeEventsService;
     private IContext _context;
     private IUser _sender;
     private SlotsFunCommand _command;
@@ -26,6 +28,7 @@ public class SlotsFunCommandTest
         _randomService = Substitute.For<IRandomService>();
         _clockService = Substitute.For<IClockService>();
         _templatesManager = Substitute.For<ITemplatesManager>();
+        _arcadeEventsService = Substitute.For<IArcadeEventsService>();
         _context = Substitute.For<IContext>();
         _sender = Substitute.For<IUser>();
 
@@ -53,7 +56,7 @@ public class SlotsFunCommandTest
         _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>())
             .Returns(Task.FromResult("html"));
 
-        _command = new SlotsFunCommand(_randomService, _clockService, _templatesManager);
+        _command = new SlotsFunCommand(_randomService, _clockService, _templatesManager, _arcadeEventsService);
     }
 
     [TearDown]
@@ -260,5 +263,36 @@ public class SlotsFunCommandTest
         await _templatesManager.Received(1).GetTemplateAsync(
             "Arcade/Slots/SlotsFun",
             Arg.Is<SlotsFunViewModel>(vm => vm.UserName == "Sacha"));
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldReplyMutedEvent_WhenGamesAreMutedAndNotPrivateMessage()
+    {
+        // Arrange
+        _context.IsPrivateMessage.Returns(false);
+        _context.RoomId.Returns("arcade");
+        _arcadeEventsService.AreGamesMuted("arcade").Returns(true);
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        _context.Received(1).ReplyLocalizedMessage("games_muted_event");
+        await _templatesManager.DidNotReceive().GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>());
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldNotCheckMute_WhenIsPrivateMessage()
+    {
+        // Arrange
+        _context.IsPrivateMessage.Returns(true);
+        _arcadeEventsService.AreGamesMuted(Arg.Any<string>()).Returns(true);
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        _context.DidNotReceive().ReplyLocalizedMessage("games_muted_event");
+        await _templatesManager.Received(1).GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>());
     }
 }

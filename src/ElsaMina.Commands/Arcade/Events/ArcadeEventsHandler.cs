@@ -28,19 +28,23 @@ public class ArcadeEventsHandler : Handler
     private static readonly Regex HTML_TAG_REGEX =
         new(@"<.*?>", RegexOptions.Compiled | RegexOptions.Singleline, Constants.REGEX_MATCH_TIMEOUT);
 
+    private static readonly TimeSpan GAMES_MUTE_DURATION = TimeSpan.FromMinutes(45);
+
     private readonly ConcurrentDictionary<string, bool> _pendingEvents = new();
     private readonly IHttpService _httpService;
     private readonly IConfiguration _configuration;
     private readonly IBot _bot;
     private readonly IEventRoleMappingService _eventRoleMappingService;
+    private readonly IArcadeEventsService _arcadeEventsService;
 
     public ArcadeEventsHandler(IHttpService httpService, IConfiguration configuration, IBot bot,
-        IEventRoleMappingService eventRoleMappingService)
+        IEventRoleMappingService eventRoleMappingService, IArcadeEventsService arcadeEventsService)
     {
         _httpService = httpService;
         _configuration = configuration;
         _bot = bot;
         _eventRoleMappingService = eventRoleMappingService;
+        _arcadeEventsService = arcadeEventsService;
     }
 
     public override IReadOnlySet<string> HandledMessageTypes { get; } = new HashSet<string> { "raw" };
@@ -61,6 +65,7 @@ public class ArcadeEventsHandler : Handler
             var eventName = WebUtility.HtmlDecode(eventStartMatch.Groups[1].Value);
             Log.Information("Arcade event started: {0}", eventName);
             _pendingEvents[eventName] = true;
+            _arcadeEventsService.MuteGames(roomId, GAMES_MUTE_DURATION);
             _bot.Say("arcade", $"!events view {eventName}");
             return;
         }

@@ -1,3 +1,4 @@
+using ElsaMina.Commands.Arcade.Events;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.DependencyInjection;
@@ -11,14 +12,17 @@ public class StartFloodItCommand : Command
     private readonly IDependencyContainerService _dependencyContainerService;
     private readonly IRoomsManager _roomsManager;
     private readonly IFloodItGameManager _gameManager;
+    private readonly IArcadeEventsService _arcadeEventsService;
 
     public StartFloodItCommand(IDependencyContainerService dependencyContainerService,
         IRoomsManager roomsManager,
-        IFloodItGameManager gameManager)
+        IFloodItGameManager gameManager,
+        IArcadeEventsService arcadeEventsService)
     {
         _dependencyContainerService = dependencyContainerService;
         _roomsManager = roomsManager;
         _gameManager = gameManager;
+        _arcadeEventsService = arcadeEventsService;
     }
 
     public override Rank RequiredRank => Rank.Voiced;
@@ -80,6 +84,12 @@ public class StartFloodItCommand : Command
 
     private async Task HandleRoomMessageAsync(IContext context)
     {
+        if (_arcadeEventsService.AreGamesMuted(context.RoomId))
+        {
+            context.ReplyLocalizedMessage("games_muted_event");
+            return;
+        }
+
         var room = context.Room;
 
         if (room.Game is IFloodItGame existingGame)
