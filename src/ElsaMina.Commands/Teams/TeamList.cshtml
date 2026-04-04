@@ -2,7 +2,7 @@
 @inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Teams.TeamListViewModel>
 
 <div
-    style="margin: auto">
+    style="margin: auto; overflow-y: auto; max-height: 230px;">
     @foreach (var team in Model.Teams)
     {
         <div>

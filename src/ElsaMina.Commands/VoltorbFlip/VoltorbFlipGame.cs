@@ -12,7 +12,7 @@ namespace ElsaMina.Commands.VoltorbFlip;
 public class VoltorbFlipGame : Game, IVoltorbFlipGame
 {
     private static int NextGameId { get; set; } = 1;
-    
+
     private readonly IRandomService _randomService;
     private readonly ITemplatesManager _templatesManager;
     private readonly IConfiguration _configuration;
@@ -35,7 +35,8 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
         _templatesManager = templatesManager;
         _configuration = configuration;
         _dbContextFactory = dbContextFactory;
-        _inactivityTimer = new PeriodicTimerRunner(VoltorbFlipConstants.INACTIVITY_TIMEOUT, OnInactivityTimeout, runOnce: true);
+        _inactivityTimer =
+            new PeriodicTimerRunner(VoltorbFlipConstants.INACTIVITY_TIMEOUT, OnInactivityTimeout, runOnce: true);
 
         _gameId = NextGameId++;
     }
@@ -277,6 +278,7 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
                 // ignore DB errors on cancel
             }
         }
+
         OnEnd();
         await DisplayBoard(showAll: true, firstTime: false);
     }
@@ -321,6 +323,7 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
             record.Coins += coinsEarned;
             TotalCoins = record.Coins;
         }
+
         await db.SaveChangesAsync();
     }
 
@@ -394,11 +397,13 @@ public class VoltorbFlipGame : Game, IVoltorbFlipGame
 
         if (IsPrivateMode)
         {
-            Context.SendPrivateUpdatableHtml(TargetUserId, TargetRoomId, GameIdentifier, template.RemoveNewlines(), !firstTime);
+            Context.SendPrivateUpdatableHtml(TargetUserId, TargetRoomId, GameIdentifier,
+                template.RemoveNewlines().CollapseAttributeWhitespace(), !firstTime);
         }
         else
         {
-            Context.SendUpdatableHtml(GameIdentifier, template.RemoveNewlines(), !firstTime);
+            Context.SendUpdatableHtml(GameIdentifier, template.RemoveNewlines().CollapseAttributeWhitespace(),
+                !firstTime);
         }
     }
 }

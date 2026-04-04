@@ -93,6 +93,7 @@ public class CoreModule : Module
         builder.RegisterHandler<FormatsHandler>();
         builder.RegisterHandler<LoginHandler>();
         builder.RegisterHandler<AcceptChallengeHandler>();
+        builder.RegisterHandler<ErrorHandler>();
 
         builder.RegisterType<S3FileSharingService>().As<IFileSharingService>().SingleInstance().OnActivating(
             ctx => ctx.Instance.InitializeAsync().Wait());
