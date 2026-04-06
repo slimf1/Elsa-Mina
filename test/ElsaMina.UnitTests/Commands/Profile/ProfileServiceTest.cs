@@ -67,6 +67,8 @@ public class ProfileServiceTest
         _dbContext.Dispose();
     }
 
+    #region PlayTime
+
     [Test]
     public async Task Test_GetProfileHtmlAsync_ShouldSetPlayTime_FromStoredUserData()
     {
@@ -102,7 +104,62 @@ public class ProfileServiceTest
             Arg.Is<ProfileViewModel>(vm => vm.PlayTime == TimeSpan.Zero));
     }
 
-    #region GameRecords
+    #endregion
+
+    #region UserName
+
+    [Test]
+    public async Task Test_GetProfileHtmlAsync_ShouldSetUserName_FromRoomUser()
+    {
+        // Arrange
+        _dbContext.RoomUsers.Add(new RoomUser
+        {
+            Id = "alice",
+            RoomId = "room1",
+            User = new SavedUser { UserId = "alice", UserName = "Alice" }
+        });
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        await _sut.GetProfileHtmlAsync("alice", "room1");
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync(
+            "Profile/Profile",
+            Arg.Is<ProfileViewModel>(vm => vm.UserName == "Alice"));
+    }
+
+    [Test]
+    public async Task Test_GetProfileHtmlAsync_ShouldSetUserName_FromSavedUser_WhenNoRoomUser()
+    {
+        // Arrange
+        _dbContext.Users.Add(new SavedUser { UserId = "alice", UserName = "Alice" });
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        await _sut.GetProfileHtmlAsync("alice", "room1");
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync(
+            "Profile/Profile",
+            Arg.Is<ProfileViewModel>(vm => vm.UserName == "Alice"));
+    }
+
+    [Test]
+    public async Task Test_GetProfileHtmlAsync_ShouldFallbackToUserId_WhenNoSavedUserExists()
+    {
+        // Act
+        await _sut.GetProfileHtmlAsync("alice", "room1");
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync(
+            "Profile/Profile",
+            Arg.Is<ProfileViewModel>(vm => vm.UserName == "alice"));
+    }
+
+    #endregion
+
+    #region GameRecords — no RoomUser (fallback Users query path)
 
     [Test]
     public async Task Test_GetProfileHtmlAsync_ShouldSetGameRecordsHasAnyRecordToFalse_WhenNoGameDataExists()
@@ -117,7 +174,7 @@ public class ProfileServiceTest
     }
 
     [Test]
-    public async Task Test_GetProfileHtmlAsync_ShouldSetFloodIt_WhenFloodItScoreExists()
+    public async Task Test_GetProfileHtmlAsync_ShouldSetFloodIt_WhenFloodItScoreExists_AndNoRoomUser()
     {
         // Arrange
         _dbContext.Users.Add(new SavedUser { UserId = "alice", UserName = "Alice" });
@@ -137,35 +194,7 @@ public class ProfileServiceTest
     }
 
     [Test]
-    public async Task Test_GetProfileHtmlAsync_ShouldSetFloodItToNull_WhenNoFloodItScoreExists()
-    {
-        // Act
-        await _sut.GetProfileHtmlAsync("alice", "room1");
-
-        // Assert
-        await _templatesManager.Received(1).GetTemplateAsync(
-            "Profile/Profile",
-            Arg.Is<ProfileViewModel>(vm => vm.GameRecords.FloodIt == null));
-    }
-
-    [Test]
-    public async Task Test_GetProfileHtmlAsync_ShouldNotReturnOtherUsersFloodItScore()
-    {
-        // Arrange
-        _dbContext.FloodItScores.Add(new FloodItScore { UserId = "bob", Level = 10, BestMoves = 5, TotalStars = 3 });
-        await _dbContext.SaveChangesAsync();
-
-        // Act
-        await _sut.GetProfileHtmlAsync("alice", "room1");
-
-        // Assert
-        await _templatesManager.Received(1).GetTemplateAsync(
-            "Profile/Profile",
-            Arg.Is<ProfileViewModel>(vm => vm.GameRecords.FloodIt == null));
-    }
-
-    [Test]
-    public async Task Test_GetProfileHtmlAsync_ShouldSetLightsOut_WhenLightsOutScoreExists()
+    public async Task Test_GetProfileHtmlAsync_ShouldSetLightsOut_WhenLightsOutScoreExists_AndNoRoomUser()
     {
         // Arrange
         _dbContext.Users.Add(new SavedUser { UserId = "alice", UserName = "Alice" });
@@ -185,28 +214,138 @@ public class ProfileServiceTest
     }
 
     [Test]
-    public async Task Test_GetProfileHtmlAsync_ShouldSetLightsOutToNull_WhenNoLightsOutScoreExists()
+    public async Task Test_GetProfileHtmlAsync_ShouldSetVoltorbFlip_WhenVoltorbFlipLevelExists_AndNoRoomUser()
     {
+        // Arrange
+        _dbContext.Users.Add(new SavedUser { UserId = "alice", UserName = "Alice" });
+        _dbContext.VoltorbFlipLevels.Add(new VoltorbFlipLevel { UserId = "alice", Level = 3, MaxLevel = 6, Coins = 1500 });
+        await _dbContext.SaveChangesAsync();
+
         // Act
         await _sut.GetProfileHtmlAsync("alice", "room1");
 
         // Assert
         await _templatesManager.Received(1).GetTemplateAsync(
             "Profile/Profile",
-            Arg.Is<ProfileViewModel>(vm => vm.GameRecords.LightsOut == null));
+            Arg.Is<ProfileViewModel>(vm =>
+                vm.GameRecords.VoltorbFlip != null &&
+                vm.GameRecords.VoltorbFlip.MaxLevel == 6 &&
+                vm.GameRecords.VoltorbFlip.Coins == 1500));
     }
 
     [Test]
-    public async Task Test_GetProfileHtmlAsync_ShouldSetVoltorbFlip_WhenVoltorbFlipLevelExists()
+    public async Task Test_GetProfileHtmlAsync_ShouldSetTwentyFortyEight_WhenScoreExists_AndNoRoomUser()
     {
         // Arrange
         _dbContext.Users.Add(new SavedUser { UserId = "alice", UserName = "Alice" });
-        _dbContext.VoltorbFlipLevels.Add(new VoltorbFlipLevel
+        _dbContext.TwentyFortyEightScores.Add(new TwentyFortyEightScore { UserId = "alice", BestScore = 8192, Wins = 4 });
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        await _sut.GetProfileHtmlAsync("alice", "room1");
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync(
+            "Profile/Profile",
+            Arg.Is<ProfileViewModel>(vm =>
+                vm.GameRecords.TwentyFortyEight != null &&
+                vm.GameRecords.TwentyFortyEight.BestScore == 8192 &&
+                vm.GameRecords.TwentyFortyEight.Wins == 4));
+    }
+
+    [Test]
+    public async Task Test_GetProfileHtmlAsync_ShouldSetHasAnyRecordToTrue_WhenAtLeastOneGameRecordExists_AndNoRoomUser()
+    {
+        // Arrange
+        _dbContext.Users.Add(new SavedUser { UserId = "alice", UserName = "Alice" });
+        _dbContext.TwentyFortyEightScores.Add(new TwentyFortyEightScore { UserId = "alice", BestScore = 1024, Wins = 1 });
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        await _sut.GetProfileHtmlAsync("alice", "room1");
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync(
+            "Profile/Profile",
+            Arg.Is<ProfileViewModel>(vm => vm.GameRecords.HasAnyRecord));
+    }
+
+    #endregion
+
+    #region GameRecords — with RoomUser (primary path via storedUserData.User)
+
+    [Test]
+    public async Task Test_GetProfileHtmlAsync_ShouldSetFloodIt_WhenFloodItScoreExists_AndRoomUserPresent()
+    {
+        // Arrange
+        _dbContext.RoomUsers.Add(new RoomUser
         {
-            UserId = "alice",
-            Level = 3,
-            MaxLevel = 6,
-            Coins = 1500
+            Id = "alice",
+            RoomId = "room1",
+            User = new SavedUser
+            {
+                UserId = "alice",
+                UserName = "Alice",
+                FloodItScore = new FloodItScore { UserId = "alice", Level = 7, BestMoves = 14, TotalStars = 3 }
+            }
+        });
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        await _sut.GetProfileHtmlAsync("alice", "room1");
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync(
+            "Profile/Profile",
+            Arg.Is<ProfileViewModel>(vm =>
+                vm.GameRecords.FloodIt != null &&
+                vm.GameRecords.FloodIt.Level == 7 &&
+                vm.GameRecords.FloodIt.TotalStars == 3));
+    }
+
+    [Test]
+    public async Task Test_GetProfileHtmlAsync_ShouldSetLightsOut_WhenLightsOutScoreExists_AndRoomUserPresent()
+    {
+        // Arrange
+        _dbContext.RoomUsers.Add(new RoomUser
+        {
+            Id = "alice",
+            RoomId = "room1",
+            User = new SavedUser
+            {
+                UserId = "alice",
+                UserName = "Alice",
+                LightsOutScore = new LightsOutScore { UserId = "alice", Level = 9, BestMoves = 8, TotalStars = 2 }
+            }
+        });
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        await _sut.GetProfileHtmlAsync("alice", "room1");
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync(
+            "Profile/Profile",
+            Arg.Is<ProfileViewModel>(vm =>
+                vm.GameRecords.LightsOut != null &&
+                vm.GameRecords.LightsOut.Level == 9 &&
+                vm.GameRecords.LightsOut.TotalStars == 2));
+    }
+
+    [Test]
+    public async Task Test_GetProfileHtmlAsync_ShouldSetVoltorbFlip_WhenVoltorbFlipLevelExists_AndRoomUserPresent()
+    {
+        // Arrange
+        _dbContext.RoomUsers.Add(new RoomUser
+        {
+            Id = "alice",
+            RoomId = "room1",
+            User = new SavedUser
+            {
+                UserId = "alice",
+                UserName = "Alice",
+                VoltorbFlipLevel = new VoltorbFlipLevel { UserId = "alice", Level = 3, MaxLevel = 6, Coins = 1500 }
+            }
         });
         await _dbContext.SaveChangesAsync();
 
@@ -223,27 +362,19 @@ public class ProfileServiceTest
     }
 
     [Test]
-    public async Task Test_GetProfileHtmlAsync_ShouldSetVoltorbFlipToNull_WhenNoVoltorbFlipLevelExists()
-    {
-        // Act
-        await _sut.GetProfileHtmlAsync("alice", "room1");
-
-        // Assert
-        await _templatesManager.Received(1).GetTemplateAsync(
-            "Profile/Profile",
-            Arg.Is<ProfileViewModel>(vm => vm.GameRecords.VoltorbFlip == null));
-    }
-
-    [Test]
-    public async Task Test_GetProfileHtmlAsync_ShouldSetTwentyFortyEight_WhenScoreExists()
+    public async Task Test_GetProfileHtmlAsync_ShouldSetTwentyFortyEight_WhenScoreExists_AndRoomUserPresent()
     {
         // Arrange
-        _dbContext.Users.Add(new SavedUser { UserId = "alice", UserName = "Alice" });
-        _dbContext.TwentyFortyEightScores.Add(new TwentyFortyEightScore
+        _dbContext.RoomUsers.Add(new RoomUser
         {
-            UserId = "alice",
-            BestScore = 8192,
-            Wins = 4
+            Id = "alice",
+            RoomId = "room1",
+            User = new SavedUser
+            {
+                UserId = "alice",
+                UserName = "Alice",
+                TwentyFortyEightScore = new TwentyFortyEightScore { UserId = "alice", BestScore = 8192, Wins = 4 }
+            }
         });
         await _dbContext.SaveChangesAsync();
 
@@ -260,27 +391,14 @@ public class ProfileServiceTest
     }
 
     [Test]
-    public async Task Test_GetProfileHtmlAsync_ShouldSetTwentyFortyEightToNull_WhenNoScoreExists()
-    {
-        // Act
-        await _sut.GetProfileHtmlAsync("alice", "room1");
-
-        // Assert
-        await _templatesManager.Received(1).GetTemplateAsync(
-            "Profile/Profile",
-            Arg.Is<ProfileViewModel>(vm => vm.GameRecords.TwentyFortyEight == null));
-    }
-
-    [Test]
-    public async Task Test_GetProfileHtmlAsync_ShouldSetHasAnyRecordToTrue_WhenAtLeastOneGameRecordExists()
+    public async Task Test_GetProfileHtmlAsync_ShouldSetAllGameRecordsToNull_WhenRoomUserExistsWithNoGameData()
     {
         // Arrange
-        _dbContext.Users.Add(new SavedUser { UserId = "alice", UserName = "Alice" });
-        _dbContext.TwentyFortyEightScores.Add(new TwentyFortyEightScore
+        _dbContext.RoomUsers.Add(new RoomUser
         {
-            UserId = "alice",
-            BestScore = 1024,
-            Wins = 1
+            Id = "alice",
+            RoomId = "room1",
+            User = new SavedUser { UserId = "alice", UserName = "Alice" }
         });
         await _dbContext.SaveChangesAsync();
 
@@ -290,7 +408,28 @@ public class ProfileServiceTest
         // Assert
         await _templatesManager.Received(1).GetTemplateAsync(
             "Profile/Profile",
-            Arg.Is<ProfileViewModel>(vm => vm.GameRecords.HasAnyRecord));
+            Arg.Is<ProfileViewModel>(vm => !vm.GameRecords.HasAnyRecord));
+    }
+
+    #endregion
+
+    #region GameRecords — isolation
+
+    [Test]
+    public async Task Test_GetProfileHtmlAsync_ShouldNotReturnOtherUsersGameRecords()
+    {
+        // Arrange
+        _dbContext.Users.Add(new SavedUser { UserId = "bob", UserName = "Bob" });
+        _dbContext.FloodItScores.Add(new FloodItScore { UserId = "bob", Level = 10, BestMoves = 5, TotalStars = 3 });
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        await _sut.GetProfileHtmlAsync("alice", "room1");
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync(
+            "Profile/Profile",
+            Arg.Is<ProfileViewModel>(vm => vm.GameRecords.FloodIt == null));
     }
 
     #endregion

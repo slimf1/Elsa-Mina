@@ -51,13 +51,12 @@ public class ProfileService : IProfileService
         var ranksTask = _showdownRanksProvider.GetRankingDataAsync(userId, cancellationToken);
 
         var storedUserData = await dbContext.RoomUsers
-            .Include(roomUser => roomUser.User)
             .Include(roomUser => roomUser.Badges)
             .ThenInclude(badgeHolding => badgeHolding.Badge)
             .Include(roomUser => roomUser.TournamentRecord)
             .FirstOrDefaultAsync(userData => userData.Id == userId && userData.RoomId == roomId,
                 cancellationToken);
-        var savedUser = storedUserData?.User ?? await dbContext.Users
+        var savedUser = await dbContext.Users
             .Include(user => user.FloodItScore)
             .Include(user => user.LightsOutScore)
             .Include(user => user.VoltorbFlipLevel)
