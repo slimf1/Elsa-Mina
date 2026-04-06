@@ -120,6 +120,7 @@ public class ProfileServiceTest
     public async Task Test_GetProfileHtmlAsync_ShouldSetFloodIt_WhenFloodItScoreExists()
     {
         // Arrange
+        _dbContext.Users.Add(new SavedUser { UserId = "alice", UserName = "Alice" });
         _dbContext.FloodItScores.Add(new FloodItScore { UserId = "alice", Level = 7, BestMoves = 14, TotalStars = 3 });
         await _dbContext.SaveChangesAsync();
 
@@ -167,6 +168,7 @@ public class ProfileServiceTest
     public async Task Test_GetProfileHtmlAsync_ShouldSetLightsOut_WhenLightsOutScoreExists()
     {
         // Arrange
+        _dbContext.Users.Add(new SavedUser { UserId = "alice", UserName = "Alice" });
         _dbContext.LightsOutScores.Add(new LightsOutScore { UserId = "alice", Level = 9, BestMoves = 8, TotalStars = 2 });
         await _dbContext.SaveChangesAsync();
 
@@ -198,6 +200,7 @@ public class ProfileServiceTest
     public async Task Test_GetProfileHtmlAsync_ShouldSetVoltorbFlip_WhenVoltorbFlipLevelExists()
     {
         // Arrange
+        _dbContext.Users.Add(new SavedUser { UserId = "alice", UserName = "Alice" });
         _dbContext.VoltorbFlipLevels.Add(new VoltorbFlipLevel
         {
             UserId = "alice",
@@ -235,6 +238,7 @@ public class ProfileServiceTest
     public async Task Test_GetProfileHtmlAsync_ShouldSetTwentyFortyEight_WhenScoreExists()
     {
         // Arrange
+        _dbContext.Users.Add(new SavedUser { UserId = "alice", UserName = "Alice" });
         _dbContext.TwentyFortyEightScores.Add(new TwentyFortyEightScore
         {
             UserId = "alice",
@@ -271,6 +275,7 @@ public class ProfileServiceTest
     public async Task Test_GetProfileHtmlAsync_ShouldSetHasAnyRecordToTrue_WhenAtLeastOneGameRecordExists()
     {
         // Arrange
+        _dbContext.Users.Add(new SavedUser { UserId = "alice", UserName = "Alice" });
         _dbContext.TwentyFortyEightScores.Add(new TwentyFortyEightScore
         {
             UserId = "alice",
