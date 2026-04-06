@@ -21,6 +21,7 @@ public class Client : IClient
         _websocketClient.IsReconnectionEnabled = true;
         _websocketClient.ErrorReconnectTimeout = RECONNECT_TIMEOUT;
         _websocketClient.LostReconnectTimeout = null; // don't reconnect on silence
+        _websocketClient.ReconnectTimeout = null;
     }
 
     private Uri Uri => new($"wss://{_configuration.Host}:{_configuration.Port}/showdown/websocket");
