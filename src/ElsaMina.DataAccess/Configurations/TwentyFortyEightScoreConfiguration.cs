@@ -9,5 +9,10 @@ public class TwentyFortyEightScoreConfiguration : IEntityTypeConfiguration<Twent
     public void Configure(EntityTypeBuilder<TwentyFortyEightScore> builder)
     {
         builder.HasKey(score => score.UserId);
+
+        builder
+            .HasOne(score => score.User)
+            .WithOne(user => user.TwentyFortyEightScore)
+            .HasForeignKey<TwentyFortyEightScore>(score => score.UserId);
     }
 }

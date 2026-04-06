@@ -57,14 +57,12 @@ public class ProfileService : IProfileService
             .Include(roomUser => roomUser.TournamentRecord)
             .FirstOrDefaultAsync(userData => userData.Id == userId && userData.RoomId == roomId,
                 cancellationToken);
-        var floodIt = await dbContext.FloodItScores
-            .FirstOrDefaultAsync(score => score.UserId == userId, cancellationToken);
-        var lightsOut = await dbContext.LightsOutScores
-            .FirstOrDefaultAsync(score => score.UserId == userId, cancellationToken);
-        var voltorbFlip = await dbContext.VoltorbFlipLevels
-            .FirstOrDefaultAsync(level => level.UserId == userId, cancellationToken);
-        var tffe = await dbContext.TwentyFortyEightScores
-            .FirstOrDefaultAsync(score => score.UserId == userId, cancellationToken);
+        var savedUser = storedUserData?.User ?? await dbContext.Users
+            .Include(user => user.FloodItScore)
+            .Include(user => user.LightsOutScore)
+            .Include(user => user.VoltorbFlipLevel)
+            .Include(user => user.TwentyFortyEightScore)
+            .FirstOrDefaultAsync(user => user.UserId == userId, cancellationToken);
 
         await Task.WhenAll(userDetailsTask, registerDateTask, ranksTask);
 
@@ -80,14 +78,14 @@ public class ProfileService : IProfileService
         var userRoomRank = GetUserRoomRank(roomId, showdownUserDetails);
         var userName = showdownUserDetails?.Name != userId && !string.IsNullOrEmpty(showdownUserDetails?.Name)
             ? showdownUserDetails.Name
-            : storedUserData?.User?.UserName ?? userId;
+            : savedUser?.UserName ?? userId;
 
         var gameRecords = new GameRecords
         {
-            FloodIt = floodIt,
-            LightsOut = lightsOut,
-            VoltorbFlip = voltorbFlip,
-            TwentyFortyEight = tffe
+            FloodIt = savedUser?.FloodItScore,
+            LightsOut = savedUser?.LightsOutScore,
+            VoltorbFlip = savedUser?.VoltorbFlipLevel,
+            TwentyFortyEight = savedUser?.TwentyFortyEightScore
         };
 
         var viewModel = new ProfileViewModel

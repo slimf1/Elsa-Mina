@@ -9,6 +9,11 @@ public class VoltorbFlipLevelConfiguration : IEntityTypeConfiguration<VoltorbFli
     public void Configure(EntityTypeBuilder<VoltorbFlipLevel> builder)
     {
         builder
-            .HasKey(record => new { record.UserId });
+            .HasKey(record => record.UserId);
+
+        builder
+            .HasOne(record => record.User)
+            .WithOne(user => user.VoltorbFlipLevel)
+            .HasForeignKey<VoltorbFlipLevel>(record => record.UserId);
     }
 }
