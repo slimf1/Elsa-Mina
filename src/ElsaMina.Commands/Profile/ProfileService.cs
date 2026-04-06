@@ -46,19 +46,28 @@ public class ProfileService : IProfileService
         CancellationToken cancellationToken = default)
     {
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
-        var userDataTask = dbContext.RoomUsers
+        var userDetailsTask = _userDetailsManager.GetUserDetailsAsync(userId, cancellationToken);
+        var registerDateTask = _userDataService.GetRegisterDateAsync(userId, cancellationToken);
+        var ranksTask = _showdownRanksProvider.GetRankingDataAsync(userId, cancellationToken);
+
+        var storedUserData = await dbContext.RoomUsers
             .Include(roomUser => roomUser.User)
             .Include(roomUser => roomUser.Badges)
             .ThenInclude(badgeHolding => badgeHolding.Badge)
             .Include(roomUser => roomUser.TournamentRecord)
             .FirstOrDefaultAsync(userData => userData.Id == userId && userData.RoomId == roomId,
                 cancellationToken);
-        var userDetailsTask = _userDetailsManager.GetUserDetailsAsync(userId, cancellationToken);
-        var registerDateTask = _userDataService.GetRegisterDateAsync(userId, cancellationToken);
-        var ranksTask = _showdownRanksProvider.GetRankingDataAsync(userId, cancellationToken);
-        await Task.WhenAll(userDataTask, userDetailsTask, registerDateTask, ranksTask);
+        var floodIt = await dbContext.FloodItScores
+            .FirstOrDefaultAsync(score => score.UserId == userId, cancellationToken);
+        var lightsOut = await dbContext.LightsOutScores
+            .FirstOrDefaultAsync(score => score.UserId == userId, cancellationToken);
+        var voltorbFlip = await dbContext.VoltorbFlipLevels
+            .FirstOrDefaultAsync(level => level.UserId == userId, cancellationToken);
+        var tffe = await dbContext.TwentyFortyEightScores
+            .FirstOrDefaultAsync(score => score.UserId == userId, cancellationToken);
 
-        var storedUserData = userDataTask.Result;
+        await Task.WhenAll(userDetailsTask, registerDateTask, ranksTask);
+
         var showdownUserDetails = userDetailsTask.Result;
         var registerDate = registerDateTask.Result;
 
@@ -73,6 +82,14 @@ public class ProfileService : IProfileService
             ? showdownUserDetails.Name
             : storedUserData?.User?.UserName ?? userId;
 
+        var gameRecords = new GameRecords
+        {
+            FloodIt = floodIt,
+            LightsOut = lightsOut,
+            VoltorbFlip = voltorbFlip,
+            TwentyFortyEight = tffe
+        };
+
         var viewModel = new ProfileViewModel
         {
             Culture = culture,
@@ -86,7 +103,8 @@ public class ProfileService : IProfileService
             RegisterDate = TimeZoneInfo.ConvertTime(registerDate, room?.TimeZone ?? TimeZoneInfo.Local),
             BestRanking = bestRanking,
             TournamentRecord = storedUserData?.TournamentRecord,
-            PlayTime = storedUserData?.PlayTime ?? TimeSpan.Zero
+            PlayTime = storedUserData?.PlayTime ?? TimeSpan.Zero,
+            GameRecords = gameRecords
         };
 
         return await _templatesManager.GetTemplateAsync("Profile/Profile", viewModel);

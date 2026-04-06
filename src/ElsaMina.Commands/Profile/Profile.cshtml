@@ -3,11 +3,12 @@
 @inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Profile.ProfileViewModel>
 
 @{
-    const string border = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};"; 
-    
+    const string border = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};";
+
     const string headerStyle = $"{border} padding: 4x; text-align: center; font-style: italic; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
     const string avatarCellStyle = $"{border} padding: 0px; width: 80px; text-align: center;";
     const string contentCellStyle = $"{border} padding: 4px 12px; text-align: left; vertical-align: top;";
+    const string gameRecordsCellStyle = $"{border} padding: 4px 8px; text-align: left; vertical-align: top; white-space: nowrap;";
     const string badgesCellStyle = $"{border} padding: 4px; width: 56px; text-align: center;";
     const string bioCellStyle = $"{border} padding: 4px; text-align: start; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
 }
@@ -20,6 +21,9 @@
         </th>
         <th style="@headerStyle">
             @GetString("profile_header_info")
+        </th>
+        <th style="@headerStyle">
+            @GetString("profile_game_records")
         </th>
         <th style="@headerStyle">
             @GetString("profile_header_badges")
@@ -105,6 +109,52 @@
                 </span>
             }
         </td>
+        <td style="@gameRecordsCellStyle">
+            @if (Model.GameRecords != null && Model.GameRecords.HasAnyRecord)
+            {
+                var gr = Model.GameRecords;
+                @if (gr.FloodIt != null)
+                {
+                    <span>@GetString("profile_flood_it"):
+                        <span title="@GetString("profile_game_max_level")">Lv. @gr.FloodIt.Level</span>
+                        ·
+                        <span title="@GetString("profile_game_total_stars")">⭐ @gr.FloodIt.TotalStars</span>
+                    </span>
+                    <br />
+                }
+                @if (gr.LightsOut != null)
+                {
+                    <span>@GetString("profile_lights_out"):
+                        <span title="@GetString("profile_game_max_level")">Lv. @gr.LightsOut.Level</span>
+                        ·
+                        <span title="@GetString("profile_game_total_stars")">⭐ @gr.LightsOut.TotalStars</span>
+                    </span>
+                    <br />
+                }
+                @if (gr.VoltorbFlip != null)
+                {
+                    <span>@GetString("profile_voltorb_flip"):
+                        <span title="@GetString("profile_game_max_level")">Lv. @gr.VoltorbFlip.MaxLevel</span>
+                        ·
+                        <span title="@GetString("profile_game_coins")">🪙 @gr.VoltorbFlip.Coins</span>
+                    </span>
+                    <br />
+                }
+                @if (gr.TwentyFortyEight != null)
+                {
+                    <span>@GetString("profile_2048"):
+                        <span title="@GetString("profile_game_best_score")">@gr.TwentyFortyEight.BestScore</span>
+                        ·
+                        <span title="@GetString("profile_game_wins")">🏆 @gr.TwentyFortyEight.Wins</span>
+                    </span>
+                    <br />
+                }
+            }
+            else
+            {
+                <span style="font-style: italic">@GetString("profile_no_game_record")</span>
+            }
+        </td>
         <td style="@badgesCellStyle">
             @if (Model.Badges != null && Model.Badges.Any())
             {
@@ -124,7 +174,7 @@
     <tr>
         <td
             style="@bioCellStyle"
-            colspan="3">
+            colspan="4">
             @if (!string.IsNullOrEmpty(Model.Title))
             {
                 <span style="text-decoration: underline">@GetString("profile_title")</span>

@@ -17,4 +17,5 @@ public class ProfileViewModel : LocalizableViewModel
     public RankingDataDto BestRanking { get; init; }
     public TournamentRecord TournamentRecord { get; init; }
     public TimeSpan PlayTime { get; init; }
+    public GameRecords GameRecords { get; init; }
 }

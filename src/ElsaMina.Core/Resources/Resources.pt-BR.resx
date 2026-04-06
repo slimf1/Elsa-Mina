@@ -1428,6 +1428,39 @@
     <data name="profile_tournament_records" xml:space="preserve">
         <value>Histórico de torneios</value>
     </data>
+    <data name="profile_game_records" xml:space="preserve">
+        <value>Histórico de jogos</value>
+    </data>
+    <data name="profile_flood_it" xml:space="preserve">
+        <value>Flood It</value>
+    </data>
+    <data name="profile_lights_out" xml:space="preserve">
+        <value>Lights Out</value>
+    </data>
+    <data name="profile_voltorb_flip" xml:space="preserve">
+        <value>Voltorb Flip</value>
+    </data>
+    <data name="profile_2048" xml:space="preserve">
+        <value>2048</value>
+    </data>
+    <data name="profile_game_max_level" xml:space="preserve">
+        <value>Nível máx.</value>
+    </data>
+    <data name="profile_game_total_stars" xml:space="preserve">
+        <value>Estrelas</value>
+    </data>
+    <data name="profile_game_coins" xml:space="preserve">
+        <value>Moedas</value>
+    </data>
+    <data name="profile_game_best_score" xml:space="preserve">
+        <value>Melhor pontuação</value>
+    </data>
+    <data name="profile_game_wins" xml:space="preserve">
+        <value>Vitórias</value>
+    </data>
+    <data name="profile_no_game_record" xml:space="preserve">
+        <value>Sem recorde de jogo</value>
+    </data>
     <data name="random_tournament_wall" xml:space="preserve">
         <value>Torneio: {0}</value>
     </data>
