@@ -34,7 +34,7 @@ public class RandomTournamentCommand : Command
         new("Random Battle Trop d'Attaques", "randombattle", "maxmovecount=6,forceofthefallenmod", "mmc6", "fotf", ""),
         new("Random Battle Shared Pokebilities", "randombattlemayhem",
             "pokebilities,!scalemonsmod,!camomonsmod,!inversemod", "sp", "pokebilities", ""),
-        new("Random Doubles Battle 2v2", "randombattle", "maxteamsize=4,pickedteamsize=2,bestof=3", "1v1", "", ""),
+        new("Random Doubles Battle 2v2", "randombattle", "maxteamsize=4,pickedteamsize=2,bestof=3", "1v1", "team preview", ""),
         new("Random Battle MonoSpectre Inverse", "randombattle", "forcemonotype=ghost,inversemod", "inverse", "", ""),
         new("Super Staff Bros Ultimate", "superstaffbrosultimate", "", "ssb", "", ""),
         new("Broken Cup Double Sharing", "brokencup", "sharingiscaring,mayhem,!scalemonsmod,!camomonsmod,!inversemod",
