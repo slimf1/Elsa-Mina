@@ -1725,6 +1725,18 @@
     <data name="deleteallteams_error" xml:space="preserve">
         <value>Ocorreu um erro ao excluir os times: {0}</value>
     </data>
+    <data name="googletranslate_help" xml:space="preserve">
+        <value>Traduz um texto. Sintaxe: -googletranslate &lt;texto&gt;, &lt;idioma destino&gt;[, &lt;idioma origem&gt;]</value>
+    </data>
+    <data name="googletranslate_error" xml:space="preserve">
+        <value>Ocorreu um erro durante a tradução.</value>
+    </data>
+    <data name="badtranslate_help" xml:space="preserve">
+        <value>Traduz um texto por 10 idiomas aleatórios. Sintaxe: -badtranslate &lt;texto&gt;</value>
+    </data>
+    <data name="fullpot_help" xml:space="preserve">
+        <value>Traduz um texto por 10 idiomas aleatórios exibindo cada etapa. Sintaxe: -fullpot &lt;texto&gt;</value>
+    </data>
     <data name="pokemon_translate_help" xml:space="preserve">
         <value>Traduz o nome de um Pokémon para todos os idiomas disponíveis. Uso: -ptranslate &lt;nome&gt;</value>
     </data>

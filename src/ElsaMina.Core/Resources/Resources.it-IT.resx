@@ -1730,6 +1730,18 @@
     <data name="deleteallteams_error" xml:space="preserve">
         <value>Si è verificato un errore durante l'eliminazione dei team: {0}</value>
     </data>
+    <data name="googletranslate_help" xml:space="preserve">
+        <value>Traduce un testo. Sintassi: -googletranslate &lt;testo&gt;, &lt;lingua di destinazione&gt;[, &lt;lingua di origine&gt;]</value>
+    </data>
+    <data name="googletranslate_error" xml:space="preserve">
+        <value>Si è verificato un errore durante la traduzione.</value>
+    </data>
+    <data name="badtranslate_help" xml:space="preserve">
+        <value>Traduce un testo attraverso 10 lingue casuali. Sintassi: -badtranslate &lt;testo&gt;</value>
+    </data>
+    <data name="fullpot_help" xml:space="preserve">
+        <value>Traduce un testo attraverso 10 lingue casuali mostrando ogni passaggio. Sintassi: -fullpot &lt;testo&gt;</value>
+    </data>
     <data name="pokemon_translate_help" xml:space="preserve">
         <value>Traduce il nome di un Pokémon in tutte le lingue disponibili. Uso: -ptranslate &lt;nome&gt;</value>
     </data>

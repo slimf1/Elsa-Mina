@@ -45,6 +45,7 @@ using ElsaMina.Commands.Misc.Pairings;
 using ElsaMina.Commands.Misc.Pokemon;
 using ElsaMina.Commands.Misc.RandomImages;
 using ElsaMina.Commands.Misc.Dictionary;
+using ElsaMina.Commands.Misc.Translation;
 using ElsaMina.Commands.Misc.Wiki;
 using ElsaMina.Commands.Misc.Youtube;
 using ElsaMina.Commands.Polls;
@@ -158,6 +159,9 @@ public class CommandModule : Module
         builder.RegisterCommand<BulbapediaSearchCommand>();
         builder.RegisterCommand<AfdSpriteCommand>();
         builder.RegisterCommand<PokemonTranslateCommand>();
+        builder.RegisterCommand<GoogleTranslateCommand>();
+        builder.RegisterCommand<BadTranslateCommand>();
+        builder.RegisterCommand<FullPotCommand>();
         builder.RegisterCommand<ShowPollsCommand>();
         builder.RegisterCommand<PairingsCommand>();
         builder.RegisterCommand<EvroMakerCommand>();

@@ -1725,6 +1725,18 @@
     <data name="deleteallteams_error" xml:space="preserve">
         <value>An error occurred while deleting teams: {0}</value>
     </data>
+    <data name="googletranslate_help" xml:space="preserve">
+        <value>Translates text. Syntax: -googletranslate &lt;text&gt;, &lt;target language&gt;[, &lt;source language&gt;]</value>
+    </data>
+    <data name="googletranslate_error" xml:space="preserve">
+        <value>An error occurred during translation.</value>
+    </data>
+    <data name="badtranslate_help" xml:space="preserve">
+        <value>Translates text through 10 random languages. Syntax: -badtranslate &lt;text&gt;</value>
+    </data>
+    <data name="fullpot_help" xml:space="preserve">
+        <value>Translates text through 10 random languages showing each step. Syntax: -fullpot &lt;text&gt;</value>
+    </data>
     <data name="pokemon_translate_help" xml:space="preserve">
         <value>Translates a Pokémon name into all available languages. Usage: -ptranslate &lt;name&gt;</value>
     </data>

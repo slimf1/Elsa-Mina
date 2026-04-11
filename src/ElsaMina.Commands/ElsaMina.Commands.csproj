@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Lusamine.GTranslate" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting"/>
     </ItemGroup>
 
