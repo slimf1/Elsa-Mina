@@ -2202,4 +2202,43 @@
     <data name="tfe_leaderboard_empty" xml:space="preserve">
         <value>Le classement 2048 est vide.</value>
     </data>
+    <data name="tour_points_help" xml:space="preserve">
+        <value>Syntaxe : -lbpoints pseudo, [room]</value>
+    </data>
+    <data name="tour_points_not_found" xml:space="preserve">
+        <value>Aucune victoire trouvée pour {0} dans la room {1}.</value>
+    </data>
+    <data name="tour_points_result" xml:space="preserve">
+        <value>{0} a {1} victoire(s) dans la room {2}.</value>
+    </data>
+    <data name="tradepoints_help" xml:space="preserve">
+        <value>Syntaxe : -tradepoints pseudo_origin, pseudo_new, points, [room]</value>
+    </data>
+    <data name="tradepoints_invalid_points" xml:space="preserve">
+        <value>Le nombre de points doit être un nombre entier positif.</value>
+    </data>
+    <data name="tradepoints_not_enough" xml:space="preserve">
+        <value>{0} n'a pas assez de victoires pour effectuer ce transfert.</value>
+    </data>
+    <data name="tradepoints_success" xml:space="preserve">
+        <value>Transfert de {0} victoire(s) de {1} à {2} effectué avec succès.</value>
+    </data>
+    <data name="tradepoints_staff_processed" xml:space="preserve">
+        <value>Transfert traité : {0} victoire(s) de {1} à {2} dans {3}.</value>
+    </data>
+    <data name="requesttrade_help" xml:space="preserve">
+        <value>Syntaxe : -requesttrade pseudo_origin, pseudo_new, points, [room]</value>
+    </data>
+    <data name="requesttrade_created" xml:space="preserve">
+        <value>Requête de transfert de {0} victoire(s) de {1} à {2} dans la room {3} créée.</value>
+    </data>
+    <data name="requesttrade_staff_message" xml:space="preserve">
+        <value>Demande de transfert de {0} victoire(s) de &lt;b&gt;{1}&lt;/b&gt; à &lt;b&gt;{2}&lt;/b&gt; dans la room {3} par {4}.</value>
+    </data>
+    <data name="notrade_help" xml:space="preserve">
+        <value>Syntaxe : -notrade pseudo, points</value>
+    </data>
+    <data name="notrade_staff_refused" xml:space="preserve">
+        <value>Requête de transfert refusée pour {0}.</value>
+    </data>
 </root>

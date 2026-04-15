@@ -72,6 +72,7 @@ using ElsaMina.Commands.PokeRace;
 using ElsaMina.Commands.Tournaments.Handlers;
 using ElsaMina.Commands.Tournaments.Hebdo;
 using ElsaMina.Commands.Tournaments.Leaderboard;
+using ElsaMina.Commands.Tournaments.Trade;
 using ElsaMina.Commands.TourConfigurator;
 using ElsaMina.Commands.VoltorbFlip;
 using ElsaMina.Commands.Users.PlayTimes;
@@ -249,6 +250,11 @@ public class CommandModule : Module
         builder.RegisterCommand<DeleteEventRoleCommand>();
         builder.RegisterCommand<MuteGamesCommand>();
         builder.RegisterCommand<UnmuteGamesCommand>();
+
+        builder.RegisterCommand<TourPointsCommand>();
+        builder.RegisterCommand<TradePointsCommand>();
+        builder.RegisterCommand<RequestTradeCommand>();
+        builder.RegisterCommand<NoTradeCommand>();
 
         builder.RegisterCommand<StartLightsOutCommand>();
         builder.RegisterCommand<JoinLightsOutCommand>();

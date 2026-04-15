@@ -2202,4 +2202,43 @@
     <data name="tfe_leaderboard_empty" xml:space="preserve">
         <value>The 2048 leaderboard is empty.</value>
     </data>
+    <data name="tour_points_help" xml:space="preserve">
+        <value>Syntax: -lbpoints username, [room]</value>
+    </data>
+    <data name="tour_points_not_found" xml:space="preserve">
+        <value>No wins found for {0} in room {1}.</value>
+    </data>
+    <data name="tour_points_result" xml:space="preserve">
+        <value>{0} has {1} win(s) in room {2}.</value>
+    </data>
+    <data name="tradepoints_help" xml:space="preserve">
+        <value>Syntax: -tradepoints origin_username, new_username, points, [room]</value>
+    </data>
+    <data name="tradepoints_invalid_points" xml:space="preserve">
+        <value>Points must be a positive integer.</value>
+    </data>
+    <data name="tradepoints_not_enough" xml:space="preserve">
+        <value>{0} does not have enough wins to complete this transfer.</value>
+    </data>
+    <data name="tradepoints_success" xml:space="preserve">
+        <value>Successfully transferred {0} win(s) from {1} to {2}.</value>
+    </data>
+    <data name="tradepoints_staff_processed" xml:space="preserve">
+        <value>Trade processed: {0} win(s) from {1} to {2} in {3}.</value>
+    </data>
+    <data name="requesttrade_help" xml:space="preserve">
+        <value>Syntax: -requesttrade origin_username, new_username, points, [room]</value>
+    </data>
+    <data name="requesttrade_created" xml:space="preserve">
+        <value>Transfer request for {0} win(s) from {1} to {2} in room {3} created.</value>
+    </data>
+    <data name="requesttrade_staff_message" xml:space="preserve">
+        <value>Transfer request: {0} win(s) from &lt;b&gt;{1}&lt;/b&gt; to &lt;b&gt;{2}&lt;/b&gt; in room {3} by {4}.</value>
+    </data>
+    <data name="notrade_help" xml:space="preserve">
+        <value>Syntax: -notrade username, points</value>
+    </data>
+    <data name="notrade_staff_refused" xml:space="preserve">
+        <value>Trade request refused for {0}.</value>
+    </data>
 </root>
