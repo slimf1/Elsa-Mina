@@ -19,7 +19,7 @@ public class ResourcesService : IResourcesService
         _defaultCulture = new CultureInfo(configuration.DefaultLocaleCode);
     }
 
-    public IEnumerable<CultureInfo> SupportedLocales => _supportedCultures ??= GetSupportedCultures();
+    public IEnumerable<CultureInfo> SupportedCultures => _supportedCultures ??= GetSupportedCultures();
 
     public string GetString(string key, CultureInfo cultureInfo = null)
     {

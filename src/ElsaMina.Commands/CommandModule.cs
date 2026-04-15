@@ -143,6 +143,8 @@ public class CommandModule : Module
         builder.RegisterCommand<LeaderboardCommand>();
         builder.RegisterCommand<ClearPointsCommand>();
         builder.RegisterCommand<ForfeitConnectFourCommand>();
+        builder.RegisterCommand<ConnectFourLeaderboardCommand>();
+        builder.RegisterCommand<ConnectFourEloCommand>();
         builder.RegisterCommand<AskElsaCommand>();
         builder.RegisterCommand<SpeakCommand>();
         builder.RegisterCommand<RankingCommand>();
@@ -277,6 +279,7 @@ public class CommandModule : Module
         builder.RegisterType<CountriesGame>().AsSelf();
         builder.RegisterType<CapitalCitiesGame>().AsSelf();
         builder.RegisterType<ConnectFourGame>().AsSelf();
+        builder.RegisterType<ConnectFourRatingService>().As<IConnectFourRatingService>().SingleInstance();
         builder.RegisterType<VoltorbFlipGame>().AsSelf();
         builder.RegisterType<PokeRaceGame>().AsSelf();
         builder.RegisterType<PokeDescGame>().AsSelf();

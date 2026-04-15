@@ -57,11 +57,12 @@ public class ProfileService : IProfileService
             .FirstOrDefaultAsync(userData => userData.Id == userId && userData.RoomId == roomId,
                 cancellationToken);
         var savedUser = await dbContext.Users
-            .Include(user => user.FloodItScore)
-            .Include(user => user.LightsOutScore)
-            .Include(user => user.VoltorbFlipLevel)
-            .Include(user => user.TwentyFortyEightScore)
             .FirstOrDefaultAsync(user => user.UserId == userId, cancellationToken);
+        var floodItScore = await dbContext.FloodItScores.FindAsync([userId], cancellationToken);
+        var lightsOutScore = await dbContext.LightsOutScores.FindAsync([userId], cancellationToken);
+        var voltorbFlipLevel = await dbContext.VoltorbFlipLevels.FindAsync([userId], cancellationToken);
+        var twentyFortyEightScore = await dbContext.TwentyFortyEightScores.FindAsync([userId], cancellationToken);
+        var connectFourRating = await dbContext.ConnectFourRatings.FindAsync([userId], cancellationToken);
 
         await Task.WhenAll(userDetailsTask, registerDateTask, ranksTask);
 
@@ -81,10 +82,11 @@ public class ProfileService : IProfileService
 
         var gameRecords = new GameRecords
         {
-            FloodIt = savedUser?.FloodItScore,
-            LightsOut = savedUser?.LightsOutScore,
-            VoltorbFlip = savedUser?.VoltorbFlipLevel,
-            TwentyFortyEight = savedUser?.TwentyFortyEightScore
+            FloodIt = floodItScore,
+            LightsOut = lightsOutScore,
+            VoltorbFlip = voltorbFlipLevel,
+            TwentyFortyEight = twentyFortyEightScore,
+            ConnectFour = connectFourRating
         };
 
         var viewModel = new ProfileViewModel

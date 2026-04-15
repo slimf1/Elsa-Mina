@@ -32,6 +32,7 @@ public class BotDbContext : DbContext
     public DbSet<LightsOutScore> LightsOutScores { get; set; }
     public DbSet<FloodItScore> FloodItScores { get; set; }
     public DbSet<TwentyFortyEightScore> TwentyFortyEightScores { get; set; }
+    public DbSet<ConnectFourRating> ConnectFourRatings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -17,7 +17,7 @@ public class ConnectFourGameTest
     private ITemplatesManager _mockTemplatesManager;
     private IConfiguration _configuration;
     private IDependencyContainerService _dependencyContainerService;
-    private IBot _bot;
+    private IConnectFourRatingService _mockRatingService;
     private IContext _context;
     private IUser _mockUser1;
     private IUser _mockUser2;
@@ -29,8 +29,8 @@ public class ConnectFourGameTest
         _mockTemplatesManager = Substitute.For<ITemplatesManager>();
         _configuration = Substitute.For<IConfiguration>();
         _context = Substitute.For<IContext>();
-        _bot = Substitute.For<IBot>();
         _dependencyContainerService = Substitute.For<IDependencyContainerService>();
+        _mockRatingService = Substitute.For<IConnectFourRatingService>();
 
         DependencyContainerService.Current = _dependencyContainerService;
 
@@ -39,7 +39,8 @@ public class ConnectFourGameTest
         _configuration.DefaultLocaleCode.Returns("fr-FR");
         _mockTemplatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>())
             .Returns(Task.FromResult(string.Empty));
-        _game = new ConnectFourGame(_mockRandomService, _mockTemplatesManager, _configuration, _bot, ConnectFourConstants.TIMEOUT_DELAY);
+        _game = new ConnectFourGame(_mockRandomService, _mockTemplatesManager, _configuration,
+            _mockRatingService, ConnectFourConstants.TIMEOUT_DELAY);
         _game.Context = _context;
 
         _mockUser1 = Substitute.For<IUser>();
@@ -210,7 +211,8 @@ public class ConnectFourGameTest
 
     private ConnectFourGame CreateGameWithTimeout(TimeSpan timeoutDelay)
     {
-        var game = new ConnectFourGame(_mockRandomService, _mockTemplatesManager, _configuration, _bot, timeoutDelay);
+        var game = new ConnectFourGame(_mockRandomService, _mockTemplatesManager, _configuration,
+            _mockRatingService, timeoutDelay);
         game.Context = _context;
         return game;
     }

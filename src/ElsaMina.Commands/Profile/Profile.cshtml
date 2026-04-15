@@ -149,6 +149,22 @@
                     </span>
                     <br />
                 }
+                @if (gr.ConnectFour != null)
+                {
+                    <span>@GetString("c4_game_name"):
+                        <span title="@GetString("c4_leaderboard_rating")">@gr.ConnectFour.Rating</span>
+                        ·
+                        <span title="@GetString("c4_leaderboard_wins")">🏆 @gr.ConnectFour.Wins</span>
+                        ·
+                        <span title="@GetString("c4_leaderboard_losses")">💀 @gr.ConnectFour.Losses</span>
+                        @if (gr.ConnectFour.Draws > 0)
+                        {
+                            <span>·</span>
+                            <span title="@GetString("c4_leaderboard_draws")">🤝 @gr.ConnectFour.Draws</span>
+                        }
+                    </span>
+                    <br />
+                }
             }
             else
             {

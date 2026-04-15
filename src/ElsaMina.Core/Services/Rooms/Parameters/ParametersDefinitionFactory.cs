@@ -27,7 +27,7 @@ public class ParametersDefinitionFactory : IParametersDefinitionFactory
                 DescriptionKey = "parameter_description_locale",
                 Type = RoomBotConfigurationType.Enumeration,
                 DefaultValue = _configuration.DefaultLocaleCode,
-                PossibleValues = _resourcesService.SupportedLocales.Select(culture => new EnumerationValue
+                PossibleValues = _resourcesService.SupportedCultures.Select(culture => new EnumerationValue
                 {
                     DisplayedValue = culture.NativeName.Capitalize(),
                     InternalValue = culture.Name

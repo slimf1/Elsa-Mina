@@ -11,9 +11,6 @@ public class VoltorbFlipLevelConfiguration : IEntityTypeConfiguration<VoltorbFli
         builder
             .HasKey(record => record.UserId);
 
-        builder
-            .HasOne(record => record.User)
-            .WithOne(user => user.VoltorbFlipLevel)
-            .HasForeignKey<VoltorbFlipLevel>(record => record.UserId);
+
     }
 }

@@ -36,7 +36,7 @@ public class RoomTest
         configuration.PlayTimeUpdatesInterval.Returns(TimeSpan.FromDays(1));
 
         var resourcesService = Substitute.For<IResourcesService>();
-        resourcesService.SupportedLocales.Returns([
+        resourcesService.SupportedCultures.Returns([
             new CultureInfo("fr-FR"),
             new CultureInfo("en-US")
         ]);

@@ -3,6 +3,7 @@ using System;
 using ElsaMina.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ElsaMina.DataAccess.Migrations
 {
     [DbContext(typeof(BotDbContext))]
-    partial class BotDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260415201616_RemoveConnectFourRatingForeignKey")]
+    partial class RemoveConnectFourRatingForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -548,6 +551,28 @@ namespace ElsaMina.DataAccess.Migrations
                     b.Navigation("RoomUser");
                 });
 
+            modelBuilder.Entity("ElsaMina.DataAccess.Models.FloodItScore", b =>
+                {
+                    b.HasOne("ElsaMina.DataAccess.Models.SavedUser", "User")
+                        .WithOne("FloodItScore")
+                        .HasForeignKey("ElsaMina.DataAccess.Models.FloodItScore", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ElsaMina.DataAccess.Models.LightsOutScore", b =>
+                {
+                    b.HasOne("ElsaMina.DataAccess.Models.SavedUser", "User")
+                        .WithOne("LightsOutScore")
+                        .HasForeignKey("ElsaMina.DataAccess.Models.LightsOutScore", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ElsaMina.DataAccess.Models.RoomBotParameterValue", b =>
                 {
                     b.HasOne("ElsaMina.DataAccess.Models.SavedRoom", "SavedRoom")
@@ -609,6 +634,28 @@ namespace ElsaMina.DataAccess.Migrations
                     b.Navigation("RoomUser");
                 });
 
+            modelBuilder.Entity("ElsaMina.DataAccess.Models.TwentyFortyEightScore", b =>
+                {
+                    b.HasOne("ElsaMina.DataAccess.Models.SavedUser", "User")
+                        .WithOne("TwentyFortyEightScore")
+                        .HasForeignKey("ElsaMina.DataAccess.Models.TwentyFortyEightScore", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ElsaMina.DataAccess.Models.VoltorbFlipLevel", b =>
+                {
+                    b.HasOne("ElsaMina.DataAccess.Models.SavedUser", "User")
+                        .WithOne("VoltorbFlipLevel")
+                        .HasForeignKey("ElsaMina.DataAccess.Models.VoltorbFlipLevel", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ElsaMina.DataAccess.Models.Badge", b =>
                 {
                     b.Navigation("BadgeHolders");
@@ -636,7 +683,15 @@ namespace ElsaMina.DataAccess.Migrations
 
             modelBuilder.Entity("ElsaMina.DataAccess.Models.SavedUser", b =>
                 {
+                    b.Navigation("FloodItScore");
+
+                    b.Navigation("LightsOutScore");
+
                     b.Navigation("RoomData");
+
+                    b.Navigation("TwentyFortyEightScore");
+
+                    b.Navigation("VoltorbFlipLevel");
                 });
 
             modelBuilder.Entity("ElsaMina.DataAccess.Models.Team", b =>

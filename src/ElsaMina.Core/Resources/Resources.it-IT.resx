@@ -605,6 +605,33 @@
     <data name="c4_game_options" xml:space="preserve">
         <value>Opzioni</value>
     </data>
+    <data name="c4_leaderboard_title" xml:space="preserve">
+        <value>Forza 4 - Classifica ELO</value>
+    </data>
+    <data name="c4_leaderboard_rating" xml:space="preserve">
+        <value>Punteggio</value>
+    </data>
+    <data name="c4_leaderboard_wins" xml:space="preserve">
+        <value>Vittorie</value>
+    </data>
+    <data name="c4_leaderboard_losses" xml:space="preserve">
+        <value>Sconfitte</value>
+    </data>
+    <data name="c4_leaderboard_draws" xml:space="preserve">
+        <value>Pareggi</value>
+    </data>
+    <data name="c4_leaderboard_empty" xml:space="preserve">
+        <value>Nessun punteggio trovato. Gioca prima qualche partita!</value>
+    </data>
+    <data name="c4_elo_info" xml:space="preserve">
+        <value>ELO Forza 4 di {0}: {1} ({2}V / {3}S / {4}P)</value>
+    </data>
+    <data name="c4_elo_not_found" xml:space="preserve">
+        <value>Nessun punteggio trovato per {0}.</value>
+    </data>
+    <data name="c4_rating_update" xml:space="preserve">
+        <value>{0}: {1} → {2} ({3:+0;-0;+0}) | {4}: {5} → {6} ({7:+0;-0;+0})</value>
+    </data>
     <data name="arcade_level_update_error" xml:space="preserve">
         <value>Si è verificato un errore aggiornando la soglia: {0}</value>
     </data>

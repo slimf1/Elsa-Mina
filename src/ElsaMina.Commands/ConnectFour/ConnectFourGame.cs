@@ -18,7 +18,7 @@ public class ConnectFourGame : Game, IConnectFourGame
     private readonly IRandomService _randomService;
     private readonly ITemplatesManager _templatesManager;
     private readonly IConfiguration _configuration;
-    private readonly IBot _bot;
+    private readonly IConnectFourRatingService _ratingService;
 
     private readonly PeriodicTimerRunner _turnTimeoutTimer;
     private bool _ended;
@@ -27,20 +27,21 @@ public class ConnectFourGame : Game, IConnectFourGame
     public ConnectFourGame(IRandomService randomService,
         ITemplatesManager templatesManager,
         IConfiguration configuration,
-        IBot bot) : this(randomService, templatesManager, configuration, bot, ConnectFourConstants.TIMEOUT_DELAY)
+        IConnectFourRatingService ratingService) : this(randomService, templatesManager, configuration,
+        ratingService, ConnectFourConstants.TIMEOUT_DELAY)
     {
     }
 
     public ConnectFourGame(IRandomService randomService,
         ITemplatesManager templatesManager,
         IConfiguration configuration,
-        IBot bot,
+        IConnectFourRatingService ratingService,
         TimeSpan timeoutDelay)
     {
         _randomService = randomService;
         _templatesManager = templatesManager;
         _configuration = configuration;
-        _bot = bot;
+        _ratingService = ratingService;
         _turnTimeoutTimer = new PeriodicTimerRunner(timeoutDelay, OnTimeout, runOnce: true);
 
         GameId = NextGameId++;
@@ -145,6 +146,7 @@ public class ConnectFourGame : Game, IConnectFourGame
         foreach (var symbol in ConnectFourConstants.SYMBOLS)
         {
             await CheckWin(symbol);
+            if (_ended) return;
         }
 
         await InitializeNextTurn();
@@ -158,7 +160,8 @@ public class ConnectFourGame : Game, IConnectFourGame
         }
 
         Context.ReplyLocalizedMessage("c4_game_player_forfeited", user.Name);
-        await RemovePlayerAndCheckWin(user);
+        var winner = Players.FirstOrDefault(player => !Equals(player, user));
+        await OnWin(winner, user);
     }
 
     public async Task OnTimeout()
@@ -167,23 +170,11 @@ public class ConnectFourGame : Game, IConnectFourGame
         {
             return;
         }
-
+        
         Context.ReplyLocalizedMessage("c4_game_on_timeout", PlayerCurrentlyPlaying.Name);
-        await RemovePlayerAndCheckWin(PlayerCurrentlyPlaying);
-    }
-
-    private async Task RemovePlayerAndCheckWin(IUser player)
-    {
-        Players.Remove(player);
-
-        if (Players.Count == 1)
-        {
-            await OnWin(Players[0]);
-        }
-        else
-        {
-            await InitializeNextTurn();
-        }
+        var loser = PlayerCurrentlyPlaying;
+        var winner = Players.FirstOrDefault(player => !Equals(player, loser));
+        await OnWin(winner, loser);
     }
 
     public void Cancel()
@@ -211,11 +202,12 @@ public class ConnectFourGame : Game, IConnectFourGame
         {
             WinningLineIndices = passingChecks[0];
             var winner = Players[Array.IndexOf(ConnectFourConstants.SYMBOLS, symbol)];
-            await OnWin(winner);
+            var loser = Players.FirstOrDefault(player => !Equals(player, winner));
+            await OnWin(winner, loser);
         }
         else if (CheckTie())
         {
-            await OnWin(null);
+            await OnWin(Players[0], Players[1], true);
         }
     }
 
@@ -305,7 +297,7 @@ public class ConnectFourGame : Game, IConnectFourGame
         _turnTimeoutTimer.Restart();
     }
 
-    private async Task OnWin(IUser winner)
+    private async Task OnWin(IUser winner, IUser loser, bool isTie = false)
     {
         if (_ended)
         {
@@ -315,13 +307,22 @@ public class ConnectFourGame : Game, IConnectFourGame
         _ended = true;
         await SendGridToPlayers();
 
-        if (winner is null)
+        if (isTie)
         {
             Context.ReplyLocalizedMessage("c4_game_tie_end");
+            var (change1, change2) = await _ratingService.UpdateRatingsOnDrawAsync(winner, loser);
+            Context.ReplyLocalizedMessage("c4_rating_update",
+                winner.Name, change1.OldRating, change1.NewRating, change1.Delta,
+                loser.Name, change2.OldRating, change2.NewRating, change2.Delta);
         }
         else
         {
+            Players.Remove(loser);
             Context.ReplyLocalizedMessage("c4_game_win_message", winner.Name);
+            var (winnerChange, loserChange) = await _ratingService.UpdateRatingsOnWinAsync(winner, loser);
+            Context.ReplyLocalizedMessage("c4_rating_update",
+                winner.Name, winnerChange.OldRating, winnerChange.NewRating, winnerChange.Delta,
+                loser.Name, loserChange.OldRating, loserChange.NewRating, loserChange.Delta);
         }
 
         Cancel();

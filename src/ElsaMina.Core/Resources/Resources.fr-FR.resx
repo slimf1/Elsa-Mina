@@ -600,6 +600,33 @@
     <data name="c4_game_options" xml:space="preserve">
         <value>Options</value>
     </data>
+    <data name="c4_leaderboard_title" xml:space="preserve">
+        <value>Puissance 4 - Classement ELO</value>
+    </data>
+    <data name="c4_leaderboard_rating" xml:space="preserve">
+        <value>Cote</value>
+    </data>
+    <data name="c4_leaderboard_wins" xml:space="preserve">
+        <value>Victoires</value>
+    </data>
+    <data name="c4_leaderboard_losses" xml:space="preserve">
+        <value>Défaites</value>
+    </data>
+    <data name="c4_leaderboard_draws" xml:space="preserve">
+        <value>Nuls</value>
+    </data>
+    <data name="c4_leaderboard_empty" xml:space="preserve">
+        <value>Aucune cote trouvée. Jouez d'abord quelques parties !</value>
+    </data>
+    <data name="c4_elo_info" xml:space="preserve">
+        <value>ELO Puissance 4 de {0} : {1} ({2}V / {3}D / {4}N)</value>
+    </data>
+    <data name="c4_elo_not_found" xml:space="preserve">
+        <value>Aucune cote trouvée pour {0}.</value>
+    </data>
+    <data name="c4_rating_update" xml:space="preserve">
+        <value>{0} : {1} → {2} ({3:+0;-0;+0}) | {4} : {5} → {6} ({7:+0;-0;+0})</value>
+    </data>
     <data name="arcade_level_update_error" xml:space="preserve">
         <value>Une erreur est survenue lors de la mise à jour du palier : {0}</value>
     </data>

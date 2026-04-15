@@ -10,9 +10,6 @@ public class LightsOutScoreConfiguration : IEntityTypeConfiguration<LightsOutSco
     {
         builder.HasKey(score => score.UserId);
 
-        builder
-            .HasOne(score => score.User)
-            .WithOne(user => user.LightsOutScore)
-            .HasForeignKey<LightsOutScore>(score => score.UserId);
+
     }
 }

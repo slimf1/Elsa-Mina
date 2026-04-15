@@ -9,5 +9,5 @@ public class FloodItScore
     public int Level { get; set; }
     public int BestMoves { get; set; }
     public int TotalStars { get; set; }
-    public SavedUser User { get; set; }
+
 }

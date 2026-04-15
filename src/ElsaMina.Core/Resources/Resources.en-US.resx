@@ -600,6 +600,33 @@
     <data name="c4_game_options" xml:space="preserve">
         <value>Options</value>
     </data>
+    <data name="c4_leaderboard_title" xml:space="preserve">
+        <value>Connect Four - ELO Leaderboard</value>
+    </data>
+    <data name="c4_leaderboard_rating" xml:space="preserve">
+        <value>Rating</value>
+    </data>
+    <data name="c4_leaderboard_wins" xml:space="preserve">
+        <value>Wins</value>
+    </data>
+    <data name="c4_leaderboard_losses" xml:space="preserve">
+        <value>Losses</value>
+    </data>
+    <data name="c4_leaderboard_draws" xml:space="preserve">
+        <value>Draws</value>
+    </data>
+    <data name="c4_leaderboard_empty" xml:space="preserve">
+        <value>No ratings found yet. Play some games first!</value>
+    </data>
+    <data name="c4_elo_info" xml:space="preserve">
+        <value>{0}'s Connect Four ELO: {1} ({2}W / {3}L / {4}D)</value>
+    </data>
+    <data name="c4_elo_not_found" xml:space="preserve">
+        <value>No rating found for {0}.</value>
+    </data>
+    <data name="c4_rating_update" xml:space="preserve">
+        <value>{0}: {1} → {2} ({3:+0;-0;+0}) | {4}: {5} → {6} ({7:+0;-0;+0})</value>
+    </data>
     <data name="arcade_level_update_error" xml:space="preserve">
         <value>An error occurred while updating arcade level : {0}</value>
     </data>

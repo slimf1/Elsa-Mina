@@ -18,7 +18,6 @@ public class CreateConnectFourCommandTest
     private IContext _context;
     private IRoom _room;
     private ITemplatesManager _templatesManager;
-    private IBot _bot;
     private ConnectFourGame _game;
 
     [SetUp]
@@ -27,7 +26,6 @@ public class CreateConnectFourCommandTest
         _dependencyContainerService = Substitute.For<IDependencyContainerService>();
         _configuration = Substitute.For<IConfiguration>();
         _templatesManager = Substitute.For<ITemplatesManager>();
-        _bot = Substitute.For<IBot>();
         _command = new CreateConnectFourCommand(_dependencyContainerService);
 
         _context = Substitute.For<IContext>();
@@ -36,7 +34,7 @@ public class CreateConnectFourCommandTest
         _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>())
             .Returns(Task.FromResult(string.Empty));
         _game = new ConnectFourGame(Substitute.For<IRandomService>(), _templatesManager,
-            _configuration, _bot, ConnectFourConstants.TIMEOUT_DELAY);
+            _configuration, Substitute.For<IConnectFourRatingService>(), ConnectFourConstants.TIMEOUT_DELAY);
 
         _context.RoomId.Returns("room-id");
         _context.Room.Returns(_room);

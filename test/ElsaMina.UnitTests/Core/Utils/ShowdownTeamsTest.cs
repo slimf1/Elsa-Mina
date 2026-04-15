@@ -25,12 +25,14 @@ public class ShowdownTeamsTest
     public void Test_DeserializeTeamExport_ShouldParseSinglePokemon_WhenValidSinglePokemonExportIsGiven()
     {
         // Arrange
-        var export = @"Pikachu @ Light Ball
-Ability: Static
-EVs: 252 Atk / 4 SpD / 252 Spe
-Jolly Nature
-- Volt Tackle
-- Iron Tail";
+        const string export = """
+                              Pikachu @ Light Ball
+                              Ability: Static
+                              EVs: 252 Atk / 4 SpD / 252 Spe
+                              Jolly Nature
+                              - Volt Tackle
+                              - Iron Tail
+                              """;
 
         // Act
         var result = ShowdownTeams.DeserializeTeamExport(export).ToList();
@@ -68,12 +70,14 @@ Jolly Nature
         var result = ShowdownTeams.GetSetExport(pokemonSet);
 
         // Assert
-        var expectedExport = @"Pikachu @ Light Ball
-Ability: Static 
-EVs: 252 Atk / 252 Spe
-Jolly Nature 
-- Volt Tackle
-- Iron Tail";
+        const string expectedExport = """
+                                      Pikachu @ Light Ball
+                                      Ability: Static 
+                                      EVs: 252 Atk / 252 Spe
+                                      Jolly Nature 
+                                      - Volt Tackle
+                                      - Iron Tail
+                                      """;
         Assert.That(result.Trim(), Is.EqualTo(expectedExport));
     }
 
@@ -81,12 +85,14 @@ Jolly Nature
     public void Test_TeamExportToJson_ShouldReturnJsonRepresentation_WhenExportIsGiven()
     {
         // Arrange
-        var export = @"Pikachu @ Light Ball
-Ability: Static
-EVs: 252 Atk / 4 SpD / 252 Spe
-Jolly Nature
-- Volt Tackle
-- Iron Tail";
+        const string export = """
+                              Pikachu @ Light Ball
+                              Ability: Static
+                              EVs: 252 Atk / 4 SpD / 252 Spe
+                              Jolly Nature
+                              - Volt Tackle
+                              - Iron Tail
+                              """;
 
         var expectedJson = JsonConvert.SerializeObject(ShowdownTeams.DeserializeTeamExport(export));
 
@@ -102,19 +108,21 @@ Jolly Nature
     public void Test_DeserializeTeamExport_ShouldParseMultiplePokemon_WhenMultiplePokemonExportIsGiven()
     {
         // Arrange
-        var export = @"Pikachu @ Light Ball
-Ability: Static
-EVs: 252 Atk / 4 SpD / 252 Spe
-Jolly Nature
-- Volt Tackle
-- Iron Tail
+        const string export = """
+                              Pikachu @ Light Ball
+                              Ability: Static
+                              EVs: 252 Atk / 4 SpD / 252 Spe
+                              Jolly Nature
+                              - Volt Tackle
+                              - Iron Tail
 
-Charizard @ Charizardite X
-Ability: Blaze
-EVs: 4 HP / 252 Atk / 252 Spe
-Adamant Nature
-- Flare Blitz
-- Dragon Claw";
+                              Charizard @ Charizardite X
+                              Ability: Blaze
+                              EVs: 4 HP / 252 Atk / 252 Spe
+                              Adamant Nature
+                              - Flare Blitz
+                              - Dragon Claw
+                              """;
 
         // Act
         var result = ShowdownTeams.DeserializeTeamExport(export).ToList();

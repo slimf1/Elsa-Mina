@@ -600,6 +600,33 @@
     <data name="c4_game_options" xml:space="preserve">
         <value>Optionen</value>
     </data>
+    <data name="c4_leaderboard_title" xml:space="preserve">
+        <value>Vier Gewinnt - ELO-Rangliste</value>
+    </data>
+    <data name="c4_leaderboard_rating" xml:space="preserve">
+        <value>Wertung</value>
+    </data>
+    <data name="c4_leaderboard_wins" xml:space="preserve">
+        <value>Siege</value>
+    </data>
+    <data name="c4_leaderboard_losses" xml:space="preserve">
+        <value>Niederlagen</value>
+    </data>
+    <data name="c4_leaderboard_draws" xml:space="preserve">
+        <value>Unentschieden</value>
+    </data>
+    <data name="c4_leaderboard_empty" xml:space="preserve">
+        <value>Keine Wertungen gefunden. Spiel erst ein paar Spiele!</value>
+    </data>
+    <data name="c4_elo_info" xml:space="preserve">
+        <value>Vier Gewinnt ELO von {0}: {1} ({2}S / {3}N / {4}U)</value>
+    </data>
+    <data name="c4_elo_not_found" xml:space="preserve">
+        <value>Keine Wertung gefunden für {0}.</value>
+    </data>
+    <data name="c4_rating_update" xml:space="preserve">
+        <value>{0}: {1} → {2} ({3:+0;-0;+0}) | {4}: {5} → {6} ({7:+0;-0;+0})</value>
+    </data>
     <data name="arcade_level_update_error" xml:space="preserve">
         <value>Beim Aktualisieren der Arcade-Stufe ist ein Fehler aufgetreten : {0}</value>
     </data>
