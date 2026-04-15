@@ -39,6 +39,12 @@ public class ConnectFourGameTest
         _configuration.DefaultLocaleCode.Returns("fr-FR");
         _mockTemplatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>())
             .Returns(Task.FromResult(string.Empty));
+        _mockRatingService.UpdateRatingsOnWinAsync(Arg.Any<IUser>(), Arg.Any<IUser>(), Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult<(ConnectFourRatingChange, ConnectFourRatingChange)>(
+                (new ConnectFourRatingChange(1000, 1016), new ConnectFourRatingChange(1000, 984))));
+        _mockRatingService.UpdateRatingsOnDrawAsync(Arg.Any<IUser>(), Arg.Any<IUser>(), Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult<(ConnectFourRatingChange, ConnectFourRatingChange)>(
+                (new ConnectFourRatingChange(1000, 1000), new ConnectFourRatingChange(1000, 1000))));
         _game = new ConnectFourGame(_mockRandomService, _mockTemplatesManager, _configuration,
             _mockRatingService, ConnectFourConstants.TIMEOUT_DELAY);
         _game.Context = _context;
@@ -211,8 +217,15 @@ public class ConnectFourGameTest
 
     private ConnectFourGame CreateGameWithTimeout(TimeSpan timeoutDelay)
     {
+        var ratingService = Substitute.For<IConnectFourRatingService>();
+        ratingService.UpdateRatingsOnWinAsync(Arg.Any<IUser>(), Arg.Any<IUser>(), Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult<(ConnectFourRatingChange, ConnectFourRatingChange)>(
+                (new ConnectFourRatingChange(1000, 1016), new ConnectFourRatingChange(1000, 984))));
+        ratingService.UpdateRatingsOnDrawAsync(Arg.Any<IUser>(), Arg.Any<IUser>(), Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult<(ConnectFourRatingChange, ConnectFourRatingChange)>(
+                (new ConnectFourRatingChange(1000, 1000), new ConnectFourRatingChange(1000, 1000))));
         var game = new ConnectFourGame(_mockRandomService, _mockTemplatesManager, _configuration,
-            _mockRatingService, timeoutDelay);
+            ratingService, timeoutDelay);
         game.Context = _context;
         return game;
     }

@@ -1,3 +1,4 @@
+using ElsaMina.Commands.ConnectFour;
 using ElsaMina.Commands.Profile;
 using ElsaMina.Commands.Showdown.Ranking;
 using ElsaMina.Core.Services.Formats;
@@ -272,7 +273,7 @@ public class ProfileServiceTest
 
     #endregion
 
-    #region GameRecords — with RoomUser (primary path via storedUserData.User)
+    #region GameRecords — with RoomUser
 
     [Test]
     public async Task Test_GetProfileHtmlAsync_ShouldSetFloodIt_WhenFloodItScoreExists_AndRoomUserPresent()
@@ -282,13 +283,9 @@ public class ProfileServiceTest
         {
             Id = "alice",
             RoomId = "room1",
-            User = new SavedUser
-            {
-                UserId = "alice",
-                UserName = "Alice",
-                FloodItScore = new FloodItScore { UserId = "alice", Level = 7, BestMoves = 14, TotalStars = 3 }
-            }
+            User = new SavedUser { UserId = "alice", UserName = "Alice" }
         });
+        _dbContext.FloodItScores.Add(new FloodItScore { UserId = "alice", Level = 7, BestMoves = 14, TotalStars = 3 });
         await _dbContext.SaveChangesAsync();
 
         // Act
@@ -311,13 +308,9 @@ public class ProfileServiceTest
         {
             Id = "alice",
             RoomId = "room1",
-            User = new SavedUser
-            {
-                UserId = "alice",
-                UserName = "Alice",
-                LightsOutScore = new LightsOutScore { UserId = "alice", Level = 9, BestMoves = 8, TotalStars = 2 }
-            }
+            User = new SavedUser { UserId = "alice", UserName = "Alice" }
         });
+        _dbContext.LightsOutScores.Add(new LightsOutScore { UserId = "alice", Level = 9, BestMoves = 8, TotalStars = 2 });
         await _dbContext.SaveChangesAsync();
 
         // Act
@@ -340,13 +333,9 @@ public class ProfileServiceTest
         {
             Id = "alice",
             RoomId = "room1",
-            User = new SavedUser
-            {
-                UserId = "alice",
-                UserName = "Alice",
-                VoltorbFlipLevel = new VoltorbFlipLevel { UserId = "alice", Level = 3, MaxLevel = 6, Coins = 1500 }
-            }
+            User = new SavedUser { UserId = "alice", UserName = "Alice" }
         });
+        _dbContext.VoltorbFlipLevels.Add(new VoltorbFlipLevel { UserId = "alice", Level = 3, MaxLevel = 6, Coins = 1500 });
         await _dbContext.SaveChangesAsync();
 
         // Act
@@ -369,13 +358,9 @@ public class ProfileServiceTest
         {
             Id = "alice",
             RoomId = "room1",
-            User = new SavedUser
-            {
-                UserId = "alice",
-                UserName = "Alice",
-                TwentyFortyEightScore = new TwentyFortyEightScore { UserId = "alice", BestScore = 8192, Wins = 4 }
-            }
+            User = new SavedUser { UserId = "alice", UserName = "Alice" }
         });
+        _dbContext.TwentyFortyEightScores.Add(new TwentyFortyEightScore { UserId = "alice", BestScore = 8192, Wins = 4 });
         await _dbContext.SaveChangesAsync();
 
         // Act
@@ -409,6 +394,28 @@ public class ProfileServiceTest
         await _templatesManager.Received(1).GetTemplateAsync(
             "Profile/Profile",
             Arg.Is<ProfileViewModel>(vm => !vm.GameRecords.HasAnyRecord));
+    }
+
+    [Test]
+    public async Task Test_GetProfileHtmlAsync_ShouldSetConnectFour_WhenRatingExists()
+    {
+        // Arrange
+        _dbContext.Users.Add(new SavedUser { UserId = "alice", UserName = "Alice" });
+        _dbContext.ConnectFourRatings.Add(new ConnectFourRating { UserId = "alice", Rating = 1150, Wins = 8, Losses = 3, Draws = 1 });
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        await _sut.GetProfileHtmlAsync("alice", "room1");
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync(
+            "Profile/Profile",
+            Arg.Is<ProfileViewModel>(vm =>
+                vm.GameRecords.ConnectFour != null &&
+                vm.GameRecords.ConnectFour.Rating == 1150 &&
+                vm.GameRecords.ConnectFour.Wins == 8 &&
+                vm.GameRecords.ConnectFour.Losses == 3 &&
+                vm.GameRecords.ConnectFour.Draws == 1));
     }
 
     #endregion

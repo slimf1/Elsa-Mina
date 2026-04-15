@@ -2,6 +2,7 @@ using ElsaMina.Core.Services.Elo;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
+using ElsaMina.Logging;
 using Microsoft.EntityFrameworkCore;
 
 namespace ElsaMina.Commands.ConnectFour;
@@ -19,6 +20,7 @@ public class ConnectFourRatingService : IConnectFourRatingService
 
     public async Task<(ConnectFourRatingChange, ConnectFourRatingChange)> UpdateRatingsOnWinAsync(IUser winner, IUser loser, CancellationToken cancellationToken = default)
     {
+        Log.Information("Updating ratings on win for {0} vs. {1}", winner, loser);
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
         var winnerRating = await GetOrCreateRatingAsync(dbContext, winner.UserId, cancellationToken);
@@ -41,6 +43,7 @@ public class ConnectFourRatingService : IConnectFourRatingService
 
     public async Task<(ConnectFourRatingChange, ConnectFourRatingChange)> UpdateRatingsOnDrawAsync(IUser player1, IUser player2, CancellationToken cancellationToken = default)
     {
+        Log.Information("Updating ratings on draw for {0} and {1}", player1, player2);
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
         var rating1 = await GetOrCreateRatingAsync(dbContext, player1.UserId, cancellationToken);
