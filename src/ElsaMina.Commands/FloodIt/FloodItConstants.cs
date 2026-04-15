@@ -17,20 +17,19 @@ public static class FloodItConstants
 
     // (GridSize, ColorCount, TargetMoves, MaxMoves) per level
     // TargetMoves = optimal threshold (3 stars); MaxMoves = hard limit (loss if exceeded)
-    // MaxMoves = TargetMoves + leeway, where leeway grows slightly with level:
-    //   levels 1-3: leeway 2 | levels 4-6: leeway 3 | levels 7-10: leeway 4
+    // Leeway is 1 throughout — near-optimal play required to survive
     public static readonly (int GridSize, int ColorCount, int TargetMoves, int MaxMoves)[] LEVEL_CONFIGURATIONS =
     [
-        (8,  4, 10, 12), // Level 1
-        (8,  5, 12, 14), // Level 2
-        (10, 5, 16, 18), // Level 3
-        (10, 6, 19, 22), // Level 4
-        (10, 6, 21, 24), // Level 5
-        (12, 6, 23, 26), // Level 6
-        (12, 6, 25, 29), // Level 7
-        (14, 6, 27, 31), // Level 8
-        (14, 6, 30, 34), // Level 9
-        (14, 6, 34, 38), // Level 10
+        (8,  6, 12, 13), // Level 1
+        (10, 6, 16, 17), // Level 2
+        (12, 6, 20, 21), // Level 3
+        (12, 6, 23, 24), // Level 4
+        (14, 6, 26, 27), // Level 5
+        (14, 6, 29, 30), // Level 6
+        (16, 6, 31, 32), // Level 7
+        (16, 6, 34, 35), // Level 8
+        (16, 6, 37, 38), // Level 9
+        (16, 6, 40, 41), // Level 10
     ];
 
     public static (int GridSize, int ColorCount, int TargetMoves, int MaxMoves) GetLevelConfig(int level)
