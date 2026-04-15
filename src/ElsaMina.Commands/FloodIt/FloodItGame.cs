@@ -463,12 +463,13 @@ public class FloodItGame : Game, IFloodItGame
         if (IsPrivateMode)
         {
             Context.SendPrivateUpdatableHtml(TargetUserId, TargetRoomId, GameIdentifier,
-                template.RemoveNewlines().CollapseAttributeWhitespace(),
+                template.RemoveNewlines().CollapseAttributeWhitespace().RemoveWhitespacesBetweenTags(),
                 !firstTime);
         }
         else
         {
-            Context.SendUpdatableHtml(GameIdentifier, template.RemoveNewlines().CollapseAttributeWhitespace(),
+            Context.SendUpdatableHtml(GameIdentifier,
+                template.RemoveNewlines().CollapseAttributeWhitespace().RemoveWhitespacesBetweenTags(),
                 !firstTime);
         }
     }
