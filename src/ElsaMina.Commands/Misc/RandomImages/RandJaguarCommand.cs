@@ -1,4 +1,5 @@
 using ElsaMina.Core.Services.Commands;
+using ElsaMina.Core.Services.Images;
 
 namespace ElsaMina.Commands.Misc.RandomImages;
 
@@ -7,5 +8,5 @@ public class RandJaguarCommand : UnsplashRandomImageCommand
 {
     protected override string Query => "jaguar";
 
-    public RandJaguarCommand(IUnsplashService unsplashService) : base(unsplashService) { }
+    public RandJaguarCommand(IUnsplashService unsplashService, IImageService imageService) : base(unsplashService, imageService) { }
 }

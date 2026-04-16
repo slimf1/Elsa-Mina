@@ -1,5 +1,6 @@
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Commands;
+using ElsaMina.Core.Services.Images;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Logging;
 
@@ -7,14 +8,19 @@ namespace ElsaMina.Commands.Misc.RandomImages;
 
 public abstract class UnsplashRandomImageCommand : Command
 {
+    private const int MAX_WIDTH = 300;
+    private const int MAX_HEIGHT = 200;
+    
     protected abstract string Query { get; }
     protected virtual string WarningKey => null;
 
     private readonly IUnsplashService _unsplashService;
+    private readonly IImageService _imageService;
 
-    protected UnsplashRandomImageCommand(IUnsplashService unsplashService)
+    protected UnsplashRandomImageCommand(IUnsplashService unsplashService, IImageService imageService)
     {
         _unsplashService = unsplashService;
+        _imageService = imageService;
     }
 
     public override Rank RequiredRank => Rank.Voiced;
@@ -29,7 +35,17 @@ public abstract class UnsplashRandomImageCommand : Command
             return;
         }
 
-        var img = $"<img src=\"{photoUrl}\" style=\"transform:rotate(0deg);\" width=\"300\" height=\"200\">";
+        var (width, height) = await _imageService.GetRemoteImageDimensions(photoUrl, cancellationToken);
+        if (width < 0 || height < 0)
+        {
+            width = MAX_WIDTH;
+            height = MAX_HEIGHT;
+        }
+        else
+        {
+            (width, height) = ImageUtils.ResizeWithSameAspectRatio(width, height, MAX_WIDTH, MAX_HEIGHT);
+        }
+        var img = $"<img src=\"{photoUrl}\" style=\"transform:rotate(0deg);\" width=\"{width}\" height=\"{height}\">";
         var html = WarningKey != null
             ? $"<details><summary>{context.GetString(WarningKey)}</summary>{img}</details>"
             : img;

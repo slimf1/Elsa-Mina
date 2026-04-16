@@ -27,7 +27,6 @@ using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.Core.Services.Start;
 using ElsaMina.Core.Services.System;
 using ElsaMina.Core.Services.Telemetry;
-using ElsaMina.Core.Services.Elo;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Services.UserData;
 using ElsaMina.Core.Services.UserDetails;
@@ -78,8 +77,7 @@ public class CoreModule : Module
         builder.RegisterType<DexManager>().As<IDexManager>().SingleInstance();
         builder.RegisterType<StartManager>().As<IStartManager>().SingleInstance();
         builder.RegisterType<ImageService>().As<IImageService>().SingleInstance();
-        builder.RegisterType<EloService>().As<IEloService>().SingleInstance();
-        builder.RegisterType<EfRoomParameterStore>().As<IRoomParameterStore>();
+builder.RegisterType<EfRoomParameterStore>().As<IRoomParameterStore>();
         builder.RegisterType<UserSaveQueue>().As<IUserSaveQueue>().SingleInstance();
 
         builder.RegisterType<Client>().As<IClient>().SingleInstance();

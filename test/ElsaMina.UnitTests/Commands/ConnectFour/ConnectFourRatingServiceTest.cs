@@ -1,5 +1,5 @@
 using ElsaMina.Commands.ConnectFour;
-using ElsaMina.Core.Services.Elo;
+using ElsaMina.Core.Services.Games;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
@@ -12,7 +12,6 @@ public class ConnectFourRatingServiceTest
 {
     private DbContextOptions<BotDbContext> _dbOptions;
     private IBotDbContextFactory _dbContextFactory;
-    private IEloService _eloService;
     private ConnectFourRatingService _sut;
     private IUser _mockWinner;
     private IUser _mockLoser;
@@ -28,17 +27,12 @@ public class ConnectFourRatingServiceTest
         _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>())
             .Returns(callInfo => new BotDbContext(_dbOptions));
 
-        _eloService = Substitute.For<IEloService>();
-        _eloService.DefaultRating.Returns(1000);
-        _eloService.CalculateWinRatings(Arg.Any<int>(), Arg.Any<int>()).Returns((1016, 984));
-        _eloService.CalculateDrawRatings(Arg.Any<int>(), Arg.Any<int>()).Returns((1000, 1000));
-
         _mockWinner = Substitute.For<IUser>();
         _mockWinner.UserId.Returns("winner");
         _mockLoser = Substitute.For<IUser>();
         _mockLoser.UserId.Returns("loser");
 
-        _sut = new ConnectFourRatingService(_dbContextFactory, _eloService);
+        _sut = new ConnectFourRatingService(_dbContextFactory);
     }
 
     #region UpdateRatingsOnWinAsync
@@ -62,11 +56,18 @@ public class ConnectFourRatingServiceTest
     [Test]
     public async Task Test_UpdateRatingsOnWinAsync_ShouldUseDefaultRating_WhenCreatingNewRatings()
     {
-        _eloService.CalculateWinRatings(1000, 1000).Returns((1016, 984));
-
         await _sut.UpdateRatingsOnWinAsync(_mockWinner, _mockLoser);
 
-        _eloService.Received(1).CalculateWinRatings(1000, 1000);
+        await using var dbContext = new BotDbContext(_dbOptions);
+        var (expectedWinner, expectedLoser) = EloHelper.CalculateWinRatings(EloHelper.DEFAULT_RATING, EloHelper.DEFAULT_RATING);
+        var winnerRating = await dbContext.ConnectFourRatings.FindAsync("winner");
+        var loserRating = await dbContext.ConnectFourRatings.FindAsync("loser");
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(winnerRating.Rating, Is.EqualTo(expectedWinner));
+            Assert.That(loserRating.Rating, Is.EqualTo(expectedLoser));
+        });
     }
 
     [Test]
@@ -79,18 +80,17 @@ public class ConnectFourRatingServiceTest
             await setupContext.SaveChangesAsync();
         }
 
-        _eloService.CalculateWinRatings(1100, 900).Returns((1108, 892));
-
         await _sut.UpdateRatingsOnWinAsync(_mockWinner, _mockLoser);
 
         await using var dbContext = new BotDbContext(_dbOptions);
+        var (expectedWinner, expectedLoser) = EloHelper.CalculateWinRatings(1100, 900);
         var winnerRating = await dbContext.ConnectFourRatings.FindAsync("winner");
         var loserRating = await dbContext.ConnectFourRatings.FindAsync("loser");
 
         Assert.Multiple(() =>
         {
-            Assert.That(winnerRating.Rating, Is.EqualTo(1108));
-            Assert.That(loserRating.Rating, Is.EqualTo(892));
+            Assert.That(winnerRating.Rating, Is.EqualTo(expectedWinner));
+            Assert.That(loserRating.Rating, Is.EqualTo(expectedLoser));
         });
     }
 
@@ -122,18 +122,18 @@ public class ConnectFourRatingServiceTest
     [Test]
     public async Task Test_UpdateRatingsOnWinAsync_ShouldReturnCorrectChanges()
     {
-        _eloService.CalculateWinRatings(1000, 1000).Returns((1016, 984));
+        var (expectedWinner, expectedLoser) = EloHelper.CalculateWinRatings(EloHelper.DEFAULT_RATING, EloHelper.DEFAULT_RATING);
 
         var (winnerChange, loserChange) = await _sut.UpdateRatingsOnWinAsync(_mockWinner, _mockLoser);
 
         Assert.Multiple(() =>
         {
-            Assert.That(winnerChange.OldRating, Is.EqualTo(1000));
-            Assert.That(winnerChange.NewRating, Is.EqualTo(1016));
-            Assert.That(winnerChange.Delta, Is.EqualTo(16));
-            Assert.That(loserChange.OldRating, Is.EqualTo(1000));
-            Assert.That(loserChange.NewRating, Is.EqualTo(984));
-            Assert.That(loserChange.Delta, Is.EqualTo(-16));
+            Assert.That(winnerChange.OldRating, Is.EqualTo(EloHelper.DEFAULT_RATING));
+            Assert.That(winnerChange.NewRating, Is.EqualTo(expectedWinner));
+            Assert.That(winnerChange.Delta, Is.EqualTo(expectedWinner - EloHelper.DEFAULT_RATING));
+            Assert.That(loserChange.OldRating, Is.EqualTo(EloHelper.DEFAULT_RATING));
+            Assert.That(loserChange.NewRating, Is.EqualTo(expectedLoser));
+            Assert.That(loserChange.Delta, Is.EqualTo(expectedLoser - EloHelper.DEFAULT_RATING));
         });
     }
 
@@ -183,18 +183,18 @@ public class ConnectFourRatingServiceTest
     [Test]
     public async Task Test_UpdateRatingsOnDrawAsync_ShouldReturnCorrectChanges()
     {
-        _eloService.CalculateDrawRatings(1000, 1000).Returns((1000, 1000));
+        var (expectedRating1, expectedRating2) = EloHelper.CalculateDrawRatings(EloHelper.DEFAULT_RATING, EloHelper.DEFAULT_RATING);
 
         var (change1, change2) = await _sut.UpdateRatingsOnDrawAsync(_mockWinner, _mockLoser);
 
         Assert.Multiple(() =>
         {
-            Assert.That(change1.OldRating, Is.EqualTo(1000));
-            Assert.That(change1.NewRating, Is.EqualTo(1000));
-            Assert.That(change1.Delta, Is.EqualTo(0));
-            Assert.That(change2.OldRating, Is.EqualTo(1000));
-            Assert.That(change2.NewRating, Is.EqualTo(1000));
-            Assert.That(change2.Delta, Is.EqualTo(0));
+            Assert.That(change1.OldRating, Is.EqualTo(EloHelper.DEFAULT_RATING));
+            Assert.That(change1.NewRating, Is.EqualTo(expectedRating1));
+            Assert.That(change1.Delta, Is.EqualTo(expectedRating1 - EloHelper.DEFAULT_RATING));
+            Assert.That(change2.OldRating, Is.EqualTo(EloHelper.DEFAULT_RATING));
+            Assert.That(change2.NewRating, Is.EqualTo(expectedRating2));
+            Assert.That(change2.Delta, Is.EqualTo(expectedRating2 - EloHelper.DEFAULT_RATING));
         });
     }
 

@@ -1,5 +1,6 @@
-using ElsaMina.Core.Services.Elo;
+using ElsaMina.Core.Services.Games;
 using ElsaMina.Core.Services.Rooms;
+
 using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
 using ElsaMina.Logging;
@@ -10,12 +11,10 @@ namespace ElsaMina.Commands.ConnectFour;
 public class ConnectFourRatingService : IConnectFourRatingService
 {
     private readonly IBotDbContextFactory _dbContextFactory;
-    private readonly IEloService _eloService;
 
-    public ConnectFourRatingService(IBotDbContextFactory dbContextFactory, IEloService eloService)
+    public ConnectFourRatingService(IBotDbContextFactory dbContextFactory)
     {
         _dbContextFactory = dbContextFactory;
-        _eloService = eloService;
     }
 
     public async Task<(ConnectFourRatingChange, ConnectFourRatingChange)> UpdateRatingsOnWinAsync(IUser winner, IUser loser, CancellationToken cancellationToken = default)
@@ -26,7 +25,7 @@ public class ConnectFourRatingService : IConnectFourRatingService
         var winnerRating = await GetOrCreateRatingAsync(dbContext, winner.UserId, cancellationToken);
         var loserRating = await GetOrCreateRatingAsync(dbContext, loser.UserId, cancellationToken);
 
-        var (newWinnerRating, newLoserRating) = _eloService.CalculateWinRatings(winnerRating.Rating, loserRating.Rating);
+        var (newWinnerRating, newLoserRating) = EloHelper.CalculateWinRatings(winnerRating.Rating, loserRating.Rating);
 
         var winnerChange = new ConnectFourRatingChange(winnerRating.Rating, newWinnerRating);
         var loserChange = new ConnectFourRatingChange(loserRating.Rating, newLoserRating);
@@ -49,7 +48,7 @@ public class ConnectFourRatingService : IConnectFourRatingService
         var rating1 = await GetOrCreateRatingAsync(dbContext, player1.UserId, cancellationToken);
         var rating2 = await GetOrCreateRatingAsync(dbContext, player2.UserId, cancellationToken);
 
-        var (newRating1, newRating2) = _eloService.CalculateDrawRatings(rating1.Rating, rating2.Rating);
+        var (newRating1, newRating2) = EloHelper.CalculateDrawRatings(rating1.Rating, rating2.Rating);
 
         var change1 = new ConnectFourRatingChange(rating1.Rating, newRating1);
         var change2 = new ConnectFourRatingChange(rating2.Rating, newRating2);
@@ -78,7 +77,7 @@ public class ConnectFourRatingService : IConnectFourRatingService
         rating = new ConnectFourRating
         {
             UserId = userId,
-            Rating = _eloService.DefaultRating
+            Rating = EloHelper.DEFAULT_RATING
         };
         dbContext.ConnectFourRatings.Add(rating);
         return rating;

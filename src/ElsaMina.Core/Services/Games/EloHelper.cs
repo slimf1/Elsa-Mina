@@ -1,18 +1,18 @@
-namespace ElsaMina.Core.Services.Elo;
+namespace ElsaMina.Core.Services.Games;
 
-public class EloService : IEloService
+public static class EloHelper
 {
     private const int K_FACTOR = 32;
 
-    public int DefaultRating => 1000;
+    public const int DEFAULT_RATING = 1000;
 
-    public (int newWinnerRating, int newLoserRating) CalculateWinRatings(int winnerRating, int loserRating)
+    public static (int newWinnerRating, int newLoserRating) CalculateWinRatings(int winnerRating, int loserRating)
     {
         var (newWinner, newLoser) = CalculateNewRatings(winnerRating, loserRating, 1.0);
         return (newWinner, newLoser);
     }
 
-    public (int newRating1, int newRating2) CalculateDrawRatings(int rating1, int rating2)
+    public static (int newRating1, int newRating2) CalculateDrawRatings(int rating1, int rating2)
     {
         return CalculateNewRatings(rating1, rating2, 0.5);
     }
