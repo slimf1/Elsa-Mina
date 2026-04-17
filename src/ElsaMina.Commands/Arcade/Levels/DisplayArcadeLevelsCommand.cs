@@ -23,6 +23,7 @@ public class DisplayArcadeLevelsCommand : Command
     }
 
     public override Rank RequiredRank => Rank.Regular;
+    public override bool IsAllowedInPrivateMessage => true;
     public override string HelpMessageKey => "display_paliers_help";
     public override string[] RoomRestriction => ["arcade", "botdevelopment"];
 

@@ -21,6 +21,7 @@ public class HallOfFameCommand : Command
     }
 
     public override Rank RequiredRank => Rank.Regular;
+    public override bool IsAllowedInPrivateMessage => true;
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
