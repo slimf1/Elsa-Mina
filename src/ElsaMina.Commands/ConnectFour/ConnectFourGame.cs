@@ -1,6 +1,7 @@
 ﻿using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Services.Games;
 using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
@@ -21,6 +22,7 @@ public class ConnectFourGame : Game, IConnectFourGame
     private readonly IConnectFourRatingService _ratingService;
 
     private readonly PeriodicTimerRunner _turnTimeoutTimer;
+    private readonly SemaphoreSlim _joinSemaphore = new(1, 1);
     private bool _ended;
 
     [UsedImplicitly]
@@ -94,20 +96,28 @@ public class ConnectFourGame : Game, IConnectFourGame
 
     public async Task JoinGame(IUser user)
     {
-        if (IsStarted)
+        await _joinSemaphore.WaitAsync();
+        try
         {
-            return;
-        }
+            if (IsStarted || Players.Count >= ConnectFourConstants.MAX_PLAYERS_COUNT)
+            {
+                return;
+            }
 
-        if (Players.Contains(user))
-        {
-            return;
-        }
+            if (Players.Contains(user))
+            {
+                return;
+            }
 
-        Players.Add(user);
-        if (Players.Count >= ConnectFourConstants.MAX_PLAYERS_COUNT)
+            Players.Add(user);
+            if (Players.Count >= ConnectFourConstants.MAX_PLAYERS_COUNT)
+            {
+                await StartGame();
+            }
+        }
+        finally
         {
-            await StartGame();
+            _joinSemaphore.Release();
         }
     }
 

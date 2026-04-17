@@ -1,5 +1,6 @@
 using ElsaMina.Commands.PokeRace;
 using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Services.Games;
 using ElsaMina.Core.Services.Rooms;
 using NSubstitute;
 

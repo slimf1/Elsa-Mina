@@ -1,0 +1,9 @@
+@using ElsaMina.Core.Utils
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Misc.Help.HelpViewModel>
+
+<strong class="username" style="color:@Model.BotName.ToColorHexCodeWithCustoms()">@Model.BotName</strong> @GetString("help_bot_description", Model.Version)
+<button name="send" value="/w @Model.BotName,@(Model.Trigger)allcommands">@GetString("help_commands_list")</button> 
+&bullet; <a href="@Model.RepositoryLink" target="_blank" rel="noopener">
+    <button>@GetString("help_source_code")</button></a> 
+&bullet; <a href="@Model.ReportBugLink" target="_blank" rel="noopener">
+    <button>@GetString("help_report_bug")</button></a>

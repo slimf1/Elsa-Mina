@@ -24,7 +24,7 @@
         </value>
     </resheader>
     <data name="help" xml:space="preserve">
-        <value>Elsa-Mina v{0} : Bot en desarrollo</value>
+        <value>Elsa-Mina v{0}</value>
     </data>
     <data name="badge_help_message" xml:space="preserve">
         <value>Añade una nueva insignia. Sintaxis: -add-badge &lt;nombre&gt;, &lt;imagen&gt;. Usa -add-trophy para añadir un trofeo.</value>
@@ -2227,5 +2227,17 @@
     </data>
     <data name="tfe_leaderboard_empty" xml:space="preserve">
         <value>La clasificación de 2048 está vacía.</value>
+    </data>
+    <data name="help_bot_description" xml:space="preserve">
+        <value>(v{0}) es un bot de Pokémon Showdown.</value>
+    </data>
+    <data name="help_commands_list" xml:space="preserve">
+        <value>Lista de comandos disponibles</value>
+    </data>
+    <data name="help_source_code" xml:space="preserve">
+        <value>Código fuente</value>
+    </data>
+    <data name="help_report_bug" xml:space="preserve">
+        <value>Reportar un error</value>
     </data>
 </root>

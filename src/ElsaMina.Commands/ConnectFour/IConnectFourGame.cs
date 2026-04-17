@@ -1,3 +1,4 @@
+using ElsaMina.Core.Services.Games;
 using ElsaMina.Core.Services.Rooms;
 
 namespace ElsaMina.Commands.ConnectFour;

@@ -230,6 +230,24 @@ public class ConnectFourGameTest
         return game;
     }
 
+    [Test]
+    public async Task Test_JoinGame_ShouldNotExceedMaxPlayers_WhenMultiplePlayersJoinConcurrently()
+    {
+        // Arrange
+        var mockUser3 = Substitute.For<IUser>();
+        mockUser3.Name.Returns("Player3");
+
+        // Act
+        await Task.WhenAll(
+            _game.JoinGame(_mockUser1),
+            _game.JoinGame(_mockUser2),
+            _game.JoinGame(mockUser3)
+        );
+
+        // Assert
+        Assert.That(_game.Players, Has.Count.EqualTo(ConnectFourConstants.MAX_PLAYERS_COUNT));
+    }
+
     private static void FillTieGridWithOneEmpty(char[,] grid, int emptyRow, int emptyCol)
     {
         const char empty = '_';

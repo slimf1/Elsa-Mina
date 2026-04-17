@@ -19,7 +19,7 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="help" xml:space="preserve">
-        <value>Elsa-Mina v{0} : Bot em desenvolvimento</value>
+        <value>Elsa-Mina v{0}</value>
     </data>
     <data name="badge_help_message" xml:space="preserve">
         <value>Adiciona um novo emblema. Sintaxe : -add-badge &lt;nome&gt;, &lt;imagem&gt;. Use -add-trophy para adicionar um troféu.</value>
@@ -2222,5 +2222,17 @@
     </data>
     <data name="tfe_leaderboard_empty" xml:space="preserve">
         <value>A classificação de 2048 está vazia.</value>
+    </data>
+    <data name="help_bot_description" xml:space="preserve">
+        <value>(v{0}) é um bot do Pokémon Showdown.</value>
+    </data>
+    <data name="help_commands_list" xml:space="preserve">
+        <value>Lista de comandos disponíveis</value>
+    </data>
+    <data name="help_source_code" xml:space="preserve">
+        <value>Código fonte</value>
+    </data>
+    <data name="help_report_bug" xml:space="preserve">
+        <value>Reportar um bug</value>
     </data>
 </root>

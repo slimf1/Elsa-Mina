@@ -1,4 +1,4 @@
-﻿namespace ElsaMina.Core.Services.Rooms;
+﻿namespace ElsaMina.Core.Services.Games;
 
 public interface IGame
 {
