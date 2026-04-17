@@ -13,7 +13,7 @@ namespace ElsaMina.Commands.Teams.TeamPreviewOnLink;
 
 public class DisplayTeamOnLinkHandler : ChatMessageHandler
 {
-    private const int USER_DELAY = 30;
+    private static readonly TimeSpan PER_USER_COOLDOWN = TimeSpan.FromMinutes(15);
     private const int MAX_TEAM_SIZE = 6;
 
     private readonly Dictionary<string, DateTime> _lastTeamTimes = new();
@@ -54,7 +54,7 @@ public class DisplayTeamOnLinkHandler : ChatMessageHandler
 
         var now = _clockService.CurrentUtcDateTime;
         if (_lastTeamTimes.TryGetValue(context.Sender.UserId, out var userLastTeamTime)
-            && (now - userLastTeamTime).TotalSeconds < USER_DELAY && !context.IsSenderWhitelisted)
+            && now - userLastTeamTime < PER_USER_COOLDOWN && !context.IsSenderWhitelisted)
         {
             return;
         }
