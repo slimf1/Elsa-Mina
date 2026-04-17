@@ -22,12 +22,13 @@ public class GiveBadgeCommand : Command
     }
 
     public override Rank RequiredRank => Rank.Driver;
+    public override bool IsAllowedInPrivateMessage => true;
     public override string HelpMessageKey => "badge_give_help_message";
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var parts = context.Target.Split(",");
-        if (parts.Length != 2)
+        if (parts.Length < 2)
         {
             ReplyLocalizedHelpMessage(context);
             return;
@@ -36,11 +37,32 @@ public class GiveBadgeCommand : Command
         var userId = parts[0].ToLowerAlphaNum();
         var badgeId = parts[1].ToLowerAlphaNum();
 
+        string roomId;
+        if (context.IsPrivateMessage)
+        {
+            if (parts.Length < 3 || string.IsNullOrWhiteSpace(parts[2]))
+            {
+                context.ReplyLocalizedMessage("badge_pm_missing_room");
+                return;
+            }
+            roomId = parts[2].Trim().ToLowerAlphaNum();
+
+            if (!await context.HasSufficientRankInRoom(roomId, Rank.Driver, cancellationToken))
+            {
+                context.ReplyLocalizedMessage("badge_pm_insufficient_rank");
+                return;
+            }
+        }
+        else
+        {
+            roomId = context.RoomId;
+        }
+
         Badge badge = null;
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
         try
         {
-            badge = await dbContext.Badges.FindAsync([badgeId, context.RoomId], cancellationToken);
+            badge = await dbContext.Badges.FindAsync([badgeId, roomId], cancellationToken);
         }
         catch (Exception exception)
         {
@@ -55,7 +77,7 @@ public class GiveBadgeCommand : Command
 
         try
         {
-            await _roomUserDataService.GiveBadgeToUserAsync(context.RoomId, userId, badgeId, cancellationToken);
+            await _roomUserDataService.GiveBadgeToUserAsync(roomId, userId, badgeId, cancellationToken);
             context.ReplyLocalizedMessage("badge_give_success", userId, badge.Name);
         }
         catch (Exception exception)

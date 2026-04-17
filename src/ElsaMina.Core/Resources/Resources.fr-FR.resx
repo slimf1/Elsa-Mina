@@ -171,6 +171,12 @@
     <data name="badge_give_success" xml:space="preserve">
         <value>"{0}" a reçu le badge "{1}"</value>
     </data>
+    <data name="badge_pm_missing_room" xml:space="preserve">
+        <value>En PM, veuillez préciser la room. Syntaxe : -givebadge user, badge, room</value>
+    </data>
+    <data name="badge_pm_insufficient_rank" xml:space="preserve">
+        <value>Vous n'avez pas les permissions suffisantes dans cette room.</value>
+    </data>
     <data name="cancel_command_usage" xml:space="preserve">
         <value>Utilisation : cancel-command &lt;execution-id&gt;</value>
     </data>

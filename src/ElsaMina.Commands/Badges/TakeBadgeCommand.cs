@@ -1,4 +1,3 @@
-﻿using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Rooms;
@@ -19,12 +18,13 @@ public class TakeBadgeCommand : Command
     }
 
     public override Rank RequiredRank => Rank.Driver;
+    public override bool IsAllowedInPrivateMessage => true;
     public override string HelpMessageKey => "takebadge_help_message";
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var parts = context.Target.Split(",");
-        if (parts.Length != 2)
+        if (parts.Length < 2)
         {
             context.ReplyLocalizedMessage(HelpMessageKey);
             return;
@@ -33,9 +33,30 @@ public class TakeBadgeCommand : Command
         var userId = parts[0].ToLowerAlphaNum();
         var badgeId = parts[1].ToLowerAlphaNum();
 
+        string roomId;
+        if (context.IsPrivateMessage)
+        {
+            if (parts.Length < 3 || string.IsNullOrWhiteSpace(parts[2]))
+            {
+                context.ReplyLocalizedMessage("badge_pm_missing_room");
+                return;
+            }
+            roomId = parts[2].Trim().ToLowerAlphaNum();
+
+            if (!await context.HasSufficientRankInRoom(roomId, Rank.Driver, cancellationToken))
+            {
+                context.ReplyLocalizedMessage("badge_pm_insufficient_rank");
+                return;
+            }
+        }
+        else
+        {
+            roomId = context.RoomId;
+        }
+
         try
         {
-            await _roomUserDataService.TakeBadgeFromUserAsync(context.RoomId, userId, badgeId, cancellationToken);
+            await _roomUserDataService.TakeBadgeFromUserAsync(roomId, userId, badgeId, cancellationToken);
             context.ReplyLocalizedMessage("takebadge_success", userId, badgeId);
         }
         catch (ArgumentException)
