@@ -15,6 +15,7 @@ using ElsaMina.Commands.Arcade.Slots;
 using ElsaMina.Commands.Badges;
 using ElsaMina.Commands.Badges.BadgeDisplay;
 using ElsaMina.Commands.Badges.BadgeEditPanel;
+using ElsaMina.Commands.Badges.UserBadgePanel;
 using ElsaMina.Commands.Badges.BadgeHolders;
 using ElsaMina.Commands.Badges.BadgeList;
 using ElsaMina.Commands.Badges.HallOfFame;
@@ -97,6 +98,7 @@ public class CommandModule : Module
         builder.RegisterCommand<CustomCommandList>();
         builder.RegisterCommand<AddBadgeCommand>();
         builder.RegisterCommand<BadgeEditPanelCommand>();
+        builder.RegisterCommand<UserBadgePanelCommand>();
         builder.RegisterCommand<EditBadgeCommand>();
         builder.RegisterCommand<SetLocaleCommand>();
         builder.RegisterCommand<HelpCommand>();

@@ -182,6 +182,27 @@
     <data name="badge_pm_insufficient_rank" xml:space="preserve">
         <value>You do not have sufficient permissions in this room.</value>
     </data>
+    <data name="user_badge_panel_help" xml:space="preserve">
+        <value>Syntax: -userbadges username, [room]</value>
+    </data>
+    <data name="user_badge_panel_title" xml:space="preserve">
+        <value>Badges of {0} — {1}</value>
+    </data>
+    <data name="user_badge_panel_no_badges" xml:space="preserve">
+        <value>No badges exist in this room.</value>
+    </data>
+    <data name="user_badge_panel_owned" xml:space="preserve">
+        <value>Owned</value>
+    </data>
+    <data name="user_badge_panel_give" xml:space="preserve">
+        <value>Give</value>
+    </data>
+    <data name="user_badge_panel_take" xml:space="preserve">
+        <value>Take</value>
+    </data>
+    <data name="user_badge_panel_refresh" xml:space="preserve">
+        <value>Refresh</value>
+    </data>
     <data name="cancel_command_usage" xml:space="preserve">
         <value>Usage: cancel-command &lt;execution-id&gt;</value>
     </data>

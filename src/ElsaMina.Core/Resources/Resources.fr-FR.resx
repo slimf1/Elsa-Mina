@@ -177,6 +177,27 @@
     <data name="badge_pm_insufficient_rank" xml:space="preserve">
         <value>Vous n'avez pas les permissions suffisantes dans cette room.</value>
     </data>
+    <data name="user_badge_panel_help" xml:space="preserve">
+        <value>Syntaxe : -userbadges pseudo, [room]</value>
+    </data>
+    <data name="user_badge_panel_title" xml:space="preserve">
+        <value>Badges de {0} — {1}</value>
+    </data>
+    <data name="user_badge_panel_no_badges" xml:space="preserve">
+        <value>Aucun badge n'existe dans cette room.</value>
+    </data>
+    <data name="user_badge_panel_owned" xml:space="preserve">
+        <value>Obtenu</value>
+    </data>
+    <data name="user_badge_panel_give" xml:space="preserve">
+        <value>Donner</value>
+    </data>
+    <data name="user_badge_panel_take" xml:space="preserve">
+        <value>Retirer</value>
+    </data>
+    <data name="user_badge_panel_refresh" xml:space="preserve">
+        <value>Rafraîchir</value>
+    </data>
     <data name="cancel_command_usage" xml:space="preserve">
         <value>Utilisation : cancel-command &lt;execution-id&gt;</value>
     </data>

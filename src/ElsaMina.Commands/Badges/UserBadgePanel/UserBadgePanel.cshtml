@@ -1,0 +1,72 @@
+@using ElsaMina.Core.Services.Templates
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Badges.UserBadgePanel.UserBadgePanelViewModel>
+
+@{
+    const string containerStyle = "padding: 1.5rem;";
+    const string rowStyle = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};" +
+                            "padding: .5rem .75rem;" +
+                            "margin: .35rem 0;" +
+                            $"background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};" +
+                            "border-radius: 6px;" +
+                            "display: flex; align-items: center; justify-content: space-between;";
+    const string ownedStyle = "border-left: 3px solid #4CAF50;";
+    const string notOwnedStyle = "border-left: 3px solid #ccc;";
+}
+
+<div style="@containerStyle">
+    <h2>@GetString("user_badge_panel_title", Model.TargetUserId, Model.RoomName)</h2>
+
+    @if (Model.AllBadges.Count == 0)
+    {
+        <span>@GetString("user_badge_panel_no_badges")</span>
+    }
+    else
+    {
+        @foreach (var badge in Model.AllBadges)
+        {
+            var owned = Model.OwnedBadgeIds.Contains(badge.Id);
+            <div style="@rowStyle @(owned ? ownedStyle : notOwnedStyle)">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    @{
+                        await IncludeAsync("Badges/Badge", badge);
+                    }
+                    <span style="font-weight: bold;">@badge.Name</span>
+                    @if (owned)
+                    {
+                        <span style="color: #4CAF50; font-size: 0.85em;">✓ @GetString("user_badge_panel_owned")</span>
+                    }
+                </div>
+                <div>
+                    @if (owned)
+                    {
+                        <button
+                            class="button"
+                            name="send"
+                            style="background-color: #e57373;"
+                            value="/w @Model.BotName,@(Model.Trigger)takebadge @Model.TargetUserId, @badge.Id, @Model.RoomId">
+                            @GetString("user_badge_panel_take")
+                        </button>
+                    }
+                    else
+                    {
+                        <button
+                            class="button"
+                            name="send"
+                            style="background-color: #81C784;"
+                            value="/w @Model.BotName,@(Model.Trigger)givebadge @Model.TargetUserId, @badge.Id, @Model.RoomId">
+                            @GetString("user_badge_panel_give")
+                        </button>
+                    }
+                </div>
+            </div>
+        }
+    }
+
+    <br/>
+    <button
+        class="button"
+        name="send"
+        value="/w @Model.BotName,@(Model.Trigger)userbadges @Model.TargetUserId, @Model.RoomId">
+        @GetString("user_badge_panel_refresh")
+    </button>
+</div>
