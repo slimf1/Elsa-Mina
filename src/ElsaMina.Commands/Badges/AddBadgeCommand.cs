@@ -1,4 +1,4 @@
-﻿using ElsaMina.Core.Contexts;
+using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Commands;
 using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Utils;
@@ -19,11 +19,12 @@ public class AddBadgeCommand : Command
     }
 
     public override Rank RequiredRank => Rank.Driver;
+    public override bool IsAllowedInPrivateMessage => true;
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
         var arguments = context.Target.Split(",");
-        if (arguments.Length != 2)
+        if (arguments.Length < 2)
         {
             context.ReplyLocalizedMessage("badge_help_message");
             return;
@@ -34,9 +35,29 @@ public class AddBadgeCommand : Command
         var isTrophy = context.Command is "add-trophy" or "newtrophy" or "new-trophy";
         var badgeId = name.ToLowerAlphaNum();
 
+        string roomId;
+        if (context.IsPrivateMessage)
+        {
+            if (arguments.Length < 3 || string.IsNullOrWhiteSpace(arguments[2]))
+            {
+                context.ReplyLocalizedMessage("badge_pm_missing_room");
+                return;
+            }
+            roomId = arguments[2].Trim().ToLowerAlphaNum();
+
+            if (!await context.HasSufficientRankInRoom(roomId, Rank.Driver, cancellationToken))
+            {
+                context.ReplyLocalizedMessage("badge_pm_insufficient_rank");
+                return;
+            }
+        }
+        else
+        {
+            roomId = context.RoomId;
+        }
+
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
-        var existingBadge =
-            await dbContext.Badges.FindAsync([badgeId, context.RoomId], cancellationToken: cancellationToken);
+        var existingBadge = await dbContext.Badges.FindAsync([badgeId, roomId], cancellationToken: cancellationToken);
         if (existingBadge != null)
         {
             context.ReplyLocalizedMessage("badge_add_already_exist", name);
@@ -51,7 +72,7 @@ public class AddBadgeCommand : Command
                 Image = image,
                 Id = badgeId,
                 IsTrophy = isTrophy,
-                RoomId = context.RoomId
+                RoomId = roomId
             }, cancellationToken);
             await dbContext.SaveChangesAsync(cancellationToken);
             context.ReplyLocalizedMessage("badge_add_success_message");

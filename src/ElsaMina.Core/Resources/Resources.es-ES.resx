@@ -176,6 +176,33 @@
     <data name="badge_give_success" xml:space="preserve">
         <value>"{0}" ha recibido la insignia "{1}"</value>
     </data>
+    <data name="badge_pm_missing_room" xml:space="preserve">
+        <value>En PM, especifica la sala. Sintaxis: -givebadge usuario, insignia, sala</value>
+    </data>
+    <data name="badge_pm_insufficient_rank" xml:space="preserve">
+        <value>No tienes permisos suficientes en esta sala.</value>
+    </data>
+    <data name="user_badge_panel_help" xml:space="preserve">
+        <value>Sintaxis: -userbadges usuario, [sala]</value>
+    </data>
+    <data name="user_badge_panel_title" xml:space="preserve">
+        <value>Insignias de {0} — {1}</value>
+    </data>
+    <data name="user_badge_panel_no_badges" xml:space="preserve">
+        <value>No existen insignias en esta sala.</value>
+    </data>
+    <data name="user_badge_panel_owned" xml:space="preserve">
+        <value>Obtenido</value>
+    </data>
+    <data name="user_badge_panel_give" xml:space="preserve">
+        <value>Dar</value>
+    </data>
+    <data name="user_badge_panel_take" xml:space="preserve">
+        <value>Quitar</value>
+    </data>
+    <data name="user_badge_panel_refresh" xml:space="preserve">
+        <value>Actualizar</value>
+    </data>
     <data name="cancel_command_usage" xml:space="preserve">
         <value>Uso: cancel-command &lt;execution-id&gt;</value>
     </data>
@@ -2239,5 +2266,44 @@
     </data>
     <data name="help_report_bug" xml:space="preserve">
         <value>Reportar un error</value>
+    </data>
+    <data name="tour_points_help" xml:space="preserve">
+        <value>Sintaxis: -lbpoints usuario, [sala]</value>
+    </data>
+    <data name="tour_points_not_found" xml:space="preserve">
+        <value>No se encontraron victorias para {0} en la sala {1}.</value>
+    </data>
+    <data name="tour_points_result" xml:space="preserve">
+        <value>{0} tiene {1} victoria(s) en la sala {2}.</value>
+    </data>
+    <data name="tradepoints_help" xml:space="preserve">
+        <value>Sintaxis: -tradepoints origen, destino, puntos, [sala]</value>
+    </data>
+    <data name="tradepoints_invalid_points" xml:space="preserve">
+        <value>Los puntos deben ser un número entero positivo.</value>
+    </data>
+    <data name="tradepoints_not_enough" xml:space="preserve">
+        <value>{0} no tiene suficientes victorias para esta transferencia.</value>
+    </data>
+    <data name="tradepoints_success" xml:space="preserve">
+        <value>Se transfirieron {0} victoria(s) de {1} a {2} con éxito.</value>
+    </data>
+    <data name="tradepoints_staff_processed" xml:space="preserve">
+        <value>Transferencia procesada: {0} victoria(s) de {1} a {2} en {3}.</value>
+    </data>
+    <data name="requesttrade_help" xml:space="preserve">
+        <value>Sintaxis: -requesttrade origen, destino, puntos, [sala]</value>
+    </data>
+    <data name="requesttrade_created" xml:space="preserve">
+        <value>Solicitud de transferencia de {0} victoria(s) de {1} a {2} en la sala {3} creada.</value>
+    </data>
+    <data name="requesttrade_staff_message" xml:space="preserve">
+        <value>Solicitud de transferencia: {0} victoria(s) de &lt;b&gt;{1}&lt;/b&gt; a &lt;b&gt;{2}&lt;/b&gt; en la sala {3} por {4}.</value>
+    </data>
+    <data name="notrade_help" xml:space="preserve">
+        <value>Sintaxis: -notrade usuario, puntos</value>
+    </data>
+    <data name="notrade_staff_refused" xml:space="preserve">
+        <value>Solicitud de transferencia rechazada para {0}.</value>
     </data>
 </root>

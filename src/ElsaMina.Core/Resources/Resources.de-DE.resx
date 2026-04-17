@@ -171,6 +171,33 @@
     <data name="badge_give_success" xml:space="preserve">
         <value>Benutzer „{0}" hat das Abzeichen „{1}" erhalten.</value>
     </data>
+    <data name="badge_pm_missing_room" xml:space="preserve">
+        <value>Im PM bitte den Raum angeben. Syntax: -givebadge user, badge, room</value>
+    </data>
+    <data name="badge_pm_insufficient_rank" xml:space="preserve">
+        <value>Du hast nicht genügend Berechtigungen in diesem Raum.</value>
+    </data>
+    <data name="user_badge_panel_help" xml:space="preserve">
+        <value>Syntax: -userbadges benutzername, [raum]</value>
+    </data>
+    <data name="user_badge_panel_title" xml:space="preserve">
+        <value>Abzeichen von {0} — {1}</value>
+    </data>
+    <data name="user_badge_panel_no_badges" xml:space="preserve">
+        <value>In diesem Raum existieren keine Abzeichen.</value>
+    </data>
+    <data name="user_badge_panel_owned" xml:space="preserve">
+        <value>Besitzt</value>
+    </data>
+    <data name="user_badge_panel_give" xml:space="preserve">
+        <value>Geben</value>
+    </data>
+    <data name="user_badge_panel_take" xml:space="preserve">
+        <value>Entfernen</value>
+    </data>
+    <data name="user_badge_panel_refresh" xml:space="preserve">
+        <value>Aktualisieren</value>
+    </data>
     <data name="cancel_command_usage" xml:space="preserve">
         <value>Verwendung: cancel-command &lt;execution-id&gt;</value>
     </data>
@@ -2234,5 +2261,44 @@
     </data>
     <data name="help_report_bug" xml:space="preserve">
         <value>Fehler melden</value>
+    </data>
+    <data name="tour_points_help" xml:space="preserve">
+        <value>Syntax: -lbpoints benutzername, [raum]</value>
+    </data>
+    <data name="tour_points_not_found" xml:space="preserve">
+        <value>Keine Siege für {0} im Raum {1} gefunden.</value>
+    </data>
+    <data name="tour_points_result" xml:space="preserve">
+        <value>{0} hat {1} Sieg(e) im Raum {2}.</value>
+    </data>
+    <data name="tradepoints_help" xml:space="preserve">
+        <value>Syntax: -tradepoints herkunft, ziel, punkte, [raum]</value>
+    </data>
+    <data name="tradepoints_invalid_points" xml:space="preserve">
+        <value>Die Punktzahl muss eine positive Ganzzahl sein.</value>
+    </data>
+    <data name="tradepoints_not_enough" xml:space="preserve">
+        <value>{0} hat nicht genug Siege für diesen Transfer.</value>
+    </data>
+    <data name="tradepoints_success" xml:space="preserve">
+        <value>Erfolgreich {0} Sieg(e) von {1} an {2} übertragen.</value>
+    </data>
+    <data name="tradepoints_staff_processed" xml:space="preserve">
+        <value>Transfer verarbeitet: {0} Sieg(e) von {1} an {2} in {3}.</value>
+    </data>
+    <data name="requesttrade_help" xml:space="preserve">
+        <value>Syntax: -requesttrade herkunft, ziel, punkte, [raum]</value>
+    </data>
+    <data name="requesttrade_created" xml:space="preserve">
+        <value>Transferanfrage für {0} Sieg(e) von {1} an {2} im Raum {3} erstellt.</value>
+    </data>
+    <data name="requesttrade_staff_message" xml:space="preserve">
+        <value>Transferanfrage: {0} Sieg(e) von &lt;b&gt;{1}&lt;/b&gt; an &lt;b&gt;{2}&lt;/b&gt; im Raum {3} von {4}.</value>
+    </data>
+    <data name="notrade_help" xml:space="preserve">
+        <value>Syntax: -notrade benutzername, punkte</value>
+    </data>
+    <data name="notrade_staff_refused" xml:space="preserve">
+        <value>Transferanfrage für {0} abgelehnt.</value>
     </data>
 </root>
