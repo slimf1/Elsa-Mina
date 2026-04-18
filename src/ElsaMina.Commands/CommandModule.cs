@@ -50,6 +50,7 @@ using ElsaMina.Commands.Misc.Wiki;
 using ElsaMina.Commands.Misc.Youtube;
 using ElsaMina.Commands.PokeRace;
 using ElsaMina.Commands.Polls;
+using ElsaMina.Commands.Polls.Suggestions;
 using ElsaMina.Commands.Profile;
 using ElsaMina.Commands.Repeats;
 using ElsaMina.Commands.Repeats.Form;
@@ -256,6 +257,12 @@ public class CommandModule : Module
         builder.RegisterCommand<DeleteEventRoleCommand>();
         builder.RegisterCommand<MuteGamesCommand>();
         builder.RegisterCommand<UnmuteGamesCommand>();
+
+        builder.RegisterCommand<PollSuggestCommand>();
+        builder.RegisterCommand<DeletePollSuggestCommand>();
+        builder.RegisterCommand<PollSuggestListCommand>();
+        builder.RegisterCommand<BanPollCommand>();
+        builder.RegisterCommand<UnbanPollCommand>();
 
         builder.RegisterCommand<TourPointsCommand>();
         builder.RegisterCommand<TradePointsCommand>();

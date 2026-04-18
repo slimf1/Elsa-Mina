@@ -30,6 +30,8 @@ public class BotDbContext : DbContext
     public DbSet<TourConfig> TourConfigs { get; set; }
     public DbSet<EventRoleMapping> EventRoleMappings { get; set; }
     public DbSet<LightsOutScore> LightsOutScores { get; set; }
+    public DbSet<PollSuggestion> PollSuggestions { get; set; }
+    public DbSet<PollSuggestionBan> PollSuggestionBans { get; set; }
     public DbSet<FloodItScore> FloodItScores { get; set; }
     public DbSet<TwentyFortyEightScore> TwentyFortyEightScores { get; set; }
     public DbSet<ConnectFourRating> ConnectFourRatings { get; set; }

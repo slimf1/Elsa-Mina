@@ -2312,4 +2312,58 @@
     <data name="help_report_bug" xml:space="preserve">
         <value>Report a bug</value>
     </data>
+    <data name="pollsuggest_help" xml:space="preserve">
+        <value>Syntax: -pollsuggest [suggestion]</value>
+    </data>
+    <data name="pollsuggest_banned" xml:space="preserve">
+        <value>You have been banned from using this command.</value>
+    </data>
+    <data name="pollsuggest_success" xml:space="preserve">
+        <value>Your poll suggestion has been recorded.</value>
+    </data>
+    <data name="pollsuggest_staff_title" xml:space="preserve">
+        <value>New poll suggestion:</value>
+    </data>
+    <data name="pollsuggest_staff_new" xml:space="preserve">
+        <value>Suggested by {0}: {1}</value>
+    </data>
+    <data name="pollsuggest_staff_list" xml:space="preserve">
+        <value>Suggestions list</value>
+    </data>
+    <data name="deletesuggpoll_help" xml:space="preserve">
+        <value>Syntax: -deletesuggpoll [id]</value>
+    </data>
+    <data name="deletesuggpoll_not_found" xml:space="preserve">
+        <value>No suggestion found with ID {0}.</value>
+    </data>
+    <data name="deletesuggpoll_success" xml:space="preserve">
+        <value>Suggestion {0} has been deleted.</value>
+    </data>
+    <data name="pollsuggestlist_empty" xml:space="preserve">
+        <value>No poll suggestions at the moment.</value>
+    </data>
+    <data name="banpoll_help" xml:space="preserve">
+        <value>Syntax: -banpoll [username]</value>
+    </data>
+    <data name="banpoll_already_banned" xml:space="preserve">
+        <value>{0} is already banned from -pollsuggest.</value>
+    </data>
+    <data name="banpoll_success" xml:space="preserve">
+        <value>{0} has been banned from -pollsuggest.</value>
+    </data>
+    <data name="banpoll_staff_message" xml:space="preserve">
+        <value>{0} was banned from poll suggestions by {1}.</value>
+    </data>
+    <data name="unbanpoll_help" xml:space="preserve">
+        <value>Syntax: -unbanpoll [username]</value>
+    </data>
+    <data name="unbanpoll_not_banned" xml:space="preserve">
+        <value>{0} is not banned from -pollsuggest.</value>
+    </data>
+    <data name="unbanpoll_success" xml:space="preserve">
+        <value>{0} has been unbanned from poll suggestions.</value>
+    </data>
+    <data name="unbanpoll_staff_message" xml:space="preserve">
+        <value>{0} was unbanned from poll suggestions by {1}.</value>
+    </data>
 </root>

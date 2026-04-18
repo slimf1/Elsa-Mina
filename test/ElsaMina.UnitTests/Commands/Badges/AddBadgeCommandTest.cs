@@ -70,17 +70,19 @@ public class AddBadgeCommandTest
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldReplyWithHelpMessage_WhenTooManyArguments()
+    public async Task Test_RunAsync_ShouldTreatThirdArgAsRoom_WhenThreeArguments()
     {
-        // Arrange
-        _context.Target.Returns("badge, image, extra");
+        // Arrange - 3 args in room context (not PM) should ignore 3rd arg and use context.RoomId
+        _context.Target.Returns("badge, http://image.png, extra");
+        _context.IsPrivateMessage.Returns(false);
+        _context.RoomId.Returns("testroom");
         var cmd = CreateCommand();
 
         // Act
         await cmd.RunAsync(_context);
 
-        // Assert
-        _context.Received(1).ReplyLocalizedMessage("badge_help_message");
+        // Assert - should attempt to add badge, not show help
+        _context.DidNotReceive().ReplyLocalizedMessage("badge_help_message");
     }
 
     [Test]
