@@ -27,7 +27,11 @@ public class LanguageModelResolver : ILanguageModelProvider
     /// </summary>
     public Task<string> AskLanguageModelAsync(string prompt, CancellationToken cancellationToken = default)
     {
-        return ExecuteWithFallbackAsync(provider => provider.AskLanguageModelAsync(prompt, cancellationToken));
+        return ExecuteWithFallbackAsync(provider =>
+        {
+            Log.Information("Sending prompt to language model provider {Prompt}", prompt);
+            return provider.AskLanguageModelAsync(prompt, cancellationToken);
+        });
     }
 
     /// <summary>
@@ -36,7 +40,11 @@ public class LanguageModelResolver : ILanguageModelProvider
     public Task<string> AskLanguageModelAsync(LanguageModelRequest request,
         CancellationToken cancellationToken = default)
     {
-        return ExecuteWithFallbackAsync(provider => provider.AskLanguageModelAsync(request, cancellationToken));
+        return ExecuteWithFallbackAsync(provider =>
+        {
+            Log.Information("Sending request to language model provider {Request}", request);
+            return provider.AskLanguageModelAsync(request, cancellationToken);
+        });
     }
 
     /// <summary>
