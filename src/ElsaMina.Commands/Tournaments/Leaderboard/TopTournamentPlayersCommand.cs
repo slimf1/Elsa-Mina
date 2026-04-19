@@ -27,6 +27,7 @@ public class TopTournamentPlayersCommand : Command
     }
 
     public override Rank RequiredRank => Rank.Regular;
+    public override bool IsAllowedInPrivateMessage => true;
     public override string HelpMessageKey => "top_tournament_players_help";
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
