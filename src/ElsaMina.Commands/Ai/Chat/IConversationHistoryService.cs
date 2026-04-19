@@ -7,5 +7,4 @@ namespace ElsaMina.Commands.Ai.Chat;
 public interface IConversationHistoryService
 {
     List<LanguageModelMessage> BuildConversation(IRoom room, IUser sender, string latestMessage);
-    void StoreAssistantReply(IRoom room, string response);
 }

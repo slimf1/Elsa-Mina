@@ -73,7 +73,6 @@ public class AskElsaCommand : Command
             return;
         }
 
-        _conversationHistory.StoreAssistantReply(room, response);
         context.Reply(response);
     }
 }

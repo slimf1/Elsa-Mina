@@ -4544,5 +4544,29 @@ namespace ElsaMina.Core.Resources {
                 return ResourceManager.GetString("notrade_staff_refused", resourceCulture);
             }
         }
+        
+        internal static string help_bot_description {
+            get {
+                return ResourceManager.GetString("help_bot_description", resourceCulture);
+            }
+        }
+        
+        internal static string help_commands_list {
+            get {
+                return ResourceManager.GetString("help_commands_list", resourceCulture);
+            }
+        }
+        
+        internal static string help_source_code {
+            get {
+                return ResourceManager.GetString("help_source_code", resourceCulture);
+            }
+        }
+        
+        internal static string help_report_bug {
+            get {
+                return ResourceManager.GetString("help_report_bug", resourceCulture);
+            }
+        }
     }
 }
