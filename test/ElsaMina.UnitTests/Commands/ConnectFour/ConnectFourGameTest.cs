@@ -248,6 +248,77 @@ public class ConnectFourGameTest
         Assert.That(_game.Players, Has.Count.EqualTo(ConnectFourConstants.MAX_PLAYERS_COUNT));
     }
 
+    [TestCaseSource(nameof(WinningLastMoveCases))]
+    public async Task Test_Game_ShouldDeclareWinner_WhenLastMoveIsWinningMove(char[,] winningGrid, string column)
+    {
+        // Arrange
+        await _game.JoinGame(_mockUser1);
+        await _game.JoinGame(_mockUser2);
+
+        ApplyGrid(_game.Grid, winningGrid);
+
+        // Act
+        await _game.Play(_mockUser1, column);
+
+        // Assert
+        _context.Received(1).ReplyLocalizedMessage("c4_game_win_message", _mockUser1.Name);
+        _context.DidNotReceive().ReplyLocalizedMessage("c4_game_tie_end");
+    }
+
+    // Grids derived from the no-win tie pattern; '_' marks the one empty cell.
+    // X wins on the last move; gravity places the piece at the topmost empty row
+    // of the chosen column (rows below are all filled).
+    private static IEnumerable<TestCaseData> WinningLastMoveCases()
+    {
+        // Horizontal: playing col 4 fills (5,3) → row 5 = X O O X X X X
+        yield return new TestCaseData(
+            new char[,]
+            {
+                { 'O', 'X', 'X', 'O', 'O', 'X', 'X' },
+                { 'X', 'O', 'O', 'X', 'X', 'O', 'O' },
+                { 'O', 'X', 'X', 'O', 'O', 'X', 'X' },
+                { 'X', 'O', 'O', 'X', 'X', 'O', 'O' },
+                { 'O', 'X', 'X', 'O', 'O', 'X', 'X' },
+                { 'X', 'O', 'O', '_', 'X', 'X', 'X' }
+            }, "4").SetName("Horizontal");
+
+        // Vertical: playing col 1 fills (0,0) → col 0 rows 0-3 = X X X X
+        yield return new TestCaseData(
+            new char[,]
+            {
+                { '_', 'X', 'X', 'O', 'O', 'X', 'X' },
+                { 'X', 'O', 'O', 'X', 'X', 'O', 'O' },
+                { 'X', 'X', 'X', 'O', 'O', 'X', 'X' },
+                { 'X', 'O', 'O', 'X', 'X', 'O', 'O' },
+                { 'O', 'X', 'X', 'O', 'O', 'X', 'X' },
+                { 'X', 'O', 'O', 'X', 'X', 'O', 'O' }
+            }, "1").SetName("Vertical");
+
+        // Diagonal (down-right): playing col 4 fills (0,3) → (0,3)(1,4)(2,5)(3,6) = X X X X
+        yield return new TestCaseData(
+            new char[,]
+            {
+                { 'O', 'X', 'X', '_', 'O', 'X', 'X' },
+                { 'X', 'O', 'O', 'X', 'X', 'O', 'O' },
+                { 'O', 'X', 'X', 'O', 'O', 'X', 'X' },
+                { 'X', 'O', 'O', 'X', 'X', 'O', 'X' },
+                { 'O', 'X', 'X', 'O', 'O', 'X', 'X' },
+                { 'X', 'O', 'O', 'X', 'X', 'O', 'O' }
+            }, "4").SetName("DiagonalDownRight");
+
+        // Diagonal (down-left): playing col 5 fills (0,4) → (0,4)(1,3)(2,2)(3,1) = X X X X
+        yield return new TestCaseData(
+            new char[,]
+            {
+                { 'O', 'X', 'X', 'O', '_', 'X', 'X' },
+                { 'X', 'O', 'O', 'X', 'X', 'O', 'O' },
+                { 'O', 'X', 'X', 'O', 'O', 'X', 'X' },
+                { 'X', 'X', 'O', 'X', 'X', 'O', 'O' },
+                { 'O', 'X', 'X', 'O', 'O', 'X', 'X' },
+                { 'X', 'O', 'O', 'X', 'X', 'O', 'O' }
+            }, "5").SetName("DiagonalDownLeft");
+    }
+
     private static void FillTieGridWithOneEmpty(char[,] grid, int emptyRow, int emptyCol)
     {
         const char empty = '_';
@@ -266,6 +337,17 @@ public class ConnectFourGameTest
             for (var col = 0; col < pattern.GetLength(1); col++)
             {
                 grid[row, col] = row == emptyRow && col == emptyCol ? empty : pattern[row, col];
+            }
+        }
+    }
+
+    private static void ApplyGrid(char[,] target, char[,] source)
+    {
+        for (var row = 0; row < source.GetLength(0); row++)
+        {
+            for (var col = 0; col < source.GetLength(1); col++)
+            {
+                target[row, col] = source[row, col];
             }
         }
     }

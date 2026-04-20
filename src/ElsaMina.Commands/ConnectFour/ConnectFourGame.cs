@@ -156,7 +156,16 @@ public class ConnectFourGame : Game, IConnectFourGame
         foreach (var symbol in ConnectFourConstants.SYMBOLS)
         {
             await CheckWin(symbol);
-            if (_ended) return;
+            if (_ended)
+            {
+                return;
+            }
+        }
+        
+        if (CheckTie())
+        {
+            await OnWin(Players[0], Players[1], true);
+            return;
         }
 
         await InitializeNextTurn();
@@ -180,7 +189,7 @@ public class ConnectFourGame : Game, IConnectFourGame
         {
             return;
         }
-        
+
         Context.ReplyLocalizedMessage("c4_game_on_timeout", PlayerCurrentlyPlaying.Name);
         var loser = PlayerCurrentlyPlaying;
         var winner = Players.FirstOrDefault(player => !Equals(player, loser));
@@ -214,10 +223,6 @@ public class ConnectFourGame : Game, IConnectFourGame
             var winner = Players[Array.IndexOf(ConnectFourConstants.SYMBOLS, symbol)];
             var loser = Players.FirstOrDefault(player => !Equals(player, winner));
             await OnWin(winner, loser);
-        }
-        else if (CheckTie())
-        {
-            await OnWin(Players[0], Players[1], true);
         }
     }
 
