@@ -2398,4 +2398,10 @@
     <data name="bet_closed" xml:space="preserve">
         <value>Les paris sont fermés pour ce tournoi.</value>
     </data>
+    <data name="parameter_name_tournament_betting_enabled" xml:space="preserve">
+        <value>Paris sur les tournois</value>
+    </data>
+    <data name="parameter_description_tournament_betting_enabled" xml:space="preserve">
+        <value>Activer ou désactiver les paris sur les tournois pour cette room.</value>
+    </data>
 </root>

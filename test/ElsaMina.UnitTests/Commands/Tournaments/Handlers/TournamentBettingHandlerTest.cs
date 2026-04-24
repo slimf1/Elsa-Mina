@@ -1,5 +1,7 @@
 using ElsaMina.Commands.Tournaments.Betting;
 using ElsaMina.Commands.Tournaments.Handlers;
+using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.Rooms.Parameters;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -21,13 +23,22 @@ public class TournamentBettingHandlerTest
         """{"results":[["PlayerA"]],"format":"OU","generator":"Single Elimination","bracketData":{"type":"tree","rootNode":{"children":[{"team":"PlayerA"},{"team":"PlayerB"}],"state":"finished","team":"PlayerA","result":"win","score":[1,0]}}}""";
 
     private ITournamentBettingService _bettingService;
+    private IRoomsManager _roomsManager;
+    private IRoom _room;
     private TournamentBettingHandler _handler;
 
     [SetUp]
     public void SetUp()
     {
         _bettingService = Substitute.For<ITournamentBettingService>();
-        _handler = new TournamentBettingHandler(_bettingService);
+        _roomsManager = Substitute.For<IRoomsManager>();
+        _room = Substitute.For<IRoom>();
+
+        _room.GetParameterValueAsync(Parameter.TournamentBettingEnabled, Arg.Any<CancellationToken>())
+            .Returns(true.ToString());
+        _roomsManager.GetRoom(Arg.Any<string>()).Returns(_room);
+
+        _handler = new TournamentBettingHandler(_bettingService, _roomsManager);
     }
 
     // ── guard clauses ──────────────────────────────────────────────────────
@@ -123,6 +134,29 @@ public class TournamentBettingHandlerTest
         await _handler.HandleReceivedMessageAsync(["", "tournament", "start"], "room2");
 
         await _bettingService.DidNotReceive().AnnounceBetsAsync(Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<CancellationToken>());
+    }
+
+    [Test]
+    public async Task Test_HandleReceivedMessageAsync_ShouldNotAnnounce_WhenBettingDisabled()
+    {
+        _room.GetParameterValueAsync(Parameter.TournamentBettingEnabled, Arg.Any<CancellationToken>())
+            .Returns(false.ToString());
+
+        await _handler.HandleReceivedMessageAsync(["", "tournament", "update", USERS_JSON], "room1");
+        await _handler.HandleReceivedMessageAsync(["", "tournament", "start"], "room1");
+
+        await _bettingService.DidNotReceive().AnnounceBetsAsync(Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<CancellationToken>());
+    }
+
+    [Test]
+    public async Task Test_HandleReceivedMessageAsync_ShouldAnnounce_WhenRoomNotFound()
+    {
+        _roomsManager.GetRoom("room1").Returns((IRoom)null);
+
+        await _handler.HandleReceivedMessageAsync(["", "tournament", "update", USERS_JSON], "room1");
+        await _handler.HandleReceivedMessageAsync(["", "tournament", "start"], "room1");
+
+        await _bettingService.Received(1).AnnounceBetsAsync(Arg.Any<string[]>(), "room1", Arg.Any<CancellationToken>());
     }
 
     // ── end ────────────────────────────────────────────────────────────────

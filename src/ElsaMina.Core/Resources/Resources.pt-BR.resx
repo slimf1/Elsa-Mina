@@ -2338,4 +2338,10 @@
     <data name="bet_closed" xml:space="preserve">
         <value>As apostas estão fechadas para este torneio.</value>
     </data>
+    <data name="parameter_name_tournament_betting_enabled" xml:space="preserve">
+        <value>Apostas de torneio</value>
+    </data>
+    <data name="parameter_description_tournament_betting_enabled" xml:space="preserve">
+        <value>Ativar ou desativar apostas de torneio para esta sala.</value>
+    </data>
 </root>

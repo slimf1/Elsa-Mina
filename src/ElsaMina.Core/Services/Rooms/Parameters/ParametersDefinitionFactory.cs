@@ -80,6 +80,14 @@ public class ParametersDefinitionFactory : IParametersDefinitionFactory
                 DescriptionKey = "parameter_description_is_showing_replays_preview",
                 Type = RoomBotConfigurationType.Boolean,
                 DefaultValue = true.ToString()
+            },
+            [Parameter.TournamentBettingEnabled] = new ParameterDefinition
+            {
+                Identifier = "tbe",
+                NameKey = "parameter_name_tournament_betting_enabled",
+                DescriptionKey = "parameter_description_tournament_betting_enabled",
+                Type = RoomBotConfigurationType.Boolean,
+                DefaultValue = true.ToString()
             }
         };
 }

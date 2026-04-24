@@ -1,6 +1,8 @@
 using System.Collections.Concurrent;
 using ElsaMina.Commands.Tournaments.Betting;
 using ElsaMina.Core.Handlers;
+using ElsaMina.Core.Services.Rooms;
+using ElsaMina.Core.Services.Rooms.Parameters;
 using ElsaMina.Core.Utils;
 using ElsaMina.Logging;
 using Newtonsoft.Json;
@@ -11,10 +13,12 @@ public class TournamentBettingHandler : Handler
 {
     private readonly ConcurrentDictionary<string, string[]> _pendingPlayers = new();
     private readonly ITournamentBettingService _tournamentBettingService;
+    private readonly IRoomsManager _roomsManager;
 
-    public TournamentBettingHandler(ITournamentBettingService tournamentBettingService)
+    public TournamentBettingHandler(ITournamentBettingService tournamentBettingService, IRoomsManager roomsManager)
     {
         _tournamentBettingService = tournamentBettingService;
+        _roomsManager = roomsManager;
     }
 
     public override IReadOnlySet<string> HandledMessageTypes => (HashSet<string>)["tournament"];
@@ -38,6 +42,15 @@ public class TournamentBettingHandler : Handler
         }
         else if (parts[2] == "start")
         {
+            var room = _roomsManager.GetRoom(roomId);
+            var isBettingEnabled = room == null ||
+                (await room.GetParameterValueAsync(Parameter.TournamentBettingEnabled, cancellationToken)).ToBoolean();
+            if (!isBettingEnabled)
+            {
+                _pendingPlayers.Remove(roomId, out _);
+                return;
+            }
+
             if (_pendingPlayers.TryGetValue(roomId, out var users))
             {
                 _pendingPlayers.Remove(roomId, out _);

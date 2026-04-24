@@ -7,5 +7,6 @@ public enum Parameter
     HasCommandAutoCorrect,
     ShowErrorMessages,
     ShowTeamLinksPreview,
-    ShowReplaysPreview
+    ShowReplaysPreview,
+    TournamentBettingEnabled
 }

@@ -2402,4 +2402,10 @@
     <data name="bet_closed" xml:space="preserve">
         <value>Bets are closed for this tournament.</value>
     </data>
+    <data name="parameter_name_tournament_betting_enabled" xml:space="preserve">
+        <value>Tournament Betting</value>
+    </data>
+    <data name="parameter_description_tournament_betting_enabled" xml:space="preserve">
+        <value>Enable or disable tournament betting for this room.</value>
+    </data>
 </root>
