@@ -1,6 +1,9 @@
+using System.Globalization;
 using ElsaMina.Commands.Tournaments.Betting;
 using ElsaMina.Core;
 using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Services.Resources;
+using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using NSubstitute;
 using NUnit.Framework;
@@ -13,6 +16,8 @@ public class TournamentBettingServiceTest
     private IBot _bot;
     private ITemplatesManager _templatesManager;
     private IConfiguration _configuration;
+    private IResourcesService _resourcesService;
+    private IRoomsManager _roomsManager;
     private TournamentBettingService _service;
 
     [SetUp]
@@ -21,11 +26,19 @@ public class TournamentBettingServiceTest
         _bot = Substitute.For<IBot>();
         _templatesManager = Substitute.For<ITemplatesManager>();
         _configuration = Substitute.For<IConfiguration>();
+        _resourcesService = Substitute.For<IResourcesService>();
+        _roomsManager = Substitute.For<IRoomsManager>();
+
         _configuration.Name.Returns("Elsa-Mina");
         _configuration.Trigger.Returns("-");
-        _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>())
-            .Returns("<html/>");
-        _service = new TournamentBettingService(_bot, _templatesManager, _configuration);
+        _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>()).Returns("<html/>");
+        _resourcesService.GetString("bet_resolution_correct_guesses", Arg.Any<CultureInfo>())
+            .Returns("🏆 {0} won! Correct guesses: {1}");
+        _resourcesService.GetString("bet_resolution_nobody_correct", Arg.Any<CultureInfo>())
+            .Returns("🏆 {0} won! Nobody guessed correctly.");
+
+        _service = new TournamentBettingService(_bot, _templatesManager, _configuration,
+            _resourcesService, _roomsManager);
     }
 
     // ── AnnounceBetsAsync ──────────────────────────────────────────────────
@@ -89,25 +102,14 @@ public class TournamentBettingServiceTest
     }
 
     [Test]
-    public async Task Test_PlaceBetAsync_ShouldReturnAlreadyBetOnPlayer_WhenSameBettorTargetsSamePlayerTwice()
-    {
-        await _service.AnnounceBetsAsync(["playerA"], "room1");
-        await _service.PlaceBetAsync("bettor1", "playera", "room1");
-
-        var result = await _service.PlaceBetAsync("bettor1", "playera", "room1");
-
-        Assert.That(result, Is.EqualTo(BetPlacementError.AlreadyBetOnPlayer));
-    }
-
-    [Test]
-    public async Task Test_PlaceBetAsync_ShouldReturnSuccess_WhenSameBettorBetsOnDifferentPlayers()
+    public async Task Test_PlaceBetAsync_ShouldReturnAlreadyBet_WhenBettorAlreadyHasABet()
     {
         await _service.AnnounceBetsAsync(["playerA", "playerB"], "room1");
         await _service.PlaceBetAsync("bettor1", "playera", "room1");
 
         var result = await _service.PlaceBetAsync("bettor1", "playerb", "room1");
 
-        Assert.That(result, Is.EqualTo(BetPlacementError.Success));
+        Assert.That(result, Is.EqualTo(BetPlacementError.AlreadyBet));
     }
 
     [Test]
@@ -152,44 +154,27 @@ public class TournamentBettingServiceTest
     }
 
     [Test]
-    public async Task Test_CancelBetAsync_ShouldReturnOne_AndRemoveBet_WhenNoPlayerSpecified()
+    public async Task Test_CancelBetAsync_ShouldReturnOne_AndAllowNewBet_AfterCancellation()
     {
-        await _service.AnnounceBetsAsync(["playerA"], "room1");
+        await _service.AnnounceBetsAsync(["playerA", "playerB"], "room1");
         await _service.PlaceBetAsync("bettor1", "playera", "room1");
 
         var count = await _service.CancelBetAsync("bettor1", "room1");
 
         Assert.That(count, Is.EqualTo(1));
-        // Placing the same bet again should succeed (slot is free)
-        var result = await _service.PlaceBetAsync("bettor1", "playera", "room1");
+        var result = await _service.PlaceBetAsync("bettor1", "playerb", "room1");
         Assert.That(result, Is.EqualTo(BetPlacementError.Success));
     }
 
     [Test]
-    public async Task Test_CancelBetAsync_ShouldCancelAllBets_WhenBettorHasMultipleAndNoPlayerSpecified()
+    public async Task Test_CancelBetAsync_ShouldReturnZero_WhenSpecifiedPlayerDoesNotMatchBet()
     {
         await _service.AnnounceBetsAsync(["playerA", "playerB"], "room1");
         await _service.PlaceBetAsync("bettor1", "playera", "room1");
-        await _service.PlaceBetAsync("bettor1", "playerb", "room1");
 
-        var count = await _service.CancelBetAsync("bettor1", "room1");
+        var count = await _service.CancelBetAsync("bettor1", "room1", "playerb");
 
-        Assert.That(count, Is.EqualTo(2));
-    }
-
-    [Test]
-    public async Task Test_CancelBetAsync_ShouldCancelOnlySpecifiedPlayer_WhenPlayerProvided()
-    {
-        await _service.AnnounceBetsAsync(["playerA", "playerB"], "room1");
-        await _service.PlaceBetAsync("bettor1", "playera", "room1");
-        await _service.PlaceBetAsync("bettor1", "playerb", "room1");
-
-        var count = await _service.CancelBetAsync("bettor1", "room1", "playera");
-
-        Assert.That(count, Is.EqualTo(1));
-        // playerB bet must still be there — placing again on playerB must be rejected
-        var result = await _service.PlaceBetAsync("bettor1", "playerb", "room1");
-        Assert.That(result, Is.EqualTo(BetPlacementError.AlreadyBetOnPlayer));
+        Assert.That(count, Is.EqualTo(0));
     }
 
     [Test]
@@ -201,9 +186,8 @@ public class TournamentBettingServiceTest
 
         await _service.CancelBetAsync("bettor1", "room1");
 
-        // bettor2's bet must survive
         var result = await _service.PlaceBetAsync("bettor2", "playera", "room1");
-        Assert.That(result, Is.EqualTo(BetPlacementError.AlreadyBetOnPlayer));
+        Assert.That(result, Is.EqualTo(BetPlacementError.AlreadyBet));
     }
 
     // ── ResolveBetsAsync ───────────────────────────────────────────────────
@@ -229,7 +213,7 @@ public class TournamentBettingServiceTest
     }
 
     [Test]
-    public async Task Test_ResolveBetsAsync_ShouldAnnounceNobodyGuessedCorrectly_WhenNoCorrectBets()
+    public async Task Test_ResolveBetsAsync_ShouldAnnounceNobodyCorrect_WhenNoCorrectBets()
     {
         await _service.AnnounceBetsAsync(["playerA", "playerB"], "room1");
         await _service.PlaceBetAsync("bettor1", "playerb", "room1");
@@ -237,6 +221,22 @@ public class TournamentBettingServiceTest
         await _service.ResolveBetsAsync("playera", "room1");
 
         _bot.Received(1).Say("room1", Arg.Is<string>(s => s.Contains("Nobody")));
+    }
+
+    [Test]
+    public async Task Test_ResolveBetsAsync_ShouldUseRoomCulture_WhenLookingUpStrings()
+    {
+        var culture = new CultureInfo("fr-FR");
+        var room = Substitute.For<IRoom>();
+        room.Culture.Returns(culture);
+        _roomsManager.GetRoom("room1").Returns(room);
+
+        await _service.AnnounceBetsAsync(["playerA"], "room1");
+        await _service.PlaceBetAsync("bettor1", "playera", "room1");
+
+        await _service.ResolveBetsAsync("playera", "room1");
+
+        _resourcesService.Received().GetString("bet_resolution_correct_guesses", culture);
     }
 
     [Test]

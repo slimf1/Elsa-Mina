@@ -2374,8 +2374,8 @@
     <data name="bet_invalid_player" xml:space="preserve">
         <value>{0} is not a participant in the current tournament.</value>
     </data>
-    <data name="bet_already_on_player" xml:space="preserve">
-        <value>You already have a bet on {0} in this tournament.</value>
+    <data name="bet_already_placed" xml:space="preserve">
+        <value>Tu as déjà un pari dans ce tournoi. Utilise -cancelbet pour le changer.</value>
     </data>
     <data name="cancelbet_help" xml:space="preserve">
         <value>Usage: -cancelbet roomId</value>
@@ -2388,5 +2388,11 @@
     </data>
     <data name="cancelbet_all_success" xml:space="preserve">
         <value>All your bets in {0} have been cancelled and refunded.</value>
+    </data>
+    <data name="bet_resolution_correct_guesses" xml:space="preserve">
+        <value>🏆 {0} a gagné ! Bons paris : {1}</value>
+    </data>
+    <data name="bet_resolution_nobody_correct" xml:space="preserve">
+        <value>🏆 {0} a gagné ! Personne n'a parié juste.</value>
     </data>
 </root>

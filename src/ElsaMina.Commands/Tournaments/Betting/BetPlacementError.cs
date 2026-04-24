@@ -5,5 +5,5 @@ public enum BetPlacementError
     Success,
     NoBettingSession,
     InvalidPlayer,
-    AlreadyBetOnPlayer
+    AlreadyBet
 }

@@ -2,6 +2,8 @@ using System.Collections.Concurrent;
 using System.Globalization;
 using ElsaMina.Core;
 using ElsaMina.Core.Services.Config;
+using ElsaMina.Core.Services.Resources;
+using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
 
@@ -17,12 +19,17 @@ public class TournamentBettingService : ITournamentBettingService
     private readonly IBot _bot;
     private readonly ITemplatesManager _templatesManager;
     private readonly IConfiguration _configuration;
+    private readonly IResourcesService _resourcesService;
+    private readonly IRoomsManager _roomsManager;
 
-    public TournamentBettingService(IBot bot, ITemplatesManager templatesManager, IConfiguration configuration)
+    public TournamentBettingService(IBot bot, ITemplatesManager templatesManager, IConfiguration configuration,
+        IResourcesService resourcesService, IRoomsManager roomsManager)
     {
         _bot = bot;
         _templatesManager = templatesManager;
         _configuration = configuration;
+        _resourcesService = resourcesService;
+        _roomsManager = roomsManager;
     }
 
     public async Task AnnounceBetsAsync(string[] players, string roomId,
@@ -56,9 +63,9 @@ public class TournamentBettingService : ITournamentBettingService
             return Task.FromResult(BetPlacementError.InvalidPlayer);
         }
 
-        if (bets.Any(bet => bet.BettorId == bettorId && bet.TargetPlayerId == targetPlayerId))
+        if (bets.Any(bet => bet.BettorId == bettorId))
         {
-            return Task.FromResult(BetPlacementError.AlreadyBetOnPlayer);
+            return Task.FromResult(BetPlacementError.AlreadyBet);
         }
 
         bets.Add(new ActiveBet(bettorId, targetPlayerId));
@@ -93,22 +100,28 @@ public class TournamentBettingService : ITournamentBettingService
             return Task.CompletedTask;
         }
 
-        var winners = bets
+        var culture = _roomsManager.GetRoom(roomId)?.Culture;
+
+        var correctBettors = bets
             .Where(bet => bet.TargetPlayerId == winnerId)
             .Select(bet => bet.BettorId)
             .Distinct()
             .ToList();
 
-        if (winners.Count > 0)
+        string message;
+        if (correctBettors.Count > 0)
         {
-            var names = string.Join(", ", winners);
-            _bot.Say(roomId, $"/addhtmlbox <div>🏆 <b>{winnerId}</b> won! Correct guesses: <b>{names}</b></div>");
+            var names = string.Join(", ", correctBettors);
+            message = string.Format(
+                _resourcesService.GetString("bet_resolution_correct_guesses", culture), winnerId, names);
         }
         else
         {
-            _bot.Say(roomId, $"/addhtmlbox <div>🏆 <b>{winnerId}</b> won! Nobody guessed correctly.</div>");
+            message = string.Format(
+                _resourcesService.GetString("bet_resolution_nobody_correct", culture), winnerId);
         }
 
+        _bot.Say(roomId, $"/addhtmlbox <div>{message}</div>");
         CleanUp(roomId);
         return Task.CompletedTask;
     }

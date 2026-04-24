@@ -44,8 +44,8 @@ public class BetCommand : Command
             case BetPlacementError.InvalidPlayer:
                 context.ReplyLocalizedMessage("bet_invalid_player", targetPlayer);
                 break;
-            case BetPlacementError.AlreadyBetOnPlayer:
-                context.ReplyLocalizedMessage("bet_already_on_player", targetPlayer);
+            case BetPlacementError.AlreadyBet:
+                context.ReplyLocalizedMessage("bet_already_placed");
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

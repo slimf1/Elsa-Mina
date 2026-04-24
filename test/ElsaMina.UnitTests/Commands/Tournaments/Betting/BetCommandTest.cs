@@ -108,15 +108,15 @@ public class BetCommandTest
     }
 
     [Test]
-    public async Task Test_RunAsync_ShouldReplyAlreadyBetOnPlayer_WhenDuplicateBet()
+    public async Task Test_RunAsync_ShouldReplyAlreadyPlaced_WhenBettorAlreadyHasABet()
     {
         _context.Target.Returns("room1 playerA");
         _bettingService.PlaceBetAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(BetPlacementError.AlreadyBetOnPlayer);
+            .Returns(BetPlacementError.AlreadyBet);
 
         await _command.RunAsync(_context);
 
-        _context.Received(1).ReplyLocalizedMessage("bet_already_on_player", "playera");
+        _context.Received(1).ReplyLocalizedMessage("bet_already_placed");
     }
 
     [Test]
