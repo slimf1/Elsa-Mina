@@ -863,6 +863,36 @@
     <data name="show_polls_room_not_exist" xml:space="preserve">
         <value>La sala {0} no existe</value>
     </data>
+    <data name="tour_history_title" xml:space="preserve">
+        <value>Historial de torneos de {0}</value>
+    </data>
+    <data name="tour_history_date" xml:space="preserve">
+        <value>Fecha</value>
+    </data>
+    <data name="tour_history_format" xml:space="preserve">
+        <value>Formato</value>
+    </data>
+    <data name="tour_history_winner" xml:space="preserve">
+        <value>Ganador</value>
+    </data>
+    <data name="tour_history_runner_up" xml:space="preserve">
+        <value>Finalista</value>
+    </data>
+    <data name="tour_history_semi_finalists" xml:space="preserve">
+        <value>Semifinalistas</value>
+    </data>
+    <data name="tour_history_player_count" xml:space="preserve">
+        <value>Jugadores</value>
+    </data>
+    <data name="tour_history_no_history" xml:space="preserve">
+        <value>No se ha registrado ningún torneo para la sala {0}.</value>
+    </data>
+    <data name="tour_history_room_not_found" xml:space="preserve">
+        <value>La sala {0} no existe.</value>
+    </data>
+    <data name="tour_history_sent" xml:space="preserve">
+        <value>Historial de torneos enviado.</value>
+    </data>
     <data name="countries_game_turn_ending_soon" xml:space="preserve">
         <value>¡El tiempo corre! Quedan {0} segundos.</value>
     </data>

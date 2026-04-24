@@ -73,6 +73,7 @@ using ElsaMina.Commands.Tournaments;
 using ElsaMina.Commands.Tournaments.Betting;
 using ElsaMina.Commands.Tournaments.Handlers;
 using ElsaMina.Commands.Tournaments.Hebdo;
+using ElsaMina.Commands.Tournaments.History;
 using ElsaMina.Commands.Tournaments.Leaderboard;
 using ElsaMina.Commands.Tournaments.Trade;
 using ElsaMina.Commands.TwentyFortyEight;
@@ -209,6 +210,7 @@ public class CommandModule : Module
         builder.RegisterCommand<CurrentLadderTrackersCommand>();
         builder.RegisterCommand<GuessingGameAnswerCommand>();
         builder.RegisterCommand<TopTournamentPlayersCommand>();
+        builder.RegisterCommand<TourHistoryCommand>();
         builder.RegisterCommand<RandomTournamentCommand>();
         builder.RegisterCommand<ArcadeSheetAddPointsCommand>();
         builder.RegisterCommand<ArcadePointsCommand>();

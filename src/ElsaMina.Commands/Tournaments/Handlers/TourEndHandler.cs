@@ -1,6 +1,7 @@
 using ElsaMina.Commands.Profile;
 using ElsaMina.Core;
 using ElsaMina.Core.Handlers;
+using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess;
@@ -15,16 +16,19 @@ public class TourEndHandler : Handler
     private readonly IRoomUserDataService _roomUserDataService;
     private readonly IProfileService _profileService;
     private readonly IBot _bot;
+    private readonly IClockService _clockService;
 
     public TourEndHandler(IBotDbContextFactory botDbContextFactory,
         IRoomUserDataService roomUserDataService,
         IProfileService profileService,
-        IBot bot)
+        IBot bot,
+        IClockService clockService)
     {
         _botDbContextFactory = botDbContextFactory;
         _roomUserDataService = roomUserDataService;
         _profileService = profileService;
         _bot = bot;
+        _clockService = clockService;
     }
 
     public override IReadOnlySet<string> HandledMessageTypes { get; } = new HashSet<string> { "tournament" };
@@ -46,6 +50,18 @@ public class TourEndHandler : Handler
         try
         {
             await using var dbContext = await _botDbContextFactory.CreateDbContextAsync(cancellationToken);
+
+            var savedTournament = new SavedTournament
+            {
+                RoomId = roomId,
+                Format = result.Format,
+                Winner = result.Winner,
+                RunnerUp = result.RunnerUp,
+                SemiFinalists = string.Join(",", result.SemiFinalists),
+                PlayerCount = result.Players.Count,
+                EndedAt = _clockService.CurrentUtcDateTimeOffset
+            };
+            await dbContext.SavedTournaments.AddAsync(savedTournament, cancellationToken);
 
             foreach (var player in result.Players)
             {

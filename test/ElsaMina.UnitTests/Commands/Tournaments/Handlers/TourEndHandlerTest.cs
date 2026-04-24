@@ -1,6 +1,7 @@
 using ElsaMina.Commands.Profile;
 using ElsaMina.Commands.Tournaments.Handlers;
 using ElsaMina.Core;
+using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.RoomUserData;
 using ElsaMina.DataAccess;
 using ElsaMina.DataAccess.Models;
@@ -19,6 +20,7 @@ public class TourEndHandlerTest
     private IRoomUserDataService _roomUserDataService;
     private IProfileService _profileService;
     private IBot _bot;
+    private IClockService _clockService;
     private DbContextOptions<BotDbContext> _dbOptions;
     private TourEndHandler _handler;
 
@@ -29,6 +31,8 @@ public class TourEndHandlerTest
         _roomUserDataService = Substitute.For<IRoomUserDataService>();
         _profileService = Substitute.For<IProfileService>();
         _bot = Substitute.For<IBot>();
+        _clockService = Substitute.For<IClockService>();
+        _clockService.CurrentUtcDateTimeOffset.Returns(DateTimeOffset.UtcNow);
         _dbOptions = new DbContextOptionsBuilder<BotDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
@@ -39,7 +43,7 @@ public class TourEndHandlerTest
             .GetProfileHtmlAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns("<profile/>");
 
-        _handler = new TourEndHandler(_botDbContextFactory, _roomUserDataService, _profileService, _bot);
+        _handler = new TourEndHandler(_botDbContextFactory, _roomUserDataService, _profileService, _bot, _clockService);
     }
 
     [TearDown]

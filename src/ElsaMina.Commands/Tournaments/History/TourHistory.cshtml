@@ -1,0 +1,67 @@
+@using ElsaMina.Core.Services.Templates
+@using ElsaMina.Core.Utils
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Tournaments.History.TourHistoryViewModel>
+
+@{
+    const string headerStyle = $"border-bottom: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR}; padding: 4px 8px";
+    const string cellStyle = "padding: 2px 8px; text-align: center";
+}
+<div style="max-height: 300px; overflow-y: auto">
+    <table style="border: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; border-radius: 8px; padding: 4px; border-collapse: collapse">
+        <thead>
+            <tr>
+                <th colspan="6" style="@headerStyle; text-align: center">
+                    @GetString("tour_history_title", Model.Room)
+                </th>
+            </tr>
+            <tr>
+                <th style="@headerStyle">@GetString("tour_history_date")</th>
+                <th style="@headerStyle">@GetString("tour_history_format")</th>
+                <th style="@headerStyle">@GetString("tour_history_winner")</th>
+                <th style="@headerStyle">@GetString("tour_history_runner_up")</th>
+                <th style="@headerStyle">@GetString("tour_history_semi_finalists")</th>
+                <th style="@headerStyle">@GetString("tour_history_player_count")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entry in Model.Entries)
+            {
+                <tr>
+                    <td style="@cellStyle">@entry.EndedAt</td>
+                    <td style="@cellStyle">@(entry.Format ?? "—")</td>
+                    <td style="@cellStyle">
+                        @if (!string.IsNullOrEmpty(entry.Winner))
+                        {
+                            <span class="username" data-name="@entry.Winner" style="color: @entry.Winner.ToColorHexCodeWithCustoms()">@entry.Winner</span>
+                        }
+                        else
+                        {
+                            @:—
+                        }
+                    </td>
+                    <td style="@cellStyle">
+                        @if (!string.IsNullOrEmpty(entry.RunnerUp))
+                        {
+                            <span class="username" data-name="@entry.RunnerUp" style="color: @entry.RunnerUp.ToColorHexCodeWithCustoms()">@entry.RunnerUp</span>
+                        }
+                        else
+                        {
+                            @:—
+                        }
+                    </td>
+                    <td style="@cellStyle">
+                        @if (entry.SemiFinalists.Count > 0)
+                        {
+                            @string.Join(", ", entry.SemiFinalists)
+                        }
+                        else
+                        {
+                            @:—
+                        }
+                    </td>
+                    <td style="@cellStyle">@entry.PlayerCount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

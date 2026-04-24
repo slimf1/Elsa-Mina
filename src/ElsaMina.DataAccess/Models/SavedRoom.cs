@@ -13,6 +13,7 @@ public class SavedRoom
     public ICollection<RoomTeam> Teams { get; set; } = new HashSet<RoomTeam>();
     public ICollection<RoomBotParameterValue> ParameterValues { get; set; } = new HashSet<RoomBotParameterValue>();
     public ICollection<SavedPoll> PollHistory { get; set; } = new HashSet<SavedPoll>();
+    public ICollection<SavedTournament> TournamentHistory { get; set; } = new HashSet<SavedTournament>();
     public ICollection<Badge> Badges { get; set; } = new HashSet<Badge>();
     public ICollection<AddedCommand> AddedCommands { get; set; } = new HashSet<AddedCommand>();
 }
