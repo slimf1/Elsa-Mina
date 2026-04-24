@@ -1,6 +1,7 @@
 using System.Globalization;
 using ElsaMina.Commands.Tournaments.Betting;
 using ElsaMina.Core;
+using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
@@ -18,6 +19,7 @@ public class TournamentBettingServiceTest
     private IConfiguration _configuration;
     private IResourcesService _resourcesService;
     private IRoomsManager _roomsManager;
+    private IClockService _clockService;
     private TournamentBettingService _service;
 
     [SetUp]
@@ -28,9 +30,12 @@ public class TournamentBettingServiceTest
         _configuration = Substitute.For<IConfiguration>();
         _resourcesService = Substitute.For<IResourcesService>();
         _roomsManager = Substitute.For<IRoomsManager>();
+        _clockService = Substitute.For<IClockService>();
 
         _configuration.Name.Returns("Elsa-Mina");
         _configuration.Trigger.Returns("-");
+        _configuration.DefaultLocaleCode.Returns("en-US");
+        _clockService.CurrentUtcDateTimeOffset.Returns(DateTimeOffset.UtcNow);
         _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>()).Returns("<html/>");
         _resourcesService.GetString("bet_resolution_correct_guesses", Arg.Any<CultureInfo>())
             .Returns("🏆 {0} won! Correct guesses: {1}");
@@ -38,7 +43,7 @@ public class TournamentBettingServiceTest
             .Returns("🏆 {0} won! Nobody guessed correctly.");
 
         _service = new TournamentBettingService(_bot, _templatesManager, _configuration,
-            _resourcesService, _roomsManager);
+            _resourcesService, _roomsManager, _clockService);
     }
 
     // ── AnnounceBetsAsync ──────────────────────────────────────────────────
@@ -119,6 +124,34 @@ public class TournamentBettingServiceTest
         await _service.PlaceBetAsync("bettor1", "playera", "room1");
 
         var result = await _service.PlaceBetAsync("bettor2", "playera", "room1");
+
+        Assert.That(result, Is.EqualTo(BetPlacementError.Success));
+    }
+
+    [Test]
+    public async Task Test_PlaceBetAsync_ShouldReturnBettingClosed_WhenWindowHasExpired()
+    {
+        var now = DateTimeOffset.UtcNow;
+        _clockService.CurrentUtcDateTimeOffset.Returns(now);
+        await _service.AnnounceBetsAsync(["playerA"], "room1");
+
+        _clockService.CurrentUtcDateTimeOffset.Returns(now.AddSeconds(31));
+
+        var result = await _service.PlaceBetAsync("bettor1", "playera", "room1");
+
+        Assert.That(result, Is.EqualTo(BetPlacementError.BettingClosed));
+    }
+
+    [Test]
+    public async Task Test_PlaceBetAsync_ShouldReturnSuccess_WhenWindowHasNotExpired()
+    {
+        var now = DateTimeOffset.UtcNow;
+        _clockService.CurrentUtcDateTimeOffset.Returns(now);
+        await _service.AnnounceBetsAsync(["playerA"], "room1");
+
+        _clockService.CurrentUtcDateTimeOffset.Returns(now.AddSeconds(29));
+
+        var result = await _service.PlaceBetAsync("bettor1", "playera", "room1");
 
         Assert.That(result, Is.EqualTo(BetPlacementError.Success));
     }

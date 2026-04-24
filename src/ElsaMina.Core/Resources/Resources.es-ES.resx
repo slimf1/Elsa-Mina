@@ -2340,4 +2340,7 @@
     <data name="bet_resolution_nobody_correct" xml:space="preserve">
         <value>🏆 ¡{0} ganó! Nadie acertó.</value>
     </data>
+    <data name="bet_closed" xml:space="preserve">
+        <value>Las apuestas están cerradas para este torneo.</value>
+    </data>
 </root>

@@ -41,6 +41,9 @@ public class BetCommand : Command
             case BetPlacementError.NoBettingSession:
                 context.ReplyLocalizedMessage("bet_no_session", roomId);
                 break;
+            case BetPlacementError.BettingClosed:
+                context.ReplyLocalizedMessage("bet_closed");
+                break;
             case BetPlacementError.InvalidPlayer:
                 context.ReplyLocalizedMessage("bet_invalid_player", targetPlayer);
                 break;

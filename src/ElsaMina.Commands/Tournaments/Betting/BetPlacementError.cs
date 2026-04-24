@@ -4,6 +4,7 @@ public enum BetPlacementError
 {
     Success,
     NoBettingSession,
+    BettingClosed,
     InvalidPlayer,
     AlreadyBet
 }

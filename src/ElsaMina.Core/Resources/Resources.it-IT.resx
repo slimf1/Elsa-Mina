@@ -2340,4 +2340,7 @@
     <data name="bet_resolution_nobody_correct" xml:space="preserve">
         <value>🏆 {0} ha vinto! Nessuno ha indovinato.</value>
     </data>
+    <data name="bet_closed" xml:space="preserve">
+        <value>Le scommesse sono chiuse per questo torneo.</value>
+    </data>
 </root>

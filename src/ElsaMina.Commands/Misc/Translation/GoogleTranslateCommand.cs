@@ -17,7 +17,7 @@ public class GoogleTranslateCommand : Command
         var parts = context.Target.Split(',');
         if (parts.Length is not (2 or 3))
         {
-            context.ReplyLocalizedMessage(HelpMessageKey);
+            context.ReplyRankAwareLocalizedMessage(HelpMessageKey);
             return;
         }
 
@@ -33,7 +33,7 @@ public class GoogleTranslateCommand : Command
         }
         catch (Exception)
         {
-            context.ReplyLocalizedMessage("googletranslate_error");
+            context.ReplyRankAwareLocalizedMessage("googletranslate_error");
         }
     }
 }

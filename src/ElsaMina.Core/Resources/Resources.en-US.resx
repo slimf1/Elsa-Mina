@@ -2399,4 +2399,7 @@
     <data name="bet_resolution_nobody_correct" xml:space="preserve">
         <value>🏆 {0} won! Nobody guessed correctly.</value>
     </data>
+    <data name="bet_closed" xml:space="preserve">
+        <value>Bets are closed for this tournament.</value>
+    </data>
 </root>

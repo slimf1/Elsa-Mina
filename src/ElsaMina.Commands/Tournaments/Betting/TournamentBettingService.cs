@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Globalization;
 using ElsaMina.Core;
+using ElsaMina.Core.Services.Clock;
 using ElsaMina.Core.Services.Config;
 using ElsaMina.Core.Services.Resources;
 using ElsaMina.Core.Services.Rooms;
@@ -13,23 +14,31 @@ public class TournamentBettingService : ITournamentBettingService
 {
     private record ActiveBet(string BettorId, string TargetPlayerId);
 
+    private const int BETTING_WINDOW_SECONDS = 30;
+
     private readonly ConcurrentDictionary<string, HashSet<string>> _activePlayers = new();
     private readonly ConcurrentDictionary<string, List<ActiveBet>> _activeBets = new();
+    private readonly ConcurrentDictionary<string, DateTimeOffset> _closingTimes = new();
+    private readonly CultureInfo _defaultCulture;
 
     private readonly IBot _bot;
     private readonly ITemplatesManager _templatesManager;
     private readonly IConfiguration _configuration;
     private readonly IResourcesService _resourcesService;
     private readonly IRoomsManager _roomsManager;
+    private readonly IClockService _clockService;
 
     public TournamentBettingService(IBot bot, ITemplatesManager templatesManager, IConfiguration configuration,
-        IResourcesService resourcesService, IRoomsManager roomsManager)
+        IResourcesService resourcesService, IRoomsManager roomsManager, IClockService clockService)
     {
         _bot = bot;
         _templatesManager = templatesManager;
         _configuration = configuration;
         _resourcesService = resourcesService;
         _roomsManager = roomsManager;
+        _clockService = clockService;
+        
+        _defaultCulture = new CultureInfo(configuration.DefaultLocaleCode);
     }
 
     public async Task AnnounceBetsAsync(string[] players, string roomId,
@@ -37,14 +46,17 @@ public class TournamentBettingService : ITournamentBettingService
     {
         _activePlayers[roomId] = players.Select(p => p.ToLowerAlphaNum()).ToHashSet();
         _activeBets[roomId] = [];
-
+        _closingTimes[roomId] = _clockService.CurrentUtcDateTimeOffset.AddSeconds(BETTING_WINDOW_SECONDS);
+        
+        var culture = _roomsManager.GetRoom(roomId)?.Culture;
         var viewModel = new BettingAnnouncementViewModel
         {
-            Culture = CultureInfo.InvariantCulture,
+            Culture = culture ?? _defaultCulture,
             Players = players,
             BotName = _configuration.Name,
             Trigger = _configuration.Trigger,
-            RoomId = roomId
+            RoomId = roomId,
+            SecondsToClose = BETTING_WINDOW_SECONDS
         };
         var template = await _templatesManager.GetTemplateAsync("Tournaments/Betting/BettingAnnouncement", viewModel);
         _bot.Say(roomId, $"/addhtmlbox {template.RemoveNewlines()}");
@@ -56,6 +68,11 @@ public class TournamentBettingService : ITournamentBettingService
         if (!_activePlayers.TryGetValue(roomId, out var players) || !_activeBets.TryGetValue(roomId, out var bets))
         {
             return Task.FromResult(BetPlacementError.NoBettingSession);
+        }
+
+        if (_closingTimes.TryGetValue(roomId, out var closingTime) && _clockService.CurrentUtcDateTimeOffset > closingTime)
+        {
+            return Task.FromResult(BetPlacementError.BettingClosed);
         }
 
         if (!players.Contains(targetPlayerId))
@@ -136,5 +153,6 @@ public class TournamentBettingService : ITournamentBettingService
     {
         _activePlayers.TryRemove(roomId, out _);
         _activeBets.TryRemove(roomId, out _);
+        _closingTimes.TryRemove(roomId, out _);
     }
 }

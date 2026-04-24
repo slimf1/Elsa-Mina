@@ -2,9 +2,12 @@
 @inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Tournaments.Betting.BettingAnnouncementViewModel>
 
 <div style="border: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; border-radius: 8px; padding: 8px; display: inline-block">
-    <b style="display: block; margin-bottom: 6px; border-bottom: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; padding-bottom: 4px">
+    <b style="display: block; margin-bottom: 4px; border-bottom: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; padding-bottom: 4px">
         Place your bets!
     </b>
+    <i style="display: block; font-size: 0.85em; margin-bottom: 6px; color: gray">
+        Bets close in @Model.SecondsToClose seconds
+    </i>
     <table>
         @foreach (var player in Model.Players)
         {

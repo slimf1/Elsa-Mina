@@ -2395,4 +2395,7 @@
     <data name="bet_resolution_nobody_correct" xml:space="preserve">
         <value>🏆 {0} a gagné ! Personne n'a parié juste.</value>
     </data>
+    <data name="bet_closed" xml:space="preserve">
+        <value>Les paris sont fermés pour ce tournoi.</value>
+    </data>
 </root>

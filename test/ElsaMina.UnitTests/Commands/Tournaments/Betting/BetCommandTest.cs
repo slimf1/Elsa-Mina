@@ -96,6 +96,18 @@ public class BetCommandTest
     }
 
     [Test]
+    public async Task Test_RunAsync_ShouldReplyClosed_WhenBettingWindowHasExpired()
+    {
+        _context.Target.Returns("room1 playerA");
+        _bettingService.PlaceBetAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(BetPlacementError.BettingClosed);
+
+        await _command.RunAsync(_context);
+
+        _context.Received(1).ReplyLocalizedMessage("bet_closed");
+    }
+
+    [Test]
     public async Task Test_RunAsync_ShouldReplyInvalidPlayer_WhenPlayerNotInTournament()
     {
         _context.Target.Returns("room1 nobody");

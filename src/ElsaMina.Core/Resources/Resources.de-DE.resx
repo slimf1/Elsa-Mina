@@ -2335,4 +2335,7 @@
     <data name="bet_resolution_nobody_correct" xml:space="preserve">
         <value>🏆 {0} hat gewonnen! Niemand hat richtig getippt.</value>
     </data>
+    <data name="bet_closed" xml:space="preserve">
+        <value>Die Wetten für dieses Turnier sind geschlossen.</value>
+    </data>
 </root>
