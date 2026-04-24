@@ -15,8 +15,9 @@ public class TournamentBettingService : ITournamentBettingService
     private record ActiveBet(string BettorId, string TargetPlayerId);
 
     private const int BETTING_WINDOW_SECONDS = 30;
+    private const string HTML_ID_PREFIX = "betting-";
 
-    private readonly ConcurrentDictionary<string, HashSet<string>> _activePlayers = new();
+    private readonly ConcurrentDictionary<string, string[]> _activePlayers = new();
     private readonly ConcurrentDictionary<string, List<ActiveBet>> _activeBets = new();
     private readonly ConcurrentDictionary<string, DateTimeOffset> _closingTimes = new();
     private readonly CultureInfo _defaultCulture;
@@ -37,64 +38,55 @@ public class TournamentBettingService : ITournamentBettingService
         _resourcesService = resourcesService;
         _roomsManager = roomsManager;
         _clockService = clockService;
-        
+
         _defaultCulture = new CultureInfo(configuration.DefaultLocaleCode);
     }
 
     public async Task AnnounceBetsAsync(string[] players, string roomId,
         CancellationToken cancellationToken = default)
     {
-        _activePlayers[roomId] = players.Select(p => p.ToLowerAlphaNum()).ToHashSet();
+        _activePlayers[roomId] = players.Select(p => p.ToLowerAlphaNum()).ToHashSet().ToArray();
         _activeBets[roomId] = [];
         _closingTimes[roomId] = _clockService.CurrentUtcDateTimeOffset.AddSeconds(BETTING_WINDOW_SECONDS);
-        
-        var culture = _roomsManager.GetRoom(roomId)?.Culture;
-        var viewModel = new BettingAnnouncementViewModel
-        {
-            Culture = culture ?? _defaultCulture,
-            Players = players,
-            BotName = _configuration.Name,
-            Trigger = _configuration.Trigger,
-            RoomId = roomId,
-            SecondsToClose = BETTING_WINDOW_SECONDS
-        };
-        var template = await _templatesManager.GetTemplateAsync("Tournaments/Betting/BettingAnnouncement", viewModel);
-        _bot.Say(roomId, $"/addhtmlbox {template.RemoveNewlines()}");
+
+        var template = await BuildTemplateAsync(roomId, isBettingOpen: true, cancellationToken);
+        _bot.Say(roomId, $"/adduhtml {HTML_ID_PREFIX}{roomId}, {template}");
     }
 
-    public Task<BetPlacementError> PlaceBetAsync(string bettorId, string targetPlayerId, string roomId,
+    public async Task<BetPlacementError> PlaceBetAsync(string bettorId, string targetPlayerId, string roomId,
         CancellationToken cancellationToken = default)
     {
         if (!_activePlayers.TryGetValue(roomId, out var players) || !_activeBets.TryGetValue(roomId, out var bets))
         {
-            return Task.FromResult(BetPlacementError.NoBettingSession);
+            return BetPlacementError.NoBettingSession;
         }
 
         if (_closingTimes.TryGetValue(roomId, out var closingTime) && _clockService.CurrentUtcDateTimeOffset > closingTime)
         {
-            return Task.FromResult(BetPlacementError.BettingClosed);
+            return BetPlacementError.BettingClosed;
         }
 
         if (!players.Contains(targetPlayerId))
         {
-            return Task.FromResult(BetPlacementError.InvalidPlayer);
+            return BetPlacementError.InvalidPlayer;
         }
 
         if (bets.Any(bet => bet.BettorId == bettorId))
         {
-            return Task.FromResult(BetPlacementError.AlreadyBet);
+            return BetPlacementError.AlreadyBet;
         }
 
         bets.Add(new ActiveBet(bettorId, targetPlayerId));
-        return Task.FromResult(BetPlacementError.Success);
+        await RefreshHtmlAsync(roomId, cancellationToken);
+        return BetPlacementError.Success;
     }
 
-    public Task<int> CancelBetAsync(string bettorId, string roomId, string targetPlayerId = null,
+    public async Task<int> CancelBetAsync(string bettorId, string roomId, string targetPlayerId = null,
         CancellationToken cancellationToken = default)
     {
         if (!_activeBets.TryGetValue(roomId, out var bets))
         {
-            return Task.FromResult(0);
+            return 0;
         }
 
         var toCancel = targetPlayerId != null
@@ -106,7 +98,12 @@ public class TournamentBettingService : ITournamentBettingService
             bets.Remove(bet);
         }
 
-        return Task.FromResult(toCancel.Count);
+        if (toCancel.Count > 0)
+        {
+            await RefreshHtmlAsync(roomId, cancellationToken);
+        }
+
+        return toCancel.Count;
     }
 
     public Task ResolveBetsAsync(string winnerId, string roomId, CancellationToken cancellationToken = default)
@@ -147,6 +144,44 @@ public class TournamentBettingService : ITournamentBettingService
     {
         CleanUp(roomId);
         return Task.CompletedTask;
+    }
+
+    private async Task RefreshHtmlAsync(string roomId, CancellationToken cancellationToken)
+    {
+        var isBettingOpen = _closingTimes.TryGetValue(roomId, out var closingTime) &&
+                            _clockService.CurrentUtcDateTimeOffset <= closingTime;
+        var template = await BuildTemplateAsync(roomId, isBettingOpen, cancellationToken);
+        _bot.Say(roomId, $"/changeuhtml {HTML_ID_PREFIX}{roomId}, {template}");
+    }
+
+    private async Task<string> BuildTemplateAsync(string roomId, bool isBettingOpen,
+        CancellationToken cancellationToken)
+    {
+        var culture = _roomsManager.GetRoom(roomId)?.Culture;
+        var players = _activePlayers.TryGetValue(roomId, out var p) ? p : [];
+        var bets = _activeBets.TryGetValue(roomId, out var b) ? b : [];
+
+        var betsByPlayer = players.ToDictionary(
+            player => player,
+            player => (IReadOnlyList<string>)bets
+                .Where(bet => bet.TargetPlayerId == player)
+                .Select(bet => bet.BettorId)
+                .ToList());
+
+        var viewModel = new BettingAnnouncementViewModel
+        {
+            Culture = culture ?? _defaultCulture,
+            Players = players,
+            BotName = _configuration.Name,
+            Trigger = _configuration.Trigger,
+            RoomId = roomId,
+            SecondsToClose = BETTING_WINDOW_SECONDS,
+            IsBettingOpen = isBettingOpen,
+            BetsByPlayer = betsByPlayer
+        };
+
+        var template = await _templatesManager.GetTemplateAsync("Tournaments/Betting/BettingAnnouncement", viewModel);
+        return template.RemoveNewlines();
     }
 
     private void CleanUp(string roomId)

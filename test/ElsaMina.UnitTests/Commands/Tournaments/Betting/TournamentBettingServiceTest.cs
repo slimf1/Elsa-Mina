@@ -53,7 +53,7 @@ public class TournamentBettingServiceTest
     {
         await _service.AnnounceBetsAsync(["PlayerA", "PlayerB"], "room1");
 
-        _bot.Received(1).Say("room1", Arg.Is<string>(s => s.StartsWith("/addhtmlbox")));
+        _bot.Received(1).Say("room1", Arg.Is<string>(s => s.StartsWith("/adduhtml betting-room1,")));
     }
 
     [Test]

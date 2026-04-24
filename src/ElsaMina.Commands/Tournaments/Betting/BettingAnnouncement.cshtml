@@ -5,18 +5,37 @@
     <b style="display: block; margin-bottom: 4px; border-bottom: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; padding-bottom: 4px">
         Place your bets!
     </b>
-    <i style="display: block; font-size: 0.85em; margin-bottom: 6px; color: gray">
-        Bets close in @Model.SecondsToClose seconds
-    </i>
+    @if (Model.IsBettingOpen)
+    {
+        <i style="display: block; font-size: 0.85em; margin-bottom: 6px; color: gray">
+            Bets close in @Model.SecondsToClose seconds
+        </i>
+    }
+    else
+    {
+        <i style="display: block; font-size: 0.85em; margin-bottom: 6px; color: gray">
+            Bets are closed.
+        </i>
+    }
     <table>
         @foreach (var player in Model.Players)
         {
+            var bettors = Model.BetsByPlayer != null && Model.BetsByPlayer.TryGetValue(player, out var list) ? list : [];
             <tr>
                 <td style="padding: 2px 12px 2px 2px">
                     <span class="username" data-name="@player">@player</span>
                 </td>
-                <td>
-                    <button class="button" name="send" value="/pm @Model.BotName, @(Model.Trigger)bet @Model.RoomId @player">Bet</button>
+                @if (Model.IsBettingOpen)
+                {
+                    <td style="padding: 2px 8px 2px 0">
+                        <button class="button" name="send" value="/pm @Model.BotName, @(Model.Trigger)bet @Model.RoomId @player">Bet</button>
+                    </td>
+                }
+                <td style="font-size: 0.85em; color: gray; padding: 2px 0">
+                    @if (bettors.Count > 0)
+                    {
+                        @string.Join(", ", bettors.Select(b => b))
+                    }
                 </td>
             </tr>
         }
