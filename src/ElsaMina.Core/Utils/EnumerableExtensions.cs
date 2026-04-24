@@ -14,4 +14,9 @@ public static class EnumerableExtensions
             yield return (index++, item);
         }
     }
+
+    public static bool IsNullOrEmpty<T>(this IEnumerable<T> enumerable)
+    {
+        return enumerable == null || !enumerable.Any();
+    }
 }

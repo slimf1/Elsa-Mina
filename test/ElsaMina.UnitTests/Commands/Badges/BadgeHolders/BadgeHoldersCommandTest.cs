@@ -39,6 +39,12 @@ public class BadgeHoldersCommandTest
     }
 
     [Test]
+    public void Test_IsAllowedInPrivateMessage_ShouldBeTrue()
+    {
+        Assert.That(_command.IsAllowedInPrivateMessage, Is.True);
+    }
+
+    [Test]
     public async Task Test_RunAsync_ShouldDisplayBadges_WhenBadgesExist()
     {
         // Arrange
@@ -152,6 +158,70 @@ public class BadgeHoldersCommandTest
             vm.Badges[0].BadgeHolders.First().RoomUser != null &&
             vm.Badges[0].BadgeHolders.First().RoomUser.User != null &&
             vm.Badges[0].BadgeHolders.First().RoomUser.User.UserName == "Test User"
+        ));
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldUseTargetAsRoomId_WhenTargetIsProvided()
+    {
+        // Arrange
+        var options = CreateNewInMemoryOptions();
+        await using (var seedCtx = new BotDbContext(options))
+        {
+            await seedCtx.Database.EnsureCreatedAsync();
+            await seedCtx.Badges.AddRangeAsync(
+                new Badge { Id = "b1", Name = "Target Badge", RoomId = "targetroom" },
+                new Badge { Id = "b2", Name = "Current Badge", RoomId = "currentroom" }
+            );
+            await seedCtx.SaveChangesAsync();
+        }
+
+        await using var queryCtx = new BotDbContext(options);
+        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>()).Returns(queryCtx);
+
+        _context.Target.Returns("targetroom");
+        _context.RoomId.Returns("currentroom");
+        _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>()).Returns("html");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync(Arg.Any<string>(), Arg.Is<BadgeHoldersViewModel>(vm =>
+            vm.Badges.Length == 1 &&
+            vm.Badges[0].RoomId == "targetroom"
+        ));
+    }
+
+    [Test]
+    public async Task Test_RunAsync_ShouldUseContextRoomId_WhenTargetIsEmpty()
+    {
+        // Arrange
+        var options = CreateNewInMemoryOptions();
+        await using (var seedCtx = new BotDbContext(options))
+        {
+            await seedCtx.Database.EnsureCreatedAsync();
+            await seedCtx.Badges.AddRangeAsync(
+                new Badge { Id = "b1", Name = "Current Badge", RoomId = "currentroom" },
+                new Badge { Id = "b2", Name = "Other Badge", RoomId = "otherroom" }
+            );
+            await seedCtx.SaveChangesAsync();
+        }
+
+        await using var queryCtx = new BotDbContext(options);
+        _dbContextFactory.CreateDbContextAsync(Arg.Any<CancellationToken>()).Returns(queryCtx);
+
+        _context.Target.Returns(string.Empty);
+        _context.RoomId.Returns("currentroom");
+        _templatesManager.GetTemplateAsync(Arg.Any<string>(), Arg.Any<object>()).Returns("html");
+
+        // Act
+        await _command.RunAsync(_context);
+
+        // Assert
+        await _templatesManager.Received(1).GetTemplateAsync(Arg.Any<string>(), Arg.Is<BadgeHoldersViewModel>(vm =>
+            vm.Badges.Length == 1 &&
+            vm.Badges[0].RoomId == "currentroom"
         ));
     }
 }

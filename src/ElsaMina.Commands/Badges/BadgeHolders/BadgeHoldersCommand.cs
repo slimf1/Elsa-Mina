@@ -25,12 +25,13 @@ public class BadgeHoldersCommand : Command
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
+        var roomId = string.IsNullOrWhiteSpace(context.Target) ? context.RoomId : context.Target;
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
         var badges = await dbContext.Badges
             .Include(badge => badge.BadgeHolders)
             .ThenInclude(badgeHolding => badgeHolding.RoomUser)
             .ThenInclude(roomUser => roomUser.User)
-            .Where(badge => badge.RoomId == context.RoomId)
+            .Where(badge => badge.RoomId == roomId)
             .OrderBy(badge => badge.Name)
             .AsNoTracking()
             .ToArrayAsync(cancellationToken);

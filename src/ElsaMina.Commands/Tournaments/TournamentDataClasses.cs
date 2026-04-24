@@ -2,6 +2,24 @@ using Newtonsoft.Json;
 
 namespace ElsaMina.Commands.Tournaments;
 
+public class TournamentUpdateData
+{
+    [JsonProperty("type")]
+    public string Type { get; set; }
+    
+    [JsonProperty("users")]
+    public string[] Users { get; set; }
+}
+
+public class TournamentUpdate
+{
+    [JsonProperty("isStarted", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool IsStarted { get; set; }
+    
+    [JsonProperty("bracketData")]
+    public TournamentUpdateData BracketData { get; set; }
+}
+
 public class TournamentNode
 {
     [JsonProperty("team")]

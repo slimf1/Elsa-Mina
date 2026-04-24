@@ -2301,4 +2301,32 @@
     <data name="notrade_staff_refused" xml:space="preserve">
         <value>Transferanfrage für {0} abgelehnt.</value>
     </data>
+
+    <data name="bet_help" xml:space="preserve">
+        <value>Usage: -bet roomId player</value>
+    </data>
+    <data name="bet_success" xml:space="preserve">
+        <value>You bet on {0} in {1}. Good luck!</value>
+    </data>
+    <data name="bet_no_session" xml:space="preserve">
+        <value>There is no active betting session in {0}.</value>
+    </data>
+    <data name="bet_invalid_player" xml:space="preserve">
+        <value>{0} is not a participant in the current tournament.</value>
+    </data>
+    <data name="bet_already_on_player" xml:space="preserve">
+        <value>You already have a bet on {0} in this tournament.</value>
+    </data>
+    <data name="cancelbet_help" xml:space="preserve">
+        <value>Usage: -cancelbet roomId</value>
+    </data>
+    <data name="cancelbet_success" xml:space="preserve">
+        <value>Your bet on {0} has been cancelled and refunded.</value>
+    </data>
+    <data name="cancelbet_not_found" xml:space="preserve">
+        <value>You have no active bet in {0}.</value>
+    </data>
+    <data name="cancelbet_all_success" xml:space="preserve">
+        <value>All your bets in {0} have been cancelled and refunded.</value>
+    </data>
 </root>

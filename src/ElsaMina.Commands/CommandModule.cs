@@ -70,6 +70,7 @@ using ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
 using ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
 using ElsaMina.Commands.TourConfigurator;
 using ElsaMina.Commands.Tournaments;
+using ElsaMina.Commands.Tournaments.Betting;
 using ElsaMina.Commands.Tournaments.Handlers;
 using ElsaMina.Commands.Tournaments.Hebdo;
 using ElsaMina.Commands.Tournaments.Leaderboard;
@@ -239,6 +240,10 @@ public class CommandModule : Module
         builder.RegisterHandler<ArcadeEventsHandler>();
         builder.RegisterHandler<PollEndHandler>();
         builder.RegisterHandler<OtherRoomTournamentAnnounceHandler>();
+        builder.RegisterHandler<TournamentBettingHandler>();
+        builder.RegisterType<TournamentBettingService>().As<ITournamentBettingService>().SingleInstance();
+        builder.RegisterCommand<BetCommand>();
+        builder.RegisterCommand<CancelBetCommand>();
         builder.RegisterHandler<TourEndHandler>();
         builder.RegisterHandler<StaffIntroChangeHandler>();
         builder.RegisterHandler<StaffIntroContentHandler>();

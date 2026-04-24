@@ -1,0 +1,21 @@
+@using ElsaMina.Core.Services.Templates
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Tournaments.Betting.BettingAnnouncementViewModel>
+
+<div style="border: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; border-radius: 8px; padding: 8px; display: inline-block">
+    <b style="display: block; margin-bottom: 6px; border-bottom: 1px solid @StyleConstants.PRIMARY_BORDER_COLOR; padding-bottom: 4px">
+        Place your bets!
+    </b>
+    <table>
+        @foreach (var player in Model.Players)
+        {
+            <tr>
+                <td style="padding: 2px 12px 2px 2px">
+                    <span class="username" data-name="@player">@player</span>
+                </td>
+                <td>
+                    <button class="button" name="send" value="/pm @Model.BotName, @(Model.Trigger)bet @Model.RoomId @player">Bet</button>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
