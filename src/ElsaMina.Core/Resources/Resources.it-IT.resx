@@ -2379,4 +2379,16 @@
     <data name="parameter_description_tournament_betting_enabled" xml:space="preserve">
         <value>Abilita o disabilita le scommesse sui tornei per questa stanza.</value>
     </data>
+    <data name="betting_announcement_title" xml:space="preserve">
+        <value>Fate le vostre scommesse!</value>
+    </data>
+    <data name="betting_announcement_closes_in" xml:space="preserve">
+        <value>Le scommesse chiudono in {0} secondi</value>
+    </data>
+    <data name="betting_announcement_closed" xml:space="preserve">
+        <value>Le scommesse sono chiuse.</value>
+    </data>
+    <data name="betting_announcement_bet_button" xml:space="preserve">
+        <value>Scommetti</value>
+    </data>
 </root>

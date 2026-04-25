@@ -2438,4 +2438,16 @@
     <data name="parameter_description_tournament_betting_enabled" xml:space="preserve">
         <value>Enable or disable tournament betting for this room.</value>
     </data>
+    <data name="betting_announcement_title" xml:space="preserve">
+        <value>Place your bets!</value>
+    </data>
+    <data name="betting_announcement_closes_in" xml:space="preserve">
+        <value>Bets close in {0} seconds</value>
+    </data>
+    <data name="betting_announcement_closed" xml:space="preserve">
+        <value>Bets are closed.</value>
+    </data>
+    <data name="betting_announcement_bet_button" xml:space="preserve">
+        <value>Bet</value>
+    </data>
 </root>

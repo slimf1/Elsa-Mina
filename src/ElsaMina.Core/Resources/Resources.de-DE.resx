@@ -2374,4 +2374,16 @@
     <data name="parameter_description_tournament_betting_enabled" xml:space="preserve">
         <value>Turnierwetten für diesen Raum aktivieren oder deaktivieren.</value>
     </data>
+    <data name="betting_announcement_title" xml:space="preserve">
+        <value>Platziert eure Wetten!</value>
+    </data>
+    <data name="betting_announcement_closes_in" xml:space="preserve">
+        <value>Wetten schließen in {0} Sekunden</value>
+    </data>
+    <data name="betting_announcement_closed" xml:space="preserve">
+        <value>Wetten sind geschlossen.</value>
+    </data>
+    <data name="betting_announcement_bet_button" xml:space="preserve">
+        <value>Wetten</value>
+    </data>
 </root>

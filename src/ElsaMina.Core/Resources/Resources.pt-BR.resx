@@ -2374,4 +2374,16 @@
     <data name="parameter_description_tournament_betting_enabled" xml:space="preserve">
         <value>Ativar ou desativar apostas de torneio para esta sala.</value>
     </data>
+    <data name="betting_announcement_title" xml:space="preserve">
+        <value>Faça suas apostas!</value>
+    </data>
+    <data name="betting_announcement_closes_in" xml:space="preserve">
+        <value>Apostas fecham em {0} segundos</value>
+    </data>
+    <data name="betting_announcement_closed" xml:space="preserve">
+        <value>As apostas estão fechadas.</value>
+    </data>
+    <data name="betting_announcement_bet_button" xml:space="preserve">
+        <value>Apostar</value>
+    </data>
 </root>

@@ -2434,4 +2434,16 @@
     <data name="parameter_description_tournament_betting_enabled" xml:space="preserve">
         <value>Activer ou désactiver les paris sur les tournois pour cette room.</value>
     </data>
+    <data name="betting_announcement_title" xml:space="preserve">
+        <value>Placez vos paris !</value>
+    </data>
+    <data name="betting_announcement_closes_in" xml:space="preserve">
+        <value>Les paris ferment dans {0} secondes</value>
+    </data>
+    <data name="betting_announcement_closed" xml:space="preserve">
+        <value>Les paris sont fermés.</value>
+    </data>
+    <data name="betting_announcement_bet_button" xml:space="preserve">
+        <value>Parier</value>
+    </data>
 </root>
