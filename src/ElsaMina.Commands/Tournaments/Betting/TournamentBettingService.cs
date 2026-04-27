@@ -14,7 +14,7 @@ public class TournamentBettingService : ITournamentBettingService
 {
     private record ActiveBet(string BettorId, string TargetPlayerId);
 
-    private const int BETTING_WINDOW_SECONDS = 30;
+    private const int BETTING_WINDOW_SECONDS = 60;
     private const string HTML_ID_PREFIX = "betting-";
 
     private readonly ConcurrentDictionary<string, string[]> _activePlayers = new();
