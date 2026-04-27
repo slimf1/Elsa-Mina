@@ -135,7 +135,7 @@ public class TournamentBettingServiceTest
         _clockService.CurrentUtcDateTimeOffset.Returns(now);
         await _service.AnnounceBetsAsync(["playerA"], "room1");
 
-        _clockService.CurrentUtcDateTimeOffset.Returns(now.AddSeconds(31));
+        _clockService.CurrentUtcDateTimeOffset.Returns(now.AddSeconds(61));
 
         var result = await _service.PlaceBetAsync("bettor1", "playera", "room1");
 
@@ -149,7 +149,7 @@ public class TournamentBettingServiceTest
         _clockService.CurrentUtcDateTimeOffset.Returns(now);
         await _service.AnnounceBetsAsync(["playerA"], "room1");
 
-        _clockService.CurrentUtcDateTimeOffset.Returns(now.AddSeconds(29));
+        _clockService.CurrentUtcDateTimeOffset.Returns(now.AddSeconds(59));
 
         var result = await _service.PlaceBetAsync("bettor1", "playera", "room1");
 
