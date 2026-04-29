@@ -28,4 +28,8 @@
       <ProjectReference Include="..\..\src\ElsaMina.Commands\ElsaMina.Commands.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Commands\Games\" />
+    </ItemGroup>
+
 </Project>

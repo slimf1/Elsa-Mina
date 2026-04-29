@@ -1,5 +1,5 @@
 using Autofac;
-using ElsaMina.Commands.GuessingGame;
+using ElsaMina.Commands.Games.GuessingGame;
 using ElsaMina.Core;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Handlers;

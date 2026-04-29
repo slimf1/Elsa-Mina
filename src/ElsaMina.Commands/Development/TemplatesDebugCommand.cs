@@ -1,4 +1,4 @@
-using ElsaMina.Commands.GuessingGame;
+using ElsaMina.Commands.Games.GuessingGame;
 using ElsaMina.Commands.Profile;
 using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Commands;

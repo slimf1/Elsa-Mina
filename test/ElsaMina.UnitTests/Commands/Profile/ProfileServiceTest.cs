@@ -1,4 +1,3 @@
-using ElsaMina.Commands.ConnectFour;
 using ElsaMina.Commands.Profile;
 using ElsaMina.Commands.Showdown.Ranking;
 using ElsaMina.Core.Services.Formats;

@@ -1,0 +1,186 @@
+@using ElsaMina.Commands.Games.VoltorbFlip
+@using ElsaMina.Core.Services.Templates
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Games.VoltorbFlip.VoltorbFlipModel>
+@functions {
+    static string MarkerDotStyle(VoltorbFlipMarkerType markerType) => markerType switch {
+        VoltorbFlipMarkerType.Voltorb => "display: inline-block; width: 8px; height: 8px; background-color: #ff4444; border-radius: 50%;",
+        VoltorbFlipMarkerType.One    => "display: inline-block; width: 8px; height: 8px; background-color: #c0c0c0; border-radius: 1px;",
+        VoltorbFlipMarkerType.Two    => "display: inline-block; width: 8px; height: 8px; background-color: #FFD700; border-radius: 1px;",
+        VoltorbFlipMarkerType.Three  => "display: inline-block; width: 8px; height: 8px; background-color: #ff9900; border-radius: 1px;",
+        _ => "display: none;"
+    };
+    static string MarkerButtonStyle(bool isActive) =>
+        isActive ? "font-weight: bold; outline: 2px solid #333;" : "";
+}
+
+@{
+    var game = Model.CurrentGame;
+    const int size = VoltorbFlipConstants.GRID_SIZE;
+
+    const string cellStyle = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR};";
+    const string cellStyleWithBg = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR}; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR};";
+
+    const string voltorbSpriteUrl = "https://i.imgur.com/mrFUlA2.png";
+    const string tileCellStyle = "background-color: #B48C85; color: black; font-weight: bold;";
+    const string hiddenCellStyle = "background-color: #3C7E67; background-image: linear-gradient(45deg, #51A073 25%, transparent 25%, transparent 75%, #51A073 75%), linear-gradient(45deg, #51A073 25%, transparent 25%, transparent 75%, #51A073 75%); background-size: 24px 24px; background-position: 0 0, 12px 12px; color: black; font-weight: bold;";
+}
+
+<table style="border-collapse: collapse; width: 100%;">
+    <thead>
+        <tr>
+            <th style="@cellStyleWithBg">@GetString("vf_panel_title")</th>
+            <th style="@cellStyleWithBg">@GetString("vf_panel_level", game.Level) — @GetString("vf_panel_coins", game.CurrentCoins)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="@cellStyle">
+                <table style="border-collapse: collapse; margin: auto;">
+                    @for (var row = 0; row < size; row++)
+                    {
+                        <tr>
+                            @for (var col = 0; col < size; col++)
+                            {
+                                <td style="padding: 2px; @cellStyle">
+                                    @if (!game.IsRevealed[row, col] && !Model.ShowAll && game.IsRoundActive)
+                                    {
+                                        <button
+                                            class="button"
+                                            name="send"
+                                            value="/botmsg @Model.BotName,@(Model.Trigger)vfflip @Model.RoomId, @row, @col"
+                                            style="width: 36px; height: 36px; @hiddenCellStyle border: none; cursor: pointer; text-align: left; vertical-align: top; padding: 2px;">
+                                            @if (game.Markers[row, col] != VoltorbFlipMarkerType.None)
+                                            {
+                                                <span style="@MarkerDotStyle(game.Markers[row, col])"></span>
+                                            }
+                                        </button>
+                                    }
+                                    else if (game.TileValues[row, col] == 0)
+                                    {
+                                        <div style="width: 36px; height: 36px; text-align: center; @tileCellStyle padding: 6px 0 0 0; box-sizing: border-box;">
+                                            <img src="@voltorbSpriteUrl" width="24" height="24" alt="Voltorb" style="display: inline-block;" />
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div style="width: 36px; height: 36px; text-align: center; line-height: 36px; @tileCellStyle">
+                                            @game.TileValues[row, col]
+                                        </div>
+                                    }
+                                </td>
+                            }
+                            <td style="padding: 2px 6px; text-align: center; font-size: 0.8em; @cellStyleWithBg vertical-align: middle;">
+                                <div>@game.RowSums[row]</div>
+                                <div style="color: #c00;">@(game.RowVoltorbs[row])V</div>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        @for (var col = 0; col < size; col++)
+                        {
+                            <td style="padding: 2px; text-align: center; font-size: 0.8em; @cellStyleWithBg">
+                                <div>@game.ColSums[col]</div>
+                                <div style="color: #c00;">@(game.ColVoltorbs[col])V</div>
+                            </td>
+                        }
+                        <td></td>
+                    </tr>
+                </table>
+            </td>
+            <td style="padding: 20px; @cellStyle vertical-align: top;">
+                <span style="font-weight: bold;">@GetString("vf_panel_title")</span><br/>
+                @if (game.Owner != null)
+                {
+                    <span style="color: #666; font-size: 0.9em;">@GetString("vf_panel_player", game.Owner.Name)</span><br/>
+                    <span style="color: #666; font-size: 0.9em;">@GetString("vf_panel_total_coins", game.TotalCoins)</span><br/>
+                }
+                <br/>
+                <span>@GetString("vf_panel_objective")</span><br/>
+                <span>@GetString("vf_panel_hint")</span><br/>
+                <span>@GetString("vf_panel_timeout_hint")</span><br/>
+                <br/>
+                <span style="background-color: #e8e8e8; padding: 1px 4px;">1</span>&nbsp;@GetString("vf_panel_legend_one")<br/>
+                <span style="background-color: #ff9; font-weight: bold; padding: 1px 4px;">2</span>&nbsp;@GetString("vf_panel_legend_two")<br/>
+                <span style="background-color: #f90; font-weight: bold; padding: 1px 4px;">3</span>&nbsp;@GetString("vf_panel_legend_three")<br/>
+                <img src="@voltorbSpriteUrl" width="16" height="16" style="vertical-align: middle;" alt="Voltorb" />&nbsp;@GetString("vf_panel_legend_voltorb")<br/>
+                <br/>
+                @if (game.IsRoundActive)
+                {
+                    <span>@GetString("vf_panel_mark_mode"): </span>
+                    <button
+                        class="button"
+                        name="send"
+                        value="/botmsg @Model.BotName,@(Model.Trigger)vftogglemark @Model.RoomId, 1"
+                        style="@MarkerButtonStyle(game.ActiveMarkerType == VoltorbFlipMarkerType.Voltorb)">
+                        <img src="@voltorbSpriteUrl" width="12" height="12" alt="Voltorb" style="vertical-align: middle;" />
+                    </button>
+                    <button
+                        class="button"
+                        name="send"
+                        value="/botmsg @Model.BotName,@(Model.Trigger)vftogglemark @Model.RoomId, 2"
+                        style="background-color: #e8e8e8; @MarkerButtonStyle(game.ActiveMarkerType == VoltorbFlipMarkerType.One)">
+                        1
+                    </button>
+                    <button
+                        class="button"
+                        name="send"
+                        value="/botmsg @Model.BotName,@(Model.Trigger)vftogglemark @Model.RoomId, 3"
+                        style="background-color: #ff9; @MarkerButtonStyle(game.ActiveMarkerType == VoltorbFlipMarkerType.Two)">
+                        2
+                    </button>
+                    <button
+                        class="button"
+                        name="send"
+                        value="/botmsg @Model.BotName,@(Model.Trigger)vftogglemark @Model.RoomId, 4"
+                        style="background-color: #f90; @MarkerButtonStyle(game.ActiveMarkerType == VoltorbFlipMarkerType.Three)">
+                        3
+                    </button>
+                    <br/><br/>
+                }
+                @if (!game.IsEnded)
+                {
+                    <details>
+                        <summary>@GetString("vf_panel_options")</summary>
+                        <br/>
+                        @if (game.IsRoundActive)
+                        {
+                            <button
+                                class="button"
+                                name="send"
+                                value="/botmsg @Model.BotName,@(Model.Trigger)vfquit @Model.RoomId">
+                                @GetString("vf_panel_quit")
+                            </button>
+                            <br/><br/>
+                        }
+                        else
+                        {
+                            <button
+                                class="button"
+                                name="send"
+                                value="@(Model.IsPrivateMode ? $"/botmsg {Model.BotName},{Model.Trigger}voltorbflip {Model.RoomId}" : $"{Model.Trigger}voltorbflip")">
+                                @GetString("vf_panel_new_round")
+                            </button>
+                            <br/><br/>
+                        }
+                        <button
+                            class="button"
+                            name="send"
+                            value="@(Model.IsPrivateMode ? $"/botmsg {Model.BotName},{Model.Trigger}vfend {Model.RoomId}" : $"{Model.Trigger}vfend")">
+                            @GetString("vf_panel_stop")
+                        </button>
+                    </details>
+                }
+                else
+                {
+                    <br/>
+                    <button
+                        class="button"
+                        name="send"
+                        value="@(Model.IsPrivateMode ? $"/botmsg {Model.BotName},{Model.Trigger}voltorbflip {Model.RoomId}" : $"{Model.Trigger}voltorbflip")">
+                        @GetString("vf_panel_play_again")
+                    </button>
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,6 +1,6 @@
-using ElsaMina.Commands.GuessingGame.Capitals;
-using ElsaMina.Commands.GuessingGame.Countries;
-using ElsaMina.Commands.GuessingGame.PokeDesc;
+using ElsaMina.Commands.Games.GuessingGame.Capitals;
+using ElsaMina.Commands.Games.GuessingGame.Countries;
+using ElsaMina.Commands.Games.GuessingGame.PokeDesc;
 using ElsaMina.Core;
 using ElsaMina.Logging;
 using Newtonsoft.Json;

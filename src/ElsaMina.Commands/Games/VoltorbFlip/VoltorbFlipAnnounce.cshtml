@@ -1,0 +1,13 @@
+@using ElsaMina.Core.Services.Templates
+@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Games.VoltorbFlip.VoltorbFlipModel>
+
+<div>
+    <h3>@GetString("vf_panel_title")</h3>
+    <span>@GetString("vf_panel_waiting_for_player")</span><br/><br/>
+    <button
+        class="button"
+        name="send"
+        value="/botmsg @Model.BotName,@(Model.Trigger)vfjoin @Model.RoomId">
+        @GetString("vf_panel_join")
+    </button>
+</div>

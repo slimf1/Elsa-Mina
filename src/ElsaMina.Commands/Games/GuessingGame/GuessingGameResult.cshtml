@@ -1,0 +1,20 @@
+﻿@inherits ElsaMina.Core.Services.Templates.LocalizableTemplatePage<ElsaMina.Commands.Games.GuessingGame.GuessingGameResultViewModel>
+
+<div>
+    <h4>@GetString("guessing_game_result_ended")</h4>
+
+    @if (Model.Scores.Count != 0)
+    {
+        <span style="text-decoration: underline">@GetString("guessing_game_final_scores"):</span>
+        <br/>
+
+        var i = 1;
+        foreach (var (userId, score) in Model.Scores.OrderByDescending(kvp => kvp.Value))
+        {
+            <span>
+                @(i++). @userId (@score @GetString("guessing_game_point")@(score == 1 ? string.Empty : "s"))
+            </span>
+            <br/>
+        }
+    }
+</div>
