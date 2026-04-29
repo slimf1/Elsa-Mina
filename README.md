@@ -85,102 +85,93 @@ The following scripts are available:
 ## Features
 
 ### Games & Entertainment
-- **Connect Four** — 2-player board game with join/play/forfeit flow
-- **Lights Out** — Puzzle game with leaderboard tracking
-- **Voltorb Flip** — Pokémon HGSS' Voltorb Flip with mark and leaderboard support
-- **Guessing Games** — Multiple modes: Pokémon descriptions, cries, country capitals, and more
-- **Poke Race** — Multi-player racing mini-game
-- **Slots** — Slot machine mini-game
+- **Connect Four**: 2-player board game with join/play/forfeit flow
+- **Lights Out**: Puzzle game with leaderboard tracking
+- **Voltorb Flip**: Pokémon HGSS' Voltorb Flip with mark and leaderboard support
+- **Guessing Games**: Multiple modes: Pokémon descriptions, cries, country capitals, and more
+- **Poke Race**: Multi-player racing mini-game
+- **Slots**: Slot machine mini-game
 
 ### Tournaments
-- **Weekly Tournament Templates** — 23+ pre-configured formats (OU, RU, BH, AAA, 1v1, ZU, and more)
-- **Random Tournaments** — Create random tournament
-- **Tournament Configuration** — Save, edit, and launch custom tournament setups
-- **Tournament Leaderboard** — Track top tournament players per room
+- **Weekly Tournament Templates**: 23+ pre-configured formats (OU, RU, BH, AAA, 1v1, ZU, and more)
+- **Random Tournaments**: Create random tournament
+- **Tournament Configuration**: Save, edit, and launch custom tournament setups
+- **Tournament Leaderboard**: Track top tournament players per room
 
 ### Arcade Commands
-- **Event Registration** — Join/leave arcade events, manage participants
-- **Points & Leaderboard** — Track scores across arcade events
-- **Achievement Tiers** — Configurable level tiers with display
-- **Hall of Fame** — Persistent records synced to Google Sheets
-- **CAA Integration** — Dedicated CAA (Advent calendar) event tracking
+- **Event Registration**: Join/leave arcade events, manage participants
+- **Points & Leaderboard**: Track scores across arcade events
+- **Achievement Tiers**: Configurable level tiers with display
+- **Hall of Fame**: Persistent records synced to Google Sheets
+- **CAA Integration**: Dedicated CAA (Advent calendar) event tracking
 
 ### User Profiles & Social
-- **Profiles** — Display user profile with avatar, title, and badge showcase
-- **Badges & Trophies** — Create, award, and revoke badges with a management panel
-- **Custom Name Colors** — Per-user HTML color for display names
-- **Seen** — Track when a user was last active
-- **Playtime Tracking** — Per-user playtime with top leaderboard
-- **Join Phrases** — Personalized greeting when entering a room
-- **Alts Detection** — Display known alternate accounts
+- **Profiles**: Display user profile with avatar, title, and badge showcase
+- **Badges & Trophies**: Create, award, and revoke badges with a management panel
+- **Custom Name Colors**: Per-user HTML color for display names
+- **Seen**: Track when a user was last active
+- **Playtime Tracking**: Per-user playtime with top leaderboard
+- **Join Phrases**: Personalized greeting when entering a room
+- **Alts Detection**: Display known alternate accounts
 
 ### AI & Media
-- **AI Chat** — Conversational AI with multi-turn history (OpenAI / Google / Mistral)
-- **Text-to-Speech** — Generate audio responses from text
-- **YouTube / Dailymotion Search** — Embed video search results
-- **Lyrics Search** — Look up song lyrics via Genius
-- **Wikipedia / Bulbapedia / Pokepedia** — Inline wiki searches
+- **AI Chat**: Conversational AI with multi-turn history (OpenAI / Google / Mistral)
+- **Text-to-Speech**: Generate audio responses from text
+- **YouTube / Dailymotion Search**: Embed video search results
+- **Lyrics Search**: Look up song lyrics via Genius
+- **Wikipedia / Bulbapedia / Pokepedia**: Inline wiki searches
 
 ### Pokémon Showdown Integration
-- **Ladder Tracking** — Monitor and display ladder rankings in real time
-- **Battle Tracking** — Subscribe to new battles from a subset of players
-- **Rank Display** — Fetch and show player ELO/GXE per format
-- **Team Samples** — Add, showcase, and manage team lists per tier
+- **Ladder Tracking**: Monitor and display ladder rankings in real time
+- **Battle Tracking**: Subscribe to new battles from a subset of players
+- **Rank Display**: Fetch and show player ELO/GXE per format
+- **Team Samples**: Add, showcase, and manage team lists per tier
 
 ### Room Management
-- **Room Dashboard** — Overview of room configuration and state
-- **Room Config** — Tune parameters: locale, timezone, auto-correct, error messages, preview toggles
-- **Custom Commands** — Add, edit, delete room-specific commands
-- **Repeating Messages** — Schedule recurring announcements
-- **Shop** — Virtual item shop with configurable listings
-- **Polls** — Keep a history of created polls
+- **Room Dashboard**: Overview of room configuration and state
+- **Room Config**: Tune parameters: locale, timezone, auto-correct, error messages, preview toggles
+- **Custom Commands**: Add, edit, delete room-specific commands
+- **Repeating Messages**: Schedule recurring announcements
+- **Shop**: Virtual item shop with configurable listings
+- **Polls**: Keep a history of created polls
 
 ### Utilities
-- **Timer / Reminder** — Set countdown timers in chat
-- **Dictionary** — English word definitions
-- **Bitcoin Price** — Live BTC price lookup
-- **Pokémon Name Translation** — Cross-language Pokémon name lookup
-- **Bug Report** — Inline issue reporting shortcut
+- **Timer / Reminder**: Set countdown timers in chat
+- **Dictionary**: English word definitions
+- **Bitcoin Price**: Live BTC price lookup
+- **Pokémon Name Translation**: Cross-language Pokémon name lookup
+- **Bug Report**: Inline issue reporting shortcut
 
 ### Internationalization
-- **6 supported languages** — english, french, spanish, italian, portuguese, and german
-- **Per-room locale** — each room can set its own language independently
+- **6 supported languages**: english, french, spanish, italian, portuguese, and german
+- **Per-room locale**: each room can set its own language independently
 
 ### Instrumentation & Observability
-- **Structured logging** — Serilog with daily rolling file output and optional Grafana Loki sink
-- **Metrics** — OpenTelemetry counters and histograms for messages received/sent, commands executed, errors, command duration, HTTP requests, and WebSocket reconnections
+- **Structured logging**: Serilog with daily rolling file output and optional Grafana Loki sink
+- **Metrics**: OpenTelemetry counters and histograms for messages received/sent, commands executed, errors, command duration, HTTP requests, and WebSocket reconnections
 
 ### Command Engine
-- **Fuzzy autocorrect** — Levenshtein distance matching suggests the closest command on typo (configurable per room)
-- **Message throttling** — outgoing message queue with cooldown and length limits to respect server constraints
-- **Cancellable commands** — long-running commands can be listed and cancelled at runtime
+- **Fuzzy autocorrect**: Levenshtein distance matching suggests the closest command on typo (configurable per room)
+- **Message throttling**: outgoing message queue with cooldown and length limits to respect server constraints
+- **Cancellable commands**: long-running commands can be listed and cancelled at runtime
 
 ### Resilience & Templating
-- **WebSocket auto-reconnect** — automatic reconnection with configurable error and lost-connection timeouts
-- **RazorLight HTML templates** — `.cshtml` templates pre-compiled at startup and cached in memory for rich HTML responses
+- **WebSocket auto-reconnect**: automatic reconnection with configurable error and lost-connection timeouts
+- **RazorLight HTML templates**: `.cshtml` templates pre-compiled at startup and cached in memory for rich HTML responses
 
 ### Per-room Configuration
-- **Configurable settings** — each room independently controls locale, timezone, command autocorrect, error message visibility, team link previews, and replay previews
-- **Persistent storage** — parameters are stored in the database via Entity Framework and applied at runtime
+- **Configurable settings**: each room independently controls locale, timezone, command autocorrect, error message visibility, team link previews, and replay previews
+- **Persistent storage**: parameters are stored in the database via Entity Framework and applied at runtime
 
 ### Battle System
-- **Automated battle bot** — accepts random battle challenges and plays out matches autonomously
+- **Automated battle bot**: accepts random battle challenges and plays out matches autonomously
 > [!WARNING]  
 > The battle system is currently in development and may not be stable.
 
 ### Watchlist
-- **Watchlist monitoring** — maintain a per-room list of watched users with associated context
-- **Staff intro integration** — automatically injects the watchlist into the room's staff intro display
-- **Discord notifications** — sends alerts when a watched user becomes active
-
-## Project Layout
-- `src/ElsaMina.Console`: entry point and configuration
-- `src/ElsaMina.Core`: bot runtime and services
-- `src/ElsaMina.Commands`: command implementations
-- `src/ElsaMina.DataAccess`: database layer
-- `src/ElsaMina.Sheets`: Google Sheets integration
-- `src/ElsaMina.FileSharing`: File sharing services with S3
-- `src/ElsaMina.Logging`: Thin layer of abstraction over Serilog
+- **Watchlist monitoring**: maintain a per-room list of watched users with associated context
+- **Staff intro integration**: automatically injects the watchlist into the room's staff intro display
+- **Discord notifications**: sends alerts when a watched user becomes active
 
 ## License
 MIT, see `LICENSE`.
