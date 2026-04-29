@@ -100,7 +100,7 @@ public class AddTeamCommand : Command
             Author = context.Sender.Name,
             Link = link,
             CreationDate = _clockService.CurrentUtcDateTime,
-            TeamJson = ShowdownTeams.TeamExportToJson(sharedTeam.TeamExport),
+            TeamJson = ShowdownTeamsUtils.TeamExportToJson(sharedTeam.TeamExport),
             Format = format,
             Rooms = roomTeams
         };

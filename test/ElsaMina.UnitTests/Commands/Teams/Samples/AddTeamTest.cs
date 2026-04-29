@@ -129,7 +129,7 @@ public class AddTeamCommandTests
             Assert.That(team.Author, Is.EqualTo("author"));
             Assert.That(team.Link, Is.EqualTo("link"));
             Assert.That(team.CreationDate, Is.EqualTo(currentDateTime));
-            Assert.That(team.TeamJson, Is.EqualTo(ShowdownTeams.TeamExportToJson("export_data")));
+            Assert.That(team.TeamJson, Is.EqualTo(ShowdownTeamsUtils.TeamExportToJson("export_data")));
             Assert.That(team.Format, Is.EqualTo("format"));
             Assert.That(team.Rooms.Count, Is.EqualTo(1));
             Assert.That(team.Rooms.ElementAt(0).RoomId, Is.EqualTo("room"));

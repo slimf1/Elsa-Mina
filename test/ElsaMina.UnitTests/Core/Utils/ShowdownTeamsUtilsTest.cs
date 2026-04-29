@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace ElsaMina.UnitTests.Core.Utils;
 
-public class ShowdownTeamsTest
+public class ShowdownTeamsUtilsTest
 {
     // TODO : make the bot cross-platform as this doesn't work on Windows
     
@@ -15,7 +15,7 @@ public class ShowdownTeamsTest
         var export = string.Empty;
 
         // Act
-        var result = ShowdownTeams.DeserializeTeamExport(export);
+        var result = ShowdownTeamsUtils.DeserializeTeamExport(export);
 
         // Assert
         Assert.That(result, Is.Empty);
@@ -35,7 +35,7 @@ public class ShowdownTeamsTest
                               """;
 
         // Act
-        var result = ShowdownTeams.DeserializeTeamExport(export).ToList();
+        var result = ShowdownTeamsUtils.DeserializeTeamExport(export).ToList();
 
         // Assert
         Assert.That(result, Has.Count.EqualTo(1));
@@ -67,7 +67,7 @@ public class ShowdownTeamsTest
         };
 
         // Act
-        var result = ShowdownTeams.GetSetExport(pokemonSet);
+        var result = ShowdownTeamsUtils.GetSetExport(pokemonSet);
 
         // Assert
         const string expectedExport = """
@@ -94,10 +94,10 @@ public class ShowdownTeamsTest
                               - Iron Tail
                               """;
 
-        var expectedJson = JsonConvert.SerializeObject(ShowdownTeams.DeserializeTeamExport(export));
+        var expectedJson = JsonConvert.SerializeObject(ShowdownTeamsUtils.DeserializeTeamExport(export));
 
         // Act
-        var result = ShowdownTeams.TeamExportToJson(export);
+        var result = ShowdownTeamsUtils.TeamExportToJson(export);
 
         // Assert
         Assert.That(result, Is.EqualTo(expectedJson));
@@ -125,7 +125,7 @@ public class ShowdownTeamsTest
                               """;
 
         // Act
-        var result = ShowdownTeams.DeserializeTeamExport(export).ToList();
+        var result = ShowdownTeamsUtils.DeserializeTeamExport(export).ToList();
 
         // Assert
         var expectedMoves = new[] { "Flare Blitz", "Dragon Claw" };

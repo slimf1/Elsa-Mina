@@ -70,6 +70,7 @@ using ElsaMina.Commands.Teams.TeamPreviewOnLink;
 using ElsaMina.Commands.Teams.TeamProviders;
 using ElsaMina.Commands.Teams.TeamProviders.CoupCritique;
 using ElsaMina.Commands.Teams.TeamProviders.Pokepaste;
+using ElsaMina.Commands.Teams.TeamProviders.Showdown;
 using ElsaMina.Commands.TourConfigurator;
 using ElsaMina.Commands.Tournaments;
 using ElsaMina.Commands.Tournaments.Betting;
@@ -332,6 +333,7 @@ public class CommandModule : Module
         builder.RegisterType<LadderTrackerManager>().As<ILadderTrackerManager>().SingleInstance();
         builder.RegisterType<PokepasteProvider>().As<ITeamProvider>().SingleInstance();
         builder.RegisterType<CoupCritiqueProvider>().As<ITeamProvider>().SingleInstance();
+        builder.RegisterType<ShowdownTeamProvider>().As<ITeamProvider>().SingleInstance();
         builder.RegisterType<TeamLinkMatchFactory>().As<ITeamLinkMatchFactory>().SingleInstance();
         builder.RegisterType<DataManager>().As<IDataManager>().SingleInstance().OnActivating(e =>
         {

@@ -75,7 +75,7 @@ public class DisplayTeamOnLinkHandler : ChatMessageHandler
             return;
         }
 
-        var team = ShowdownTeams.DeserializeTeamExport(sharedTeam.TeamExport);
+        var team = ShowdownTeamsUtils.DeserializeTeamExport(sharedTeam.TeamExport);
         if (team.Count > MAX_TEAM_SIZE || team.Count == 0 || team.Any(set => string.IsNullOrEmpty(set.Species)))
         {
             return;

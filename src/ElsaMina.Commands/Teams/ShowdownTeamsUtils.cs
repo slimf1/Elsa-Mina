@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace ElsaMina.Commands.Teams;
 
-public static class ShowdownTeams
+public static class ShowdownTeamsUtils
 {
     private static readonly Dictionary<string, string> BATTLE_STAT_IDS = new()
     {
@@ -256,6 +256,11 @@ public static class ShowdownTeams
         return team;
     }
 
+    public static string GetTeamExport(IEnumerable<PokemonSet> sets)
+    {
+        return string.Join("\n\n", sets.Select(GetSetExport));
+    }
+
     public static string GetSetExport(PokemonSet set)
     {
         var builder = new StringBuilder();
@@ -408,6 +413,161 @@ public static class ShowdownTeams
         }
 
         return builder.ToString();
+    }
+
+    public static IReadOnlyList<PokemonSet> UnpackTeam(string buf)
+    {
+        if (string.IsNullOrEmpty(buf))
+            return [];
+
+        var team = new List<PokemonSet>();
+        var i = 0;
+        var lastI = -1;
+
+        while (i < buf.Length)
+        {
+            var set = new PokemonSet();
+            team.Add(set);
+
+            // name
+            var j = buf.IndexOf('|', i);
+            if (j < 0) break;
+            var name = buf.Substring(i, j - i);
+            i = j + 1;
+
+            // species
+            j = buf.IndexOf('|', i);
+            if (j < 0) break;
+            var speciesStr = buf.Substring(i, j - i);
+            set.Species = string.IsNullOrEmpty(speciesStr) ? name : speciesStr;
+            if (set.Species != name && !string.IsNullOrEmpty(name))
+                set.Name = name;
+            i = j + 1;
+
+            // item
+            j = buf.IndexOf('|', i);
+            if (j < 0) break;
+            set.Item = buf.Substring(i, j - i);
+            i = j + 1;
+
+            // ability
+            j = buf.IndexOf('|', i);
+            if (j < 0) break;
+            set.Ability = buf.Substring(i, j - i);
+            i = j + 1;
+
+            // moves
+            j = buf.IndexOf('|', i);
+            if (j < 0) break;
+            set.Moves = buf.Substring(i, j - i).Split(',').ToList();
+            i = j + 1;
+
+            // nature
+            j = buf.IndexOf('|', i);
+            if (j < 0) break;
+            var nature = buf.Substring(i, j - i);
+            if (nature != "undefined")
+                set.Nature = nature;
+            i = j + 1;
+
+            // evs
+            j = buf.IndexOf('|', i);
+            if (j < 0) break;
+            if (j != i)
+            {
+                var evString = buf.Substring(i, j - i);
+                if (evString.Length > 5)
+                {
+                    var evs = evString.Split(',');
+                    set.EffortValues = new Dictionary<string, int>
+                    {
+                        ["hp"] = int.TryParse(evs[0], out var evHp) ? evHp : 0,
+                        ["atk"] = int.TryParse(evs[1], out var evAtk) ? evAtk : 0,
+                        ["def"] = int.TryParse(evs[2], out var evDef) ? evDef : 0,
+                        ["spa"] = int.TryParse(evs[3], out var evSpa) ? evSpa : 0,
+                        ["spd"] = int.TryParse(evs[4], out var evSpd) ? evSpd : 0,
+                        ["spe"] = int.TryParse(evs[5], out var evSpe) ? evSpe : 0,
+                    };
+                }
+                else if (evString == "0")
+                {
+                    set.EffortValues = new Dictionary<string, int>
+                        { ["hp"] = 0, ["atk"] = 0, ["def"] = 0, ["spa"] = 0, ["spd"] = 0, ["spe"] = 0 };
+                }
+            }
+
+            i = j + 1;
+
+            // gender
+            j = buf.IndexOf('|', i);
+            if (j < 0) break;
+            if (i != j)
+                set.Gender = buf.Substring(i, j - i);
+            i = j + 1;
+
+            // ivs
+            j = buf.IndexOf('|', i);
+            if (j < 0) break;
+            if (j != i)
+            {
+                var ivs = buf.Substring(i, j - i).Split(',');
+                set.IndividualValues = new Dictionary<string, int>
+                {
+                    ["hp"] = ivs[0] == "" ? 31 : int.Parse(ivs[0]),
+                    ["atk"] = ivs[1] == "" ? 31 : int.Parse(ivs[1]),
+                    ["def"] = ivs[2] == "" ? 31 : int.Parse(ivs[2]),
+                    ["spa"] = ivs[3] == "" ? 31 : int.Parse(ivs[3]),
+                    ["spd"] = ivs[4] == "" ? 31 : int.Parse(ivs[4]),
+                    ["spe"] = ivs[5] == "" ? 31 : int.Parse(ivs[5]),
+                };
+            }
+
+            i = j + 1;
+
+            // shiny
+            j = buf.IndexOf('|', i);
+            if (j < 0) break;
+            if (i != j)
+                set.IsShiny = true;
+            i = j + 1;
+
+            // level
+            j = buf.IndexOf('|', i);
+            if (j < 0) break;
+            if (i != j)
+                set.Level = int.Parse(buf.Substring(i, j - i));
+            i = j + 1;
+
+            // happiness and misc (comma-separated, terminated by ] or end of string)
+            j = buf.IndexOf(']', i);
+            string[] misc = null;
+            if (j < 0)
+            {
+                if (i < buf.Length)
+                    misc = buf.Substring(i).Split(',', 6);
+            }
+            else
+            {
+                if (i != j)
+                    misc = buf.Substring(i, j - i).Split(',', 6);
+            }
+
+            if (misc != null)
+            {
+                set.Happiness = misc.Length > 0 && !string.IsNullOrEmpty(misc[0]) ? int.Parse(misc[0]) : -1;
+                set.HiddenPowerType = misc.Length > 1 && !string.IsNullOrEmpty(misc[1]) ? misc[1] : null;
+                set.Pokeball = misc.Length > 2 && !string.IsNullOrEmpty(misc[2]) ? misc[2] : null;
+                set.IsGigantamax = misc.Length > 3 && !string.IsNullOrEmpty(misc[3]);
+                set.DynamaxLevel = misc.Length > 4 && !string.IsNullOrEmpty(misc[4]) ? int.Parse(misc[4]) : -1;
+                set.TeraType = misc.Length > 5 && !string.IsNullOrEmpty(misc[5]) ? misc[5] : null;
+            }
+
+            i = j + 1;
+            if (j < 0 || i <= lastI) break;
+            lastI = i;
+        }
+
+        return team;
     }
 
     public static string TeamExportToJson(string export)
