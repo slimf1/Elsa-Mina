@@ -31,8 +31,4 @@
         </Content>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Games\" />
-    </ItemGroup>
-    
 </Project>

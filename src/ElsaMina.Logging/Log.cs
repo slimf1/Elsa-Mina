@@ -13,7 +13,7 @@ public static class Log
 
     private static Logger Instance => LOGGER.Value;
 
-    public static ILoggingConfiguration Configuration { get; set; }
+    public static ILoggingConfiguration? Configuration { get; set; }
 
     private static Logger CreateLogger()
     {
@@ -24,7 +24,7 @@ public static class Log
             .MinimumLevel.Debug()
             .WriteTo.Console();
 
-        switch (Configuration.LogLevel)
+        switch (Configuration?.LogLevel)
         {
             case LogLevel.Verbose:
                 config.MinimumLevel.Verbose();
@@ -46,9 +46,9 @@ public static class Log
 #if !DEBUG
         config.WriteTo.File("log.txt", rollingInterval: RollingInterval.Day);
 
-        var lokiUrl = Configuration.LokiUrl;
-        var lokiUser = Configuration.LokiUser;
-        var lokiApiKey = Configuration.LokiApiKey;
+        var lokiUrl = Configuration?.LokiUrl;
+        var lokiUser = Configuration?.LokiUser;
+        var lokiApiKey = Configuration?.LokiApiKey;
 
         if (!string.IsNullOrWhiteSpace(lokiUrl) &&
             !string.IsNullOrWhiteSpace(lokiUser) &&
@@ -69,6 +69,8 @@ public static class Log
                 ]);
         }
 #endif
+
+        config.WriteTo.Sink(new ShowdownSink(), Serilog.Events.LogEventLevel.Warning);
 
         return config.CreateLogger();
     }
