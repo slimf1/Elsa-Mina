@@ -70,7 +70,7 @@ public static class Log
         }
 #endif
 
-        config.WriteTo.Sink(new ShowdownSink(), Serilog.Events.LogEventLevel.Warning);
+        config.WriteTo.Sink(new ShowdownSink(), Serilog.Events.LogEventLevel.Information);
 
         return config.CreateLogger();
     }
