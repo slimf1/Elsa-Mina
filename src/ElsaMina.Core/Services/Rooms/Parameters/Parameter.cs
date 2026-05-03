@@ -8,5 +8,6 @@ public enum Parameter
     ShowErrorMessages,
     ShowTeamLinksPreview,
     ShowReplaysPreview,
-    TournamentBettingEnabled
+    TournamentBettingEnabled,
+    ShowYoutubeLinkPreview
 }

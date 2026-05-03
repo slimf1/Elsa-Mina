@@ -512,6 +512,12 @@
     <data name="parameter_description_is_showing_replays_preview" xml:space="preserve">
         <value>Mostra i giocatori e le squadre di un replay</value>
     </data>
+    <data name="parameter_name_is_showing_youtube_link_preview" xml:space="preserve">
+        <value>Anteprima link YouTube</value>
+    </data>
+    <data name="parameter_description_is_showing_youtube_link_preview" xml:space="preserve">
+        <value>Mostra il titolo e le informazioni di un video YouTube quando viene pubblicato un link</value>
+    </data>
     <data name="guessing_game_specify" xml:space="preserve">
         <value>Specifica il numero di turni.</value>
     </data>

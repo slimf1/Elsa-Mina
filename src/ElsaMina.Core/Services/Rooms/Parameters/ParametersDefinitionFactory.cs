@@ -88,6 +88,14 @@ public class ParametersDefinitionFactory : IParametersDefinitionFactory
                 DescriptionKey = "parameter_description_tournament_betting_enabled",
                 Type = RoomBotConfigurationType.Boolean,
                 DefaultValue = true.ToString()
+            },
+            [Parameter.ShowYoutubeLinkPreview] = new ParameterDefinition
+            {
+                Identifier = "ytl",
+                NameKey = "parameter_name_is_showing_youtube_link_preview",
+                DescriptionKey = "parameter_description_is_showing_youtube_link_preview",
+                Type = RoomBotConfigurationType.Boolean,
+                DefaultValue = true.ToString()
             }
         };
 }

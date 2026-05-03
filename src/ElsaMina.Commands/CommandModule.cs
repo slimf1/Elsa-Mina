@@ -240,6 +240,7 @@ public class CommandModule : Module
         builder.RegisterHandler<DisplayTeamOnLinkHandler>();
         builder.RegisterHandler<JoinPhraseHandler>();
         builder.RegisterHandler<ReplaysHandler>();
+        builder.RegisterHandler<YoutubeVideoOnLinkHandler>();
         builder.RegisterHandler<DisplayTeamsOnTourHandler>();
         builder.RegisterHandler<TourFinaleAnnounceHandler>();
         builder.RegisterHandler<ArcadeEventsHandler>();
