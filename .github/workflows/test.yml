@@ -24,9 +24,9 @@ jobs:
       - name: restore
         run: ./scripts/restore.sh
       - name: test
-        continue-on-error: true
         run: ./scripts/test.sh
       - name: publish results
+        if: always()
         uses: dorny/test-reporter@v1
         with:
           name: Test Results

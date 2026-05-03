@@ -2,6 +2,10 @@ name: sonar
 
 on:
   workflow_call:
+    inputs:
+      dotnet-version:
+        required: true
+        type: string
     secrets:
       SONAR_TOKEN:
         required: true
@@ -16,21 +20,21 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: "10.0.x"
+          dotnet-version: ${{ inputs.dotnet-version }}
       - name: install SonarCloud scanner
-        run: |
-          dotnet tool update --global dotnet-sonarscanner
+        run: dotnet tool update --global dotnet-sonarscanner
       - name: install coverage scanner
-        run: |
-          dotnet tool install --global dotnet-coverage
+        run: dotnet tool install --global dotnet-coverage
+      - name: restore
+        run: ./scripts/restore.sh
       - name: analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           dotnet sonarscanner begin /o:"slimf1" /k:"slimf1_Elsa-Mina" \
-                                    /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
+                                    /d:sonar.token="$SONAR_TOKEN" \
                                     /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml \
                                     /d:sonar.exclusions="**/Migrations/**,**/scripts/**"
           dotnet build --no-incremental
           dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
-          dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"

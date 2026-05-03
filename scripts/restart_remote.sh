@@ -20,10 +20,11 @@ if pids="$(pgrep "$PROC_PATTERN")"; then
   kill "$pids" || true
   echo "Kill signal sent"
 
+  kill_start=$SECONDS
   i=0
   while [[ "$i" -lt 20 ]]; do
     if ! pgrep "$PROC_PATTERN" > /dev/null; then
-      echo "All instances stopped after $((i * 5 / 10))s"
+      echo "All instances stopped after $((SECONDS - kill_start))s"
       break
     fi
     sleep 0.5
