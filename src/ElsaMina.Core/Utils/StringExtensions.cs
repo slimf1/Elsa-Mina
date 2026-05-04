@@ -12,6 +12,9 @@ public static class StringExtensions
     private static readonly Regex WHITESPACE_BETWEEN_TAGS_REGEX =
         new(@"\s*(<[^>]+>)\s*", RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
 
+    private static readonly Regex EXCESS_WHITESPACE_BETWEEN_TAGS_REGEX =
+        new(@"\s{2,}(?=<)|(?<=>)\s{2,}", RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
+
     private static readonly Regex HTML_TAG_REGEX =
         new(@"<[^>]+>", RegexOptions.Compiled, Constants.REGEX_MATCH_TIMEOUT);
 
@@ -34,6 +37,11 @@ public static class StringExtensions
     public static string RemoveWhitespacesBetweenTags(this string text)
     {
         return WHITESPACE_BETWEEN_TAGS_REGEX.Replace(text, "$1");
+    }
+
+    public static string CollapseWhitespacesBetweenTags(this string text)
+    {
+        return EXCESS_WHITESPACE_BETWEEN_TAGS_REGEX.Replace(text, " ");
     }
 
     public static string CollapseAttributeWhitespace(this string text)

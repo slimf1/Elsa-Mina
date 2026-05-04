@@ -7,6 +7,7 @@ public interface ICommand
 {
     public string Name { get; }
     public IEnumerable<string> Aliases { get; }
+    public string Category { get; }
     public bool IsAllowedInPrivateMessage { get; }
     public bool IsWhitelistOnly { get; }
     public bool IsPrivateMessageOnly { get; }

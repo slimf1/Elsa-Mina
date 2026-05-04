@@ -13,6 +13,7 @@ public abstract class Command : ICommand
 
     public string Name { get; private set; }
     public IEnumerable<string> Aliases { get; private set; }
+    public string Category { get; private set; } = string.Empty;
     public virtual bool IsAllowedInPrivateMessage => false;
     public virtual bool IsWhitelistOnly => false;
     public virtual bool IsPrivateMessageOnly => false;
@@ -30,8 +31,22 @@ public abstract class Command : ICommand
 
     private void InitializeNameAndAliasesFromAttribute()
     {
-        var commandAttribute = GetType().GetCommandAttribute();
+        var type = GetType();
+        var commandAttribute = type.GetCommandAttribute();
         Name = commandAttribute?.Name ?? string.Empty;
         Aliases = commandAttribute?.Aliases ?? [];
+        Category = DeriveCategoryFromNamespace(type.Namespace);
+    }
+
+    private static string DeriveCategoryFromNamespace(string namespaceName)
+    {
+        const string prefix = "ElsaMina.Commands.";
+        if (namespaceName == null || !namespaceName.StartsWith(prefix))
+        {
+            return string.Empty;
+        }
+        var remainder = namespaceName[prefix.Length..];
+        var dotIndex = remainder.IndexOf('.');
+        return dotIndex >= 0 ? remainder[..dotIndex] : remainder;
     }
 }

@@ -22,12 +22,14 @@ public class AllCommands : Command
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        var template = await _templatesManager.GetTemplateAsync("Development/Commands/CommandList", new CommandListViewModel
-        {
-            Commands = _commandExecutor.GetAllCommands().Where(command => !command.IsHidden),
-            Culture = context.Culture
-        });
+        var template = await _templatesManager.GetTemplateAsync("Development/Commands/CommandList",
+            new CommandListViewModel
+            {
+                Commands = _commandExecutor.GetAllCommands().Where(command => !command.IsHidden),
+                Culture = context.Culture
+            });
 
-        context.ReplyHtmlPage("all-commands", template.RemoveNewlines());
+        context.ReplyHtmlPage("all-commands",
+            template.RemoveNewlines().CollapseAttributeWhitespace().CollapseWhitespacesBetweenTags());
     }
 }
