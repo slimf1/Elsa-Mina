@@ -12,7 +12,13 @@ public class BadgeConfiguration : IEntityTypeConfiguration<Badge>
             .HasKey(badge => new { badge.Id, badge.RoomId });
 
         builder
+            .HasOne<SavedRoom>()
+            .WithMany(room => room.Badges)
+            .HasForeignKey(badge => badge.RoomId);
+
+        builder
             .HasMany(badge => badge.BadgeHolders)
-            .WithOne(holding => holding.Badge);
+            .WithOne(holding => holding.Badge)
+            .HasForeignKey(badge => new { badge.BadgeId, badge.RoomId });
     }
 }

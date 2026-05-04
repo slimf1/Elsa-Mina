@@ -10,6 +10,7 @@ public class SavedTournamentConfiguration : IEntityTypeConfiguration<SavedTourna
     {
         builder
             .HasOne(tournament => tournament.SavedRoom)
-            .WithMany(room => room.TournamentHistory);
+            .WithMany(room => room.TournamentHistory)
+            .HasForeignKey(tournament => tournament.RoomId);
     }
 }

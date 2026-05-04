@@ -10,6 +10,7 @@ public class  SavedPollConfiguration : IEntityTypeConfiguration<SavedPoll>
     {
         builder
             .HasOne(poll => poll.SavedRoom)
-            .WithMany(room => room.PollHistory);
+            .WithMany(room => room.PollHistory)
+            .HasForeignKey(poll => poll.RoomId);
     }
 }
