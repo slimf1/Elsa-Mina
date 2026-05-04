@@ -1,17 +1,18 @@
 ﻿using ElsaMina.Core.Contexts;
 using ElsaMina.Core.Services.Commands;
+using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
 
 namespace ElsaMina.Commands.Development.Commands;
 
 [NamedCommand("allcommands", Aliases = ["all-commands", "commands"])]
-public class AllCommands : Command
+public class GetAllCommand : Command
 {
     private readonly ICommandExecutor _commandExecutor;
     private readonly ITemplatesManager _templatesManager;
 
-    public AllCommands(ICommandExecutor commandExecutor,
+    public GetAllCommand(ICommandExecutor commandExecutor,
         ITemplatesManager templatesManager)
     {
         _commandExecutor = commandExecutor;
@@ -19,6 +20,7 @@ public class AllCommands : Command
     }
 
     public override bool IsAllowedInPrivateMessage => true;
+    public override Rank RequiredRank => Rank.Regular;
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {

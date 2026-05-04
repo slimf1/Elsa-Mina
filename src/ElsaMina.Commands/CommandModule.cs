@@ -119,7 +119,7 @@ public class CommandModule : Module
         builder.RegisterCommand<TakeBadgeCommand>();
         builder.RegisterCommand<SetAvatarCommand>();
         builder.RegisterCommand<SetTitleCommand>();
-        builder.RegisterCommand<AllCommands>();
+        builder.RegisterCommand<GetAllCommand>();
         builder.RegisterCommand<GuessingGameCommand>();
         builder.RegisterCommand<EndGuessingGameCommand>();
         builder.RegisterCommand<AddTeamCommand>();
