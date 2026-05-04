@@ -101,7 +101,7 @@ public class DisplayArcadeLevelsCommandTests
                 vm.Culture == _context.Culture &&
                 vm.Levels.Count == 1 &&
                 vm.Levels[5].Count == 1 &&
-                vm.Levels[5][0] == "user1"));
+                vm.Levels[5][0].UserId == "user1"));
 
         _context.Received(1).ReplyHtml("<html>rendered template</html>", rankAware: true);
         _context.DidNotReceive().ReplyLocalizedMessage(Arg.Any<string>());
@@ -169,9 +169,9 @@ public class DisplayArcadeLevelsCommandTests
         // Assert
         await _templatesManager.Received(1).GetTemplateAsync("Arcade/Levels/ArcadeLevels",
             Arg.Is<ArcadeLevelsViewModel>(vm =>
-                vm.Levels[7].Contains("alice") &&
-                vm.Levels[7].Contains("bob") &&
-                vm.Levels[7].Contains("charlie")));
+                vm.Levels[7].Any(p => p.UserId == "alice") &&
+                vm.Levels[7].Any(p => p.UserId == "bob") &&
+                vm.Levels[7].Any(p => p.UserId == "charlie")));
     }
 
     [Test]
@@ -258,8 +258,8 @@ public class DisplayArcadeLevelsCommandTests
         await _command.RunAsync(_context);
 
         // Assert
-        _context.Received(1).ReplyLocalizedMessage("arcade_level_no_users");
-        _context.DidNotReceive().ReplyHtml(Arg.Any<string>(),  rankAware: Arg.Any<bool>());
+        _context.DidNotReceive().ReplyLocalizedMessage(Arg.Any<string>());
+        _context.DidNotReceive().ReplyHtml(Arg.Any<string>(), rankAware: Arg.Any<bool>());
     }
 
     [Test]

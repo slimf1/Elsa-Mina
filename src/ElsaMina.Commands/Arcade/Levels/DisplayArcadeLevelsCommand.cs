@@ -4,7 +4,6 @@ using ElsaMina.Core.Services.Rooms;
 using ElsaMina.Core.Services.Templates;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess;
-using ElsaMina.DataAccess.Models;
 using ElsaMina.Logging;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,36 +28,38 @@ public class DisplayArcadeLevelsCommand : Command
 
     public override async Task RunAsync(IContext context, CancellationToken cancellationToken = default)
     {
-        var levels = new Dictionary<int, List<string>>();
-
-        List<ArcadeLevel> arcadeLevels = [];
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+
+        List<ArcadeLevelRow> rows;
         try
         {
-            arcadeLevels = await dbContext.ArcadeLevels.ToListAsync(cancellationToken);
+            rows = await dbContext.ArcadeLevels
+                .GroupJoin(
+                    dbContext.Users,
+                    arcadeLevel => arcadeLevel.Id, u => u.UserId,
+                    (arcadeLevel, users) => new { al = arcadeLevel, users })
+                .SelectMany(x => x.users.DefaultIfEmpty(),
+                    (x, user) => new ArcadeLevelRow(x.al.Level, x.al.Id, user.UserName))
+                .ToListAsync(cancellationToken);
         }
         catch (Exception e)
         {
             Log.Error(e, "An error occurred while getting arcade levels.");
+            return;
         }
 
-        if (arcadeLevels.Count == 0)
+        if (rows.Count == 0)
         {
             context.ReplyLocalizedMessage("arcade_level_no_users");
             return;
         }
 
-        foreach (var arcadeLevel in arcadeLevels)
-        {
-            if (levels.TryGetValue(arcadeLevel.Level, out var currentLevelList))
-            {
-                currentLevelList.Add(arcadeLevel.Id);
-            }
-            else
-            {
-                levels[arcadeLevel.Level] = [arcadeLevel.Id];
-            }
-        }
+        var levels = rows
+            .GroupBy(row => row.Level)
+            .ToDictionary(
+                group => group.Key,
+                group => group.Select(row => new ArcadePlayer(row.UserId, row.UserName ?? row.UserId)).ToList()
+            );
 
         var template = await _templatesManager.GetTemplateAsync("Arcade/Levels/ArcadeLevels", new ArcadeLevelsViewModel
         {
@@ -66,6 +67,8 @@ public class DisplayArcadeLevelsCommand : Command
             Levels = levels
         });
 
-        context.ReplyHtml(template.RemoveNewlines(), rankAware: true);
+        context.ReplyHtml(template.RemoveNewlines().CollapseAttributeWhitespace(), rankAware: true);
     }
+
+    private record ArcadeLevelRow(int Level, string UserId, string UserName);
 }

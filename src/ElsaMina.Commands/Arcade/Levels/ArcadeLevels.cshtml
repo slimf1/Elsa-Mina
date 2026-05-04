@@ -5,36 +5,29 @@
     const string headerStyle = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR}; text-align: center; background-color: {StyleConstants.PRIMARY_BACKGROUND_COLOR}";
     const string cellStyle = $"border: 1px solid {StyleConstants.PRIMARY_BORDER_COLOR}; text-align: left; padding: 4px;";
 }
-<table
-    style="border-collapse: collapse; width: 100%;">
+<table style="border-collapse: collapse; width: 100%;">
     <thead>
-    <tr>
-        <th style="@headerStyle">
-            @GetString("arcade_levels_level")
-        </th>
-        <th style="@headerStyle">
-            @GetString("arcade_levels_players")
-        </th>
-    </tr>
+        <tr>
+            <th style="@headerStyle">@GetString("arcade_levels_level")</th>
+            <th style="@headerStyle">@GetString("arcade_levels_players")</th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var (level, players) in Model.Levels.OrderByDescending(pair => pair.Key))
-    {
-        <tr>
-            <td style="@cellStyle">
-                @level
-            </td>
-            <td style="@cellStyle">
-                @foreach (var (i, player) in players.Enumerate())
-                {
-                    <span
-                        class="username"
-                        data-name="@player"
-                        style="font-weight: bold; font-style: italic; color: @player.ToColorHexCodeWithCustoms();">
-                        @player</span><span>@(i < players.Count - 1 ? ", " : string.Empty)</span>
-                }
-            </td>
-        </tr>
-    }
+        @foreach (var (level, players) in Model.Levels.OrderByDescending(pair => pair.Key))
+        {
+            <tr>
+                <td style="@cellStyle">@level</td>
+                <td style="@cellStyle">
+                    @for (var i = 0; i < players.Count; i++)
+                    {
+                        var player = players[i];
+                        if (i > 0) { <text>, </text> }
+                        <span class="username"
+                              data-name="@player.UserId"
+                              style="font-weight: bold; font-style: italic; color: @player.UserId.ToColorHexCodeWithCustoms();">@player.UserName</span>
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
