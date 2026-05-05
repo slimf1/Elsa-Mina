@@ -21,6 +21,7 @@ public class TwentyFortyEightGame : Game, ITwentyFortyEightGame
 
     private readonly int _gameId;
     private readonly PeriodicTimerRunner _inactivityTimer;
+    private readonly SemaphoreSlim _moveLock = new(1, 1);
 
     public TwentyFortyEightGame(
         IRandomService randomService,
@@ -72,79 +73,103 @@ public class TwentyFortyEightGame : Game, ITwentyFortyEightGame
 
     public async Task StartNewRound()
     {
-        var savedData = await LoadPlayerDataAsync();
-        BestScore = savedData?.BestScore ?? 0;
-        Wins = savedData?.Wins ?? 0;
-
-        Score = 0;
-        Grid = new int[TwentyFortyEightConstants.GRID_SIZE, TwentyFortyEightConstants.GRID_SIZE];
-        SpawnNewTile();
-        SpawnNewTile();
-
-        IsRoundActive = true;
-        if (!IsStarted)
+        await _moveLock.WaitAsync();
+        try
         {
-            OnStart();
-        }
+            var savedData = await LoadPlayerDataAsync();
+            BestScore = savedData?.BestScore ?? 0;
+            Wins = savedData?.Wins ?? 0;
 
-        _inactivityTimer.Restart();
-        Context.ReplyLocalizedMessage("tfe_game_started");
-        await DisplayBoard(firstTime: true);
+            Score = 0;
+            Grid = new int[TwentyFortyEightConstants.GRID_SIZE, TwentyFortyEightConstants.GRID_SIZE];
+            SpawnNewTile();
+            SpawnNewTile();
+
+            IsRoundActive = true;
+            if (!IsStarted)
+            {
+                OnStart();
+            }
+
+            _inactivityTimer.Restart();
+            Context.ReplyLocalizedMessage("tfe_game_started");
+            await DisplayBoard(firstTime: true);
+        }
+        finally
+        {
+            _moveLock.Release();
+        }
     }
 
     public async Task MakeMove(IUser user, string direction)
     {
-        if (!IsRoundActive || user.UserId != Owner.UserId)
+        await _moveLock.WaitAsync();
+        try
         {
-            return;
+            if (!IsRoundActive || user.UserId != Owner.UserId)
+            {
+                return;
+            }
+
+            var moved = direction.ToLowerInvariant() switch
+            {
+                "up" or "u" => SlideUp(),
+                "down" or "d" => SlideDown(),
+                "left" or "l" => SlideLeft(),
+                "right" or "r" => SlideRight(),
+                _ => false
+            };
+
+            if (!moved)
+            {
+                return;
+            }
+
+            SpawnNewTile();
+            _inactivityTimer.Restart();
+
+            if (GetMaxTile() >= TwentyFortyEightConstants.TARGET_TILE)
+            {
+                IsRoundActive = false;
+                Wins++;
+                if (Score > BestScore) BestScore = Score;
+                Context.ReplyLocalizedMessage("tfe_game_win", Owner.Name, Score);
+                await SavePlayerDataAsync();
+                _inactivityTimer.Stop();
+                OnEnd();
+            }
+            else if (!HasMoves())
+            {
+                IsRoundActive = false;
+                if (Score > BestScore) BestScore = Score;
+                Context.ReplyLocalizedMessage("tfe_game_lose", Owner.Name, Score);
+                await SavePlayerDataAsync();
+                _inactivityTimer.Stop();
+                OnEnd();
+            }
+
+            await DisplayBoard(firstTime: false);
         }
-
-        var moved = direction.ToLowerInvariant() switch
+        finally
         {
-            "up" or "u" => SlideUp(),
-            "down" or "d" => SlideDown(),
-            "left" or "l" => SlideLeft(),
-            "right" or "r" => SlideRight(),
-            _ => false
-        };
-
-        if (!moved)
-        {
-            return;
+            _moveLock.Release();
         }
-
-        SpawnNewTile();
-        _inactivityTimer.Restart();
-
-        if (GetMaxTile() >= TwentyFortyEightConstants.TARGET_TILE)
-        {
-            IsRoundActive = false;
-            Wins++;
-            if (Score > BestScore) BestScore = Score;
-            Context.ReplyLocalizedMessage("tfe_game_win", Owner.Name, Score);
-            await SavePlayerDataAsync();
-            _inactivityTimer.Stop();
-            OnEnd();
-        }
-        else if (!HasMoves())
-        {
-            IsRoundActive = false;
-            if (Score > BestScore) BestScore = Score;
-            Context.ReplyLocalizedMessage("tfe_game_lose", Owner.Name, Score);
-            await SavePlayerDataAsync();
-            _inactivityTimer.Stop();
-            OnEnd();
-        }
-
-        await DisplayBoard(firstTime: false);
     }
 
     public async Task CancelAsync()
     {
-        IsRoundActive = false;
-        _inactivityTimer.Stop();
-        OnEnd();
-        await DisplayBoard(firstTime: false);
+        await _moveLock.WaitAsync();
+        try
+        {
+            IsRoundActive = false;
+            _inactivityTimer.Stop();
+            OnEnd();
+            await DisplayBoard(firstTime: false);
+        }
+        finally
+        {
+            _moveLock.Release();
+        }
     }
 
     private int GetMaxTile()
