@@ -137,8 +137,6 @@ public class CommandExecutor : ICommandExecutor
             finally
             {
                 _telemetryService.RecordCommandDuration(stopwatch.Elapsed.TotalMilliseconds, command.Name);
-                _runningCommands.TryRemove(executionId, out _);
-                linkedCts.Dispose();
             }
         }, CancellationToken.None);
 
@@ -149,7 +147,15 @@ public class CommandExecutor : ICommandExecutor
             linkedCts,
             task);
 
-        await task;
+        try
+        {
+            await task;
+        }
+        finally
+        {
+            _runningCommands.TryRemove(executionId, out _);
+            linkedCts.Dispose();
+        }
     }
 
     public bool TryCancel(Guid executionId)
