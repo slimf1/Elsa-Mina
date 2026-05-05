@@ -4,7 +4,7 @@ using ElsaMina.Core.Services.Images;
 using ElsaMina.Core.Services.Probabilities;
 using ElsaMina.Core.Utils;
 using ElsaMina.DataAccess;
-using Microsoft.EntityFrameworkCore;
+using ElsaMina.DataAccess.Models;
 using NCalc;
 
 namespace ElsaMina.Core.Services.AddedCommands;
@@ -20,9 +20,6 @@ public class AddedCommandsManager : IAddedCommandsManager
     private readonly IBotDbContextFactory _dbContextFactory;
     private readonly IImageService _imageService;
     private readonly IRandomService _randomService;
-
-    private readonly Dictionary<string, Func<object[], object>> _predefinedFunctions = new();
-    private readonly Dictionary<string, Func<object>> _predefinedIdentifiers = new();
 
     public AddedCommandsManager(IBotDbContextFactory dbContextFactory,
         IImageService imageService,
@@ -42,16 +39,21 @@ public class AddedCommandsManager : IAddedCommandsManager
             return false;
         }
 
+        await ExecuteAddedCommand(command, context);
+        return true;
+    }
+
+    public async Task ExecuteAddedCommand(AddedCommand command, IContext context)
+    {
         var content = command.Content;
         if (content.IsValidImageLink())
         {
             await DisplayRemoteImage(context, content);
-            return true;
+            return;
         }
 
         content = EvaluateContent(content, context);
         context.Reply(content, rankAware: true);
-        return true;
     }
 
     private async Task DisplayRemoteImage(IContext context, string content)
@@ -65,27 +67,31 @@ public class AddedCommandsManager : IAddedCommandsManager
 
     internal string EvaluateContent(string content, IContext context)
     {
-        InitializeDefinitions(context);
+        var identifiers = BuildIdentifiers(context);
+        var functions = BuildFunctions();
 
         var matches = EXPRESSION_IDENTIFIER.Matches(content);
         foreach (Match match in matches)
         {
             var rawExpression = match.Groups[1].Value;
-            var result = EvaluateExpression(new Expression(rawExpression));
+            var result = EvaluateExpression(new Expression(rawExpression), identifiers, functions);
             content = content.Replace(match.Value, result.ToString());
         }
 
         return content;
     }
 
-    private object EvaluateExpression(Expression expression)
+    private static object EvaluateExpression(
+        Expression expression,
+        Dictionary<string, Func<object>> identifiers,
+        Dictionary<string, Func<object[], object>> functions)
     {
-        foreach (var identifier in _predefinedIdentifiers)
+        foreach (var identifier in identifiers)
         {
             expression.Parameters[identifier.Key] = identifier.Value.Invoke();
         }
 
-        foreach (var function in _predefinedFunctions)
+        foreach (var function in functions)
         {
             expression.EvaluateFunction += (name, args) =>
             {
@@ -99,31 +105,29 @@ public class AddedCommandsManager : IAddedCommandsManager
         return expression.Evaluate();
     }
 
-    private void InitializeDefinitions(IContext context)
-    {
-        // Pas très opti en effet
-        _predefinedFunctions.Clear();
-        _predefinedIdentifiers.Clear();
+    private Dictionary<string, Func<object[], object>> BuildFunctions() =>
+        new()
+        {
+            ["choice"] = args => _randomService.RandomElement(args),
+            ["dice"] = args => _randomService.NextInt(Convert.ToInt32(args[0].ToString()), Convert.ToInt32(args[1].ToString()) + 1),
+            ["repeat"] = args => string.Concat(Enumerable.Repeat(args[0], Convert.ToInt32(args[1].ToString()))),
+            ["optional"] = args => _randomService.NextDouble() < Convert.ToDouble(args[1].ToString()) ? args[0] : string.Empty,
+            ["cos"] = args => Math.Cos(Convert.ToDouble(args[0].ToString())),
+            ["sin"] = args => Math.Sin(Convert.ToDouble(args[0].ToString())),
+            ["tan"] = args => Math.Tan(Convert.ToDouble(args[0].ToString()))
+        };
 
-        _predefinedFunctions.Add("choice", args => _randomService.RandomElement(args));
-        _predefinedFunctions.Add("dice",
-            args => _randomService.NextInt(Convert.ToInt32(args[0].ToString()), Convert.ToInt32(args[1]) + 1));
-        _predefinedFunctions.Add("repeat", args => string.Concat(Enumerable.Repeat(args[0], Convert.ToInt32(args[1]))));
-        _predefinedFunctions.Add("optional",
-            args => _randomService.NextDouble() < Convert.ToDouble(args[1]) ? args[0] : string.Empty);
-        _predefinedFunctions.Add("cos", args => Math.Cos(Convert.ToDouble(args[0])));
-        _predefinedFunctions.Add("sin", args => Math.Sin(Convert.ToDouble(args[0])));
-        _predefinedFunctions.Add("tan", args => Math.Tan(Convert.ToDouble(args[0])));
-
-        _predefinedIdentifiers.Add("command", () => context.Command);
-        _predefinedIdentifiers.Add("author", () => context.Sender.Name);
-        _predefinedIdentifiers.Add("room", () => context.Room.Name);
-        _predefinedIdentifiers.Add("randomMember",
-            () => _randomService.RandomElement(context.Room.Users.Select(userKvp => userKvp.Value.Name)));
-        _predefinedIdentifiers.Add("args", () => context.Target);
-        _predefinedIdentifiers.Add("e", () => Math.E);
-        _predefinedIdentifiers.Add("pi", () => Math.PI);
-    }
+    private Dictionary<string, Func<object>> BuildIdentifiers(IContext context) =>
+        new()
+        {
+            ["command"] = () => context.Command,
+            ["author"] = () => context.Sender.Name,
+            ["room"] = () => context.Room.Name,
+            ["randomMember"] = () => _randomService.RandomElement(context.Room.Users.Select(userKvp => userKvp.Value.Name)),
+            ["args"] = () => context.Target,
+            ["e"] = () => Math.E,
+            ["pi"] = () => Math.PI
+        };
 
     #endregion
 }

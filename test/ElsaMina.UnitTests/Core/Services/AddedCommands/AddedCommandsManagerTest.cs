@@ -134,6 +134,33 @@ public class AddedCommandsManagerTest
     }
 
     [Test]
+    public async Task Test_ExecuteAddedCommand_ShouldReplyWithContent_WhenContentIsText()
+    {
+        var context = Substitute.For<IContext>();
+        var command = new AddedCommand { Id = "cmd", RoomId = "franais", Content = "Hello!" };
+
+        await _manager.ExecuteAddedCommand(command, context);
+
+        context.Received().Reply("Hello!", true);
+    }
+
+    [Test]
+    public async Task Test_ExecuteAddedCommand_ShouldSendImage_WhenContentIsImageUrl()
+    {
+        var context = Substitute.For<IContext>();
+        var command = new AddedCommand { Id = "img", RoomId = "franais", Content = "https://example.com/image.png" };
+
+        _imageService.GetRemoteImageDimensions(Arg.Any<string>())
+            .Returns(Task.FromResult((400, 300)));
+
+        await _manager.ExecuteAddedCommand(command, context);
+
+        context.Received().ReplyHtml(
+            Arg.Is<string>(s => s.Contains("https://example.com/image.png")),
+            rankAware: true);
+    }
+
+    [Test]
     public void Test_ParseContent_ShouldParseExpression()
     {
         var context = Substitute.For<IContext>();
