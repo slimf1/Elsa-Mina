@@ -45,6 +45,11 @@ public class YoutubeVideoOnLinkHandler : ChatMessageHandler
             return;
         }
 
+        if (context.Sender.UserId == _configuration.Name.ToLowerAlphaNum())
+        {
+            return;
+        }
+
         var match = YOUTUBE_URL_REGEX.Match(context.Message);
         if (!match.Success)
         {
