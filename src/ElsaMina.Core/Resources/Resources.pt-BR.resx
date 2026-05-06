@@ -2339,16 +2339,16 @@
     </data>
 
     <data name="bet_help" xml:space="preserve">
-        <value>Usage: -bet roomId player</value>
+        <value>Uso: -bet roomId jogador</value>
     </data>
     <data name="bet_success" xml:space="preserve">
-        <value>You bet on {0} in {1}. Good luck!</value>
+        <value>Você apostou em {0} em {1}. Boa sorte!</value>
     </data>
     <data name="bet_no_session" xml:space="preserve">
-        <value>There is no active betting session in {0}.</value>
+        <value>Não há nenhuma sessão de apostas ativa em {0}.</value>
     </data>
     <data name="bet_invalid_player" xml:space="preserve">
-        <value>{0} is not a participant in the current tournament.</value>
+        <value>{0} não é um participante do torneio atual.</value>
     </data>
     <data name="bet_already_placed" xml:space="preserve">
         <value>Você já tem uma aposta neste torneio. Use -cancelbet para alterá-la.</value>

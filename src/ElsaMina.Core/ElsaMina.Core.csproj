@@ -44,29 +44,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="Resources\Resources.fr-FR.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>Resources.fr-FR.resx</DependentUpon>
-        </Compile>
-        <Compile Update="Resources\Resources.en-US.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>Resources.en-US.resx</DependentUpon>
-        </Compile>
-        <Compile Update="Resources\Resources.it-IT.Designer.cs">
-          <DesignTime>True</DesignTime>
-          <AutoGen>True</AutoGen>
-          <DependentUpon>Resources.it-IT.resx</DependentUpon>
-        </Compile>
-        <Compile Update="Resources\Resources.es-ES.Designer.cs">
-          <DesignTime>True</DesignTime>
-          <AutoGen>True</AutoGen>
-          <DependentUpon>Resources.es-ES.resx</DependentUpon>
-        </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
         <InternalsVisibleTo Include="ElsaMina.UnitTests"/>
     </ItemGroup>
 
