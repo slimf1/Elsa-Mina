@@ -31,6 +31,7 @@ public class YoutubeVideoOnLinkHandlerTest
         _context.Room.Returns(_room);
 
         _handler = new YoutubeVideoOnLinkHandler(contextFactory, _httpService, _configuration, _templatesManager);
+        _configuration.Name.Returns("bot");
     }
 
     [Test]
